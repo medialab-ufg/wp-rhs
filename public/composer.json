@@ -1,0 +1,15 @@
+{
+    "repositories":[
+        {
+            "type":"composer",
+            "url":"https://wpackagist.org"
+        }
+    ],
+    "require": {
+        "johnpbloch/wordpress": "4.7.*"
+    },
+    "extra": {
+        "wordpress-install-dir": "wp"
+    }
+}
+
