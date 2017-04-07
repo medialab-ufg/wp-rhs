@@ -2,3 +2,4 @@ public/wp
 public/wp-config.php
 public/.htaccess
 public/wp-content/uploads
+vendor
