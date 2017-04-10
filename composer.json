@@ -6,10 +6,17 @@
         }
     ],
     "require": {
-        "johnpbloch/wordpress": "4.7.*"
+        "johnpbloch/wordpress": "4.7.*",
+        "twbs/bootstrap": "3.3.7"
     },
     "extra": {
         "wordpress-install-dir": "public/wp"
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "php -r 'if (!file_exists(\"public/wp-content/themes/rhs/assets/bootstrap\")) { shell_exec(\"mkdir public/wp-content/themes/rhs/assets && mkdir public/wp-content/themes/rhs/assets/bootstrap\"); }' ",
+            "cp -R vendor/twbs/bootstrap/dist/* public/wp-content/themes/rhs/assets/bootstrap"
+        ]
     }
 }
 

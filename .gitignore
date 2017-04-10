@@ -3,3 +3,4 @@ public/wp-config.php
 public/.htaccess
 public/wp-content/uploads
 vendor
+public/wp-content/themes/rhs/assets/bootstrap
