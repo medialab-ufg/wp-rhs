@@ -1,0 +1,117 @@
+/*
+Theme Name: Rede Humaniza SUS
+Theme URI: 
+Author: MediaLab UFG
+Author URI: http://.../
+Description: Tema desenvolvido para a Rede Humaniza SUS
+Version: 0.1
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: rhs
+*/
+
+
+//  Tags
+
+// body
+$font-body: 'Solitas-NorReg';
+$whiteColor: #ffffff;
+
+//First Nav
+$colorBack-First-nav: #003c46;
+$colorText-First-nav: #00b4b4;
+
+//Second Nav
+$colorBack-Second-nav: #00b4b4;
+$colorBack-Form-Button-nav: #009b9b;
+
+// End Tags
+
+
+body{
+	font-family: $font-body;
+	font-size: 1.5em;
+    line-height: 1.42857;
+	a {
+		font-weight: bold;
+	}
+}
+
+
+
+/* Nav Menu */
+
+/*First Nav-menu*/
+.navbar-default {
+	color: $colorText-First-nav;
+	background-color: $colorBack-First-nav;
+	border: none;
+	padding: 9px 0;
+} 
+.navbar-brand {
+	padding: 5px 15px;
+}
+.navbar-collapse .navbar-nav>li>a {
+	color: $colorText-First-nav;
+}
+.navbar-collapse .navbar-nav>li>a:hover {
+	color: $colorText-First-nav;
+	text-decoration: underline;
+}
+.navbar-collapse .navbar-text {
+	color: $whiteColor;
+}
+.navbar-nav{
+	text-align: center;
+}
+
+/*Second Nav-menu*/
+.second-nav {
+	background-color: $colorBack-Second-nav;
+	top: -20px;
+	padding: 0;
+	#navBarSearchForm input[type=text]{
+		width:21.4em !important;
+	}
+
+	// Função para definir a cor do placeholder
+	@mixin form-placeholder(){
+		color: $whiteColor;
+		font-weight: bold;
+	}
+
+	.form-search-rhs{
+		margin-top: -1px;
+		margin-bottom: 0;
+
+		input {
+			color: $whiteColor !important;
+			background-color: $colorBack-Form-Button-nav;
+			border: none;
+			height: 3.5em;
+		    border-radius: 0;
+		}
+		input::-webkit-input-placeholder {
+		  @include form-placeholder;
+		}
+		input:-moz-placeholder {
+		  @include form-placeholder;
+		}
+		input::-moz-placeholder {
+		  @include form-placeholder;
+		}
+		input:-ms-input-placeholder {
+		  @include form-placeholder;
+		}
+		button {
+			background-color: $colorBack-Form-Button-nav;
+			border: none;
+			height: 3.5em;
+		    border-radius: 0;
+		}
+		button:hover {
+			background-color: $colorBack-Form-Button-nav;
+		}
+	}
+}
+/* End Nav Menu */
