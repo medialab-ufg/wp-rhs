@@ -17,20 +17,25 @@ Text Domain: rhs
 $font-body: 'Solitas-NorReg';
 $whiteColor: #ffffff;
 
-//First Nav
+//Menu Topo Nav
 $colorBack-First-nav: #003c46;
 $colorText-First-nav: #00b4b4;
 
-//Second Nav
+//Segundo Menu Nav
 $colorBack-Second-nav: #00b4b4;
 $colorBack-Form-Button-nav: #009b9b;
 
+//Menu Fundo Nav
+
+
 // End Tags
 
-
+html {
+	margin-top: 0 !important;
+}
 body{
 	font-family: $font-body;
-	font-size: 1.5em;
+	font-size: 1.7em;
     line-height: 1.42857;
 	a {
 		font-weight: bold;
@@ -41,18 +46,18 @@ body{
 
 /* Nav Menu */
 
-/*First Nav-menu*/
+/*Menu do Topo que é estático Nav-menu*/
 .navbar-default {
 	color: $colorText-First-nav;
 	background-color: $colorBack-First-nav;
 	border: none;
-	padding: 9px 0;
 } 
 .navbar-brand {
-	padding: 5px 15px;
+	padding: 0px 5px;
 }
 .navbar-collapse .navbar-nav>li>a {
 	color: $colorText-First-nav;
+	margin-top: 8px;
 }
 .navbar-collapse .navbar-nav>li>a:hover {
 	color: $colorText-First-nav;
@@ -65,14 +70,12 @@ body{
 	text-align: center;
 }
 
-/*Second Nav-menu*/
-.second-nav {
+/*Segundo Nav-menu*/
+.segundo-menu {
 	background-color: $colorBack-Second-nav;
 	top: -20px;
 	padding: 0;
-	#navBarSearchForm input[type=text]{
-		width:21.4em !important;
-	}
+	border-radius: 0;
 
 	// Função para definir a cor do placeholder
 	@mixin form-placeholder(){
@@ -113,5 +116,40 @@ body{
 			background-color: $colorBack-Form-Button-nav;
 		}
 	}
+
+	li>a {
+		float: left;
+		color: $whiteColor !important;
+	}
+	li>a:hover{
+		color:$whiteColor !important;
+		text-decoration: underline;
+	}
+	#menuPesquisa input[type=text]{
+		width:21.4em !important;
+	}
+}
+
+.footer {
+	margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    padding-bottom: 20px;
+    border-radius: 0 0 15px 15px;
+
+    section p {
+    	background-color: #00343d;
+    	color: $whiteColor;
+    	text-align: center;
+	    font-weight: bold;
+	    font-size: 1.4em;
+    	padding: 15px;
+    	margin-bottom: 0;
+    }
+    section .navbar-default a {
+    	background-color: #003c46;
+    	color: #00b4b4;
+    	text-align: center;
+    }
 }
 /* End Nav Menu */
