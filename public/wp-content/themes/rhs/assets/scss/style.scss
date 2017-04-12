@@ -29,16 +29,23 @@ $colorBack-Form-Button-nav: #009b9b;
 
 
 // End Tags
+/*Fontes*/
+@import url("//hello.myfonts.net/count/2f2567");
+@font-face {font-family: 'Solitas-NorBoo';src: url('assets/webfonts/2F2567_0_0.eot');src: url('assets/webfonts/2F2567_0_0.eot?#iefix') format('embedded-opentype'),url('assets/webfonts/2F2567_0_0.woff2') format('woff2'),url('assets/webfonts/2F2567_0_0.woff') format('woff'),url('assets/webfonts/2F2567_0_0.ttf') format('truetype');}
+@font-face {font-family: 'Solitas-NorBooIt';src: url('assets/webfonts/2F2567_1_0.eot');src: url('assets/webfonts/2F2567_1_0.eot?#iefix') format('embedded-opentype'),url('assets/webfonts/2F2567_1_0.woff2') format('woff2'),url('assets/webfonts/2F2567_1_0.woff') format('woff'),url('assets/webfonts/2F2567_1_0.ttf') format('truetype');}
+@font-face {font-family: 'Solitas-NorLig';src: url('assets/webfonts/2F2567_2_0.eot');src: url('assets/webfonts/2F2567_2_0.eot?#iefix') format('embedded-opentype'),url('assets/webfonts/2F2567_2_0.woff2') format('woff2'),url('assets/webfonts/2F2567_2_0.woff') format('woff'),url('assets/webfonts/2F2567_2_0.ttf') format('truetype');}
+@font-face {font-family: 'Solitas-NorMed';src: url('assets/webfonts/2F2567_3_0.eot');src: url('assets/webfonts/2F2567_3_0.eot?#iefix') format('embedded-opentype'),url('assets/webfonts/2F2567_3_0.woff2') format('woff2'),url('assets/webfonts/2F2567_3_0.woff') format('woff'),url('assets/webfonts/2F2567_3_0.ttf') format('truetype');}
+@font-face {font-family: 'Solitas-NorReg';src: url('assets/webfonts/2F2567_4_0.eot');src: url('assets/webfonts/2F2567_4_0.eot?#iefix') format('embedded-opentype'),url('assets/webfonts/2F2567_4_0.woff2') format('woff2'),url('assets/webfonts/2F2567_4_0.woff') format('woff'),url('assets/webfonts/2F2567_4_0.ttf') format('truetype');}
 
 html {
-	margin-top: 0 !important;
+	margin-top: 0 !important; /* resolução do erro que estava dando no Firefox*/
 }
 body{
 	font-family: $font-body;
 	font-size: 1.7em;
     line-height: 1.42857;
 	a {
-		font-weight: bold;
+		font-weight: normal;
 	}
 }
 
@@ -51,7 +58,7 @@ body{
 	color: $colorText-First-nav;
 	background-color: $colorBack-First-nav;
 	border: none;
-} 
+}
 .navbar-brand {
 	padding: 0px 5px;
 }
@@ -63,13 +70,18 @@ body{
 	color: $colorText-First-nav;
 	text-decoration: underline;
 }
+a.navbar-collapse .navbar-nav:visited {
+	color: $colorText-First-nav;
+}
 .navbar-collapse .navbar-text {
 	color: $whiteColor;
 }
 .navbar-nav{
 	text-align: center;
 }
-
+.navbar-text {
+    margin-top: 21px;
+}
 /*Segundo Nav-menu*/
 .segundo-menu {
 	background-color: $colorBack-Second-nav;
@@ -84,7 +96,7 @@ body{
 	}
 
 	.form-search-rhs{
-		margin-top: -1px;
+		margin-top: 1px;
 		margin-bottom: 0;
 
 		input {
@@ -128,28 +140,112 @@ body{
 	#menuPesquisa input[type=text]{
 		width:21.4em !important;
 	}
+	.dropdown-menu-right{
+		margin-left: 10px; 
+		background-color: #009b9b;
+		.separar-menu {
+			margin-right: 6px;
+		}
+		.dropdown-menu {
+			background-color: #009b9b;
+		}
+		.dropdown-menu a:hover {
+			text-decoration: underline;
+			background-color: #009b9b;
+		}
+		a.dropdown-toggle:visited {
+			background-color: #009b9b;
+		}
+	}
 }
-
-.footer {
-	margin-top: 0;
-    padding-top: 0;
-    border-top: none;
-    padding-bottom: 20px;
-    border-radius: 0 0 15px 15px;
-
-    section p {
-    	background-color: #00343d;
+.dropdown-menu .divider {
+	margin: 26px 0px 0px 0px;
+}
+footer.navbar-fixed-bottom {
+	bottom: 12px;
+}
+footer {
+    .footerDescricao {
+		background-color: #00343d;
     	color: $whiteColor;
     	text-align: center;
 	    font-weight: bold;
-	    font-size: 1.4em;
-    	padding: 15px;
-    	margin-bottom: 0;
-    }
-    section .navbar-default a {
+	    font-size: 1em;
+	    padding: 6px;
+	}
+	.footerDescricao p {
+		margin: 10px 0 10px;
+	}
+	.footerMenu {
     	background-color: #003c46;
     	color: #00b4b4;
-    	text-align: center;
-    }
+		margin-bottom: -20px;
+		font-size: 0.75em;
+	}
+	.bordar {
+		border-bottom: 1px solid #009b9b;
+    	margin: -9px 9px 7px 0;
+	}
+	.footerMenu .navbar-default a {
+    	background-color: #003c46;
+    	color: #00b4b4;
+	    display: inline;
+	    float: left;
+	    padding: 18px;
+	    margin-left: 40px;
+	}
+	.footerMenu .navbar-default a:hover{
+    	color: #00b4b4;
+		text-decoration: underline;
+	}
+	.corporation {
+    	background-color: #003c46;
+		border-radius: 0 0 15px 15px;
+		text-align: center;
+		padding: 9px;
+	}
+	.corporation a {
+    	color: #00b4b4;
+	}
+	.corporation a:hover {
+    	color: #00b4b4;
+		text-decoration: underline;
+	}
+}
+@media only screen and (max-width: 768px){
+	.segundo-menu {
+		.dropdown-menu-right{
+			margin: 0px -14px 0px 0px;
+		    width: 31%;
+		    float: right;
+		    .dropdown-menu{
+		    	position: absolute;
+		    	margin-top: 42px;
+		    	left: -57px;
+		    }
+		}
+		#menuPesquisa input[type=text] {
+	    	width: 100% !important;
+		}
+		.form-search-rhs {
+		    padding: 1px 0px;
+		}
+	}
+	#menu-segundo-menu{
+		margin: 0px -15px;
+	}
+	.dropdown-menu .divider {
+    	margin: 30px 0 0 0;
+	}
+	footer {
+		> .container {
+		    padding-right: 0px;
+		    padding-left: 0px;
+		}
+		.footerMenu .navbar-default a {
+			margin-left: 33px;
+			padding: 7px 0px 0px 0px;
+		}
+	}
 }
 /* End Nav Menu */

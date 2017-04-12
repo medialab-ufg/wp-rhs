@@ -1,31 +1,36 @@
 
 
-
+			</div>
 		</section>
 
-		<footer class="footer container">
-			<section>
+		<footer class="navbar-fixed-bottom">
+			<div class="container">
+				<section class="footerDescricao">
 					<p><?php bloginfo( 'description' ); ?></p>
-			</section>
+				</section>
+				<section class="footerMenu">
+					<nav class="navbar navbar-default">
+						<?php
+			                wp_nav_menu( array(
+			                    //MenuFundo vem de um register feito nas functions onde o mesmo entra em contato com o menu do wordpress.
+			                    'menu'              => 'MenuFundo',
+			                    'theme_location'    => 'MenuFundo',
+			                    'depth'             => 0,
+			                    'menu_class'        => 'nav navbar-nav',
+			                    'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
+			                    'walker'            => new WP_Bootstrap_Navwalker())
+			                );
+			            ?>
+					</nav>
+				</section>
 
-			<section>
-	            <?php
-	                wp_nav_menu( array(
-	                    //MenudoTopo vem de um register feito nas functions onde o mesmo entra em contato com o menu do wordpress.
-	                    'menu'              => 'MenuFundo',
-	                    'theme_location'    => 'MenuFundo',
-	                    'depth'             => 0,
-	                    'menu_class'        => 'nav navbar-nav navbar-default menu-fundo',
-	                    'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
-	                    'walker'            => new WP_Bootstrap_Navwalker())
-	                );
-	            ?>
-			</section>
+				<section class="corporation">
+					<div class="bordar"></div>
+					<img alt="Licença Creative Commons" src="http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png" style="border-width:0">
+					<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.pt" rel="license" target="_blank"> Conteúdos do site sob Licença&nbsp;Creative Commons - Atribuição-Não Comercial-Sem Derivados 3.0 Não Adaptada.</a>
+				</section>
+			</div>
 		</footer>
-		<?php wp_footer(); ?>
-		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	    <!-- JavaScript Latest compiled and minified JavaScript -->
-	    <script src="<?php echo get_template_directory_uri(); ?>/assets/bootstrap/js/bootstrap.min.js"></script>
-    </body>
+		<?php wp_footer(); ?>    
+	</body>
 </html>
