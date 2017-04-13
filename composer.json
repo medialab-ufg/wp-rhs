@@ -7,7 +7,9 @@
     ],
     "require": {
         "johnpbloch/wordpress": "4.7.*",
-        "twbs/bootstrap": "3.3.7"
+        "twbs/bootstrap": "3.3.7",
+        "wp-bootstrap/wp-bootstrap-navwalker" : "2.0.5",
+        "cwspear/bootstrap-hover-dropdown" : "2.2.1"
     },
     "extra": {
         "wordpress-install-dir": "public/wp"
@@ -15,7 +17,13 @@
     "scripts": {
         "post-update-cmd": [
             "php -r 'if (!file_exists(\"public/wp-content/themes/rhs/assets/bootstrap\")) { shell_exec(\"mkdir public/wp-content/themes/rhs/assets && mkdir public/wp-content/themes/rhs/assets/bootstrap\"); }' ",
-            "cp -R vendor/twbs/bootstrap/dist/* public/wp-content/themes/rhs/assets/bootstrap"
+            "cp -R vendor/twbs/bootstrap/dist/* public/wp-content/themes/rhs/assets/bootstrap",
+            "php -r 'if (file_exists(\"vendor/wp-content\")) { shell_exec(\"rm -rvf vendor/wp-content\"); }' ",
+            "mv wp-content vendor",
+            "php -r 'if (!file_exists(\"public/wp-content/themes/rhs/inc\")) { shell_exec(\"mkdir public/wp-content/themes/rhs/inc\"); }' ",
+            "cp -R vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php public/wp-content/themes/rhs/inc",
+            "php -r 'if (!file_exists(\"public/wp-content/themes/rhs/assets/js\")) { shell_exec(\"mkdir public/wp-content/themes/rhs/assets/js\"); }' ",
+            "cp -R vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js public/wp-content/themes/rhs/assets/js"
         ]
     }
 }
