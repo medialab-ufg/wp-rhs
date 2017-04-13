@@ -1,7 +1,7 @@
 
 
-			</div>
-		</section>
+			</div><!-- /.container -->
+		</section><!-- /.section -->
 
 		<footer class="navbar-fixed-bottom">
 			<div class="container">
@@ -11,15 +11,8 @@
 				<section class="footerMenu">
 					<nav class="navbar navbar-default">
 						<?php
-			                wp_nav_menu( array(
-			                    //MenuFundo vem de um register feito nas functions onde o mesmo entra em contato com o menu do wordpress.
-			                    'menu'              => 'MenuFundo',
-			                    'theme_location'    => 'MenuFundo',
-			                    'depth'             => 0,
-			                    'menu_class'        => 'nav navbar-nav',
-			                    'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
-			                    'walker'            => new WP_Bootstrap_Navwalker())
-			                );
+		                    //MenuFundo vem de um register feito nas functions onde o mesmo entra em contato com o menu do wordpress.
+			                menuFundo();
 			            ?>
 					</nav>
 				</section>

@@ -3,6 +3,7 @@ public/wp-config.php
 public/.htaccess
 public/wp-content/uploads/
 vendor/
+public/wp-content/themes/rhs/screenshot.png
 public/wp-content/themes/rhs/style.css.map
 public/wp-content/themes/rhs/style.css
 public/wp-content/themes/rhs/index.html

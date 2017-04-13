@@ -2,7 +2,7 @@
 Theme Name: Rede Humaniza SUS
 Theme URI: 
 Author: MediaLab UFG
-Author URI: http://.../
+Author URI: http://localhost/rhs
 Description: Tema desenvolvido para a Rede Humaniza SUS
 Version: 0.1
 License: GNU General Public License v2 or later
@@ -13,22 +13,24 @@ Text Domain: rhs
 
 //  Tags
 
-// body
-$font-body: 'Solitas-NorReg';
+// _body_
+$font_body: 'Solitas-NorReg';
 $whiteColor: #ffffff;
 
-//Menu Topo Nav
-$colorBack-First-nav: #003c46;
-$colorText-First-nav: #00b4b4;
+//Primeira cor de Fundo
+$primeira_cor_fundo: #003c46;
+$primeira_cor_texto: #00b4b4;
 
-//Segundo Menu Nav
-$colorBack-Second-nav: #00b4b4;
-$colorBack-Form-Button-nav: #009b9b;
+//Segunda cor Fundo
+$segunda_cor_fundo: $primeira_cor_texto;
+$cor_fundo_formulario_nav: #009b9b;
 
-//Menu Fundo Nav
+// _footer_
+$cor_fundo_corporation: #00343d;
 
 
 // End Tags
+
 /*Fontes*/
 @import url("//hello.myfonts.net/count/2f2567");
 @font-face {font-family: 'Solitas-NorBoo';src: url('assets/webfonts/2F2567_0_0.eot');src: url('assets/webfonts/2F2567_0_0.eot?#iefix') format('embedded-opentype'),url('assets/webfonts/2F2567_0_0.woff2') format('woff2'),url('assets/webfonts/2F2567_0_0.woff') format('woff'),url('assets/webfonts/2F2567_0_0.ttf') format('truetype');}
@@ -41,7 +43,7 @@ html {
 	margin-top: 0 !important; /* resolução do erro que estava dando no Firefox*/
 }
 body{
-	font-family: $font-body;
+	font-family: $font_body;
 	font-size: 1.7em;
     line-height: 1.42857;
 	a {
@@ -51,27 +53,31 @@ body{
 
 
 
-/* Nav Menu */
+/**********
+*
+*Nav Menu 
+*
+***********/
 
 /*Menu do Topo que é estático Nav-menu*/
 .navbar-default {
-	color: $colorText-First-nav;
-	background-color: $colorBack-First-nav;
+	color: $primeira_cor_texto;
+	background-color: $primeira_cor_fundo;
 	border: none;
 }
 .navbar-brand {
 	padding: 0px 5px;
 }
 .navbar-collapse .navbar-nav>li>a {
-	color: $colorText-First-nav;
+	color: $primeira_cor_texto;
 	margin-top: 8px;
 }
 .navbar-collapse .navbar-nav>li>a:hover {
-	color: $colorText-First-nav;
+	color: $primeira_cor_texto;
 	text-decoration: underline;
 }
 a.navbar-collapse .navbar-nav:visited {
-	color: $colorText-First-nav;
+	color: $primeira_cor_texto;
 }
 .navbar-collapse .navbar-text {
 	color: $whiteColor;
@@ -82,14 +88,20 @@ a.navbar-collapse .navbar-nav:visited {
 .navbar-text {
     margin-top: 21px;
 }
-/*Segundo Nav-menu*/
+
+/******************
+*
+Segundo Nav-menu
+*
+*******************/
 .segundo-menu {
-	background-color: $colorBack-Second-nav;
+	background-color: $segunda_cor_fundo;
 	top: -20px;
 	padding: 0;
 	border-radius: 0;
 
 	// Função para definir a cor do placeholder
+
 	@mixin form-placeholder(){
 		color: $whiteColor;
 		font-weight: bold;
@@ -101,7 +113,7 @@ a.navbar-collapse .navbar-nav:visited {
 
 		input {
 			color: $whiteColor !important;
-			background-color: $colorBack-Form-Button-nav;
+			background-color: $cor_fundo_formulario_nav;
 			border: none;
 			height: 3.5em;
 		    border-radius: 0;
@@ -119,18 +131,18 @@ a.navbar-collapse .navbar-nav:visited {
 		  @include form-placeholder;
 		}
 		button {
-			background-color: $colorBack-Form-Button-nav;
+			background-color: $cor_fundo_formulario_nav;
 			border: none;
 			height: 3.5em;
 		    border-radius: 0;
 		}
 		button:hover {
-			background-color: $colorBack-Form-Button-nav;
+			background-color: $cor_fundo_formulario_nav;
 		}
 	}
 
 	li>a {
-		float: left;
+		float: right;
 		color: $whiteColor !important;
 	}
 	li>a:hover{
@@ -140,33 +152,39 @@ a.navbar-collapse .navbar-nav:visited {
 	#menuPesquisa input[type=text]{
 		width:21.4em !important;
 	}
+	.navbar-nav>.open>a, .navbar-nav>.open>a:hover{
+		background-color: $cor_fundo_formulario_nav;
+	}
 	.dropdown-menu-right{
 		margin-left: 10px; 
-		background-color: #009b9b;
+		background-color: $cor_fundo_formulario_nav;
 		.separar-menu {
 			margin-right: 6px;
 		}
 		.dropdown-menu {
-			background-color: #009b9b;
-		}
-		.dropdown-menu a:hover {
-			text-decoration: underline;
-			background-color: #009b9b;
+			background-color: $cor_fundo_formulario_nav;
 		}
 		a.dropdown-toggle:visited {
-			background-color: #009b9b;
+			background-color: $cor_fundo_formulario_nav;
+		}
+		.dropdown-menu>li>a:hover{
+			background-color: $cor_fundo_formulario_nav;
 		}
 	}
 }
 .dropdown-menu .divider {
-	margin: 26px 0px 0px 0px;
+	margin: 26px 0 0 0;
+	background-color: $primeira_cor_texto;
 }
-footer.navbar-fixed-bottom {
-	bottom: 12px;
-}
+
+/************
+*
+* Footer
+*
+*************/
 footer {
     .footerDescricao {
-		background-color: #00343d;
+		background-color: $cor_fundo_corporation;
     	color: $whiteColor;
     	text-align: center;
 	    font-weight: bold;
@@ -177,41 +195,52 @@ footer {
 		margin: 10px 0 10px;
 	}
 	.footerMenu {
-    	background-color: #003c46;
-    	color: #00b4b4;
+    	background-color: $primeira_cor_fundo;
+    	color: $primeira_cor_texto;
 		margin-bottom: -20px;
 		font-size: 0.75em;
 	}
 	.bordar {
-		border-bottom: 1px solid #009b9b;
+		border-bottom: 1px solid $cor_fundo_formulario_nav;
     	margin: -9px 9px 7px 0;
 	}
 	.footerMenu .navbar-default a {
-    	background-color: #003c46;
-    	color: #00b4b4;
+    	background-color: $primeira_cor_fundo;
+    	color: $primeira_cor_texto;
 	    display: inline;
 	    float: left;
 	    padding: 18px;
 	    margin-left: 40px;
 	}
 	.footerMenu .navbar-default a:hover{
-    	color: #00b4b4;
+    	color: $primeira_cor_texto;
 		text-decoration: underline;
 	}
 	.corporation {
-    	background-color: #003c46;
+    	background-color: $primeira_cor_fundo;
 		border-radius: 0 0 15px 15px;
 		text-align: center;
 		padding: 9px;
 	}
 	.corporation a {
-    	color: #00b4b4;
+    	color: $primeira_cor_texto;
 	}
 	.corporation a:hover {
-    	color: #00b4b4;
+    	color: $primeira_cor_texto;
 		text-decoration: underline;
 	}
 }
+
+//Fora pois não estava funcionando dentro.
+footer.navbar-fixed-bottom {
+	bottom: 12px;
+}
+
+/****************
+*
+* Media Querys
+*
+*****************/
 @media only screen and (max-width: 768px){
 	.segundo-menu {
 		.dropdown-menu-right{

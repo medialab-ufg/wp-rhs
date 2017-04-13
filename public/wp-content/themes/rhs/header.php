@@ -4,6 +4,7 @@
         <meta charset="<?php bloginfo( 'charset' ); ?>" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon.ico" />
         <title><?php wp_title( '|', true, 'right' ); bloginfo( 'name' );?></title>
         <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 
@@ -16,7 +17,7 @@
         <?php wp_head(); ?>
     </head>
     <body>
-        <!-- Tag header to first nav -->
+        <!-- Tag header para o Primeiro Menu -->
         <header id="navBar-top">
             <nav class="navbar navbar-default navbar-static-top">
                 <div class="container">
@@ -38,8 +39,8 @@
                     </ul>
                     </div>
 
-                            <!-- // Para um uso futuro pois o mesmo se econtra fixo sem a necessidade do adimin do Wordpress. 
-                            <?php
+                            <!-- Para um uso futuro pois o mesmo se econtra fixo sem a necessidade do adimin do Wordpress. -->
+                            <!-- <?php
                                 wp_nav_menu( array(
                                     //MenudoTopo vem de um register feito nas functions onde o mesmo entra em contato com o menu do wordpress.
                                     'menu'              => 'MenuTopo',
@@ -55,56 +56,32 @@
                             ?> -->
                 </div><!-- /.container -->
             </nav>
-        </header>
+        </header> <!-- /.header -->
 
-        <!-- Tag header to second nav -->
+        <!-- Tag header para o Segundo Menu -->
         <header>
             <!-- Segundo menu -->
             <nav class="navbar navbar-default segundo-menu">
                 <div class="container">
-                    <form class="form-search-rhs navbar-form navbar-left" id="menuPesquisa">
-                        <div class="form-group" style="display: inline;">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Digite aqui o que você procura." size="15" maxlength="128">
-                                <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-default">
-                                        <span class="glyphicon glyphicon-search"></span>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                    </form>
+                    <!-- Pega o template de busca para o menu. O mesmo se encontra no tema com o nome de searchform.php -->
+                    <?php get_search_form(); ?>
+                    <!--End Form-->
                     <ul class="nav navbar-nav navbar-right dropdown-menu-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger"></span> MENU</a>
                             <?php
                                 //SegundoMenu vem de um register feito nas functions onde o mesmo entra em contato com o menu do wordpress.
-                                wp_nav_menu( array(
-                                    'menu'              => 'MenuDropdDown',
-                                    'theme_location'    => 'MenuDropdDown',
-                                    'depth'             => 1,
-                                    'container'         => false,
-                                    'menu_class'        => 'dropdown-menu',
-                                    'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
-                                    'walker'            => new WP_Bootstrap_Navwalker())
-                                );
+                                menuDropDown();
                             ?>
                         </li>
                     </ul>
                     <?php
                         //SegundoMenu vem de um register feito nas functions onde o mesmo entra em contato com o menu do wordpress.
-                        wp_nav_menu( array(
-                            'menu'              => 'SegundoMenu',
-                            'theme_location'    => 'SegundoMenu',
-                            'depth'             => 0,
-                            'menu_class'        => 'nav navbar-nav navbar-right',
-                            'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
-                            'walker'            => new WP_Bootstrap_Navwalker())
-                        );
+                        segundoMenu();
                     ?>
                 </div><!-- /.container -->
             </nav>
-        </header>
+        </header> <!-- /.header -->
 
         <section>
             <div class="container">
