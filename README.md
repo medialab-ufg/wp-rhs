@@ -274,15 +274,15 @@
 
 **5.1 Compilando o Sass**
 
-> Execulte o comando para compilar e o mesmo irá ficar aberto compilando
+> De dentro da pasta assets/scss execute o comando para compilar e o mesmo irá ficar aberto compilando
 > enquanto você vai realizando as modificações
 
-    sass --watch style.scss:../css/style.css
+    sass --watch style.scss:../../style.css
 
 **Explicações:**
 style.scss *-> arquivo para ser compilado*
-../css/style.css *-> local e nome que será salvo.*
+../../style.css *-> local e nome que será salvo.*
 
 > Para compilar como minificado execulte o comando:
 
-    sass --watch style.scss:../css/style.min.css --style compressed
+    sass --watch style.scss:../../style.min.css --style compressed
