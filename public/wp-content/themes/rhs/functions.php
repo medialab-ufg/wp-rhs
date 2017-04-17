@@ -1,7 +1,8 @@
 <?php
+
 /**
 * Classe usada nos menus.
-* A mesma facilita o uso das classes do bootstrap com o wordpress.
+* A mesma facilita o uso das classes usadas na tag nav do bootstrap com o wordpress.
 **/
 require_once('inc/wp-bootstrap-navwalker.php');
 
@@ -10,14 +11,15 @@ require_once('inc/wp-bootstrap-navwalker.php');
 **/
 show_admin_bar( false );
 
-// Incluir scripts necessários no tema
+
+// Incluir JavaScripts necessários no tema
 function RHS_scripts() {
    wp_enqueue_script('bootstrap', get_template_directory_uri() . '/assets/bootstrap/js/bootstrap.min.js', array('jquery'), '3.3.7', true);
    wp_enqueue_script('bootstrap-hover-dropdown', get_template_directory_uri() . '/assets/js/bootstrap-hover-dropdown.min.js', array('jquery'), '2.2.1', true);
 }
 add_action('wp_enqueue_scripts', 'RHS_scripts');
 
-// Incluir estilos necessários no tema
+// Incluir Styles CSS necessários no tema
 function RHS_styles() {
    wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css');
    wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
@@ -27,27 +29,26 @@ add_action('wp_enqueue_scripts', 'RHS_styles');
 
 /**
 *
-*Registro de navegação personalizado com o painel admin
+* Registro de navegação personalizado com o painel admin
 * 
 **/
 register_nav_menus( array(
-    'MenuTopo' => __( 'MenuTopo', 'rhs' ), //Não está sendo usado por ainda não ter adicionado o sistema de login.
-    'SegundoMenu' => __( 'SegundoMenu', 'rhs' ),
-    'MenuDropdDown' => __( 'MenuDropdDown', 'rhs' ),
-    'MenuFundo' => __( 'MenuFundo', 'rhs' ),
+    'menuTopo' => __( 'menuTopo', 'rhs' ),
+    'menuTopoDrodDown' => __( 'menuTopoDrodDown', 'rhs' ),
+    'menuRodape' => __( 'menuRodape', 'rhs' ),
 ) );
 
 /**
 *
 * Menu que fica no segundo nav da página.
 *
-*@param 'menu' => 'SegundoMenu' Seleciona o menu com este nome no painel admin.
-*@param 'theme_location' => 'SegundoMenu' pega o menu que está setado em SegundoMenu
+* @param 'menu' => 'SegundoMenu' Seleciona o menu com este nome no painel admin.
+* @param 'theme_location' => 'SegundoMenu' pega o menu que está setado em SegundoMenu
 **/
-function segundoMenu(){
+function menuTopo(){
 	wp_nav_menu( array(
-        'menu'              => 'SegundoMenu',
-        'theme_location'    => 'SegundoMenu',
+        'menu'              => 'menuTopo',
+        'theme_location'    => 'menuTopo',
         'depth'             => 0,
         'menu_class'        => 'nav navbar-nav navbar-right',
         'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
@@ -59,14 +60,14 @@ function segundoMenu(){
 *
 * Menu dropdown que fica no segundo nav da página.
 *
-*@param 'menu' => 'MenuDropdDown' Seleciona o menu com este nome no painel admin.
-*@param 'theme_location' => 'MenuDropdDown' pega o menu que está setado em MenuDropDown
+* @param 'menu' => 'MenuDropdDown' Seleciona o menu com este nome no painel admin.
+* @param 'theme_location' => 'MenuDropdDown' pega o menu que está setado em MenuDropDown
 *
 **/
-function menuDropDown(){
+function menuTopoDrodDown(){
 	wp_nav_menu( array(
-        'menu'              => 'MenuDropdDown',
-        'theme_location'    => 'MenuDropdDown',
+        'menu'              => 'menuTopoDrodDown',
+        'theme_location'    => 'menuTopoDrodDown',
         'depth'             => 1,
         'container'         => false,
         'menu_class'        => 'dropdown-menu',
@@ -79,14 +80,14 @@ function menuDropDown(){
 *
 * Menu que fica no footer da página.
 *
-*@param 'menu' => 'MenuFundo' Seleciona o menu com este nome no painel admin.
-*@param 'theme_location' => 'MenuFundo' pega o menu que está setado em MenuFundo
+* @param 'menu' => 'MenuFundo' Seleciona o menu com este nome no painel admin.
+* @param 'theme_location' => 'MenuFundo' pega o menu que está setado em MenuFundo
 *
 **/
-function menuFundo(){
+function menuRodape(){
 	wp_nav_menu( array(
-	    'menu'              => 'MenuFundo',
-	    'theme_location'    => 'MenuFundo',
+	    'menu'              => 'menuRodape',
+	    'theme_location'    => 'menuRodape',
 	    'depth'             => 0,
 	    'menu_class'        => 'nav navbar-nav',
 	    'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',

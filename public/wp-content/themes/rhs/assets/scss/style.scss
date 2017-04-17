@@ -163,11 +163,34 @@ Segundo Nav-menu
 		}
 		.dropdown-menu {
 			background-color: $cor_fundo_formulario_nav;
+			li a {
+			    text-align: right;
+			}
+			li > a:hover, li > a:focus{
+				background-color: $segunda_cor_fundo;
+            	width: 100%;
+            	text-align: right;
+            	text-decoration: none;
+			}
+			.start > a {
+				margin-top: -2px;
+			}
+			.start > a:hover {
+				padding-top: 6px;
+			    padding-bottom: 5px;
+			    margin-top: -5px;
+			}
+			.end > a {
+				margin-top: 3px;
+			}
+			.end > a:hover{
+				margin-top: 0px;
+			    padding-top: 6px;
+			    padding-bottom: 7px;
+			    margin-bottom: -5px;
+			}
 		}
 		a.dropdown-toggle:visited {
-			background-color: $cor_fundo_formulario_nav;
-		}
-		.dropdown-menu>li>a:hover{
 			background-color: $cor_fundo_formulario_nav;
 		}
 	}
@@ -262,9 +285,6 @@ footer.navbar-fixed-bottom {
 	}
 	#menu-segundo-menu{
 		margin: 0px -15px;
-	}
-	.dropdown-menu .divider {
-    	margin: 30px 0 0 0;
 	}
 	footer {
 		> .container {

@@ -32,28 +32,12 @@
                         <a class="navbar-brand navbar-btn pull-left" href="<?php bloginfo('url'); ?>"><img src="<?php bloginfo('template_directory'); ?>/assets/images/logo.png" class="img-responsive"></a>
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#">Faça seu login</a></li>
-                            <span class="navbar-text">ou</span>
-                            <li><a href="#">Cadastre-se</a></li>
-                    </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                                <li><a href="#">Faça seu login</a></li>
+                                <span class="navbar-text">ou</span>
+                                <li><a href="#">Cadastre-se</a></li>
+                        </ul>
                     </div>
-
-                            <!-- Para um uso futuro pois o mesmo se econtra fixo sem a necessidade do adimin do Wordpress. -->
-                            <!-- <?php
-                                wp_nav_menu( array(
-                                    //MenudoTopo vem de um register feito nas functions onde o mesmo entra em contato com o menu do wordpress.
-                                    'menu'              => 'MenuTopo',
-                                    'theme_location'    => 'MenuTopo',
-                                    'depth'             => 0,
-                                    'container'         => 'div',
-                                    'container_class'   => 'collapse navbar-collapse',
-                                    'container_id'      => 'bs-example-navbar-collapse-1',
-                                    'menu_class'        => 'nav navbar-nav navbar-right',
-                                    'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
-                                    'walker'            => new WP_Bootstrap_Navwalker())
-                                );
-                            ?> -->
                 </div><!-- /.container -->
             </nav>
         </header> <!-- /.header -->
@@ -70,14 +54,20 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger"></span> MENU</a>
                             <?php
-                                //SegundoMenu vem de um register feito nas functions onde o mesmo entra em contato com o menu do wordpress.
-                                menuDropDown();
+                                /*
+                                * menuDropDown vem de um register feito nas functions onde o mesmo entra em contato com o menu do 
+                                * wordpress.
+                                */
+                                menuTopoDrodDown();
                             ?>
                         </li>
                     </ul>
                     <?php
-                        //SegundoMenu vem de um register feito nas functions onde o mesmo entra em contato com o menu do wordpress.
-                        segundoMenu();
+                        /*
+                        * SegundoMenu vem de um register feito nas functions onde o mesmo entra em contato com o menu do 
+                        * Wordpress.
+                        */
+                        menuTopo();
                     ?>
                 </div><!-- /.container -->
             </nav>

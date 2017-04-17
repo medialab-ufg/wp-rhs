@@ -11,8 +11,11 @@
 				<section class="footerMenu">
 					<nav class="navbar navbar-default">
 						<?php
-		                    //MenuFundo vem de um register feito nas functions onde o mesmo entra em contato com o menu do wordpress.
-			                menuFundo();
+		                    /*
+	                        * menuFundo vem de um register feito nas functions onde o mesmo entra em contato com o menu do 
+	                        * Wordpress.
+	                        */
+			                menuRodape();
 			            ?>
 					</nav>
 				</section>
