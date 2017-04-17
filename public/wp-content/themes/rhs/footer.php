@@ -3,7 +3,7 @@
 			</div><!-- /.container -->
 		</section><!-- /.section -->
 
-		<footer class="navbar-fixed-bottom">
+		<footer class="footer">
 			<div class="container">
 				<section class="footerDescricao">
 					<p><?php bloginfo( 'description' ); ?></p>

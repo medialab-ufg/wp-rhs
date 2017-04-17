@@ -15,7 +15,7 @@ Text Domain: rhs
 
 // _body_
 $font_padrao: 'Solitas-NorReg';
-$whiteColor: #ffffff;
+$whiteColor: #fff;
 
 //Primeira cor de Fundo
 $primeira_cor_fundo: #003c46;
@@ -97,6 +97,7 @@ Segundo Nav-menu
 .segundo-menu {
 	background-color: $segunda_cor_fundo;
 	top: 66px;
+	margin-bottom: 75px;
 	padding: 0;
 	border-radius: 0;
 
@@ -254,9 +255,8 @@ footer {
 	}
 }
 
-//Fora pois não está funcionando dentro.
-footer.navbar-fixed-bottom {
-	bottom: 12px;
+footer.footer{
+	margin-bottom: 12px;
 }
 
 /****************
