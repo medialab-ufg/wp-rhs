@@ -14,7 +14,7 @@ Text Domain: rhs
 //  Tags
 
 // _body_
-$font_body: 'Solitas-NorReg';
+$font_padrao: 'Solitas-NorReg';
 $whiteColor: #ffffff;
 
 //Primeira cor de Fundo
@@ -40,10 +40,10 @@ $cor_fundo_corporation: #00343d;
 @font-face {font-family: 'Solitas-NorReg';src: url('assets/webfonts/2F2567_4_0.eot');src: url('assets/webfonts/2F2567_4_0.eot?#iefix') format('embedded-opentype'),url('assets/webfonts/2F2567_4_0.woff2') format('woff2'),url('assets/webfonts/2F2567_4_0.woff') format('woff'),url('assets/webfonts/2F2567_4_0.ttf') format('truetype');}
 
 html {
-	margin-top: 0 !important; /* resolução do erro que estava dando no Firefox*/
+	margin-top: 0 !important; /* resolução do erro que estava dando no Firefox com espaço no topo*/
 }
 body{
-	font-family: $font_body;
+	font-family: $font_padrao;
 	font-size: 1.7em;
     line-height: 1.42857;
 	a {
@@ -59,7 +59,7 @@ body{
 *
 ***********/
 
-/*Menu do Topo que é estático Nav-menu*/
+/*Menu do Topo que é fixo Nav-menu*/
 .navbar-default {
 	color: $primeira_cor_texto;
 	background-color: $primeira_cor_fundo;
@@ -231,7 +231,7 @@ footer {
 	}
 }
 
-//Fora pois não estava funcionando dentro.
+//Fora pois não está funcionando dentro.
 footer.navbar-fixed-bottom {
 	bottom: 12px;
 }

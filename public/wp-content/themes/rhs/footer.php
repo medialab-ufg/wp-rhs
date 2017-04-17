@@ -19,7 +19,7 @@
 
 				<section class="corporation">
 					<div class="bordar"></div>
-					<img alt="Licença Creative Commons" src="http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png" style="border-width:0">
+					<img alt="Licença Creative Commons" src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icreativecommons.png" style="border-width:0">
 					<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.pt" rel="license" target="_blank"> Conteúdos do site sob Licença&nbsp;Creative Commons - Atribuição-Não Comercial-Sem Derivados 3.0 Não Adaptada.</a>
 				</section>
 			</div>
