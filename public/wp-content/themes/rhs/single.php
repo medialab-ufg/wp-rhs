@@ -8,24 +8,18 @@
 		</div>
 		<div class="row">
 			<?php 
-				if(have_posts()) :
-					while (have_posts()): the_post();
+				while (have_posts()): the_post();
 			?>
 			<article id="post-<?php the_ID(); ?>">
-				<div class="col-xs-12 col-sm-6 col-md-6">
+				<div class="col-xs-12 col-sm-6 col-md-12">
 					<?php	
-								//Pega o paineldosposts para mostrar na pagina front-page os posts.
-								get_template_part( 'partes-templates/paineldosposts');
+						//Pega o paineldosposts para mostrar na pagina front-page os posts.
+						get_template_part( 'partes-templates/paineldosposts', get_post_format()); 
+
 					?>
 				</div>
 			</article><!-- #post-## -->
-
-			<?php 
-					endwhile;
-				else :
-					get_template_part('partes-templates/content', 'none'); 
-				endif;
-			?>
+			<?php endwhile;	?>
 		</div>
 	</div>
 

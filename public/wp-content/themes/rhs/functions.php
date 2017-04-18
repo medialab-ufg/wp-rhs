@@ -97,7 +97,7 @@ function menuRodape(){
 
 /**
 *
-* Libera o uso de imagem no post para paginas como a Front-Page
+* Libera o uso de imagem nos posts
 *
 **/
 function improved_trim_excerpt($text) {
@@ -107,13 +107,15 @@ function improved_trim_excerpt($text) {
                 $text = apply_filters('the_content', $text);
                 $text = str_replace('\]\]\>', ']]&gt;', $text);
                 $text = preg_replace('@<script[^>]*?>.*?</script>@si', '', $text);
-                $text = strip_tags($text, '<img>');
-                $excerpt_length = 80;
-                $words = explode(' ', $text, $excerpt_length + 1);
-                if (count($words)> $excerpt_length) {
-                        array_pop($words);
-                        array_push($words, '[...]');
-                        $text = implode(' ', $words);
+                $text = strip_tags($text, '<img>, <iframe>, [embed], <video>');
+                if(is_home() || is_front_page()){
+                    $excerpt_length = 80;
+                    $words = explode(' ', $text, $excerpt_length + 1);
+                    if (count($words)> $excerpt_length) {
+                            array_pop($words);
+                            array_push($words, '[...]');
+                            $text = implode(' ', $words);
+                    }
                 }
         }
         return $text;
