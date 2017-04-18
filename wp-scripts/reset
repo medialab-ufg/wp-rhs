@@ -51,7 +51,7 @@ function apply_basesql {
     
     echo "zerando base de dados"
     echo "Backup gravado em base_bkp_last_reset.sql"
-    wp db export base_bkp_last_reset.sql 
+    wp db export "$BASE_DIR"/db/base_bkp_last_reset.sql 
     
     echo "Importando base de dados"
     # Não precisamos dar drop antes pq o dump criado com wp-cli já adiciona os drop tables
