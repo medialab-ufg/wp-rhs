@@ -17,8 +17,8 @@ function main {
     elif [ "$1" == "no_drop_db" ]; then
         do_migra_wordpress || die "migra wordpress failed"
     elif [ "$1" == "all" ]; then
-        revert_my_uploads || die "revert my uploads failed"             
-        revert_basesql || die "revert my database failed"
+        #revert_my_uploads || die "revert my uploads failed"             
+        #revert_basesql || die "revert my database failed"
         apply_basesql || die "apply basesql failed"
         do_migra_wordpress || die "migra wordpress failed"
         do_up || die "do up failed"
@@ -51,7 +51,7 @@ function apply_basesql {
     
     echo "zerando base de dados"
     echo "Backup gravado em base_bkp_last_reset.sql"
-    wp db export base_bkp_last_reset.sql "$BASE_DIR"/db/base.sql
+    wp db export base_bkp_last_reset.sql 
     
     echo "Importando base de dados"
     # Não precisamos dar drop antes pq o dump criado com wp-cli já adiciona os drop tables
