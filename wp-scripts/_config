@@ -1,0 +1,30 @@
+#!/bin/bash
+
+function die {
+    echo "Erro:"
+    echo -e "\t$1"
+    exit 1
+}
+
+
+
+BASE_DIR=`pwd`/../
+WP_SCRIPTS_DIR="scripts"
+PROJECT_DIR=${BASE_DIR}/public/
+
+cd "$PROJECT_DIR"
+
+#Essa é uma constante padrão no wordpress MU que estamos usando mesmo no WP normal para nosso script saber lidar com as URLS do banco
+CFGURL=`cat wp-config.php | grep "define(\s*'DOMAIN_CURRENT_SITE'"| perl -pe 's|define\(.DOMAIN_CURRENT_SITE.,\s*.(.*?)\W\s*\).*|$1|'`
+
+DBURL=`wp option get home`
+
+# search & replace http://
+DBURL=${DBURL//http:\/\//}
+
+
+if [ "$CFGURL" == "" ]
+then
+    die "Você precisa especificar a constante DOMAIN_CURRENT_SITE no wp-config.php"
+fi
+

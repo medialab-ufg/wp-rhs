@@ -1,0 +1,58 @@
+#!/bin/bash
+
+ACTION="$1"
+
+
+source "`dirname $0`/_config"
+
+
+function main {
+    dp_add_to_repo || die "Falha ao adicinonar arquivos ao git"
+    do_up || die "git pull failed"
+    
+    if [ $ACTION!="no_db" ]; then
+	    do_dump_db || die "falha ao fazer dump do banco"
+    fi
+    # TODO: merge do banco
+    #do_merge  || die "merge failed"
+    do_commit || die "commit failed"
+}
+
+function dp_add_to_repo {
+    cd "$BASE_DIR"
+    cd dev_uploads || die "Pasta de uploads faltando"
+	pwd
+    echo "Adicionando novos arquivos ao git"
+    git add . 
+}
+
+function do_dump_db {
+    echo "Fazendo Dump do banco"
+    cd "$PROJECT_DIR"
+    wp db export "$BASE_DIR"/db/base.sql
+
+}
+
+function do_up {
+    cd "$PROJECT_DIR"
+    echo "fazendo update do git"
+    git pull
+}
+
+function do_commit {
+    cd "$BASE_DIR"
+    git add db/base.sql
+    echo "Fazendo Commit do git"
+    git commit -m"[add] Commit automatico de fixtures"
+    git push
+}
+
+if [ "$ACTION" == "no_add_files" ]; 
+then
+    do_dump_db
+    do_commit 
+else
+    main
+fi
+
+

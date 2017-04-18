@@ -1,0 +1,77 @@
+#!/bin/bash
+
+
+
+source "`dirname $0`/_config"
+
+function main {
+
+
+    if [ "$1" == "no_revert_uploads" ]; then
+        revert_basesql || die "revert my database failed"
+        apply_basesql || die "apply basesql failed"
+        do_migra_wordpress || die "migra wordpress failed"
+    elif [ "$1" == "no_revert_db" ]; then
+        apply_basesql || die "apply basesql failed"
+        do_migra_wordpress || die "migra wordpress failed"
+    elif [ "$1" == "no_drop_db" ]; then
+        do_migra_wordpress || die "migra wordpress failed"
+    elif [ "$1" == "all" ]; then
+        revert_my_uploads || die "revert my uploads failed"             
+        revert_basesql || die "revert my database failed"
+        apply_basesql || die "apply basesql failed"
+        do_migra_wordpress || die "migra wordpress failed"
+        do_up || die "do up failed"
+    else
+        die "Nenhum parametro informado: use 'all' para um reset completo ou veja o LEIA.ME"
+    fi
+
+
+}
+
+function revert_my_uploads {
+    cd "$BASE_DIR"
+    cd dev_uploads || die "Pasta de uploads faltando"
+    echo "removendo arquivos que não estão no GIT"
+    rm -rf `git status | grep -v ../ | sed -e '1,/include in what will be committed)/d' -e '/no changes/, $d' -e 's/#\|\t//g' -e '/^$/d'`
+    
+}
+
+function revert_basesql {
+    cd "$BASE_DIR"
+    cd db/
+    
+    echo "revertendo base.sql"
+    git checkout base.sql || die "failed to revert base.sql"
+    git pull
+}
+
+function apply_basesql {
+    cd "$PROJECT_DIR"
+    
+    echo "zerando base de dados"
+    echo "Backup gravado em base_bkp_last_reset.sql"
+    wp db export base_bkp_last_reset.sql "$BASE_DIR"/db/base.sql
+    
+    echo "Importando base de dados"
+    # Não precisamos dar drop antes pq o dump criado com wp-cli já adiciona os drop tables
+    wp db import "$BASE_DIR"/db/base.sql
+
+}
+
+function do_migra_wordpress {
+    cd $WP_SCRIPTS_DIR
+
+    echo "Migrando base de dados para dominio local"
+    
+    wp search-replace "$DBURL" "$CFGURL"
+    
+}
+
+function do_up {
+    cd "$BASE_DIR"
+    echo "git pull"
+    git pull || die "failed to update working copy"
+}
+
+main $1

@@ -37,13 +37,29 @@ define('DB_CHARSET', 'utf8');
 /** The Database Collate type. Don't change this if in doubt. */
 define('DB_COLLATE', '');
 
-define('WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
-define( 'WP_CONTENT_URL', 'http://' . $_SERVER['SERVER_NAME'] . '/rhs/wp-content' );
 
-define('WP_SITEURL', 'http://' . $_SERVER['SERVER_NAME'] . '/rhs/wp');
-define('WP_HOME', 'http://' . $_SERVER['SERVER_NAME'] . '/rhs/');
+/** INFOS DA RHS **/
+/**
+ * 
+ * Altere os dados abaixo com a URL do seu ambiente de desenvolvimento
+ * 
+ * WP_HOME é a URL do seu site.
+ * WP_SITEUR vai ser sempre (neste projeto) igual a HOME com um "/wp" na frente
+ * 
+ */ 
+
+define('WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
+define( 'WP_CONTENT_URL', 'http://localhost/rhs/wp-content' );
+
+define('WP_SITEURL', 'http://localhost/rhs/wp');
+define('WP_HOME', 'http://localhost/rhs/');
+
+define('DOMAIN_CURRENT_SITE', 'localhost/rhs');
+
+
 
 define('WP_DEFAULT_THEME', 'rhs');
+
 
 
 /**#@+
