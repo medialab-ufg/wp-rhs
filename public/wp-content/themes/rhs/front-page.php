@@ -10,16 +10,15 @@ get_header();
 		</div>
 		<div class="row">
 			<?php 
+			$args = array('numberposts' => get_option( 'posts_per_page' ));
+			$posts = get_posts( $args );
 				if(have_posts()) :
-					while(have_posts()) : the_post();
+					foreach($posts as $post) : setup_postdata( $post );
 						//Pega o content-front-page.php para mostrar na pagina front-page os posts.
 						get_template_part( 'partes-templates/pagina/content', 'front-page' ); 
-					endwhile;
+					endforeach;
 				else :
-					get_template_part('partes-templates/pagina/content', 'none');
-			?>
-					
-			<?php 
+					get_template_part('partes-templates/pagina/content', 'none'); 
 				endif;
 			?>
 		</div>

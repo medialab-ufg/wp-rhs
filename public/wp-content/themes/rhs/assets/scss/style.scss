@@ -221,12 +221,15 @@ Segundo Nav-menu
 		    }
 	    }
 	}
-	span.panel-body{
+	.panel-body{
 		margin-top: -20px;
     	padding-top: 0;
     	a h3 {
     		color: $primeira_cor_texto;
     		font-weight: bold;
+    	}
+    	p img {
+    		width: 100%;
     	}
 	}
 }
