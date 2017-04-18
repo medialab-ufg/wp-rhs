@@ -15,7 +15,6 @@
 					<?php	
 						//Pega o paineldosposts para mostrar na pagina front-page os posts.
 						get_template_part( 'partes-templates/painel-single', get_post_format()); 
-
 					?>
 				</div>
 			</article><!-- #post-## -->

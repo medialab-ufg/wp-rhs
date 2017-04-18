@@ -14,12 +14,11 @@
 			<article id="post-<?php the_ID(); ?>">
 				<div class="col-xs-12 col-sm-6 col-md-6">
 					<?php	
-								//Pega o paineldosposts para mostrar na pagina front-page os posts.
-								get_template_part( 'partes-templates/paineldosposts');
+						//Pega o paineldosposts para mostrar na pagina front-page os posts.
+						get_template_part( 'partes-templates/paineldosposts');
 					?>
 				</div>
 			</article><!-- #post-## -->
-
 			<?php 
 					endwhile;
 				else :
