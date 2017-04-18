@@ -47,7 +47,7 @@ Agora você esta com todas as bibliotecas e classes necessárias da RHS.
 ### Crie o link para a pasta de uploads
 
 ```
-ln -s dev_uploads public/wp-content/uploads
+ln -s ../../dev_uploads public/wp-content/uploads
 ```
 
 ### Crie e edite o wp-config.php e o wp-config-sample.php
@@ -116,7 +116,7 @@ Este comando:
 
 
 ```
-commit
+./commit
 ```
 
 Este comando:
