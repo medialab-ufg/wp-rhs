@@ -111,7 +111,7 @@ Segundo Nav-menu
 	.form-search-rhs{
 		margin-top: 1px;
 		margin-bottom: 0;
-
+		margin-left: -15px;
 		input {
 			color: $whiteColor !important;
 			background-color: $cor_fundo_formulario_nav;
@@ -150,8 +150,16 @@ Segundo Nav-menu
 		color:$whiteColor !important;
 		text-decoration: underline;
 	}
-	#menuPesquisa input[type=text]{
-		width:21.4em !important;
+	#menuPesquisa {
+		input[type=text]{
+			width:38.4em !important;
+		}
+		.input-group .form-control:focus {
+		    z-index: 0;
+		}
+		span .glyphicon-search{
+			color: $whiteColor;
+		}
 	}
 	.navbar-nav>.open>a, .navbar-nav>.open>a:hover{
 		background-color: $cor_fundo_formulario_nav;

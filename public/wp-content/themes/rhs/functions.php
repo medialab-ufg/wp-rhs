@@ -108,7 +108,7 @@ function libera_imagem_no_post($text) {
                 $text = preg_replace('@<script[^>]*?>.*?</script>@si', '', $text);
                 $text = strip_tags($text, '<img>, <iframe>, [embed], <video>');
                 
-                if(is_home() || is_front_page()){
+                if(is_home() || is_front_page() || is_search()){
                     $excerpt_length = 20;
                     $words = explode(' ', $text, $excerpt_length + 1);
                     if (count($words)> $excerpt_length) {

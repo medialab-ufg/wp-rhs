@@ -2,23 +2,32 @@
 
 <div class="row">
 	<!-- Container -->
-	<div class="col-xs-12 col-sm-6 col-md-9">
+	<div class="col-xs-12 col-sm-9 col-md-8">
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12"></div>
+			<div class="col-xs-12 col-sm-12 col-md-12">
+				<div class="col-xs-5 col-sm-5 col-md-5">
+					<?php
+						//get_template_part('partes-templates/carousel' );
+					?>
+				</div>
+				<div class="col-xs-7 col-sm-7 col-md-7">
+					<?php
+						//title, post, date.
+					?>
+				</div>
+			</div>
 		</div>
 		<div class="row">
 			<?php 
 				if(have_posts()) :
 					while (have_posts()): the_post();
 			?>
-			<article id="post-<?php the_ID(); ?>">
-				<div class="col-xs-12 col-sm-6 col-md-6">
+			<div class="col-xs-12 col-sm-6 col-md-6">
 					<?php	
 						//Pega o paineldosposts para mostrar na pagina front-page os posts.
 						get_template_part( 'partes-templates/paineldosposts');
 					?>
-				</div>
-			</article><!-- #post-## -->
+			</div>
 			<?php 
 					endwhile;
 				else :
@@ -29,7 +38,7 @@
 	</div>
 
 	<!-- Sidebar -->
-	<div class="col-xs-6 col-md-3"></div>
+	<div class="col-xs-6 col-sm-3 col-md-4"></div>
 </div>
 
 <?php get_footer();
