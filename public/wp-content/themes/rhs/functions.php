@@ -11,7 +11,6 @@ require_once('inc/wp-bootstrap-navwalker.php');
 **/
 show_admin_bar( false );
 
-
 // Incluir JavaScripts necessários no tema
 function RHS_scripts() {
    wp_enqueue_script('bootstrap', get_template_directory_uri() . '/assets/bootstrap/js/bootstrap.min.js', array('jquery'), '3.3.7', true);
@@ -97,19 +96,20 @@ function menuRodape(){
 
 /**
 *
-* Libera o uso de imagem nos posts
+* Libera o uso de imagem nos painels dos posts
 *
 **/
-function improved_trim_excerpt($text) {
+function libera_imagem_no_post($text) {
         global $post;
         if ( '' == $text ) {
                 $text = get_the_content('');
-                $text = apply_filters('the_content', $text);
+                $text = apply_filters('the_excerpt', $text);
                 $text = str_replace('\]\]\>', ']]&gt;', $text);
                 $text = preg_replace('@<script[^>]*?>.*?</script>@si', '', $text);
                 $text = strip_tags($text, '<img>, <iframe>, [embed], <video>');
+                
                 if(is_home() || is_front_page()){
-                    $excerpt_length = 80;
+                    $excerpt_length = 20;
                     $words = explode(' ', $text, $excerpt_length + 1);
                     if (count($words)> $excerpt_length) {
                             array_pop($words);
@@ -121,4 +121,4 @@ function improved_trim_excerpt($text) {
         return $text;
 }
 remove_filter('get_the_excerpt', 'wp_trim_excerpt');
-add_filter('get_the_excerpt', 'improved_trim_excerpt');
+add_filter('get_the_excerpt', 'libera_imagem_no_post');

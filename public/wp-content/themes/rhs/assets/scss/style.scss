@@ -204,12 +204,13 @@ Segundo Nav-menu
 
 /************
 *
-* Container
+* Painels dos Posts
 *
 *************/
 .panel-default{
 	>.panel-heading{
 		background-color: $whiteColor;
+		border-color: $whiteColor;
 		>.post-titulo {
 	    	margin-top: 7%;
 	    	.nome-author a{
@@ -230,11 +231,24 @@ Segundo Nav-menu
     	padding-top: 0;
     	a h3 {
     		color: $primeira_cor_texto;
+			font-size: 1.3em;
     		font-weight: bold;
     	}
-    	p iframe{
+    	p img, span img {
+		    display: block;
+		    height: auto !important;
+    		margin: auto;
+		    width: 80% !important;
+    	}
+    	div iframe, p iframe{
     		width: 100%;
     	}
+	}
+	.content>p>iframe, div iframe{
+		display: block;
+		margin: auto;
+    		margin-bottom: 3%;
+    		margin-top: 3%;
 	}
 
 	.img-usuario img {
