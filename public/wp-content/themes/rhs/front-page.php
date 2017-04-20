@@ -5,16 +5,14 @@
 	<div class="col-xs-12 col-sm-9 col-md-8">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12">
-				<div class="col-xs-5 col-sm-5 col-md-5">
-					<?php
-						//get_template_part('partes-templates/carousel' );
-					?>
-				</div>
-				<div class="col-xs-7 col-sm-7 col-md-7">
-					<?php
-						//title, post, date.
-					?>
-				</div>
+				<?php
+					//get_template_part('partes-templates/carousel' );
+				?>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12">
+				<!-- form de busca -->				
 			</div>
 		</div>
 		<div class="row">
