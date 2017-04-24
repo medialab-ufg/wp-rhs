@@ -15,7 +15,14 @@ Text Domain: rhs
 
 // _body_
 $font_padrao: 'Solitas-NorReg';
+$grayColor: #787878;
+$backgroundColor: #f2f3f5;
+
+//outros
 $whiteColor: #fff;
+
+//pagination
+$blackColor: #000;
 
 //Primeira cor de Fundo
 $primeira_cor_fundo: #003c46;
@@ -43,6 +50,8 @@ html {
 	margin-top: 0 !important; /* resolução do erro que estava dando no Firefox com espaço no topo*/
 }
 body{
+	color: $grayColor;
+	background-color: $backgroundColor;
 	font-family: $font_padrao;
 	font-size: 1.7em;
     line-height: 1.42857;
@@ -67,6 +76,10 @@ body{
 }
 .navbar-brand {
 	padding: 0px 5px;
+	>img{
+		margin-left: 19px;
+    	margin-top: 3px;
+	}
 }
 .navbar-collapse .navbar-nav>li>a {
 	color: $primeira_cor_texto;
@@ -109,9 +122,9 @@ Segundo Nav-menu
 	}
 
 	.form-search-rhs{
-		margin-top: 1px;
+		margin-top: 0;
 		margin-bottom: 0;
-
+		margin-left: -15px;
 		input {
 			color: $whiteColor !important;
 			background-color: $cor_fundo_formulario_nav;
@@ -134,7 +147,7 @@ Segundo Nav-menu
 		button {
 			background-color: $cor_fundo_formulario_nav;
 			border: none;
-			height: 3.5em;
+			height: 51px;
 		    border-radius: 0;
 		}
 		button:hover {
@@ -150,8 +163,17 @@ Segundo Nav-menu
 		color:$whiteColor !important;
 		text-decoration: underline;
 	}
-	#menuPesquisa input[type=text]{
-		width:21.4em !important;
+	#menuPesquisa {
+		input[type=text]{
+			width:38.4em !important;
+			height: 51px;
+		}
+		.input-group .form-control:focus {
+		    z-index: 0;
+		}
+		span .glyphicon-search{
+			color: $whiteColor;
+		}
 	}
 	.navbar-nav>.open>a, .navbar-nav>.open>a:hover{
 		background-color: $cor_fundo_formulario_nav;
@@ -204,14 +226,37 @@ Segundo Nav-menu
 
 /************
 *
-* Container
+* Painels dos Posts e usado na pagina Single
 *
 *************/
+
+/*Melhor visualização do painel na pagina front-page. 
+* Fazendo com que o mesmo tenha um melhor redimensionamento responsivo
+* Inicio
+*/
+.display-row {
+	-moz-column-width: 25em;
+	-webkit-column-width: 25em;
+	-moz-column-gap: .5em;
+	-webkit-column-gap: .5em;   
+}
+.panel {
+	display: inline-block;
+	margin:  .5em;
+	padding:  0; 
+	width:98%;
+}
+/*Fim do redimensionamento responsivo do painel*/
+
+
 .panel-default{
 	>.panel-heading{
 		background-color: $whiteColor;
+		border-color: $whiteColor;
+		>.espacamento-topo{
+			margin-top: 7%;
+		}
 		>.post-titulo {
-	    	margin-top: 7%;
 	    	.nome-author a{
 	    		color: black;
 	    		font-weight: bold;
@@ -228,12 +273,28 @@ Segundo Nav-menu
 	.panel-body{
 		margin-top: -20px;
     	padding-top: 0;
+    	word-wrap: break-word;
     	a h3 {
     		color: $primeira_cor_texto;
+			font-size: 1.3em;
     		font-weight: bold;
     	}
-    	p iframe{
+    	a h3:hover, a:focus{
+    		color: $primeira_cor_texto;
+    		text-decoration: underline;
+    	}
+    	p{
+    		margin: 0;
+    	}
+    	img, p img, span img {
+		    display: block;
+		    height: auto !important;
+    		margin: auto;
+    		width: 75% !important;
+    	}
+    	div iframe, p iframe{
     		width: 100%;
+    		height: 400px;
     	}
 	}
 
@@ -242,8 +303,33 @@ Segundo Nav-menu
 			height: 65px;
 	}
 }
+.pagination>li>a, .pagination>li>span{
+	color: $blackColor;
+}
+.pagination>li>a:hover, .pagination>li>span:hover{
+	color: $primeira_cor_texto;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+	background-color: $primeira_cor_texto;
+	border-color: $primeira_cor_texto;
+}
 
 
+/***********
+*
+* Sidebar
+*
+************/
+#sidebar {
+	margin-right: -15px;
+	aside {
+		border-top: 1px solid #00b4b4;
+	    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+	    background-color: #fff;
+	    margin-bottom: 20px;
+	    padding: 20px 15px;
+	}
+}
 /************
 *
 * Footer
@@ -329,6 +415,11 @@ footer.footer{
 	#menu-segundo-menu{
 		margin: 0px -15px;
 	}
+
+	#sidebar{
+		margin-right: 0;
+	}
+
 	footer {
 		> .container {
 		    padding-right: 0px;

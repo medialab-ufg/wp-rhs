@@ -1,16 +1,35 @@
 <?php
 
-/**
-* Classe usada nos menus.
-* A mesma facilita o uso das classes usadas na tag nav do bootstrap com o wordpress.
-**/
-require_once('inc/wp-bootstrap-navwalker.php');
+if(!function_exists('rhs_setup')) : 
+    function rhs_setup() {
 
-/**
-* Não aparecer o menu do administrador na pagina do site quando estiver logado.
-**/
-show_admin_bar( false );
+        /**
+        * Não aparecer o menu do administrador na pagina do site. Mesmo quando estiver logado!
+        **/
+        show_admin_bar( false );
 
+        /**
+        * Classe usada nos menus.
+        * A mesma facilita o uso das classes usadas na tag nav do bootstrap com o wordpress.
+        **/
+        require_once('inc/wp-bootstrap-navwalker.php');
+
+        /**
+        *
+        * Registro de navegação personalizado com o painel admin
+        * 
+        **/
+        register_nav_menus( array(
+            'menuTopo' => __( 'menuTopo', 'rhs' ),
+            'menuTopoDrodDown' => __( 'menuTopoDrodDown', 'rhs' ),
+            'menuRodape' => __( 'menuRodape', 'rhs' ),
+        ) );
+
+        add_theme_support( 'post-thumbnails' );
+    }
+endif;
+
+add_action( 'after_setup_theme', 'rhs_setup' );
 
 // Incluir JavaScripts necessários no tema
 function RHS_scripts() {
@@ -25,18 +44,6 @@ function RHS_styles() {
    wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
 }
 add_action('wp_enqueue_scripts', 'RHS_styles');
-
-
-/**
-*
-* Registro de navegação personalizado com o painel admin
-* 
-**/
-register_nav_menus( array(
-    'menuTopo' => __( 'menuTopo', 'rhs' ),
-    'menuTopoDrodDown' => __( 'menuTopoDrodDown', 'rhs' ),
-    'menuRodape' => __( 'menuRodape', 'rhs' ),
-) );
 
 /**
 *
@@ -95,30 +102,55 @@ function menuRodape(){
 	);
 }
 
-/**
-*
-* Libera o uso de imagem nos posts
-*
-**/
-function improved_trim_excerpt($text) {
-        global $post;
-        if ( '' == $text ) {
-                $text = get_the_content('');
-                $text = apply_filters('the_content', $text);
-                $text = str_replace('\]\]\>', ']]&gt;', $text);
-                $text = preg_replace('@<script[^>]*?>.*?</script>@si', '', $text);
-                $text = strip_tags($text, '<img>, <iframe>, [embed], <video>');
-                if(is_home() || is_front_page()){
-                    $excerpt_length = 80;
-                    $words = explode(' ', $text, $excerpt_length + 1);
-                    if (count($words)> $excerpt_length) {
-                            array_pop($words);
-                            array_push($words, '[...]');
-                            $text = implode(' ', $words);
-                    }
+/*
+* Função personalizada da paginação.
+* A mesma está com as classes do bootstrap
+*/
+function paginacao_personalizada() {
+    global $wp_query;
+    $big = 999999999;
+    $pages = paginate_links(array(
+        'base' => str_replace($big, '%#%', get_pagenum_link($big)),
+        'format' => '?page=%#%',
+        'current' => max(1, get_query_var('paged')),
+        'total' => $wp_query->max_num_pages,
+        'mid_size' => 8,
+        'prev_next' => false,
+        'type' => 'array',
+        'prev_next' => TRUE,
+        'prev_text' => '&larr; Anterior',
+        'next_text' => 'Próxima &rarr;',
+    ));
+    if (is_array($pages)) {
+        $current_page = ( get_query_var('paged') == 0 ) ? 1 : get_query_var('paged');
+        echo '<ul class="pagination">';
+        foreach ($pages as $i => $page) {
+            if ($current_page == 1 && $i == 0) {
+                echo "<li class='active'>$page</li>";
+            } else {
+                if ($current_page != 1 && $current_page == $i) {
+                    echo "<li class='active'>$page</li>";
+                } else {
+                    echo "<li>$page</li>";
                 }
+            }
         }
-        return $text;
+        echo '</ul>';
+    }
 }
-remove_filter('get_the_excerpt', 'wp_trim_excerpt');
-add_filter('get_the_excerpt', 'improved_trim_excerpt');
+
+
+/*
+* Testando SideBar com Widgets do Wordpress.
+*/
+function rhs_widgets_init() {
+    register_sidebar( array(
+        'name'          => __( 'Primary Sidebar', 'rhs' ),
+        'id'            => 'sidebar-1',
+        'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</aside>',
+        'before_title'  => '<h1 class="widget-title">',
+        'after_title'   => '</h1>',
+    ) );
+}
+add_action( 'widgets_init', 'rhs_widgets_init' );
