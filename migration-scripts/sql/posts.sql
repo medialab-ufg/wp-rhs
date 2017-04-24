@@ -1,8 +1,4 @@
 
-TRUNCATE TABLE rhs_posts;
-
-TRUNCATE TABLE rhs_postmeta;
-
 INSERT INTO rhs_posts
 
     (ID, 
@@ -19,7 +15,8 @@ INSERT INTO rhs_posts
     to_ping, 
     pinged, 
     post_content_filtered, 
-    `post_status`
+    `post_status`,
+    guid
     )
 
 SELECT DISTINCT
@@ -31,29 +28,37 @@ SELECT DISTINCT
     r.body_value `post_content`,
     n.title `post_title`,
     IF (ISNULL(r.body_summary), "", r.body_summary) `post_excerpt`,
-    #IF(SUBSTR(a.alias, 11, 1) = '/', SUBSTR(a.alias, 12), a.alias) `post_name`,
-    n.nid `post_name`,
+    
+    IF(SUBSTR(a.alias, 11, 1) = '/', SUBSTR(a.alias, 12), IF(a.alias <> '', a.alias, "aliasvazio")) `post_name`,
+    
     FROM_UNIXTIME(n.changed) `post_modified`,
     FROM_UNIXTIME(n.changed) `post_modified_gmt`,
     "post" `post_type`,
     "" `to_ping`,
     "" `pinged`,
     "" `post_content_filtered`,
-    IF(n.status = 1, 'publish', 'private') `post_status`
+    IF(n.status = 1, 'publish', 'private') `post_status`,
+    CONCAT('http://redehumanizasus.net/node/', n.nid) `guid`
 
 FROM
 
-    drupal_rhs.node n
-    INNER JOIN drupal_rhs.field_data_body r
+    rhs.node n
+    INNER JOIN rhs.field_data_body r
     ON r.entity_type = 'node' AND r.entity_id = n.nid
 
-    # LEFT OUTER JOIN drupal_rhs.url_alias a
-    # ON a.source = CONCAT('node/', n.nid)
+    LEFT OUTER JOIN rhs.url_alias a
+    ON a.source = CONCAT('node/', n.nid)
 
-# If applicable, add more Drupal content types below.
 
 WHERE n.type IN ('blog')
 
+
 # LIMIT 10
+
+
+# Existem alguns casos que a tabela url_alias tem mais de um valor para o mesmo post. Isso causa um erro ao importar
+# pq vai tentar importar duas vezes o post com o mesmo ID. Por isso colocamos essa clausula, para não dar erro. Depois
+# podemos tratar essas URLs adicionais que não foram importadas.
+ON DUPLICATE KEY UPDATE ID=ID
 ;
 
