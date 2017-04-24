@@ -16,6 +16,7 @@ Text Domain: rhs
 // _body_
 $font_padrao: 'Solitas-NorReg';
 $grayColor: #787878;
+$backgroundColor: #f2f3f5;
 
 //outros
 $whiteColor: #fff;
@@ -50,6 +51,7 @@ html {
 }
 body{
 	color: $grayColor;
+	background-color: $backgroundColor;
 	font-family: $font_padrao;
 	font-size: 1.7em;
     line-height: 1.42857;
@@ -281,6 +283,9 @@ Segundo Nav-menu
     		color: $primeira_cor_texto;
     		text-decoration: underline;
     	}
+    	p{
+    		margin: 0;
+    	}
     	img, p img, span img {
 		    display: block;
 		    height: auto !important;
@@ -309,6 +314,22 @@ Segundo Nav-menu
 	border-color: $primeira_cor_texto;
 }
 
+
+/***********
+*
+* Sidebar
+*
+************/
+#sidebar {
+	margin-right: -15px;
+	aside {
+		border-top: 1px solid #00b4b4;
+	    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+	    background-color: #fff;
+	    margin-bottom: 20px;
+	    padding: 20px 15px;
+	}
+}
 /************
 *
 * Footer
@@ -394,6 +415,11 @@ footer.footer{
 	#menu-segundo-menu{
 		margin: 0px -15px;
 	}
+
+	#sidebar{
+		margin-right: 0;
+	}
+
 	footer {
 		> .container {
 		    padding-right: 0px;

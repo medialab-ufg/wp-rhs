@@ -1,7 +1,6 @@
 <?php
 
 if(!function_exists('rhs_setup')) : 
-
     function rhs_setup() {
 
         /**
@@ -28,8 +27,8 @@ if(!function_exists('rhs_setup')) :
 
         add_theme_support( 'post-thumbnails' );
     }
-
 endif;
+
 add_action( 'after_setup_theme', 'rhs_setup' );
 
 // Incluir JavaScripts necessários no tema
@@ -103,35 +102,10 @@ function menuRodape(){
 	);
 }
 
-/**
-*
-* Libera o uso de imagem nos painels dos posts
-*
-function libera_imagem_no_post($text) {
-        global $post;
-        if ( '' == $text ) {
-                $text = get_the_content('');
-                $text = apply_filters('the_excerpt', $text);
-                $text = str_replace('\]\]\>', ']]&gt;', $text);
-                $text = preg_replace('@<script[^>]*?>.*?</script>@si', '', $text);
-                $text = strip_tags($text, '<img>, <iframe>, [embed], <video>');
-                
-                if(is_home() || is_front_page() || is_search()){
-                    $excerpt_length = 20;
-                    $words = explode(' ', $text, $excerpt_length + 1);
-                    if (count($words)> $excerpt_length) {
-                            array_pop($words);
-                            array_push($words, '[...]');
-                            $text = implode(' ', $words);
-                    }
-                }
-        }
-        return $text;
-}
-remove_filter('get_the_excerpt', 'wp_trim_excerpt');
-add_filter('get_the_excerpt', 'libera_imagem_no_post');
-**/
-
+/*
+* Função personalizada da paginação.
+* A mesma está com as classes do bootstrap
+*/
 function paginacao_personalizada() {
     global $wp_query;
     $big = 999999999;
@@ -164,3 +138,19 @@ function paginacao_personalizada() {
         echo '</ul>';
     }
 }
+
+
+/*
+* Testando SideBar com Widgets do Wordpress.
+*/
+function rhs_widgets_init() {
+    register_sidebar( array(
+        'name'          => __( 'Primary Sidebar', 'rhs' ),
+        'id'            => 'sidebar-1',
+        'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</aside>',
+        'before_title'  => '<h1 class="widget-title">',
+        'after_title'   => '</h1>',
+    ) );
+}
+add_action( 'widgets_init', 'rhs_widgets_init' );
