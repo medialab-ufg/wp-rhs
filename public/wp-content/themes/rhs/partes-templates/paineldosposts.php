@@ -1,6 +1,6 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<div class="row post-titulo">
+		<div class="row post-titulo espacamento-topo">
 			<div class="col-xs-4 col-md-3">
 				<div class="img-usuario">
 					<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
@@ -24,7 +24,12 @@
 	</div>
 	<div class="panel-body">
 		<a href="<?php the_permalink(); ?>"><?php the_title( '<h3 class="panel-title">', '</h3>' ); ?></a>
-		<?php 
+		<?php if( has_post_thumbnail() ) :	?>
+			<a href="<?php the_permalink(); ?>">
+				<?php the_post_thumbnail(); ?>
+			</a>
+		<?php
+			endif;
 			the_excerpt(); 
 		?>
 	</div><!-- .paine-body -->

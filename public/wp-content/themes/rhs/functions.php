@@ -1,15 +1,36 @@
 <?php
 
-/**
-* Classe usada nos menus.
-* A mesma facilita o uso das classes usadas na tag nav do bootstrap com o wordpress.
-**/
-require_once('inc/wp-bootstrap-navwalker.php');
+if(!function_exists('rhs_setup')) : 
 
-/**
-* Não aparecer o menu do administrador na pagina do site quando estiver logado.
-**/
-show_admin_bar( false );
+    function rhs_setup() {
+
+        /**
+        * Não aparecer o menu do administrador na pagina do site. Mesmo quando estiver logado!
+        **/
+        show_admin_bar( false );
+
+        /**
+        * Classe usada nos menus.
+        * A mesma facilita o uso das classes usadas na tag nav do bootstrap com o wordpress.
+        **/
+        require_once('inc/wp-bootstrap-navwalker.php');
+
+        /**
+        *
+        * Registro de navegação personalizado com o painel admin
+        * 
+        **/
+        register_nav_menus( array(
+            'menuTopo' => __( 'menuTopo', 'rhs' ),
+            'menuTopoDrodDown' => __( 'menuTopoDrodDown', 'rhs' ),
+            'menuRodape' => __( 'menuRodape', 'rhs' ),
+        ) );
+
+        add_theme_support( 'post-thumbnails' );
+    }
+
+endif;
+add_action( 'after_setup_theme', 'rhs_setup' );
 
 // Incluir JavaScripts necessários no tema
 function RHS_scripts() {
@@ -24,18 +45,6 @@ function RHS_styles() {
    wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
 }
 add_action('wp_enqueue_scripts', 'RHS_styles');
-
-
-/**
-*
-* Registro de navegação personalizado com o painel admin
-* 
-**/
-register_nav_menus( array(
-    'menuTopo' => __( 'menuTopo', 'rhs' ),
-    'menuTopoDrodDown' => __( 'menuTopoDrodDown', 'rhs' ),
-    'menuRodape' => __( 'menuRodape', 'rhs' ),
-) );
 
 /**
 *
@@ -98,7 +107,6 @@ function menuRodape(){
 *
 * Libera o uso de imagem nos painels dos posts
 *
-**/
 function libera_imagem_no_post($text) {
         global $post;
         if ( '' == $text ) {
@@ -122,3 +130,37 @@ function libera_imagem_no_post($text) {
 }
 remove_filter('get_the_excerpt', 'wp_trim_excerpt');
 add_filter('get_the_excerpt', 'libera_imagem_no_post');
+**/
+
+function paginacao_personalizada() {
+    global $wp_query;
+    $big = 999999999;
+    $pages = paginate_links(array(
+        'base' => str_replace($big, '%#%', get_pagenum_link($big)),
+        'format' => '?page=%#%',
+        'current' => max(1, get_query_var('paged')),
+        'total' => $wp_query->max_num_pages,
+        'mid_size' => 8,
+        'prev_next' => false,
+        'type' => 'array',
+        'prev_next' => TRUE,
+        'prev_text' => '&larr; Anterior',
+        'next_text' => 'Próxima &rarr;',
+    ));
+    if (is_array($pages)) {
+        $current_page = ( get_query_var('paged') == 0 ) ? 1 : get_query_var('paged');
+        echo '<ul class="pagination">';
+        foreach ($pages as $i => $page) {
+            if ($current_page == 1 && $i == 0) {
+                echo "<li class='active'>$page</li>";
+            } else {
+                if ($current_page != 1 && $current_page == $i) {
+                    echo "<li class='active'>$page</li>";
+                } else {
+                    echo "<li>$page</li>";
+                }
+            }
+        }
+        echo '</ul>';
+    }
+}

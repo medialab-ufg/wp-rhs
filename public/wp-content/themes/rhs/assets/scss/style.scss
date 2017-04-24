@@ -15,7 +15,13 @@ Text Domain: rhs
 
 // _body_
 $font_padrao: 'Solitas-NorReg';
+$grayColor: #787878;
+
+//outros
 $whiteColor: #fff;
+
+//pagination
+$blackColor: #000;
 
 //Primeira cor de Fundo
 $primeira_cor_fundo: #003c46;
@@ -43,6 +49,7 @@ html {
 	margin-top: 0 !important; /* resolução do erro que estava dando no Firefox com espaço no topo*/
 }
 body{
+	color: $grayColor;
 	font-family: $font_padrao;
 	font-size: 1.7em;
     line-height: 1.42857;
@@ -67,6 +74,10 @@ body{
 }
 .navbar-brand {
 	padding: 0px 5px;
+	>img{
+		margin-left: 19px;
+    	margin-top: 3px;
+	}
 }
 .navbar-collapse .navbar-nav>li>a {
 	color: $primeira_cor_texto;
@@ -109,7 +120,7 @@ Segundo Nav-menu
 	}
 
 	.form-search-rhs{
-		margin-top: 1px;
+		margin-top: 0;
 		margin-bottom: 0;
 		margin-left: -15px;
 		input {
@@ -134,7 +145,7 @@ Segundo Nav-menu
 		button {
 			background-color: $cor_fundo_formulario_nav;
 			border: none;
-			height: 3.5em;
+			height: 51px;
 		    border-radius: 0;
 		}
 		button:hover {
@@ -153,6 +164,7 @@ Segundo Nav-menu
 	#menuPesquisa {
 		input[type=text]{
 			width:38.4em !important;
+			height: 51px;
 		}
 		.input-group .form-control:focus {
 		    z-index: 0;
@@ -215,12 +227,34 @@ Segundo Nav-menu
 * Painels dos Posts e usado na pagina Single
 *
 *************/
+
+/*Melhor visualização do painel na pagina front-page. 
+* Fazendo com que o mesmo tenha um melhor redimensionamento responsivo
+* Inicio
+*/
+.display-row {
+	-moz-column-width: 25em;
+	-webkit-column-width: 25em;
+	-moz-column-gap: .5em;
+	-webkit-column-gap: .5em;   
+}
+.panel {
+	display: inline-block;
+	margin:  .5em;
+	padding:  0; 
+	width:98%;
+}
+/*Fim do redimensionamento responsivo do painel*/
+
+
 .panel-default{
 	>.panel-heading{
 		background-color: $whiteColor;
 		border-color: $whiteColor;
+		>.espacamento-topo{
+			margin-top: 7%;
+		}
 		>.post-titulo {
-	    	margin-top: 7%;
 	    	.nome-author a{
 	    		color: black;
 	    		font-weight: bold;
@@ -237,12 +271,17 @@ Segundo Nav-menu
 	.panel-body{
 		margin-top: -20px;
     	padding-top: 0;
+    	word-wrap: break-word;
     	a h3 {
     		color: $primeira_cor_texto;
 			font-size: 1.3em;
     		font-weight: bold;
     	}
-    	p img, span img {
+    	a h3:hover, a:focus{
+    		color: $primeira_cor_texto;
+    		text-decoration: underline;
+    	}
+    	img, p img, span img {
 		    display: block;
 		    height: auto !important;
     		margin: auto;
@@ -250,13 +289,8 @@ Segundo Nav-menu
     	}
     	div iframe, p iframe{
     		width: 100%;
+    		height: 400px;
     	}
-	}
-	.content>p>iframe, div iframe{
-		display: block;
-		margin: auto;
-    		margin-bottom: 3%;
-    		margin-top: 3%;
 	}
 
 	.img-usuario img {
@@ -264,7 +298,16 @@ Segundo Nav-menu
 			height: 65px;
 	}
 }
-
+.pagination>li>a, .pagination>li>span{
+	color: $blackColor;
+}
+.pagination>li>a:hover, .pagination>li>span:hover{
+	color: $primeira_cor_texto;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+	background-color: $primeira_cor_texto;
+	border-color: $primeira_cor_texto;
+}
 
 /************
 *
