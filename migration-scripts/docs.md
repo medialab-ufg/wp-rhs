@@ -90,6 +90,9 @@ $this->log('Substituição concluída');
 
 ```
 
+Também está disponível o método `$this->wpcli($command)` para rodar comandos do WP-Cli.
+
+
 ### Registrando um novo passo
 
 1. Abra o arquivo import.php

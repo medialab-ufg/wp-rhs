@@ -184,6 +184,13 @@ class RHSImporter {
     
     }
     
+    function wpcli($command) {
+    
+        echo exec('cd ../public && wp ' . $command);
+        echo "\n";
+    
+    }
+    
     function get_steps_list() {
     
         $list = '';
