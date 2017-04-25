@@ -240,7 +240,7 @@ Segundo Nav-menu
 	-moz-column-gap: .5em;
 	-webkit-column-gap: .5em;   
 }
-.panel {
+.display-panel {
 	display: inline-block;
 	margin:  .5em;
 	padding:  0; 
@@ -267,6 +267,12 @@ Segundo Nav-menu
 		    h3 {
 		    	color: $primeira_cor_texto;
 	    		font-weight: bold;
+		    }
+		    .nome-author{
+		    	margin: 0 0 -4px;
+		    }
+		    small {
+		    	color: #777;
 		    }
 	    }
 	}
@@ -314,6 +320,72 @@ Segundo Nav-menu
 	border-color: $primeira_cor_texto;
 }
 
+/********
+*
+* Author
+*
+*********/
+#verDados {
+	.jumbotron{
+		background-color: $whiteColor;
+		margin-top: 20px;
+		.contagem-valor-author{
+			line-height: 80%;
+		    display: block;
+		    font-size: 1em;
+		    font-weight: bold;
+		    margin-bottom: -6px;
+		}
+		.contagem-desc-author {
+			font-size: 0.7em;
+		}
+		.nome-author{
+			margin-bottom: -4px;
+		}
+		.media-left{
+			margin-top: 15px;
+		}
+	}
+}
+#info_pessoais, #sobre_interesses{
+	.panel-body{
+		margin-top: -6px;
+		padding-top: 6px;
+	}
+	p {
+		color: $primeira_cor_texto;
+		padding-top: 6px;
+	}
+	span a{
+		color: $blackColor;
+	}
+	span a:hover{
+		color: $primeira_cor_texto;
+	}
+}
+#InfoPessoais, #SobreInteresses {
+	h4 a {
+		color: $primeira_cor_texto;
+	}
+	a[aria-expanded="true"]:after {
+	    /* symbol for "opening" panels */
+	    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+	    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+	    float: right;        /* adjust as needed */
+	    color: grey;         /* adjust as needed */
+	}
+	.collapsed:after {
+	    /* symbol for "collapsed" panels */
+	    /* symbol for "opening" panels */
+	    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+	    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+	    float: right;        /* adjust as needed */
+	    color: grey;         /* adjust as needed */
+	}
+	+.panel-collapse>.panel-body{
+		border-color: $backgroundColor;
+	}
+}
 
 /***********
 *
@@ -323,7 +395,7 @@ Segundo Nav-menu
 #sidebar {
 	margin-right: -15px;
 	aside {
-		border-top: 1px solid #00b4b4;
+		border-top: 1px solid $primeira_cor_texto;
 	    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 	    background-color: #fff;
 	    margin-bottom: 20px;

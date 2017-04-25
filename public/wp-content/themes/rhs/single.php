@@ -2,7 +2,7 @@
 
 <div class="row">
 	<!-- Container -->
-	<div class="col-xs-9">
+	<div class="col-xs-12 col-md-9">
 		<div class="row">
 			<div class="col-xs-12"></div>
 		</div>
@@ -23,7 +23,7 @@
 	</div>
 
 	<!-- Sidebar -->
-	<div class="col-xs-3"><?php get_sidebar(); ?></div>
+	<div class="col-xs-12 col-md-3"><?php get_sidebar(); ?></div>
 </div>
 
 <?php get_footer();

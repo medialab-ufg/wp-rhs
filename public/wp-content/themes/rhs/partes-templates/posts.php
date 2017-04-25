@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default display-panel">
 	<div class="panel-heading">
 		<div class="row post-titulo espacamento-topo">
 			<div class="col-xs-4 col-md-3">
