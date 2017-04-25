@@ -1,5 +1,13 @@
 # Rede Humaniza SUS - WordPress
 
+Este é o repositório do projeto Rede Humaniza SUS em WordPress. 
+
+Ele contem todo o projeto, incluindo a instalação de todas as dependências via Composer (incluindo o próprio WordPress), o tema da RHS para WP e os Scripts para a migração dos dados do Drupal para o WP.
+
+Abaixo estão as instruções de como montar o ambiente de desenvolvimento e fazer deploy do projeto.
+
+Para informações sobre o script de migração, veja [migration-scripts/docs.md](migration-scripts/docs.md).
+
 ## Criando a ambiente de desenvolvimento
 
 
@@ -10,8 +18,6 @@ Além do git, apache, php, mysql e outras ferramentas básicas, é preciso insta
 * Composer
 * Ruby (para instalar o sass)
 * SASS
-
-Instale o git e o composer caso não tenha instalado:
 
 ```
 sudo apt-get install composer ruby
@@ -100,7 +106,7 @@ Isso facilita a replicação de um mesmo ambiente por toda a equipe, já que par
 
 Para isso, desenvolvemos alguns scripts que nos ajudam. Eles estão na pasta wp-scripts.
 
-Você pode ver a documentação completa deles em: [wp-scritps/scripts-docs.md](wp-scritps/scripts-docs.md) , mas os comandos que você mais vai usar são *reset all* e *commit*:
+Você pode ver a documentação completa deles em: [wp-scripts/scripts-docs.md](wp-scripts/scripts-docs.md) , mas os comandos que você mais vai usar são *reset all* e *commit*:
 
 ```
 ./reset all
