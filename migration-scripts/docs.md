@@ -108,16 +108,6 @@ Exemplo:
 ```PHP
 <?php
 
-$this->log('Iniciando substituição');
-
-$wpdb->update( $wpdb->postmeta, ['x' => 'y'], ['w' => 'z'] );
-
-$this->log('Substituição concluída');
-
-
-```PHP
-<?php
-
 /**
  * Script de importação dos dados do Drupal para o WordPress
  * 
