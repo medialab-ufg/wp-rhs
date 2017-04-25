@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Script de importação dos dados do Drupal para o WordPress
+ * 
+ * veja documentação em docs.md nesta mesma pasta
+ * 
+ */ 
+
 class RHSImporter {
 
     var $steps = array(
