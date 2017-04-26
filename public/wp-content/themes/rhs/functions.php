@@ -28,7 +28,8 @@ if(!function_exists('rhs_setup')) :
 
         add_theme_support( 'post-thumbnails' );
 
-        add_theme_support( 'html5', array( 'comment-list' ) );
+        add_theme_support( 'html5', array( 'comment-list', 'comment-form' ) );
+
     }
 
 endif;
@@ -39,15 +40,52 @@ add_action( 'after_setup_theme', 'rhs_setup' );
 function RHS_scripts() {
    wp_enqueue_script('bootstrap', get_template_directory_uri() . '/assets/bootstrap/js/bootstrap.min.js', array('jquery'), '3.3.7', true);
    wp_enqueue_script('bootstrap-hover-dropdown', get_template_directory_uri() . '/assets/js/bootstrap-hover-dropdown.min.js', array('jquery'), '2.2.1', true);
+   if(is_singular()) wp_enqueue_script('comment-reply');
 }
 add_action('wp_enqueue_scripts', 'RHS_scripts');
 
 // Incluir Styles CSS necessários no tema
 function RHS_styles() {
    wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css');
+
    wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
 }
 add_action('wp_enqueue_scripts', 'RHS_styles');
+
+/**
+ * Exibir template para comments e pingbacks.
+ *
+ */
+if (!function_exists('RHS_comment')) :
+    function RHS_comment($comment, $args, $depth) {
+    $GLOBALS['comment'] = $comment;  
+    ?>
+    <ul id="comment-<?php comment_ID(); ?>" class="comments-list <?php if( '0' != $comment->comment_parent ) echo 'reply-list'; ?>">
+        <li>
+            <div class="comment-main-level">
+                <!-- Avatar -->
+                <div class="comment-avatar"><?php echo get_avatar($comment, 66); ?></div>
+                <!-- Conteudo dos comentarios -->
+                <div class="comment-box">
+                    <div class="comment-head">
+                        <!-- Author - Hora e Data do comentario -->
+                        <h6 class="comment-name by-author"><?php printf( __('Por %s.', 'rhs'), get_comment_author_link()); ?></h6>
+                        <!-- Responder os comentarios -->
+                        <span><?php printf( __('%s às %s.', 'rhs'), get_comment_date(), get_comment_time()); ?></span>
+                        <?php comment_reply_link(array('depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => '<i class="fa fa-reply"></i>', 'login_text' => '<i class="fa fa-block"></i>')) ?>
+                    </div>
+                    <!-- Conteudo dos comentarios -->
+                    <div class="comment-content">
+                        <?php comment_text(); ?>  
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <?php
+}
+
+endif;
 
 /**
 *
@@ -100,6 +138,7 @@ function menuRodape(){
 	    'menu'              => 'menuRodape',
 	    'theme_location'    => 'menuRodape',
 	    'depth'             => 0,
+        'container_class'   => 'col-xs-12',
 	    'menu_class'        => 'nav navbar-nav',
 	    'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
 	    'walker'            => new WP_Bootstrap_Navwalker()) // Classe usada para compor o menu bootstrap com o WP
