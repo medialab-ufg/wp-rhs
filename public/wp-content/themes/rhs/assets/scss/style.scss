@@ -468,17 +468,15 @@ footer.footer{
 .comments-container {
 	margin: 60px auto 15px;
 	width: 768px;
-}
-
-.comments-container h1 {
-	font-size: 36px;
-	color: #283035;
-	font-weight: 400;
-}
-
-.comments-container h1 a {
-	font-size: 18px;
-	font-weight: 700;
+	h1 {
+		font-size: 36px;
+		color: #283035;
+		font-weight: 400;
+	}
+	h1 a {
+		font-size: 18px;
+		font-weight: 700;
+	}
 }
 .comments-list {
 	margin-top: 30px;
@@ -486,7 +484,7 @@ footer.footer{
 }
 
 /**
- * Lineas / Detalles
+ * Linhas / Detalhes
  -----------------------*/
 .comments-list:before {
 	content: '';

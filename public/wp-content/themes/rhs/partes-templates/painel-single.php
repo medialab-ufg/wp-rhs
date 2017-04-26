@@ -32,12 +32,10 @@
 		<?php the_content(); ?>
 	</div><!-- .paine-body -->
 	<div class="panel-footer">
-		<div class="col-xs-12">
 		<?php  
 			if ( comments_open() || get_comments_number() ) {
 				comments_template();
 			}
 		?>
-		</div>
 	</div>
 </div><!-- .panel .panel-default -->
