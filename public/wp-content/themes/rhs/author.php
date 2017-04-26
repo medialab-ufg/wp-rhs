@@ -41,7 +41,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading" role="tab" id="InfoPessoais">
 						<h4 class="panel-title">
-							<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#info_pessoais" aria-expanded="false" aria-controls="info_pessoais">
+							<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordionInfo" href="#info_pessoais" aria-expanded="false" aria-controls="info_pessoais">
 							Informações Pessoais</a>
 						</h4>
 					</div>
@@ -63,7 +63,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading" role="tab" id="SobreInteresses">
 						<h4 class="panel-title">
-							<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#sobre_interesses" aria-expanded="false" aria-controls="sobre_interesses">
+							<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordionSobre" href="#sobre_interesses" aria-expanded="false" aria-controls="sobre_interesses">
 							Sobre e Interesses</a>
 						</h4>
 					</div>
