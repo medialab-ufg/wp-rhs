@@ -31,7 +31,7 @@
 	<div class="panel-body content">
 		<?php the_content(); ?>
 	</div><!-- .paine-body -->
-	<div class="panel-footer">
+	<div class="panel-footer panel-comentarios">
 		<?php  
 			if ( comments_open() || get_comments_number() ) {
 				comments_template();

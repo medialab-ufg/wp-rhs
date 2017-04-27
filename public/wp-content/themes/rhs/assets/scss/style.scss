@@ -466,12 +466,35 @@ footer.footer{
 /**
  * Comentarios
  ---------------------------*/
+ #respond{
+ 	margin-top: 2%;
+ }
+ .panel-comentarios{
+ 	background-color: $whiteColor;
+ 	border-width: 0px;
+ }
+.titulo-quantidade{
+	color: $primeira_cor_texto;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+.btn-comentar {
+    float: right;
+}
+.btn-cancelar-comentario{
+    float: right;
+    margin-right: 1%;
+}
 article{
+	.comment-date{
+		font-size: 0.8em;
+	}
 	.comment-avatar img{
 		margin: 50px 0 -89px 0px;
 	}
 	.comment-box{
 	 	margin: 0px 0 0px 82px;
+	 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 	 }
 }
 
@@ -503,7 +526,7 @@ article{
 
 .comment-box .comment-name {
 	color: #283035;
-	font-size: 14px;
+	font-size: 0.9em;
 	font-weight: 700;
 	float: left;
 	margin-right: 10px;
@@ -516,15 +539,15 @@ article{
 .comment-box .comment-head span {
 	float: left;
 	color: #999;
-	font-size: 13px;
+	font-size: 0.9em;
 	position: relative;
 	top: 1px;
 }
 
 .comment-box .comment-content {
-	background: #FFF;
+	background: #FCFCFC;
 	padding: 12px;
-	font-size: 15px;
+	font-size: 1em;
 	color: #595959;
 	-webkit-border-radius: 0 0 4px 4px;
 	-moz-border-radius: 0 0 4px 4px;
@@ -536,7 +559,7 @@ article{
 	content: 'autor';
 	background: #03658c;
 	color: #FFF;
-	font-size: 12px;
+	font-size: 0.8em;
 	padding: 3px 5px;
 	font-weight: 700;
 	margin-left: 10px;
@@ -583,6 +606,9 @@ article{
 
 	/*Comentarios*/
 	article{
+		.comment-date{
+			font-size: 0.7em;
+		}
 		.comment-avatar img{
 		    margin: 17px 0px -83px -9px;
 			margin-bottom: -39px;
@@ -594,6 +620,7 @@ article{
 		 	margin: 0px 0 0px 30px;
 		 }
 	}
+
 	/*Footer*/
 	footer {
 		> .container {
