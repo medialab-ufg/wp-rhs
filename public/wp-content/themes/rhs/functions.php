@@ -53,35 +53,34 @@ function RHS_styles() {
 add_action('wp_enqueue_scripts', 'RHS_styles');
 
 /**
- * Exibir template para comments e pingbacks.
+ * Exibir template para comentarios.
  *
  */
-if (!function_exists('RHS_comment')) :
-    function RHS_comment($comment, $args, $depth) {
+if (!function_exists('RHS_Comentarios')) :
+    function RHS_Comentarios($comment, $args, $depth) {
     $GLOBALS['comment'] = $comment;  
     ?>
-    <ul id="comment-<?php comment_ID(); ?>" class="comments-list <?php if( '0' != $comment->comment_parent ) echo 'reply-list'; ?>">
-        <li>
-            <div class="comment-main-level">
-                <!-- Avatar -->
-                <div class="comment-avatar"><?php echo get_avatar($comment, 66); ?></div>
-                <!-- Conteudo dos comentarios -->
-                <div class="comment-box">
-                    <div class="comment-head">
-                        <!-- Author - Hora e Data do comentario -->
-                        <h6 class="comment-name by-author"><?php printf( __('Por %s.', 'rhs'), get_comment_author_link()); ?></h6>
-                        <!-- Responder os comentarios -->
-                        <span><?php printf( __('%s às %s.', 'rhs'), get_comment_date(), get_comment_time()); ?></span>
-                        <?php comment_reply_link(array('depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => '<i class="fa fa-reply"></i>', 'login_text' => '<i class="fa fa-block"></i>')) ?>
-                    </div>
-                    <!-- Conteudo dos comentarios -->
-                    <div class="comment-content">
-                        <?php comment_text(); ?>  
-                    </div>
+    <section id="comment-<?php comment_ID(); ?>">
+    <!-- First Comment -->
+        <article>
+
+            <figure class="comment-avatar">
+              <?php echo get_avatar($comment, 66,'', '', array( 'class' => array( 'img-responsive', 'img-circle' ) ) ); ?>
+            </figure>
+
+            <header class="comment-box">
+                <div class="comment-head">
+                    <h6 class="comment-name by-author"><?php printf( __('Por %s.', 'rhs'), get_comment_author_link()); ?></h6>
+                    <time class="comment-date"><?php printf( __('%s às %s.', 'rhs'), get_comment_date(), get_comment_time()); ?></time>
+                    <?php comment_reply_link(array('depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => '<i class="fa fa-reply"></i>', 'login_text' => '<i class="fa fa-block"></i>')) ?>
                 </div>
-            </div>
-        </li>
-    </ul>
+                <div class="comment-content">
+                    <?php comment_text(); ?>
+                </div>
+            </header>
+
+        </article>
+    </section>
     <?php
 }
 
