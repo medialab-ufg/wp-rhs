@@ -7,9 +7,7 @@ public/wp-content/themes/rhs/style.css.map
 public/wp-content/themes/rhs/style.css
 public/wp-content/themes/rhs/index.html
 public/wp-content/themes/rhs/inc/
-public/wp-content/themes/rhs/assets/bootstrap/
-public/wp-content/themes/rhs/assets/css/
-public/wp-content/themes/rhs/assets/js/
+public/wp-content/themes/rhs/vendor/
 public/wp-content/themes/rhs/assets/scss/.sass-cache/
 public/wp-content/themes/rhs/assets/scss/css
 public/wp-content/themes/rhs/assets/scss/style.css

@@ -20,8 +20,8 @@
             "cp -R vendor/twbs/bootstrap/dist/* public/wp-content/themes/rhs/assets/bootstrap",
             "php -r 'if (file_exists(\"vendor/wp-content\")) { shell_exec(\"rm -rvf vendor/wp-content\"); }' ",
             "mv wp-content vendor",
-            "php -r 'if (!file_exists(\"public/wp-content/themes/rhs/inc\")) { shell_exec(\"mkdir public/wp-content/themes/rhs/inc\"); }' ",
-            "cp -R vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php public/wp-content/themes/rhs/inc",
+            "php -r 'if (!file_exists(\"public/wp-content/themes/rhs/vendor\")) { shell_exec(\"mkdir public/wp-content/themes/rhs/vendor\"); }' ",
+            "cp -R vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php public/wp-content/themes/rhs/vendor",
             "php -r 'if (!file_exists(\"public/wp-content/themes/rhs/assets/js\")) { shell_exec(\"mkdir public/wp-content/themes/rhs/assets/js\"); }' ",
             "cp -R vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js public/wp-content/themes/rhs/assets/js"
         ]
