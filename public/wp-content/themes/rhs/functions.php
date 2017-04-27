@@ -22,7 +22,7 @@ if(!function_exists('rhs_setup')) :
         **/
         register_nav_menus( array(
             'menuTopo' => __( 'menuTopo', 'rhs' ),
-            'menuTopoDrodDown' => __( 'menuTopoDrodDown', 'rhs' ),
+            'menuTopoDropDown' => __( 'menuTopoDropDown', 'rhs' ),
             'menuRodape' => __( 'menuRodape', 'rhs' ),
         ) );
 
@@ -112,10 +112,10 @@ function menuTopo(){
 * @param 'theme_location' => 'MenuDropdDown' pega o menu que está setado em MenuDropDown
 *
 **/
-function menuTopoDrodDown(){
+function menuTopoDropDown(){
 	wp_nav_menu( array(
-        'menu'              => 'menuTopoDrodDown',
-        'theme_location'    => 'menuTopoDrodDown',
+        'menu'              => 'menuTopoDropDown',
+        'theme_location'    => 'menuTopoDropDown',
         'depth'             => 1,
         'container'         => false,
         'menu_class'        => 'dropdown-menu',

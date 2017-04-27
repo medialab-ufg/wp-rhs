@@ -58,7 +58,7 @@
                                 * menuDropDown vem de um register feito nas functions onde o mesmo entra em contato com o menu do 
                                 * wordpress.
                                 */
-                                menuTopoDrodDown();
+                                menuTopoDropDown();
                             ?>
                         </li>
                     </ul>
