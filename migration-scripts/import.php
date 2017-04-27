@@ -14,6 +14,7 @@ class RHSImporter {
         // nomeDoArquivo => Descrição do passo
         
         'posts' => 'Importação básica dos posts',
+        'users' => 'Importação básica dos usuários',
     
     );
     
