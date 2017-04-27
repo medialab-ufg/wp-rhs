@@ -15,6 +15,7 @@ class RHSImporter {
         
         'posts' => 'Importação básica dos posts',
         'users' => 'Importação básica dos usuários',
+        'users-roles' => 'Importação dos papeis usuários',
     
     );
     
@@ -133,14 +134,17 @@ class RHSImporter {
         
         // Run 
         
-        if (!defined('RHS_DRUPALDB') || empty(RHS_DRUPALDB))
-            $this->die('É preciso definir a constante RHS_DRUPALDB no seu wo-config informando o nome da base de dados do Drupal');
-        
         $start = $partial = microtime(true);
         
         define( 'WP_USE_THEMES', false );
         define( 'SHORTINIT', false );
         require( '../public/wp/wp-blog-header.php' );
+
+
+        if (!defined('RHS_DRUPALDB') || empty(RHS_DRUPALDB))
+            $this->die('É preciso definir a constante RHS_DRUPALDB no seu wo-config informando o nome da base de dados do Drupal');
+
+
         
         global $wpdb;
         
