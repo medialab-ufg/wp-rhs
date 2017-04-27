@@ -13,7 +13,7 @@ if(!function_exists('rhs_setup')) :
         * Classe usada nos menus.
         * A mesma facilita o uso das classes usadas na tag nav do bootstrap com o wordpress.
         **/
-        require_once('inc/wp-bootstrap-navwalker.php');
+        require_once('vendor/wp-bootstrap-navwalker.php');
 
         /**
         *
