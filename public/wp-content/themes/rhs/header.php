@@ -33,9 +33,15 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
+                            <?php if(!is_user_logged_in()): ?>
                                 <li><a href="#">Faça seu login</a></li>
                                 <span class="navbar-text">ou</span>
                                 <li><a href="#">Cadastre-se</a></li>
+                            <?php else : ?>
+                                <li><a href="#" title="Aqui você poderá receber e enviar mensagens a qualquer participante da RHS. Ao receber uma resposta, você será notificado pelo ícone de mensagens na parte superior direita do site. " class="level1 dropdown-toggle" aria-expanded="false"><span aria-hidden="true" class="glyphicon glyphicon-comment"></span></a></li>
+                                <li><a href="#" title="Você poderá ser notificado sobre comentários em uma postagem específica (definido por você), sobre as postagens de um determinado usuário ou, por padrão, sobre comentários recebidos em suas próprias publicações." class="level1 dropdown-toggle" aria-expanded="false"><span aria-hidden="true" class="glyphicon glyphicon-bell"></span></a></li>
+                                <li><a href="<?php bloginfo('url'); ?>/wp/wp-admin/">Painel Administrador</a></li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                 </div><!-- /.container -->

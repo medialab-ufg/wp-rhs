@@ -84,6 +84,12 @@ body{
 	color: $primeira_cor_texto;
 	margin-top: 8px;
 }
+.navbar-collapse .navbar-nav>li>a>span {
+	color: $whiteColor;
+}
+.navbar-collapse .navbar-nav>li>a>span:hover {
+	color: $primeira_cor_texto;
+}
 .navbar-collapse .navbar-nav>li>a:hover {
 	color: $primeira_cor_texto;
 	text-decoration: underline;
@@ -186,7 +192,9 @@ Segundo Nav-menu
 		.dropdown-menu {
 			background-color: $cor_fundo_formulario_nav;
 			li a {
+				padding: 10px 10px;
 			    text-align: right;
+			    width: 100%;
 			}
 			li > a:hover, li > a:focus{
 				background-color: $segunda_cor_fundo;
@@ -194,32 +202,21 @@ Segundo Nav-menu
             	text-align: right;
             	text-decoration: none;
 			}
-			.start > a {
-				margin-top: -2px;
-			}
-			.start > a:hover {
-				padding-top: 6px;
-			    padding-bottom: 5px;
-			    margin-top: -5px;
-			}
-			.end > a {
-				margin-top: 3px;
-			}
-			.end > a:hover{
-				margin-top: 0px;
-			    padding-top: 6px;
-			    padding-bottom: 7px;
-			    margin-bottom: -5px;
-			}
 		}
 		a.dropdown-toggle:visited {
 			background-color: $cor_fundo_formulario_nav;
 		}
 	}
-}
-.dropdown-menu .divider {
-	margin: 26px 0 0 0;
-	background-color: $primeira_cor_texto;
+	.navbar-nav li.dropdown ul.dropdown-menu li.separador , .nav ul.dropdown-menu li.menu-item {
+    	border-top: 1px solid #00b4b4;
+    	float: right;
+    	width: 100%;
+	}
+	.navbar-nav ul.dropdown-menu, .nav ul.dropdown-menu{
+		padding: 0;
+		margin: 0;
+		margin-top: -1px;
+	}
 }
 
 
@@ -584,8 +581,8 @@ article{
 		    float: right;
 		    .dropdown-menu{
 		    	position: absolute;
-		    	margin-top: 42px;
-		    	left: -57px;
+		    	margin-top: 42px !important;
+		    	left: -98px;
 		    }
 		}
 		#menuPesquisa input[type=text] {
