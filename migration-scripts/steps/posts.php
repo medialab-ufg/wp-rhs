@@ -1,15 +1,13 @@
 <?php
 
 
-$query = file_get_contents('posts.sql');
-
-// TODO: find & replace db prefix
+$query = $this->get_sql('posts');
 
 $this->log('Limpando tabelas de posts e postmeta');
 $wpdb->query("TRUNCATE TABLE $wpdb->posts;");
 $wpdb->query("TRUNCATE TABLE $wpdb->postmeta;");
 
-$this->log('Iniciando Importação');
+$this->log('Importando posts...');
 $wpdb->query($query);
 
 
