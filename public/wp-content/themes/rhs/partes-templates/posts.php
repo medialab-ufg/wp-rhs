@@ -1,14 +1,14 @@
 <div class="panel panel-default display-panel">
 	<div class="panel-heading">
 		<div class="row post-titulo espacamento-topo">
-			<div class="col-xs-4 col-md-3">
+			<div class="col-xs-3 col-md-3">
 				<div class="img-usuario">
 					<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
 						<img src="<?php echo get_avatar_url(get_the_author_meta( 'ID' )); ?>" alt="..." class="img-circle">
 					</a>	
 				</div>
 			</div>
-			<div class="col-xs-6 col-md-7 col-md-pull-1 col-xs-pull-2">
+			<div class="col-xs-6 col-md-7 col-md-pull-1">
 				<div class="col-xs-12 col-md-12">
 					<span class="nome-author">
 						<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
@@ -21,9 +21,12 @@
 					<span class="post-date text-uppercase"><?php the_time('D, d/m/Y - H:i'); ?></span>
 				</div>
 			</div>
-			<div class="col-xs-2 col-md-2 vdivide">
+			<div class="col-xs-3 col-md-2 vdivide">
 				<span class="vTexto">9</span>
-				<span class="vTexto">Votos</span>
+				<!--<span class="vTexto">Votos</span>-->
+				<?php if(is_user_logged_in()): ?>
+					<span class="vTexto"><a href="#" class="btn btn-danger">VOTAR</a></span>
+				<?php endif; ?>
 			</div>
 			<div class="clearfix"></div>
 		</div>

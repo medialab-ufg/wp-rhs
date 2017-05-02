@@ -271,12 +271,23 @@ Segundo Nav-menu
 		    	color: #777;
 		    }
 		    .vdivide{
+		    	display: grid;
 			    border-left: 1px solid #eee;
 		    	text-align: center;
+		    	margin-bottom: 5px;
 		    }
 		    .vTexto{
 		    	color: $primeira_cor_texto;
 		    	font-weight: bold;
+		    	a {
+		    		border-color: $primeira_cor_texto;
+		    		background-color: $primeira_cor_texto;
+		    		padding: 1px 3px;
+		    	}
+		    	a:hover{
+		    		border-color: $primeira_cor_fundo;
+		    		color: $primeira_cor_fundo;
+		    	}
 		    }
 	    }
 	}
