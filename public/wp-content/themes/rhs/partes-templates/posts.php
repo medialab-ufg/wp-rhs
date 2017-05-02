@@ -21,7 +21,7 @@
 					<span class="post-date text-uppercase"><?php the_time('D, d/m/Y - H:i'); ?></span>
 				</div>
 			</div>
-			<div class="col-xs-3 col-md-2 vdivide">
+			<div class="col-xs-3 col-md-2 col-sm-2 vdivide">
 				<?php do_action('rhs_votebox', get_the_ID()); ?>
 			</div>
 			<div class="clearfix"></div>
