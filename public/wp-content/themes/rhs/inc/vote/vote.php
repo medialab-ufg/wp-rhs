@@ -278,7 +278,7 @@ Class RHSVote {
         } else {
             if (is_user_logged_in() && $this->user_has_voted($post_id)) {
 
-                $output .= 'javotou';
+                $output .= '<span class="vTexto"><a class="btn btn-danger js-vote-button" data-post_id="'.$post_id.'" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
 
             } else {
                 $output .= '<span class="vTexto">Votos</span>';
