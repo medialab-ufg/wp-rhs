@@ -8,7 +8,7 @@
 					</a>	
 				</div>
 			</div>
-			<div class="col-xs-8 col-md-9 col-md-pull-1 col-xs-pull-2">
+			<div class="col-xs-6 col-md-7 col-md-pull-1 col-xs-pull-2">
 				<div class="col-xs-12 col-md-12">
 					<span class="nome-author">
 						<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
@@ -17,7 +17,13 @@
 					</span>
 				</div>
 
-				<div class="col-xs-12 col-md-12"><span class="post-date text-uppercase"><?php the_time('D, d/m/Y - H:i'); ?></p></div>
+				<div class="col-xs-12 col-md-12">
+					<span class="post-date text-uppercase"><?php the_time('D, d/m/Y - H:i'); ?></span>
+				</div>
+			</div>
+			<div class="col-xs-2 col-md-2 vdivide">
+				<span class="vTexto">9</span>
+				<span class="vTexto">Votos</span>
 			</div>
 			<div class="clearfix"></div>
 		</div>

@@ -270,6 +270,14 @@ Segundo Nav-menu
 		    small {
 		    	color: #777;
 		    }
+		    .vdivide{
+			    border-left: 1px solid #eee;
+		    	text-align: center;
+		    }
+		    .vTexto{
+		    	color: $primeira_cor_texto;
+		    	font-weight: bold;
+		    }
 	    }
 	}
 	.panel-body{
