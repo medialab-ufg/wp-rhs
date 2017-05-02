@@ -10,7 +10,7 @@ SELECT DISTINCT
 
     u.uid, 
     '{{prefix}}capabilities',
-    'a:1:{s:6:"author";b:1;}'
+    'a:1:{s:11:"contributor";b:1;}'
 
     FROM {{drupaldb}}.users u
 

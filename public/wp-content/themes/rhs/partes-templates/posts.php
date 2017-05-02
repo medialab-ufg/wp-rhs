@@ -22,11 +22,7 @@
 				</div>
 			</div>
 			<div class="col-xs-3 col-md-2 vdivide">
-				<span class="vTexto">9</span>
-				<!--<span class="vTexto">Votos</span>-->
-				<?php if(is_user_logged_in()): ?>
-					<span class="vTexto"><a href="#" class="btn btn-danger">VOTAR</a></span>
-				<?php endif; ?>
+				<?php do_action('rhs_votebox', get_the_ID()); ?>
 			</div>
 			<div class="clearfix"></div>
 		</div>

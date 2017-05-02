@@ -5,11 +5,7 @@
 				<?php the_title( '<h3>', '</h3>' ); ?>
 			</div>
 			<div class="col-xs-3 col-sm-1 col-md-1 vdivide">
-				<span class="vTexto">9</span>
-				<!--<span class="vTexto">Votos</span>-->
-				<?php if(is_user_logged_in()): ?>
-					<span class="vTexto"><a href="#" class="btn btn-danger">VOTAR</a></span>
-				<?php endif; ?>
+				<?php do_action('rhs_votebox', get_the_ID()); ?>
 			</div>
 			<div class="col-xs-4 col-md-3">
 				<div class="img-usuario">
