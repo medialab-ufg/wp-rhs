@@ -291,10 +291,14 @@ Segundo Nav-menu
 		    		border-color: $primeira_cor_fundo;
 		    		color: $primeira_cor_fundo;
 		    	}
+		    	a[disabled]{
+		    		cursor: no-drop;
+		    	}
 		    	a[disabled]:hover{
 		    		color: $whiteColor;
 		    		border-color: $primeira_cor_texto;
 		    		background-color: $primeira_cor_texto;
+		    		cursor: no-drop;
 		    	}
 		    }
 	    }
