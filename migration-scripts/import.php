@@ -16,6 +16,7 @@ class RHSImporter {
         'posts' => 'Importação básica dos posts',
         'users' => 'Importação básica dos usuários',
         'users-roles' => 'Importação dos papeis usuários',
+        'votes' => 'Importação dos votos em posts',
     
     );
     
@@ -192,7 +193,7 @@ class RHSImporter {
     
     }
     
-    function get_sql($name) {
+    function get_sql($name, $substitutions = array()) {
     
         $filename = 'sql/' . $name . '.sql';
         
@@ -202,13 +203,15 @@ class RHSImporter {
         $content = file_get_contents($filename);
         
         // substitui os nomes das tabelas entre {{ }}
-        $replaced = preg_replace_callback("/(\{\{[^\{\}]+\}\})/", function($matches) {
+        $replaced = preg_replace_callback("/(\{\{[^\{\}]+\}\})/", function($matches) use ($substitutions) {
             
             global $wpdb;
             
-            if ($matches[1] == '{{drupaldb}}')
+            if ($matches[1] == '{{drupaldb}}') {
                 return RHS_DRUPALDB;
-            else {
+            } elseif (array_key_exists($matches[1], $substitutions)) {
+                return $substitutions[$matches[1]];
+            } else {
                 $key = preg_replace("/\{\{(.+)\}\}/", "$1", $matches[1]);
                 return $wpdb->{$key};
             }
