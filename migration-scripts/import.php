@@ -14,6 +14,8 @@ class RHSImporter {
         // nomeDoArquivo => Descrição do passo
         
         'posts' => 'Importação básica dos posts',
+        'users' => 'Importação básica dos usuários',
+        'users-roles' => 'Importação dos papeis usuários',
     
     );
     
@@ -27,14 +29,14 @@ class RHSImporter {
     //////////////////////// Não Edite daqui pra baixo ///////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////
-
+    
     var $from = 0;
     var $to = 0;
     var $run = false;
     
     
     
-    function RHSImporter($argv) {
+    function __construct($argv) {
     
         $this->parse_args($argv);
         $this->validate_args();
@@ -137,6 +139,12 @@ class RHSImporter {
         define( 'WP_USE_THEMES', false );
         define( 'SHORTINIT', false );
         require( '../public/wp/wp-blog-header.php' );
+
+
+        if (!defined('RHS_DRUPALDB') || empty(RHS_DRUPALDB))
+            $this->die('É preciso definir a constante RHS_DRUPALDB no seu wo-config informando o nome da base de dados do Drupal');
+
+
         
         global $wpdb;
         
@@ -181,6 +189,34 @@ class RHSImporter {
         $this->log("=== Fim do script. Tempo de execução {$scripttime}s");
         $this->log("==========================================================");
         $this->log("==========================================================");
+    
+    }
+    
+    function get_sql($name) {
+    
+        $filename = 'sql/' . $name . '.sql';
+        
+        if (!file_exists($filename))
+            return false;
+            
+        $content = file_get_contents($filename);
+        
+        // substitui os nomes das tabelas entre {{ }}
+        $replaced = preg_replace_callback("/(\{\{[^\{\}]+\}\})/", function($matches) {
+            
+            global $wpdb;
+            
+            if ($matches[1] == '{{drupaldb}}')
+                return RHS_DRUPALDB;
+            else {
+                $key = preg_replace("/\{\{(.+)\}\}/", "$1", $matches[1]);
+                return $wpdb->{$key};
+            }
+            
+            
+        }, $content);
+        
+        return $replaced;
     
     }
     

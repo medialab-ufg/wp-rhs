@@ -56,10 +56,10 @@ define('WP_HOME', 'http://localhost/rhs/');
 
 define('DOMAIN_CURRENT_SITE', 'localhost/rhs');
 
-
-
 define('WP_DEFAULT_THEME', 'rhs');
 
+/* O nome do DB do Drupal, para o script de importação */
+define('RHS_DRUPALDB', 'rhs_drupal');
 
 
 /**#@+

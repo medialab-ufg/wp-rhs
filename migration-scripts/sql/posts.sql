@@ -1,5 +1,5 @@
 
-INSERT INTO rhs_posts
+INSERT INTO {{posts}}
 
     (ID, 
     post_author, 
@@ -42,11 +42,11 @@ SELECT DISTINCT
 
 FROM
 
-    rhs.node n
-    INNER JOIN rhs.field_data_body r
+    {{drupaldb}}.node n
+    INNER JOIN {{drupaldb}}.field_data_body r
     ON r.entity_type = 'node' AND r.entity_id = n.nid
 
-    LEFT OUTER JOIN rhs.url_alias a
+    LEFT OUTER JOIN {{drupaldb}}.url_alias a
     ON a.source = CONCAT('node/', n.nid)
 
 

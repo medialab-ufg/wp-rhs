@@ -13,6 +13,12 @@ Ele pode ser rodado integralmente, passando por todos os passos, ou parcialmente
 
 Ele pressupõe que você tenha a base de dados do Drupal carregada no seu banco de dados e acessível com as mesmas credenciais utilizadas para acessar o banco de dados do WordPress.
 
+O nome da base de dados do Drupal é definido no wp-config.php, altere essa linha para o nome que vocẽ estiver usando:
+
+```PHP
+define('RHS_DRUPALDB', 'rhs_drupal');
+```
+
 TODO: Alterar SQL pasa usar o table_prefix e botar opção para o nome da base de dados do drupal.
 
 
@@ -91,6 +97,33 @@ $this->log('Substituição concluída');
 ```
 
 Também está disponível o método `$this->wpcli($command)` para rodar comandos do WP-Cli.
+
+#### Utilizando um SQL em um passo
+
+Para Queries SQL muito complexas, podemos usar arquivos específicos para isso. Na pasta sql ficam os arquivos SQL que podem ser carregados usando a função `$this->get_sql($name)` dentro do seu passo.
+
+Dentro do SQL, você pode usar algumas marcações para se referir aos nomes das tabelas do WordPress e ao nome do banco de dados do Drupal (definido no wp-config.php).
+
+Coloque dentro de chaves duplas o nome da tabela que quer acessar (ex: posts, postmeta, users) ou `{{drupaldb}}` para se referir a base do Drupal.
+
+Por exemplo, no seu SQL `sql/posts.sql`:
+
+```SQL
+
+INSERT INTO {{posts}} SELECT * from {{drupaldb}}.node;
+
+```
+
+E no arquivo php:
+
+```PHP
+
+$query = $this->get_sql('posts');
+
+$wpdb->query($query);
+
+```
+
 
 
 ### Registrando um novo passo

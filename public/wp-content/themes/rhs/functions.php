@@ -4,6 +4,12 @@ if(!function_exists('rhs_setup')) :
 
     function rhs_setup() {
 
+        // Includes
+        
+        //// Drupal 7 Password Check
+        require_once('inc/drupal-password-check.php'); 
+        
+        
         /**
         * Não aparecer o menu do administrador na pagina do site. Mesmo quando estiver logado!
         **/
