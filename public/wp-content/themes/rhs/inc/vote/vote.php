@@ -14,6 +14,8 @@ Class RHSVote {
     
     var $post_status = [];
     
+    var $total_meta_key = '_total_votes';
+    
     function __construct() {
         
         global $wpdb;
@@ -232,13 +234,13 @@ Class RHSVote {
         
         $numVotes = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(ID) FROM $this->tablename WHERE post_id = %d", $post_id) );
         
-        update_post_meta($post_id, '_total_votes', $numVotes);
+        update_post_meta($post_id, $this->total_meta_key, $numVotes);
     
     }
     
     function get_total_votes($post_id) {
     
-        return get_post_meta($post_id, '_total_votes', true);
+        return get_post_meta($post_id, $this->total_meta_key, true);
     
     }
     
@@ -299,4 +301,5 @@ Class RHSVote {
 
 }
 
+global $RHSVote;
 $RHSVote = new RHSVote();

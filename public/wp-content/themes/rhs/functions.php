@@ -8,6 +8,8 @@ if(!function_exists('rhs_setup')) :
         
         //// Drupal 7 Password Check
         require_once('inc/drupal-password-check.php'); 
+        
+        // Votes
         require_once('inc/vote/vote.php'); 
         
         
