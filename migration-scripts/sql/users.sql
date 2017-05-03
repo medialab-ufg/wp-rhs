@@ -18,7 +18,7 @@ SELECT DISTINCT
     u.uid, 
     u.mail, 
     u.pass, 
-    u.name, 
+    SUBSTR(a.alias, 9), 
     u.mail,
     FROM_UNIXTIME(created),
     ' ', 
@@ -26,6 +26,9 @@ SELECT DISTINCT
     u.name
 
 FROM {{drupaldb}}.users u
+
+    LEFT OUTER JOIN {{drupaldb}}.url_alias a
+    ON a.source = CONCAT('user/', u.uid)
 
 
 WHERE u.uid > 1
