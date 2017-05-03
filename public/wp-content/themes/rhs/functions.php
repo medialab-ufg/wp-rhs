@@ -44,6 +44,19 @@ endif;
 
 add_action( 'after_setup_theme', 'rhs_setup' );
 
+
+/*
+* Alterar 'usuario' para ser o URL base que você deseja usar
+*/
+function change_author_permalinks()  
+{  
+    global $wp_rewrite;  
+    $wp_rewrite->author_base = 'usuario';
+    $wp_rewrite->author_structure = '/' . $wp_rewrite->author_base. '/%author%';  
+}  
+add_action('init','change_author_permalinks');
+
+
 // Incluir JavaScripts necessários no tema
 function RHS_scripts() {
    wp_enqueue_script('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/js/bootstrap.min.js', array('jquery'), '3.3.7', true);
@@ -78,8 +91,17 @@ if (!function_exists('RHS_Comentarios')) :
 
             <header class="comment-box">
                 <div class="comment-head">
-                    <h6 class="comment-name by-author"><?php printf( __('Por %s.', 'rhs'), get_comment_author_link()); ?></h6>
-                    <time class="comment-date"><?php printf( __('%s às %s.', 'rhs'), get_comment_date(), get_comment_time()); ?></time>
+                    <h6 class="comment-name by-author">Por 
+                        <?php 
+                            if ($comment->user_id) {
+                                $user=get_userdata($comment->user_id);
+                                echo '<a href="'.get_author_posts_url($comment->user_id).'">'.$user->display_name.'</a>';
+                            } else { 
+                                comment_author_link(); 
+                            } 
+                        ?>
+                    </h6>
+                    <time class="comment-date"><?php printf('%s às %s.', get_comment_date(), get_comment_time()); ?></time>
                     <?php comment_reply_link(array('depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => '<i class="fa fa-reply"></i>', 'login_text' => '<i class="fa fa-block"></i>')) ?>
                 </div>
                 <div class="comment-content">
@@ -204,14 +226,3 @@ function rhs_widgets_init() {
     ) );
 }
 add_action( 'widgets_init', 'rhs_widgets_init' );
-
-/*
-* Alterar 'usuario' para ser o URL base que você deseja usar
-*/
-function change_author_permalinks()  
-{  
-    global $wp_rewrite;  
-    $wp_rewrite->author_base = 'usuario';
-    $wp_rewrite->author_structure = '/' . $wp_rewrite->author_base. '/%author%';  
-}  
-add_action('init','change_author_permalinks');
