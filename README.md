@@ -18,19 +18,32 @@ Além do git, apache, php, mysql e outras ferramentas básicas, é preciso insta
 * Composer
 * Ruby (para instalar o sass)
 * SASS
+* wp-cli
+
+##### Linux
 
 ```
 sudo apt-get install composer ruby
 sudo gem install sass
-```
 
-Também é preciso instalar o wp-cli (mais info em http://wp-cli.org/#installing)
-
-```
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 sudo mv wp-cli.phar /usr/local/bin/wp
 ```
+
+##### Windows
+
+Instaladores:
+[Composer](https://getcomposer.org/Composer-Setup.exe), [Ruby](https://rubyinstaller.org/downloads/)
+
+```
+gem install sass
+
+cd C:\
+composer create-project wp-cli/wp-cli --no-dev
+```
+
+Adicione ao [PATH](https://www.java.com/pt_BR/download/help/path.xml) a pasta bin do PHP e MySQL, e também o caminho *C:\wp-cli\bin*
 
 ### Clone o Repositório
 
@@ -49,12 +62,19 @@ composer install
 
 Agora você esta com todas as bibliotecas e classes necessárias da RHS.
 
-
 ### Crie o link para a pasta de uploads
 
+##### Linux
 ```
 ln -s ../../dev_uploads public/wp-content/uploads
 ```
+
+##### Windows
+Abra o prompt de comando como administrador, vá até a pasta do projeto execulte:
+```
+mklink /D "../../dev_uploads" "public/wp-content/uploads"
+```
+
 
 ### Crie e edite o wp-config.php e o wp-config-sample.php
 
@@ -70,6 +90,8 @@ Entenda mais sobre esse comando ali na seção "Administrando fixtures"
 cd wp-scripts
 ./reset all
 ```
+
+Assim que rodado altere, na tabela *rhs_options* o valor do option *siteurl* e *home*
 
 
 ### Compile o SASS
