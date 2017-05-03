@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 if(!function_exists('rhs_setup')) : 
 
@@ -38,7 +38,6 @@ if(!function_exists('rhs_setup')) :
         add_theme_support( 'post-thumbnails' );
 
         add_theme_support( 'html5', array( 'comment-list', 'comment-form' ) );
-
     }
 
 endif;
@@ -205,3 +204,14 @@ function rhs_widgets_init() {
     ) );
 }
 add_action( 'widgets_init', 'rhs_widgets_init' );
+
+/*
+* Alterar 'usuario' para ser o URL base que você deseja usar
+*/
+function change_author_permalinks()  
+{  
+    global $wp_rewrite;  
+    $wp_rewrite->author_base = 'usuario';
+    $wp_rewrite->author_structure = '/' . $wp_rewrite->author_base. '/%author%';  
+}  
+add_action('init','change_author_permalinks');

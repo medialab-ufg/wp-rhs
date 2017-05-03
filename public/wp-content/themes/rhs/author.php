@@ -13,7 +13,7 @@
 				<div class="jumbotron">
 					<div class="row">
 						<div class="col-xs-5 col-sm-2 col-md-2">
-							<img src="<?php echo get_avatar_url( $curauth->ID ); ?>" alt="<?php echo $curauth->first_name; ?>" class="img-circle">
+							<img src="<?php echo get_avatar_url( $curauth->ID ); ?>" alt="<?php echo $curauth->display_name; ?>" class="img-circle">
 						</div>
 						<div class="col-xs-7 col-md-6">
 							<div class="col-xs-12">
@@ -27,7 +27,13 @@
 							<div class="col-xs-3 media-left">
 								<span class="contagem-valor-author"><?php echo '999'; ?></span>
 								<span class="contagem-desc-author">VOTOS</span> 
-							</div>
+							</div>						
+						</div>
+						<div class="col-xs-5 col-sm-3 col-md-4">
+							<span class="seguir-mensagem">
+								<button class="btn btn-default">SEGUIR</button>
+								<button class="btn btn-default">ENVIAR MENSAGEM</button>
+							</span>
 						</div>
 					</div>
 				</div>

@@ -379,6 +379,13 @@ form .comment-form-comment{
 		.media-left{
 			margin-top: 15px;
 		}
+		.seguir-mensagem{
+			display: inline;
+			button{
+				color: $primeira_cor_texto;
+				border-color: $primeira_cor_texto;
+			}
+		}
 	}
 }
 #info_pessoais, #sobre_interesses{
@@ -630,6 +637,18 @@ article{
 	}
 	#menu-segundo-menu{
 		margin: 0px -15px;
+	}
+
+	/* Author */
+	#verDados {
+		.jumbotron{
+			.seguir-mensagem{
+				display: inline-grid;
+				button{
+					margin-bottom: 2%;
+				}
+			}
+		}
 	}
 
 	/* Sidebar */
