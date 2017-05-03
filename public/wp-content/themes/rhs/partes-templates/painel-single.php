@@ -18,7 +18,7 @@
 				<div class="col-xs-12 col-md-12">
 					<p class="nome-author">
 						<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
-							<?php the_author_meta('user_firstname'); ?> <?php the_author_meta('user_lastname'); ?>
+							<?php the_author(); ?>
 						</a>
 					</p>
 					<small class="localidade">Goiânia, Goias</small>

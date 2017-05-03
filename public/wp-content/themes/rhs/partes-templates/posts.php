@@ -3,7 +3,7 @@
 		<div class="row post-titulo espacamento-topo">
 			<div class="col-xs-3 col-md-3">
 				<div class="img-usuario">
-					<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
+					<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" title="Ver o perfil do(a) <?php the_author_meta('display_name'); ?>.">
 						<img src="<?php echo get_avatar_url(get_the_author_meta( 'ID' )); ?>" alt="..." class="img-circle">
 					</a>	
 				</div>
@@ -11,9 +11,7 @@
 			<div class="col-xs-6 col-md-7 col-md-pull-1">
 				<div class="col-xs-12 col-md-12">
 					<span class="nome-author">
-						<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
-							<?php the_author_meta('user_firstname'); ?> <?php the_author_meta('user_lastname'); ?>
-						</a>
+						<a href="<?php echo get_author_posts_url(get_the_author_meta( 'ID' )); ?>"><?php the_author(); ?></a>
 					</span>
 				</div>
 
