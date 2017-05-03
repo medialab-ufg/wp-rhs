@@ -175,30 +175,32 @@ Class RHSVote {
 
             $post = get_post($args[0]);
 
-            if(strtotime($post->post_date) < strtotime('-'.self::DAYS_FOR_EXPIRED.' days')){
-		        $caps[] = 'vote_old_posts';
-		        $this->check_votes($post);
-	        } elseif ($this->user_has_voted($post->ID, $user_id)) {
-                $caps[] = 'vote_posts_again';
-            } elseif ($post->post_author == $user_id) {
-                $caps[] = 'vote_own_posts';
-            }  else {
-                $caps[] = 'vote_posts';
-            }
+            if($post){
 
+	            if(strtotime($post->post_date) < strtotime('-'.self::DAYS_FOR_EXPIRED.' days')){
+			        $caps[] = 'vote_old_posts';
+			        $this->check_votes_to_expire($post);
+		        } elseif ($this->user_has_voted($post->ID, $user_id)) {
+	                $caps[] = 'vote_posts_again';
+	            } elseif ($post->post_author == $user_id) {
+	                $caps[] = 'vote_own_posts';
+	            }  else {
+	                $caps[] = 'vote_posts';
+	            }
+
+            }
         }
 
         return $caps;
-
     }
 
     function ajax_vote() {
 
-        if (current_user_can('vote_post', $post_id)) {
+	    if (isset($_POST['post_id']) && is_numeric($_POST['post_id'])) {
 
-            if (isset($_POST['post_id']) && is_numeric($_POST['post_id'])) {
+		    if (current_user_can('vote_post', $_POST['post_id'])) {
 
-                $this->add_vote($_POST['post_id']);
+                $this->add_vote($_POST['post_id'], get_current_user_id());
                 $this->get_vote_box($_POST['post_id']);
 
             }
@@ -229,9 +231,6 @@ Class RHSVote {
 
         $this->update_vote_count($post_id);
         $this->check_votes_to_upgrade($post_id);
-	    $this->update_user_role($user_id);
-        // TODO: rotina de promover o post se atingir o numero que precisa
-        // TODO: rotina de promover o usuário para votante, se for o primeiro post aprovado dele
 
     }
 
@@ -246,7 +245,6 @@ Class RHSVote {
     }
 
     function get_total_votes($post_id) {
-
         return get_post_meta($post_id, $this->total_meta_key, true);
 
     }
@@ -320,7 +318,7 @@ Class RHSVote {
 		return $data;
 	}
 
-	function check_votes(WP_Post $post){
+	function check_votes_to_expire(WP_Post $post){
 
     	if($post->post_status != self::VOTING_QUEUE){
     		return;
@@ -340,6 +338,7 @@ Class RHSVote {
 
 	function check_votes_to_upgrade($postID){
 
+
 		if($this->get_total_votes($postID) < self::VOTES_TO_APPROVAL){
 			return;
 		}
@@ -351,28 +350,33 @@ Class RHSVote {
 		}
 
 		$new_post = array(
-			'ID' => $post->ID,
+			'ID' => $postID,
 			'post_status' => self::PUBLISH
 		);
 
 		wp_update_post( $new_post );
+
+		$this->update_user_role($postID);
 	}
 
-	function update_user_role($userId){
+	function update_user_role($postID){
 
-		$user_meta = get_userdata($user_id);
-		$user_roles = $user_meta->roles;
-
-		if (!in_array("contributor", $user_roles)){
+		if(!$post = get_post($postID)){
 			return;
 		}
 
-		$user = array(
-			'ID' => $userId,
-			'role' => $website
+		$user = get_userdata($post->post_author);
+
+		if (!$user->roles || !in_array("contributor", $user->roles)){
+			return;
+		}
+
+		$user_new = array(
+			'ID' => $user->ID,
+			'role' => self::ROLE_VOTER
 		);
 
-		wp_update_user( $user );
+		wp_update_user( $user_new );
 	}
 
 }
