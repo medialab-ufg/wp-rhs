@@ -14,7 +14,7 @@ Class RHSVote {
 	const VOTING_EXPIRED = 'voting-expired';
 	const PUBLISH = 'publish';
 	const DAYS_FOR_EXPIRED = 14;
-	const VOTES_TO_APPROVAL = 10;
+	const VOTES_TO_APPROVAL = 1;
 	const ROLE_VOTER = 'voter';
 
     var $tablename;
