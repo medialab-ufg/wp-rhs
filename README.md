@@ -142,6 +142,7 @@ Cole as seguintes linhas dentro do arquivo criado:
 bash compile-sass.sh
 ```
 
+
 bash compile-sass.sh -> Arquivo onde se encontra no diretorio do projeto (wp-rhs) e execulta os comandos para compilar o sass.
 
 ### Administrando fixtures
