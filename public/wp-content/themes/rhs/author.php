@@ -5,7 +5,8 @@
 	<div class="col-xs-12 col-md-9">
 		<?php 
 			$curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
-		?>
+		    $votos = new RHSVote();
+        ?>
 		
 		<!-- Tab panes -->
 		<div class="tab-content">
@@ -25,7 +26,7 @@
 								<span class="contagem-desc-author">POSTS</span> 
 							</div>
 							<div class="col-xs-3 media-left">
-								<span class="contagem-valor-author"><?php echo '999'; ?></span>
+								<span class="contagem-valor-author"><?php echo $votos->get_total_votes_by_author($curauth->ID); ?></span>
 								<span class="contagem-desc-author">VOTOS</span> 
 							</div>						
 						</div>
