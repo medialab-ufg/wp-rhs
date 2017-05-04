@@ -13,8 +13,6 @@ Class RHSVote {
 	const VOTING_QUEUE = 'voting-queue';
 	const VOTING_EXPIRED = 'voting-expired';
 	const PUBLISH = 'publish';
-	const DAYS_FOR_EXPIRED = 14;
-	const VOTES_TO_APPROVAL = 1;
 	const ROLE_VOTER = 'voter';
 
 	static $instance;
@@ -25,12 +23,18 @@ Class RHSVote {
 
 	var $total_meta_key = '_total_votes';
 
+	var $days_for_expired;
+
+	var $votes_to_approval;
+
 	function __construct() {
 
 		if (empty(self::$instance)) {
 			global $wpdb;
 			$this->tablename   = $wpdb->prefix . 'votes';
 			$this->post_status = $this->get_custom_post_status();
+			$this->days_for_expired = get_option( 'days_for_expired' );
+			$this->votes_to_approval = get_option( 'votes_to_approval' );
 
 			// Hooks
 			add_action( 'init', array( &$this, 'init' ) );
@@ -41,6 +45,7 @@ Class RHSVote {
 			add_action( 'wp_enqueue_scripts', array( &$this, 'addJS' ) );
 
 			add_filter( 'map_meta_cap', array( &$this, 'vote_post_cap' ), 10, 4 );
+			add_action( 'admin_menu', array( &$this, 'gerate_admin_menu' ) );
 
 			/**
 			 * ROLES
@@ -185,7 +190,7 @@ Class RHSVote {
 
 			if ( $post ) {
 
-				if ( strtotime( $post->post_date ) < strtotime( '-' . self::DAYS_FOR_EXPIRED . ' days' ) ) {
+				if ( strtotime( $post->post_date ) < strtotime( '-' . $this->days_for_expired . ' days' ) ) {
 					$caps[] = 'vote_old_posts';
 					$this->check_votes_to_expire( $post );
 				} elseif ( $this->user_has_voted( $post->ID, $user_id ) ) {
@@ -260,18 +265,10 @@ Class RHSVote {
 
 	function get_total_votes_by_author( $user_id ) {
 
-		$args = array(
-			'author'         => $user_id,
-			'orderby'        => 'post_date',
-			'order'          => 'ASC'
-		);
+		global $wpdb;
 
-		$posts = get_posts($args);
-		$total = 0;
-
-		foreach ($posts as $post){
-			$total += $this->get_total_votes($post->ID);
-		}
+		$total = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM rhs_votes WHERE post_id IN (SELECT ID FROM rhs_posts WHERE post_author = %d)",
+			$user_id ) );
 
 		return $total;
 	}
@@ -350,7 +347,7 @@ Class RHSVote {
 			return;
 		}
 
-		if ( $this->get_total_votes( $postID ) >= self::VOTES_TO_APPROVAL ) {
+		if ( $this->get_total_votes( $postID ) >= $this->votes_to_approval ) {
 			return;
 		}
 
@@ -365,7 +362,7 @@ Class RHSVote {
 	function check_votes_to_upgrade( $postID ) {
 
 
-		if ( $this->get_total_votes( $postID ) < self::VOTES_TO_APPROVAL ) {
+		if ( $this->get_total_votes( $postID ) < $this->votes_to_approval ) {
 			return;
 		}
 
@@ -403,6 +400,90 @@ Class RHSVote {
 		);
 
 		wp_update_user( $user_new );
+	}
+
+	function gerate_admin_menu(){
+		add_menu_page( 'RHS Menu', 'RHS Menu', 'manage_options', 'rhs/rhs-admin-page.php', 'rhs_admin_page', 'dashicons-lock', 30  );
+		add_submenu_page( 'rhs/rhs-admin-page.php', 'RHS Menu', 'RHS Menu', 'manage_options', 'rhs/rhs-admin-page.php', 'rhs_admin_page' );
+		add_submenu_page( 'rhs/rhs-admin-page.php', 'Fila de votação', 'Fila de Votação', 'manage_options', 'rhs/rhs-fila-de-votacao.php',  array( &$this, 'rhs_admin_page_voting_queue' ) );
+	}
+
+	function rhs_admin_page_voting_queue(){
+
+		if (!current_user_can('manage_options')) {
+			wp_die( __('You do not have sufficient permissions to access this page.') );
+		}
+
+		$labels = array(
+			'vq_days_for_expired' => array(
+				'name' =>  __("Dias para expiração:" ),
+				'type' => 'text'
+			),
+			'vq_votes_to_approval' => array(
+				'name' =>  __("Votos para aprovação:" ),
+				'type' => 'text'
+			),
+			'vq_description' => array(
+				'name' => __("Descrição:" ),
+				'type' => 'textarea'
+			)
+		);
+
+		$i = 0;
+		foreach ($labels as $label => $attr){
+			$labels[$label]['value'] = get_option( $label );
+
+			if(!empty($_POST[$label])){
+				$labels[$label]['value'] = $_POST[ $label ];
+
+				update_option( $label, $_POST[ $label ] );
+
+				if($i = 0){
+					?>
+					<div class="updated">
+						<p>
+							<strong><?php _e('Configurações salva.', 'menu-test' ); ?></strong>
+						</p>
+					</div>
+					<?php
+				}
+
+				$i++;
+
+			}
+
+		}
+
+		?>
+		<div class="wrap">
+			<h2><?php echo __( 'Fila de votação' ); ?></h2>
+			<form name="form1" method="post" action="">
+				<table class="form-table">
+					<tbody>
+					<?php foreach ($labels as $label => $attr){ ?>
+						<tr>
+							<th scope="row">
+								<label for="<?php echo $label; ?>"><?php echo $attr['name']; ?></label>
+							</th>
+							<td>
+								<?php if($attr['type'] == 'text'){ ?>
+								<input name="<?php echo $label; ?>" type="text" id="<?php echo $label; ?>" value="<?php echo $attr['value']; ?>" class="regular-text" />
+								<?php } ?>
+								<?php if($attr['type'] == 'textarea'){ ?>
+									<textarea name="<?php echo $label; ?>" id="<?php echo $label; ?>" class="large-text" rows="5"><?php echo $attr['value']; ?></textarea>
+								<?php } ?>
+							</td>
+						</tr>
+					<?php } ?>
+					</tbody>
+				</table>
+				<p class="submit">
+					<input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
+				</p>
+			</form>
+		</div>
+
+		<?php
 	}
 
 }
