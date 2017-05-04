@@ -23,18 +23,24 @@ Class RHSVote {
 
 	var $total_meta_key = '_total_votes';
 
-	var $days_for_expired;
+	var $days_for_expired = 14;
+	var $days_for_expired_default = 14;
 
-	var $votes_to_approval;
+	var $votes_to_approval = 5;
+	var $votes_to_approval_default = 5;
 
 	function __construct() {
 
-		if (empty(self::$instance)) {
+		if ( empty( self::$instance ) ) {
 			global $wpdb;
 			$this->tablename   = $wpdb->prefix . 'votes';
 			$this->post_status = $this->get_custom_post_status();
-			$this->days_for_expired = get_option( 'days_for_expired' );
-			$this->votes_to_approval = get_option( 'votes_to_approval' );
+
+			$days_for_expired  = get_option( 'days_for_expired' );
+			$votes_to_approval = get_option( 'votes_to_approval' );
+
+			$this->days_for_expired  = $days_for_expired ? $days_for_expired : $this->votes_to_approval;
+			$this->votes_to_approval = $votes_to_approval ? $votes_to_approval : $this->votes_to_approval_default;
 
 			// Hooks
 			add_action( 'init', array( &$this, 'init' ) );
@@ -45,12 +51,12 @@ Class RHSVote {
 			add_action( 'wp_enqueue_scripts', array( &$this, 'addJS' ) );
 
 			add_filter( 'map_meta_cap', array( &$this, 'vote_post_cap' ), 10, 4 );
-            
-            add_action('generate_rewrite_rules', array( &$this, 'rewrite_rules'), 10, 1);
-            add_filter('query_vars', array( &$this, 'rewrite_rules_query_vars'));
-            add_filter('template_include', array( &$this, 'rewrite_rule_template_include'));
-            
-            add_action('pre_get_posts', array( &$this, 'fila_query'));
+
+			add_action( 'generate_rewrite_rules', array( &$this, 'rewrite_rules' ), 10, 1 );
+			add_filter( 'query_vars', array( &$this, 'rewrite_rules_query_vars' ) );
+			add_filter( 'template_include', array( &$this, 'rewrite_rule_template_include' ) );
+
+			add_action( 'pre_get_posts', array( &$this, 'fila_query' ) );
 
 			add_action( 'admin_menu', array( &$this, 'gerate_admin_menu' ) );
 			/**
@@ -147,59 +153,60 @@ Class RHSVote {
 		}
 
 	}
-    
-    function rewrite_rules(&$wp_rewrite) {
-        $new_rules = array(
-            "fila-de-votacao/?$" => "index.php?filavotacao=1",
-            "filavotacao/?$" => "index.php?filavotacao=1",
-        );
-        $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 
-    }
-    
-    function rewrite_rules_query_vars($public_query_vars) {
-    
-        $public_query_vars[] = "filavotacao";
-        return $public_query_vars;
-    
-    }
-    
-    function rewrite_rule_template_include($template) {
-        global $wp_query;
-        
-        if ( $wp_query->get('filavotacao') ) {
-            
-            if (file_exists(STYLESHEETPATH . '/fila-de-votacao.php')) {
-                return STYLESHEETPATH . '/fila-de-votacao.php';
-            }
-            
-        }
-        
-        return $template;
-        
-    
-    }
-    
-    function fila_query($wp_query) {
-    
-        if( $wp_query->is_main_query() && $wp_query->get('filavotacao') ) {
-        
-            $args = array(
-                'post_type'        => 'post',
-                'orderby'          => 'date',
-                'order'            => 'DESC',
-                'post_status'      => self::VOTING_QUEUE,
-                'posts_per_page' => -1,
-            );
-            
-            foreach ($args as $k => $v)
-                $wp_query->set($k, $v);
-            
-        }
-        
-        
-    
-    }
+	function rewrite_rules( &$wp_rewrite ) {
+		$new_rules         = array(
+			"fila-de-votacao/?$" => "index.php?filavotacao=1",
+			"filavotacao/?$"     => "index.php?filavotacao=1",
+		);
+		$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
+
+	}
+
+	function rewrite_rules_query_vars( $public_query_vars ) {
+
+		$public_query_vars[] = "filavotacao";
+
+		return $public_query_vars;
+
+	}
+
+	function rewrite_rule_template_include( $template ) {
+		global $wp_query;
+
+		if ( $wp_query->get( 'filavotacao' ) ) {
+
+			if ( file_exists( STYLESHEETPATH . '/fila-de-votacao.php' ) ) {
+				return STYLESHEETPATH . '/fila-de-votacao.php';
+			}
+
+		}
+
+		return $template;
+
+
+	}
+
+	function fila_query( $wp_query ) {
+
+		if ( $wp_query->is_main_query() && $wp_query->get( 'filavotacao' ) ) {
+
+			$args = array(
+				'post_type'      => 'post',
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+				'post_status'    => self::VOTING_QUEUE,
+				'posts_per_page' => - 1,
+			);
+
+			foreach ( $args as $k => $v ) {
+				$wp_query->set( $k, $v );
+			}
+
+		}
+
+
+	}
 
 	function add_status_dropdown() {
 		global $post;
@@ -460,90 +467,108 @@ Class RHSVote {
 		wp_update_user( $user_new );
 	}
 
-	function gerate_admin_menu(){
-		add_menu_page( 'RHS Menu', 'RHS Menu', 'manage_options', 'rhs/rhs-admin-page.php', 'rhs_admin_page', 'dashicons-lock', 30  );
-		add_submenu_page( 'rhs/rhs-admin-page.php', 'RHS Menu', 'RHS Menu', 'manage_options', 'rhs/rhs-admin-page.php', 'rhs_admin_page' );
-		add_submenu_page( 'rhs/rhs-admin-page.php', 'Fila de votação', 'Fila de Votação', 'manage_options', 'rhs/rhs-fila-de-votacao.php',  array( &$this, 'rhs_admin_page_voting_queue' ) );
+	function gerate_admin_menu() {
+		add_menu_page( 'RHS Menu', 'RHS Menu', 'manage_options', 'rhs/rhs-admin-page.php', 'rhs_admin_page',
+			'dashicons-lock', 30 );
+		add_submenu_page( 'rhs/rhs-admin-page.php', 'RHS Menu', 'RHS Menu', 'manage_options', 'rhs/rhs-admin-page.php',
+			'rhs_admin_page' );
+		add_submenu_page( 'rhs/rhs-admin-page.php', 'Fila de votação', 'Fila de Votação', 'manage_options',
+			'rhs/rhs-fila-de-votacao.php', array( &$this, 'rhs_admin_page_voting_queue' ) );
 	}
 
-	function rhs_admin_page_voting_queue(){
+	function rhs_admin_page_voting_queue() {
 
-		if (!current_user_can('manage_options')) {
-			wp_die( __('You do not have sufficient permissions to access this page.') );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 
 		$labels = array(
-			'vq_days_for_expired' => array(
-				'name' =>  __("Dias para expiração:" ),
-				'type' => 'text'
+			'vq_days_for_expired'  => array(
+				'name'    => __( "Dias para expiração:" ),
+				'type'    => 'select',
+				'default' => $this->days_for_expired_default
 			),
 			'vq_votes_to_approval' => array(
-				'name' =>  __("Votos para aprovação:" ),
-				'type' => 'text'
+				'name'    => __( "Votos para aprovação:" ),
+				'type'    => 'select',
+				'default' => $this->votes_to_approval_default
 			),
-			'vq_description' => array(
-				'name' => __("Descrição:" ),
-				'type' => 'textarea'
+			'vq_description'       => array(
+				'name'    => __( "Texto introdutório:" ),
+				'type'    => 'textarea',
+				'default' => ''
 			)
 		);
 
 		$i = 0;
-		foreach ($labels as $label => $attr){
-			$labels[$label]['value'] = get_option( $label );
+		if ( ! empty( $_POST ) ) {
+			foreach ( $labels as $label => $attr ) {
 
-			if(!empty($_POST[$label])){
-				$labels[$label]['value'] = $_POST[ $label ];
+				if ( empty( $_POST ) ) {
+					continue;
+				}
 
 				update_option( $label, $_POST[ $label ] );
 
-				if($i = 0){
+				if ( $i == 0 ) {
+
 					?>
-					<div class="updated">
-						<p>
-							<strong><?php _e('Configurações salva.', 'menu-test' ); ?></strong>
-						</p>
-					</div>
+                    <div class="updated">
+                        <p>
+                            <strong><?php _e( 'Configurações salva.' ); ?></strong>
+                        </p>
+                    </div>
 					<?php
 				}
 
-				$i++;
-
+				$i ++;
 			}
-
 		}
 
 		?>
-		<div class="wrap">
-			<h2><?php echo __( 'Fila de votação' ); ?></h2>
-			<form name="form1" method="post" action="">
-				<table class="form-table">
-					<tbody>
-					<?php foreach ($labels as $label => $attr){ ?>
-						<tr>
-							<th scope="row">
-								<label for="<?php echo $label; ?>"><?php echo $attr['name']; ?></label>
-							</th>
-							<td>
-								<?php if($attr['type'] == 'text'){ ?>
-								<input name="<?php echo $label; ?>" type="text" id="<?php echo $label; ?>" value="<?php echo $attr['value']; ?>" class="regular-text" />
+        <div class="wrap">
+            <h2><?php echo __( 'Fila de votação' ); ?></h2>
+            <form name="form1" method="post" action="">
+                <table class="form-table">
+                    <tbody>
+					<?php foreach ( $labels as $label => $attr ) { ?>
+						<?php
+
+						$default = $labels[ $label ]['default'];
+						$value   = get_option( $label );
+
+						?>
+                        <tr>
+                            <th scope="row">
+                                <label for="<?php echo $label; ?>"><?php echo $attr['name']; ?></label>
+                            </th>
+                            <td>
+								<?php if ( $attr['type'] == 'select' ) { ?>
+                                    <select name="<?php echo $label; ?>" id="<?php echo $label; ?>">
+										<?php for ( $i = 1; $i <= 50; $i ++ ) { ?>
+                                            <option <?php echo $value == $i ? 'selected' : ''; ?> ><?php echo $i ?></option>
+										<?php } ?>
+                                    </select>
+                                    <p><i><?php echo __( 'Valor padrão: ' ) . $default; ?></i></p>
 								<?php } ?>
-								<?php if($attr['type'] == 'textarea'){ ?>
-									<textarea name="<?php echo $label; ?>" id="<?php echo $label; ?>" class="large-text" rows="5"><?php echo $attr['value']; ?></textarea>
+								<?php if ( $attr['type'] == 'textarea' ) { ?>
+                                    <textarea name="<?php echo $label; ?>" id="<?php echo $label; ?>" class="large-text"
+                                              rows="5"><?php echo $value; ?></textarea>
 								<?php } ?>
-							</td>
-						</tr>
+                            </td>
+                        </tr>
 					<?php } ?>
-					</tbody>
-				</table>
-				<p class="submit">
-					<input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
-				</p>
-			</form>
-		</div>
+                    </tbody>
+                </table>
+                <p class="submit">
+                    <input type="submit" name="Submit" class="button-primary"
+                           value="<?php esc_attr_e( 'Save Changes' ) ?>"/>
+                </p>
+            </form>
+        </div>
 
 		<?php
 	}
-
 }
 
 global $RHSVote;
