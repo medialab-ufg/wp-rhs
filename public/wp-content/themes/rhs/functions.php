@@ -136,7 +136,7 @@ function menuTopo(){
 
 /**
 *
-* Menu dropdown que fica no segundo nav da página.
+* Menu dropdown que fica no segundo nav da página
 *
 * @param 'menu' => 'MenuDropdDown' Seleciona o menu com este nome no painel admin.
 * @param 'theme_location' => 'MenuDropdDown' pega o menu que está setado em MenuDropDown
