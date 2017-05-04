@@ -19,7 +19,7 @@
     <body>
         <!-- Tag header para o Primeiro Menu -->
         <header id="navBar-top">
-            <nav class="navbar navbar-default navbar-fixed-top">
+            <nav class="navbar navbar-default navbar-fixed-top primeiro-menu">
                 <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
@@ -32,7 +32,7 @@
                         <a class="navbar-brand navbar-btn pull-left" href="<?php bloginfo('url'); ?>"><img src="<?php bloginfo('template_directory'); ?>/assets/images/logo.png" class="img-responsive"></a>
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav navbar-right">
+                        <ul class="nav navbar-nav navbar-right dropdown-menu-right">
                             <?php if(!is_user_logged_in()): ?>
                                 <li><a href="#">Faça seu login</a></li>
                                 <span class="navbar-text">ou</span>
@@ -40,7 +40,15 @@
                             <?php else : ?>
                                 <li><a href="#" title="Aqui você poderá receber e enviar mensagens a qualquer participante da RHS. Ao receber uma resposta, você será notificado pelo ícone de mensagens na parte superior direita do site. " class="level1 dropdown-toggle" aria-expanded="false"><span aria-hidden="true" class="glyphicon glyphicon-comment"></span></a></li>
                                 <li><a href="#" title="Você poderá ser notificado sobre comentários em uma postagem específica (definido por você), sobre as postagens de um determinado usuário ou, por padrão, sobre comentários recebidos em suas próprias publicações." class="level1 dropdown-toggle" aria-expanded="false"><span aria-hidden="true" class="glyphicon glyphicon-bell"></span></a></li>
-                                <li><a href="<?php bloginfo('url'); ?>/wp/wp-admin/">Painel Administrador</a></li>
+                                <li class="dropdown user-dropdown">
+                                <?php $usuario = wp_get_current_user(); ?>
+                                    <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $usuario->display_name.' '.get_avatar($usuario->ID, 30,'','',array('class'=>'img-circle')); ?> <i class="icon-textDown fa fa-angle-down"></i></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="menu-item"><a href="#"><i class="icones-dropdown fa fa-pencil-square-o" aria-hidden="true"></i> Publicar Post</a></li>
+                                        <li class="menu-item"><a href="#"><i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil</a></li>
+                                        <li class="menu-item"><a href="#"><i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair</a></li>
+                                    </ul>
+                                </li>
                             <?php endif; ?>
                         </ul>
                     </div>
@@ -56,7 +64,7 @@
                     <!-- Pega o template de busca para o menu. O mesmo se encontra no tema com o nome de searchform.php -->
                     <?php get_search_form(); ?>
                     <!--End Form-->
-                    <ul class="nav navbar-nav navbar-right dropdown-menu-right">
+                    <ul class="nav navbar-nav navbar-right dropdown-menu-right dropdown-ipad">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger"></span> MENU</a>
                             <?php

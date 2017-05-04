@@ -34,6 +34,10 @@ $cor_fundo_formulario_nav: #009b9b;
 // _footer_
 $cor_fundo_corporation: #00343d;
 
+// Author
+$seguir-mensagem-desktop: none; /*inline*/
+$seguir-mensagem-mobile: none; /*inline-grid*/
+
 
 // End Tags
 
@@ -114,8 +118,6 @@ Segundo Nav-menu
 	background-color: $segunda_cor_fundo;
 	top: 66px;
 	margin-bottom: 75px;
-	padding: 0;
-	border-radius: 0;
 
 	// Função para definir a cor do placeholder
 
@@ -123,7 +125,9 @@ Segundo Nav-menu
 		color: $whiteColor;
 		font-weight: bold;
 	}
-
+	.dropdown-menu-right{
+		background-color: $cor_fundo_formulario_nav;
+	}
 	.form-search-rhs{
 		margin-top: 0;
 		margin-bottom: 0;
@@ -157,15 +161,6 @@ Segundo Nav-menu
 			background-color: $cor_fundo_formulario_nav;
 		}
 	}
-
-	li>a {
-		float: right;
-		color: $whiteColor !important;
-	}
-	li>a:hover{
-		color:$whiteColor !important;
-		text-decoration: underline;
-	}
 	#menuPesquisa {
 		input[type=text]{
 			width:38.4em !important;
@@ -178,17 +173,63 @@ Segundo Nav-menu
 			color: $whiteColor;
 		}
 	}
+}
+
+/******************
+*
+Primeiro e Segundo DropDown Menu
+*
+*******************/
+.primeiro-menu, .segundo-menu{
+	padding: 0;
+	border-radius: 0;
+	li>a {
+		float: right;
+		color: $whiteColor !important;
+	}
+	li>a:hover{
+		color:$whiteColor !important;
+		text-decoration: underline;
+	}
 	.navbar-nav>.open>a, .navbar-nav>.open>a:hover{
 		background-color: $cor_fundo_formulario_nav;
 	}
 	.dropdown-menu-right{
 		margin-left: 10px; 
-		background-color: $cor_fundo_formulario_nav;
+		.user-dropdown{
+			.icon-textDown{
+				color: $whiteColor;
+				background-color: #00b4b4;
+				height: 40px;
+				margin: -5px -15px -5px 0;
+				padding: 8px 5px 0;
+				vertical-align: middle;
+			}
+			a.user-dropdown-link{
+				background-color: #01353e !important;
+				font-weight: bold;
+			    margin-top: 13px;
+				padding-top: 5px;
+			    padding-bottom: 7px;
+			}
+			a.user-dropdown-link:hover{
+				background-color: #01353e !important;
+				color: $primeira_cor_texto !important;
+				text-decoration: none;
+			}
+			a.user-dropdown-link>i:hover{
+				color: $whiteColor !important;
+			}
+		}
 		.separar-menu {
 			margin-right: 6px;
 		}
 		.dropdown-menu {
 			background-color: $cor_fundo_formulario_nav;
+			.icones-dropdown{
+				float: left;
+				padding-top: 3px;
+			}
 			li a {
 				padding: 10px 10px;
 			    text-align: right;
@@ -400,7 +441,7 @@ form .comment-form-comment{
 			margin-top: 15px;
 		}
 		.seguir-mensagem{
-			display: none;/*inline;*/
+			display: $seguir-mensagem-desktop;/*inline;*/
 			button{
 				color: $primeira_cor_texto;
 				border-color: $primeira_cor_texto;
@@ -637,6 +678,28 @@ article{
     	margin: 0.5px -15px;
 	}
 	/*Menus*/
+	li.dropdown.user-dropdown {
+		position: inherit;
+	    /*float: left;*/
+	    margin-top: -9px;
+	    margin-bottom: 6px;
+	    margin-right: 16px;
+	}
+	.primeiro-menu {
+		li > a {
+    		float: left;
+    	}
+    	.dropdown-menu-right{
+		    .user-dropdown{
+			    a.user-dropdown-link{
+			    	float: right;
+				    margin-top: 7px;
+				    padding-top: 1px;
+				    padding-bottom: 14px;
+			    }
+		    }
+    	}
+	}
 	.segundo-menu {
 		.dropdown-menu-right{
 			margin: 0px -14px 0px 0px;
@@ -663,7 +726,7 @@ article{
 	#verDados {
 		.jumbotron{
 			.seguir-mensagem{
-				display: inline-grid;
+				display: $seguir-mensagem-mobile;
 				button{
 					margin-bottom: 2%;
 				}
@@ -705,12 +768,41 @@ article{
 		}
 	}
 }
+@media only screen and (width: 768px) and (height: 1024px){
+	.primeiro-menu 
+	.dropdown-menu-right 
+	.user-dropdown 
+	a.user-dropdown-link {
+	    margin-top: 23px;
+	}
+	.segundo-menu {
+		.dropdown-ipad{
+			margin: 0px -14px 0px 0px;
+		    width: 14% !important;
+		    float: right;
+		    .dropdown-menu{
+		    	position: absolute;
+		    	margin-top: -1px !important;
+		    	left: -98px;
+		    }
+		}
+	}
+}
 @media only screen and (max-width: 640px) and (orientation: landscape){
 	article .comment-box {
 	    margin: 0px 0 0px 67px;
 	}
 	article .comment-avatar img {
     	margin-bottom: -68px;
+	}
+}
+@media only screen and (max-width: 414px){
+	.segundo-menu {
+	    .dropdown-menu-right { 
+		    .dropdown-menu {
+		    	left: -41px;
+			}
+		}
 	}
 }
 @media only screen and (max-width: 360px){
@@ -721,6 +813,13 @@ article{
 	.display-panel {
     	margin: .2em;
     }
+    .segundo-menu {
+	    .dropdown-menu-right { 
+		    .dropdown-menu {
+		    	left: -60px;
+			}
+		}
+	}
 }
 @media only screen and (max-width: 320px){
 	.navbar-nav {
