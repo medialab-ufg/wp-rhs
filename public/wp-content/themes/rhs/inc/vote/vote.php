@@ -468,11 +468,11 @@ Class RHSVote {
 	}
 
 	function gerate_admin_menu() {
-		add_menu_page( 'RHS Menu', 'RHS Menu', 'manage_options', 'rhs/rhs-admin-page.php', 'rhs_admin_page',
+		/*/add_menu_page( 'RHS Menu', 'RHS Menu', 'manage_options', 'rhs/rhs-admin-page.php', 'rhs_admin_page',
 			'dashicons-lock', 30 );
 		add_submenu_page( 'rhs/rhs-admin-page.php', 'RHS Menu', 'RHS Menu', 'manage_options', 'rhs/rhs-admin-page.php',
-			'rhs_admin_page' );
-		add_submenu_page( 'rhs/rhs-admin-page.php', 'Fila de votação', 'Fila de Votação', 'manage_options',
+			'rhs_admin_page' );*/
+		add_options_page( 'rhs/rhs-admin-page.php', 'Fila de votação', 'Fila de Votação', 'manage_options',
 			'rhs/rhs-fila-de-votacao.php', array( &$this, 'rhs_admin_page_voting_queue' ) );
 	}
 
