@@ -400,7 +400,7 @@ form .comment-form-comment{
 			margin-top: 15px;
 		}
 		.seguir-mensagem{
-			display: inline;
+			display: none;/*inline;*/
 			button{
 				color: $primeira_cor_texto;
 				border-color: $primeira_cor_texto;
