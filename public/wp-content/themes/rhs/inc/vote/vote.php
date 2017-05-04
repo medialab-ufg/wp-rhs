@@ -46,6 +46,7 @@ Class RHSVote {
             add_filter('query_vars', array( &$this, 'rewrite_rules_query_vars'));
             add_filter('template_include', array( &$this, 'rewrite_rule_template_include'));
             
+            add_action('pre_get_posts', array( &$this, 'fila_query'));
             
 			/**
 			 * ROLES
@@ -170,6 +171,27 @@ Class RHSVote {
         }
         
         return $template;
+        
+    
+    }
+    
+    function fila_query($wp_query) {
+    
+        if( $wp_query->is_main_query() && $wp_query->get('filavotacao') ) {
+        
+            $args = array(
+                'post_type'        => 'post',
+                'orderby'          => 'date',
+                'order'            => 'DESC',
+                'post_status'      => self::VOTING_QUEUE,
+                'posts_per_page' => -1,
+            );
+            
+            foreach ($args as $k => $v)
+                $wp_query->set($k, $v);
+            
+        }
+        
         
     
     }

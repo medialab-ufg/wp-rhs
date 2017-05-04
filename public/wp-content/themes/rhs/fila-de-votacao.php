@@ -15,7 +15,7 @@
                     </p>
                 </div>
             </div>
-			<?php get_template_part( 'partes-templates/voting-queue'); ?>
+            <?php get_template_part( 'partes-templates/loop-posts'); ?>
         </div>
         <!-- Sidebar -->
         <div class="col-xs-12 col-md-3"><?php get_sidebar(); ?></div>
