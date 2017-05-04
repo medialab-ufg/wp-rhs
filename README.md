@@ -121,6 +121,29 @@ cd public/wp-content/themes/rhs/assets/scss
 sass --watch style.scss:../../style.css
 ```
 
+### Auto Compilando SASS ao executar git pull
+
+Ao executar o comando git pull você terá que executar o comando para compilar o sass caso tenha alteração do mesmo. Para não ter necessidade disso.
+
+##Execute os seguintes passos:
+
+Dentro da pasta do projeto: wp-rhs/
+
+```
+cd .git/hooks/
+nano post-merge
+```
+
+Cole as seguintes linhas dentro do arquivo criado:
+```
+#!/bin/sh
+ 
+# Generate CSS from SASS
+bash compile-sass.sh
+```
+
+bash compile-sass.sh -> Arquivo onde se encontra no diretorio do projeto (wp-rhs) e execulta os comandos para compilar o sass.
+
 ### Administrando fixtures
 
 Durante o desenvolvimento, a equipe compartilha uma base de dados de desenvolvimento e arquivos de fixtures (fotos e etc).
