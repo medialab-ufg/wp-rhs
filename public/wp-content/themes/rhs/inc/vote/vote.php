@@ -45,8 +45,14 @@ Class RHSVote {
 			add_action( 'wp_enqueue_scripts', array( &$this, 'addJS' ) );
 
 			add_filter( 'map_meta_cap', array( &$this, 'vote_post_cap' ), 10, 4 );
-			add_action( 'admin_menu', array( &$this, 'gerate_admin_menu' ) );
+            
+            add_action('generate_rewrite_rules', array( &$this, 'rewrite_rules'), 10, 1);
+            add_filter('query_vars', array( &$this, 'rewrite_rules_query_vars'));
+            add_filter('template_include', array( &$this, 'rewrite_rule_template_include'));
+            
+            add_action('pre_get_posts', array( &$this, 'fila_query'));
 
+			add_action( 'admin_menu', array( &$this, 'gerate_admin_menu' ) );
 			/**
 			 * ROLES
 			 */
@@ -141,7 +147,59 @@ Class RHSVote {
 		}
 
 	}
+    
+    function rewrite_rules(&$wp_rewrite) {
+        $new_rules = array(
+            "fila-de-votacao/?$" => "index.php?filavotacao=1",
+            "filavotacao/?$" => "index.php?filavotacao=1",
+        );
+        $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 
+    }
+    
+    function rewrite_rules_query_vars($public_query_vars) {
+    
+        $public_query_vars[] = "filavotacao";
+        return $public_query_vars;
+    
+    }
+    
+    function rewrite_rule_template_include($template) {
+        global $wp_query;
+        
+        if ( $wp_query->get('filavotacao') ) {
+            
+            if (file_exists(STYLESHEETPATH . '/fila-de-votacao.php')) {
+                return STYLESHEETPATH . '/fila-de-votacao.php';
+            }
+            
+        }
+        
+        return $template;
+        
+    
+    }
+    
+    function fila_query($wp_query) {
+    
+        if( $wp_query->is_main_query() && $wp_query->get('filavotacao') ) {
+        
+            $args = array(
+                'post_type'        => 'post',
+                'orderby'          => 'date',
+                'order'            => 'DESC',
+                'post_status'      => self::VOTING_QUEUE,
+                'posts_per_page' => -1,
+            );
+            
+            foreach ($args as $k => $v)
+                $wp_query->set($k, $v);
+            
+        }
+        
+        
+    
+    }
 
 	function add_status_dropdown() {
 		global $post;
