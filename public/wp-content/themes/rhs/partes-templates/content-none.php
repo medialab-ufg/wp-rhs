@@ -1,8 +1,8 @@
-<section>
-	<header class="page-header">
-		<h1 class="page-title"><?php _e( 'Não há posts', 'rhs' ); ?></h1>
-	</header>
-	<div class="container">
+<div class="row">
+	<div class="col-xs-12 col-md-9">
+		<header class="page-header">
+			<h1 class="titulo-page"><?php _e( 'Não há posts', 'rhs' ); ?></h1>
+		</header>
 		<?php
 		if ( is_home() && current_user_can( 'publish_posts' ) ) : ?>
 
@@ -14,5 +14,5 @@
 			<?php
 				get_search_form();
 		endif; ?>
-	</div><!-- .container -->
-</section><!-- .section -->
+	</div>
+</div>
