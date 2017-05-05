@@ -298,12 +298,8 @@ h1.titulo-page {
 //@media only screen and (min-width: 768px){
 	.carousel-fade {
 		img {
-			margin-left: 6px;
 		    width: 100%;
-		    /* top: 50%; */
-		    /* left: 50%; */
-		    margin-top: 10%;
-		    /* margin-left: 50px; */
+		    height: 320px;
 		}
 	    .carousel-inner {
 	        .item {
@@ -331,7 +327,7 @@ h1.titulo-page {
 	        }
 	    }
 	    .carousel-inner{
-	    	min-height: 320px; 
+	    	max-height: 320px; 
 	    	background-color: $whiteColor;
 	    }
 		.carousel-caption{
@@ -347,6 +343,7 @@ h1.titulo-page {
 			}
 			p{
 				color: $grayColor;
+				font-size: 0.744em;
 			}
 		}
 
@@ -392,9 +389,6 @@ h1.titulo-page {
 //}
 @media only screen and (max-width: 768px){
 	.carousel-fade {
-		img {
-			margin-left: 0;
-		}
 		.carousel-caption{
 			padding-left: 5px;
 		}

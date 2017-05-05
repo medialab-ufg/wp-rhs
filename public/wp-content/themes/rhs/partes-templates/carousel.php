@@ -18,7 +18,7 @@
 				<div class="col-xs-12 col-md-6">
 					<?php if( has_post_thumbnail() ) :  ?>
 						<a href="<?php the_permalink(); ?>">
-							<img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="">
+							<img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" class="img-responsive">
 						</a>
 					<?php endif; ?>
 
