@@ -8,22 +8,22 @@
     <li data-target="#carousel-example-generic" data-slide-to="4"></li>
   </ol>
   <!-- Wrapper for slides -->
-  <div class="carousel-inner" role="listbox" style="min-height: 320px; background-color: #fff">
+  <div class="carousel-inner" role="listbox">
   	<?php if(have_posts()) :
   				$first = true;
 				while (have_posts()): 
 					the_post(); ?>	
 	    <div class="item <?php if($first) echo 'active'; ?>">
 			<div class="row">
-				<div class="col-xs-6">
+				<div class="col-xs-12 col-md-6">
 					<?php if( has_post_thumbnail() ) :  ?>
 						<a href="<?php the_permalink(); ?>">
-							<img src="<?php get_the_post_thumbnail_url() ?>" alt="">
+							<img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="">
 						</a>
 					<?php endif; ?>
 
 				</div>
-				<div class="col-xs-6">
+				<div class="col-xs-12 col-md-6">
 					<div class="carousel-caption">
 						<a href="<?php the_permalink(); ?>"><?php the_title( '<h3>', '</h3>' ); ?></a>
 						<p>
