@@ -35,9 +35,12 @@ $cor_fundo_formulario_nav: #009b9b;
 $cor_fundo_corporation: #00343d;
 
 // Author
-$seguir-mensagem-desktop: none; /*inline*/
-$seguir-mensagem-mobile: none; /*inline-grid*/
+$seguir_mensagem_desktop: none; /*inline*/
+$seguir_mensagem_mobile: none; /*inline-grid*/
 
+
+//notificações e mensagens (Menu Topo)
+$notifi_mensagens: none;/*inline-grid*/
 
 // End Tags
 
@@ -191,6 +194,13 @@ Primeiro e Segundo DropDown Menu
 		color:$whiteColor !important;
 		text-decoration: underline;
 	}
+
+
+	/*Bloquear por Enquanto as Notificações e Mensagens (Menu Topo) */
+	.not-msg{
+		display: $notifi_mensagens;
+	}
+
 	.navbar-nav>.open>a, .navbar-nav>.open>a:hover{
 		background-color: $cor_fundo_formulario_nav;
 	}
@@ -440,7 +450,7 @@ form .comment-form-comment{
 			margin-top: 15px;
 		}
 		.seguir-mensagem{
-			display: $seguir-mensagem-desktop;/*inline;*/
+			display: $seguir_mensagem_desktop;/*inline;*/
 			button{
 				color: $primeira_cor_texto;
 				border-color: $primeira_cor_texto;
@@ -725,7 +735,7 @@ article{
 	#verDados {
 		.jumbotron{
 			.seguir-mensagem{
-				display: $seguir-mensagem-mobile;
+				display: $seguir_mensagem_mobile;
 				button{
 					margin-bottom: 2%;
 				}
