@@ -23,10 +23,10 @@ Class RHSVote {
 
 	var $total_meta_key = '_total_votes';
 
-	var $days_for_expired = 14;
+	var $days_for_expired;
 	var $days_for_expired_default = 14;
 
-	var $votes_to_approval = 5;
+	var $votes_to_approval;
 	var $votes_to_approval_default = 5;
 
 	function __construct() {
@@ -36,10 +36,10 @@ Class RHSVote {
 			$this->tablename   = $wpdb->prefix . 'votes';
 			$this->post_status = $this->get_custom_post_status();
 
-			$days_for_expired  = get_option( 'days_for_expired' );
-			$votes_to_approval = get_option( 'votes_to_approval' );
+			$days_for_expired  = get_option( 'vq_days_for_expired' );
+			$votes_to_approval = get_option( 'vq_votes_to_approval' );
 
-			$this->days_for_expired  = $days_for_expired ? $days_for_expired : $this->votes_to_approval;
+			$this->days_for_expired  = $days_for_expired ? $days_for_expired : $this->days_for_expired_default;
 			$this->votes_to_approval = $votes_to_approval ? $votes_to_approval : $this->votes_to_approval_default;
 
 			// Hooks
@@ -534,7 +534,7 @@ Class RHSVote {
 					<?php foreach ( $labels as $label => $attr ) { ?>
 						<?php
 
-						$default = $labels[ $label ]['default'];
+						$default = $attr['default'];
 						$value   = get_option( $label );
 
 						?>
@@ -546,6 +546,9 @@ Class RHSVote {
 								<?php if ( $attr['type'] == 'select' ) { ?>
                                     <select name="<?php echo $label; ?>" id="<?php echo $label; ?>">
 										<?php for ( $i = 1; $i <= 50; $i ++ ) { ?>
+                                            <?php if($i == $default){ ?>
+                                                <option value="" <?php echo $value == '' ? 'selected' : ''; ?> >Padrão (<?php echo $default; ?>)</option>
+                                            <?php } ?>
                                             <option <?php echo $value == $i ? 'selected' : ''; ?> ><?php echo $i ?></option>
 										<?php } ?>
                                     </select>

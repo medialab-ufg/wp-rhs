@@ -5,16 +5,18 @@
         <div class="col-xs-12 col-md-9">
             <div class="row">
                 <div class="col-xs-12">
-                    <h1 class="titulo-page">Fila de Votação</h1>
+                    <h1 class="titulo-page"><?php _e('Fila de Votação') ?></h1>
                 </div>
             </div>
+            <?php if(get_option( 'vq_description' )){ ?>
             <div class="row">
                 <div class="col-xs-12">
                     <p class="box-descricao-page">
-                        A fila de votação é o espaço de curadoria coletiva de posts da rede. Quando um post recebe 5 votos, vai automaticamente para a página principal da rede e fica visível para todos. Assim, ele passa a ocupar o primeiro lugar na lista de posts a cada voto recebido. <strong>Quem pode votar?</strong> <i>Se você teve um post com cinco votos, automaticamente passa à condição de votante.</i> Participe!
+	                    <?php echo get_option( 'vq_description' ); ?>
                     </p>
                 </div>
             </div>
+            <?php } ?>
             <?php get_template_part( 'partes-templates/loop-posts'); ?>
         </div>
         <!-- Sidebar -->
