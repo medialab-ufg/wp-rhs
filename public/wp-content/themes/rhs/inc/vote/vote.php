@@ -536,7 +536,7 @@ Class RHSVote {
 
 						$default = $attr['default'];
 						$value   = get_option( $label );
-
+                        
 						?>
                         <tr>
                             <th scope="row">
@@ -546,10 +546,7 @@ Class RHSVote {
 								<?php if ( $attr['type'] == 'select' ) { ?>
                                     <select name="<?php echo $label; ?>" id="<?php echo $label; ?>">
 										<?php for ( $i = 1; $i <= 50; $i ++ ) { ?>
-                                            <?php if($i == $default){ ?>
-                                                <option value="" <?php echo $value == '' ? 'selected' : ''; ?> >Padrão (<?php echo $default; ?>)</option>
-                                            <?php } ?>
-                                            <option <?php echo $value == $i ? 'selected' : ''; ?> ><?php echo $i ?></option>
+                                            <option <?php echo $value == $i || ( empty($value) && $i == $default ) ? 'selected' : ''; ?> ><?php echo $i ?></option>
 										<?php } ?>
                                     </select>
                                     <p><i><?php echo __( 'Valor padrão: ' ) . $default; ?></i></p>
