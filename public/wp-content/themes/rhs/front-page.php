@@ -5,9 +5,7 @@
 	<div class="col-xs-12 col-sm-8 col-md-9">
 		<div class="row">
 			<div class="col-xs-12">
-				<?php
-					//get_template_part('partes-templates/carousel' );
-				?>
+				<?php get_template_part('partes-templates/carousel' ); ?>
 			</div>
 		</div>
 		<div class="row">
