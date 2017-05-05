@@ -16,6 +16,7 @@ class RHSImporter {
         'posts' => 'Importação básica dos posts',
         'users' => 'Importação básica dos usuários',
         'users-roles' => 'Importação dos papeis usuários',
+        'usersmeta' => 'Importação avançadas dos usuários',
         'votes' => 'Importação dos votos em posts',
     
     );
