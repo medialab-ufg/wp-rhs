@@ -289,6 +289,97 @@ h1.titulo-page {
     margin: 20px 10px;
 }
 
+
+/************
+*
+* Carousel
+*
+*************/
+@media only screen and (min-width: 768px){
+	.carousel-fade {
+	    .carousel-inner {
+	        .item {
+	            transition-property: opacity;
+	        }
+	        
+	        .item,
+	        .active.left,
+	        .active.right {
+	            opacity: 0;
+	        }
+
+	        .active,
+	        .next.left,
+	        .prev.right {
+	            opacity: 1;
+	        }
+
+	        .next,
+	        .prev,
+	        .active.left,
+	        .active.right {
+	            left: 0;
+	            transform: translate3d(0, 0, 0);
+	        }
+	    }
+
+		.carousel-caption{
+			color: black;
+			position: initial;
+			text-align: left;	
+			a{
+				color: $primeira_cor_texto;
+			}
+			a:hover{
+				color: $primeira_cor_texto;
+				text-decoration: underline;
+			}
+			p{
+				color: $grayColor;
+			}
+		}
+
+		.carousel-control.left {
+		    background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0) 0,rgba(0,0,0,.0001) 100%);
+		    background-image: -o-linear-gradient(left,rgba(0,0,0,.5) 0,rgba(0,0,0,.0001) 100%);
+		    background-image: -webkit-gradient(linear,left top,right top,from(rgba(0, 0, 0, 0)),to(rgba(0,0,0,.0001)));
+		    background-image: linear-gradient(to right,rgba(0, 0, 0, 0) 0,rgba(0,0,0,.0001) 100%);
+		}
+		.carousel-control.right {
+		    background-image: -webkit-linear-gradient(left,rgba(0,0,0,.0001) 0,rgba(0, 0, 0, 0) 100%);
+		    background-image: -o-linear-gradient(left,rgba(0,0,0,.0001) 0,rgba(0,0,0,.5) 100%);
+		    background-image: -webkit-gradient(linear,left top,right top,from(rgba(0,0,0,.0001)),to(rgba(0, 0, 0, 0)));
+		    background-image: linear-gradient(to right,rgba(0,0,0,.0001) 0,rgba(0, 0, 0, 0) 100%);
+		}
+	    .carousel-control{
+			opacity: 1.5;
+	        z-index: 2;
+			.glyphicon-chevron-left{
+				margin-left: -47px;
+			}
+			.glyphicon-chevron-right {
+				margin-right: -47px;
+			}
+		}
+		.carousel-indicators li{
+			background-color: #eee;
+			box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+			-webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+		    -moz-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+		    -o-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+		}
+		.carousel-indicators {
+			bottom: 0;
+			.active {
+			    width: 12px;
+			    height: 12px;
+			    margin: 0;
+			    background-color: $primeira_cor_texto;
+			}
+		}
+	}
+}
+
 /************
 *
 * Painels dos Posts e usado na pagina Single
