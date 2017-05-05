@@ -36,4 +36,15 @@
 			the_excerpt(); 
 		?>
 	</div><!-- .paine-body -->
+	<div class="panel-footer">
+		<div class="row">
+			<div class="col-xs-6">
+				<?php
+					if ( comments_open() ) :
+					  comments_popup_link( '0 COMENTÁRIOS', '<i class="fa fa-commenting-o" aria-hidden="true"></i> 1 COMENTÁRIO', '<i class="fa fa-commenting-o" aria-hidden="true"></i> % COMENTÁRIOS', 'comments-link', 'Não é permitido Comentários neste post');
+					endif;
+				?>
+			</div>
+		</div>
+	</div>
 </div><!-- .panel .panel-default -->
