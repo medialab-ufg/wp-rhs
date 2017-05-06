@@ -11,12 +11,22 @@ SELECT DISTINCT
 
     t.tid,
     t.tid,
-    'post_tag',
+    IF (t.vid = 1, "post_tag", 'category'),
     t.description 
     
 FROM {{drupaldb}}.taxonomy_term_data t
 
-WHERE t.vid = 1
+    INNER JOIN {{drupaldb}}.taxonomy_index i
+    ON t.tid = i.tid
+
+
+WHERE t.vid IN (1,17)
+
+AND i.nid IN (
+
+    SELECT nid FROM {{drupaldb}}.node WHERE type = 'blog'
+
+)
 
 
 ;
