@@ -19,7 +19,7 @@ foreach ($repeated as $r) {
 
     $inc = -1;
     
-    $terms = $wpdb->get_col("SELECT term_id FROM $wpdb->terms WHERE slug = '$slug'");
+    $terms = $wpdb->get_col("SELECT term_id FROM $wpdb->terms WHERE slug = '{$r->slug}'");
     
     foreach ($terms as $t) {
         
@@ -28,7 +28,7 @@ foreach ($repeated as $r) {
         if ($inc === 0) 
             continue;
             
-        var_dump($wpdb->update($wpdb->terms, ['slug' => $r->slug . '-' . $inc], ['term_id' => $t]));
+        $wpdb->update($wpdb->terms, ['slug' => $r->slug . '-' . $inc], ['term_id' => $t]);
     
     }
     

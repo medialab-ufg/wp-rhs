@@ -45,5 +45,5 @@ slug = trim(slug),
 slug = replace(slug, ' ', '-'),
 slug = replace(slug, '--', '-')
 
-# WHERE slug = '';
+WHERE slug = '';
  ;

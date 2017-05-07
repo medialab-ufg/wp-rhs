@@ -12,6 +12,7 @@ SELECT DISTINCT
     t.name,
     IF (t.vid = 1, 
         
+        ## category/tags/slug or tags/slug
         IF (SUBSTR(a.alias, 1, 4) = 'tags',
         
             SUBSTR(a.alias, 6),
