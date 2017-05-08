@@ -16,7 +16,7 @@ class RHSImporter {
         'posts' => 'Importação básica dos posts',
         'users' => 'Importação básica dos usuários',
         'users-roles' => 'Importação dos papeis usuários',
-        'usersmeta' => 'Importação avançadas dos usuários',
+        'users-meta' => 'Importação avançadas dos usuários',
         'votes' => 'Importação dos votos em posts',
         'comments' => 'Importação dos comentários de posts',
     
@@ -110,11 +110,11 @@ class RHSImporter {
             if ( ($this->from > 0 || $this->to > 0) ) {
                 
                 if ($this->to > 0 && $this->from > $this->to)
-                    $this->die('Argumentos inválidos');
+                    $this->stop('Argumentos inválidos');
                 
             } else {
             
-                $this->die('Argumentos inválidos');
+                $this->stop('Argumentos inválidos');
             
             }
         
@@ -145,7 +145,7 @@ class RHSImporter {
 
 
         if (!defined('RHS_DRUPALDB') || empty(RHS_DRUPALDB))
-            $this->die('É preciso definir a constante RHS_DRUPALDB no seu wo-config informando o nome da base de dados do Drupal');
+            $this->stop('É preciso definir a constante RHS_DRUPALDB no seu wo-config informando o nome da base de dados do Drupal');
 
 
         
@@ -168,7 +168,7 @@ class RHSImporter {
             $this->log("== Iniciando passo $s: $step");
             
             if (!file_exists($filename)) {
-                $this->die("Arquivo $filename não encontrado");
+                $this->stop("Arquivo $filename não encontrado");
             }
             
             
@@ -248,7 +248,7 @@ class RHSImporter {
     
     }
     
-    function die($msg, $print_help = false) {
+    function stop($msg, $print_help = false) {
     
         $this->log("Erro: $msg");
         
@@ -256,8 +256,6 @@ class RHSImporter {
             $this->print_help();
         
         die;
-    
-    
     }
     
     function log($msg) {
