@@ -1,8 +1,7 @@
 <?php
 
 $this->log('Limpando metadados de usuários com ID maior que 1');
-$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id > 1;");
-
+$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id > 1 AND meta_key = 'rhs_capabilities';");
 
 $query = $this->get_sql('users-roles-1');
 $this->log('Importando administradores...');

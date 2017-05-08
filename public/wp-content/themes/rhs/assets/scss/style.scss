@@ -552,6 +552,7 @@ h1.titulo-page {
 	.img-usuario img {
 			width: 65px;
 			height: 65px;
+		object-fit: cover;
 	}
 }
 .pagination>li>a, .pagination>li>span{
@@ -600,6 +601,11 @@ form .comment-form-comment{
 				color: $primeira_cor_texto;
 				border-color: $primeira_cor_texto;
 			}
+		}
+		.avatar-user{
+			width: 100px;
+			height: 100px;
+			object-fit: cover;
 		}
 	}
 }

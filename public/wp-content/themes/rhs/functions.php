@@ -10,10 +10,11 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/drupal-password-check.php'); 
         
         // Votes
-        require_once('inc/vote/vote.php'); 
-        
-        
-        /**
+        require_once('inc/vote/vote.php');
+	    require_once('inc/user/user.php');
+
+
+	    /**
         * Não aparecer o menu do administrador na pagina do site. Mesmo quando estiver logado!
         **/
         show_admin_bar( false );
