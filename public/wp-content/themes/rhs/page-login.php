@@ -3,14 +3,7 @@
 <div class="row">
 	<!-- Container -->
 	<div class="col-xs-12 col-md-12 login">
-		<?php
-			$args = array(
-			    'redirect' => home_url(),
-			   );
-		?>
-		<?php 
-	    if(is_user_logged_in()) : ?>
-    		<header class="loginpanel">
+    		<header class="userpage">
 				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
 					<div class="panel panel-info" >
 						<div class="panel-heading">
@@ -55,7 +48,6 @@
 					</div>  
 				</div>
     		</header>
-		<?php endif; ?>
 	</div>
 </div>
 

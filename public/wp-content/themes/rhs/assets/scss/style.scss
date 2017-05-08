@@ -652,7 +652,7 @@ form .comment-form-comment{
 .login{
 	margin-bottom: 50px;
 }
-.loginpanel{
+.userpage{
 	margin-top:50px;
 	.form-horizontal .form-group {
 		margin: 0;
@@ -672,22 +672,22 @@ form .comment-form-comment{
 	}
 	.panel-body{
 		padding-top:30px;
-	}
-	.float-label-control{
-		margin-bottom: 25px;
-	}
-	.panel-other{
-		border-top: 1px solid#888; 
-		padding-top:15px; 
-		font-size:85%;
-	}
-	.panel-button{
-		float: right;
-		padding-top: 7px;
-		padding-bottom: 7px;
-		a {
-			background-color: $primeira_cor_texto;
-			border-color: $primeira_cor_texto;
+		.float-label-control{
+			margin-bottom: 25px;
+		}
+		.panel-button{
+			float: right;
+			padding-top: 7px;
+			padding-bottom: 7px;
+			a {
+				background-color: $primeira_cor_texto;
+				border-color: $primeira_cor_texto;
+			}
+		}
+		.panel-other{
+			border-top: 1px solid#888; 
+			padding-top:15px; 
+			font-size:85%;
 		}
 	}
 }
