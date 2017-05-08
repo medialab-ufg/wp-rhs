@@ -19,6 +19,10 @@ class RHSImporter {
         'users-meta' => 'Importação avançadas dos usuários',
         'votes' => 'Importação dos votos em posts',
         'comments' => 'Importação dos comentários de posts',
+        'taxonomy' => 'Importação das tags e categorias',
+        
+        
+        'taxonomy-slugs' => 'Cria slugs para tags q nao tem e trata slugs repetidos',
     
     );
     

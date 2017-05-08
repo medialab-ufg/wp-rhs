@@ -16,7 +16,7 @@ if (post_password_required()) {
 } ?>
 <div class="row">
 	<!-- Container -->
-	<div class="col-xs-12 col-md-12">
+	<div class="col-xs-12 col-md-12" id="comments">
 		<!--show the form-->
 		<h2 class="titulo-quantidade text-uppercase"><i class="fa fa-commenting-o" aria-hidden="true"></i> <?php comments_number(__('não há Comentários', 'rhs'), __('1 Comentário','rhs'), __('% Comentários','rhs') );?></h2>
 		<?php if('open' == $post->comment_status) : ?>
