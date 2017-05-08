@@ -41,10 +41,11 @@ if (!file_exists("public/wp-content/themes/rhs/vendor")) { mkdir("public/wp-cont
 if (!file_exists("public/wp-content/themes/rhs/vendor/bootstrap")) { mkdir("public/wp-content/themes/rhs/vendor/bootstrap", 777, true);  }
 if (!file_exists("public/wp-content/themes/rhs/assets/js")) {  mkdir("public/wp-content/themes/rhs/assets/js", 777, true); }
 if (!file_exists("public/wp-content/themes/rhs/vendor/js")) {  mkdir("public/wp-content/themes/rhs/vendor/js", 777, true); }
-
+if (!file_exists("public/wp-content/themes/rhs/vendor/fortawesome/font-awesome/css")) {  mkdir("public/wp-content/themes/rhs/vendor/font-awesome/css", 777, true); }
 
 
 recurse_copy("vendor/twbs/bootstrap/dist/", "public/wp-content/themes/rhs/vendor/bootstrap");
+recurse_copy("vendor/fortawesome/font-awesome/css/", "public/wp-content/themes/rhs/vendor/font-awesome/css");
 
 if (file_exists("wp-content")) {
     recurse_copy("wp-content", "vendor");
