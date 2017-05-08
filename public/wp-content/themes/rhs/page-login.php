@@ -2,7 +2,7 @@
 
 <div class="row">
 	<!-- Container -->
-	<div class="col-xs-12 col-md-9">
+	<div class="col-xs-12 col-md-12 login">
 		<?php
 			$args = array(
 			    'redirect' => home_url(),
@@ -10,7 +10,7 @@
 		?>
 		<?php 
 	    if(is_user_logged_in()) : ?>
-    		<section class="loginpanel">
+    		<header class="loginpanel">
 				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
 					<div class="panel panel-info" >
 						<div class="panel-heading">
@@ -35,6 +35,11 @@
 										</label>
 									</div>
 								</div>
+                                <div class="panel-button form-group">
+                                    <div class="col-sm-12 controls">
+                                      <a id="btn-login" href="#" class="btn btn-success">Login  </a>
+                                    </div>
+                                </div>
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="panel-other" >
@@ -49,12 +54,9 @@
 						</div>                     
 					</div>  
 				</div>
-    		</section>
+    		</header>
 		<?php endif; ?>
 	</div>
-
-	<!-- Sidebar -->
-	<div class="col-xs-12 col-md-3"><?php get_sidebar(); ?></div>
 </div>
 
 <?php get_footer();

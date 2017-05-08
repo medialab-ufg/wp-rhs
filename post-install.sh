@@ -50,8 +50,6 @@ recurse_copy("vendor/fortawesome/font-awesome/css/", "public/wp-content/themes/r
 if (file_exists("wp-content")) {
     recurse_copy("wp-content", "vendor");
     deleteDir("wp-content");
-
-
 }
 
 if (file_exists("vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php")) { copy("vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php", "public/wp-content/themes/rhs/vendor/wp-bootstrap-navwalker.php"); }
