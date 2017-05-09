@@ -27,16 +27,17 @@ jQuery(document).ready(function($) {
 
 function addLinkUser() {
 
-    if(jQuery('form#your-profile tr.user-links .input-group p').length >= 5){
-        return;
-    }
-
     var links = jQuery('form#your-profile tr.user-links .input-group p').last().clone();
+
+    jQuery(links).find('input').attr('value','');
 
     jQuery('form#your-profile tr.user-links .input-group').append(links);
 
-    if(jQuery('form#your-profile tr.user-links .input-group p').length >= 5){
-        jQuery('form#your-profile tr.user-links .help-block').remove();
-    }
+}
+
+function removerLinkUser(link) {
+
+    jQuery(link).closest('p').remove();
+
 
 }

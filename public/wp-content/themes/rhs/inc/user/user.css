@@ -1,0 +1,13 @@
+#profile-page .field-add a.remove{
+    text-decoration: none;
+    font-style: initial;
+    font-weight: 700;
+    color: #e00000;
+    font-size: 16px;
+    margin-left: 2px;
+}
+
+#profile-page .field-add .input-group > p:first-child a.remove{
+    display: none;
+}
+

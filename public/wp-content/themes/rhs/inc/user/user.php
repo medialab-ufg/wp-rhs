@@ -25,6 +25,7 @@ Class RHSUser {
             add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_admin' ) );
             add_action( 'personal_options_update', array( &$this, 'save_extra_profile_fields' ) );
             add_action( 'edit_user_profile_update', array( &$this, 'save_extra_profile_fields' ) );
+            add_action('admin_enqueue_scripts', array( &$this, 'admin_theme_style'));
 
             self::$instance = true;
         }
@@ -32,6 +33,10 @@ Class RHSUser {
 
     function addJS() {
         wp_enqueue_script( 'rhs_user', get_template_directory_uri() . '/inc/user/user.js', array( 'jquery' ) );
+    }
+
+    function admin_theme_style() {
+        wp_enqueue_style('user-admin-style', get_template_directory_uri() . '/inc/user/user.css');
     }
 
     function extra_profile_fields() {
@@ -57,6 +62,7 @@ Class RHSUser {
                                        value="<?php echo $link['title'] ?>" class="regular-text code">
                                 <input placeholder="Url" type="url" name="rhs_links[url][]" id="links"
                                        value="<?php echo $link['url'] ?>" class="regular-text code">
+                                <i><a onclick="removerLinkUser(this)" title="Remover Link" class="remove" href="javascript:;">X</a></i>
                             </p>
                         <?php } ?>
                     </div>
