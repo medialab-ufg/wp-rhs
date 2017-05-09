@@ -9,7 +9,7 @@
 						<div class="panel-heading">
 							<div class="panel-title">Recuperar Senha</div>
 						</div>     
-
+						<?php $reCaptcha = new RECaptcha(); ?>
 						<div class="panel-body" >
 							<form class="form-horizontal" role="form">
 								<div class="form-group float-label-control">
@@ -18,7 +18,7 @@
 								</div>
 		                        <div class="form-group">
 		                            <div class="col-sm-12 panel-captcha">
-		                              <?php echo display_recuperar_captcha(); ?>
+		                            	<?php echo $reCaptcha->display_recuperar_captcha(); ?>
 		                            </div>
 		                        </div>   
                                 <div class="panel-button form-group">
