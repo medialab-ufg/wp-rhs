@@ -2,15 +2,8 @@
 
 <div class="row">
 	<!-- Container -->
-	<div class="col-xs-12 col-md-9">
-		<?php
-			$args = array(
-			    'redirect' => home_url(),
-			   );
-		?>
-		<?php 
-	    if(is_user_logged_in()) : ?>
-    		<section class="loginpanel">
+	<div class="col-xs-12 col-md-12 login">
+    		<header class="userpage">
 				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
 					<div class="panel panel-info" >
 						<div class="panel-heading">
@@ -22,11 +15,11 @@
 							<form class="form-horizontal" role="form">
 								<div class="form-group float-label-control">
 									<label for="user_login">Email</label>
-									<input type="text" tabindex="1" name="log" id="user_login" class="form-control" value="" size="20" required>                               
+									<input type="email" tabindex="1" name="login" id="user_login" class="form-control" value="" size="20" required>                               
 								</div>
 								<div class="form-group float-label-control">
 									<label for="user_pass">Senha</label>
-									<input type="password" tabindex="2" name="pwd" id="user_pass" class="form-control" value="" size="20">
+									<input type="password" tabindex="2" name="pwd" id="user_pass" class="form-control" value="" size="20" required>
 								</div>
 								<div class="form-group">
 									<div class="checkbox">
@@ -35,11 +28,16 @@
 										</label>
 									</div>
 								</div>
+                                <div class="panel-button form-group">
+                                    <div class="col-sm-12 controls">
+                                      <a id="btn-login" href="#" class="btn btn-success">Login  </a>
+                                    </div>
+                                </div>
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="panel-other" >
 											Você não tem uma conta?
-											<a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">
+											<a href="#">
 												Crie uma aqui!
 											</a>
 										</div>
@@ -49,12 +47,8 @@
 						</div>                     
 					</div>  
 				</div>
-    		</section>
-		<?php endif; ?>
+    		</header>
 	</div>
-
-	<!-- Sidebar -->
-	<div class="col-xs-12 col-md-3"><?php get_sidebar(); ?></div>
 </div>
 
 <?php get_footer();

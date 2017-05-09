@@ -1,5 +1,6 @@
 .idea/
 public/wp/
+public/sites
 public/wp-config.php
 public/.htaccess
 public/wp-content/uploads

@@ -140,6 +140,7 @@ Segundo Nav-menu
 			padding-top: 3px;
 		}
 		li a {
+			background-color: $cor_fundo_formulario_nav;
 			padding: 10px 10px;
 		    text-align: right;
 		    width: 100%;
@@ -552,7 +553,6 @@ h1.titulo-page {
 	.img-usuario img {
 			width: 65px;
 			height: 65px;
-		object-fit: cover;
 	}
 }
 .pagination>li>a, .pagination>li>span{
@@ -602,11 +602,6 @@ form .comment-form-comment{
 				border-color: $primeira_cor_texto;
 			}
 		}
-		.avatar-user{
-			width: 100px;
-			height: 100px;
-			object-fit: cover;
-		}
 	}
 }
 #info_pessoais, #sobre_interesses{
@@ -646,6 +641,61 @@ form .comment-form-comment{
 	}
 	+.panel-collapse>.panel-body{
 		border-color: $backgroundColor;
+	}
+}
+
+/*
+*
+* LoginPanel
+*
+*/
+.login{
+	margin-bottom: 50px;
+}
+.userpage{
+	margin-top:50px;
+	.form-horizontal .form-group {
+		margin: 0;
+	}
+	.panel-heading{
+		background-color: $primeira_cor_texto;
+		color: $whiteColor;
+		a {
+			color: $whiteColor;
+		}
+		.panel-sub{
+			float:right; 
+			font-size: 80%; 
+			position: relative; 
+			top:-10px;
+		}
+	}
+	.panel-body{
+		padding-top:30px;
+		.float-label-control{
+			margin-bottom: 25px;
+		}
+		.panel-button{
+			float: right;
+			padding-top: 7px;
+			padding-bottom: 7px;
+			a {
+				background-color: $primeira_cor_texto;
+				border-color: $primeira_cor_texto;
+			}
+		}
+		.controls {
+			padding-top: 7px;
+			padding-bottom: 7px;
+			a {
+				float: right;
+			}
+		}
+		.panel-other{
+			border-top: 1px solid#888; 
+			padding-top:15px; 
+			font-size:85%;
+		}
 	}
 }
 
