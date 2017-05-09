@@ -38,7 +38,7 @@
 										<div class="panel-other" >
 											Você não tem uma conta?
 											<a href="<?php echo wp_registration_url(); ?>">
-												Crie uma aqui!
+												Crie uma aqui! 
 											</a>
 										</div>
 									</div>
