@@ -15,11 +15,11 @@
 							<form class="form-horizontal" role="form">
 								<div class="form-group float-label-control">
 									<label for="user_login">Email</label>
-									<input type="text" tabindex="1" name="log" id="user_login" class="form-control" value="" size="20" required>                               
+									<input type="email" tabindex="1" name="login" id="user_login" class="form-control" value="" size="20" required>                               
 								</div>
 								<div class="form-group float-label-control">
 									<label for="user_pass">Senha</label>
-									<input type="password" tabindex="2" name="pwd" id="user_pass" class="form-control" value="" size="20">
+									<input type="password" tabindex="2" name="pwd" id="user_pass" class="form-control" value="" size="20" required>
 								</div>
 								<div class="form-group">
 									<div class="checkbox">
@@ -37,7 +37,7 @@
 									<div class="col-md-12">
 										<div class="panel-other" >
 											Você não tem uma conta?
-											<a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">
+											<a href="#">
 												Crie uma aqui!
 											</a>
 										</div>

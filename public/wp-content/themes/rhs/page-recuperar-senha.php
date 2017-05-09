@@ -14,7 +14,7 @@
 							<form class="form-horizontal" role="form">
 								<div class="form-group float-label-control">
 									<label for="user_login">Nome de usuário ou E-mail: </label>
-									<input type="text" tabindex="1" name="log" id="user_login" class="form-control" value="" size="20" required>                               
+									<input type="email" tabindex="1" name="log" id="user_login" class="form-control" value="" size="20" required>                               
 								</div>
 		                        <div class="form-group">
 		                            <div class="col-sm-12 panel-captcha">

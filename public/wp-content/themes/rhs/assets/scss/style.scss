@@ -684,6 +684,13 @@ form .comment-form-comment{
 				border-color: $primeira_cor_texto;
 			}
 		}
+		.controls {
+			padding-top: 7px;
+			padding-bottom: 7px;
+			a {
+				float: right;
+			}
+		}
 		.panel-other{
 			border-top: 1px solid#888; 
 			padding-top:15px; 
