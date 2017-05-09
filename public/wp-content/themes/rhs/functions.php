@@ -11,6 +11,7 @@ if(!function_exists('rhs_setup')) :
         
         // Votes
         require_once('inc/vote/vote.php');
+        require_once('inc/vote/widget.php');
 	    require_once('inc/user/user.php');
 
         //reCAPTCHA

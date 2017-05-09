@@ -1,4 +1,5 @@
 .idea/
+wp-content/
 public/wp/
 public/sites
 public/wp-config.php
