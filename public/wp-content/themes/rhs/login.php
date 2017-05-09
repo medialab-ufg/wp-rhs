@@ -12,7 +12,7 @@
 						</div>     
 
 						<div class="panel-body" >
-							<form class="form-horizontal" role="form">
+							<form class="form-horizontal" role="form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
 								<div class="form-group float-label-control">
 									<label for="user_login">Email</label>
 									<input type="email" tabindex="1" name="login" id="user_login" class="form-control" value="" size="20" required>                               
@@ -24,25 +24,29 @@
 								<div class="form-group">
 									<div class="checkbox">
 										<label>
-											<input id="login-remember" type="checkbox" name="remember" value="1"> Salvar dados de Acesso?
+											<input id="login-remember" name="rememberme"  type="checkbox" name="remember" value="forever"> Salvar dados de Acesso?
 										</label>
 									</div>
 								</div>
                                 <div class="panel-button form-group">
                                     <div class="col-sm-12 controls">
-                                      <a id="btn-login" href="#" class="btn btn-success">Login  </a>
+                                      <input id="btn-login" href="#" class="btn btn-success" type="submit" value="Login">
                                     </div>
                                 </div>
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="panel-other" >
 											Você não tem uma conta?
-											<a href="#">
+											<a href="<?php echo wp_registration_url(); ?>">
 												Crie uma aqui!
 											</a>
 										</div>
 									</div>
-								</div>    
+								</div>
+                                
+                                <input type="hidden" name="redirect_to" value="<?php echo esc_attr( isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : '' ); ?>" />
+                                
+                                 
 							</form>    
 						</div>                     
 					</div>  
