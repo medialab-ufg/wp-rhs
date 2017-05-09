@@ -8,57 +8,57 @@
  */
 Class RHSUser {
 
-	static $instance;
+    static $instance;
 
-	private $separate = "&#44;";
-	private $userID;
+    private $separate = "&#44;";
+    private $userID;
 
-	function __construct( $userID ) {
+    function __construct( $userID ) {
 
-	    $this->userID = $userID;
+        $this->userID = $userID;
 
-		if ( empty( self::$instance ) ) {
+        if ( empty( self::$instance ) ) {
 
-			add_action( 'admin_enqueue_scripts', array( &$this, 'addJS' ) );
-			add_action( 'show_user_profile', array( &$this, 'extra_profile_fields' ) );
-			add_action( 'edit_user_profile', array( &$this, 'extra_profile_fields' ) );
-			add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_admin' ) );
-			add_action( 'personal_options_update', array( &$this, 'save_extra_profile_fields' ) );
-			add_action( 'edit_user_profile_update', array( &$this, 'save_extra_profile_fields' ) );
+            add_action( 'admin_enqueue_scripts', array( &$this, 'addJS' ) );
+            add_action( 'show_user_profile', array( &$this, 'extra_profile_fields' ) );
+            add_action( 'edit_user_profile', array( &$this, 'extra_profile_fields' ) );
+            add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_admin' ) );
+            add_action( 'personal_options_update', array( &$this, 'save_extra_profile_fields' ) );
+            add_action( 'edit_user_profile_update', array( &$this, 'save_extra_profile_fields' ) );
 
-			self::$instance = true;
-		}
-	}
+            self::$instance = true;
+        }
+    }
 
-	function addJS() {
-		wp_enqueue_script( 'rhs_user', get_template_directory_uri() . '/inc/user/user.js', array( 'jquery' ) );
-	}
+    function addJS() {
+        wp_enqueue_script( 'rhs_user', get_template_directory_uri() . '/inc/user/user.js', array( 'jquery' ) );
+    }
 
-	function extra_profile_fields() {
-		if ( function_exists( 'wp_enqueue_media' ) ) {
-			wp_enqueue_media();
-		} else {
-			wp_enqueue_style( 'thickbox' );
-			wp_enqueue_script( 'media-upload' );
-			wp_enqueue_script( 'thickbox' );
-		}
+    function extra_profile_fields() {
+        if ( function_exists( 'wp_enqueue_media' ) ) {
+            wp_enqueue_media();
+        } else {
+            wp_enqueue_style( 'thickbox' );
+            wp_enqueue_script( 'media-upload' );
+            wp_enqueue_script( 'thickbox' );
+        }
 
 
-		?>
+        ?>
         <table class="form-table field-add">
             <tbody>
             <tr class="user-links">
                 <th><label for="links"><?php _e( 'Links' ) ?></label></th>
                 <td>
                     <div class="input-group">
-						<?php foreach ( $this->getLinks( true ) as $key => $link ) { ?>
+                        <?php foreach ( $this->getLinks( true ) as $key => $link ) { ?>
                             <p>
                                 <input placeholder="Titulo" type="text" name="rhs_links[title][]" id="links"
                                        value="<?php echo $link['title'] ?>" class="regular-text code">
                                 <input placeholder="Url" type="url" name="rhs_links[url][]" id="links"
                                        value="<?php echo $link['url'] ?>" class="regular-text code">
                             </p>
-						<?php } ?>
+                        <?php } ?>
                     </div>
                     <div class="help-block">
                         <a onclick="addLinkUser();"
@@ -99,118 +99,118 @@ Class RHSUser {
             </tr>
             </tbody>
         </table>
-		<?php
-	}
+        <?php
+    }
 
-	function enqueue_admin() {
-		wp_enqueue_script( 'thickbox' );
-		wp_enqueue_style( 'thickbox' );
+    function enqueue_admin() {
+        wp_enqueue_script( 'thickbox' );
+        wp_enqueue_style( 'thickbox' );
 
-		wp_enqueue_script( 'media-upload' );
-	}
+        wp_enqueue_script( 'media-upload' );
+    }
 
 
-	function save_extra_profile_fields($userID) {
+    function save_extra_profile_fields( $userID ) {
 
-	    $this->userID = $userID;
+        $this->userID = $userID;
 
-		if ( ! current_user_can( 'edit_user', $this->userID ) ) {
-			return false;
-		}
+        if ( ! current_user_can( 'edit_user', $this->userID ) ) {
+            return false;
+        }
 
-		if ( ! empty( $_POST['rhs_links'] ) && is_array( $_POST['rhs_links'] ) ) {
+        if ( ! empty( $_POST['rhs_links'] ) && is_array( $_POST['rhs_links'] ) ) {
 
-			if ( ! empty( $_POST['rhs_links']['title'] ) ) {
-				$_POST['rhs_links']['title'] = array_filter( $_POST['rhs_links']['title'] );
-				$_POST['rhs_links']['title'] = implode( $this->separate, $_POST['rhs_links']['title'] );
-			}
+            if ( ! empty( $_POST['rhs_links']['title'] ) ) {
+                $_POST['rhs_links']['title'] = array_filter( $_POST['rhs_links']['title'] );
+                $_POST['rhs_links']['title'] = implode( $this->separate, $_POST['rhs_links']['title'] );
+            }
 
-			if ( ! empty( $_POST['rhs_links']['url'] ) ) {
-				$_POST['rhs_links']['url'] = array_filter( $_POST['rhs_links']['url'] );
-				$_POST['rhs_links']['url'] = implode( $this->separate, $_POST['rhs_links']['url'] );
-			}
+            if ( ! empty( $_POST['rhs_links']['url'] ) ) {
+                $_POST['rhs_links']['url'] = array_filter( $_POST['rhs_links']['url'] );
+                $_POST['rhs_links']['url'] = implode( $this->separate, $_POST['rhs_links']['url'] );
+            }
 
-			$_POST['rhs_links'] = json_encode( $_POST['rhs_links'] );
+            $_POST['rhs_links'] = json_encode( $_POST['rhs_links'] );
 
-		}
+        }
 
-		if ( ! empty( $_POST['rhs_avatar'] ) ) {
-			$url                 = get_site_url();
-			$url                 = str_replace( 'wp', '', $url );
-			$_POST['rhs_avatar'] = str_replace( $url, '', $_POST['rhs_avatar'] );
-		}
+        if ( ! empty( $_POST['rhs_avatar'] ) ) {
+            $url                 = get_site_url();
+            $url                 = str_replace( 'wp', '', $url );
+            $_POST['rhs_avatar'] = str_replace( $url, '', $_POST['rhs_avatar'] );
+        }
 
-		update_user_meta( $this->userID, 'rhs_links', $_POST['rhs_links'] );
-		update_user_meta( $this->userID, 'rhs_formation', $_POST['rhs_formation'] );
-		update_user_meta( $this->userID, 'rhs_interest', $_POST['rhs_interest'] );
-		update_user_meta( $this->userID, 'rhs_avatar', $_POST['rhs_avatar'] );
-	}
+        update_user_meta( $this->userID, 'rhs_links', $_POST['rhs_links'] );
+        update_user_meta( $this->userID, 'rhs_formation', $_POST['rhs_formation'] );
+        update_user_meta( $this->userID, 'rhs_interest', $_POST['rhs_interest'] );
+        update_user_meta( $this->userID, 'rhs_avatar', $_POST['rhs_avatar'] );
+    }
 
-	function getAvatarImage() {
+    function getAvatarImage() {
 
-		$avatar = $this->getAvatar();
+        $avatar = $this->getAvatar();
 
-		if ( ! empty( $avatar )) {
-			$avatar = get_site_url() . '/../' . $avatar;
-		}
+        if ( ! empty( $avatar ) ) {
+            $avatar = get_site_url() . '/../' . $avatar;
+        }
 
-		return $avatar;
-	}
+        return $avatar;
+    }
 
-	function getAvatar() {
+    function getAvatar() {
 
-		return esc_attr( get_the_author_meta( 'rhs_avatar', $this->userID ) );
-	}
+        return esc_attr( get_the_author_meta( 'rhs_avatar', $this->userID ) );
+    }
 
-	function getFormacao() {
+    function getFormacao() {
 
-		return esc_attr( get_the_author_meta( 'rhs_formation', $this->userID ) );
-	}
+        return esc_attr( get_the_author_meta( 'rhs_formation', $this->userID ) );
+    }
 
-	function getInteresses() {
+    function getInteresses() {
 
-		return esc_attr( get_the_author_meta( 'rhs_interest', $this->userID ) );
-	}
+        return esc_attr( get_the_author_meta( 'rhs_interest', $this->userID ) );
+    }
 
-	function getSobre() {
-		return esc_attr( get_the_author_meta( 'description', $this->userID ) );
-	}
+    function getSobre() {
+        return esc_attr( get_the_author_meta( 'description', $this->userID ) );
+    }
 
-	function getLinks( $default = false ) {
+    function getLinks( $default = false ) {
 
-		$links = get_the_author_meta( 'rhs_links', $this->userID );
-		$data  = array();
+        $links = get_the_author_meta( 'rhs_links', $this->userID );
+        $data  = array();
 
-		if ( $default ) {
-			$data[] = array( 'title' => '', 'url' => '' );
-		}
+        if ( $default ) {
+            $data[] = array( 'title' => '', 'url' => '' );
+        }
 
-		if ( ! empty( $links ) ) {
+        if ( ! empty( $links ) ) {
 
-			$links = json_decode( $links, true );
+            $links = json_decode( $links, true );
 
-			if ( ! empty( $links['title'] ) ) {
+            if ( ! empty( $links['title'] ) ) {
 
-				$data = array();
+                $data = array();
 
-				$links['title'] = explode( $this->separate, $links['title'] );
-				$links['url']   = explode( $this->separate, $links['url'] );
+                $links['title'] = explode( $this->separate, $links['title'] );
+                $links['url']   = explode( $this->separate, $links['url'] );
 
-				foreach ( $links['title'] as $key => $link ) {
+                foreach ( $links['title'] as $key => $link ) {
 
-					$data[] = array(
-						'title' => $links['title'][ $key ],
-						'url'   => $links['url'][ $key ]
-					);
+                    $data[] = array(
+                        'title' => $links['title'][ $key ],
+                        'url'   => $links['url'][ $key ]
+                    );
 
-				}
-			}
-		}
+                }
+            }
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
 }
 
 global $RHSUser;
-$RHSUser = new RHSUser(!empty($_GET['user_id']) ? $_GET['user_id'] : get_current_user_id() );
+$RHSUser = new RHSUser( ! empty( $_GET['user_id'] ) ? $_GET['user_id'] : get_current_user_id() );
