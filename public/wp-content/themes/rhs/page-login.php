@@ -30,7 +30,7 @@
 								</div>
                                 <div class="panel-button form-group">
                                     <div class="col-sm-12 controls">
-                                      <a id="btn-login" href="#" class="btn btn-success">Login  </a>
+                                      <input type="submit" id="btn-login" href="#" class="btn btn-success" value="Login">
                                     </div>
                                 </div>
 								<div class="form-group">
