@@ -18,6 +18,12 @@ jQuery(document).ready(function($) {
         }).open();
 
     });
+    
+    $('.js-add-user-link').click(function() {
+        var links = $('form#your-profile tr.user-links .input-group p').last().clone();
+        $(links).find('input').attr('value','');
+        $('form#your-profile tr.user-links .input-group').append(links);
+    });
 
     $('form#your-profile tr.user-profile-picture').remove();
     $('form#your-profile table.field-add').insertAfter($('form#your-profile tr.user-description-wrap').closest('.form-table'));
@@ -25,15 +31,6 @@ jQuery(document).ready(function($) {
 
 });
 
-function addLinkUser() {
-
-    var links = jQuery('form#your-profile tr.user-links .input-group p').last().clone();
-
-    jQuery(links).find('input').attr('value','');
-
-    jQuery('form#your-profile tr.user-links .input-group').append(links);
-
-}
 
 function removerLinkUser(link) {
 
