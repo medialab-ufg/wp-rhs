@@ -14,6 +14,10 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/vote/widget.php');
 	    require_once('inc/user/user.php');
         require_once('inc/login/login.php');
+        
+        //Estados e municipios
+        require_once('inc/uf-municipio/UFMunicipio.php');
+
 
 	    /**
         * Não aparecer o menu do administrador na pagina do site. Mesmo quando estiver logado!
@@ -65,6 +69,7 @@ function RHS_scripts() {
    wp_enqueue_script('bootstrap-hover-dropdown', get_template_directory_uri() . '/vendor/js/bootstrap-hover-dropdown.min.js', array('jquery'), '2.2.1', true);
    if(is_page( 'cadastro' )){
         wp_enqueue_script( 'JqueryValidate', 'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js', array('jquery'), '1.15.0', true );
+        wp_enqueue_script('JqueryValidadeMethods', 'https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js', array('JqueryValidate'), '1.16.0', true );
         wp_enqueue_script('ValidarForm', get_template_directory_uri() . '/assets/js/valida-form-registro.js', array('JqueryValidate'),'1.0', true);
    }
    if(is_singular()) wp_enqueue_script('comment-reply');
