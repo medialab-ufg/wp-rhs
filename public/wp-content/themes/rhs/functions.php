@@ -16,6 +16,9 @@ if(!function_exists('rhs_setup')) :
 
         //reCAPTCHA
         require_once('inc/reCaptcha.php');
+        
+        //Estados e municipios
+        require_once('inc/uf-municipio/UFMunicipio.php');
 
 	    /**
         * Não aparecer o menu do administrador na pagina do site. Mesmo quando estiver logado!
