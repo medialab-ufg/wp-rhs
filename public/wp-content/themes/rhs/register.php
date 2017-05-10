@@ -56,6 +56,14 @@
 							</div>
 						</div>
 					</div>
+					<div class="panel panel-info" >
+						<div class="panel-heading">
+							<div class="panel-title">Captcha</div>
+						</div>     
+						<div class="panel-body" >
+							<?php echo RECaptcha::display_recuperar_captcha(); ?>
+						</div>                  
+					</div>
                     <div class="form-group">
                         <div class="col-sm-12 controls">
                           <input type="submit" id="btn-login" href="../" class="btn btn-danger" value="CRIAR NOVA CONTA">

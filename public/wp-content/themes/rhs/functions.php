@@ -13,6 +13,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');
 	    require_once('inc/user/user.php');
+
         require_once('inc/login/login.php');
         
         //Estados e municipios
