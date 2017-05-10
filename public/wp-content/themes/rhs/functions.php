@@ -15,7 +15,7 @@ if(!function_exists('rhs_setup')) :
 	    require_once('inc/user/user.php');
 
         //reCAPTCHA
-        require_once('inc/reCaptcha.php');
+        require_once('inc/RECaptcha.php');
         
         //Estados e municipios
         require_once('inc/uf-municipio/UFMunicipio.php');
