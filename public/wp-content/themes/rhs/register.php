@@ -61,7 +61,9 @@
 							<div class="panel-title">Captcha</div>
 						</div>     
 						<div class="panel-body" >
-							<?php echo RECaptcha::display_recuperar_captcha(); ?>
+							<?php
+							$login = new RHSLogin();
+							$login->display_recuperar_captcha(); ?>
 						</div>                  
 					</div>
                     <div class="form-group">
