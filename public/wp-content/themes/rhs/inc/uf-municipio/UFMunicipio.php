@@ -13,10 +13,9 @@ Class UFMunicipio {
     
     static function init() {
     
-        add_action('wp_enqueue_scripts', array(UFMunicipio, 'addJS'));
-        
-        add_action('wp_ajax_nopriv_get_cities_options', array(UFMunicipio, 'ajax_handle_get_cities'));
-        add_action('wp_ajax_get_cities_options', array(UFMunicipio, 'ajax_handle_get_cities'));
+        add_action('wp_enqueue_scripts', array('UFMunicipio', 'addJS'));
+        add_action('wp_ajax_nopriv_get_cities_options', array('UFMunicipio', 'ajax_handle_get_cities'));
+        add_action('wp_ajax_get_cities_options', array('UFMunicipio', 'ajax_handle_get_cities'));
     
     }
     
@@ -183,14 +182,16 @@ Class UFMunicipio {
             'selected_state' => '',
             'selected_municipio' => '',
             'separator' => '',
+            'select_class' => '',
+            'label_class' => '',
             
         );
         
         $params = array_merge($defaults, $params);
         
-        echo '<label for="estado">', $params['state_label'], '</label>';
+        echo '<label for="estado" class="'.$params['label_class'].'">', $params['state_label'], '</label>';
         
-        echo '<select name="', $params['state_field_name'], '" id="estado">';
+        echo '<select name="', $params['state_field_name'], '" class="'.$params['select_class'].'" id="estado">';
         
             self::print_states_options($params['selected_state']);
         
@@ -198,9 +199,9 @@ Class UFMunicipio {
         
         echo $params['separator'];
         
-        echo '<label for="municipio">', $params['city_label'], '</label>';
+        echo '<label for="municipio" class="'.$params['label_class'].'">', $params['city_label'], '</label>';
         
-        echo '<select name="', $params['city_field_name'], '" id="municipio">';
+        echo '<select name="', $params['city_field_name'], '" class="'.$params['select_class'].'" id="municipio">';
         
             self::print_cities_options($params['selected_municipio']);
         
@@ -211,4 +212,4 @@ Class UFMunicipio {
 
 }
 
-add_action('init', array(UFMunicipio, 'init'));
+add_action('init', array('UFMunicipio', 'init'));
