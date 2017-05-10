@@ -675,6 +675,9 @@ form .comment-form-comment{
 		.float-label-control{
 			margin-bottom: 25px;
 		}
+		span.glyphicon.form-control-feedback{
+			right: 13px;
+		}
 		.panel-button{
 			float: right;
 			padding-top: 7px;
@@ -693,7 +696,7 @@ form .comment-form-comment{
 	.controls {
 		padding-top: 7px;
 		padding-bottom: 7px;
-		a {
+		input {
 			float: right;
 		}
 	}

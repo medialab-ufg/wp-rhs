@@ -5,8 +5,8 @@
 	<div class="col-xs-12 col-md-12 login">
     	<header class="userpage">
 
-			<form class="form-horizontal" role="form" id="form-cadastro">
-				<div class="col-md-6 col-md-offset-1 col-sm-8">                    
+			<form class="form-horizontal" role="form" id="form-cadastro" action="../">
+				<div class="col-md-6 col-md-offset-2 col-sm-8">                    
 					<div class="panel panel-info" >
 						<div class="panel-heading">
 							<div class="panel-title">Dados de Login</div>
@@ -14,18 +14,18 @@
 
 						<div class="panel-body" >
 								<div class="form-group float-label-control">
-									<label for="edit-mail" class="col-sm-1 control-label">Email</label>
+									<label for="mail" class="col-sm-1 control-label">Email</label>
 									<div class="col-sm-12">
-										<input class="form-control form-text" type="email" id="edit-mail" name="mail" maxlength="254" required>
+										<input class="form-control form-text" type="email" id="mail" name="mail" maxlength="254">
 									</div>
 								</div>
 								<div class="form-group float-label-control">
 									<label for="pass" class="col-sm-1 control-label">Senha</label>
 									<div class="col-sm-12">
-										<input class="form-control form-text" type="password" id="pass" name="pass" maxlength="50" required> 
+										<input class="form-control form-text" type="password" id="pass" name="pass" maxlength="50"> 
 										<div class="checkbox">
-											<label>
-												<input type="checkbox"> Exibir Senha
+											<label for="show_pass">
+												<input type="checkbox" name="show_pass" id="show_pass"> Exibir Senha
 											</label>
 										</div>
 									</div>
@@ -38,22 +38,27 @@
 						</div>
 						<div class="panel-body">
 							<div class="form-group float-label-control">
-								<label for="edit-name" class="col-sm-4 control-label">Nome Completo</label>
+								<label for="name" class="col-sm-4 control-label">Nome Completo</label>
 								<div class="col-sm-12">
-									<input class="form-control form-text" type="text" id="edit-name" name="name" size="60" maxlength="60" required>
+									<input class="form-control form-text" type="text" id="name" name="name" size="60" maxlength="60">
 								</div>
 							</div>
 							<div class="form-group float-label-control">
-								<label for="sobre-mim" class="col-sm-5 control-label">Sobre mim</label>
+								<label for="sobre-mim" class="col-sm-5 control-label">Sobre mim <small class="form-text text-muted">(opcional)</small></label>
 								<div class="col-sm-12">
 									<textarea class="form-control form-textarea" id="sobre-mim" name="sobre-mim" cols="60" rows="5"></textarea>
 								</div>
-							</div> 
+							</div>
+							<div class="form-group float-label-control">
+								<div class="col-sm-12 form-inline">
+									<?php UFMunicipio::form(array('state_label' => 'UF: &nbsp', 'city_label' => 'Cidade: &nbsp', 'select_class' => 'form-control', 'separator' => ' ', 'label_class' => 'control-label')); ?>
+								</div>
+							</div>
 						</div>
 					</div>
                     <div class="form-group">
                         <div class="col-sm-12 controls">
-                          <a id="btn-login" href="#" class="btn btn-danger">CRIAR NOVA CONTA  </a>
+                          <input type="submit" id="btn-login" href="../" class="btn btn-danger" value="CRIAR NOVA CONTA">
                         </div>
                     </div>
 				</div>
