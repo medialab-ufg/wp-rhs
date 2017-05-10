@@ -13,10 +13,8 @@
 						<div class="panel-body" >
                             <?php if(!empty($_SESSION['login_errors'])){ ?>
                             <div class="alert alert-danger">
-                                <?php foreach ($_SESSION['login_errors'] as $erros){ ?>
-                                    <?php foreach ($erros as $erro){ ?>
+                                <?php foreach ($_SESSION['login_errors'] as $erro){ ?>
                                         <p><?php echo $erro ?></p>
-                                    <?php } ?>
                                 <?php } ?>
                             </div>
                                 <?php unset($_SESSION['login_errors']); ?>

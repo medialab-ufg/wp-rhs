@@ -10,7 +10,8 @@
         "twbs/bootstrap": "3.3.7",
         "wp-bootstrap/wp-bootstrap-navwalker" : "2.0.5",
         "cwspear/bootstrap-hover-dropdown" : "2.2.1",
-        "FortAwesome/Font-Awesome" : "4.7.0"
+        "FortAwesome/Font-Awesome" : "4.7.0",
+        "phpmailer/phpmailer" : "5.5.23"
     },
     "extra": {
         "wordpress-install-dir": "public/wp"
