@@ -188,11 +188,9 @@ class RHSLogin{
 
         $errors = array();
 
-        if($_POST['user_login']){
+        if(!empty($_POST['user_login'])){
             $errors = $this->retrieve_password();
             $errors = $errors->get_error_messages();
-
-
         }
 
         return $errors;

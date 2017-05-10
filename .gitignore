@@ -1,6 +1,9 @@
 .idea/
 vendor/
 public/wp/
+wp-content/
+public/wp/
+public/sites
 public/wp-config.php
 public/.htaccess
 public/wp-content/uploads
@@ -9,5 +12,11 @@ public/wp-content/themes/rhs/style.css
 public/wp-content/themes/rhs/assets/scss/.sass-cache/
 public/wp-content/themes/rhs/assets/scss/css
 db/base.sql
+public/wp-content/themes/rhs/index.html
+public/wp-content/themes/rhs/assets/scss/.sass-cache/
+public/wp-content/themes/rhs/assets/scss/css
+public/wp-content/themes/rhs/assets/scss/style.css
+public/wp-content/themes/rhs/assets/scss/style.css.map
+db/base_bkp_last_reset.sql
 public/wp-content/themes/rhs/page-fila-de-votacao.html
 public/wp-content/themes/rhs/vendor
