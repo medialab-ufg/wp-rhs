@@ -23,7 +23,7 @@ class RHSLogin{
             add_action('wp_enqueue_scripts', array(&$this, 'API_reCAPTCHA'));
             add_action("admin_menu", array(&$this, "no_captcha_recaptcha_menu"));
             add_action("admin_init", array(&$this, "display_recaptcha_options"));
-            add_action( "recuperar-senha_form", array(&$this, "display_recuperar_captcha" ));
+            add_action("recuperar-senha_form", array(&$this, "display_recuperar_captcha" ));
             add_filter("lostpassword_url", array(&$this, "verify_recuperar_captcha"), 10, 2);
             add_filter("login_url", array(&$this, "login_url"), 10, 3);
             add_filter("lostpassword_url", array(&$this, "lostpassword_url"), 10, 2);
@@ -213,15 +213,6 @@ class RHSLogin{
             $user_data = get_user_by('login', $login);
         }
 
-        /**
-         * Fires before errors are returned from a password reset request.
-         *
-         * @since 2.1.0
-         * @since 4.4.0 Added the `$errors` parameter.
-         *
-         * @param WP_Error $errors A WP_Error object containing any errors generated
-         *                         by using invalid credentials.
-         */
         do_action( 'lostpassword_post', $errors );
 
         if ( $errors->get_error_code() )
@@ -232,7 +223,6 @@ class RHSLogin{
             return $errors;
         }
 
-        // Redefining user_login ensures we return the right case in the email.
         $user_login = $user_data->user_login;
         $user_email = $user_data->user_email;
         $key = get_password_reset_key( $user_data );
@@ -251,39 +241,13 @@ class RHSLogin{
         if ( is_multisite() ) {
             $blogname = get_network()->site_name;
         } else {
-            /*
-             * The blogname option is escaped with esc_html on the way into the database
-             * in sanitize_option we want to reverse this for the plain text arena of emails.
-             */
             $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
         }
 
-        /* translators: Password reset email subject. 1: Site name */
         $title = sprintf( __('[%s] Password Reset'), $blogname );
 
-        /**
-         * Filters the subject of the password reset email.
-         *
-         * @since 2.8.0
-         * @since 4.4.0 Added the `$user_login` and `$user_data` parameters.
-         *
-         * @param string  $title      Default email title.
-         * @param string  $user_login The username for the user.
-         * @param WP_User $user_data  WP_User object.
-         */
         $title = apply_filters( 'retrieve_password_title', $title, $user_login, $user_data );
 
-        /**
-         * Filters the message body of the password reset mail.
-         *
-         * @since 2.8.0
-         * @since 4.1.0 Added `$user_login` and `$user_data` parameters.
-         *
-         * @param string  $message    Default mail message.
-         * @param string  $key        The activation key.
-         * @param string  $user_login The username for the user.
-         * @param WP_User $user_data  WP_User object.
-         */
         $message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
 
         if ( $message && !wp_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {

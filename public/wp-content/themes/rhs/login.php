@@ -8,7 +8,7 @@
 					<div class="panel panel-info" >
 						<div class="panel-heading">
 							<div class="panel-title">Acessar sua Conta</div>
-							<div class="panel-sub"><a href="<?php wp_login ?>">Esqueceu a Senha?</a></div>
+							<div class="panel-sub"><a href="<?php echo wp_lostpassword_url(); ?>">Esqueceu a Senha?</a></div>
 						</div>
 						<div class="panel-body" >
                             <?php if(!empty($_SESSION['login_errors'])){ ?>
