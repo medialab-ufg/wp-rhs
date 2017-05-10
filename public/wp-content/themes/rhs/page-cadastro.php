@@ -11,10 +11,10 @@
 						</div>     
 
 						<div class="panel-body" >
-							<form class="form-horizontal" role="form">
+							<form class="form-horizontal" role="form" id="form-cadastro">
 								<div class="form-group float-label-control">
 									<label for="edit-mail">Email</label>
-									<input class="form-control form-text" type="text" id="edit-mail" name="mail" size="60" maxlength="254" required>                      
+									<input class="form-control form-text" type="text" id="edit-mail" name="mail" size="60" maxlength="254" required>                     
 								</div>
 								<div class="form-group float-label-control">
 									<label for="edit-name">Nome Completo</label>

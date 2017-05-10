@@ -39,7 +39,7 @@
 								</div>
                                 <div class="panel-button form-group">
                                     <div class="col-sm-12 controls">
-                                      <input id="btn-login" href="#" class="btn btn-success" type="submit" value="Login">
+                                    	<input id="btn-login" class="btn btn-success" type="submit" value="Login">
                                     </div>
                                 </div>
 								<div class="form-group">

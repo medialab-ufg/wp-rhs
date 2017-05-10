@@ -11,3 +11,6 @@
     display: none;
 }
 
+.js-add-user-link {
+    cursor: pointer;
+}

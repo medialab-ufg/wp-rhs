@@ -61,9 +61,8 @@ Class RHSUser {
                         <?php } ?>
                     </div>
                     <div class="help-block">
-                        <a onclick="addLinkUser();"
-                           style="outline: none !important; box-shadow: none !important; text-decoration: none;"
-                           href="javascritp:;">
+                        <a class="js-add-user-link"
+                           style="outline: none !important; box-shadow: none !important; text-decoration: none;">
                             + <?php _e( 'Adicionar' ); ?>
                         </a>
                     </div>

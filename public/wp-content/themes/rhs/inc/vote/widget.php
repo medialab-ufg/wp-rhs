@@ -1,6 +1,6 @@
 <?php
 
-class RHSUserWidget extends WP_Widget {
+class RHSVoteQueueWidget extends WP_Widget {
 
     public function __construct() {
         $widget_options = array(
@@ -56,7 +56,7 @@ class RHSUserWidget extends WP_Widget {
     }
 }
 
-function jpen_register_example_widget() {
-    register_widget( 'RHSUserWidget' );
+function rhs_register_vote_queue_widget() {
+    register_widget( 'RHSVoteQueueWidget' );
 }
-add_action( 'widgets_init', 'jpen_register_example_widget' );
+add_action( 'widgets_init', 'rhs_register_vote_queue_widget' );
