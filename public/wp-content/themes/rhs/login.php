@@ -8,14 +8,23 @@
 					<div class="panel panel-info" >
 						<div class="panel-heading">
 							<div class="panel-title">Acessar sua Conta</div>
-							<div class="panel-sub"><a href="#">Esqueceu a Senha?</a></div>
-						</div>     
-
+							<div class="panel-sub"><a href="<?php wp_login ?>">Esqueceu a Senha?</a></div>
+						</div>
 						<div class="panel-body" >
+                            <?php if(!empty($_SESSION['login_errors'])){ ?>
+                            <div class="alert alert-danger">
+                                <?php foreach ($_SESSION['login_errors'] as $erros){ ?>
+                                    <?php foreach ($erros as $erro){ ?>
+                                        <p><?php echo $erro ?></p>
+                                    <?php } ?>
+                                <?php } ?>
+                            </div>
+                                <?php unset($_SESSION['login_errors']); ?>
+                            <?php } ?>
 							<form class="form-horizontal" role="form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
 								<div class="form-group float-label-control">
 									<label for="user_login">Email</label>
-									<input type="email" tabindex="1" name="login" id="user_login" class="form-control" value="" size="20" required>                               
+									<input type="email" tabindex="1" name="log" id="user_login" class="form-control" value="" size="20" required>
 								</div>
 								<div class="form-group float-label-control">
 									<label for="user_pass">Senha</label>
@@ -24,7 +33,7 @@
 								<div class="form-group">
 									<div class="checkbox">
 										<label>
-											<input id="login-remember" name="rememberme"  type="checkbox" name="remember" value="forever"> Salvar dados de Acesso?
+											<input id="login-remember" name="rememberme"  type="checkbox" value="forever"> Salvar dados de Acesso?
 										</label>
 									</div>
 								</div>
@@ -43,10 +52,7 @@
 										</div>
 									</div>
 								</div>
-                                
                                 <input type="hidden" name="redirect_to" value="<?php echo esc_attr( isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : '' ); ?>" />
-                                
-                                 
 							</form>    
 						</div>                     
 					</div>  

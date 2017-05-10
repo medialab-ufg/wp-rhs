@@ -6,7 +6,7 @@
 * Com a Função display_recuperar_captcha() mostra na tela o reCaptcha.
 *
 */
-class RECaptcha{
+class RHSLogin{
 
     const SITE_KEY = 'captcha_site_key';
     const SECRET_KEY = 'captcha_secret_key';
@@ -28,6 +28,8 @@ class RECaptcha{
             add_filter("lostpassword_url", array(&$this, "lostpassword_url"), 10, 2);
             add_filter("login_redirect", array(&$this, "login_redirect"), 10, 3);
             add_filter("register_url", array(&$this, "register_url"));
+            add_filter( 'wp_login_errors', array(&$this, 'login_errors'), 10, 2 );
+            add_action('init', array(&$this, 'check_session'), 1);
             
             add_action( 'generate_rewrite_rules', array( &$this, 'rewrite_rules' ), 10, 1 );
 			add_filter( 'query_vars', array( &$this, 'rewrite_rules_query_vars' ) );
@@ -47,7 +49,7 @@ class RECaptcha{
         return home_url( self::REGISTER_URL );
     }
     
-    function lostpassword_url($login_url, $redirect, $force_reauth) {
+    function lostpassword_url($login_url, $redirect, $force_reauth = '') {
         $lost_page = home_url( self::LOST_PASSWORD_URL );
         $login_url = add_query_arg( 'redirect_to', $redirect, $lost_page );
         return $login_url;
@@ -156,8 +158,30 @@ class RECaptcha{
             return new WP_Error("Captcha Invalid", __("<strong>ERROR</strong>: You are a bot. If not then enable JavaScript"));
         endif;
     }
+
+    function login_errors($errors, $redirect_to){
+
+        $_SESSION['login_errors'] = '';
+
+        if($errors instanceof WP_Error && !empty($errors->errors)){
+
+            $_SESSION['login_errors'] = $errors->errors;
+
+            wp_redirect(esc_url( home_url( '/login' ) ));
+            exit;
+        }
+
+        return $errors;
+    }
+
+
+    function check_session() {
+        if(!session_id()) {
+            session_start();
+        }
+    }
     
 }
 
-global $RECaptcha;
-$RECaptcha = new RECaptcha();
+global $RHSLogin;
+$RHSLogin = new RHSLogin();
