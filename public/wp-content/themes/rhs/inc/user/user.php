@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: MediaLab01
- * Date: 05/05/2017
- * Time: 11:49
- */
 Class RHSUser {
 
     static $instance;

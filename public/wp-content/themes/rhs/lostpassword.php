@@ -9,21 +9,31 @@
 						<div class="panel-heading">
 							<div class="panel-title">Recuperar Senha</div>
 						</div>     
-						<?php $reCaptcha = new RECaptcha(); ?>
+						<?php
+                        $login = new RHSLogin();
+                        $errors = $login->lostpassword();
+                        ?>
 						<div class="panel-body" >
-							<form class="form-horizontal" role="form">
+                            <?php if($errors){ ?>
+                                <div class="alert alert-danger">
+                                    <?php foreach ($errors as $erro){ ?>
+                                            <p><?php echo $erro ?></p>
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
+							<form class="form-horizontal" method="post" role="form" action="">
 								<div class="form-group float-label-control">
 									<label for="user_login">Nome de usuário ou E-mail: </label>
-									<input type="email" tabindex="1" name="log" id="user_login" class="form-control" value="" size="20" required>                               
+									<input type="email" tabindex="1" name="user_login" id="user_login" class="form-control" value="" size="20" required>
 								</div>
 		                        <div class="form-group">
 		                            <div class="col-sm-12 panel-captcha">
-		                            	<?php echo $reCaptcha->display_recuperar_captcha(); ?>
+		                            	<?php echo $login->display_recuperar_captcha(); ?>
 		                            </div>
 		                        </div>   
                                 <div class="panel-button form-group">
                                     <div class="col-sm-12">
-                                      <a id="btn-login" href="#" class="btn btn-success">Recuperar  </a>
+                                      <button id="btn-login" type="submit" class="btn btn-success">Recuperar  </button>
                                     </div>
                                 </div>   
 							</form>    

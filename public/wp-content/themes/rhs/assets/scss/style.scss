@@ -111,6 +111,19 @@ a.navbar-collapse .navbar-nav:visited {
     margin-top: 21px;
 }
 
+
+.alert{
+	&.alert-danger{
+		background: #a94442;
+		color: #fff;
+		a{
+			color: #fff;
+			font-weight: 700;
+			text-decoration: underline;
+		}
+	}
+}
+
 /******************
 *
 Segundo Nav-menu
@@ -682,7 +695,7 @@ form .comment-form-comment{
 			float: right;
 			padding-top: 7px;
 			padding-bottom: 7px;
-			a {
+			a, button {
 				background-color: $primeira_cor_texto;
 				border-color: $primeira_cor_texto;
 			}

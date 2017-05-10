@@ -14,11 +14,11 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/vote/widget.php');
 	    require_once('inc/user/user.php');
 
-        //reCAPTCHA
-        require_once('inc/RECaptcha.php');
+        require_once('inc/login/login.php');
         
         //Estados e municipios
         require_once('inc/uf-municipio/UFMunicipio.php');
+
 
 	    /**
         * Não aparecer o menu do administrador na pagina do site. Mesmo quando estiver logado!
