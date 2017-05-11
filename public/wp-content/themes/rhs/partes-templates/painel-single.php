@@ -1,6 +1,7 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<div class="row post-titulo">
+		<?php $userOBJ = new RHSUser(get_the_author_meta( 'ID' )); ?>
 			<div class="col-xs-9 col-sm-11 col-md-11">
 				<?php the_title( '<h3>', '</h3>' ); ?>
 			</div>
@@ -10,7 +11,7 @@
 			<div class="col-xs-4 col-md-3">
 				<div class="img-usuario">
 					<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
-						<img src="<?php echo get_avatar_url(get_the_author_meta( 'ID' )); ?>" alt="..." class="img-circle">
+						<img src="<?php echo $userOBJ->getAvatarImage(); ?>" alt="..." class="img-circle">
 					</a>	
 				</div>
 			</div>
