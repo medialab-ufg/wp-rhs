@@ -254,6 +254,75 @@ class RHSLogin{
         }
         return true;
     }
+
+    function enviar(){
+
+        require(ABSPATH . WPINC . '/class-phpmailer.php');
+        require(ABSPATH . WPINC . '/class-smtp.php');
+
+        date_default_timezone_set('America/Sao_Paulo');//corrige hora local
+        $siteurl = trailingslashit( get_option('home') );
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        $mail->CharSet='UTF-8';
+
+        $mail->From = get_option('smtp_user');
+        $mail->FromName = get_option('blogname');
+        $mail->Subject = '['. get_option('blogname') .'] nova mensagem';
+        $mail->AddReplyTo = $_POST['contact_email'];
+        $mail->Sender = get_option('smtp_user');
+        //SMTP Config
+        $mail->Host = get_option('smtp_host');
+        //Descomente as opções abaixo se for usar SMTP autenticado. Lembre-se que isto requer que o e-mail seja do domínio do site.
+        //$mail->SMTPAuth = true;
+        //$mail->Username = get_option('smtp_user');
+        //$mail->Password = get_option('smtp_pass');
+
+        $mail->AddAddress( get_option('mail_from') );
+
+        $message  = 'Prezado Administrador,' . "\r\n\r\n";
+        $message .= 'Uma nova mensagem foi enviada em ' .date("d/m/Y \à\s H:i:s"). "\r\n\r\n";
+        $message .= 'MENSAGEM:' . "\r\n";
+        $message .= '------------------------' . "\r\n";
+
+        /*****************************
+        no array abaixo, coloque o nome dos campos que quer remover do corpo da mensagem
+         *******************************/
+        $campos_excluidos = array('submit');
+
+        while(list($campo, $valor) = each($_POST)){
+            if( !in_array( $campo, $campos_excluidos ) ){
+
+                $message.= ucfirst($campo) .":  ". $valor . "\r\n\r\n";
+            }
+
+        }
+
+        $message .= '-------------------------' . "\r\n\r\n";
+        $message .= 'Atenciosamente,' . "\r\n";
+        $message .= get_option('blogname') . "\r\n";
+        $message .= $siteurl . "\r\n\r\n\r\n\r\n";
+
+        $mail->Body = $message;
+
+        // Send Email.
+        if(!$mail->Send()){
+            echo '<div class="msg_erro">
+				<h3>Erro!</h3>
+				<p>A mensagem não pôde ser enviada. Por favor, tente novamente.</p>
+				<p>[ Erro: ' . $mail->ErrorInfo . ' ]</p>
+			  </div>';
+
+        } else {
+            echo '<div class="msg_sucesso">
+				  <h3>Sucesso!</h3>
+				  <p><strong>Sua mensagem foi enviada corretamente!</strong></p>				
+			  </div>';
+        }
+
+        $mail->ClearAllRecipients();
+
+    }
     
 }
 

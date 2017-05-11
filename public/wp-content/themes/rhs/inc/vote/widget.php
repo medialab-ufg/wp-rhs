@@ -18,7 +18,7 @@ class RHSVoteQueueWidget extends WP_Widget {
         echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title']; 
 
         $posts = get_posts(array(
-            'posts_per_page'  => $args['qtd'],
+            'posts_per_page'  => !empty($args['qtd']) ? $args['qtd'] : 0,
             'orderby'          => 'date',
             'order'            => 'DESC',
             'post_status'      => RHSVote::VOTING_QUEUE
