@@ -517,6 +517,23 @@ h1.titulo-page {
 		    		cursor: no-drop;
 		    	}
 		    }
+		    .tags-content{
+		    	padding-bottom: 10px;
+    			padding-top: 10px;
+		    	.tags-title{
+		    		    text-transform: uppercase;
+						color: #00b4b4;
+		    	}
+		    	.tags-list{
+		    		a {
+		    			color: $blackColor;
+		    			font-weight: bold;
+		    		}
+		    		a:hover{
+		    			color: $primeira_cor_texto;
+		    		}
+		    	}
+		    }
 	    }
 	}
 	.panel-body{

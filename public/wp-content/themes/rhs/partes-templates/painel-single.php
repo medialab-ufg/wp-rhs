@@ -28,6 +28,12 @@
 					<span class="post-date text-uppercase"><?php the_time('D, d/m/Y - H:i'); ?></span>
 				</div>
 			</div>
+			<div class="col-xs-12">
+				<div class="tags-content">
+					<p class="tags-title">Tags: </p>
+					<span class="tags-list"><?php the_tags(' '); ?></span>
+				</div>
+			</div>
 			<div class="clearfix"></div>
 		</div>
 	</div>
