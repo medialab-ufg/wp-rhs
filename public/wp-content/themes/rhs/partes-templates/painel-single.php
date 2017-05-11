@@ -30,7 +30,7 @@
 			</div>
 			<div class="col-xs-12">
 				<div class="tags-content">
-					<p class="tags-title">Tags: </p>
+					<div class="tags-title">Tags: </div>
 					<span class="tags-list"><?php the_tags(' '); ?></span>
 				</div>
 			</div>
