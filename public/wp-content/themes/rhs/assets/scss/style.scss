@@ -600,7 +600,7 @@ form .comment-form-comment{
 }
 /********
 *
-* Author
+* Author / Perfil
 *
 *********/
 #verDados {
@@ -632,6 +632,23 @@ form .comment-form-comment{
 				border-color: $primeira_cor_texto;
 			}
 		}
+	}
+	/*Perfil*/
+	.perfil{
+		padding-top: 5px;
+    	padding-left: 15px !important;
+    	.perfil-title{
+    		color: $primeira_cor_texto;
+    	}
+    	.panel-heading{
+    		border-color: #ddd;
+    	}
+		.perfil-pass {
+			width: 16em;
+		}
+	}
+	.info-text{
+    	font-size: 0.7em;
 	}
 }
 #info_pessoais, #sobre_interesses{
@@ -745,14 +762,13 @@ form .comment-form-comment{
 	}
 }
 
-
 /***********
 *
 * Sidebar
 *
 ************/
 #sidebar {
-	margin-right: -15px;
+	//margin-right: -15px;
 	aside {
 		border-top: 1px solid $primeira_cor_texto;
 	    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
@@ -968,6 +984,11 @@ article{
 * Media Querys
 *
 *****************/
+@media only screen and (min-width: 768px){
+	.navbar-right{
+		margin-right: 0;
+	}
+}
 @media only screen and (max-width: 768px){
 	.navbar-nav {
     	margin: 0.5px -15px;
