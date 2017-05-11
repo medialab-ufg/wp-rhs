@@ -122,6 +122,15 @@ a.navbar-collapse .navbar-nav:visited {
 			text-decoration: underline;
 		}
 	}
+	&.alert-success{
+		background: #3c763d;
+		color: #fff;
+		a{
+			color: #fff;
+			font-weight: 700;
+			text-decoration: underline;
+		}
+	}
 }
 
 /******************

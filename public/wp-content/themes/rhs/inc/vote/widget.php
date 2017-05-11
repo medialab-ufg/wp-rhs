@@ -15,10 +15,10 @@ class RHSVoteQueueWidget extends WP_Widget {
         $blog_title = get_bloginfo( 'name' );
         $tagline = get_bloginfo( 'description' );
         
-        echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title']; 
+        echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title'];
 
         $posts = get_posts(array(
-            'posts_per_page'  => !empty($args['qtd']) ? $args['qtd'] : 0,
+            'posts_per_page'  => !empty($instance['qtd']) ? $instance['qtd'] : 0,
             'orderby'          => 'date',
             'order'            => 'DESC',
             'post_status'      => RHSVote::VOTING_QUEUE
