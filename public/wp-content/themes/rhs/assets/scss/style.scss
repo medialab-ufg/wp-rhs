@@ -728,6 +728,7 @@ form .comment-form-comment{
 	}
 }
 
+
 /***********
 *
 * Sidebar
@@ -741,7 +742,45 @@ form .comment-form-comment{
 	    background-color: #fff;
 	    margin-bottom: 20px;
 	    padding: 20px 15px;
+		.widget-title {
+			text-align: center;
+    		margin-top: 0;
+    		margin-bottom: 20px;
+    		font-size: 21px;
+    		color: #00b4b4;
+    		a{
+    			margin-top: 10px;
+			    margin-bottom: 10px;
+			    color: #00b4b4;
+			    font-weight: normal;
+    			text-decoration: none;
+    		}
+		}
+		.fila-votacao{
+		    border-bottom: 1px solid #eee;
+		    border-top: 1px solid #eee;
+		    padding: 10px 15px;
+		    margin-left: -15px;
+		    margin-right: -15px;
+		    a{
+		    	color: #000;
+			    font-weight: bold;
+			    outline: none;
+		    }
+		}
+		ul{
+			-webkit-padding-start: 0;
+			li {
+				display: block;
+				a{
+					color: #000;
+				    font-weight: bold;
+				    outline: none;
+				}
+			}
+		}
 	}
+
 }
 /************
 *
@@ -1024,6 +1063,14 @@ article{
 		.footerMenu .navbar-default a {
 			margin-left: 33px;
 			padding: 7px 0px 0px 0px;
+		}
+	}
+	.g-recaptcha iframe body {
+		.rc-anchor-normal {
+			width: 266px !important;
+		}
+		.rc-anchor-logo-portrait {
+			margin: 10px 0 0 0px !important;
 		}
 	}
 }

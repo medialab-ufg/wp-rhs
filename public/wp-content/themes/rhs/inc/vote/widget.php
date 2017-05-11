@@ -15,7 +15,7 @@ class RHSVoteQueueWidget extends WP_Widget {
         $blog_title = get_bloginfo( 'name' );
         $tagline = get_bloginfo( 'description' );
         
-        echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title']; 
+        echo $args['before_widget'] . $args['before_title'] .'<a href="filavotacao/">'. $title .'</a>'. $args['after_title']; 
 
         $posts = get_posts(array(
             'posts_per_page'  => !empty($args['qtd']) ? $args['qtd'] : 0,
@@ -25,13 +25,13 @@ class RHSVoteQueueWidget extends WP_Widget {
         ));
 
         ?>
-        <ul>
+        <div class="fila-content">
             <?php foreach ($posts as $post){ ?>
-            <li>
+            <div class="fila-votacao">
                 <a href="<?php echo get_permalink($post->ID); ?>"><?php echo $post->post_title; ?></a>
-            </li>
+            </div>
             <?php } ?>
-        </ul>
+        </div>
         <?php echo $args['after_widget'];
     }
 
