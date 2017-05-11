@@ -11,19 +11,21 @@
 						</div>     
 						<?php
                         $login = new RHSLogin();
-                        $errors = $login->lostpassword();
+                        $result = $login->lostpassword();
                         ?>
-						<div class="panel-body" >
-                            <?php if($errors){ ?>
-                                <div class="alert alert-danger">
-                                    <?php foreach ($errors as $erro){ ?>
-                                            <p><?php echo $erro ?></p>
+						<div class="panel-body">
+                            <?php if($result){ ?>
+                                <?php foreach ($result as $type => $msgs){ ?>
+                                <div class="alert alert-<?php echo ($type == 'error') ? 'danger' : 'success'; ?>">
+                                    <?php foreach ($msgs as $msg){ ?>
+                                            <p><?php echo $msg ?></p>
                                     <?php } ?>
                                 </div>
+                                <?php } ?>
                             <?php } ?>
 							<form class="form-horizontal" method="post" role="form" action="">
 								<div class="form-group float-label-control">
-									<label for="user_login">Nome de usuário ou E-mail: </label>
+									<label for="user_login">Digite seu e-mail: </label>
 									<input type="email" tabindex="1" name="user_login" id="user_login" class="form-control" value="" size="20" required>
 								</div>
 		                        <div class="form-group">
@@ -43,5 +45,4 @@
     		</header>
 	</div>
 </div>
-
 <?php get_footer();

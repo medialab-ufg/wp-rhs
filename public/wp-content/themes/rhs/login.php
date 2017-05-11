@@ -19,6 +19,14 @@
                             </div>
                                 <?php unset($_SESSION['login_errors']); ?>
                             <?php } ?>
+                            <?php if(!empty($_SESSION['login_messages'])){ ?>
+                                <div class="alert alert-success">
+                                    <?php foreach ($_SESSION['login_messages'] as $messages){ ?>
+                                        <p><?php echo $messages ?></p>
+                                    <?php } ?>
+                                </div>
+                                <?php unset($_SESSION['login_messages']); ?>
+                            <?php } ?>
 							<form class="form-horizontal" role="form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
 								<div class="form-group float-label-control">
 									<label for="user_login">Email</label>
