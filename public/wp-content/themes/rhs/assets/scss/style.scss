@@ -114,7 +114,7 @@ body {
         }
     }
     .navbar-collapse {
-        .navbar-nav {
+        &.navbar-nav {
             text-align: center;
             > li {
                 > a {
@@ -200,7 +200,7 @@ Segundo Nav-menu
     }
     .dropdown-menu {
         background-color: $cor_fundo_formulario_nav;
-        .icones-dropdown {
+        &.icones-dropdown {
             float: left;
             padding-top: 3px;
         }
@@ -728,6 +728,29 @@ form .comment-form-comment {
         .perfil-pass {
             width: 16em;
         }
+        .panel{
+            .panel-body{
+                padding-top: 7px;
+                label{
+                    color: $primeira_cor_texto;
+                    font-size: 0.74em;
+                }
+                .perfilSelect-city_state{
+                    margin: 15px 4px;
+                    width: 100%;
+                }
+                .perfilLabel-city_state{
+                    position: absolute;
+                    margin: -8px;
+                }
+                .form-width{
+                    width: 52%;
+                }
+                .help-block{
+                    margin-top: 2px;
+                }
+            }
+        }
     }
     .info-text {
         font-size: 0.7em;
@@ -1083,6 +1106,15 @@ article {
     .navbar-right {
         margin-right: 0;
     }
+    #verDados{
+        .perfil{
+            .panel-body{
+                .col-sm-pull-0 {
+                    right: 29px;
+                }
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -1110,6 +1142,9 @@ article {
                     padding-bottom: 14px;
                 }
             }
+        }
+        .navbar-header{
+            margin-left: -30px;
         }
     }
     .segundo-menu {
