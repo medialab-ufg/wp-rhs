@@ -34,9 +34,9 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right dropdown-menu-right">
                             <?php if(!is_user_logged_in()): ?>
-                                <li><a href="#" style="color: #00b4b4">Faça seu login</a></li>
+                                <li><a href="<?php echo wp_login_url(); ?>" style="color: #00b4b4">Faça seu login</a></li>
                                 <span class="navbar-text">ou</span>
-                                <li><a href="#" style="color: #00b4b4">Cadastre-se</a></li>
+                                <li><a href="<?php echo wp_registration_url(); ?>" style="color: #00b4b4">Cadastre-se</a></li>
                             <?php else : ?>
                                 <li class="not-msg"><a href="#" title="Aqui você poderá receber e enviar mensagens a qualquer participante da RHS. Ao receber uma resposta, você será notificado pelo ícone de mensagens na parte superior direita do site. " class="level1 dropdown-toggle" aria-expanded="false"><span aria-hidden="true" class="glyphicon glyphicon-comment"></span></a></li>
                                 <li class="not-msg"><a href="#" title="Você poderá ser notificado sobre comentários em uma postagem específica (definido por você), sobre as postagens de um determinado usuário ou, por padrão, sobre comentários recebidos em suas próprias publicações." class="level1 dropdown-toggle" aria-expanded="false"><span aria-hidden="true" class="glyphicon glyphicon-bell"></span></a></li>
@@ -46,7 +46,7 @@
                                     <ul class="dropdown-menu">
                                         <li class="menu-item"><a href="#"><i class="icones-dropdown fa fa-pencil-square-o" aria-hidden="true"></i> Publicar Post</a></li>
                                         <li class="menu-item"><a href="#"><i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil</a></li>
-                                        <li class="menu-item"><a href="#"><i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair</a></li>
+                                        <li class="menu-item"><a href="<?php echo wp_logout_url(); ?>"><i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair</a></li>
                                     </ul>
                                 </li>
                             <?php endif; ?>
