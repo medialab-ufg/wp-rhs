@@ -237,8 +237,10 @@ Segundo Nav-menu
     }
   }
   #menuPesquisa {
-    input[type=text]{
-      width:38.4em !important;
+    input[type=text] {
+      font-size: 17px;
+      padding-left: 18px;
+      width: 31.4em !important;
       height: 51px;
     }
     .input-group .form-control:focus {
@@ -335,15 +337,35 @@ Primeiro e Segundo DropDown Menu
       background-color: $cor_fundo_formulario_nav;
     }
   }
-  .navbar-nav li.dropdown ul.dropdown-menu li.separador , .nav ul.dropdown-menu li.menu-item {
-    border-top: 1px solid #00b4b4;
-    float: right;
-    width: 100%;
-  }
-  .navbar-nav ul.dropdown-menu, .nav ul.dropdown-menu{
-    padding: 0;
-    margin: 0;
-    margin-top: -1px;
+  .navbar-nav  {
+    li{
+      &.dropdown{
+        > a{
+          padding-right: 24px;
+          span{
+            margin-right: 14px;
+          }
+          &:hover, &:focus, &:active{
+            text-decoration: none;
+          }
+        }
+        ul.dropdown-menu li.separador, .nav ul.dropdown-menu li.menu-item{
+          border-top: 1px solid #00b4b4;
+          float: right;
+          width: 100%;
+        }
+      }
+    }
+
+
+    > .open > a, .navbar-nav > .open > a:hover {
+      background-color: $cor_fundo_formulario_nav;
+    }
+    ul.dropdown-menu, .nav ul.dropdown-menu {
+      padding: 0;
+      margin: 0;
+      margin-top: -1px;
+    }
   }
 }
 
@@ -425,8 +447,9 @@ h1.titulo-page {
       text-shadow: none;
       padding-right: 10px;
     }
-    h3{
+    h3 {
       text-shadow: none;
+      font-weight: 800;
     }
   }
 
@@ -588,6 +611,8 @@ h1.titulo-page {
     }
     p{
       margin: 0;
+      font-size: 0.9em;
+      margin-top: 15px;
     }
     img, p img, span img {
       display: block;
