@@ -66,7 +66,7 @@
                     <!--End Form-->
                     <ul class="nav navbar-nav navbar-right dropdown-menu-right dropdown-ipad">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger"></span> MENU</a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger"></span> Menu</a>
                             <?php
                                 /*
                                 * menuDropDown vem de um register feito nas functions onde o mesmo entra em contato com o menu do 
