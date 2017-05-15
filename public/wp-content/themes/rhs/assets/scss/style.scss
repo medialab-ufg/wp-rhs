@@ -936,13 +936,12 @@ form .comment-form-comment {
             }
         }
         .fila-votacao {
-            border-bottom: 1px solid #eee;
             border-top: 1px solid #eee;
             padding: 10px 15px;
             margin-left: -15px;
             margin-right: -15px;
             a {
-                color: #000;
+                color: rgba(0, 0, 0, 0.66);
                 font-weight: bold;
                 outline: none;
             }
@@ -950,13 +949,21 @@ form .comment-form-comment {
         ul {
             -webkit-padding-start: 0;
             li {
+                border-top: 1px solid #eee;
                 display: block;
+                margin-left: -15px;
+                margin-right: -15px;
+                padding: 10px 15px;
                 a {
-                    color: #000;
+                    color: rgba(0, 0, 0, 0.66);
+                    font-size: 0.8em;
                     font-weight: bold;
                     outline: none;
                 }
             }
+        }
+        form{
+            margin-top: -17px;
         }
     }
 
