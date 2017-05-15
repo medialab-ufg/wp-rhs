@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-    <?php $userOBJ = new RHSUser(get_the_author_meta( 'ID' )); ?>
+
     <div class="row">
         <!-- Container -->
         <div class="col-xs-12 col-md-12">

@@ -114,7 +114,7 @@ body {
         }
     }
     .navbar-collapse {
-        &.navbar-nav {
+        .navbar-nav {
             text-align: center;
             > li {
                 > a {
@@ -201,7 +201,7 @@ Segundo Nav-menu
     }
     .dropdown-menu {
         background-color: $cor_fundo_formulario_nav;
-        &.icones-dropdown {
+        .icones-dropdown {
             float: left;
             padding-top: 3px;
         }
@@ -354,7 +354,7 @@ Primeiro e Segundo DropDown Menu
     }
     .navbar-nav {
         li {
-            &.dropdown {
+            .dropdown {
                 > a {
                     padding-right: 24px;
                     span {
@@ -379,6 +379,29 @@ Primeiro e Segundo DropDown Menu
             padding: 0;
             margin: 0;
             margin-top: -1px;
+        }
+    }
+}
+
+/*Button Publicar e Ver Fila de Votação*/
+.buttons_top{
+    margin: -9px auto 53px;
+    .btn{
+        border: 0px solid transparent;
+        border-radius: 0px;
+    }
+    button{
+        color: $primeira_cor_texto;
+        border-color: $whiteColor;
+        border-bottom: 2px solid $primeira_cor_texto !important;
+        font-size: 15px;
+        font-weight: bold;
+        padding: 9px 12px;
+        &:hover{
+            color: $primeira_cor_texto;
+            border-color: $primeira_cor_texto;
+            background: $whiteColor;
+            text-decoration: underline;
         }
     }
 }
@@ -1277,6 +1300,10 @@ article {
                 position: absolute;
                 margin-top: 42px !important;
                 left: -98px;
+            li a {
+                padding: 10px 10px;
+                margin-right: -3px;
+                }
             }
         }
         #menuPesquisa input[type=text] {
@@ -1288,6 +1315,14 @@ article {
     }
     #menu-segundo-menu {
         margin: 0px -15px;
+    }
+
+    /* Button Publicar e Ver Fila de Votação */
+    .buttons_top{
+        .full-width{
+            padding-right: 0;
+            padding-left: 0;
+        }
     }
 
     /* Author */
