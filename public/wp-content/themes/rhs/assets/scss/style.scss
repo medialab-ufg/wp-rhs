@@ -967,6 +967,9 @@ form .comment-form-comment {
                 color: rgba(0, 0, 0, 0.66);
                 font-weight: bold;
                 outline: none;
+                &:hover{
+                    color: $primeira_cor_texto;
+                }
             }
         }
         ul {
