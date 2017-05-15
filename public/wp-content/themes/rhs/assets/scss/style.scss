@@ -731,6 +731,10 @@ form .comment-form-comment {
         .panel{
             .panel-body{
                 padding-top: 7px;
+                .form-group{
+                    margin-right: 0;
+                    margin-left: 0;
+                }
                 label{
                     color: $primeira_cor_texto;
                     font-size: 0.74em;
@@ -748,6 +752,33 @@ form .comment-form-comment {
                 }
                 .help-block{
                     margin-top: 2px;
+                    a{
+                        float: right;
+                        color: $primeira_cor_texto;
+                        background-color: rgba(91, 192, 222, 0);
+                        border-color: $primeira_cor_texto;
+                        &:hover{
+                            color: $whiteColor;
+                            background-color: $primeira_cor_texto;
+                            border-color: $whiteColor;
+                        }
+                    }
+                }
+                .add-link {
+                    a.remove{
+                        text-decoration: none;
+                        font-style: initial;
+                        font-weight: 700;
+                        color: #e00000;
+                        font-size: 16px;
+                        margin-left: 2px;
+                    }
+                    > #Links:first-child a.remove{
+                        display: none;
+                    }
+                    .pos{
+                        padding-top: 32px;
+                    }
                 }
             }
         }
@@ -1179,6 +1210,26 @@ article {
                 }
             }
         }
+        /* Editar Perfil */
+        .perfil{
+            .panel{
+                .panel-body{
+                    .add-link {
+                        > #Links:first-child{
+                            padding-top: 0;
+                        }
+                        > #Links{
+                            padding-top: 10%;
+                        }
+                        .pos{
+                            padding-top: 0;
+                            float: right;
+                            top: -119px;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     .carousel-fade {
@@ -1263,6 +1314,26 @@ article {
             }
         }
     }
+
+    /* Editar Perfil */
+    #verDados{
+        .perfil{
+            .panel{
+                .panel-body{
+                    .add-link {
+                        > #Links:first-child a.remove{
+                            display: none;
+                        }
+                        .pos{
+                            padding-top: 32px;
+                            top: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 @media only screen and (max-width: 640px) and (orientation: landscape) {
