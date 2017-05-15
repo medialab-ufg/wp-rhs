@@ -592,23 +592,6 @@ h1.titulo-page {
                     cursor: no-drop;
                 }
             }
-            .tags-content {
-                padding-bottom: 10px;
-                padding-top: 10px;
-                .tags-title {
-                    text-transform: uppercase;
-                    color: #00b4b4;
-                }
-                .tags-list {
-                    a {
-                        color: $blackColor;
-                        font-weight: bold;
-                    }
-                    a:hover {
-                        color: $primeira_cor_texto;
-                    }
-                }
-            }
         }
     }
     .panel-body {
@@ -657,6 +640,30 @@ h1.titulo-page {
         }
     }
 
+        .tags-content {
+            padding-bottom: 10px;
+            padding-top: 10px;
+            .tags-title {
+                text-transform: uppercase;
+            }
+            .tags-list {
+                float: left;
+                margin-right: 4px;
+                margin-bottom: 8px;
+                a{
+                color: #808393;
+                position: relative;
+                font-size: 11px;
+                padding: 4px 8px;
+                background: #f4f4fa;
+                font-weight: 500;
+                line-height: 1.2em;
+                border-radius: 12px;
+                cursor: pointer;
+                text-decoration: none;
+                }
+            }
+        }
     .img-usuario img {
         width: 65px;
         height: 65px;
