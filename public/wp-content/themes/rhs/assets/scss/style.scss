@@ -394,7 +394,7 @@ Primeiro e Segundo DropDown Menu
         color: $primeira_cor_texto;
         border-color: $whiteColor;
         border-bottom: 2px solid $primeira_cor_texto !important;
-        font-size: 15px;
+        font-size: 18px;
         font-weight: bold;
         padding: 9px 12px;
         &:hover{
@@ -833,6 +833,12 @@ form .comment-form-comment {
                     .pos{
                         padding-top: 32px;
                     }
+                }
+            }
+            .sidebar-public{
+                .form-control-feedback{
+                    right:26px;
+                    top: 15px;
                 }
             }
         }
