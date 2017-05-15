@@ -10,8 +10,8 @@
 							<div class="panel-title">Recuperar Senha</div>
 						</div>     
 						<?php
-                        $login = new RHSLogin();
-                        $result = $login->lostpassword();
+                        global $RHSLogin;
+                        $result = $RHSLogin->lostpassword();
                         ?>
 						<div class="panel-body">
                             <?php if($result){ ?>
@@ -30,7 +30,7 @@
 								</div>
 		                        <div class="form-group">
 		                            <div class="col-sm-12 panel-captcha">
-		                            	<?php echo $login->display_recuperar_captcha(); ?>
+		                            	<?php echo $RHSLogin->display_recuperar_captcha(); ?>
 		                            </div>
 		                        </div>   
                                 <div class="panel-button form-group">

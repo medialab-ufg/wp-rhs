@@ -156,9 +156,11 @@ body {
 }
 
 .alert {
+    font-size: 14px;
+    color: #fff;
     &.alert-danger {
         background: #a94442;
-        color: #fff;
+
         a {
             color: #fff;
             font-weight: 700;
@@ -167,7 +169,6 @@ body {
     }
     &.alert-success {
         background: #3c763d;
-        color: #fff;
         a {
             color: #fff;
             font-weight: 700;
@@ -322,7 +323,7 @@ Primeiro e Segundo DropDown Menu
         .user-dropdown {
             .icon-textDown {
                 color: $whiteColor;
-                background-color: #00b4b4;
+                background-color: $primeira_cor_texto;
                 height: 40px;
                 margin: -5px -15px -5px 0;
                 padding: 8px 5px 0;
@@ -364,7 +365,7 @@ Primeiro e Segundo DropDown Menu
                     }
                 }
                 ul.dropdown-menu li.separador, .nav ul.dropdown-menu li.menu-item {
-                    border-top: 1px solid #00b4b4;
+                    border-top: 1px solid $primeira_cor_texto;
                     float: right;
                     width: 100%;
                 }
@@ -542,6 +543,12 @@ h1.titulo-page {
             .nome-author a {
                 color: black;
                 font-weight: bold;
+                font-size: 16px;
+                line-height: 19px;
+                display: inline-block;
+                &:hover {
+                    color: $primeira_cor_texto;
+                }
             }
             .post-date {
                 color: #aeaeae;
@@ -597,7 +604,7 @@ h1.titulo-page {
                 padding-top: 10px;
                 .tags-title {
                     text-transform: uppercase;
-                    color: #00b4b4;
+                    color: $primeira_cor_texto;
                 }
                 .tags-list {
                     a {
@@ -643,7 +650,7 @@ h1.titulo-page {
         background-color: $whiteColor;
         border-top-color: $whiteColor;
         a.comments-link > i {
-            color: #00b4b4;
+            color: $primeira_cor_texto;
         }
         a.comments-link {
             float: left;
@@ -780,71 +787,70 @@ form .comment-form-comment {
 * LoginPanel
 *
 */
-.login {
-    margin-bottom: 50px;
+.login{
+	margin-bottom: 50px;
 }
+.userpage{
+	margin-top:50px;
+	.form-horizontal .form-group {
+		margin: 0;
+	}
+	.panel-heading{
+		background-color: $primeira_cor_texto;
+		color: $whiteColor;
+		a {
+			color: $whiteColor;
+		}
+		.panel-sub{
+			float:right;
+			font-size: 80%;
+			position: relative;
+			top:-10px;
+		}
+	}
+	.panel-body{
+		padding-top:30px;
+		.float-label-control{
+			margin-bottom: 25px;
+		}
+		span.glyphicon.form-control-feedback{
+			right: 13px;
+		}
+		.panel-button{
+			float: right;
+			padding-top: 7px;
+			padding-bottom: 7px;
+			a, button {
+				background-color: $primeira_cor_texto;
+				border-color: $primeira_cor_texto;
+			}
+		}
+		.panel-other{
+			border-top: 1px solid#888;
+			padding-top:15px;
+			font-size:85%;
+		}
+	}
+	.controls {
+		padding-top: 7px;
+		padding-bottom: 7px;
+		input {
+			float: right;
+		}
+	}
+	#form-cadastro{
+		.control-label{
+			text-align: left;
+		}
 
-.userpage {
-    margin-top: 50px;
-    .form-horizontal .form-group {
-        margin: 0;
-    }
-    .panel-heading {
-        background-color: $primeira_cor_texto;
-        color: $whiteColor;
-        a {
-            color: $whiteColor;
-        }
-        .panel-sub {
-            float: right;
-            font-size: 80%;
-            position: relative;
-            top: -10px;
-        }
-    }
-    .panel-body {
-        padding-top: 30px;
-        .float-label-control {
-            margin-bottom: 25px;
-        }
-        span.glyphicon.form-control-feedback {
-            right: 13px;
-        }
-        .panel-button {
-            float: right;
-            padding-top: 7px;
-            padding-bottom: 7px;
-            a, button {
-                background-color: $primeira_cor_texto;
-                border-color: $primeira_cor_texto;
-            }
-        }
-        .panel-other {
-            border-top: 1px solid #888;
-            padding-top: 15px;
-            font-size: 85%;
-        }
-    }
-    .controls {
-        padding-top: 7px;
-        padding-bottom: 7px;
-        input {
-            float: right;
-        }
-    }
-    #form-cadastro {
-        .control-label {
-            text-align: left;
-        }
-
-    }
-    .block-info {
-        margin-top: 21%;
-    }
-    .panel.block-info {
-        box-shadow: none;
-        -webkit-box-shadow: none;
-    }
+	}
+	.block-info{
+		margin-top: 21%;
+	}
+	.panel.block-info{
+		box-shadow: none;
+		-webkit-box-shadow: none;
+	}
 }
 
 /***********
@@ -865,11 +871,11 @@ form .comment-form-comment {
             margin-top: 0;
             margin-bottom: 20px;
             font-size: 21px;
-            color: #00b4b4;
+            color: $primeira_cor_texto;
             a {
                 margin-top: 10px;
                 margin-bottom: 10px;
-                color: #00b4b4;
+                color: $primeira_cor_texto;
                 font-weight: normal;
                 text-decoration: none;
             }
@@ -890,10 +896,14 @@ form .comment-form-comment {
             -webkit-padding-start: 0;
             li {
                 display: block;
+                margin-bottom: 10px;
                 a {
                     color: #000;
                     font-weight: bold;
                     outline: none;
+                    &:hover {
+                        color: $primeira_cor_texto;
+                    }
                 }
             }
         }
@@ -1072,6 +1082,53 @@ article {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
+}
+
+.panel {
+    &.panel-info {
+        .panel-heading {
+            .panel-title {
+                font-size: 17px;
+                font-weight: 800;
+            }
+        }
+        .panel-body {
+            .form-group{
+                label{
+                    margin-bottom: 0px;
+                }
+                input[type='text'], input[type='email'], input[type='password'] {
+                    border-radius: 0px;
+                    height: 40px;
+                    font-size: 16px;
+                }
+                .checkbox{
+                    margin-top: -28px;
+                    label{
+                        font-size: 15px;
+                    }
+                }
+                .panel-sub{
+                    float: right;
+                    margin-top: -26px;
+                    position: relative;
+                    z-index: 1;
+                    a{
+                        color: #787878;
+                        font-size: 15px;
+                    }
+                }
+            }
+            .form-actions{
+                .btn{
+                    font-size: 17px;
+                    margin-top: 10px;
+                    padding: 6px 37px;
+                }
+            }
+        }
+
+    }
 }
 
 /****************

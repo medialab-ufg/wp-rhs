@@ -4,14 +4,12 @@
 	<!-- Container -->
 	<div class="col-xs-12 col-md-12 login">
     	<header class="userpage">
-
 			<form class="form-horizontal" role="form" id="form-cadastro" action="../">
 				<div class="col-md-6 col-md-offset-2 col-sm-8">                    
 					<div class="panel panel-info" >
 						<div class="panel-heading">
 							<div class="panel-title">Dados de Login</div>
-						</div>     
-
+						</div>
 						<div class="panel-body" >
 								<div class="form-group float-label-control">
 									<label for="mail" class="col-sm-1 control-label">Email</label>
@@ -38,15 +36,21 @@
 						</div>
 						<div class="panel-body">
 							<div class="form-group float-label-control">
-								<label for="name" class="col-sm-4 control-label">Nome Completo</label>
+								<label for="first_name" class="col-sm-4 control-label">Primeiro Nome</label>
 								<div class="col-sm-12">
-									<input class="form-control form-text" type="text" id="name" name="name" size="60" maxlength="60">
+									<input class="form-control form-text" type="text" id="first_name" name="first_name" size="60" maxlength="60">
 								</div>
 							</div>
+                            <div class="form-group float-label-control">
+                                <label for="second_name" class="col-sm-4 control-label">Segundo Nome</label>
+                                <div class="col-sm-12">
+                                    <input class="form-control form-text" type="text" id="second_name" name="second_name" size="60" maxlength="60">
+                                </div>
+                            </div>
 							<div class="form-group float-label-control">
-								<label for="sobre-mim" class="col-sm-5 control-label">Sobre mim <small class="form-text text-muted">(opcional)</small></label>
+								<label for="description" class="col-sm-5 control-label">Sobre mim <small class="form-text text-muted">(opcional)</small></label>
 								<div class="col-sm-12">
-									<textarea class="form-control form-textarea" id="sobre-mim" name="sobre-mim" cols="60" rows="5"></textarea>
+									<textarea class="form-control form-textarea" id="description" name="description" cols="60" rows="5"></textarea>
 								</div>
 							</div>
 							<div class="form-group float-label-control">
@@ -62,8 +66,8 @@
 						</div>     
 						<div class="panel-body" >
 							<?php
-							$login = new RHSLogin();
-							$login->display_recuperar_captcha(); ?>
+                            global $RHSLogin;
+							$RHSLogin->display_recuperar_captcha(); ?>
 						</div>                  
 					</div>
                     <div class="form-group">
