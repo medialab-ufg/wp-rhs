@@ -114,7 +114,7 @@ body {
         }
     }
     .navbar-collapse {
-        .navbar-nav {
+        &.navbar-nav {
             text-align: center;
             > li {
                 > a {
@@ -201,7 +201,7 @@ Segundo Nav-menu
     }
     .dropdown-menu {
         background-color: $cor_fundo_formulario_nav;
-        .icones-dropdown {
+        &.icones-dropdown {
             float: left;
             padding-top: 3px;
         }
@@ -664,6 +664,30 @@ h1.titulo-page {
         }
     }
 
+        .tags-content {
+            padding-bottom: 10px;
+            padding-top: 10px;
+            .tags-title {
+                text-transform: uppercase;
+            }
+            .tags-list {
+                float: left;
+                margin-right: 4px;
+                margin-bottom: 8px;
+                a{
+                color: #808393;
+                position: relative;
+                font-size: 11px;
+                padding: 4px 8px;
+                background: #f4f4fa;
+                font-weight: 500;
+                line-height: 1.2em;
+                border-radius: 12px;
+                cursor: pointer;
+                text-decoration: none;
+                }
+            }
+        }
     .img-usuario img {
         width: 65px;
         height: 65px;
@@ -734,6 +758,60 @@ form .comment-form-comment {
         }
         .perfil-pass {
             width: 16em;
+        }
+        .panel{
+            .panel-body{
+                padding-top: 7px;
+                .form-group{
+                    margin-right: 0;
+                    margin-left: 0;
+                }
+                label{
+                    color: $primeira_cor_texto;
+                    font-size: 0.74em;
+                }
+                .perfilSelect-city_state{
+                    margin: 15px 4px;
+                    width: 100%;
+                }
+                .perfilLabel-city_state{
+                    position: absolute;
+                    margin: -8px;
+                }
+                .form-width{
+                    width: 52%;
+                }
+                .help-block{
+                    margin-top: 2px;
+                    a{
+                        float: right;
+                        color: $primeira_cor_texto;
+                        background-color: rgba(91, 192, 222, 0);
+                        border-color: $primeira_cor_texto;
+                        &:hover{
+                            color: $whiteColor;
+                            background-color: $primeira_cor_texto;
+                            border-color: $whiteColor;
+                        }
+                    }
+                }
+                .add-link {
+                    a.remove{
+                        text-decoration: none;
+                        font-style: initial;
+                        font-weight: 700;
+                        color: #e00000;
+                        font-size: 16px;
+                        margin-left: 2px;
+                    }
+                    > #Links:first-child a.remove{
+                        display: none;
+                    }
+                    .pos{
+                        padding-top: 32px;
+                    }
+                }
+            }
         }
     }
     .info-text {
@@ -1140,6 +1218,15 @@ article {
     .navbar-right {
         margin-right: 0;
     }
+    #verDados{
+        .perfil{
+            .panel-body{
+                .col-sm-pull-0 {
+                    right: 29px;
+                }
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -1167,6 +1254,9 @@ article {
                     padding-bottom: 14px;
                 }
             }
+        }
+        .navbar-header{
+            margin-left: -30px;
         }
     }
     .segundo-menu {
@@ -1198,6 +1288,26 @@ article {
                 display: $seguir_mensagem_mobile;
                 button {
                     margin-bottom: 2%;
+                }
+            }
+        }
+        /* Editar Perfil */
+        .perfil{
+            .panel{
+                .panel-body{
+                    .add-link {
+                        > #Links:first-child{
+                            padding-top: 0;
+                        }
+                        > #Links{
+                            padding-top: 10%;
+                        }
+                        .pos{
+                            padding-top: 0;
+                            float: right;
+                            top: -119px;
+                        }
+                    }
                 }
             }
         }
@@ -1285,6 +1395,26 @@ article {
             }
         }
     }
+
+    /* Editar Perfil */
+    #verDados{
+        .perfil{
+            .panel{
+                .panel-body{
+                    .add-link {
+                        > #Links:first-child a.remove{
+                            display: none;
+                        }
+                        .pos{
+                            padding-top: 32px;
+                            top: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 @media only screen and (max-width: 640px) and (orientation: landscape) {

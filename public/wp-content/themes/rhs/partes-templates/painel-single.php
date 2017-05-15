@@ -29,18 +29,28 @@
 					<span class="post-date text-uppercase"><?php the_time('D, d/m/Y - H:i'); ?></span>
 				</div>
 			</div>
-			<div class="col-xs-12">
-				<div class="tags-content">
-					<div class="tags-title">Tags: </div>
-					<span class="tags-list"><?php the_tags(' '); ?></span>
-				</div>
-			</div>
 			<div class="clearfix"></div>
 		</div>
 	</div>
 	<div class="panel-body content">
 		<?php the_content(); ?>
 	</div><!-- .paine-body -->
+	<div class="col-xs-12">
+		<div class="tags-content">	
+		<?php if(has_category()) : ?>
+			<span class="tags-list">
+				<i class="fa fa-archive" aria-hidden="true" title="Categoria"></i>
+				<?php the_category(' '); ?>
+			</span>
+		<?php endif; ?>		
+		<?php if(has_tag()) : ?>
+			<span class="tags-list">
+				<i class="fa fa-tags" aria-hidden="true"  title="Tags"></i>
+				<?php the_tags(' '); ?>
+			</span>
+		<?php endif; ?>
+		</div>
+	</div>
 	<div class="panel-footer panel-comentarios">
 		<?php  
 			if ( comments_open() || get_comments_number() ) {

@@ -85,6 +85,7 @@ jQuery( function( $ ) {
                 $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
             }
         });
+
         $("#show_pass").bind('click', function(){
             if($(this).is(':checked')){
                 $('#pass').attr('type', 'text');
@@ -93,5 +94,15 @@ jQuery( function( $ ) {
             }
         });
 
+        $('.js-add-link').click(function() {
+            var links = $('.add-link #Links').last().clone();
+            $(links).find('input').attr('value','');
+            $('.add-link').append(links);
+        });
+
     });
 });
+
+function removerLink(link) {
+    jQuery(link).closest('#Links').remove();
+}
