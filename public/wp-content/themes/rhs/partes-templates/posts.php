@@ -30,7 +30,7 @@
 		<a href="<?php the_permalink(); ?>"><?php the_title( '<h3 class="panel-title">', '</h3>' ); ?></a>
 		<?php if( has_post_thumbnail() ) :	?>
 			<a href="<?php the_permalink(); ?>">
-				<img src="<?php get_the_post_thumbnail_url() ?>" alt="">
+				<img src="<?php echo get_the_post_thumbnail_url() ?>" alt="">
 			</a>
 		<?php
 			endif;
