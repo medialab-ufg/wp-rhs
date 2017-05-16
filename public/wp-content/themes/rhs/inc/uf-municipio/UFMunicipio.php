@@ -44,7 +44,7 @@ Class UFMunicipio {
                 $output .= "<option value='{$cidade->nome}' $selected>{$cidade->nome}</option>";
             }
         } else {
-            return "<option value=''>Selecione um estado...</option>";
+            return "<option value=''>Selecione a cidade...</option>";
         }
 
         return $output;
@@ -61,7 +61,7 @@ Class UFMunicipio {
     
         $states = self::get_states();
         
-        $output = "<option value=''></option>";
+        $output = "<option value=''>Selecione o estado...</option>";
         
         foreach ($states as $state) {
             $selected = selected($currentState, $state->sigla);
@@ -188,25 +188,32 @@ Class UFMunicipio {
         );
         
         $params = array_merge($defaults, $params);
-        
-        echo '<label for="estado" class="'.$params['label_class'].'">', $params['state_label'], '</label>';
-        
-        echo '<select name="', $params['state_field_name'], '" class="'.$params['select_class'].'" id="estado">';
-        
-            self::print_states_options($params['selected_state']);
-        
-        echo '</select>';
-        
-        echo $params['separator'];
-        
-        echo '<label for="municipio" class="'.$params['label_class'].'">', $params['city_label'], '</label>';
-        
-        echo '<select name="', $params['city_field_name'], '" class="'.$params['select_class'].'" id="municipio">';
-        
-            self::print_cities_options($params['selected_municipio']);
-        
-        echo '</select>';
-        
+
+
+        ?>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group float-label-control">
+                    <label for="estado" class="col-sm-4 control-label <?php echo $params['label_class']; ?>"><?php echo $params['state_label']; ?></label>
+                    <div class="col-sm-12">
+                        <select name="<?php echo $params['state_field_name']; ?>" class="form-control <?php echo $params['select_class']; ?>" id="estado">
+                            <?php self::print_states_options($params['selected_state']); ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group float-label-control">
+                    <label for="municipio" class="col-sm-4 control-label <?php echo $params['label_class']; ?>"><?php echo $params['city_label']; ?></label>
+                    <div class="col-sm-12">
+                        <select name="<?php echo $params['city_field_name']; ?>" class="form-control  <?php echo $params['select_class']; ?>" id="municipio">
+                            <?php self::print_cities_options($params['selected_municipio']); ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
     
     }
 
