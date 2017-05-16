@@ -354,7 +354,7 @@ Primeiro e Segundo DropDown Menu
     }
     .navbar-nav {
         li {
-            &.dropdown {
+            .dropdown {
                 > a {
                     padding-right: 24px;
                     span {
@@ -379,6 +379,29 @@ Primeiro e Segundo DropDown Menu
             padding: 0;
             margin: 0;
             margin-top: -1px;
+        }
+    }
+}
+
+/*Button Publicar e Ver Fila de Votação*/
+.buttons_top{
+    margin: -9px auto 53px;
+    .btn{
+        border: 0px solid transparent;
+        border-radius: 0px;
+    }
+    button{
+        color: $primeira_cor_texto;
+        border-color: $whiteColor;
+        border-bottom: 2px solid $primeira_cor_texto !important;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 9px 12px;
+        &:hover{
+            color: $primeira_cor_texto;
+            border-color: $primeira_cor_texto;
+            background: $whiteColor;
+            text-decoration: underline;
         }
     }
 }
@@ -735,6 +758,66 @@ form .comment-form-comment {
         .perfil-pass {
             width: 16em;
         }
+        .panel{
+            .panel-body{
+                padding-top: 7px;
+                .form-group{
+                    margin-right: 0;
+                    margin-left: 0;
+                }
+                label{
+                    color: $primeira_cor_texto;
+                    font-size: 0.74em;
+                }
+                .perfilSelect-city_state{
+                    margin: 15px 4px;
+                    width: 100%;
+                }
+                .perfilLabel-city_state{
+                    position: absolute;
+                    margin: -8px;
+                }
+                .form-width{
+                    width: 52%;
+                }
+                .help-block{
+                    margin-top: 2px;
+                    a{
+                        float: right;
+                        color: $primeira_cor_texto;
+                        background-color: rgba(91, 192, 222, 0);
+                        border-color: $primeira_cor_texto;
+                        &:hover{
+                            color: $whiteColor;
+                            background-color: $primeira_cor_texto;
+                            border-color: $whiteColor;
+                        }
+                    }
+                }
+                .add-link {
+                    a.remove{
+                        text-decoration: none;
+                        font-style: initial;
+                        font-weight: 700;
+                        color: #e00000;
+                        font-size: 16px;
+                        margin-left: 2px;
+                    }
+                    > #Links:first-child a.remove{
+                        display: none;
+                    }
+                    .pos{
+                        padding-top: 32px;
+                    }
+                }
+            }
+            .sidebar-public{
+                .form-control-feedback{
+                    right:26px;
+                    top: 15px;
+                }
+            }
+        }
     }
     .info-text {
         font-size: 0.7em;
@@ -810,24 +893,30 @@ form .comment-form-comment {
             }
         }
         .fila-votacao {
-            border-bottom: 1px solid #eee;
             border-top: 1px solid #eee;
             padding: 10px 15px;
             margin-left: -15px;
             margin-right: -15px;
             a {
-                color: #000;
+                color: rgba(0, 0, 0, 0.66);
                 font-weight: bold;
                 outline: none;
+                &:hover{
+                    color: $primeira_cor_texto;
+                }
             }
         }
         ul {
             -webkit-padding-start: 0;
             li {
+                border-top: 1px solid #eee;
                 display: block;
-                margin-bottom: 10px;
+                margin-left: -15px;
+                margin-right: -15px;
+                padding: 10px 15px;
                 a {
-                    color: #000;
+                    color: rgba(0, 0, 0, 0.66);
+                    font-size: 0.8em;
                     font-weight: bold;
                     outline: none;
                     &:hover {
@@ -835,6 +924,9 @@ form .comment-form-comment {
                     }
                 }
             }
+        }
+        form{
+            margin-top: -17px;
         }
     }
 
@@ -1258,6 +1350,10 @@ article {
                 position: absolute;
                 margin-top: 42px !important;
                 left: -98px;
+            li a {
+                padding: 10px 10px;
+                margin-right: -3px;
+                }
             }
         }
         #menuPesquisa input[type=text] {
@@ -1269,6 +1365,14 @@ article {
     }
     #menu-segundo-menu {
         margin: 0px -15px;
+    }
+
+    /* Button Publicar e Ver Fila de Votação */
+    .buttons_top{
+        .full-width{
+            padding-right: 0;
+            padding-left: 0;
+        }
     }
 
     /* Author */

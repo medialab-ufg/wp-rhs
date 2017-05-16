@@ -3,6 +3,10 @@
     <div class="row">
         <!-- Container -->
         <div class="col-xs-12 col-md-9">
+            <div class="row">
+                <!-- Button Publicar e Ver Fila de Votação -->
+                <?php get_template_part('partes-templates/buttons-top' ); ?>
+            </div>
 			<?php
 			$curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
 			$votos   = new RHSVote();

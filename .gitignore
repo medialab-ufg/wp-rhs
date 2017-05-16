@@ -1,7 +1,6 @@
 .idea/
 vendor/
 public/wp/
-wp-content/
 public/wp/
 public/sites
 public/wp-config.php
@@ -17,6 +16,7 @@ public/wp-content/themes/rhs/assets/scss/.sass-cache/
 public/wp-content/themes/rhs/assets/scss/css
 public/wp-content/themes/rhs/assets/scss/style.css
 public/wp-content/themes/rhs/assets/scss/style.css.map
+public/wp-content/themes/rhs/assets/scss/style.html
 db/base_bkp_last_reset.sql
 public/wp-content/themes/rhs/page-fila-de-votacao.html
 public/wp-content/themes/rhs/vendor
