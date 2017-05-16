@@ -5,7 +5,9 @@ if(!function_exists('rhs_setup')) :
     function rhs_setup() {
 
         // Includes
-        
+        require_once('inc/login/login.php');
+        require_once('inc/register/register.php');
+
         //// Drupal 7 Password Check
         require_once('inc/drupal-password-check.php'); 
         
@@ -14,8 +16,6 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/vote/widget.php');
 	    require_once('inc/user/user.php');
 
-        require_once('inc/login/login.php');
-        
         //Estados e municipios
         require_once('inc/uf-municipio/UFMunicipio.php');
 

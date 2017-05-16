@@ -5,20 +5,27 @@ jQuery( function( $ ) {
             debug: true,
             focusCleanup: true
         });
-        $("#form-cadastro").validate({
+
+        /*$("#register").validate({
             rules: {
-                name: {
-                    required: true,
-                    minlength: 9,
-                    maxlength: 50
-                },
                 mail: {
                     required: true,
-                    email: true
+                    email: true,
+                    check_email_exist: true
                 },
                 pass: {
                     required: true,
                     minlength: 5    
+                },
+                pass2: {
+                    required: true,
+                    equalTo: "input[name='pass1']"
+                },
+                first_name: {
+                    required: true,
+                },
+                last_name: {
+                    required: true,
                 },
                 estado: {
                     required: true
@@ -28,23 +35,30 @@ jQuery( function( $ ) {
                 }
             },
             messages: {
-                name: {
-                    required: "O nome é necessário!",
-                    minlength: "Insira seu nome completo!"
-                },
                 mail: {
-                    required: "O Email é necessário!",
-                    email: "Preencha corretamento seu email!"
+                    required: "Preencha com o seu email.",
+                    email: "Preencha corretamente o seu email.",
+                    check_email_exist: "Email já existente, escolha outro."
                 },
                 pass: {
-                    required: "A senha é necessária!",
-                    minlength: "Senha deve ser acima de 5 caracteres!"
+                    required: "Preencha com a sua senha.",
+                    minlength: "Sua senha deve ser acima de 5 caracteres!"
+                },
+                pass2: {
+                    required: "Preencha com a sua senha.",
+                    equalTo: "Senhas diferentes!"
+                },
+                first_name: {
+                    required: "Preencha com o seu primeiro nome.",
+                },
+                last_name: {
+                    required: "Preencha com o seu último nome.",
                 },
                 estado: {
-                    required: "O Estado é Obrigatório!"
+                    required: "Preencha com o seu estado."
                 },
                 municipio: {
-                    required: "A Cidade é Obrigatório!"
+                    required: "Preencha com o seu municipio."
                 }
             },
             errorContainer: ".block-email", 
@@ -52,22 +66,10 @@ jQuery( function( $ ) {
             errorElement: "dt",
             errorPlacement: function ( error, element ) {
                 // Add the `help-block` class to the error element
-                error.addClass( "help-block" );
+                //error.addClass( "help-block" );
+                console.log(error);
 
-                // Add `has-feedback` class to the parent div.form-group
-                // in order to add icons to inputs
-                element.parents( ".col-sm-12" ).addClass( "has-feedback" );
-
-                if ( element.prop( "type" ) === "checkbox" ) {
-                    error.insertIn( element.parent( "label" ) );
-                } else {
-                    error.appendTo( element );
-                }
-
-                // Add the span element, if doesn't exists, and apply the icon classes to it.
-                if ( !element.next( "span" )[ 0 ] ) {
-                    $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter(element);
-                }
+                error.appendTo(element.closest('.col-sm-7').next().find('.help-block'));
             },
             success: function ( label, element ) {
                 // Add the span element, if doesn't exists, and apply the icon classes to it.
@@ -77,20 +79,330 @@ jQuery( function( $ ) {
                 
             },
             highlight: function ( element, errorClass, validClass ) {
+
+                if ( !$( element ).next( "span" )[ 0 ] ) {
+                    $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter($(element));
+                }
+
                 $( element ).parents( ".col-sm-12" ).addClass( "has-error" ).removeClass( "has-success" );
                 $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
             },
             unhighlight: function ( element, errorClass, validClass ) {
-                $( element ).parents( ".col-sm-12" ).addClass( "has-success" ).removeClass( "has-error" );
+
+                if ( !$( element ).next( "span" )[ 0 ] ) {
+                    $("<span class='glyphicon glyphicon-okay form-control-feedback'></span>").insertAfter($(element));
+                }
+
+                $( element ).parents( ".col-sm-12" ).removeClass( "has-error" );
                 $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+            }
+        });*/
+
+        $('#register').validate({
+            errorElement: 'p',
+            errorClass: 'block-error',
+            focusInvalid: false,
+            ignore: '',
+            rules: {
+                mail: {
+                    required: true,
+                    email: true,
+                    check_email_exist: true
+                },
+                pass: {
+                    required: true,
+                    minlength: 5
+                },
+                pass2: {
+                    required: true,
+                    equalTo: "input[name='pass']"
+                },
+                first_name: {
+                    required: true,
+                },
+                last_name: {
+                    required: true,
+                },
+                estado: {
+                    required: true
+                },
+                municipio: {
+                    required: true
+                }
+            },
+            messages: {
+                mail: {
+                    required: "Preencha com o seu email.",
+                    email: "Preencha corretamente o seu email.",
+                    check_email_exist: "Email já existente, escolha outro."
+                },
+                pass: {
+                    required: "Preencha com a sua senha.",
+                    minlength: "Sua senha deve ser acima de 5 caracteres!"
+                },
+                pass2: {
+                    required: "Preencha com a sua senha.",
+                    equalTo: "Senhas diferentes!"
+                },
+                first_name: {
+                    required: "Preencha com o seu primeiro nome.",
+                },
+                last_name: {
+                    required: "Preencha com o seu último nome.",
+                },
+                estado: {
+                    required: "Preencha com o seu estado."
+                },
+                municipio: {
+                    required: "Preencha com o seu municipio."
+                }
+            },
+            invalidHandler: function (event, validator) {},
+            errorPlacement: function (error, element) {
+
+                if (element.parents(".col-sm-7").size() > 0) {
+                    error.appendTo(element.parents(".form-group").find('.help-block'));
+                } else if (element.parent(".input-group").size() > 0) {
+                    error.insertAfter(element.parent(".input-group"));
+                } else if (element.attr("data-error-container")) {
+                    error.appendTo(element.attr("data-error-container"));
+                } else if (element.parents('.radio-list').size() > 0) {
+                    error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+                } else if (element.parents('.radio-inline').size() > 0) {
+                    error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-list').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parent().find('.help-block').size() > 0) {
+
+                } else {
+                    element.parent().append(error);
+                }
+            },
+            highlight: function (element) {
+
+                if ( !$( element ).next( "span" )[ 0 ] ) {
+                    $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter($(element));
+                }
+
+                $(element).closest('.form-group').addClass('has-error');
+                $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+            },
+            unhighlight: function (element) {
+
+                if ( !$( element ).next( "span" )[ 0 ] ) {
+                    $("<span class='glyphicon glyphicon-okay form-control-feedback'></span>").insertAfter($(element));
+                }
+
+                $(element).closest('.form-group').removeClass('has-error');
+                $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+            },
+            submitHandler: function(form) {
+                $(form).find('[type="submit"]').button('loading');
+                form.submit();
             }
         });
 
-        $("#show_pass").bind('click', function(){
-            if($(this).is(':checked')){
-                $('#pass').attr('type', 'text');
-            }else{
-                $('#pass').attr('type', 'password');
+        $('#login').validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: '',
+            rules: {
+                log: {
+                    required: true,
+                    email: true
+                },
+                pwd: {
+                    required: true
+                }
+            },
+            messages: {
+                log: {
+                    required: 'Preencha com seu email.',
+                    email: 'Preencha com email no formato correto'
+                },
+                pwd: {
+                    required: 'Preencha a sua senha.',
+                    maxlength: 'Tamanho máximo de 20 caracteres'
+                },
+            },
+            invalidHandler: function (event, validator) {},
+            errorPlacement: function (error, element) {
+                if (element.parent(".input-group").size() > 0) {
+                    error.insertAfter(element.parent(".input-group"));
+                } else if (element.attr("data-error-container")) {
+                    error.appendTo(element.attr("data-error-container"));
+                } else if (element.parents('.radio-list').size() > 0) {
+                    error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+                } else if (element.parents('.radio-inline').size() > 0) {
+                    error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-list').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parent().find('.help-block').size() > 0) {
+
+                } else {
+                    element.parent().append(error);
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            submitHandler: function(form) {
+                $(form).find('[type="submit"]').button('loading');
+                form.submit();
+            }
+        });
+
+        $('#lostpassword').validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: '',
+            rules: {
+                user_login: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                user_login: {
+                    required: 'Preencha com seu email.',
+                    email: 'Preencha com email no formato correto'
+                }
+            },
+            invalidHandler: function (event, validator) {},
+            errorPlacement: function (error, element) {
+                if (element.parent(".input-group").size() > 0) {
+                    error.insertAfter(element.parent(".input-group"));
+                } else if (element.attr("data-error-container")) {
+                    error.appendTo(element.attr("data-error-container"));
+                } else if (element.parents('.radio-list').size() > 0) {
+                    error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+                } else if (element.parents('.radio-inline').size() > 0) {
+                    error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-list').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parent().find('.help-block').size() > 0) {
+
+                } else {
+                    element.parent().append(error);
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            submitHandler: function(form) {
+                $(form).find('[type="submit"]').button('loading');
+                form.submit();
+            }
+        });
+
+        $('#retrievepassword').validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: '',
+            rules: {
+                pass1: {
+                    required: true
+                },
+                pass2: {
+                    required: true,
+                    equalTo: "input[name='pass1']"
+                }
+            },
+            messages: {
+                pass1: {
+                    required: 'Preencha com sua nova senha.'
+                },
+                pass2: {
+                    required: 'Preencha com sua nova senha.',
+                    equalTo: 'Senhas diferentes.'
+                }
+            },
+            invalidHandler: function (event, validator) {},
+            errorPlacement: function (error, element) {
+                if (element.parent(".input-group").size() > 0) {
+                    error.insertAfter(element.parent(".input-group"));
+                } else if (element.attr("data-error-container")) {
+                    error.appendTo(element.attr("data-error-container"));
+                } else if (element.parents('.radio-list').size() > 0) {
+                    error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+                } else if (element.parents('.radio-inline').size() > 0) {
+                    error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-list').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parent().find('.help-block').size() > 0) {
+
+                } else {
+                    element.parent().append(error);
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            submitHandler: function(form) {
+                $(form).find('[type="submit"]').button('loading');
+                form.submit();
+            }
+        });
+
+        $.validator.addMethod("check_email_exist", function (value, element, params) {
+            var retorno = false;
+            var email = $("input[name='mail']").val();
+            $.ajax({
+                async: false,
+                type: "POST",
+                dataType: "json",
+                url: vars.ajaxurl,
+                data: {action: 'check_email_exist','email': email},
+                success: function (data) {
+                    if (!data) {
+                        retorno = true;
+                    }
+                },
+                error: function (data) {
+                    retorno = false;
+                }
+            });
+            return retorno;
+        });
+
+        $("body").on('click','.show_pass i',function(){
+
+            var input = $(this).closest('.form-group').find('input');
+
+            if($(input).attr('type') == 'text'){
+                $(input).attr('type', 'password');
+                $(this).removeClass().addClass('fa fa-eye-slash');
+            } else {
+                $(input).attr('type', 'text');
+                $(this).removeClass().addClass('fa fa-eye');
             }
         });
 
