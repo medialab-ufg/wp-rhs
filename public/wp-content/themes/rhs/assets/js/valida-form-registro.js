@@ -100,6 +100,26 @@ jQuery( function( $ ) {
             $('.add-link').append(links);
         });
 
+        $('#ms-filter').magicSuggest({
+            placeholder: 'Tags',
+            allowFreeEntries: false,
+            data: [{
+                id: 1,
+                name: 'Tag1',
+                nb: 34
+            }, {
+                id: 2,
+                name: 'Tag2',
+                nb: 106
+            }],
+            selectionPosition: 'inner',
+            selectionStacked: true,
+            mode: 'remote',
+            selectionRenderer: function(data){
+                return data.name + ' (<b>' + data.nb + '</b>)';
+            }
+        });
+
     });
 });
 

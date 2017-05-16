@@ -33,23 +33,30 @@
             <div class="col-xs-12 col-md-3">
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="verDados">
-                        <div class="jumbotron perfil">
+                        <div class="jumbotron perfil pub">
                             <h3 class="perfil-title">Classificar Post</h3>
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="panel">
-                                        <div class="panel-body sidebar-public">
-                                            <div class="borda-tags">
+                                        <div class="panel-body sidebar-public">    
                                             <div class="form-group">
-                                                <select multiple data-role="tagsinput">
-                                                    <option value="Amsterdam">Amsterdam</option>
-                                                    <option value="Washington">Washington</option>
-                                                    <option value="Sydney">Sydney</option>
-                                                    <option value="Beijing">Beijing</option>
-                                                    <option value="Cairo">Cairo</option>
-                                                </select>
-                                                <span class="fa fa-refresh form-control-feedback" aria-hidden="true"></span>
+                                                <input type="text" class="form-control" id="ms-filter" placeholder="Tags">
                                             </div>
+                                            <div class="form-group">
+                                                <?php UFMunicipio::form(array('state_label' => ' ', 'city_label' => ' ', 'separator' => '<p></p>', 'select_class' => 'form-control', 'label_class' => 'control-label', 'show_label' => false)); ?>
+                                            </div>
+                                            <div class="form-group">
+                                                <select class="form-control" name="post-type">
+                                                    <option value="">Tipos de Post</option>
+                                                <?php foreach ( get_categories() as $categori ) : ?>
+                                                    <option value="<?php echo $categori->cat_name; ?>"><?php echo $categori->cat_name; ?></option>
+                                                <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                            <div class="form-group text-center">
+                                                <button class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO</button>
+                                                <button class="btn btn-default form-submit rasc_visu">PRÉ-VISUALIZAR</button>
+                                                <button class="btn btn-danger form-submit publicar">PUBLICAR POST</button>
                                             </div>
                                         </div>
                                     </div>
@@ -61,5 +68,4 @@
             </div>
         </form>
     </div>
-
 <?php get_footer();

@@ -61,7 +61,7 @@ Class UFMunicipio {
     
         $states = self::get_states();
         
-        $output = "<option value=''></option>";
+        $output = "<option value=''>Estado</option>";
         
         foreach ($states as $state) {
             $selected = selected($currentState, $state->sigla);
@@ -184,13 +184,14 @@ Class UFMunicipio {
             'separator' => '',
             'select_class' => '',
             'label_class' => '',
+            'show_label' => true,
             
         );
         
         $params = array_merge($defaults, $params);
-        
-        echo '<label for="estado" class="'.$params['label_class'].'">', $params['state_label'], '</label>';
-        
+        if($params['show_label']){
+            echo '<label for="estado" class="'.$params['label_class'].'">', $params['state_label'], '</label>';
+        }
         echo '<select name="', $params['state_field_name'], '" class="'.$params['select_class'].'" id="estado">';
         
             self::print_states_options($params['selected_state']);
@@ -198,9 +199,9 @@ Class UFMunicipio {
         echo '</select>';
         
         echo $params['separator'];
-        
-        echo '<label for="municipio" class="'.$params['label_class'].'">', $params['city_label'], '</label>';
-        
+        if($params['show_label']){
+            echo '<label for="municipio" class="'.$params['label_class'].'">', $params['city_label'], '</label>';
+        }
         echo '<select name="', $params['city_field_name'], '" class="'.$params['select_class'].'" id="municipio">';
         
             self::print_cities_options($params['selected_municipio']);
