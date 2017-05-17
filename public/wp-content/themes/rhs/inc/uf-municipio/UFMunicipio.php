@@ -179,6 +179,10 @@ Class UFMunicipio {
     static function form($params = array()) {
     
         $defaults = array(
+            'content_before' => '',
+            'content_after' => '',
+            'content_before_field' => '',
+            'content_after_field' => '',
             'state_label' => 'UF',
             'state_field_name' => 'estado',
             'city_label' => 'Cidade',
@@ -194,33 +198,38 @@ Class UFMunicipio {
 
         $params = array_merge($defaults, $params);
 
-        ?>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group float-label-control">
-                    <label for="estado" class="col-sm-4 control-label <?php echo $params['label_class']; ?>"><?php echo $params['state_label']; ?></label>
-                    <div class="col-sm-12">
-                        <select name="<?php echo $params['state_field_name']; ?>" class="form-control <?php echo $params['select_class']; ?>" id="estado">
-                            <?php self::print_states_options($params['selected_state']); ?>
-                        </select>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group float-label-control">
-                    <label for="municipio" class="col-sm-4 control-label <?php echo $params['label_class']; ?>"><?php echo $params['city_label']; ?></label>
-                    <div class="col-sm-12">
-                        <select name="<?php echo $params['city_field_name']; ?>" class="form-control  <?php echo $params['select_class']; ?>" id="municipio">
-                            <?php self::print_cities_options($params['selected_municipio']); ?>
-                        </select>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
+        echo $params['content_before'];
+        echo $params['content_before_field'];
+
+        if($params['show_label']){ ?>
+            <label for="estado" class="control-label <?php echo $params['label_class']; ?>">
+                <?php echo $params['state_label']; ?>
+            </label>
+        <?php } ?>
+        <div class="col-sm-12">
+            <select name="<?php echo $params['state_field_name']; ?>" class="form-control <?php echo $params['select_class']; ?>" id="estado">
+                <?php self::print_states_options($params['selected_state']); ?>
+            </select>
         </div>
         <?php
-    
+
+        echo $params['content_after_field'];
+        echo $params['separator'];
+        echo $params['content_before_field'];
+
+        if($params['show_label']){?>
+        <label for="municipio" class="col-sm-4 control-label <?php echo $params['label_class']; ?>">
+            <?php echo $params['city_label']; ?>
+        </label>
+        <?php } ?>
+        <div class="col-sm-12">
+            <select name="<?php echo $params['city_field_name']; ?>" class="form-control <?php echo $params['select_class']; ?>" id="municipio">
+                <?php self::print_cities_options($params['selected_municipio']); ?>
+            </select>
+        </div>
+        <?php
+        echo $params['content_after_field'];
+        echo $params['content_after'];
     }
 
 }
