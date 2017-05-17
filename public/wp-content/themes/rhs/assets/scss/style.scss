@@ -137,7 +137,7 @@ body {
                 }
                 &:last-child {
                     > a {
-                        padding-left: 32px;
+                        padding-left: 0;
                         padding-right: 16px;
                     }
                 }
@@ -389,6 +389,9 @@ Primeiro e Segundo DropDown Menu
     .btn{
         border: 0px solid transparent;
         border-radius: 0px;
+    }
+    .btn-group{
+        border-right: 1px solid #f2f3f5;
     }
     button{
         color: $primeira_cor_texto;
