@@ -183,6 +183,8 @@ Class UFMunicipio {
             'content_after' => '',
             'content_before_field' => '',
             'content_after_field' => '',
+            'select_before' => '<div class="col-sm-12">',
+            'select_after' => '</div>',
             'state_label' => 'UF',
             'state_field_name' => 'estado',
             'city_label' => 'Cidade',
@@ -202,17 +204,16 @@ Class UFMunicipio {
         echo $params['content_before_field'];
 
         if($params['show_label']){ ?>
-            <label for="estado" class="control-label <?php echo $params['label_class']; ?>">
+            <label for="estado" class="<?php echo $params['label_class']; ?>">
                 <?php echo $params['state_label']; ?>
             </label>
-        <?php } ?>
-        <div class="col-sm-12">
-            <select name="<?php echo $params['state_field_name']; ?>" class="form-control <?php echo $params['select_class']; ?>" id="estado">
+        <?php } 
+        echo $params['select_before']; ?>
+            <select name="<?php echo $params['state_field_name']; ?>" class="<?php echo $params['select_class']; ?>" id="estado">
                 <?php self::print_states_options($params['selected_state']); ?>
             </select>
-        </div>
         <?php
-
+        echo $params['select_after'];
         echo $params['content_after_field'];
         echo $params['separator'];
         echo $params['content_before_field'];
@@ -221,13 +222,13 @@ Class UFMunicipio {
         <label for="municipio" class="col-sm-4 control-label <?php echo $params['label_class']; ?>">
             <?php echo $params['city_label']; ?>
         </label>
-        <?php } ?>
-        <div class="col-sm-12">
+        <?php } 
+        echo $params['select_before']; ?>
             <select name="<?php echo $params['city_field_name']; ?>" class="form-control <?php echo $params['select_class']; ?>" id="municipio">
                 <?php self::print_cities_options($params['selected_municipio']); ?>
             </select>
-        </div>
         <?php
+        echo $params['select_after'];
         echo $params['content_after_field'];
         echo $params['content_after'];
     }
