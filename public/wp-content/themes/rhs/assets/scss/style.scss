@@ -747,18 +747,31 @@ form .comment-form-comment {
     }
     /*Perfil*/
     .perfil {
-        padding-top: 5px;
-        padding-left: 15px !important;
+        padding: 20px;
         .perfil-title {
             color: $primeira_cor_texto;
+            margin: 0px 0px 20px 0px;
         }
         .panel-heading {
             border-color: #ddd;
         }
         .perfil-pass {
-            width: 16em;
+            width: 100%;
         }
         .panel{
+            .panel-heading{
+                h4{
+                    margin: 0;
+                    &:before{
+                        content: "\f04b";
+                        font-family: FontAwesome;
+                        font-size: 12px;
+                        margin-right: 7px;
+                        float: left;
+                        margin-top: 5px;
+                    }
+                }
+            }
             .panel-body{
                 padding-top: 7px;
                 .form-group{
@@ -766,8 +779,16 @@ form .comment-form-comment {
                     margin-left: 0;
                 }
                 label{
-                    color: $primeira_cor_texto;
-                    font-size: 0.74em;
+                    color: #000000;
+                    font-size: 0.9em;
+                    font-weight: 500;
+                    i{
+                        font-size: 13px;
+                        margin-left: 4px;
+                        float: right;
+                        margin-top: 4px;
+                        color: #172596;
+                    }
                 }
                 .perfilSelect-city_state{
                     margin: 15px 4px;
@@ -782,15 +803,17 @@ form .comment-form-comment {
                 }
                 .help-block{
                     margin-top: 2px;
+                    font-size: 13px;
+                    line-height: 16px;
                     a{
                         float: right;
-                        color: $primeira_cor_texto;
-                        background-color: rgba(91, 192, 222, 0);
-                        border-color: $primeira_cor_texto;
+                        color: $whiteColor;
+                        background-color: $primeira_cor_texto;
+                        border-color: $whiteColor;
                         &:hover{
-                            color: $whiteColor;
-                            background-color: $primeira_cor_texto;
-                            border-color: $whiteColor;
+                            color: $primeira_cor_texto;
+                            background-color: rgba(91, 192, 222, 0);
+                            border-color: $primeira_cor_texto;
                         }
                     }
                 }
@@ -1141,6 +1164,9 @@ article {
                 content: ' ';
                 clear: both;
                 display: inline-block;
+                @media screen and (max-width: 768px) {
+                    display: none;
+                }
             }
         }
         .panel-body {

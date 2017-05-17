@@ -200,6 +200,7 @@ Class UFMunicipio {
                             <?php self::print_states_options($params['selected_state']); ?>
                         </select>
                     </div>
+                    <div class="clearfix"></div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -210,6 +211,7 @@ Class UFMunicipio {
                             <?php self::print_cities_options($params['selected_municipio']); ?>
                         </select>
                     </div>
+                    <div class="clearfix"></div>
                 </div>
             </div>
         </div>

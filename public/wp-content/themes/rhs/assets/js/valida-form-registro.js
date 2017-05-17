@@ -407,9 +407,12 @@ jQuery( function( $ ) {
         });
 
         $('.js-add-link').click(function() {
-            var links = $('.add-link #Links').last().clone();
+            var links = $(this).closest('.panel-body').find('.links').last().clone();
             $(links).find('input').attr('value','');
-            $('.add-link').append(links);
+
+            console.log(links);
+            links.insertAfter($(this).closest('.panel-body').find('.links').last());
+
         });
 
     });

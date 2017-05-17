@@ -8,7 +8,7 @@ class RHSRegister {
         add_action('wp_ajax_check_email_exist', array( &$this, 'check_email_exist' ) );
         add_action( 'init', array( &$this, 'check_session' ), 1 );
 
-        if($_POST['register_user_wp']){
+        if(!empty($_POST['register_user_wp'])){
             $this->save_post_when_post();
         }
     }
@@ -54,6 +54,10 @@ class RHSRegister {
 
         $user_id = wp_insert_user( $userdata ) ;
 
+        add_user_meta( $user_id, '_state', $_POST['estado']);
+
+        add_user_meta( $user_id, '_city', $_POST['municipio']);
+
         $_SESSION['register_messages'][] = array('success' => '<i class="fa fa-check"></i> Cadastro realizado');
 
         $user_login     = esc_attr($_POST["mail"]);
@@ -74,6 +78,8 @@ class RHSRegister {
             $_SESSION['register_messages'][] = array('error' =>  $user->get_error_message());
             return;
         }
+
+        wp_redirect(site_url('painel'));
 
         return;
 
