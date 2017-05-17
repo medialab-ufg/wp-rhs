@@ -63,18 +63,7 @@ composer install
 
 Agora você esta com todas as bibliotecas e classes necessárias da RHS.
 
-### Crie o link para a pasta de uploads
-
-##### Linux
-```
-ln -s ../../dev_uploads public/wp-content/uploads
-```
-
-##### Windows
-Abra o prompt de comando como administrador, vá até a pasta do projeto execulte:
-```
-mklink /D "../../dev_uploads" "public/wp-content/uploads"
-```
+### Crie a pasta de uploads
 
 
 ### Crie e edite o wp-config.php e o wp-config-sample.php
@@ -83,16 +72,11 @@ O repositório vem com arquivos modelos: wp-config-sample.php e htaccess-sample,
 
 
 
-### Carregue o banco de dados de desenvolvimento
+### Instale o WordPress e importe os dados
 
-Entenda mais sobre esse comando ali na seção "Administrando fixtures"
+Faça uma instalação do WordPress para criar o banco de dados novo.
 
-```
-cd wp-scripts
-./reset all
-```
-
-Assim que rodado altere, na tabela *rhs_options* o valor do option *siteurl* e *home*
+Importe os dados da Drupal. Veja [migration-scripts/docs.md](migration-scripts/docs.md).
 
 
 ### Compile o SASS
@@ -146,6 +130,8 @@ bash compile-sass.sh
 bash compile-sass.sh -> Arquivo onde se encontra no diretorio do projeto (wp-rhs) e execulta os comandos para compilar o sass.
 
 ### Administrando fixtures
+
+ISSO NÃO ESTÁ EM USO AGORA, PQ ESTAMOS SEMPRE IMPORTANDO DADOS DO DRUPAL...
 
 Durante o desenvolvimento, a equipe compartilha uma base de dados de desenvolvimento e arquivos de fixtures (fotos e etc).
 
