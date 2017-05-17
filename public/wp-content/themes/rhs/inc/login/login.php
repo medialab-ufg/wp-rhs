@@ -2,7 +2,7 @@
 
 /*
 *
-* Esta Class implementa as funções necessárias para o uso das reCaptcha.
+* Esta Class implementa as funções necessárias para o Login e uso das reCaptcha.
 * Pega a key setada no Painel do Admin (Wordpress).
 * Com a Função display_recuperar_captcha() mostra na tela o reCaptcha.
 *
