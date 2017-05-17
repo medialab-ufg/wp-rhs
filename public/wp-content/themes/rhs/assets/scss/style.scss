@@ -1350,6 +1350,13 @@ article {
 }
 
 @media only screen and (max-width: 768px) {
+    .navbar-default {
+        .navbar-brand {
+            > img {
+                margin-left: 7px;
+            }
+        }
+    }
     .navbar-nav {
         margin: 0.5px -15px;
     }
@@ -1366,9 +1373,14 @@ article {
             float: left;
         }
         .navbar-nav {
-            > li:last-child > a{
-                margin-right: -1px;
-                padding-right: 0 !important;
+            > li {
+                &:first-child > a{
+                    padding-right: 95px !important;
+                    padding-left: 119px;
+                }
+                &:last-child > a{
+                    padding-left: 123px !important;
+                }
             }
         }
         .dropdown-menu-right {
@@ -1444,6 +1456,17 @@ article {
             }
             .glyphicon-chevron-right {
                 margin-right: -21px;
+            }
+        }
+    }
+
+    /*Register Page*/
+    .userpage{
+        form{
+            &#register{
+                .show_pass{
+                    right: 30px;
+                }
             }
         }
     }
