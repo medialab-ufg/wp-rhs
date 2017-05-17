@@ -80,11 +80,14 @@
                                             </div>
                                         </div>
                                         <?php UFMunicipio::form( array(
+                                            'content_before' => '<div class="row">',
+                                            'content_after' => '</div>',
+                                            'content_before_field' => '<div class="col-md-6"><div class="form-group float-label-control">',
+                                            'content_after_field' => '<div class="clearfix"></div></div></div>',
                                             'state_label'  => 'Estado &nbsp',
                                             'city_label'   => 'Cidade &nbsp',
                                             'select_class' => 'form-control',
-                                            'separator'    => '</div><div class="col-xs-12 col-sm-9 col-sm-pull-0">',
-                                            'label_class'  => 'control-label'
+                                            'label_class'  => 'control-label col-sm-4'
                                         ) ); ?>
                                         <div class="col-sm-12">
                                             <div class="form-group">

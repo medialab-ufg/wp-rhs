@@ -104,8 +104,14 @@
                                                         <div class="row">
                                                             <div class="col-sm-7">
                                                             <?php UFMunicipio::form( array(
-                                                                'state_label' => 'Estado <span class="required">*</span>',
-                                                                'city_label'  => 'Cidade <span class="required">*</span>'
+                                                                'content_before' => '<div class="row">',
+                                                                'content_after' => '</div>',
+                                                                'content_before_field' => '<div class="col-md-6"><div class="form-group float-label-control">',
+                                                                'content_after_field' => '<div class="clearfix"></div></div></div>',
+                                                                'state_label'  => 'Estado &nbsp',
+                                                                'city_label'   => 'Cidade &nbsp',
+                                                                'select_class' => 'form-control',
+                                                                'label_class'  => 'control-label col-sm-4'
                                                             ) ); ?>
                                                             </div>
                                                             <div class="col-md-5">
