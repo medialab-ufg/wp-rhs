@@ -92,8 +92,7 @@
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label class="control-label" for="edit-formacao">Formação</label>
-                                                <input class="form-control form-width" type="text" id="edit-formacao"
-                                                       name="formacao" size="30" maxlength="254" data-role="tagsinput">
+                                                <input class="form-control form-width" type="text" id="edit-formacao" name="formacao">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">

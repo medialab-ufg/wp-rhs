@@ -853,6 +853,9 @@ form .comment-form-comment {
     }
     .pub{
         padding-right:  23px;
+        .ms-res-ctn {
+            display: none;
+        }
     }
     .info-text {
         font-size: 0.7em;

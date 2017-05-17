@@ -417,7 +417,6 @@ jQuery( function( $ ) {
 
         $('#ms-filter').magicSuggest({
             placeholder: 'Tags',
-            allowFreeEntries: false,
             data: [{
                 id: 1,
                 name: 'Tag1',
@@ -434,7 +433,6 @@ jQuery( function( $ ) {
                 return data.name + ' (<b>' + data.nb + '</b>)';
             }
         });
-
     });
 });
 
