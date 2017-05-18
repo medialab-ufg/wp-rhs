@@ -101,7 +101,7 @@ jQuery( function( $ ) {
         $('#register').validate({
             errorElement: 'p',
             errorClass: 'block-error',
-            focusInvalid: false,
+            focusInvalid: true,
             ignore: '',
             rules: {
                 mail: {
@@ -209,7 +209,7 @@ jQuery( function( $ ) {
         $('#login').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
-            focusInvalid: false,
+            focusInvalid: true,
             ignore: '',
             rules: {
                 log: {
@@ -267,7 +267,7 @@ jQuery( function( $ ) {
         $('#lostpassword').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
-            focusInvalid: false,
+            focusInvalid: true,
             ignore: '',
             rules: {
                 user_login: {
@@ -318,7 +318,7 @@ jQuery( function( $ ) {
         $('#retrievepassword').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
-            focusInvalid: false,
+            focusInvalid: true,
             ignore: '',
             rules: {
                 pass1: {
@@ -337,6 +337,100 @@ jQuery( function( $ ) {
                     required: 'Preencha com sua nova senha.',
                     equalTo: 'Senhas diferentes.'
                 }
+            },
+            invalidHandler: function (event, validator) {},
+            errorPlacement: function (error, element) {
+                if (element.parent(".input-group").size() > 0) {
+                    error.insertAfter(element.parent(".input-group"));
+                } else if (element.attr("data-error-container")) {
+                    error.appendTo(element.attr("data-error-container"));
+                } else if (element.parents('.radio-list').size() > 0) {
+                    error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+                } else if (element.parents('.radio-inline').size() > 0) {
+                    error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-list').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parent().find('.help-block').size() > 0) {
+
+                } else {
+                    element.parent().append(error);
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            submitHandler: function(form) {
+                $(form).find('[type="submit"]').button('loading');
+                form.submit();
+            }
+        });
+
+        $('#perfil').validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: true,
+            ignore: '',
+            rules: {
+                pass_old: {
+                    maxlength: 128
+                },
+                pass: {
+                    maxlength: 128
+                },
+                pass2: {
+                    equalTo: "input[name='pass']",
+                    maxlength: 128
+                },
+                first_name: {
+                    required: true,
+                    maxlength: 254,
+                },
+                last_name: {
+                    required: true,
+                    maxlength: 254,
+                },
+                estado: {
+                    required: true
+                },
+                municipio: {
+                    required: true
+                }
+            },
+            messages: {
+                pass_old: {
+                    required: 'Preencha com sua senha antiga.',
+                    maxlength: 'Tamanho maximo de 128 caracteres.'
+                },
+                pass: {
+                    required: 'Preencha a sua nova senha.',
+                    maxlength: 'Tamanho maximo de 128 caracteres.'
+                },
+                pass2: {
+                    required: 'Preencha a sua nova senha.',
+                    equalTo: "Senhas diferentes",
+                    maxlength: 'Tamanho maximo de 128 caracteres.'
+                },
+                first_name: {
+                    required: 'Preencha com seu primeiro nome.',
+                    maxlength: 'Tamanho maximo de 254 caracteres.'
+                },
+                last_name: {
+                    required: 'Preencha com seu último nome.',
+                    maxlength: 'Tamanho maximo de 254 caracteres.'
+                },
+                estado: {
+                    required: 'Selecione seu estado.'
+                },
+                municipio: {
+                    required: 'Selecione sua cidade.'
+                },
             },
             invalidHandler: function (event, validator) {},
             errorPlacement: function (error, element) {
@@ -413,6 +507,11 @@ jQuery( function( $ ) {
             console.log(links);
             links.insertAfter($(this).closest('.panel-body').find('.links').last());
 
+        });
+
+        $('.remove-link').click(function() {
+            alert('ok');
+           $(this).closest('.links').remove();
         });
 
         $('#ms-filter').magicSuggest({

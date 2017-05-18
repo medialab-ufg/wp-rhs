@@ -34,6 +34,8 @@ Class UFMunicipio {
      */
     static function get_cities_options($uf, $currentCity = '') {
 
+
+
         $cidades = self::get_cities($uf);
 
         $output = '';
@@ -207,7 +209,7 @@ Class UFMunicipio {
             <label for="estado" class="<?php echo $params['label_class']; ?>">
                 <?php echo $params['state_label']; ?>
             </label>
-        <?php } 
+        <?php }
         echo $params['select_before']; ?>
             <select name="<?php echo $params['state_field_name']; ?>" class="<?php echo $params['select_class']; ?>" id="estado">
                 <?php self::print_states_options($params['selected_state']); ?>
@@ -219,13 +221,13 @@ Class UFMunicipio {
         echo $params['content_before_field'];
 
         if($params['show_label']){?>
-        <label for="municipio" class="col-sm-4 control-label <?php echo $params['label_class']; ?>">
+        <label for="municipio" class="<?php echo $params['label_class']; ?>">
             <?php echo $params['city_label']; ?>
         </label>
-        <?php } 
+        <?php }
         echo $params['select_before']; ?>
             <select name="<?php echo $params['city_field_name']; ?>" class="form-control <?php echo $params['select_class']; ?>" id="municipio">
-                <?php self::print_cities_options($params['selected_municipio']); ?>
+                <?php self::print_cities_options($params['selected_state'], $params['selected_municipio']); ?>
             </select>
         <?php
         echo $params['select_after'];

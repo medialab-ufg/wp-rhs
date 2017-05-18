@@ -1,6 +1,6 @@
 <?php
-global $RHSLogin;
-$errors = $RHSLogin->retrievepassword();
+global $RHSLostPassword;
+$RHSLostPassword->retrievepassword();
 ?>
 <?php get_header(); ?>
     <div class="row">
@@ -14,10 +14,10 @@ $errors = $RHSLogin->retrievepassword();
                         </div>
 
                         <div class="panel-body" >
-                            <?php if($errors){ ?>
-                                <div class="alert alert-danger">
-                                    <?php foreach ($errors as $erro){ ?>
-                                        <p><?php echo $erro ?></p>
+                            <?php foreach ($RHSLostPassword->messages() as $type => $messages){ ?>
+                                <div class="alert alert-<?php echo ($type == 'error') ? 'danger' : 'success'; ?>">
+                                    <?php foreach ($messages as $message){ ?>
+                                        <p><?php echo $message ?></p>
                                     <?php } ?>
                                 </div>
                             <?php } ?>

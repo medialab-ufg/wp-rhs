@@ -4,21 +4,24 @@ if(!function_exists('rhs_setup')) :
 
     function rhs_setup() {
 
-        // Includes
-        require_once('inc/login/login.php');
-        require_once('inc/register/register.php');
+        if ( ! session_id() ) {
+            session_start();
+        }
 
-        //// Drupal 7 Password Check
-        require_once('inc/drupal-password-check.php'); 
-        
-        // Votes
+        require_once('inc/message/message.php');
+        require_once('inc/rewrite-rules/rewrite-rules.php');
+        require_once('inc/captcha/captcha.php');
+        require_once('inc/login/login.php');
+        require_once('inc/lostpassword/lostpassword.php');
+        require_once('inc/user/user.php');
+        require_once('inc/perfil/perfil.php');
+        require_once('inc/register/register.php');
+        require_once('inc/uf-municipio/uf-municipio.php');
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');
-	    require_once('inc/user/user.php');
 
-        //Estados e municipios
-        require_once('inc/uf-municipio/UFMunicipio.php');
-
+        //// Drupal 7 Password Check
+        require_once('inc/drupal-password-check.php');
 
 	    /**
         * Não aparecer o menu do administrador na pagina do site. Mesmo quando estiver logado!
@@ -86,7 +89,7 @@ function RHS_scripts() {
     wp_enqueue_script('JqueryValidadeMethods', 'https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js', array('JqueryValidate'), '1.16.0', true );
     wp_enqueue_script('ValidarForm', get_template_directory_uri() . '/assets/js/valida-form-registro.js', array('JqueryValidate'),'1.0', true);
 
-   /*Bootstrap Tags Input*/
+    wp_enqueue_script('FuncoesForm', get_template_directory_uri() . '/assets/js/functions.js', array('JqueryValidate'),'1.0', true);
    wp_enqueue_script('magicJS', get_template_directory_uri() . '/vendor/js/magicsuggest-min.js','0.8.0', true);
 
    if(is_singular()) wp_enqueue_script('comment-reply');

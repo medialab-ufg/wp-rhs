@@ -1,80 +1,30 @@
 <?php
-
 /*
 *
-* Esta Class implementa as funções necessárias para o Login e uso das reCaptcha.
+* Esta Class implementa as funções necessárias para o uso das reCaptcha.
 * Pega a key setada no Painel do Admin (Wordpress).
 * Com a Função display_recuperar_captcha() mostra na tela o reCaptcha.
 *
 */
-class RHSLogin extends RHSMenssage {
+class RHSCaptcha {
+
+    const SITE_KEY = 'captcha_site_key';
+    const SECRET_KEY = 'captcha_secret_key';
 
     private static $instance;
 
     function __construct() {
 
         if ( empty ( self::$instance ) ) {
-            add_filter( "login_url", array( &$this, "login_url" ), 10, 3 );
-            add_filter( "login_redirect", array( &$this, "login_redirect" ), 10, 3 );
-            add_filter( 'wp_login_errors', array( &$this, 'check_errors' ), 10, 2 );
+            add_action( 'wp_enqueue_scripts', array( &$this, 'API_reCAPTCHA' ) );
+            add_action( "admin_menu", array( &$this, "no_captcha_recaptcha_menu" ) );
+            add_action( "admin_init", array( &$this, "display_recaptcha_options" ) );
+            add_action( "recuperar-senha_form", array( &$this, "display_recuperar_captcha" ) );
+            add_filter( "lostpassword_url", array( &$this, "verify_recuperar_captcha" ), 10, 2 );
+
         }
 
         self::$instance = true;
-    }
-
-    static function login_url( $login_url, $redirect, $force_reauth ) {
-        $login_page = home_url( RHSRewriteRules::LOGIN_URL );
-        $login_url  = add_query_arg( 'redirect_to', $redirect, $login_page );
-
-        return $login_url;
-    }
-
-    function login_redirect( $redirect_to, $requested_redirect_to, $user ) {
-        if ( empty( $redirect_to ) ) {
-            //TODO verificar role do usuário para enviar para a página apropriada
-            $redirect_to = admin_url();
-        }
-
-        return $redirect_to;
-    }
-
-
-    function rewrite_rules( &$wp_rewrite ) {
-        $new_rules         = array(
-            self::LOGIN_URL . "/?$"             => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
-            self::REGISTER_URL . "/?$"          => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::REGISTER_URL,
-            self::LOST_PASSWORD_URL . "/?$"     => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOST_PASSWORD_URL,
-            self::RETRIEVE_PASSWORD_URL . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::RETRIEVE_PASSWORD_URL,
-            self::RESET_PASS . "/?$"            => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::RESET_PASS,
-            self::RP . "/?$"            => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::RP
-
-        );
-        $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
-
-    }
-
-    function rewrite_rules_query_vars( $public_query_vars ) {
-
-        $public_query_vars[] = "rhs_custom_login";
-        $public_query_vars[] = "rhs_login_tpl";
-
-        return $public_query_vars;
-
-    }
-
-    function rewrite_rule_template_include( $template ) {
-        global $wp_query;
-
-        if ( $wp_query->get( 'rhs_login_tpl' ) ) {
-
-            if ( file_exists( STYLESHEETPATH . '/' . $wp_query->get( 'rhs_login_tpl' ) . '.php' ) ) {
-                return STYLESHEETPATH . '/' . $wp_query->get( 'rhs_login_tpl' ) . '.php';
-            }
-
-        }
-
-        return $template;
-
 
     }
 
@@ -84,7 +34,7 @@ class RHSLogin extends RHSMenssage {
 
     function no_captcha_recaptcha_menu() {
         add_menu_page( "Opções reCaptcha", "Opções reCaptcha", "manage_options", "recaptcha-options",
-            array( &$this, "recaptcha_options_page" ), "dashicons-pressthis", 100 );
+            array( &$this, "recaptcha_options_page" ), "", 100 );
     }
 
     function recaptcha_options_page() { ?>
@@ -126,8 +76,6 @@ class RHSLogin extends RHSMenssage {
                value="<?php echo get_option( self::SECRET_KEY ); ?>"/>
     <?php }
 
-    /*reCAPTCHA Recuperar Pass*/
-
     function display_recuperar_captcha() { ?>
         <div class="g-recaptcha" data-sitekey="<?php echo get_option( self::SITE_KEY ); ?>"></div>
     <?php }
@@ -148,31 +96,7 @@ class RHSLogin extends RHSMenssage {
         endif;
     }
 
-    function login_errors( $errors, $redirect_to ) {
-
-        $_SESSION['login_errors'] = '';
-
-    function check_errors( $errors, $redirect_to ) {
-
-
-        if ( $errors instanceof WP_Error && ! empty( $errors->errors ) ) {
-
-            if ( $errors->errors ) {
-
-                $this->clear_messages();
-
-                foreach ($errors->get_error_messages() as $error){
-                    $this->set_messages($error, false, 'error');
-                }
-            }
-
-            wp_redirect( esc_url( home_url( '/login' ) ) );
-            exit;
-        }
-
-        return $errors;
-    }
 }
 
-global $RHSLogin;
-$RHSLogin = new RHSLogin();
+global $RHSCaptcha;
+$RHSCaptcha = new RHSCaptcha();
