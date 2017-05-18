@@ -34,6 +34,8 @@ Class UFMunicipio {
      */
     static function get_cities_options($uf, $currentCity = '') {
 
+
+
         $cidades = self::get_cities($uf);
 
         $output = '';
@@ -225,7 +227,7 @@ Class UFMunicipio {
         <?php }
         echo $params['select_before']; ?>
             <select name="<?php echo $params['city_field_name']; ?>" class="form-control <?php echo $params['select_class']; ?>" id="municipio">
-                <?php self::print_cities_options($params['selected_municipio']); ?>
+                <?php self::print_cities_options($params['selected_state'], $params['selected_municipio']); ?>
             </select>
         <?php
         echo $params['select_after'];

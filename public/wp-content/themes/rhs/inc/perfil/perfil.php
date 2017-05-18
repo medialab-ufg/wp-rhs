@@ -33,7 +33,7 @@ class RHSPerfil extends RHSMenssage {
         }
 
         if(!array_key_exists('last_name', $_POST)){
-            $this->set_messages(array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha o sua antiga senha!'));
+            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Preencha o sua antiga senha!', false, 'error');
             return;
         }
 
@@ -43,12 +43,14 @@ class RHSPerfil extends RHSMenssage {
 
         if(!empty($_POST['pass'])){
 
-            if(empty($_POST['pass_old'] ) || $_POST['pass_old'] != $this->get_user_data('pass_old')){
-                $this->set_messages(array('error' => '<i class="fa fa-exclamation-triangle "></i> Sua senha antiga está incorreta!'));
+            $RHSUser = new RHSUser($this->userID);
+
+            if(empty($_POST['pass_old'] ) || !wp_check_password( $_POST['pass_old'], $RHSUser->get_user_data('user_pass'), $this->userID) ){
+                $this->set_messages('<i class="fa fa-exclamation-triangle "></i> Sua senha antiga está incorreta!', false, 'error');
                 return;
             }
 
-            $data['pass'] = $_POST['pass'];
+            wp_set_password( $_POST['pass'], $this->userID );
         }
 
         wp_update_user($data);
@@ -74,9 +76,36 @@ class RHSPerfil extends RHSMenssage {
             update_user_meta( $this->userID, 'rhs_city', $_POST['municipio']);
         }
 
-
         if(!empty($_POST['links'])){
             update_user_meta( $this->userID, 'rhs_links', RHSUser::save_links($_POST['links']));
+        }
+
+        if ( isset( $_FILES[ 'avatar' ][ 'name' ] ) && $_FILES[ 'avatar' ][ 'error' ] == 0 ) {
+            $arquivo_tmp = $_FILES[ 'avatar' ][ 'tmp_name' ];
+            $nome = $_FILES[ 'avatar' ][ 'name' ];
+
+            $extensao = pathinfo ( $nome, PATHINFO_EXTENSION );
+            $extensao = strtolower ( $extensao );
+
+            if ( strstr ( '.jpg;.jpeg;.gif;.png', $extensao ) ) {
+
+                if($_FILES[ 'avatar' ][ 'size' ] < 5242880){
+
+                    $novoNome = uniqid ( time () ) . '.' . $extensao;
+                    $caminho = '/uploads/'. date('Y').'/'.date('m').'/';
+
+                    if ( @move_uploaded_file ( $arquivo_tmp, WP_CONTENT_DIR . $caminho . $novoNome ) ) {
+                        update_user_meta( $this->userID, 'rhs_avatar', 'wp-content/'.$caminho.$novoNome);
+                    } else {
+                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Erro ao salvar o arquivo.', false, 'error');
+                    }
+
+                } else {
+                    $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Tamanho não pode ultrapasar de 5mb', false, 'error');
+                }
+            } else{
+                $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Você poderá enviar apenas arquivos "*.jpg;*.jpeg;*.gif;*.png', false, 'error');
+            }
         }
 
         $this->set_messages( '<i class="fa fa-check"></i> Dados salvo com sucesso!', false, 'success');
