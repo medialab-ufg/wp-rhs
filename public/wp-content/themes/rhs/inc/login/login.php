@@ -151,7 +151,7 @@ class RHSLogin extends RHSMenssage {
     function login_errors( $errors, $redirect_to ) {
 
         $_SESSION['login_errors'] = '';
-
+    }
     function check_errors( $errors, $redirect_to ) {
 
 
