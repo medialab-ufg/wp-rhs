@@ -1,8 +1,5 @@
 <?php
 
-<<<<<<< HEAD
-class RHSLogin extends RHSMenssage {
-=======
 /*
 *
 * Esta Class implementa as funções necessárias para o Login e uso das reCaptcha.
@@ -10,7 +7,7 @@ class RHSLogin extends RHSMenssage {
 * Com a Função display_recuperar_captcha() mostra na tela o reCaptcha.
 *
 */
->>>>>>> ba7cb2865111f3c9b7369b25b1d4aedf8c63a5e7
+class RHSLogin extends RHSMenssage {
 
     private static $instance;
 
