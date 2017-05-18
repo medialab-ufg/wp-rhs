@@ -1,10 +1,9 @@
 <?php
 
-Class RHSUser {
+Class RHSUser extends RHSMenssage {
 
     static $instance;
-
-    private $separate = "&#44;";
+    const SEPARATE = "&#44;";
     private $userID;
 
     function __construct( $userID ) {
@@ -20,9 +19,9 @@ Class RHSUser {
             add_action( 'personal_options_update', array( &$this, 'save_extra_profile_fields' ) );
             add_action( 'edit_user_profile_update', array( &$this, 'save_extra_profile_fields' ) );
             add_action('admin_enqueue_scripts', array( &$this, 'admin_theme_style'));
-
-            self::$instance = true;
         }
+
+        self::$instance = true;
     }
 
     function addJS() {
@@ -31,6 +30,21 @@ Class RHSUser {
 
     function admin_theme_style() {
         wp_enqueue_style('user-admin-style', get_template_directory_uri() . '/inc/user/user.css');
+    }
+
+    function get_user_data($field){
+        $data = get_userdata($this->userID);
+
+        if(!$data){
+            return '';
+        }
+
+        if(!empty($data->{$field})){
+            return $data->{$field};
+        }
+
+        return esc_attr( get_the_author_meta( $field, $this->userID ) );
+
     }
 
     function extra_profile_fields() {
@@ -108,6 +122,27 @@ Class RHSUser {
         wp_enqueue_script( 'media-upload' );
     }
 
+    static function save_links($links_post){
+
+        if ( ! empty( $links_post ) && is_array( $links_post ) ) {
+
+            if ( ! empty( $links_post['title'] ) ) {
+                $links_post['title'] = array_filter( $links_post['title'] );
+                $links_post['title'] = implode( self::SEPARATE, $links_post['title'] );
+            }
+
+            if ( ! empty( $links_post['url'] ) ) {
+                $links_post['url'] = array_filter( $links_post['url'] );
+                $links_post['url'] = implode( self::SEPARATE, $links_post['url'] );
+            }
+
+            return json_encode( $links_post );
+
+        }
+
+        return array();
+
+    }
 
     function save_extra_profile_fields( $userID ) {
 
@@ -117,21 +152,7 @@ Class RHSUser {
             return false;
         }
 
-        if ( ! empty( $_POST['rhs_links'] ) && is_array( $_POST['rhs_links'] ) ) {
-
-            if ( ! empty( $_POST['rhs_links']['title'] ) ) {
-                $_POST['rhs_links']['title'] = array_filter( $_POST['rhs_links']['title'] );
-                $_POST['rhs_links']['title'] = implode( $this->separate, $_POST['rhs_links']['title'] );
-            }
-
-            if ( ! empty( $_POST['rhs_links']['url'] ) ) {
-                $_POST['rhs_links']['url'] = array_filter( $_POST['rhs_links']['url'] );
-                $_POST['rhs_links']['url'] = implode( $this->separate, $_POST['rhs_links']['url'] );
-            }
-
-            $_POST['rhs_links'] = json_encode( $_POST['rhs_links'] );
-
-        }
+        $_POST['rhs_links'] = self::save_links(! empty( $_POST['rhs_links'] ) ? $_POST['rhs_links'] : array());
 
         if ( ! empty( $_POST['rhs_avatar'] ) ) {
             $url                 = get_site_url();
@@ -192,8 +213,8 @@ Class RHSUser {
 
                 $data = array();
 
-                $links['title'] = explode( $this->separate, $links['title'] );
-                $links['url']   = explode( $this->separate, $links['url'] );
+                $links['title'] = explode( self::SEPARATE, $links['title'] );
+                $links['url']   = explode( self::SEPARATE, $links['url'] );
 
                 foreach ( $links['title'] as $key => $link ) {
 

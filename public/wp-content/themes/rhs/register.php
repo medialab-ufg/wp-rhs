@@ -1,4 +1,5 @@
 <?php get_header(); ?>
+<?php global $RHSRegister; ?>
     <div class="row">
         <!-- Container -->
         <div class="login">
@@ -12,12 +13,12 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <?php if ( ! empty( $_SESSION['register_messages'] ) ) { ?>
-                                            <?php foreach ( $_SESSION['register_messages'] as $type => $message ) { ?>
-                                                <div class="alert alert-<?php echo $type ? 'danger' : 'success'; ?>">
+                                        <?php foreach ($RHSRegister->messages() as $type => $messages){ ?>
+                                            <div class="alert alert-<?php echo $type == 'error' ? 'danger' : 'success' ; ?>">
+                                                <?php foreach ($messages as $message){ ?>
                                                     <p><?php echo $message ?></p>
-                                                </div>
-                                            <?php } ?>
+                                                <?php } ?>
+                                            </div>
                                         <?php } ?>
                                         <fieldset class="scheduler-border">
                                             <legend class="scheduler-border">Dados do Login</legend>
@@ -25,7 +26,7 @@
                                                     <label for="mail" class="col-sm-1 control-label">Email <span class="required">*</span></label>
                                                     <div class="col-sm-7">
                                                         <input class="form-control form-text" type="email" id="mail" name="mail" maxlength="254">
-                                                        <input type="hidden" name="register_user_wp" value="1">
+                                                        <input type="hidden" name="register_user_wp" value="<?php echo $RHSRegister->getKey(); ?>">
                                                     </div>
                                                     <div class="col-md-5">
                                                         <div class="help-block text-center">
@@ -125,8 +126,8 @@
                                         <fieldset class="scheduler-border">
                                             <legend class="scheduler-border">Captcha</legend>
                                             <?php
-                                            global $RHSLogin;
-                                            $RHSLogin->display_recuperar_captcha(); ?>
+                                            global $RHSCaptcha;
+                                            $RHSCaptcha->display_recuperar_captcha(); ?>
                                         </fieldset>
                                         <div class="panel-button form-actions register">
                                             <button id="btn-login" class="btn btn-danger">Cadastrar</button>
@@ -146,5 +147,5 @@
             </header>
         </div>
     </div>
-
+<?php $RHSRegister->clear_messages(); ?>
 <?php get_footer();

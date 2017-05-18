@@ -752,6 +752,12 @@ form .comment-form-comment {
             color: $primeira_cor_texto;
             margin: 0px 0px 20px 0px;
         }
+        .alert{
+            p{
+                font-size: 14px;
+                font-weight: normal;
+            }
+        }
         .panel-heading {
             border-color: #ddd;
         }
@@ -801,6 +807,40 @@ form .comment-form-comment {
                 .form-width{
                     width: 52%;
                 }
+                .links{
+                    > .col-sm-6{
+                        &:last-child{
+                            label{
+                                float: left;
+                                width: 100%;
+                            }
+                            input{
+                                width: calc(100% - 50px);
+                                float: left;
+                            }
+                            .remove-link{
+                                float: left;
+                                margin: 0 0 0 12px;
+                                background: #b70b0b;
+                                border: 1px solid #b70b0b;
+                                display: inline-block;
+                                text-align: center;
+                                color: #fff;
+                                padding: 4px 11px;
+                                border-radius: 4px;
+                                &:hover{
+                                    color: #b70b0b;
+                                    background: #fff;
+                                }
+                            }
+                        }
+                    }
+                    &:first-child{
+                        .remove-link{
+                            display: none !important;
+                        }
+                    }
+                }
                 .help-block{
                     margin-top: 2px;
                     font-size: 13px;
@@ -831,6 +871,18 @@ form .comment-form-comment {
                     }
                     .pos{
                         padding-top: 32px;
+                    }
+                }
+                .form-image{
+                    text-align: left;
+                    img{
+                        width: 120px !important;
+                        height: 120px !important;
+                        border: 1px solid #cacaca;
+                        padding: 10px;
+                        border-radius: 11px;
+                        display: inline-block;
+                        margin-bottom: 10px;
                     }
                 }
             }

@@ -1,44 +1,52 @@
 <?php
 
-class RHSRegister {
+class RHSRegister extends RHSMenssage {
 
+    private static $instance;
 
     function __construct() {
 
-        add_action('wp_ajax_check_email_exist', array( &$this, 'check_email_exist' ) );
-        add_action( 'init', array( &$this, 'check_session' ), 1 );
+        if(empty(self::$instance)){
+            add_action('wp_ajax_check_email_exist', array( &$this, 'check_email_exist' ) );
+            add_filter( "register_url", array( &$this, "register_url" ) );
 
-        if(!empty($_POST['register_user_wp'])){
-            $this->save_post_when_post();
+            if(!empty($_POST['register_user_wp']) && $_POST['register_user_wp'] == $this->getKey()){
+                $this->save_by_post();
+            }
         }
+
+        self::$instance = true;
     }
 
+    static function register_url( $url ) {
+        return home_url( RHSRewriteRules::REGISTER_URL );
+    }
 
-    function save_post_when_post(){
+    function save_by_post(){
 
         if(!$_POST){
             return array();
         }
 
-        $_SESSION['login_errors'] = array();
+        $this->clear_messages();
 
         if(!array_key_exists('mail', $_POST)){
-            $_SESSION['register_messages'][] = array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha o seu email!');
+           $this->set_messages(array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha o seu email!'));
             return;
         }
 
         if(!array_key_exists('first_name', $_POST)){
-            $_SESSION['register_messages'][] = array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha o seu primeiro nome!');
+            $this->set_messages(array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha o seu primeiro nome!'));
             return;
         }
 
         if(!array_key_exists('last_name', $_POST)){
-            $_SESSION['register_messages'][] = array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha o seu último nome!');
+            $this->set_messages(array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha o seu último nome!'));
             return;
         }
 
         if(!array_key_exists('pass', $_POST)){
-            $_SESSION['register_messages'][] = array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha a sua senha!');
+            $this->set_messages(array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha a sua senha!'));
             return;
         }
 
@@ -54,11 +62,13 @@ class RHSRegister {
 
         $user_id = wp_insert_user( $userdata ) ;
 
-        add_user_meta( $user_id, '_state', $_POST['estado']);
+        add_user_meta( $user_id, 'rhs_state', $_POST['estado']);
 
-        add_user_meta( $user_id, '_city', $_POST['municipio']);
+        add_user_meta( $user_id, 'rhs_city', $_POST['municipio']);
 
-        $_SESSION['register_messages'][] = array('success' => '<i class="fa fa-check"></i> Cadastro realizado');
+        $perfil = new RHSPerfil();
+        $perfil->clear_messages();
+        $perfil->set_messages('<i class="fa fa-check"></i> Cadastro realizado', false, 'success' );
 
         $user_login     = esc_attr($_POST["mail"]);
         $user_password  = esc_attr($_POST["pass"]);
@@ -75,13 +85,19 @@ class RHSRegister {
         do_action( 'wp_login', $user_login );
 
         if ( is_wp_error( $user ) ) {
-            $_SESSION['register_messages'][] = array('error' =>  $user->get_error_message());
+
+            $login = new RHSLogin();
+            $login->clear_messages();
+
+            foreach ($user->get_error_message() as $error){
+                $login->set_messages($error, false, 'success');
+            }
+            wp_redirect( esc_url( home_url( '/login' ) ) );
             return;
         }
 
-        wp_redirect(site_url('painel'));
-
-        return;
+        wp_redirect( esc_url( home_url( '/perfil' ) ) );
+        exit;
 
     }
 
@@ -96,12 +112,6 @@ class RHSRegister {
 
         exit;
 
-    }
-
-    function check_session() {
-        if ( ! session_id() ) {
-            session_start();
-        }
     }
 
 }

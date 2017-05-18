@@ -202,12 +202,12 @@ Class UFMunicipio {
         echo $params['content_before_field'];
 
         if($params['show_label']){ ?>
-            <label for="estado" class="control-label <?php echo $params['label_class']; ?>">
+            <label for="estado" class="<?php echo $params['label_class']; ?>">
                 <?php echo $params['state_label']; ?>
             </label>
         <?php } ?>
         <div class="col-sm-12">
-            <select name="<?php echo $params['state_field_name']; ?>" class="form-control <?php echo $params['select_class']; ?>" id="estado">
+            <select name="<?php echo $params['state_field_name']; ?>" class="<?php echo $params['select_class']; ?>" id="estado">
                 <?php self::print_states_options($params['selected_state']); ?>
             </select>
         </div>
@@ -218,12 +218,12 @@ Class UFMunicipio {
         echo $params['content_before_field'];
 
         if($params['show_label']){?>
-        <label for="municipio" class="col-sm-4 control-label <?php echo $params['label_class']; ?>">
+        <label for="municipio" class="<?php echo $params['label_class']; ?>">
             <?php echo $params['city_label']; ?>
         </label>
         <?php } ?>
         <div class="col-sm-12">
-            <select name="<?php echo $params['city_field_name']; ?>" class="form-control <?php echo $params['select_class']; ?>" id="municipio">
+            <select name="<?php echo $params['city_field_name']; ?>" class="<?php echo $params['select_class']; ?>" id="municipio">
                 <?php self::print_cities_options($params['selected_municipio']); ?>
             </select>
         </div>
