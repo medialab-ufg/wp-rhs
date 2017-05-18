@@ -137,7 +137,7 @@ body {
                 }
                 &:last-child {
                     > a {
-                        padding-left: 32px;
+                        padding-left: 0;
                         padding-right: 16px;
                     }
                 }
@@ -390,7 +390,10 @@ Primeiro e Segundo DropDown Menu
         border: 0px solid transparent;
         border-radius: 0px;
     }
-    button{
+    .btn-group{
+        border-right: 1px solid #f2f3f5;
+    }
+    a{
         color: $primeira_cor_texto;
         border-color: $whiteColor;
         border-bottom: 2px solid $primeira_cor_texto !important;
@@ -902,6 +905,9 @@ form .comment-form-comment {
     }
     .pub{
         padding-right:  23px;
+        .ms-res-ctn {
+            display: none;
+        }
     }
     .info-text {
         font-size: 0.7em;
@@ -1402,6 +1408,13 @@ article {
 }
 
 @media only screen and (max-width: 768px) {
+    .navbar-default {
+        .navbar-brand {
+            > img {
+                margin-left: 7px;
+            }
+        }
+    }
     .navbar-nav {
         margin: 0.5px -15px;
     }
@@ -1418,9 +1431,14 @@ article {
             float: left;
         }
         .navbar-nav {
-            > li:last-child > a{
-                margin-right: -1px;
-                padding-right: 0 !important;
+            > li {
+                &:first-child > a{
+                    padding-right: 95px !important;
+                    padding-left: 119px;
+                }
+                &:last-child > a{
+                    padding-left: 123px !important;
+                }
             }
         }
         .dropdown-menu-right {
@@ -1496,6 +1514,17 @@ article {
             }
             .glyphicon-chevron-right {
                 margin-right: -21px;
+            }
+        }
+    }
+
+    /*Register Page*/
+    .userpage{
+        form{
+            &#register{
+                .show_pass{
+                    right: 30px;
+                }
             }
         }
     }

@@ -42,9 +42,18 @@
                                             <div class="form-group">
                                                 <input type="text" class="form-control" id="ms-filter" placeholder="Tags">
                                             </div>
-                                            <div class="form-group">
-                                                <?php UFMunicipio::form(array('state_label' => ' ', 'city_label' => ' ', 'separator' => '<p></p>', 'select_class' => 'form-control', 'label_class' => 'control-label', 'show_label' => false)); ?>
-                                            </div>
+                                            <?php UFMunicipio::form( array(
+                                                'content_before' => '',
+                                                'content_after' => '',
+                                                'content_before_field' => '<div class="form-group">',
+                                                'content_after_field' => '</div>',
+                                                'select_before' => ' ',
+                                                'select_after' => ' ',
+                                                'state_label'  => 'Estado &nbsp',
+                                                'city_label'   => 'Cidade &nbsp',
+                                                'select_class' => 'form-control',
+                                                'show_label'   => false,
+                                            ) ); ?>
                                             <div class="form-group">
                                                 <select class="form-control" name="post-type">
                                                     <option value="">Tipos de Post</option>

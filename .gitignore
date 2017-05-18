@@ -20,3 +20,5 @@ public/wp-content/themes/rhs/assets/scss/style.html
 db/base_bkp_last_reset.sql
 public/wp-content/themes/rhs/page-fila-de-votacao.html
 public/wp-content/themes/rhs/vendor
+dev_uploads/
+sites
