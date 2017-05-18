@@ -18,6 +18,18 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="descricao">Descrição</label>
+                                                    <?php
+                                                        wp_editor( 'Escreva seu Post.', 'public_post', array(
+                                                            'media_buttons' => true, // show insert/upload button(s) to users with permission
+                                                            'dfw' => false, // replace the default full screen with DFW (WordPress 3.4+)
+                                                            'tinymce' => array(
+                                                                'theme_advanced_buttons1' => 'bold,italic,underline,strikethrough,bullist,numlist,code,blockquote,link,unlink,outdent,indent,|,undo,redo,fullscreen,paste'
+                                                            ),
+                                                            'quicktags' => array(
+                                                               'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close'
+                                                            )
+                                                        ) );
+                                                    ?>
                                                 </div>
                                                 <div class="form-group">
                                                     <?php get_template_part('partes-templates/colapse_criar_post'); ?>

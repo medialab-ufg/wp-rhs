@@ -25,6 +25,8 @@ if(!function_exists('rhs_setup')) :
         **/
         show_admin_bar( false );
 
+        //Desabilita o FTP na instalação de Plugins
+        define('FS_METHOD', 'direct');
         /**
         * Classe usada nos menus.
         * A mesma facilita o uso das classes usadas na tag nav do bootstrap com o wordpress.
@@ -51,12 +53,15 @@ endif;
 
 add_action( 'after_setup_theme', 'rhs_setup' );
 
+/* 
+* Desabilita os Emojis 
+*/
 function disable_wp_emojicons() {
-
   // all actions related to emojis
   remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 }
 add_action( 'init', 'disable_wp_emojicons' );
+
 /*
 * Alterar 'usuario' para ser o URL base que você deseja usar
 */
@@ -69,7 +74,9 @@ function change_author_permalinks()
 add_action('init','change_author_permalinks');
 
 
-// Incluir JavaScripts necessários no tema
+/* 
+* Incluir JavaScripts necessários no tema 
+*/
 function RHS_scripts() {
    wp_enqueue_script('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/js/bootstrap.min.js', array('jquery'), '3.3.7', true);
    wp_enqueue_script('bootstrap-hover-dropdown', get_template_directory_uri() . '/vendor/js/bootstrap-hover-dropdown.min.js', array('jquery'), '2.2.1', true);
@@ -78,6 +85,7 @@ function RHS_scripts() {
     wp_enqueue_script( 'JqueryValidate', 'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js', array('jquery'), '1.15.0', true );
     wp_enqueue_script('JqueryValidadeMethods', 'https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js', array('JqueryValidate'), '1.16.0', true );
     wp_enqueue_script('ValidarForm', get_template_directory_uri() . '/assets/js/valida-form-registro.js', array('JqueryValidate'),'1.0', true);
+
    /*Bootstrap Tags Input*/
    wp_enqueue_script('magicJS', get_template_directory_uri() . '/vendor/js/magicsuggest-min.js','0.8.0', true);
 
@@ -85,7 +93,9 @@ function RHS_scripts() {
 }
 add_action('wp_enqueue_scripts', 'RHS_scripts');
 
-// Incluir Styles CSS necessários no tema
+/* 
+* Incluir Styles CSS necessários no tema 
+*/
 function RHS_styles() {
    wp_enqueue_style('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/css/bootstrap.min.css');
    wp_enqueue_style('fontawesome', get_template_directory_uri() . '/vendor/font-awesome/css/font-awesome.min.css');
@@ -96,7 +106,6 @@ add_action('wp_enqueue_scripts', 'RHS_styles');
 
 /**
  * Exibir template para comentarios.
- *
  */
 if (!function_exists('RHS_Comentarios')) :
     function RHS_Comentarios($comment, $args, $depth) {
@@ -247,3 +256,12 @@ function rhs_widgets_init() {
     ) );
 }
 add_action( 'widgets_init', 'rhs_widgets_init' );
+
+/*
+* Deixa ativo o paste_as_text por default 
+*/
+function change_paste_as_text($mceInit, $editor_id){
+    $mceInit['paste_as_text'] = true;
+    return $mceInit;
+}
+add_filter('tiny_mce_before_init', 'change_paste_as_text', 1, 2);

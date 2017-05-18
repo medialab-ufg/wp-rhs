@@ -116,7 +116,7 @@ class RHSLogin {
 
     function no_captcha_recaptcha_menu() {
         add_menu_page( "Opções reCaptcha", "Opções reCaptcha", "manage_options", "recaptcha-options",
-            array( &$this, "recaptcha_options_page" ), "", 100 );
+            array( &$this, "recaptcha_options_page" ), "dashicons-pressthis", 100 );
     }
 
     function recaptcha_options_page() { ?>
