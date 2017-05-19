@@ -24,7 +24,7 @@ class RHSImporter {
         
         'taxonomy-slugs' => 'Cria slugs para tags q nao tem e trata slugs repetidos',
         'post-thumbnails' => 'Importação as imagens destacadas dos posts',
-        //'estados-cidades' => 'Importação das informações de estado e cidade',
+        'estados-cidades' => 'Importação das informações de estado e cidade para posts',
     
     );
     
