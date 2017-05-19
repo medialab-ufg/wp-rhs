@@ -11,6 +11,8 @@ class RHSRewriteRules {
     const RP = 'rp';
 
     function __construct() {
+        if(is_user_logged_in())
+            return home_url();
 
         if ( empty ( self::$instance ) ) {
             add_action( 'generate_rewrite_rules', array( &$this, 'rewrite_rules' ), 10, 1 );
