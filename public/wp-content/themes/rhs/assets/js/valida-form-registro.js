@@ -466,6 +466,63 @@ jQuery( function( $ ) {
             }
         });
 
+        $('#posting').validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: '',
+            rules: {
+                title: {
+                    required: true,
+                    minlenght: 35
+                },
+                category: {
+                    required: true
+                }
+            },
+            messages: {
+                title: {
+                    required: 'Preencha o titulo.',
+                    minlenght: 'Tamanho mínimo de 35 caracteres'
+                },
+                category: {
+                    required: 'Selecione a categoria'
+                }
+            },
+            invalidHandler: function (event, validator) {},
+            errorPlacement: function (error, element) {
+                if (element.parent(".input-group").size() > 0) {
+                    error.insertAfter(element.parent(".input-group"));
+                } else if (element.attr("data-error-container")) {
+                    error.appendTo(element.attr("data-error-container"));
+                } else if (element.parents('.radio-list').size() > 0) {
+                    error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+                } else if (element.parents('.radio-inline').size() > 0) {
+                    error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-list').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parent().find('.help-block').size() > 0) {
+
+                } else {
+                    element.parent().append(error);
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            submitHandler: function(form) {
+                $(form).find('[type="submit"]').button('loading');
+                form.submit();
+            }
+        });
+
         $.validator.addMethod("check_email_exist", function (value, element, params) {
             var retorno = false;
             var email = $("input[name='mail']").val();

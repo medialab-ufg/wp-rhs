@@ -16,6 +16,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/user/user.php');
         require_once('inc/perfil/perfil.php');
         require_once('inc/register/register.php');
+        require_once('inc/post/post.php');
         require_once('inc/uf-municipio/uf-municipio.php');
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');

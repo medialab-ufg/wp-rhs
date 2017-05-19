@@ -933,6 +933,16 @@ form .comment-form-comment {
     }
 }
 
+#pre-view{
+    display: none;
+    .panel-icon, .panel{
+        display: none;
+    }
+    .panel-icon{
+        margin-bottom: 30px;
+    }
+}
+
 #info_pessoais, #sobre_interesses {
     .panel-body {
         margin-top: -6px;
