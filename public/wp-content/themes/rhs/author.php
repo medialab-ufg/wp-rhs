@@ -24,7 +24,7 @@
                             <div class="col-xs-7 col-md-6">
                                 <div class="col-xs-12">
                                     <p class="nome-author"><?php echo $curauth->display_name; ?></p>
-                                    <small class="localidade">Goiânia, Goias</small>
+                                    <small class="localidade"><?php echo the_user_ufmun($curauth->ID); ?></small>
                                 </div>
                                 <div class="col-xs-3 media-left">
                                     <span class="contagem-valor-author"><?php echo count_user_posts( $curauth->ID ); ?></span>

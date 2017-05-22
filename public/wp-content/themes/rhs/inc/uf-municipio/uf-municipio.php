@@ -243,7 +243,7 @@ Class UFMunicipio {
         echo $params['content_after'];
     }
     
-    function get_uf_link($uf_id, $uf_data = false) {
+    static function get_uf_link($uf_id, $uf_data = false) {
         global $wpdb;
         
         if (false === $uf_data)
@@ -253,7 +253,7 @@ Class UFMunicipio {
     
     }
     
-    function get_mun_link($mun_id, $mun_data = false) {
+    static function get_mun_link($mun_id, $mun_data = false) {
         global $wpdb;
         
         if (false === $mun_data)
@@ -283,14 +283,12 @@ Class UFMunicipio {
     
     }
     
-    function get_post_meta($post_id) {
+    static function get_post_meta($post_id) {
         global $wpdb;
         $result = array();
         
         $result['uf'] = ['id' => get_post_meta($post_id, self::UF_META, true)];
         $result['mun'] = ['id' => get_post_meta($post_id, self::MUN_META, true)];
-        
-        
         
         if ($result['uf']['id']) {
             $result['uf'] = array_merge($result['uf'], $wpdb->get_row( $wpdb->prepare("SELECT * FROM uf WHERE id = %d", $result['uf']), ARRAY_A));
@@ -305,7 +303,7 @@ Class UFMunicipio {
     }
     
     
-    function get_user_meta($user_id) {
+    static function get_user_meta($user_id) {
         global $wpdb;
         $result = array();
         
@@ -313,18 +311,18 @@ Class UFMunicipio {
         $result['mun'] = ['id' => get_user_meta($user_id, self::MUN_META, true)];
         
         if ($result['uf']['id']) {
-            $result['uf'] = array_merge($result['uf'], $wpdb->get_row( $wpdb->prepare("SELECT * FROM uf WHERE id = %d", $result['uf'])));
+            $result['uf'] = array_merge($result['uf'], $wpdb->get_row( $wpdb->prepare("SELECT * FROM uf WHERE id = %d", $result['uf']), ARRAY_A));
         }
         
         if ($result['mun']['id']) {
-            $result['mun'] = array_merge($result['mun'], $wpdb->get_row( $wpdb->prepare("SELECT * FROM municipio WHERE id = %d", $result['mun'])));
+            $result['mun'] = array_merge($result['mun'], $wpdb->get_row( $wpdb->prepare("SELECT * FROM municipio WHERE id = %d", $result['mun']), ARRAY_A));
         }
         
         return $result;
     
     }
     
-    function the_post($post = null) {
+    static function the_post($post = null) {
     
         $post = get_post($post); // ID, Object ou o post atual do Loop
         
@@ -332,7 +330,8 @@ Class UFMunicipio {
             return false;
             
         $meta = self::get_post_meta($post->ID);
-        
+        static $uf_html, $mun_html, $uf_link;
+
         if ($meta['uf']['id']) {
         
             $uf_link = self::get_uf_link($meta['uf']['id'], $meta['uf']);
@@ -361,10 +360,10 @@ Class UFMunicipio {
     
     }
     
-    function the_user($user_id) {
+    static function the_user($user_id) {
     
         $meta = self::get_user_meta($user_id);
-        
+        static $mun_html, $uf_html, $uf_link;
         if ($meta['uf']['id']) {
         
             $uf_link = self::get_uf_link($meta['uf']['id'], $meta['uf']);
