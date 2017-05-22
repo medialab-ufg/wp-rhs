@@ -1,7 +1,42 @@
-#!/usr/bin/env bash
-
+#!/bin/bash
 php -r '
-
+if (!file_exists("public/wp-content/themes/rhs/vendor")) { 
+    mkdir("public/wp-content/themes/rhs/vendor", 0777, true); 
+}
+if (!file_exists("public/wp-content/themes/rhs/vendor/bootstrap")) { 
+    mkdir("public/wp-content/themes/rhs/vendor/bootstrap", 0777, true);  
+}
+if (!file_exists("public/wp-content/themes/rhs/vendor/js")) {  
+    mkdir("public/wp-content/themes/rhs/vendor/js", 0777, true); 
+}
+if (!file_exists("public/wp-content/themes/rhs/vendor/font-awesome")) {  
+    mkdir("public/wp-content/themes/rhs/vendor/font-awesome", 0777, true); 
+}
+if (!file_exists("public/wp-content/themes/rhs/vendor/font-awesome/css")) {  
+    mkdir("public/wp-content/themes/rhs/vendor/font-awesome/css", 0777, true); 
+}
+if (!file_exists("public/wp-content/themes/rhs/vendor/font-awesome/fonts")) {  
+    mkdir("public/wp-content/themes/rhs/vendor/font-awesome/fonts", 0777, true); 
+}
+if (!file_exists("public/wp-content/themes/rhs/vendor/magicsuggest")) {  
+    mkdir("public/wp-content/themes/rhs/vendor/magicsuggest", 0777, true); 
+}
+recurse_copy("vendor/twbs/bootstrap/dist/", "public/wp-content/themes/rhs/vendor/bootstrap");
+recurse_copy("vendor/fortawesome/font-awesome/css/", "public/wp-content/themes/rhs/vendor/font-awesome/css");
+recurse_copy("vendor/fortawesome/font-awesome/fonts/", "public/wp-content/themes/rhs/vendor/font-awesome/fonts");
+recurse_copy("vendor/nicolasbize/magicsuggest/", "public/wp-content/themes/rhs/vendor/magicsuggest");
+if (file_exists("wp-content/plugins/wp-bootstrap-navwalker")) {
+    recurse_copy("wp-content", "vendor/wp-content");
+}
+if (file_exists("vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php")) { 
+    copy("vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php", "public/wp-content/themes/rhs/vendor/wp-bootstrap-navwalker.php"); 
+}
+if (file_exists("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js")) {
+    copy("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js", "public/wp-content/themes/rhs/vendor/js/bootstrap-hover-dropdown.min.js");
+}
+if (file_exists("wp-content/plugins/wp-bootstrap-navwalker")) {
+    deleteDir("wp-content");
+}
 function recurse_copy($src,$dst) {
     $dir = opendir($src);
     @mkdir($dst);
@@ -17,7 +52,6 @@ function recurse_copy($src,$dst) {
     }
     closedir($dir);
 }
-
 function deleteDir($path){
     if (is_dir($path) === true){
         $files = array_diff(scandir($path), array(".", ".."));
@@ -34,27 +68,5 @@ function deleteDir($path){
     }
 
     return false;
-}
-
-if (!file_exists("public/wp-content/themes/rhs/assets")) { mkdir("public/wp-content/themes/rhs/assets", 777, true); }  }
-if (!file_exists("public/wp-content/themes/rhs/vendor")) { mkdir("public/wp-content/themes/rhs/vendor", 777, true); }
-if (!file_exists("public/wp-content/themes/rhs/vendor/bootstrap")) { mkdir("public/wp-content/themes/rhs/vendor/bootstrap", 777, true);  }
-if (!file_exists("public/wp-content/themes/rhs/assets/js")) {  mkdir("public/wp-content/themes/rhs/assets/js", 777, true); }
-if (!file_exists("public/wp-content/themes/rhs/vendor/js")) {  mkdir("public/wp-content/themes/rhs/vendor/js", 777, true); }
-if (!file_exists("public/wp-content/themes/rhs/vendor/fortawesome/font-awesome/css")) {  mkdir("public/wp-content/themes/rhs/vendor/font-awesome/css", 777, true); }
-
-
-recurse_copy("vendor/twbs/bootstrap/dist/", "public/wp-content/themes/rhs/vendor/bootstrap");
-recurse_copy("vendor/fortawesome/font-awesome/css/", "public/wp-content/themes/rhs/vendor/font-awesome/css");
-
-if (file_exists("wp-content")) {
-    recurse_copy("wp-content", "vendor");
-    deleteDir("wp-content");
-}
-
-if (file_exists("vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php")) { copy("vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php", "public/wp-content/themes/rhs/vendor/wp-bootstrap-navwalker.php"); }
-if (file_exists("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js")) {
-
-    copy("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js", "public/wp-content/themes/rhs/vendor/js/bootstrap-hover-dropdown.min.js");
 }
 '

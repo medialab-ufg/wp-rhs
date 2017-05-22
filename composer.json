@@ -10,14 +10,19 @@
         "twbs/bootstrap": "3.3.7",
         "wp-bootstrap/wp-bootstrap-navwalker" : "2.0.5",
         "cwspear/bootstrap-hover-dropdown" : "2.2.1",
-        "phpmailer/phpmailer" : "^5.2"
+        "phpmailer/phpmailer" : "^5.2",
+        "FortAwesome/Font-Awesome" : "*",
+        "nicolasbize/magicsuggest" : "*"
     },
     "extra": {
         "wordpress-install-dir": "public/wp"
     },
     "scripts": {
+        "post-install-cmd": [
+            "bash post-install.sh"
+        ],
         "post-update-cmd": [
-            "postinstall.sh"
+            "bash post-install.sh"
         ]
     }
 }

@@ -1,5 +1,7 @@
-<?php get_header(); ?>
-<?php global $RHSRegister; ?>
+<?php get_header();
+global $RHSRegister;
+global $RHSCaptcha;
+?>
     <div class="row">
         <!-- Container -->
         <div class="login">
@@ -77,7 +79,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group float-label-control">
-                                                        <label for="second_name" class="col-sm-4 control-label">Segundo
+                                                        <label for="last_name" class="col-sm-4 control-label">Segundo
                                                             Nome <span class="required">*</span></label>
                                                         <div class="col-sm-7">
                                                             <input class="form-control form-text" type="text" id="last_name" name="last_name" size="30" maxlength="30">
@@ -127,9 +129,7 @@
                                             <legend class="scheduler-border">Captcha</legend>
                                             <div class="form-group float-label-control capt">
                                                 <div class="col-sm-7">
-                                                    <?php
-                                                    global $RHSCaptcha;
-                                                    $RHSCaptcha->display_recuperar_captcha(); ?>
+                                                    <?php $RHSCaptcha->display_recuperar_captcha(); ?>
                                                 </div>
                                                 <div class="col-md-5">
                                                     <div class="help-block text-center">
