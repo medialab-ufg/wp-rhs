@@ -42,8 +42,6 @@ Class UFMunicipio {
      */
     static function get_cities_options($uf, $currentCity = '') {
 
-
-
         $cidades = self::get_cities($uf);
 
         $output = '';
@@ -51,7 +49,7 @@ Class UFMunicipio {
         if (is_array($cidades) && count($cidades) > 0) {
             foreach ($cidades as $cidade) {
                 $selected = selected($currentCity, $cidade->nome);
-                $output .= "<option value='{$cidade->id}' $selected>{$cidade->nome}</option>";
+                $output .= "<option value='{$cidade->nome}' $selected>{$cidade->nome}</option>";
             }
         } else {
             return "<option value=''>Selecione a cidade...</option>";
@@ -60,7 +58,6 @@ Class UFMunicipio {
         return $output;
     }
     
-    
     /**
      * Retorna HTML com os estados.
      * 
@@ -68,14 +65,12 @@ Class UFMunicipio {
      * @return string
      */
     static function get_states_options($currentState = '') {
-    
+       
         $states = self::get_states();
-        
 
         $output = "<option value=''>Estado</option>";
 
         $output = "<option value=''>Selecione o estado...</option>";
-
         
         foreach ($states as $state) {
             $selected = selected($currentState, $state->sigla);

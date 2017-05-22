@@ -216,7 +216,7 @@ jQuery( function( $ ) {
                 $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
             },
             submitHandler: function(form) {
-                $(form).find('[type="submit"]').html('loading');
+                $(form).find('[type="submit"]').html('<i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>');
                 form.submit();
             }
         });
@@ -277,7 +277,7 @@ jQuery( function( $ ) {
                 $(element).closest('.form-group').removeClass('has-error');
             },
             submitHandler: function(form) {
-                $(form).find('[type="submit"]').button('loading');
+                $(form).find('[type="submit"]').html('<i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>');
                 form.submit();
             }
         });
@@ -340,7 +340,7 @@ jQuery( function( $ ) {
                 $(element).closest('.form-group').removeClass('has-error');
             },
             submitHandler: function(form) {
-                $(form).find('[type="submit"]').button('loading');
+                $(form).find('[type="submit"]').html('<i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>');
                 form.submit();
             }
         });
@@ -397,7 +397,7 @@ jQuery( function( $ ) {
                 $(element).closest('.form-group').removeClass('has-error');
             },
             submitHandler: function(form) {
-                $(form).find('[type="submit"]').button('loading');
+                $(form).find('[type="submit"]').html('<i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>');
                 form.submit();
             }
         });
@@ -491,7 +491,7 @@ jQuery( function( $ ) {
                 $(element).closest('.form-group').removeClass('has-error');
             },
             submitHandler: function(form) {
-                $(form).find('[type="submit"]').button('loading');
+                $(form).find('[type="submit"]').html('<i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>');
                 form.submit();
             }
         });
@@ -548,7 +548,7 @@ jQuery( function( $ ) {
                 $(element).closest('.form-group').removeClass('has-error');
             },
             submitHandler: function(form) {
-                $(form).find('[type="submit"]').button('loading');
+                $(form).find('[type="submit"]').html('<i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>');
                 form.submit();
             }
         });

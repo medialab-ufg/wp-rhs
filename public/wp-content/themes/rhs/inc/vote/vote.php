@@ -412,7 +412,7 @@ Class RHSVote {
 			return;
 		}
 
-		if ( $this->get_total_votes( $postID ) >= $this->votes_to_approval ) {
+		if ( $this->get_total_votes( $post->ID ) >= $this->votes_to_approval ) {
 			return;
 		}
 
