@@ -2,11 +2,11 @@
 
 // Criamos uma tabela para fazer a transição
 
-$table = 'migra_cidades_p';
+$table = 'migra_cidades_u';
 
 $this->log('Limpando metadados');
-$wpdb->query("DELETE FROM $wpdb->postmeta WHERE meta_key = '_uf'");
-$wpdb->query("DELETE FROM $wpdb->postmeta WHERE meta_key = '_municipio'");
+$wpdb->query("DELETE FROM $wpdb->usermeta WHERE meta_key = '_uf'");
+$wpdb->query("DELETE FROM $wpdb->usermeta WHERE meta_key = '_municipio'");
 
 $this->log('Criando tabela temporária');
 $wpdb->query("DROP TABLE IF EXISTS `$table`");
@@ -30,8 +30,8 @@ $wpdb->query(
 );
 
 // Pega cidades relacionadas com posts no drupal
-$this->log('Importando lista de cidades associadas a posts');
-$query = $this->get_sql('cidades-posts-get', ['{{table}}' => $table, '{{source}}' => 'field_estado_cidade', '{{bundle}}' => 'blog']);
+$this->log('Importando lista de cidades associadas a usuários');
+$query = $this->get_sql('cidades-posts-get', ['{{table}}' => $table, '{{source}}' => 'taxonomy_vocabulary_5', '{{bundle}}' => 'user']);
 $wpdb->query($query);
 
 $this->log('Identificando ID IBGE dos estados');
@@ -48,23 +48,23 @@ $wpdb->query($query);
 ///// LIMPEZA MANUAL
 
 // Remover referencia a posts que não existem na nossa base
-$wpdb->query("DELETE FROM $table WHERE target_id NOT IN (SELECT ID FROM $wpdb->posts WHERE post_type = 'post')");
+$wpdb->query("DELETE FROM $table WHERE target_id NOT IN (SELECT ID FROM $wpdb->users)");
 
 
 
 
 
 
-$this->log('Inserindo metados de uf para posts');
-$query = $this->get_sql('cidades-add-metadata-uf', ['{{table}}' => $table, '{{target}}' => $wpdb->postmeta, '{{target_col}}' => 'post_id']);
+$this->log('Inserindo metados de uf para usuários');
+$query = $this->get_sql('cidades-add-metadata-uf', ['{{table}}' => $table, '{{target}}' => $wpdb->usermeta, '{{target_col}}' => 'user_id']);
 $wpdb->query($query);
 
-$this->log('Inserindo metados de municipios para posts');
-$query = $this->get_sql('cidades-add-metadata-municipios', ['{{table}}' => $table, '{{target}}' => $wpdb->postmeta, '{{target_col}}' => 'post_id']);
+$this->log('Inserindo metados de municipios para usuários');
+$query = $this->get_sql('cidades-add-metadata-municipios', ['{{table}}' => $table, '{{target}}' => $wpdb->usermeta, '{{target_col}}' => 'user_id']);
 $wpdb->query($query);
 
 
-$this->log('Cidade e estado dos posts importadas. ');
+$this->log('Cidade e estado dos usuários importadas. ');
 $this->log("IMPORTANTE: Os itens da tabela $table com a coluna cod_ibge = NULL trazem os municíios que não foram encontrados na tabela do IBGE. É preciso corrigir e rodar essa migração de novo");
 
 
