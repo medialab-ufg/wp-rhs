@@ -6,10 +6,18 @@
  * 
  * Para funcionar, depende que as tabelas sejam criadas no banco. Esses dados estão em db/brasil.sql
  * 
+ * 
+ * TODO: Podíamos criar uns métodos get_state e get_city que retorna os dados de uma cidade ou estado e grava num cache no atributo da instancia da classe
+ * assim a gente pode ficar chamando isso várias vezes sem medo de ficar fazendo várias requisições no banco.
+ * 
  */ 
 
 Class UFMunicipio {
 
+    
+    const UF_META = '_uf';
+    const MUN_META = '_municipio';
+    
     
     static function init() {
     
@@ -43,7 +51,7 @@ Class UFMunicipio {
         if (is_array($cidades) && count($cidades) > 0) {
             foreach ($cidades as $cidade) {
                 $selected = selected($currentCity, $cidade->nome);
-                $output .= "<option value='{$cidade->nome}' $selected>{$cidade->nome}</option>";
+                $output .= "<option value='{$cidade->id}' $selected>{$cidade->nome}</option>";
             }
         } else {
             return "<option value=''>Selecione a cidade...</option>";
@@ -71,7 +79,7 @@ Class UFMunicipio {
         
         foreach ($states as $state) {
             $selected = selected($currentState, $state->sigla);
-            $output .= "<option value='{$state->sigla}' $selected>{$state->nome}</option>";
+            $output .= "<option value='{$state->id}' $selected>{$state->nome}</option>";
         }
         
         return $output;
@@ -234,7 +242,188 @@ Class UFMunicipio {
         echo $params['content_after_field'];
         echo $params['content_after'];
     }
+    
+    function get_uf_link($uf_id, $uf_data = false) {
+        global $wpdb;
+        
+        if (false === $uf_data)
+            $uf_data = $wpdb->get_row( $wpdb->prepare("SELECT * FROM uf WHERE id = %d", $uf_id), ARRAY_A );
+            
+        return home_url(strtolower($uf_data['sigla']));
+    
+    }
+    
+    function get_mun_link($mun_id, $mun_data = false) {
+        global $wpdb;
+        
+        if (false === $mun_data)
+            $mun_data = $wpdb->get_row( $wpdb->prepare("SELECT * FROM municipio WHERE id = %d", $mun_id), ARRAY_A );
+            
+        return self::get_uf_link($mun_data['ufid']) . '/' . $mun_id . '-' . sanitize_title( $mun_data['nome'], '', 'save' );
+    
+    }
+    
+    
+    
+    function add_post_meta($post_id, $cod_mun, $cod_uf = null) {
+    
+        if (is_null($cod_uf)) $cod_uf = substr($cod_mun, 1, 2);
+        
+        update_post_meta($post_id, self::UF_META, $cod_uf);
+        update_post_meta($post_id, self::MUN_META, $cod_mun);
+    
+    }
+    
+    function add_user_meta($user_id, $cod_mun, $cod_uf = null) {
+    
+        if (is_null($cod_uf)) $cod_uf = substr($cod_mun, 1, 2);
+        
+        update_user_meta($user_id, self::UF_META, $cod_uf);
+        update_user_meta($user_id, self::MUN_META, $cod_mun);
+    
+    }
+    
+    function get_post_meta($post_id) {
+        global $wpdb;
+        $result = array();
+        
+        $result['uf'] = ['id' => get_post_meta($post_id, self::UF_META, true)];
+        $result['mun'] = ['id' => get_post_meta($post_id, self::MUN_META, true)];
+        
+        
+        
+        if ($result['uf']['id']) {
+            $result['uf'] = array_merge($result['uf'], $wpdb->get_row( $wpdb->prepare("SELECT * FROM uf WHERE id = %d", $result['uf']), ARRAY_A));
+        }
+        
+        if ($result['mun']['id']) {
+            $result['mun'] = array_merge($result['mun'], $wpdb->get_row( $wpdb->prepare("SELECT * FROM municipio WHERE id = %d", $result['mun']), ARRAY_A));
+        }
+        
+        return $result;
+    
+    }
+    
+    
+    function get_user_meta($user_id) {
+        global $wpdb;
+        $result = array();
+        
+        $result['uf'] = ['id' => get_user_meta($user_id, self::UF_META, true)];
+        $result['mun'] = ['id' => get_user_meta($user_id, self::MUN_META, true)];
+        
+        if ($result['uf']['id']) {
+            $result['uf'] = array_merge($result['uf'], $wpdb->get_row( $wpdb->prepare("SELECT * FROM uf WHERE id = %d", $result['uf'])));
+        }
+        
+        if ($result['mun']['id']) {
+            $result['mun'] = array_merge($result['mun'], $wpdb->get_row( $wpdb->prepare("SELECT * FROM municipio WHERE id = %d", $result['mun'])));
+        }
+        
+        return $result;
+    
+    }
+    
+    function the_post($post = null) {
+    
+        $post = get_post($post); // ID, Object ou o post atual do Loop
+        
+        if (!isset($post->ID))
+            return false;
+            
+        $meta = self::get_post_meta($post->ID);
+        
+        if ($meta['uf']['id']) {
+        
+            $uf_link = self::get_uf_link($meta['uf']['id'], $meta['uf']);
+            $uf_html = "<a href='$uf_link'>".$meta['uf']['sigla']."</a>";
+            
+            $uf_html = $meta['uf']['sigla']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
+        
+        }
+        
+        if ($meta['mun']['id']) {
+        
+            $mun_link = self::get_mun_link($meta['mun']['id'], $meta['mun']);
+            $mun_html = "<a href='$mun_link'>".$meta['mun']['nome']."</a>";
+            
+            $mun_html = $meta['mun']['nome']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
+        
+        }
+        
+        if ($mun_html) {
+            echo $mun_html;
+            echo ', ';
+        }
+        
+        if ($uf_html)
+            echo $uf_html;
+    
+    }
+    
+    function the_user($user_id) {
+    
+        $meta = self::get_user_meta($user_id);
+        
+        if ($meta['uf']['id']) {
+        
+            $uf_link = self::get_uf_link($meta['uf']['id'], $meta['uf']);
+            $uf_html = "<a href='$uf_link'>".$meta['uf']['sigla']."</a>";
+            
+            $uf_html = $meta['uf']['sigla']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
+        
+        }
+        
+        if ($meta['mun']['id']) {
+        
+            $mun_link = self::get_mun_link($meta['mun']['id'], $meta['mun']);
+            $mun_html = "<a href='$mun_link'>".$meta['mun']['nome']."</a>";
+            
+            $mun_html = $meta['mun']['nome']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
+        
+        }
+        
+        echo $mun_html;
+        echo ', ';
+        echo $uf_html;
+    
+    }
 
 }
 
 add_action('init', array('UFMunicipio', 'init'));
+
+
+/* Functions to handle metadata */
+function add_post_ufmun_meta($post_id, $cod_mun, $cod_uf = null) {
+    return UFMunicipio::add_post_meta($post_id, $cod_mun, $cod_uf);
+}
+
+function add_user_ufmun_meta($user_id, $cod_mun, $cod_uf = null) {
+    return UFMunicipio::add_post_meta($user_id, $cod_mun, $cod_uf);
+}
+
+function get_post_ufmun($post_id) {
+    return UFMunicipio::get_post_meta($post_id);
+}
+
+function get_user_ufmun($user_id) {
+    return UFMunicipio::get_post_meta($user_id);
+}
+
+/* Template Tags */
+
+
+function the_ufmun($post = null) {
+
+    return UFMunicipio::the_post($post);
+
+}
+
+function the_user_ufmun($user_id) {
+
+    return UFMunicipio::the_user($user_id);
+
+}
+
+
