@@ -99,6 +99,7 @@ jQuery( function( $ ) {
         });*/
 
         $('#register').validate({
+            ignore: ".ignore",
             errorElement: 'p',
             errorClass: 'block-error',
             focusInvalid: true,
@@ -128,6 +129,15 @@ jQuery( function( $ ) {
                 },
                 municipio: {
                     required: true
+                },
+                hiddenRecaptcha: {
+                    required: function () {
+                        if (grecaptcha.getResponse() == '') {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
                 }
             },
             messages: {
@@ -155,6 +165,9 @@ jQuery( function( $ ) {
                 },
                 municipio: {
                     required: "Preencha com o seu municipio."
+                },
+                hiddenRecaptcha: {
+                    required: "Valide o Captcha primeiro."
                 }
             },
             invalidHandler: function (event, validator) {},
@@ -187,7 +200,9 @@ jQuery( function( $ ) {
                 if ( !$( element ).next( "span" )[ 0 ] ) {
                     $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter($(element));
                 }
-
+                if($(element).parent().find('.capt')){
+                    $("span").hide();
+                }
                 $(element).closest('.form-group').addClass('has-error');
                 $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
             },
@@ -201,10 +216,13 @@ jQuery( function( $ ) {
                 $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
             },
             submitHandler: function(form) {
-                $(form).find('[type="submit"]').button('loading');
+                $(form).find('[type="submit"]').html('loading');
                 form.submit();
             }
         });
+        function recaptchaCallback() {
+          $('#hiddenRecaptcha').valid();
+        };
 
         $('#login').validate({
             errorElement: 'span',
@@ -273,12 +291,24 @@ jQuery( function( $ ) {
                 user_login: {
                     required: true,
                     email: true
+                },
+                hiddenRecaptcha: {
+                    required: function () {
+                        if (grecaptcha.getResponse() == '') {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
                 }
             },
             messages: {
                 user_login: {
                     required: 'Preencha com seu email.',
                     email: 'Preencha com email no formato correto'
+                },
+                hiddenRecaptcha: {
+                    required: "Valide o Captcha primeiro."
                 }
             },
             invalidHandler: function (event, validator) {},

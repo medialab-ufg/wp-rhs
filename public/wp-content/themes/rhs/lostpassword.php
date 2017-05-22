@@ -33,7 +33,7 @@ global $RHSLostPassword;
                                 </div>
                             </div>
                             <div class="panel-button form-actions pull-right">
-                                  <button id="btn-login" type="submit" class="btn btn-success">Recuperar</button>
+                                  <button type="submit" id="btn-lostpassword" class="btn btn-success">Recuperar</button>
                             </div>
                         </form>
                     </div>

@@ -125,12 +125,21 @@
                                         </fieldset>
                                         <fieldset class="scheduler-border">
                                             <legend class="scheduler-border">Captcha</legend>
-                                            <?php
-                                            global $RHSCaptcha;
-                                            $RHSCaptcha->display_recuperar_captcha(); ?>
+                                            <div class="form-group float-label-control capt">
+                                                <div class="col-sm-7">
+                                                    <?php
+                                                    global $RHSCaptcha;
+                                                    $RHSCaptcha->display_recuperar_captcha(); ?>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="help-block text-center">
+
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </fieldset>
                                         <div class="panel-button form-actions register">
-                                            <button id="btn-login" class="btn btn-danger">Cadastrar</button>
+                                            <button type="submit" id="btn-login" class="btn btn-danger">Cadastrar</button>
                                         </div>
                                     </div>
                                 </div>
