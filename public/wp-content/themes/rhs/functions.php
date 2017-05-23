@@ -52,6 +52,9 @@ if(!function_exists('rhs_setup')) :
         add_theme_support( 'post-thumbnails' );
 
         add_theme_support( 'html5', array( 'comment-list', 'comment-form' ) );
+        
+        add_image_size( 'carrossel', 408, 320, true );
+        
     }
 
 endif;
