@@ -2,7 +2,7 @@
 <?php global $RHSPost; ?>
     <div class="row">
         <!-- Container -->
-        <form method="post" class="form-horizontal" id="posting" role="form">
+        <form method="post" class="form-horizontal" id="posting" role="form" action="">
             <div class="col-xs-12 col-md-9">
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="verDados">
@@ -10,12 +10,19 @@
                             <h3 class="perfil-title">Criar Post</h3>
                             <div class="row">
                                 <div class="col-xs-12">
+                                    <?php foreach ($RHSPost->messages() as $type => $messages){ ?>
+                                        <div class="alert alert-<?php echo $type == 'error' ? 'danger' : 'success' ; ?>">
+                                            <?php foreach ($messages as $message){ ?>
+                                                <p><?php echo $message ?></p>
+                                            <?php } ?>
+                                        </div>
+                                    <?php } ?>
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <div class="form-group">
                                                 <label for="title">Título <span class="form-required" title="Este campo é obrigatório.">*</span></label>
                                                 <input class="form-control" type="text" id="title" name="title" size="60" maxlength="254">
-                                                <input class="form-control" type="hidden" value="<?php $RHSPost->getKey(); ?>" name="post_user_wp" />
+                                                <input class="form-control" type="hidden" value="<?php echo $RHSPost->getKey(); ?>" name="post_user_wp" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="descricao">Descrição</label>
@@ -73,16 +80,16 @@
                                                 <select class="form-control" name="category">
                                                     <option value="">Categoria</option>
                                                     <?php foreach ( get_categories() as $categori ) : ?>
-                                                        <option value="<?php echo $categori->cat_name; ?>"><?php echo $categori->cat_name; ?></option>
+                                                        <option value="<?php echo $categori->term_id; ?>"><?php echo $categori->cat_name; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
                                             <div class="form-group text-center">
-                                                <button type="submit" class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO
+                                                <button type="submit" name="type" value="draft" class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO
                                                 </button>
                                                 <button type="button" class="btn btn-default form-submit rasc_visu" id="pre-visualizar">PRÉ-VISUALIZAR
                                                 </button>
-                                                <button type="submit" class="btn btn-danger form-submit publicar">PUBLICAR POST
+                                                <button type="submit" name="type" value="publish" class="btn btn-danger form-submit publicar">PUBLICAR POST
                                                 </button>
                                             </div>
                                         </div>

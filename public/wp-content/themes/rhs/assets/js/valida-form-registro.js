@@ -6,98 +6,6 @@ jQuery( function( $ ) {
             focusCleanup: true
         });
 
-        /*$("#register").validate({
-            rules: {
-                mail: {
-                    required: true,
-                    email: true,
-                    check_email_exist: true
-                },
-                pass: {
-                    required: true,
-                    minlength: 5    
-                },
-                pass2: {
-                    required: true,
-                    equalTo: "input[name='pass1']"
-                },
-                first_name: {
-                    required: true,
-                },
-                last_name: {
-                    required: true,
-                },
-                estado: {
-                    required: true
-                },
-                municipio: {
-                    required: true
-                }
-            },
-            messages: {
-                mail: {
-                    required: "Preencha com o seu email.",
-                    email: "Preencha corretamente o seu email.",
-                    check_email_exist: "Email já existente, escolha outro."
-                },
-                pass: {
-                    required: "Preencha com a sua senha.",
-                    minlength: "Sua senha deve ser acima de 5 caracteres!"
-                },
-                pass2: {
-                    required: "Preencha com a sua senha.",
-                    equalTo: "Senhas diferentes!"
-                },
-                first_name: {
-                    required: "Preencha com o seu primeiro nome.",
-                },
-                last_name: {
-                    required: "Preencha com o seu último nome.",
-                },
-                estado: {
-                    required: "Preencha com o seu estado."
-                },
-                municipio: {
-                    required: "Preencha com o seu municipio."
-                }
-            },
-            errorContainer: ".block-email", 
-            errorLabelContainer: ".block-email", 
-            errorElement: "dt",
-            errorPlacement: function ( error, element ) {
-                // Add the `help-block` class to the error element
-                //error.addClass( "help-block" );
-                console.log(error);
-
-                error.appendTo(element.closest('.col-sm-7').next().find('.help-block'));
-            },
-            success: function ( label, element ) {
-                // Add the span element, if doesn't exists, and apply the icon classes to it.
-                if ( !$( element ).next( "span" )[ 0 ] ) {
-                    $("<span class='glyphicon glyphicon-ok form-control-feedback'></span>").insertAfter($(element));
-                }
-                
-            },
-            highlight: function ( element, errorClass, validClass ) {
-
-                if ( !$( element ).next( "span" )[ 0 ] ) {
-                    $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter($(element));
-                }
-
-                $( element ).parents( ".col-sm-12" ).addClass( "has-error" ).removeClass( "has-success" );
-                $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
-            },
-            unhighlight: function ( element, errorClass, validClass ) {
-
-                if ( !$( element ).next( "span" )[ 0 ] ) {
-                    $("<span class='glyphicon glyphicon-okay form-control-feedback'></span>").insertAfter($(element));
-                }
-
-                $( element ).parents( ".col-sm-12" ).removeClass( "has-error" );
-                $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
-            }
-        });*/
-
         $('#register').validate({
             ignore: ".ignore",
             errorElement: 'p',
@@ -220,6 +128,7 @@ jQuery( function( $ ) {
                 form.submit();
             }
         });
+
         function recaptchaCallback() {
           $('#hiddenRecaptcha').valid();
         };
@@ -500,11 +409,11 @@ jQuery( function( $ ) {
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
             focusInvalid: false,
-            ignore: '',
+            ignore: '[type="button"], .ms-sel-ctn input',
             rules: {
                 title: {
                     required: true,
-                    minlenght: 35
+                    minlength: 15
                 },
                 category: {
                     required: true
@@ -513,7 +422,7 @@ jQuery( function( $ ) {
             messages: {
                 title: {
                     required: 'Preencha o titulo.',
-                    minlenght: 'Tamanho mínimo de 35 caracteres'
+                    minlength: 'Tamanho mínimo de 15 caracteres'
                 },
                 category: {
                     required: 'Selecione a categoria'
@@ -597,27 +506,21 @@ jQuery( function( $ ) {
         });
 
         $('.remove-link').click(function() {
-            alert('ok');
            $(this).closest('.links').remove();
         });
 
         $('#ms-filter').magicSuggest({
-            placeholder: 'Tags',
-            data: [{
-                id: 1,
-                name: 'Tag1',
-                nb: 34
-            }, {
-                id: 2,
-                name: 'Tag2',
-                nb: 106
-            }],
+            placeholder: 'Select...',
+            allowFreeEntries: false,
             selectionPosition: 'inner',
             selectionStacked: true,
-            mode: 'remote',
             selectionRenderer: function(data){
-                return data.name + ' (<b>' + data.nb + '</b>)';
-            }
+                return data.name;
+            },
+            data: vars.ajaxurl,
+            dataUrlParams: { action: 'get_tags' },
+            minChars: 3,
+            name: 'tags'
         });
     });
 });

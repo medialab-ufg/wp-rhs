@@ -1,0 +1,67 @@
+# Copyright (C) 2015 WP Users Media
+# This file is distributed under the same license as the WP Users Media package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Users Media 3.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-users-media\n"
+"POT-Creation-Date: 2015-07-23 21:26:51+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: index.php:54
+msgid "Version"
+msgstr ""
+
+#. #-#-#-#-#  plugin.pot (WP Users Media 3.0.0)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: index.php:57
+msgid "WP Users Media"
+msgstr ""
+
+#: index.php:58
+msgid ""
+"When you change something do not forget to click on this blue Save Changes "
+"button below this text."
+msgstr ""
+
+#: index.php:59
+msgid "Save Changes"
+msgstr ""
+
+#: index.php:75
+msgid "Toggle content"
+msgstr ""
+
+#: index.php:76
+msgid "Options"
+msgstr ""
+
+#: index.php:83
+msgid "Add shortcut for WP Users Media in the sidebar menu."
+msgstr ""
+
+#: index.php:89
+msgid "Enable so Admins can only view their own attachments."
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "-"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"WP Users Media is a WordPress plugin that displays only the current users "
+"media files and attachments in WP Admin."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Damir Calusic"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.damircalusic.com/"
+msgstr ""

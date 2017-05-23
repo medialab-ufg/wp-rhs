@@ -74,8 +74,6 @@ class RHSLogin extends RHSMenssage {
         }
 
         return $template;
-
-
     }
 
     function API_reCAPTCHA() {

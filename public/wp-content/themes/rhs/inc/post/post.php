@@ -7,63 +7,150 @@ class RHSPost extends RHSMenssage {
     function __construct() {
 
         if ( empty ( self::$instance ) ) {
-            if ( ! empty( $_POST['post_user_wp'] ) && $_POST['post_user_wp'] == $this->getKey() ) {
-                $this->posting();
-            }
+            add_action('wp_ajax_get_tags', array( &$this, 'get_tags' ) );
+            $this->trigger_by_post();
+
         }
 
         self::$instance = true;
     }
 
-    private function posting(){
+    public function get_tags(){
 
-        if(!$_POST){
-            return array();
+        $result_tags = array();
+
+        if(empty($_POST['query'])){
+            echo json_encode($result_tags);
+            exit;
         }
 
-        $this->clear_messages();
+        $tags = get_tags(array('name__like'=>$_POST['query']));
 
-        if(!array_key_exists('title', $_POST)){
-            $this->set_messages(array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha o seu email!'));
-            return;
+        foreach ($tags as $tag){
+            $result_tags[] = array(
+                'id' => $tag->term_id ,
+                'name' =>  trim($tag->name)
+            );
         }
 
-        if(!get_current_user_id()){
-            $this->set_messages(array('error' => '<i class="fa fa-exclamation-triangle "></i> Efetue o login para realizar um post'));
-            return;
-        }
+        echo json_encode($result_tags);
+        exit;
 
-        if(!array_key_exists('category', $_POST)){
-            $this->set_messages(array('error' => '<i class="fa fa-exclamation-triangle "></i> Selecione uma categoria!'));
-            return;
+    }
+
+    private function trigger_by_post() {
+        if ( ! empty( $_POST['post_user_wp'] ) && $_POST['post_user_wp'] == $this->getKey() ) {
+
+            if ( ! $this->validate_by_post() ) {
+                return;
+            }
+
+            $this->insert(
+                $_POST['title'],
+                $_POST['public_post'],
+                ( $_POST['type'] == 'draft' ) ? 'draft' : 'publish',
+                get_current_user_id(),
+                $_POST['category'],
+                $_POST['estado'],
+                $_POST['municipio'],
+                $_POST['tags'] );
         }
+    }
+
+    public function insert( $title, $content, $status, $authorId, $category, $state = '', $city = '', array $tags = array() ) {
 
         $dataPost = array(
-            'post_title'    => wp_strip_all_tags( $_POST['title'] ),
-            'post_content'  => $_POST['post_content'],
-            'post_status'   => (!empty($_POST['draft'])) ? 'draft' : 'publish',
-            'post_author'   => get_current_user_id(),
-            'post_category' => $_POST['category']
+            'post_title'    => wp_strip_all_tags( $title ),
+            'post_content'  => $content,
+            'post_status'   => $status,
+            'post_author'   => $authorId,
+            'post_category' => array($category)
         );
 
-        $post_ID = wp_insert_post( $postarr, true);
+        $post_ID = wp_insert_post( $dataPost, true );
 
-        if($post_ID instanceof WP_Error){
+        if ( $post_ID instanceof WP_Error ) {
 
-            foreach ($post_ID->get_error_messages() as $error){
-                $this->set_messages($error, false, 'error');
+            foreach ( $post_ID->get_error_messages() as $error ) {
+                $this->set_messages( $error, false, 'error' );
             }
 
             return;
 
         }
 
-        if(array_key_exists('tags', $_POST) && is_numeric($post_ID)){
-            wp_set_post_tags( $post_ID, $_POST['tags'], true );
-            return;
+        if ( ! empty( $state ) ) {
+            add_post_meta( $post_ID, 'state', $state, true );
+        }
+
+        if ( ! empty( $city ) ) {
+            add_post_meta( $post_ID, 'city', $city, true );
+        }
+
+        foreach ($tags as $tag){
+            wp_set_post_terms( $post_ID, array($tag) );
+        }
+
+        wp_redirect(get_permalink($post_ID));
+        exit;
+
+    }
+
+    private function validate_by_post() {
+
+        $this->clear_messages();
+
+        if ( ! array_key_exists( 'title', $_POST ) ) {
+            $this->set_messages('<i class="fa fa-exclamation-triangle "></i> Preencha o seu email!', false, 'error' );
+
+            return false;
+        }
+
+        if ( ! get_current_user_id() ) {
+            $this->set_messages(  '<i class="fa fa-exclamation-triangle "></i> Efetue o login para realizar um post', false, 'error'  );
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'public_post', $_POST ) ) {
+            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Escreva o conteúdo do post!', false, 'error' );
+
+            return false;
         }
 
 
+
+        if ( ! array_key_exists( 'category', $_POST ) ) {
+            $this->set_messages( array( 'error' => '<i class="fa fa-exclamation-triangle "></i> Selecione uma categoria!' ) );
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'estado', $_POST ) ) {
+            $_POST['estado'] = '';
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'municipio', $_POST ) ) {
+            $_POST['municipio'] = '';
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'type', $_POST ) ) {
+            $_POST['type'] = '';
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'tags', $_POST ) ) {
+            $_POST['tags'] = array();
+
+            return false;
+        }
+
+        return true;
 
     }
 }

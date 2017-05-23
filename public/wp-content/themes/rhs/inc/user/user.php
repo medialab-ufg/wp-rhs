@@ -19,9 +19,21 @@ Class RHSUser extends RHSMenssage {
             add_action( 'personal_options_update', array( &$this, 'save_extra_profile_fields' ) );
             add_action( 'edit_user_profile_update', array( &$this, 'save_extra_profile_fields' ) );
             add_action('admin_enqueue_scripts', array( &$this, 'admin_theme_style'));
+            add_action('pre_get_posts',array( &$this, 'ml_restrict_media_library'));
         }
 
         self::$instance = true;
+    }
+
+    function ml_restrict_media_library( $wp_query_obj ) {
+        global $current_user, $pagenow;
+        if( !is_a( $current_user, 'WP_User') )
+            return;
+        if( 'admin-ajax.php' != $pagenow || $_REQUEST['action'] != 'query-attachments' )
+            return;
+        if( !current_user_can('manage_media_library') )
+            $wp_query_obj->set('author', $current_user->ID );
+        return;
     }
 
     function addJS() {

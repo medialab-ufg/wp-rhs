@@ -52,10 +52,6 @@ Class RHSVote {
 
 			add_filter( 'map_meta_cap', array( &$this, 'vote_post_cap' ), 10, 4 );
 
-			add_action( 'generate_rewrite_rules', array( &$this, 'rewrite_rules' ), 10, 1 );
-			add_filter( 'query_vars', array( &$this, 'rewrite_rules_query_vars' ) );
-			add_filter( 'template_include', array( &$this, 'rewrite_rule_template_include' ) );
-
 			add_action( 'pre_get_posts', array( &$this, 'fila_query' ) );
 
 			add_action( 'admin_menu', array( &$this, 'gerate_admin_menu' ) );
@@ -151,39 +147,6 @@ Class RHSVote {
 		foreach ( $this->post_status as $post_status => $args ) {
 			register_post_status( $post_status, $args );
 		}
-
-	}
-
-	function rewrite_rules( &$wp_rewrite ) {
-		$new_rules         = array(
-			"fila-de-votacao/?$" => "index.php?filavotacao=1",
-			"filavotacao/?$"     => "index.php?filavotacao=1",
-		);
-		$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
-
-	}
-
-	function rewrite_rules_query_vars( $public_query_vars ) {
-
-		$public_query_vars[] = "filavotacao";
-
-		return $public_query_vars;
-
-	}
-
-	function rewrite_rule_template_include( $template ) {
-		global $wp_query;
-
-		if ( $wp_query->get( 'filavotacao' ) ) {
-
-			if ( file_exists( STYLESHEETPATH . '/fila-de-votacao.php' ) ) {
-				return STYLESHEETPATH . '/fila-de-votacao.php';
-			}
-
-		}
-
-		return $template;
-
 
 	}
 

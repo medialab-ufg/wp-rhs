@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "74261c29777425558fd1c4da1d4fd9c8",
+    "content-hash": "f8c1b0e8f1c520cd8abe584cac67d89c",
     "packages": [
         {
             "name": "components/bootstrap",
@@ -279,6 +279,54 @@
             "time": "2015-12-01T23:35:57+00:00"
         },
         {
+            "name": "fortawesome/font-awesome",
+            "version": "v4.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/a8386aae19e200ddb0f6845b5feeee5eb7013687",
+                "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687",
+                "shasum": ""
+            },
+            "require-dev": {
+                "jekyll": "1.0.2",
+                "lessc": "1.4.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.6.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OFL-1.1",
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dave Gandy",
+                    "email": "dave@fontawesome.io",
+                    "homepage": "http://twitter.com/davegandy",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The iconic font and CSS framework",
+            "homepage": "http://fontawesome.io/",
+            "keywords": [
+                "FontAwesome",
+                "awesome",
+                "bootstrap",
+                "font",
+                "icon"
+            ],
+            "time": "2016-10-24T15:52:54+00:00"
+        },
+        {
             "name": "johnpbloch/wordpress",
             "version": "4.7.5",
             "source": {
@@ -401,6 +449,43 @@
                 "wordpress"
             ],
             "time": "2015-06-11T15:15:30+00:00"
+        },
+        {
+            "name": "nicolasbize/magicsuggest",
+            "version": "2.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nicolasbize/magicsuggest.git",
+                "reference": "230b08bbb7da5d15495b60c2472ee5b46a63ef13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nicolasbize/magicsuggest/zipball/230b08bbb7da5d15495b60c2472ee5b46a63ef13",
+                "reference": "230b08bbb7da5d15495b60c2472ee5b46a63ef13",
+                "shasum": ""
+            },
+            "require": {
+                "components/bootstrap": ">=3.0.0",
+                "components/jquery": ">=1.8.3"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "magicsuggest.js"
+                    ],
+                    "files": [
+                        "magicsuggest.css"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "MagicSuggest is a multiple selection auto suggest combo box for Bootstrap 3.",
+            "homepage": "http://nicolasbize.com/magicsuggest",
+            "time": "2014-10-16T23:17:26+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
