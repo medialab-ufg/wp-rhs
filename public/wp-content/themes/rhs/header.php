@@ -44,8 +44,9 @@
                                 <?php $usuario = wp_get_current_user(); ?>
                                     <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  style="color: #fff"><?php echo $usuario->display_name.' '.get_avatar($usuario->ID, 30,'','',array('class'=>'img-circle')); ?> <i class="icon-textDown fa fa-angle-down"></i></a>
                                     <ul class="dropdown-menu">
-                                        <li class="menu-item"><a href="#"><i class="icones-dropdown fa fa-pencil-square-o" aria-hidden="true"></i> Publicar Post</a></li>
-                                        <li class="menu-item"><a href="#"><i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil</a></li>
+                                        <li class="menu-item"><a href="<?php echo get_home_url();?>/publicar-postagem"><i class="icones-dropdown fa fa-pencil-square-o" aria-hidden="true"></i> Publicar Post</a></li>
+                                        <li class="menu-item"><a href="<?php echo get_home_url();?>/usuario/<?php echo $usuario->user_login; ?>"><i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil</a></li>
+                                        <li class="menu-item"><a href="<?php echo get_home_url();?>/minhas-postagens"><i class="icones-dropdown fa fa-calendar" aria-hidden="true"></i> Minhas Postagens</a></li>
                                         <li class="menu-item"><a href="<?php echo wp_logout_url(); ?>"><i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair</a></li>
                                     </ul>
                                 </li>

@@ -341,7 +341,7 @@ Class RHSVote {
 				$output .= '<span class="vButton"><a class="btn btn-danger js-vote-button" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
 
 			} else {
-				$output .= '<span class="vTexto">Votos</span>';
+				$output .= '<span class="vTexto"> Votos</span>';
 			}
 
 		}

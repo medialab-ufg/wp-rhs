@@ -1441,6 +1441,40 @@ form .comment-form-comment {
     }
 }
 
+.postagens{
+    .wrapper-content {
+        padding: 20px;
+        border-radius: 3px;
+        background-color: #fff;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        margin: 0;
+        clear: both;
+        table{
+            background: $whiteColor;
+            thead, tbody{
+                tr{
+                    th, td{
+                        border: 1px solid $whiteColor;
+                        color: $primeira_cor_texto;
+                        text-align: center;
+                        a{
+                            color: $primeira_cor_texto;
+                        }
+                    }
+                    th{
+                        background: $primeira_cor_texto;
+                        color: $whiteColor;
+                    }
+                }    
+            }
+        }
+        @media screen and (max-width: 768px){
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+    }
+}
+
 /***********
 *
 * Sidebar
