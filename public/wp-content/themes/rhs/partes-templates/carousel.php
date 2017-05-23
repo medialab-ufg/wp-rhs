@@ -1,6 +1,7 @@
 <?php
-
-$carrossel_posts = Carrossel::get_posts();
+global $Carrossel;
+$Carrossel = new Carrossel();
+$carrossel_posts = $Carrossel::get_posts();
 
 ?>
 

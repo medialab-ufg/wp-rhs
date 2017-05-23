@@ -5,7 +5,7 @@
 Class Carrossel {
 
 
-    function __init() {
+    static function __init() {
     
     
         add_action('manage_posts_custom_column', array('Carrossel', 'select'), 10, 2);
@@ -29,7 +29,7 @@ Class Carrossel {
         return $defaults;
     }
 
-    function select($column_name, $id){
+    static function select($column_name, $id){
 
         if ($column_name=="destaques"){
             $highlighted = get_post_meta($id, "_home", true) == 1 ?  "checked" : "";
@@ -39,7 +39,7 @@ Class Carrossel {
         }
     }
 
-    function JS() {
+    static function JS() {
         wp_enqueue_script('carrossel', get_template_directory_uri() . '/inc/carrossel/admin.js', array('jquery'));
         wp_enqueue_style('carrossel', get_template_directory_uri() . '/inc/carrossel/carrossel.css');
         wp_localize_script('carrossel', 'hacklab', array('ajaxurl' => admin_url('admin-ajax.php') ));
@@ -57,7 +57,7 @@ Class Carrossel {
         die;
     }
     
-    function pre_get_posts($wp_query) {
+    static function pre_get_posts($wp_query) {
 
         if (!$wp_query->is_main_query())
             return $wp_query;
@@ -70,7 +70,7 @@ Class Carrossel {
 
     }
     
-    function get_posts() {
+    static function get_posts() {
     
     
         return new WP_Query( 'posts_per_page=-1&meta_key=_home&meta_value=1&ignore_sticky_posts=1&post_type=any' );

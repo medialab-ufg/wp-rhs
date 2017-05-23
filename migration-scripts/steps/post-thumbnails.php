@@ -31,7 +31,7 @@ update_option( 'thumbnail_crop', 0 );
 $this->log('Pegando imagens destacadas no drupal');
 $images = $wpdb->get_results('select distinct * from '. RHS_DRUPALDB . '.field_data_field_home_image 
                 JOIN '. RHS_DRUPALDB . '.file_managed f ON f.fid = field_home_image_fid 
-                JOIN '. RHS_DRUPALDB . '.node on nid = entity_id LIMIT 5');
+                JOIN '. RHS_DRUPALDB . '.node on nid = entity_id ');
 
 require_once ABSPATH . 'wp-admin/includes/import.php';
 require_once ABSPATH . 'wp-admin/includes/image.php';  
