@@ -36,7 +36,7 @@ class CarrosselMetabox {
         $highlighted = get_post_meta($post->ID, "_home", true) == 1 ?  "checked" : "";
         
         ?>
-        <input type="checkbox" id="carrossel_<?php echo $id; ?>" name="RHS_Carrossel" <?php echo $highlighted; ?> value="1">
+        <input type="checkbox" id="carrossel_<?php echo $post->ID; ?>" name="RHS_Carrossel" <?php echo $highlighted; ?> value="1">
         <label> Adicionar post ao Carrossel </label>
         <?php
     }
