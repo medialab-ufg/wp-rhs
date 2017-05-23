@@ -44,13 +44,13 @@ class CarrosselMetabox {
     static function savePost($post_id) {
         // verify if this is an auto save routine. 
         // If it is our form has not been submitted, so we dont want to do anything
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+        if (!isset($_POST['post_type']) || (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) )
             return;
 
         // verify this came from the our screen and with proper authorization,
         // because save_post can be triggered at other times
 
-        if (!wp_verify_nonce($_POST[__CLASS__.'_noncename'], 'save_'.__CLASS__))
+        if (isset($_POST[__CLASS__.'_noncename']) && !wp_verify_nonce($_POST[__CLASS__.'_noncename'], 'save_'.__CLASS__))
             return;
 
 
