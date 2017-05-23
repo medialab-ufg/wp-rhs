@@ -137,7 +137,7 @@ body {
                 }
                 &:last-child {
                     > a {
-                        padding-left: 0;
+                        padding-left: 16px;
                         padding-right: 16px;
                     }
                 }
@@ -1471,9 +1471,6 @@ article {
                 &:first-child > a{
                     padding-right: 95px !important;
                     padding-left: 119px;
-                }
-                &:last-child > a{
-                    padding-left: 123px !important;
                 }
             }
         }

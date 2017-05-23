@@ -8,7 +8,7 @@ class RHSRegister extends RHSMenssage {
 
         if(empty(self::$instance)){
             add_action('wp_ajax_check_email_exist', array( &$this, 'check_email_exist' ) );
-            add_filter( "register_url", array( &$this, "register_url" ) );
+            add_filter( 'register_url', array( &$this, 'register_url' ) );
 
             if(!empty($_POST['register_user_wp']) && $_POST['register_user_wp'] == $this->getKey()){
                 $this->save_by_post();
