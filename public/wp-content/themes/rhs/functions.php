@@ -20,6 +20,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/post/post.php');
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');
+        require_once('inc/carrossel/carrossel.php');
 
         //// Drupal 7 Password Check
         require_once('inc/drupal-password-check.php');
