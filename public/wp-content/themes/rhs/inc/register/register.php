@@ -66,7 +66,7 @@ class RHSRegister extends RHSMenssage {
 
         add_user_meta( $user_id, 'rhs_city', $_POST['municipio']);
 
-        $perfil = new RHSPerfil();
+        $perfil = new RHSPerfil($user_id);
         $perfil->clear_messages();
         $perfil->set_messages('<i class="fa fa-check"></i> Cadastro realizado', false, 'success' );
 

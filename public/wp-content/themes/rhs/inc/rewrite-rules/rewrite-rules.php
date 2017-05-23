@@ -14,20 +14,14 @@ class RHSRewriteRules {
     const POST_URL = 'publicar-postagem';
 
     function __construct() {
-
-        if(is_user_logged_in())
-            return home_url();
-
-        if ( empty ( self::$instance ) ) {
             add_action( 'generate_rewrite_rules', array( &$this, 'rewrite_rules' ), 10, 1 );
             add_filter( 'query_vars', array( &$this, 'rewrite_rules_query_vars' ) );
             add_filter( 'template_include', array( &$this, 'rewrite_rule_template_include' ) );
-        }
-
-        self::$instance = true;
     }
 
+
     function rewrite_rules( &$wp_rewrite ) {
+
         $new_rules         = array(
             self::LOGIN_URL . "/?$"             => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             self::REGISTER_URL . "/?$"          => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::REGISTER_URL,
@@ -37,9 +31,16 @@ class RHSRewriteRules {
             self::RP_URL . "/?$"            => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::RP_URL,
             self::VOTING_QUEUE_URL . "/?$"            => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::VOTING_QUEUE_URL,
             self::PROFILE_URL . "/?$"            => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::PROFILE_URL,
-            self::POST_URL . "/?$"            => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL
-
+            self::POST_URL . "/?$"            => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL,
+            /* Páginas padrões antigas */
+            'login' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
+            'user' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
+            'user/login' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
+            'user/register' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::REGISTER_URL,
+            'user/me/edit' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::PROFILE_URL,
+            'node/add/blog' . "/?$"  => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL,
         );
+
         $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 
     }
@@ -58,6 +59,8 @@ class RHSRewriteRules {
 
         if ( $wp_query->get( 'rhs_login_tpl' ) ) {
 
+            $this->rewrite_permitions($wp_query->get( 'rhs_login_tpl' ));
+
             if ( file_exists( STYLESHEETPATH . '/' . $wp_query->get( 'rhs_login_tpl' ) . '.php' ) ) {
                 return STYLESHEETPATH . '/' . $wp_query->get( 'rhs_login_tpl' ) . '.php';
             }
@@ -66,6 +69,33 @@ class RHSRewriteRules {
 
         return $template;
 
+
+    }
+
+    private function rewrite_permitions($url){
+
+        $pages_not_login = array(
+            self::LOGIN_URL,
+            self::REGISTER_URL,
+            self::LOST_PASSWORD_URL,
+            self::RETRIEVE_PASSWORD_URL,
+            self::RESET_PASS_URL,
+        );
+
+        $pages_for_login = array(
+            self::PROFILE_URL,
+            self::POST_URL
+        );
+
+        if(is_user_logged_in() && in_array($url, $pages_not_login)){
+            wp_redirect(home_url());
+            exit;
+        }
+
+        if(!is_user_logged_in() && in_array($url, $pages_for_login)){
+            wp_redirect(home_url());
+            exit;
+        }
 
     }
 

@@ -615,8 +615,15 @@ h1.titulo-page {
                     color: $primeira_cor_texto;
                 }
             }
+            .post_city{
+                color: #777;
+                line-height: 1.5em;
+            }
             .post-date {
                 color: #aeaeae;
+                @media screen and (max-width: 768px){
+                    white-space: nowrap;
+                }
             }
             h3 {
                 color: $primeira_cor_texto;

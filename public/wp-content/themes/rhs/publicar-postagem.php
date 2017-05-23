@@ -100,7 +100,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12" id="pre-view">
+            <div class="col-md-9" id="pre-view">
                 <div class="panel-icon text-center">
                     <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
                 </div>

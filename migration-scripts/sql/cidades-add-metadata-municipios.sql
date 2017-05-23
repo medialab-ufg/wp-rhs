@@ -1,6 +1,6 @@
 INSERT INTO {{target}} (
 
-    post_id,
+    {{target_col}},
     meta_key,
     meta_value
     

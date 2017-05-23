@@ -9,13 +9,15 @@
 					</a>	
 				</div>
 			</div>
-			<div class="col-xs-6 col-md-7 col-md-pull-1">
+			<div class="col-xs-6 col-md-7 col-md-pull-1 col-xs-pull-1">
 				<div class="col-xs-12 col-md-12">
 					<span class="nome-author">
 						<a href="<?php echo get_author_posts_url(get_the_author_meta( 'ID' )); ?>"><?php the_author(); ?></a>
 					</span>
 				</div>
-
+				<div class="col-xs-12 col-md-12">
+					<span class="post_city"><?php the_ufmun(); ?></span>
+				</div>
 				<div class="col-xs-12 col-md-12">
 					<span class="post-date text-uppercase"><?php the_time('D, d/m/Y - H:i'); ?></span>
 				</div>

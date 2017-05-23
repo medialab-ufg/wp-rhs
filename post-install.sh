@@ -25,6 +25,13 @@ recurse_copy("vendor/twbs/bootstrap/dist/", "public/wp-content/themes/rhs/vendor
 recurse_copy("vendor/fortawesome/font-awesome/css/", "public/wp-content/themes/rhs/vendor/font-awesome/css");
 recurse_copy("vendor/fortawesome/font-awesome/fonts/", "public/wp-content/themes/rhs/vendor/font-awesome/fonts");
 recurse_copy("vendor/nicolasbize/magicsuggest/", "public/wp-content/themes/rhs/vendor/magicsuggest");
+if(file_exists("public/wp-content/themes/rhs/vendor/magicsuggest/bower.json")){
+    array_map("unlink", glob("public/wp-content/themes/rhs/vendor/magicsuggest/*.json"));
+    unlink("public/wp-content/themes/rhs/vendor/magicsuggest/README.md");
+    unlink("public/wp-content/themes/rhs/vendor/magicsuggest/magicsuggest.css");
+    unlink("public/wp-content/themes/rhs/vendor/magicsuggest/magicsuggest.js");
+    unlink("public/wp-content/themes/rhs/vendor/magicsuggest/.gitignore");
+}
 if (file_exists("wp-content/plugins/wp-bootstrap-navwalker")) {
     recurse_copy("wp-content", "vendor/wp-content");
 }
