@@ -98,26 +98,6 @@ class RHSCaptcha {
         endif;
     }
 
-    static function is_valid_by_post($data){
-
-        if(!empty($data['recaptcha_challenge_field'])){
-            return false;
-        }
-
-        if(!empty($data['recaptcha_response_field'])){
-            return false;
-        }
-
-        $resp = recaptcha_check_answer (get_option( self::SECRET_KEY ), $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
-
-        if (!$resp->is_valid) {
-            return false;
-        }
-
-        return true;
-
-    }
-
 }
 
 global $RHSCaptcha;

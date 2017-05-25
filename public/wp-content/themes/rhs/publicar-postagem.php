@@ -43,6 +43,7 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
 
     $cur_tags_arr = array();
 
+
     foreach ($cur_tags as $cur_tag){
         $cur_tags_arr[] = $cur_tag->name;
     }
@@ -63,7 +64,7 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
         <form method="post" class="form-horizontal" id="posting" role="form" action="">
             
             <?php if ($current_post): ?>
-                <input type="hidden" name="current_ID" value="<?php echo $edit_post; ?>" />
+                <input type="hidden" id="post_ID" name="post_ID" value="<?php echo $edit_post; ?>" />
             <?php endif; ?>
             
             <div class="col-xs-12 col-md-9">

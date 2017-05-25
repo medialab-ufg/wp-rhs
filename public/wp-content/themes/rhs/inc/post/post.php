@@ -8,13 +8,32 @@ class RHSPost extends RHSMenssage {
 
         if ( empty ( self::$instance ) ) {
             add_action('wp_ajax_get_tags', array( &$this, 'get_tags' ) );
+            add_filter('pre_get_posts', array( &$this, 'pre_get_posts' ) );
             $this->trigger_by_post();
 
         }
 
         self::$instance = true;
     }
+    
+    function pre_get_posts($wp_query) {
+        
+        if ( $wp_query->is_main_query() && $wp_query->get( 'rhs_login_tpl' ) == RHSRewriteRules::POST_URL ) {
 
+			if ( $wp_query->get( 'rhs_edit_post' ) && is_numeric($wp_query->get( 'rhs_edit_post' )) ) {
+            
+                $wp_query->set('p', $wp_query->get( 'rhs_edit_post' ));
+            
+            } else {
+                $u = wp_get_current_user();
+                $wp_query->set('author', $u->ID);
+            
+            }
+
+		}
+        
+    }
+    
     private function trigger_by_post() {
 
         if ( ! empty( $_POST['post_user_wp'] ) && $_POST['post_user_wp'] == $this->getKey() ) {
@@ -24,7 +43,7 @@ class RHSPost extends RHSMenssage {
             }
             
             $this->insert(
-                $_POST['current_ID'],
+                $_POST['post_ID'],
                 $_POST['title'],
                 $_POST['public_post'],
                 ( $_POST['status'] == 'draft' ) ? 'draft' : RHSVote::VOTING_QUEUE,
@@ -115,8 +134,8 @@ class RHSPost extends RHSMenssage {
 
         }
 
-        if ( ! array_key_exists( 'current_ID', $_POST ) ) {
-            $_POST['current_ID'] = null;
+        if ( ! array_key_exists( 'post_ID', $_POST ) ) {
+            $_POST['post_ID'] = null;
         
         }
 
