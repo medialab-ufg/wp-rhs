@@ -90,6 +90,10 @@ class RHSPerfil extends RHSMenssage {
             $novoNome = uniqid ( time () ) . '.' . $extensao;
             $caminho = '/uploads/'. date('Y').'/'.date('m').'/';
 
+            if(!file_exists($arquivo_tmp, WP_CONTENT_DIR . $caminho)){
+                mkdir($arquivo_tmp, WP_CONTENT_DIR . $caminho, 0777, true);
+            }
+
             if ( @move_uploaded_file ( $arquivo_tmp, WP_CONTENT_DIR . $caminho . $novoNome ) ) {
                 update_user_meta( $user_id, 'rhs_avatar', 'wp-content/'.$caminho.$novoNome);
             } else {
