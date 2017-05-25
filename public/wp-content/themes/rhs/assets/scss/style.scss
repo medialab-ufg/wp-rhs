@@ -2204,6 +2204,7 @@ article {
     a.user-dropdown-link {
         margin-top: 23px;
     }
+
     .segundo-menu {
         .dropdown-ipad {
             margin: 0px -14px 0px 0px;
@@ -2271,8 +2272,8 @@ article {
         margin: 0.5px -15px;
     }
     .navbar-brand > img {
-        margin-left: 0;
-        margin-top: -49px;
+        margin-left: 0 !important;
+        margin-top: -49px !important;
         width: 89%;
     }
     .navbar-btn {
