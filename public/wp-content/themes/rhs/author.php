@@ -10,7 +10,7 @@
 			<?php
 			$curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
 			global $RHSUser;
-
+            $RHSUser = new RHSUser($curauth->ID);
             $votos   = new RHSVote();
 			?>
             <!-- Tab panes -->
