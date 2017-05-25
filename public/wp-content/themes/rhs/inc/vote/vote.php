@@ -169,7 +169,17 @@ Class RHSVote {
 				$wp_query->set( $k, $v );
 			}
 
-		}
+		} elseif ($wp_query->is_single()) {
+        
+            // Permite que pessoas vejam a single dos posts com status Fila de Votação
+            
+            $statuses = ['publish', self::VOTING_QUEUE];
+            if (is_user_logged_in())
+                $statuses[] = 'private';
+            
+            $wp_query->set('post_status', $statuses);
+        
+        }
 
 
 	}
