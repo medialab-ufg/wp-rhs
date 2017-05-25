@@ -34,12 +34,13 @@ class RHSRegister extends RHSMenssage {
 
         $userdata = array(
             'user_login'  => wp_strip_all_tags( trim( $mail ) ),
-            'email'       => wp_strip_all_tags( trim( $mail ) ),
+            'user_email'       => wp_strip_all_tags( trim( $mail ) ),
             'first_name'  => wp_strip_all_tags( trim( $first_name ) ),
             'last_name'   => wp_strip_all_tags( trim( $last_name ) ),
             'user_url'    => '',
             'user_pass'   => $pass,
-            'description' => $description
+            'description' => $description,
+            'role' => 'contributor'
         );
 
         $user_id = wp_insert_user( $userdata );
