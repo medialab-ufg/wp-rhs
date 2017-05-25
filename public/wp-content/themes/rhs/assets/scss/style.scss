@@ -602,7 +602,9 @@ h1.titulo-page {
 }
 
 /*Fim do redimensionamento responsivo do painel*/
-
+.padding-bottom{
+    padding-bottom: 10px;
+}
 .panel-default {
     > .panel-heading {
         background-color: $whiteColor;
@@ -1214,21 +1216,8 @@ form .comment-form-comment {
         background-color: $whiteColor;
         margin-top: 20px;
         padding: 20px;
-        .contagem-valor-author {
-            line-height: 80%;
-            display: block;
-            font-size: 1em;
-            font-weight: bold;
-            margin-bottom: -6px;
-        }
-        .contagem-desc-author {
-            font-size: 0.7em;
-        }
-        .nome-author {
-            margin-bottom: -4px;
-            color: #3c3c3c;
-            font-weight: normal;
-        }
+        
+        
         .media-left {
             margin-top: 15px;
         }
@@ -1250,6 +1239,24 @@ form .comment-form-comment {
             float: left;
             width: calc(100% - 90px);
             padding-left: 25px;
+                .btn-editar-user{
+                    float: right;
+                }
+                .nome-author {
+                    margin-bottom: -4px;
+                    color: #3c3c3c;
+                    font-weight: normal;
+                }
+                .contagem-valor-author {
+                    line-height: 80%;
+                    display: block;
+                    font-size: 1em;
+                    font-weight: bold;
+                    margin-bottom: -6px;
+                }
+                .contagem-desc-author {
+                    font-size: 0.7em;
+                }
         }
     }
     /*Perfil*/

@@ -21,6 +21,9 @@
                             <img src="<?php echo $RHSUser->getAvatarImage(); ?>" alt="<?php echo $RHSUser->get_user_data('display_name'); ?>" class="img-circle ">
                         </div>
                         <div class="info-user">
+                            <?php if( is_user_logged_in() && is_author(get_current_user_id())) : ?>
+                                <span class="btn-editar-user"><button class="btn btn-default">EDITAR</button></span>
+                            <?php endif; ?>
                             <p class="nome-author"><?php echo $RHSUser->get_user_data('display_name'); ?></p>
                             <?php $localidade = the_user_ufmun($RHSUser->getUserId()); ?>
                             <?php if($localidade){ ?>
@@ -30,7 +33,7 @@
                             <span class="contagem-desc-author">POSTS</span>
                             <span class="contagem-valor-author"><?php echo $votos->get_total_votes_by_author( $curauth->ID ); ?></span>
                             <span class="contagem-desc-author">VOTOS</span>
-                        </div>
+                        </div>  
                         <span class="seguir-mensagem">
                             <button class="btn btn-default">SEGUIR</button>
                             <button class="btn btn-default">ENVIAR MENSAGEM</button>

@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default padding-bottom">
 	<div class="panel-heading">
 		<div class="row post-titulo">
 		<?php $userOBJ = new RHSUser(get_the_author_meta( 'ID' )); ?>
