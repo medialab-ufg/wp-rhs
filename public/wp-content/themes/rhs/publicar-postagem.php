@@ -41,9 +41,6 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
 
     $cur_tags = wp_get_post_tags($edit_post);
 
-    echo '<pre>';
-    print_r($cur_tags);
-    exit;
 
 } 
 ?>
