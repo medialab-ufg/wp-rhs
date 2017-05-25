@@ -62,10 +62,7 @@ class RHSPost extends RHSMenssage {
         }
         
         add_post_ufmun_meta($post_ID, $city, $state);
-        
-        foreach ($tags as $tag){
-            wp_set_post_terms( $post_ID, array($tag) );
-        }
+        wp_set_post_terms( $post_ID, $tags );
         
         if ($status == RHSVote::VOTING_QUEUE) {
             wp_redirect(get_permalink($post_ID));
@@ -145,8 +142,8 @@ class RHSPost extends RHSMenssage {
 
         foreach ( $tags as $tag ) {
             $result_tags[] = array(
-                'id'   => $tag->term_id,
-                'name' => trim( $tag->name )
+                'id'   => $tag->name,
+                'name' => $tag->name
             );
         }
 

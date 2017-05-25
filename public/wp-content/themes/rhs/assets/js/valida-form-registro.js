@@ -506,20 +506,6 @@ jQuery( function( $ ) {
         $('.remove-link').click(function() {
            $(this).closest('.links').remove();
         });
-
-        $('#ms-filter').magicSuggest({
-            placeholder: 'Select...',
-            allowFreeEntries: false,
-            selectionPosition: 'inner',
-            selectionStacked: true,
-            selectionRenderer: function(data){
-                return data.name;
-            },
-            data: vars.ajaxurl,
-            dataUrlParams: { action: 'get_tags' },
-            minChars: 3,
-            name: 'tags'
-        });
     });
 });
 
