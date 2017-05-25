@@ -52,12 +52,13 @@ class RHSRegister extends RHSMenssage {
 
         $userdata = array(
             'user_login'  =>  $_POST['mail'],
-            'email' => $_POST['mail'],
+            'user_email' => $_POST['mail'],
             'first_name'  => $_POST['first_name'],
             'last_name'  => $_POST['last_name'],
             'user_url'    =>  '',
             'user_pass'   =>  $_POST['pass'],
-            'description' => $_POST['description'] ? $_POST['description'] : ''
+            'description' => $_POST['description'] ? $_POST['description'] : '',
+            'role' => 'contributor'
         );
 
         $user_id = wp_insert_user( $userdata ) ;
