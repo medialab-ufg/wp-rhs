@@ -22,7 +22,7 @@
                         </div>
                         <div class="info-user">
                             <?php if( is_user_logged_in() && is_author(get_current_user_id())) : ?>
-                                <span class="btn-editar-user"><button class="btn btn-default">EDITAR</button></span>
+                                <span class="btn-editar-user"><a class="btn btn-default" href="<?php echo home_url(RHSRewriteRules::PROFILE_URL ); ?>">EDITAR</a></span>
                             <?php endif; ?>
                             <p class="nome-author"><?php echo $RHSUser->get_user_data('display_name'); ?></p>
                             <?php $localidade = the_user_ufmun($RHSUser->getUserId()); ?>
