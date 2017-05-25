@@ -100,8 +100,7 @@
                                             'select_class' => 'form-control',
                                             'label_class'  => 'control-label col-sm-4',
                                             'selected_state' => $location['uf']['id'],
-                                            'selected_municipio' => $location['mun']['id'],
-                                            'type' => 'user'
+                                            'selected_municipio' => $location['mun']['id']
                                         ) ); ?>
                                         <div class="col-sm-12">
                                             <div class="form-group">

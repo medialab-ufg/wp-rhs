@@ -76,6 +76,11 @@
                                     </a>
                                 </li>
                                 <li class="menu-item">
+                                    <a href="<?php echo home_url('minhas-postagens');?>">
+                                        <i class="icones-dropdown fa fa-calendar" aria-hidden="true"></i> Minhas Postagens
+                                    </a>
+                                </li>
+                                <li class="menu-item">
                                     <a href="<?php echo wp_logout_url(); ?>">
                                         <i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair
                                     </a>

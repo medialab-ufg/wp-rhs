@@ -72,6 +72,7 @@ class RHSPost extends RHSMenssage {
         if ($status == RHSVote::VOTING_QUEUE) {
             wp_redirect(get_permalink($post_ID));
         } else {
+            $this->set_messages(   '<i class="fa fa-check "></i> Rascunho salvo com sucesso! <a href="'.home_url('minhas-postagens').'">Clique aqui</a>  para ver a listagem de seus posts', false, 'success' );
             wp_redirect(get_home_url() . '/' . RHSRewriteRules::POST_URL . '/' . $post_ID);
         } 
         

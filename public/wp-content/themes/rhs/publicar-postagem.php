@@ -6,7 +6,7 @@ $current_post = false;
 $cur_title = '';
 $cur_content = '';
 $cur_state = false;
-$cur_state = false;
+$cur_city = false;
 
 if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post', $edit_post) ) {
 
