@@ -12,7 +12,8 @@
         "cwspear/bootstrap-hover-dropdown" : "2.2.1",
         "phpmailer/phpmailer" : "^5.2",
         "FortAwesome/Font-Awesome" : "*",
-        "nicolasbize/magicsuggest" : "*"
+        "nicolasbize/magicsuggest" : "*",
+        "google/recaptcha" : "*"
     },
     "extra": {
         "wordpress-install-dir": "public/wp"
