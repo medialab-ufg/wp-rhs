@@ -102,7 +102,7 @@ class RHSPerfil extends RHSMenssage {
             }
         }
 
-        $this->set_messages( '<i class="fa fa-check"></i> Informações perfil salvas com sucesso!', false, 'success');
+        $this->set_messages( '<i class="fa fa-check"></i> Informações de perfil salvas com sucesso!', false, 'success');
 
     }
 
