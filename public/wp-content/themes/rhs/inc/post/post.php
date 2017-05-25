@@ -37,9 +37,7 @@ class RHSPost extends RHSMenssage {
     private function trigger_by_post() {
 
         if ( ! empty( $_POST['post_user_wp'] ) && $_POST['post_user_wp'] == $this->getKey() ) {
-            
-            
-            
+
             if ( ! $this->validate_by_post() ) {
                 return;
             }

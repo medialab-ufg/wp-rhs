@@ -113,12 +113,6 @@ class RHSRegister extends RHSMenssage {
             return false;
         }
 
-        if ( ! RHSCaptcha::is_valid_by_post($_POST) ) {
-            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Marque o Captcha!', false, 'error' );
-
-            return false;
-        }
-
         if ( ! array_key_exists( 'description', $_POST ) ) {
             $_POST['description'] = '';
 

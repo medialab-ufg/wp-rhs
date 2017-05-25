@@ -7,11 +7,15 @@ $cur_title = '';
 $cur_content = '';
 $cur_state = false;
 $cur_city = false;
+$cur_status = false;
+$cur_category = false;
+$cur_tags = false;
 
 if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post', $edit_post) ) {
 
     $current_post = get_post($edit_post);
-    
+
+    $cur_status = $current_post->post_status;
     $cur_title = $current_post->post_title;
     $cur_content = $current_post->post_content;
     $cur_ufmun = get_post_ufmun($edit_post);
@@ -21,9 +25,33 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
     
     if (is_numeric($cur_ufmun['mun']['id']))
         $cur_city = $cur_ufmun['mun']['id'];
-    
-    
 
+    $cur_category = wp_get_post_categories($edit_post);
+
+    if($cur_category){
+
+        $cur_category = current($cur_category);
+        $cur_category = get_category($cur_category);
+
+        if($cur_category){
+            $cur_category = $cur_category->term_id;
+        }
+
+    }
+
+    $cur_tags = wp_get_post_tags($edit_post);
+    $cur_tags_arr = array();
+
+
+    foreach ($cur_tags as $cur_tag){
+        $cur_tags_arr[] = $cur_tag->name;
+    }
+
+    if($cur_tags_arr){
+        $cur_tags = implode(', ',$cur_tags_arr);
+    } else {
+        $cur_tags = '';
+    }
 } 
 ?>
 
@@ -52,6 +80,7 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
                                             <?php } ?>
                                         </div>
                                     <?php } ?>
+                                    <?php $RHSPost->clear_messages(); ?>
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <div class="form-group">
@@ -100,7 +129,7 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
                                     <div class="panel">
                                         <div class="panel-body sidebar-public">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="ms-filter" placeholder="Tags">
+                                                <input type="text" value="" class="form-control" id="ms-filter" placeholder="Tags">
                                             </div>
                                             <?php UFMunicipio::form( array(
                                                 'content_before' => '',
@@ -120,16 +149,18 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
                                                 <select class="form-control" name="category">
                                                     <option value="">Categoria</option>
                                                     <?php foreach ( get_categories() as $categori ) : ?>
-                                                        <option value="<?php echo $categori->term_id; ?>"><?php echo $categori->cat_name; ?></option>
+                                                        <option <?php selected($cur_category, $categori->term_id, true) ?> value="<?php echo $categori->term_id; ?>"><?php echo $categori->cat_name; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
                                             <div class="form-group text-center">
+                                                <?php if(!$cur_status || $cur_status != 'draft'){ ?>
                                                 <button type="submit" name="status" value="draft" class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO
                                                 </button>
+                                                <?php } ?>
                                                 <button type="button" class="btn btn-default form-submit rasc_visu" id="pre-visualizar">PRÉ-VISUALIZAR
                                                 </button>
-                                                <button type="submit" name="status" value="publish" class="btn btn-danger form-submit publicar">PUBLICAR POST
+                                                <button type="submit" name="status" value="publish" class="btn btn-danger form-submit publicar"><?php echo (!$cur_status || $cur_status == 'draft') ? 'PUBLICAR' : 'EDITAR'; ?>  POST
                                                 </button>
                                             </div>
                                         </div>
