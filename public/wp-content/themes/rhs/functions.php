@@ -50,6 +50,7 @@ if(!function_exists('rhs_setup')) :
         register_nav_menus( array(
             'menuTopo' => __( 'menuTopo', 'rhs' ),
             'menuTopoDropDown' => __( 'menuTopoDropDown', 'rhs' ),
+            'menuDropDownMobile' => __( 'menuDropDownMobile', 'rhs' ),
             'menuRodape' => __( 'menuRodape', 'rhs' ),
         ) );
 
@@ -191,6 +192,25 @@ function menuTopoDropDown(){
         'depth'             => 0,
         'container'         => false,
         'menu_class'        => 'dropdown-menu',
+        'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
+        'walker'            => new WP_Bootstrap_Navwalker()) // Classe usada para compor o menu bootstrap com o WP
+    );
+}
+
+/**
+*
+* Menu dropdown que fica no segundo nav da página
+*
+* @param 'menu' => 'MenuDropdDown' Seleciona o menu com este nome no painel admin.
+* @param 'theme_location' => 'MenuDropdDown' pega o menu que está setado em MenuDropDown
+*
+**/
+function menuDropDownMobile(){
+    wp_nav_menu( array(
+        'menu'              => 'menuDropDownMobile',
+        'theme_location'    => 'menuDropDownMobile',
+        'depth'             => 0,
+        'menu_class'        => 'nav navbar-nav mobile-nav',
         'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
         'walker'            => new WP_Bootstrap_Navwalker()) // Classe usada para compor o menu bootstrap com o WP
     );
