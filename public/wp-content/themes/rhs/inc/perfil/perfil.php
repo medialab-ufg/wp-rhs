@@ -10,12 +10,7 @@ class RHSPerfil extends RHSMenssage {
         $this->userID = $userID;
 
         if ( empty ( self::$instance ) ) {
-
             $this->trigger_by_post();
-
-            if(!empty($_POST['edit_user_wp']) && $_POST['edit_user_wp'] == $this->getKey()){
-                $this->edit_by_post();
-            }
         }
 
         self::$instance = true;
@@ -103,7 +98,7 @@ class RHSPerfil extends RHSMenssage {
             }
         }
 
-        $this->set_messages( '<i class="fa fa-check"></i> Dados salvo com sucesso!', false, 'success');
+        $this->set_messages( '<i class="fa fa-check"></i> Informações perfil salvas com sucesso!', false, 'success');
 
     }
 
@@ -121,7 +116,7 @@ class RHSPerfil extends RHSMenssage {
             return false;
         }
 
-        if(array_key_exists('pass', $_POST)){
+        if(array_key_exists('pass', $_POST) && $_POST['pass']){
 
             $RHSUser = new RHSUser($this->userID);
 
@@ -135,6 +130,7 @@ class RHSPerfil extends RHSMenssage {
 
             if ( isset( $_FILES['avatar'][ 'name' ] ) &&  $_FILES['avatar'][ 'error' ] == 0 ) {
 
+                $avatar_file = $_FILES['avatar'];
                 $arquivo_tmp = $avatar_file[ 'tmp_name' ];
                 $nome = $avatar_file[ 'name' ];
 
@@ -146,7 +142,7 @@ class RHSPerfil extends RHSMenssage {
                     return false;
                 }
 
-                if($avatar_file[ 'size' ] < 5242880){
+                if($avatar_file[ 'size' ] > 5242880){
                     $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Tamanho não pode ultrapasar de 5mb', false, 'error');
                     return false;
                 }

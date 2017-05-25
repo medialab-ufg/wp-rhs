@@ -25,7 +25,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="mail">Endereço de email</label>
-                                                <input value="<?php echo $RHSUser->get_user_data('user_email') ?>" disabled class="form-control" type="text" id="mail" name="mail" size="60" maxlength="254">
+                                                <input value="<?php echo $RHSUser->get_user_data('user_login') ?>" disabled class="form-control" type="text" id="mail" name="mail" size="60" maxlength="254">
                                                 <input value="<?php echo $RHSUser->getKey(); ?>" name="edit_user_wp" type="hidden" />
                                                 <p class="help-block">Um email válido. Todos os emails do sistema são
                                                     enviados para este endereço. O email não é visível para o público e
@@ -99,8 +99,9 @@
                                             'city_label'   => 'Cidade &nbsp',
                                             'select_class' => 'form-control',
                                             'label_class'  => 'control-label col-sm-4',
-                                            'selected_state' => $location['uf'],
-                                            'selected_municipio' => $location['mun']
+                                            'selected_state' => $location['uf']['id'],
+                                            'selected_municipio' => $location['mun']['id'],
+                                            'type' => 'user'
                                         ) ); ?>
                                         <div class="col-sm-12">
                                             <div class="form-group">

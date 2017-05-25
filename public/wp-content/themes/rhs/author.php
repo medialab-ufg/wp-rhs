@@ -9,39 +9,33 @@
             </div>
 			<?php
 			$curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
-			$votos   = new RHSVote();
-			$user    = new RHSUser($curauth->ID);
+			global $RHSUser;
+
+            $votos   = new RHSVote();
 			?>
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="verDados">
                     <div class="jumbotron">
-                        <div class="row">
-                            <div class="col-xs-5 col-sm-2 col-md-2">
-                                <img src="<?php echo $user->getAvatarImage(); ?>"
-                                     alt="<?php echo $curauth->display_name; ?>" class="img-circle avatar-user">
-                            </div>
-                            <div class="col-xs-7 col-md-6">
-                                <div class="col-xs-12">
-                                    <p class="nome-author"><?php echo $curauth->display_name; ?></p>
-                                    <small class="localidade"><?php echo the_user_ufmun($curauth->ID); ?></small>
-                                </div>
-                                <div class="col-xs-3 media-left">
-                                    <span class="contagem-valor-author"><?php echo count_user_posts( $curauth->ID ); ?></span>
-                                    <span class="contagem-desc-author">POSTS</span>
-                                </div>
-                                <div class="col-xs-3 media-left">
-                                    <span class="contagem-valor-author"><?php echo $votos->get_total_votes_by_author( $curauth->ID ); ?></span>
-                                    <span class="contagem-desc-author">VOTOS</span>
-                                </div>
-                            </div>
-                            <div class="col-xs-5 col-sm-3 col-md-4">
-							<span class="seguir-mensagem">
-								<button class="btn btn-default">SEGUIR</button>
-								<button class="btn btn-default">ENVIAR MENSAGEM</button>
-							</span>
-                            </div>
+                        <div class="avatar-user">
+                            <img src="<?php echo $RHSUser->getAvatarImage(); ?>" alt="<?php echo $RHSUser->get_user_data('display_name'); ?>" class="img-circle ">
                         </div>
+                        <div class="info-user">
+                            <p class="nome-author"><?php echo $RHSUser->get_user_data('display_name'); ?></p>
+                            <?php $localidade = the_user_ufmun($RHSUser->getUserId()); ?>
+                            <?php if($localidade){ ?>
+                            <small class="localidade"><?php echo $localidade; ?></small>
+                            <?php } ?>
+                            <span class="contagem-valor-author"><?php echo count_user_posts( $curauth->ID ); ?></span>
+                            <span class="contagem-desc-author">POSTS</span>
+                            <span class="contagem-valor-author"><?php echo $votos->get_total_votes_by_author( $curauth->ID ); ?></span>
+                            <span class="contagem-desc-author">VOTOS</span>
+                        </div>
+                        <span class="seguir-mensagem">
+                            <button class="btn btn-default">SEGUIR</button>
+                            <button class="btn btn-default">ENVIAR MENSAGEM</button>
+                        </span>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
@@ -64,11 +58,11 @@
                                 <div class="panel-body">
                                     <p class="hide">Grupos: </p>
                                     <span class="hide">-Privado-</span>
-									<?php if ( $user->getLinks() ) { ?>
+									<?php if ( $RHSUser->getLinks() ) { ?>
                                         <p>Links: </p>
-										<?php foreach ( $user->getLinks() as $key => $link ) { ?>
+										<?php foreach ( $RHSUser->getLinks() as $key => $link ) { ?>
                                             <span><a href="<?php echo $link['url'] ?>"><?php echo $link['title'] ?></a></span>
-											<?php if ( count( $user->getLinks() ) == ( $key + 1 ) ) { ?>
+											<?php if ( count( $RHSUser->getLinks() ) == ( $key + 1 ) ) { ?>
                                                 ,
 											<?php } ?>
 										<?php } ?>
@@ -96,19 +90,19 @@
                             <div id="sobre_interesses" class="panel-collapse collapse" role="tabpanel"
                                  aria-labelledby="SobreInteresses">
                                 <div class="panel-body">
-									<?php if ( $user->getSobre() ) { ?>
+									<?php if ( $RHSUser->getSobre() ) { ?>
                                         <p>Sobre: </p>
-                                        <span><?php echo $user->getSobre(); ?></span>
+                                        <span><?php echo $RHSUser->getSobre(); ?></span>
 									<?php } ?>
-									<?php if ( $user->getInteresses() ) { ?>
+									<?php if ( $RHSUser->getInteresses() ) { ?>
                                         <p>Interesses: </p>
-                                        <span><?php echo $user->getInteresses(); ?></span>
+                                        <span><?php echo $RHSUser->getInteresses(); ?></span>
 									<?php } ?>
-									<?php if ( $user->getFormacao() ) { ?>
+									<?php if ( $RHSUser->getFormacao() ) { ?>
                                         <p>Formação: </p>
-                                        <span><?php echo $user->getFormacao(); ?></span>
+                                        <span><?php echo $RHSUser->getFormacao(); ?></span>
 									<?php } ?>
-									<?php if (!($user->getSobre()) && $user->getInteresses() && $user->getFormacao()) { ?>
+									<?php if (!($RHSUser->getSobre()) && $RHSUser->getInteresses() && $RHSUser->getFormacao()) { ?>
                                         Sem informção.
 									<?php } ?>
                                 </div>

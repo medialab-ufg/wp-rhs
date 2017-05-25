@@ -1208,6 +1208,7 @@ form .comment-form-comment {
     .jumbotron {
         background-color: $whiteColor;
         margin-top: 20px;
+        padding: 20px;
         .contagem-valor-author {
             line-height: 80%;
             display: block;
@@ -1232,6 +1233,18 @@ form .comment-form-comment {
                 color: $primeira_cor_texto;
                 border-color: $primeira_cor_texto;
             }
+        }
+        .avatar-user{
+            float: left;
+           img{
+               width: 90px;
+               height: 90px;
+           }
+        }
+        .info-user{
+            float: left;
+            width: calc(100% - 90px);
+            padding-left: 25px;
         }
     }
     /*Perfil*/
