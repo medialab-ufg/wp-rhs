@@ -39,16 +39,22 @@ class RHSPost extends RHSMenssage {
     }
 
     private function trigger_by_post() {
+        
+        
+        
         if ( ! empty( $_POST['post_user_wp'] ) && $_POST['post_user_wp'] == $this->getKey() ) {
-
+            
+            
+            
             if ( ! $this->validate_by_post() ) {
                 return;
             }
-
+            
             $this->insert(
+                $_POST['current_ID'],
                 $_POST['title'],
                 $_POST['public_post'],
-                ( $_POST['type'] == 'draft' ) ? 'draft' : 'publish',
+                ( $_POST['status'] == 'draft' ) ? 'draft' : RHSVote::VOTING_QUEUE,
                 get_current_user_id(),
                 $_POST['category'],
                 $_POST['estado'],
@@ -57,7 +63,7 @@ class RHSPost extends RHSMenssage {
         }
     }
 
-    public function insert( $title, $content, $status, $authorId, $category, $state = '', $city = '', array $tags = array() ) {
+    public function insert( $ID, $title, $content, $status, $authorId, $category, $state = '', $city = '', array $tags = array() ) {
 
         $dataPost = array(
             'post_title'    => wp_strip_all_tags( $title ),
@@ -66,6 +72,9 @@ class RHSPost extends RHSMenssage {
             'post_author'   => $authorId,
             'post_category' => array($category)
         );
+        
+        if (is_numeric($ID))
+            $dataPost['ID'] = $ID;
 
         $post_ID = wp_insert_post( $dataPost, true );
 
@@ -90,10 +99,15 @@ class RHSPost extends RHSMenssage {
         foreach ($tags as $tag){
             wp_set_post_terms( $post_ID, array($tag) );
         }
-
-        wp_redirect(get_permalink($post_ID));
+        
+        if ($status == RHSVote::VOTING_QUEUE) {
+            wp_redirect(get_permalink($post_ID));
+        } else {
+            wp_redirect(get_home_url() . '/' . RHSRewriteRules::POST_URL . '/' . $post_ID);
+        } 
+        
         exit;
-
+        
     }
 
     private function validate_by_post() {
@@ -129,25 +143,21 @@ class RHSPost extends RHSMenssage {
         if ( ! array_key_exists( 'estado', $_POST ) ) {
             $_POST['estado'] = '';
 
-            return false;
         }
 
         if ( ! array_key_exists( 'municipio', $_POST ) ) {
             $_POST['municipio'] = '';
 
-            return false;
         }
 
-        if ( ! array_key_exists( 'type', $_POST ) ) {
-            $_POST['type'] = '';
-
-            return false;
+        if ( ! array_key_exists( 'current_ID', $_POST ) ) {
+            $_POST['current_ID'] = null;
+        
         }
 
         if ( ! array_key_exists( 'tags', $_POST ) ) {
             $_POST['tags'] = array();
 
-            return false;
         }
 
         return true;
@@ -158,15 +168,29 @@ class RHSPost extends RHSMenssage {
     * Function que lista as postagens na página minhas-postagens
     */
     static function minhasPostagens(){
-        global $current_user;
+        global $current_user, $RHSVote;
         wp_get_current_user();
-        $author_query = array('posts_per_page' => '-1','author' => $current_user->ID);
+        $author_query = array('posts_per_page' => '-1','author' => $current_user->ID, 'post_status' => array('draft', 'publish', 'voting-queue'));
         $author_posts = new WP_Query($author_query);
         global $RHSVote;
         while($author_posts->have_posts()) : $author_posts->the_post();
+        
+            $post_status = get_post_status(get_the_ID());
+            
+            if ($post_status == 'publish') {
+                $status_label = 'Pubilcado';
+            } elseif ($post_status == 'draft') {
+                $status_label = 'Rascunho';
+            } elseif (array_key_exists($post_status, $RHSVote->get_custom_post_status())) {
+                $status_label = $RHSVote->get_custom_post_status()[$post_status]['label'];
+            } else {
+                $status_label = $post_status;
+            }
+            
+            
         ?>
             <tr>
-                <td><?php the_ID(); ?></td>
+                <td><?php the_title(); ?></td>
                 <td><?php the_time('D, d/m/Y - H:i'); ?></td>
                 <td></td>
                 <td>
@@ -185,6 +209,16 @@ class RHSPost extends RHSMenssage {
                         echo $votos;
                     }
                 ?>
+                </td>
+                <td>
+                    <?php echo $status_label; ?>
+                    
+                    <?php if(current_user_can('edit_post', get_the_ID())): ?>
+                        <a href="<?php echo get_home_url() . '/' . RHSRewriteRules::POST_URL . '/' . get_the_ID(); ?>">
+                            (Editar)
+                        </a>
+                    <?php endif; ?>
+                    
                 </td>
             </tr>   
         <?php           
