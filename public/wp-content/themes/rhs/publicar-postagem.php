@@ -40,6 +40,7 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
     }
 
     $cur_tags = wp_get_post_tags($edit_post);
+
     $cur_tags_arr = array();
 
 
@@ -48,7 +49,7 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
     }
 
     if($cur_tags_arr){
-        $cur_tags = implode(', ',$cur_tags_arr);
+        $cur_tags = "['".implode("', '",$cur_tags_arr)."']";
     } else {
         $cur_tags = '';
     }
@@ -130,6 +131,27 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
                                         <div class="panel-body sidebar-public">
                                             <div class="form-group">
                                                 <input type="text" value="" class="form-control" id="ms-filter" placeholder="Tags">
+                                                    <script>
+                                                        var ms = jQuery('#ms-filter').magicSuggest({
+                                                            placeholder: 'Select...',
+                                                            allowFreeEntries: false,
+                                                            selectionPosition: 'bottom',
+                                                            selectionStacked: true,
+                                                            selectionRenderer: function(data){
+                                                                return data.name;
+                                                            },
+                                                            data: vars.ajaxurl,
+                                                            dataUrlParams: { action: 'get_tags' },
+                                                            minChars: 3,
+                                                            name: 'tags'
+                                                        });
+
+                                                        <?php if($cur_tags){ ?>
+                                                            var ms = jQuery('#ms-filter').magicSuggest({});
+                                                            ms.setValue(<?php echo $cur_tags; ?>);
+                                                        <?php } ?>
+
+                                                    </script>
                                             </div>
                                             <?php UFMunicipio::form( array(
                                                 'content_before' => '',
@@ -154,10 +176,7 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
                                                 </select>
                                             </div>
                                             <div class="form-group text-center">
-                                                <?php if(!$cur_status || $cur_status != 'draft'){ ?>
-                                                <button type="submit" name="status" value="draft" class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO
-                                                </button>
-                                                <?php } ?>
+                                                <button type="submit" name="status" value="draft" class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO</button>
                                                 <button type="button" class="btn btn-default form-submit rasc_visu" id="pre-visualizar">PRÉ-VISUALIZAR
                                                 </button>
                                                 <button type="submit" name="status" value="publish" class="btn btn-danger form-submit publicar"><?php echo (!$cur_status || $cur_status == 'draft') ? 'PUBLICAR' : 'EDITAR'; ?>  POST
