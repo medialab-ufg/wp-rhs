@@ -229,6 +229,13 @@ Primeiro e Segundo DropDown Menu
 *
 *******************/
 .primeiro-menu {
+    .no-mobile{
+        >li{
+            >a{
+                margin-top: 9px !important;
+            }
+        }
+    }
     .dropdown-menu {
         background-color: $cor_fundo_formulario_nav;
         .menu-item a {
