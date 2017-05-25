@@ -40,6 +40,7 @@ class RHSRegister extends RHSMenssage {
             'user_url'    => '',
             'user_pass'   => $pass,
             'description' => $description,
+            'user_nicename' => sanitize_title($first_name.' '.$last_name),
             'role' => 'contributor'
         );
 
