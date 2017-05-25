@@ -109,7 +109,7 @@ body {
     .navbar-brand {
         padding: 0px 5px;
         > img {
-            margin-left: 19px;
+            margin-left: 202px; //19px
             margin-top: 3px;
         }
     }
@@ -118,7 +118,7 @@ body {
             text-align: center;
             > li {
                 > a {
-                    margin-top: 8px;
+                    margin-top: 0px;
                     &:hover {
                         color: $primeira_cor_texto !important;
                         text-decoration: underline;
@@ -128,11 +128,6 @@ body {
                         &:hover {
                             color: $primeira_cor_texto;
                         }
-                    }
-                }
-                &:first-child {
-                    > a {
-                        padding-right: 0;
                     }
                 }
                 &:last-child {
@@ -153,8 +148,8 @@ body {
                 }
             }
             > .navbar-text {
-                margin-left: 10px;
-                margin-right: 10px;
+                margin-left: 12px;
+                margin-right: 0px;
                 color: $whiteColor;
                 margin-top: 21px;
             }
@@ -194,17 +189,10 @@ Segundo Nav-menu
 *******************/
 .segundo-menu {
     background-color: $segunda_cor_fundo;
-    top: 66px;
-    margin-bottom: 75px;
+    //top: 66px;
+    //margin-bottom: 75px;
     li a {
         color: $whiteColor !important;
-    }
-
-    // Função para definir a cor do placeholder
-
-    @mixin form-placeholder() {
-        color: $whiteColor;
-        font-weight: normal;
     }
     .dropdown-menu-right {
         background-color: $cor_fundo_formulario_nav;
@@ -220,59 +208,15 @@ Segundo Nav-menu
             padding: 10px 10px;
             text-align: right;
             width: 100%;
+            &:last-child {
+                border-bottom: 1px solid #00b4b4;
+            }
         }
         li > a:hover, li > a:focus {
             background-color: $segunda_cor_fundo;
             width: 100%;
             text-align: right;
             text-decoration: none;
-        }
-    }
-    .form-search-rhs {
-        margin-top: 0;
-        margin-bottom: 0;
-        margin-left: -15px;
-        input {
-            color: $whiteColor !important;
-            background-color: $cor_fundo_formulario_nav;
-            border: none;
-            height: 3.5em;
-            border-radius: 0;
-        }
-        input::-webkit-input-placeholder {
-            @include form-placeholder;
-        }
-        input:-moz-placeholder {
-            @include form-placeholder;
-        }
-        input::-moz-placeholder {
-            @include form-placeholder;
-        }
-        input:-ms-input-placeholder {
-            @include form-placeholder;
-        }
-        button {
-            background-color: $cor_fundo_formulario_nav;
-            border: none;
-            height: 51px;
-            border-radius: 0;
-        }
-        button:hover {
-            background-color: $cor_fundo_formulario_nav;
-        }
-    }
-    #menuPesquisa {
-        input[type=text] {
-            font-size: 17px;
-            padding-left: 18px;
-            width: 31.4em !important;
-            height: 51px;
-        }
-        .input-group .form-control:focus {
-            z-index: 0;
-        }
-        span .glyphicon-search {
-            color: $whiteColor;
         }
     }
 }
@@ -283,12 +227,14 @@ Primeiro e Segundo DropDown Menu
 *
 *******************/
 .primeiro-menu {
+    .dropdown-menu-right{
+        
+    }
     .dropdown-menu {
         background-color: $cor_fundo_formulario_nav;
         .menu-item a {
             color: $whiteColor;
             float: left;
-            border-top: 1px solid #00b4b4;
             -webkit-transition: all 0.3s ease-in-out;
             -moz-transition: all 0.3s ease-in-out;
             -ms-transition: all 0.3s ease-in-out;
@@ -310,16 +256,24 @@ Primeiro e Segundo DropDown Menu
             padding-top: 3px;
             padding-right: 5px;
         }
-        li a {
-            padding: 10px 10px;
-            text-align: left;
-            width: 100%;
-        }
-        li > a:hover, li > a:focus {
-            background-color: $segunda_cor_fundo;
-            width: 100%;
-            text-align: left;
-            text-decoration: none;
+        li {
+            > a {
+                padding: 10px 10px;
+                text-align: left;
+                width: 100%;
+                float: right;
+                &:hover, &:focus{
+                    background-color: $segunda_cor_fundo;
+                    width: 100%;
+                    text-align: left;
+                    text-decoration: none;
+                }
+            }
+            &:first-child {
+                > a {
+                    padding-right: 0;
+                }
+            }
         }
     }
 }
@@ -327,17 +281,9 @@ Primeiro e Segundo DropDown Menu
 .primeiro-menu, .segundo-menu {
     padding: 0;
     border-radius: 0;
-    li > a {
-        float: right;
-    }
     li > a:hover {
         color: $whiteColor !important;
         text-decoration: underline;
-    }
-
-    /*Bloquear por Enquanto as Notificações e Mensagens (Menu Topo) */
-    .not-msg {
-        display: $notifi_mensagens;
     }
 
     .navbar-nav > .open > a, .navbar-nav > .open > a:hover {
@@ -420,11 +366,63 @@ Primeiro e Segundo DropDown Menu
             margin-right: 2px;
         }
     }
+    // Função para definir a cor do placeholder
+    @mixin form-placeholder() {
+        color: $whiteColor;
+        font-weight: normal;
+    }
+    .form-search-rhs {
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-left: -15px;
+        input {
+            color: $whiteColor !important;
+            background-color: $cor_fundo_formulario_nav;
+            border: none;
+            height: 3.5em;
+            border-radius: 0;
+        }
+        input::-webkit-input-placeholder {
+            @include form-placeholder;
+        }
+        input:-moz-placeholder {
+            @include form-placeholder;
+        }
+        input::-moz-placeholder {
+            @include form-placeholder;
+        }
+        input:-ms-input-placeholder {
+            @include form-placeholder;
+        }
+        button {
+            background-color: $cor_fundo_formulario_nav;
+            border: none;
+            height: 51px;
+            border-radius: 0;
+        }
+        button:hover {
+            background-color: $cor_fundo_formulario_nav;
+        }
+    }
+    #menuPesquisa {
+        input[type=text] {
+            font-size: 17px;
+            padding-left: 18px;
+            width: 31.4em !important;
+            height: 51px;
+        }
+        .input-group .form-control:focus {
+            z-index: 0;
+        }
+        span .glyphicon-search {
+            color: $whiteColor;
+        }
+    }
 }
 
 /*Button Publicar e Ver Fila de Votação*/
 .buttons_top {
-    margin: -9px auto 53px;
+    margin: -20px auto 53px; //-9px auto 53px
     .btn {
         border: 0px solid transparent;
         border-radius: 0px;
@@ -1942,7 +1940,7 @@ article {
         }
     }
     .navbar-nav {
-        margin: 0.5px -15px;
+        margin: 1.5px -15px;
     }
     /*Menus*/
     li.dropdown.user-dropdown {
@@ -1953,17 +1951,35 @@ article {
         margin-right: 16px;
     }
     .primeiro-menu {
-        li > a {
-            float: left;
-        }
-        .navbar-nav {
+        .navbar-nav>.no-mobile {
             > li {
+                > a{
+                    float: left;
+                }
                 &:first-child > a {
                     padding-right: 95px !important;
                     padding-left: 119px;
                 }
                 &:last-child > a {
                     padding-left: 123px !important;
+                }
+            }
+
+            .open{
+                .dropdown-menu {
+                    >li{
+                        >a{
+                            color: $whiteColor;
+                            padding: 13px 15px 11px 25px;
+                        }
+                    }
+                }
+            }
+        }
+        .mobile-nav{
+            li {
+                > a{
+                    color: $whiteColor;
                 }
             }
         }
@@ -1993,6 +2009,8 @@ article {
                 }
             }
         }
+    }
+    .primeiro-menu, .segundo-menu{
         #menuPesquisa input[type=text] {
             width: 100% !important;
         }
@@ -2128,6 +2146,12 @@ article {
             }
         }
     }
+    .primeiro-menu .navbar-nav > li:first-child > a{
+        padding-right: 0px !important;
+    }
+    .primeiro-menu .navbar-nav > li:last-child > a{
+        padding-left: 0px !important;
+    }
 }
 
 @media only screen and (max-width: 640px) and (orientation: landscape) {
@@ -2146,6 +2170,12 @@ article {
                 left: -41px;
             }
         }
+    }
+}
+
+@media only screen and (min-width: 412px) and (max-width: 414px) {
+    .navbar-default .navbar-collapse .navbar-nav > .navbar-text{
+            margin-right: 46px;
     }
 }
 
