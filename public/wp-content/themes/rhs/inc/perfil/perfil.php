@@ -90,7 +90,7 @@ class RHSPerfil extends RHSMenssage {
             $novoNome = uniqid ( time () ) . '.' . $extensao;
             $caminho = '/uploads/'. date('Y').'/'.date('m').'/';
 
-            if(!file_exists( WP_CONTENT_DIR . $caminho)){
+            if(!file_exists(WP_CONTENT_DIR . $caminho)){
                 mkdir($arquivo_tmp, WP_CONTENT_DIR . $caminho, 0777, true);
             }
 
