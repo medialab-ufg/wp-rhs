@@ -15,7 +15,7 @@ class RHSVoteQueueWidget extends WP_Widget {
         $blog_title = get_bloginfo( 'name' );
         $tagline = get_bloginfo( 'description' );
 
-        echo $args['before_widget'] . $args['before_title'] .'<a href="filavotacao/">'. $title .'</a>'. $args['after_title'];
+        echo $args['before_widget'] . $args['before_title'] .'<a href="'.get_home_url().'/fila-de-votacao/">'. $title .'</a>'. $args['after_title'];
 
         $posts = get_posts(array(
             'posts_per_page'  => !empty($instance['qtd']) ? $instance['qtd'] : 0,

@@ -325,6 +325,11 @@ Class RHSVote {
 		if ( empty( $totalVotes ) ) {
 			$totalVotes = 0;
 		}
+		if($totalVotes == 1){
+			$textVotes = 'voto';
+		}else{
+			$textVotes = 'votos';
+		}
 
 		$output .= '<span class="vTexto">' . $totalVotes . '</span>';
 
@@ -341,7 +346,7 @@ Class RHSVote {
 				$output .= '<span class="vButton"><a class="btn btn-danger js-vote-button" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
 
 			} else {
-				$output .= '<span class="vTexto">votos</span>';
+				$output .= '<span class="vTexto">'.$textVotes.'</span>';
 			}
 
 		}

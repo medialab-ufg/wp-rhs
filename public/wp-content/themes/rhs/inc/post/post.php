@@ -132,27 +132,64 @@ class RHSPost extends RHSMenssage {
 
     }
 
-    public function get_tags(){
+    public function get_tags() {
 
         $result_tags = array();
 
-        if(empty($_POST['query'])){
-            echo json_encode($result_tags);
+        if ( empty( $_POST['query'] ) ) {
+            echo json_encode( $result_tags );
             exit;
         }
 
-        $tags = get_tags(array('name__like'=>$_POST['query']));
+        $tags = get_tags( array( 'name__like' => $_POST['query'] ) );
 
-        foreach ($tags as $tag){
+        foreach ( $tags as $tag ) {
             $result_tags[] = array(
-                'id' => $tag->term_id ,
-                'name' =>  trim($tag->name)
+                'id'   => $tag->term_id,
+                'name' => trim( $tag->name )
             );
         }
 
-        echo json_encode($result_tags);
+        echo json_encode( $result_tags );
         exit;
+    }
 
+
+    /*
+    * Function que lista as postagens na página minhas-postagens
+    */
+    static function minhasPostagens(){
+        global $current_user;
+        wp_get_current_user();
+        $author_query = array('posts_per_page' => '-1','author' => $current_user->ID);
+        $author_posts = new WP_Query($author_query);
+        global $RHSVote;
+        while($author_posts->have_posts()) : $author_posts->the_post();
+        ?>
+            <tr>
+                <td><?php the_ID(); ?></td>
+                <td><?php the_time('D, d/m/Y - H:i'); ?></td>
+                <td></td>
+                <td>
+                    <?php
+                        if ( comments_open() ) :
+                          comments_popup_link( '0', '1 ', '%', '', '<i class="fa fa-ban" aria-hidden="true"></i>');
+                        endif;
+                    ?>
+                </td>
+                <td>
+                <?php
+                    $votos = $RHSVote->get_total_votes(get_the_ID());
+                    if($votos <= 0){
+                        echo '0';
+                    }else {
+                        echo $votos;
+                    }
+                ?>
+                </td>
+            </tr>   
+        <?php           
+        endwhile;
     }
 }
 

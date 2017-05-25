@@ -5,7 +5,7 @@
                 <a class="btn btn-default">Publicar POST</a>
                 </div>
                 <div class="btn-group" role="group">
-                <a class="btn btn-default" href="filavotacao/">Ver Fila de Votação</a>
+                <a class="btn btn-default" href="<?php echo get_home_url(); ?>/fila-de-votacao/">Ver Fila de Votação</a>
                 </div>
             </div>
         </div>

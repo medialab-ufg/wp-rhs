@@ -1,24 +1,29 @@
+<?php
+global $Carrossel;
+$Carrossel = new Carrossel();
+$carrossel_posts = $Carrossel::get_posts();
+
+?>
+
 <div id="carousel-example-generic" class="carousel slide carousel-fade" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
-    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="3"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+    <?php for ($i=0; $i < $carrossel_posts->found_posts; $i++) { ?>
+        <li data-target="#carousel-example-generic" data-slide-to="<?php echo $i; ?>" <?php echo $i == 0 ? 'class="active"' : ''; ?> ></li>
+    <?php } ?>
   </ol>
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
   	<?php if(have_posts()) :
   				$first = true;
-				while (have_posts()): 
-					the_post(); ?>	
+				while ($carrossel_posts->have_posts()): 
+					$carrossel_posts->the_post(); ?>	
 	    <div class="item <?php if($first) echo 'active'; ?>">
 			<div class="row">
 				<div class="col-xs-12 col-md-6">
 					<?php if( has_post_thumbnail() ) :  ?>
 						<a href="<?php the_permalink(); ?>">
-							<img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" class="img-responsive">
+							<img src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'carrossel'); ?>" alt="" class="img-responsive">
 						</a>
 					<?php endif; ?>
 
