@@ -200,7 +200,6 @@ Class UFMunicipio {
             'select_class' => '',
             'label_class' => '',
             'show_label' => true,
-            
         );
 
         $params = array_merge($defaults, $params);

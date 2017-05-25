@@ -23,10 +23,14 @@ class RHSLogin extends RHSMenssage {
     }
 
     static function login_url( $login_url, $redirect, $force_reauth ) {
-        $login_page = home_url( RHSRewriteRules::LOGIN_URL );
+        $login_page = self::url();
         $login_url  = add_query_arg( 'redirect_to', $redirect, $login_page );
 
         return $login_url;
+    }
+
+    static function url(){
+        return esc_url(home_url(RHSRewriteRules::LOGIN_URL));
     }
 
     function login_redirect( $redirect_to, $requested_redirect_to, $user ) {
@@ -55,7 +59,7 @@ class RHSLogin extends RHSMenssage {
                 }
             }
 
-            wp_redirect( esc_url( home_url( '/login' ) ) );
+            wp_redirect( self::url() );
             exit;
         }
 

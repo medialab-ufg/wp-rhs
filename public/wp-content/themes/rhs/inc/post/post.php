@@ -15,33 +15,8 @@ class RHSPost extends RHSMenssage {
         self::$instance = true;
     }
 
-    public function get_tags(){
-
-        $result_tags = array();
-
-        if(empty($_POST['query'])){
-            echo json_encode($result_tags);
-            exit;
-        }
-
-        $tags = get_tags(array('name__like'=>$_POST['query']));
-
-        foreach ($tags as $tag){
-            $result_tags[] = array(
-                'id' => $tag->term_id ,
-                'name' =>  trim($tag->name)
-            );
-        }
-
-        echo json_encode($result_tags);
-        exit;
-
-    }
-
     private function trigger_by_post() {
-        
-        
-        
+
         if ( ! empty( $_POST['post_user_wp'] ) && $_POST['post_user_wp'] == $this->getKey() ) {
             
             
@@ -129,7 +104,7 @@ class RHSPost extends RHSMenssage {
 
 
         if ( ! array_key_exists( 'category', $_POST ) ) {
-            $this->set_messages( array( 'error' => '<i class="fa fa-exclamation-triangle "></i> Selecione uma categoria!' ) );
+            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Selecione uma categoria!', false, 'error' );
 
             return false;
         }
@@ -157,6 +132,29 @@ class RHSPost extends RHSMenssage {
         return true;
 
     }
+
+    public function get_tags() {
+
+        $result_tags = array();
+
+        if ( empty( $_POST['query'] ) ) {
+            echo json_encode( $result_tags );
+            exit;
+        }
+
+        $tags = get_tags( array( 'name__like' => $_POST['query'] ) );
+
+        foreach ( $tags as $tag ) {
+            $result_tags[] = array(
+                'id'   => $tag->term_id,
+                'name' => trim( $tag->name )
+            );
+        }
+
+        echo json_encode( $result_tags );
+        exit;
+    }
+
 
     /*
     * Function que lista as postagens na página minhas-postagens

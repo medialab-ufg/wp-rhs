@@ -412,8 +412,7 @@ jQuery( function( $ ) {
             ignore: '[type="button"], .ms-sel-ctn input',
             rules: {
                 title: {
-                    required: true,
-                    minlength: 15
+                    required: true
                 },
                 category: {
                     required: true
@@ -421,8 +420,7 @@ jQuery( function( $ ) {
             },
             messages: {
                 title: {
-                    required: 'Preencha o titulo.',
-                    minlength: 'Tamanho mínimo de 15 caracteres'
+                    required: 'Preencha o titulo.'
                 },
                 category: {
                     required: 'Selecione a categoria'

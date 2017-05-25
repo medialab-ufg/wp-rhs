@@ -329,9 +329,9 @@ Class RHSVote {
 			$totalVotes = 0;
 		}
 		if($totalVotes == 1){
-			$textVotes = 'Voto';
+			$textVotes = 'voto';
 		}else{
-			$textVotes = 'Votos';
+			$textVotes = 'votos';
 		}
 
 		$output .= '<span class="vTexto">' . $totalVotes . '</span>';
