@@ -23,6 +23,7 @@
                                     <th>Visualizações</th>
                                     <th>Comentários</th>
                                     <th>Votos</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>

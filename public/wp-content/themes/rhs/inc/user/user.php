@@ -25,6 +25,10 @@ Class RHSUser extends RHSMenssage {
         self::$instance = true;
     }
 
+    function getUserId(){
+        return $this->userID;
+    }
+
     function ml_restrict_media_library( $wp_query_obj ) {
         global $current_user, $pagenow;
         if( !is_a( $current_user, 'WP_User') )

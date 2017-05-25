@@ -10,106 +10,200 @@ class RHSPerfil extends RHSMenssage {
         $this->userID = $userID;
 
         if ( empty ( self::$instance ) ) {
-
-            if(!empty($_POST['edit_user_wp']) && $_POST['edit_user_wp'] == $this->getKey()){
-                $this->edit_by_post();
-            }
+            $this->trigger_by_post();
         }
 
         self::$instance = true;
     }
 
-    function edit_by_post(){
+    function getUserId(){
+        return $this->userID;
+    }
 
-        if(!$_POST){
-            return array();
+    private function trigger_by_post() {
+
+        if ( ! empty( $_POST['edit_user_wp'] ) && $_POST['edit_user_wp'] == $this->getKey() ) {
+
+            if ( ! $this->validate_by_post() ) {
+                return;
+            }
+
+            $this->update(
+                $this->userID,
+                $_POST['first_name'],
+                $_POST['last_name'],
+                $_POST['pass'],
+                $_POST['description'],
+                $_POST['formation'],
+                $_POST['interest'],
+                $_POST['estado'],
+                $_POST['municipio'],
+                $_POST['links'],
+                $_FILES['avatar']);
         }
+    }
+
+    function update($user_id, $first_name, $last_name, $pass = '', $description = '', $formation = '', $interest = '', $state = '', $city = '', $links = '', $avatar_file){
+
+        $data = array('ID' => $user_id);
+        $data['first_name'] = $first_name;
+        $data['last_name'] = $last_name;
+
+        if($pass){
+            wp_set_password( $pass, $user_id );
+        }
+
+        wp_update_user($data);
+
+        if($description){
+           update_user_meta( $user_id, 'description', $description);
+        }
+
+        if($formation){
+            update_user_meta( $user_id, 'rhs_formation', $formation);
+        }
+
+
+        if($interest){
+            update_user_meta( $user_id, 'rhs_interest', $interest);
+        }
+
+        if($state && $city){
+            add_user_ufmun_meta( $user_id, $city, $state);
+        }
+
+        if($city){
+            update_user_meta( $user_id, 'rhs_city', $city);
+        }
+
+        if($links){
+            update_user_meta( $user_id, 'rhs_links', RHSUser::save_links($links));
+        }
+
+        if ($avatar_file) {
+            $arquivo_tmp = $avatar_file[ 'tmp_name' ];
+            $nome = $avatar_file[ 'name' ];
+
+            $extensao = pathinfo ( $nome, PATHINFO_EXTENSION );
+            $extensao = strtolower ( $extensao );
+
+            $novoNome = uniqid ( time () ) . '.' . $extensao;
+            $caminho = '/uploads/'. date('Y').'/'.date('m').'/';
+
+            if ( @move_uploaded_file ( $arquivo_tmp, WP_CONTENT_DIR . $caminho . $novoNome ) ) {
+                update_user_meta( $user_id, 'rhs_avatar', 'wp-content/'.$caminho.$novoNome);
+            } else {
+                $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Erro ao salvar o arquivo.', false, 'error');
+
+            }
+        }
+
+        $this->set_messages( '<i class="fa fa-check"></i> Informações perfil salvas com sucesso!', false, 'success');
+
+    }
+
+    private function validate_by_post() {
 
         $this->clear_messages();
 
         if(!array_key_exists('first_name', $_POST)){
             $this->set_messages('<i class="fa fa-exclamation-triangle "></i> Preencha o sua antiga senha!', false, 'error');
-            return;
+            return false;
         }
 
         if(!array_key_exists('last_name', $_POST)){
             $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Preencha o sua antiga senha!', false, 'error');
-            return;
+            return false;
         }
 
-        $data = array('ID' => $this->userID);
-        $data['first_name'] = $_POST['first_name'];
-        $data['last_name'] = $_POST['last_name'];
-
-        if(!empty($_POST['pass'])){
+        if(array_key_exists('pass', $_POST) && $_POST['pass']){
 
             $RHSUser = new RHSUser($this->userID);
 
             if(empty($_POST['pass_old'] ) || !wp_check_password( $_POST['pass_old'], $RHSUser->get_user_data('user_pass'), $this->userID) ){
                 $this->set_messages('<i class="fa fa-exclamation-triangle "></i> Sua senha antiga está incorreta!', false, 'error');
-                return;
+                return false;
             }
-
-            wp_set_password( $_POST['pass'], $this->userID );
         }
 
-        wp_update_user($data);
+        if(array_key_exists('avatar', $_FILES)){
 
-        if(!empty($_POST['description'])){
-            $k =  update_user_meta( $this->userID, 'description', $_POST['description']);
-        }
+            if ( isset( $_FILES['avatar'][ 'name' ] ) &&  $_FILES['avatar'][ 'error' ] == 0 ) {
 
-        if(!empty($_POST['formation'])){
-            update_user_meta( $this->userID, 'rhs_formation', $_POST['formation']);
-        }
+                $avatar_file = $_FILES['avatar'];
+                $arquivo_tmp = $avatar_file[ 'tmp_name' ];
+                $nome = $avatar_file[ 'name' ];
 
+                $extensao = pathinfo ( $nome, PATHINFO_EXTENSION );
+                $extensao = strtolower ( $extensao );
 
-        if(!empty($_POST['rhs_interest'])){
-            update_user_meta( $this->userID, 'rhs_interest', $_POST['rhs_interest']);
-        }
-
-        if(!empty($_POST['estado'])){
-            update_user_meta( $this->userID, 'rhs_state', $_POST['estado']);
-        }
-
-        if(!empty($_POST['municipio'])){
-            update_user_meta( $this->userID, 'rhs_city', $_POST['municipio']);
-        }
-
-        if(!empty($_POST['links'])){
-            update_user_meta( $this->userID, 'rhs_links', RHSUser::save_links($_POST['links']));
-        }
-
-        if ( isset( $_FILES[ 'avatar' ][ 'name' ] ) && $_FILES[ 'avatar' ][ 'error' ] == 0 ) {
-            $arquivo_tmp = $_FILES[ 'avatar' ][ 'tmp_name' ];
-            $nome = $_FILES[ 'avatar' ][ 'name' ];
-
-            $extensao = pathinfo ( $nome, PATHINFO_EXTENSION );
-            $extensao = strtolower ( $extensao );
-
-            if ( strstr ( '.jpg;.jpeg;.gif;.png', $extensao ) ) {
-
-                if($_FILES[ 'avatar' ][ 'size' ] < 5242880){
-
-                    $novoNome = uniqid ( time () ) . '.' . $extensao;
-                    $caminho = '/uploads/'. date('Y').'/'.date('m').'/';
-
-                    if ( @move_uploaded_file ( $arquivo_tmp, WP_CONTENT_DIR . $caminho . $novoNome ) ) {
-                        update_user_meta( $this->userID, 'rhs_avatar', 'wp-content/'.$caminho.$novoNome);
-                    } else {
-                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Erro ao salvar o arquivo.', false, 'error');
-                    }
-
-                } else {
-                    $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Tamanho não pode ultrapasar de 5mb', false, 'error');
+                if ( !strstr ( '.jpg;.jpeg;.gif;.png', $extensao ) ) {
+                    $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Você poderá enviar apenas arquivos "*.jpg;*.jpeg;*.gif;*.png', false, 'error');
+                    return false;
                 }
-            } else{
-                $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Você poderá enviar apenas arquivos "*.jpg;*.jpeg;*.gif;*.png', false, 'error');
+
+                if($avatar_file[ 'size' ] > 5242880){
+                    $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Tamanho não pode ultrapasar de 5mb', false, 'error');
+                    return false;
+                }
+            } else {
+                $_FILES['avatar'] = array();
             }
+
+        } else {
+            $_FILES['avatar'] = array();
         }
 
-        $this->set_messages( '<i class="fa fa-check"></i> Dados salvo com sucesso!', false, 'success');
+        if ( ! array_key_exists( 'description', $_POST ) ) {
+            $_POST['description'] = '';
 
+            return false;
+        }
+
+        if ( ! array_key_exists( 'formation', $_POST ) ) {
+            $_POST['formation'] = '';
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'interest', $_POST ) ) {
+            $_POST['interest'] = '';
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'estado', $_POST ) ) {
+            $_POST['estado'] = '';
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'municipio', $_POST ) ) {
+            $_POST['municipio'] = '';
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'municipio', $_POST ) ) {
+            $_POST['municipio'] = '';
+
+            return false;
+        }
+
+
+        if ( ! array_key_exists( 'links', $_POST ) ) {
+            $_POST['links'] = '';
+
+            return false;
+        }
+
+
+        return true;
+
+    }
+
+    static function url(){
+        return esc_url(home_url(RHSRewriteRules::PROFILE_URL));
     }
 }
 

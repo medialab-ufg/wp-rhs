@@ -58,7 +58,7 @@ Class RHSVote {
 			/**
 			 * ROLES
 			 */
-			$option_name = 'roles_edited';
+			$option_name = 'roles_edited2';
 			if ( ! get_option( $option_name ) ) {
 
 				// só queremos que isso rode uma vez
@@ -67,9 +67,12 @@ Class RHSVote {
 				global $wp_roles;
 
 				$contributor = $wp_roles->get_role( 'contributor' );
+                $contributor->add_cap( 'upload_files' );
 
 				// Criamos o role voter copiando as capabilites de author
-				$voter = $wp_roles->add_role( self::ROLE_VOTER, 'Votante', $contributor->capabilities );
+				$wp_roles->remove_role(self::ROLE_VOTER);
+                $voter = $wp_roles->add_role( self::ROLE_VOTER, 'Votante', $contributor->capabilities );
+                $voter = $wp_roles->get_role( self::ROLE_VOTER );
 
 				// Adicionamos a capability de votar a todos os roles que devem
 				$voter->add_cap( 'vote_posts' );
@@ -152,7 +155,7 @@ Class RHSVote {
 
 	function fila_query( $wp_query ) {
 
-		if ( $wp_query->is_main_query() && $wp_query->get( 'filavotacao' ) ) {
+		if ( $wp_query->is_main_query() && $wp_query->get( 'rhs_login_tpl' ) == RHSRewriteRules::VOTING_QUEUE_URL ) {
 
 			$args = array(
 				'post_type'      => 'post',
@@ -166,7 +169,17 @@ Class RHSVote {
 				$wp_query->set( $k, $v );
 			}
 
-		}
+		} elseif ($wp_query->is_single()) {
+        
+            // Permite que pessoas vejam a single dos posts com status Fila de Votação
+            
+            $statuses = ['publish', self::VOTING_QUEUE];
+            if (is_user_logged_in())
+                $statuses[] = 'private';
+            
+            $wp_query->set('post_status', $statuses);
+        
+        }
 
 
 	}
@@ -326,9 +339,9 @@ Class RHSVote {
 			$totalVotes = 0;
 		}
 		if($totalVotes == 1){
-			$textVotes = 'Voto';
+			$textVotes = 'voto';
 		}else{
-			$textVotes = 'Votos';
+			$textVotes = 'votos';
 		}
 
 		$output .= '<span class="vTexto">' . $totalVotes . '</span>';

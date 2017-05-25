@@ -25,7 +25,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="mail">Endereço de email</label>
-                                                <input value="<?php echo $RHSUser->get_user_data('user_email') ?>" disabled class="form-control" type="text" id="mail" name="mail" size="60" maxlength="254">
+                                                <input value="<?php echo $RHSUser->get_user_data('user_login') ?>" disabled class="form-control" type="text" id="mail" name="mail" size="60" maxlength="254">
                                                 <input value="<?php echo $RHSUser->getKey(); ?>" name="edit_user_wp" type="hidden" />
                                                 <p class="help-block">Um email válido. Todos os emails do sistema são
                                                     enviados para este endereço. O email não é visível para o público e
@@ -86,7 +86,11 @@
                                                 <textarea class="form-control form-textarea" id="description" name="description" rows="4"><?php echo $RHSUser->get_user_data('description'); ?></textarea>
                                             </div>
                                         </div>
-                                        <?php UFMunicipio::form( array(
+                                        <?php
+
+                                        $location = get_user_ufmun($RHSPerfil->getUserId());
+
+                                        UFMunicipio::form( array(
                                             'content_before' => '<div class="row">',
                                             'content_after' => '</div>',
                                             'content_before_field' => '<div class="col-md-6"><div class="form-group float-label-control">',
@@ -95,8 +99,8 @@
                                             'city_label'   => 'Cidade &nbsp',
                                             'select_class' => 'form-control',
                                             'label_class'  => 'control-label col-sm-4',
-                                            'selected_state' => $RHSUser->get_user_data('rhs_state'),
-                                            'selected_municipio' => $RHSUser->get_user_data('rhs_city')
+                                            'selected_state' => $location['uf']['id'],
+                                            'selected_municipio' => $location['mun']['id']
                                         ) ); ?>
                                         <div class="col-sm-12">
                                             <div class="form-group">
@@ -107,7 +111,7 @@
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label for="edit-interesses">Interesses</label>
-                                                <textarea class="form-control form-textarea" id="interest" name="rhs_interest" rows="4"><?php echo $RHSUser->get_user_data('rhs_interest'); ?></textarea>
+                                                <textarea class="form-control form-textarea" id="interest" name="interest" rows="4"><?php echo $RHSUser->get_user_data('rhs_interest'); ?></textarea>
                                             </div>
                                         </div>
                                     </div>

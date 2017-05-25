@@ -10,7 +10,7 @@ jQuery( function( $ ) {
             ignore: ".ignore",
             errorElement: 'p',
             errorClass: 'block-error',
-            focusInvalid: true,
+            focusInvalid: false,
             ignore: '',
             rules: {
                 mail: {
@@ -136,7 +136,7 @@ jQuery( function( $ ) {
         $('#login').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
-            focusInvalid: true,
+            focusInvalid: false,
             ignore: '',
             rules: {
                 log: {
@@ -194,7 +194,7 @@ jQuery( function( $ ) {
         $('#lostpassword').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
-            focusInvalid: true,
+            focusInvalid: false,
             ignore: '',
             rules: {
                 user_login: {
@@ -257,7 +257,7 @@ jQuery( function( $ ) {
         $('#retrievepassword').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
-            focusInvalid: true,
+            focusInvalid: false,
             ignore: '',
             rules: {
                 pass1: {
@@ -314,7 +314,7 @@ jQuery( function( $ ) {
         $('#perfil').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
-            focusInvalid: true,
+            focusInvalid: false,
             ignore: '',
             rules: {
                 pass_old: {
@@ -412,8 +412,7 @@ jQuery( function( $ ) {
             ignore: '[type="button"], .ms-sel-ctn input',
             rules: {
                 title: {
-                    required: true,
-                    minlength: 15
+                    required: true
                 },
                 category: {
                     required: true
@@ -421,8 +420,7 @@ jQuery( function( $ ) {
             },
             messages: {
                 title: {
-                    required: 'Preencha o titulo.',
-                    minlength: 'Tamanho mínimo de 15 caracteres'
+                    required: 'Preencha o titulo.'
                 },
                 category: {
                     required: 'Selecione a categoria'

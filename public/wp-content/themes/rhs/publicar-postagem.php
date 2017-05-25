@@ -1,13 +1,48 @@
+<?php
+
+$edit_post = get_query_var('rhs_edit_post');
+
+$current_post = false;
+$cur_title = '';
+$cur_content = '';
+$cur_state = false;
+$cur_city = false;
+
+if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post', $edit_post) ) {
+
+    $current_post = get_post($edit_post);
+    
+    $cur_title = $current_post->post_title;
+    $cur_content = $current_post->post_content;
+    $cur_ufmun = get_post_ufmun($edit_post);
+    
+    if (is_numeric($cur_ufmun['uf']['id']))
+        $cur_state = $cur_ufmun['uf']['id'];
+    
+    if (is_numeric($cur_ufmun['mun']['id']))
+        $cur_city = $cur_ufmun['mun']['id'];
+    
+    
+
+} 
+?>
+
+
 <?php get_header(); ?>
 <?php global $RHSPost; ?>
     <div class="row">
         <!-- Container -->
         <form method="post" class="form-horizontal" id="posting" role="form" action="">
+            
+            <?php if ($current_post): ?>
+                <input type="hidden" name="current_ID" value="<?php echo $edit_post; ?>" />
+            <?php endif; ?>
+            
             <div class="col-xs-12 col-md-9">
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="verDados">
                         <div class="jumbotron perfil">
-                            <h3 class="perfil-title">Criar Post</h3>
+                            <h3 class="perfil-title"><?php echo $current_post ? 'Editar' : 'Criar'; ?> Post</h3>
                             <div class="row">
                                 <div class="col-xs-12">
                                     <?php foreach ($RHSPost->messages() as $type => $messages){ ?>
@@ -21,24 +56,27 @@
                                         <div class="panel-body">
                                             <div class="form-group">
                                                 <label for="title">Título <span class="form-required" title="Este campo é obrigatório.">*</span></label>
-                                                <input class="form-control" type="text" id="title" name="title" size="60" maxlength="254">
+                                                <input class="form-control" type="text" id="title" name="title" size="60" maxlength="254" value="<?php echo $cur_title; ?>">
                                                 <input class="form-control" type="hidden" value="<?php echo $RHSPost->getKey(); ?>" name="post_user_wp" />
                                             </div>
                                             <div class="form-group">
-                                                <label for="descricao">Descrição</label>
+                                                <label for="descricao">Conteúdo</label>
                                                 <?php
-                                                wp_editor( 'Escreva seu Post.', 'public_post', array(
-                                                    'media_buttons' => true,
-                                                    // show insert/upload button(s) to users with permission
-                                                    'dfw'           => false,
-                                                    // replace the default full screen with DFW (WordPress 3.4+)
-                                                    'tinymce'       => array(
-                                                        'theme_advanced_buttons1' => 'bold,italic,underline,strikethrough,bullist,numlist,code,blockquote,link,unlink,outdent,indent,|,undo,redo,fullscreen,paste'
-                                                    ),
-                                                    'quicktags'     => array(
-                                                        'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close'
-                                                    )
-                                                ) );
+                                                wp_editor( $current_post ? $cur_content : 'Escreva seu Post.', 
+                                                            'public_post', 
+                                                            array(
+                                                                'media_buttons' => true,
+                                                                // show insert/upload button(s) to users with permission
+                                                                'dfw'           => false,
+                                                                // replace the default full screen with DFW (WordPress 3.4+)
+                                                                'tinymce'       => array(
+                                                                    'theme_advanced_buttons1' => 'bold,italic,underline,strikethrough,bullist,numlist,code,blockquote,link,unlink,outdent,indent,|,undo,redo,fullscreen,paste'
+                                                                ),
+                                                                'quicktags'     => array(
+                                                                    'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close'
+                                                                )
+                                                            ) 
+                                                );
                                                 ?>
                                             </div>
                                             <div class="form-group">
@@ -75,6 +113,8 @@
                                                 'city_label' => 'Cidade &nbsp',
                                                 'select_class' => 'form-control',
                                                 'show_label' => false,
+                                                'selected_state' => $cur_state,
+                                                'selected_municipio' => $cur_city,
                                             ) ); ?>
                                             <div class="form-group">
                                                 <select class="form-control" name="category">
@@ -85,11 +125,11 @@
                                                 </select>
                                             </div>
                                             <div class="form-group text-center">
-                                                <button type="submit" name="type" value="draft" class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO
+                                                <button type="submit" name="status" value="draft" class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO
                                                 </button>
                                                 <button type="button" class="btn btn-default form-submit rasc_visu" id="pre-visualizar">PRÉ-VISUALIZAR
                                                 </button>
-                                                <button type="submit" name="type" value="publish" class="btn btn-danger form-submit publicar">PUBLICAR POST
+                                                <button type="submit" name="status" value="publish" class="btn btn-danger form-submit publicar">PUBLICAR POST
                                                 </button>
                                             </div>
                                         </div>

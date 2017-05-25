@@ -48,8 +48,8 @@ Class UFMunicipio {
 
         if (is_array($cidades) && count($cidades) > 0) {
             foreach ($cidades as $cidade) {
-                $selected = selected($currentCity, $cidade->nome);
-                $output .= "<option value='{$cidade->nome}' $selected>{$cidade->nome}</option>";
+                $selected = selected($currentCity, $cidade->id);
+                $output .= "<option value='{$cidade->id}' $selected>{$cidade->nome}</option>";
             }
         } else {
             return "<option value=''>Selecione a cidade...</option>";
@@ -73,10 +73,10 @@ Class UFMunicipio {
         $output = "<option value=''>Selecione o estado...</option>";
         
         foreach ($states as $state) {
-            $selected = selected($currentState, $state->sigla);
+            $selected = selected($currentState, $state->id);
             $output .= "<option value='{$state->id}' $selected>{$state->nome}</option>";
         }
-        
+
         return $output;
     
     }
@@ -101,7 +101,7 @@ Class UFMunicipio {
      * @return null
      */
     static function print_states_options($currentState = '') {
-        echo self::get_states_options($currentState);
+        echo self::get_states_options($currentState, $type);
     }
     
     
@@ -199,8 +199,7 @@ Class UFMunicipio {
             'separator' => '',
             'select_class' => '',
             'label_class' => '',
-            'show_label' => true,
-            
+            'show_label' => true
         );
 
         $params = array_merge($defaults, $params);
@@ -260,7 +259,7 @@ Class UFMunicipio {
     
     
     
-    function add_post_meta($post_id, $cod_mun, $cod_uf = null) {
+    static function add_post_meta($post_id, $cod_mun, $cod_uf = null) {
     
         if (is_null($cod_uf)) $cod_uf = substr($cod_mun, 1, 2);
         
@@ -269,7 +268,7 @@ Class UFMunicipio {
     
     }
     
-    function add_user_meta($user_id, $cod_mun, $cod_uf = null) {
+    static  function add_user_meta($user_id, $cod_mun, $cod_uf = null) {
     
         if (is_null($cod_uf)) $cod_uf = substr($cod_mun, 1, 2);
         
@@ -281,16 +280,24 @@ Class UFMunicipio {
     static function get_post_meta($post_id) {
         global $wpdb;
         $result = array();
-        
+
         $result['uf'] = ['id' => get_post_meta($post_id, self::UF_META, true)];
         $result['mun'] = ['id' => get_post_meta($post_id, self::MUN_META, true)];
         
         if ($result['uf']['id']) {
-            $result['uf'] = array_merge($result['uf'], $wpdb->get_row( $wpdb->prepare("SELECT * FROM uf WHERE id = %d", $result['uf']), ARRAY_A));
+            $result_uf = $wpdb->get_row( $wpdb->prepare("SELECT * FROM uf WHERE id = %d", $result['uf']), ARRAY_A);
+
+            if($result_uf){
+                $result['uf'] = array_merge($result['uf'], $result_uf);
+            }
         }
         
         if ($result['mun']['id']) {
-            $result['mun'] = array_merge($result['mun'], $wpdb->get_row( $wpdb->prepare("SELECT * FROM municipio WHERE id = %d", $result['mun']), ARRAY_A));
+            $result_mun = $wpdb->get_row( $wpdb->prepare("SELECT * FROM municipio WHERE id = %d", $result['mun']), ARRAY_A);
+
+            if($result_mun){
+                $result['mun'] = array_merge($result['mun'], $result_mun);
+            }
         }
         
         return $result;
@@ -359,6 +366,7 @@ Class UFMunicipio {
     
         $meta = self::get_user_meta($user_id);
         static $mun_html, $uf_html, $uf_link;
+
         if ($meta['uf']['id']) {
         
             $uf_link = self::get_uf_link($meta['uf']['id'], $meta['uf']);
@@ -394,7 +402,7 @@ function add_post_ufmun_meta($post_id, $cod_mun, $cod_uf = null) {
 }
 
 function add_user_ufmun_meta($user_id, $cod_mun, $cod_uf = null) {
-    return UFMunicipio::add_post_meta($user_id, $cod_mun, $cod_uf);
+    return UFMunicipio::add_user_meta($user_id, $cod_mun, $cod_uf);
 }
 
 function get_post_ufmun($post_id) {
@@ -402,7 +410,7 @@ function get_post_ufmun($post_id) {
 }
 
 function get_user_ufmun($user_id) {
-    return UFMunicipio::get_post_meta($user_id);
+    return UFMunicipio::get_user_meta($user_id);
 }
 
 /* Template Tags */

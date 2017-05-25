@@ -8,6 +8,7 @@ if(!function_exists('rhs_setup')) :
             session_start();
         }
 
+        require_once('inc/uf-municipio/uf-municipio.php');
         require_once('inc/message/message.php');
         require_once('inc/uf-municipio/uf-municipio.php');
         require_once('inc/rewrite-rules/rewrite-rules.php');
@@ -17,10 +18,13 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/user/user.php');
         require_once('inc/perfil/perfil.php');
         require_once('inc/register/register.php');
-        require_once('inc/post/post.php');
+        
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');
         require_once('inc/carrossel/carrossel.php');
+        
+        // Publicar posts - precisa ser carregado por último
+        require_once('inc/post/post.php');
 
         //// Drupal 7 Password Check
         require_once('inc/drupal-password-check.php');

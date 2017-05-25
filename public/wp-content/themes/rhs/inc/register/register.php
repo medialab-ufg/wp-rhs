@@ -6,77 +6,58 @@ class RHSRegister extends RHSMenssage {
 
     function __construct() {
 
-        if(empty(self::$instance)){
-            add_action('wp_ajax_check_email_exist', array( &$this, 'check_email_exist' ) );
-            add_filter( 'register_url', array( &$this, 'register_url' ) );
+        add_action('wp_ajax_nopriv_check_email_exist', array( &$this, 'check_email_exist' ) );
+        add_filter( "register_url", array( &$this, "register_url" ) );
 
-            if(!empty($_POST['register_user_wp']) && $_POST['register_user_wp'] == $this->getKey()){
-                $this->save_by_post();
+        $this->trigger_by_post();
+    }
+
+    private function trigger_by_post() {
+        if ( ! empty( $_POST['register_user_wp'] ) && $_POST['register_user_wp'] == $this->getKey() ) {
+
+            if ( ! $this->validate_by_post() ) {
+                return;
             }
-        }
 
-        self::$instance = true;
+            $this->insert(
+                $_POST['mail'],
+                $_POST['first_name'],
+                $_POST['last_name'],
+                $_POST['pass'],
+                $_POST['description'],
+                $_POST['estado'],
+                $_POST['municipio'] );
+        }
     }
 
-    static function register_url( $url ) {
-        return home_url( RHSRewriteRules::REGISTER_URL );
-    }
-
-    function save_by_post(){
-
-        if(!$_POST){
-            return array();
-        }
-
-        $this->clear_messages();
-
-        if(!array_key_exists('mail', $_POST)){
-           $this->set_messages(array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha o seu email!'));
-            return;
-        }
-
-        if(!array_key_exists('first_name', $_POST)){
-            $this->set_messages(array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha o seu primeiro nome!'));
-            return;
-        }
-
-        if(!array_key_exists('last_name', $_POST)){
-            $this->set_messages(array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha o seu último nome!'));
-            return;
-        }
-
-        if(!array_key_exists('pass', $_POST)){
-            $this->set_messages(array('error' => '<i class="fa fa-exclamation-triangle "></i> Preencha a sua senha!'));
-            return;
-        }
+    function insert( $mail, $first_name, $last_name, $pass, $description, $state, $city ) {
 
         $userdata = array(
-            'user_login'  =>  $_POST['mail'],
-            'email' => $_POST['mail'],
-            'first_name'  => $_POST['first_name'],
-            'last_name'  => $_POST['last_name'],
-            'user_url'    =>  '',
-            'user_pass'   =>  $_POST['pass'],
-            'description' => $_POST['description'] ? $_POST['description'] : ''
+            'user_login'  => wp_strip_all_tags( trim( $mail ) ),
+            'user_email'       => wp_strip_all_tags( trim( $mail ) ),
+            'first_name'  => wp_strip_all_tags( trim( $first_name ) ),
+            'last_name'   => wp_strip_all_tags( trim( $last_name ) ),
+            'user_url'    => '',
+            'user_pass'   => $pass,
+            'description' => $description,
+            'role' => 'contributor'
         );
 
-        $user_id = wp_insert_user( $userdata ) ;
+        $user_id = wp_insert_user( $userdata );
 
-        add_user_meta( $user_id, 'rhs_state', $_POST['estado']);
+        add_user_ufmun_meta( $user_id, $city, $state );
 
-        add_user_meta( $user_id, 'rhs_city', $_POST['municipio']);
-
-        $perfil = new RHSPerfil($user_id);
+        $perfil = new RHSPerfil( $user_id );
         $perfil->clear_messages();
-        $perfil->set_messages('<i class="fa fa-check"></i> Cadastro realizado', false, 'success' );
+        $perfil->set_messages( '<i class="fa fa-check"></i> Cadastro realizado', false, 'success' );
 
-        $user_login     = esc_attr($_POST["mail"]);
-        $user_password  = esc_attr($_POST["pass"]);
+        $user_login    = esc_attr( $mail );
+        $user_password = esc_attr( $pass );
 
-        $creds = array();
-        $creds['user_login'] = $user_login;
+        $creds                  = array();
+        $creds['user_login']    = $user_login;
         $creds['user_password'] = $user_password;
-        $creds['remember'] = true;
+        $creds['remember']      = true;
 
         $user = wp_signon( $creds, false );
 
@@ -89,26 +70,89 @@ class RHSRegister extends RHSMenssage {
             $login = new RHSLogin();
             $login->clear_messages();
 
-            foreach ($user->get_error_message() as $error){
-                $login->set_messages($error, false, 'success');
+            foreach ( $user->get_error_message() as $error ) {
+                $login->set_messages( $error, false, 'success' );
             }
-            wp_redirect( esc_url( home_url( '/login' ) ) );
+            wp_redirect( RHSLogin::url() );
+
             return;
         }
 
-        wp_redirect( esc_url( home_url( '/perfil' ) ) );
+        wp_redirect( RHSPerfil::url() );
         exit;
 
     }
 
-    function check_email_exist(){
+    function validate_by_post() {
+
+        $this->clear_messages();
+
+        if ( ! array_key_exists( 'mail', $_POST ) ) {
+            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Preencha o seu email!', false, 'error' );
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'first_name', $_POST ) ) {
+            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Preencha o seu primeiro nome!', false,
+                'error' );
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'last_name', $_POST ) ) {
+            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Preencha o seu último nome!', false,
+                'error' );
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'pass', $_POST ) ) {
+            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Preencha a sua senha!', false, 'error' );
+
+            return false;
+        }
+
+        if ( ! RHSCaptcha::is_valid_by_post($_POST) ) {
+            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Marque o Captcha!', false, 'error' );
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'description', $_POST ) ) {
+            $_POST['description'] = '';
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'estado', $_POST ) ) {
+            $_POST['estado'] = '';
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'municipio', $_POST ) ) {
+            $_POST['municipio'] = '';
+
+            return false;
+        }
+
+        return true;
+    }
+
+    static function register_url( $url ) {
+        return home_url( RHSRewriteRules::REGISTER_URL );
+    }
+
+    public function check_email_exist() {
 
         $email = $_POST['email'];
 
-        if ( username_exists( $email ) )
+        if ( username_exists( $email ) ) {
             echo json_encode( true );
-        else
+        } else {
             echo json_encode( false );
+        }
 
         exit;
 

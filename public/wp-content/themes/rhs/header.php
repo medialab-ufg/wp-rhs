@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="<?php bloginfo( 'charset' ); ?>" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon.ico" />
-        <title><?php wp_title( '|', true, 'right' ); bloginfo( 'name' );?></title>
-        <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
+<head>
+    <meta charset="<?php bloginfo( 'charset' ); ?>"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon.ico"/>
+    <title><?php wp_title( '|', true, 'right' );
+        bloginfo( 'name' ); ?></title>
+    <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>"/>
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -49,19 +50,51 @@
                                         if(!wp_is_mobile()):
                                 ?>
                                             <li class="dropdown user-dropdown">
-                                                <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  style="color: #fff"><?php echo $usuario->display_name.' '.$RHSUser->getAvatarImage(); ?> <i class="icon-textDown fa fa-angle-down"></i></a>
+                                                <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  style="color: #fff"><?php echo $usuario->display_name; ?><img src="<?php echo $RHSUser->getAvatarImage(); ?>" alt="<?php echo $RHSUser->get_user_data('display_name'); ?>" class="img-circle "> <i class="icon-textDown fa fa-angle-down"></i></a>
                                                 <ul class="dropdown-menu">
-                                                    <li class="menu-item"><a href="<?php echo get_home_url();?>/publicar-postagem"><i class="icones-dropdown fa fa-pencil-square-o" aria-hidden="true"></i> Publicar Post</a></li>
-                                                    <li class="menu-item"><a href="<?php echo get_home_url();?>/usuario/<?php echo $usuario->user_login; ?>"><i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil</a></li>
-                                                    <li class="menu-item"><a href="<?php echo get_home_url();?>/minhas-postagens"><i class="icones-dropdown fa fa-calendar" aria-hidden="true"></i> Minhas Postagens</a></li>
-                                                    <li class="menu-item"><a href="<?php echo wp_logout_url(); ?>"><i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair</a></li>
+                                                    <li class="menu-item">
+                                                        <a href="<?php echo home_url(RHSRewriteRules::POST_URL); ?>">
+                                                            <i class="icones-dropdown fa fa-pencil-square-o" aria-hidden="true"></i> Publicar Post
+                                                        </a>
+                                                    </li>
+                                                    <li class="menu-item">
+                                                        <a href="<?php echo home_url(RHSRewriteRules::PROFILE_URL); ?>">
+                                                            <i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil
+                                                        </a>
+                                                    </li>
+                                                    <li class="menu-item">
+                                                        <a href="<?php echo home_url('minhas-postagens');?>">
+                                                            <i class="icones-dropdown fa fa-calendar" aria-hidden="true"></i> Minhas Postagens
+                                                        </a>
+                                                    </li>
+                                                    <li class="menu-item">
+                                                        <a href="<?php echo wp_logout_url(); ?>">
+                                                            <i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </li>
                                         <?php else : ?>
-                                            <li class="menu-item"><a href="<?php echo get_home_url();?>/publicar-postagem"><i class="icones-dropdown fa fa-pencil-square-o" aria-hidden="true"></i> Publicar Post</a></li>
-                                            <li class="menu-item"><a href="<?php echo get_home_url();?>/usuario/<?php echo $usuario->user_login; ?>"><i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil</a></li>
-                                            <li class="menu-item"><a href="<?php echo get_home_url();?>/minhas-postagens"><i class="icones-dropdown fa fa-calendar" aria-hidden="true"></i> Minhas Postagens</a></li>
-                                            <li class="menu-item"><a href="<?php echo wp_logout_url(); ?>"><i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair</a></li>
+                                            <li class="menu-item">
+                                                <a href="<?php echo home_url(RHSRewriteRules::POST_URL); ?>">
+                                                    <i class="icones-dropdown fa fa-pencil-square-o" aria-hidden="true"></i> Publicar Post
+                                                </a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="<?php echo home_url(RHSRewriteRules::PROFILE_URL); ?>">
+                                                    <i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil
+                                                </a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="<?php echo home_url('minhas-postagens');?>">
+                                                    <i class="icones-dropdown fa fa-calendar" aria-hidden="true"></i> Minhas Postagens
+                                                </a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="<?php echo wp_logout_url(); ?>">
+                                                    <i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair
+                                                </a>
+                                            </li>
                                         <?php endif; ?>
                                 <?php endif; ?>
                             </ul>
@@ -104,5 +137,5 @@
             </nav>
         </header> <!-- /.header -->
 
-        <section>
-            <div class="container">
+<section>
+    <div class="container">

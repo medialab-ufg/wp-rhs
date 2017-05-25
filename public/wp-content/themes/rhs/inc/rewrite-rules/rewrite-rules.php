@@ -33,6 +33,7 @@ class RHSRewriteRules {
             self::VOTING_QUEUE_URL . "/?$"      => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::VOTING_QUEUE_URL,
             self::PROFILE_URL . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::PROFILE_URL,
             self::POST_URL . "/?$"              => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL,
+            self::POST_URL . "/([^/]+)/?$"      => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL . "&rhs_edit_post=" . $wp_rewrite->preg_index(1),
             self::POSTAGENS_URL . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POSTAGENS_URL,
             /* Páginas padrões antigas */
             'login' . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
@@ -51,6 +52,7 @@ class RHSRewriteRules {
 
         $public_query_vars[] = "rhs_custom_login";
         $public_query_vars[] = "rhs_login_tpl";
+        $public_query_vars[] = "rhs_edit_post";
 
         return $public_query_vars;
 
