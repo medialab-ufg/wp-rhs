@@ -87,15 +87,9 @@ class RHSPost extends RHSMenssage {
             return;
 
         }
-
-        if ( ! empty( $state ) ) {
-            add_post_meta( $post_ID, 'state', $state, true );
-        }
-
-        if ( ! empty( $city ) ) {
-            add_post_meta( $post_ID, 'city', $city, true );
-        }
-
+        
+        add_post_ufmun_meta($post_ID, $city, $state);
+        
         foreach ($tags as $tag){
             wp_set_post_terms( $post_ID, array($tag) );
         }
