@@ -229,9 +229,6 @@ Primeiro e Segundo DropDown Menu
 *
 *******************/
 .primeiro-menu {
-    .dropdown-menu-right{
-        
-    }
     .dropdown-menu {
         background-color: $cor_fundo_formulario_nav;
         .menu-item a {
@@ -315,6 +312,7 @@ Primeiro e Segundo DropDown Menu
                 }
             }
             a.user-dropdown-link {
+                color: $whiteColor;
                 background-color: #01353e !important;
                 font-weight: bold;
                 margin-top: 13px;
@@ -2023,6 +2021,25 @@ article {
             li {
                 > a{
                     color: $whiteColor;
+                    img{
+                        margin-left: 7px;
+                        margin-right: 2px;
+                        width: 30px;
+                        height: 30px;
+                    }
+                    &:first-child{
+                        border-top: 1px solid $primeira_cor_texto;
+                        margin-top: -2px;
+                    }
+                }
+            }
+            >a{
+                color: $primeira_cor_texto;
+                >img{
+                    margin-left: 7px;
+                    margin-right: 2px;
+                    width: 30px;
+                    height: 30px;
                 }
             }
         }
@@ -2049,6 +2066,16 @@ article {
                 li a {
                     padding: 10px 10px;
                     margin-right: -3px;
+                }
+            }
+        }
+        .mobile-nav{
+            li{
+                a{
+                    &:first-child{
+                        border-top: 1px solid $primeira_cor_fundo;
+                        margin-top: -3px;
+                    }
                 }
             }
         }

@@ -50,9 +50,21 @@
                                         if(!wp_is_mobile()):
                                 ?>
                                             <li class="dropdown user-dropdown">
-                                                <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  style="color: #fff"><?php echo $usuario->display_name; ?><img src="<?php echo $RHSUser->getAvatarImage(); ?>" alt="<?php echo $RHSUser->get_user_data('display_name'); ?>" class="img-circle "> <i class="icon-textDown fa fa-angle-down"></i></a>
+                                        <?php else : ?>
+                                                <li class="menu-item">
+                                        <?php endif; ?>
+                                                    <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                        <?php echo $usuario->display_name; ?> 
+                                                        <img src="<?php echo $RHSUser->getAvatarImage(); ?>" alt="<?php echo $RHSUser->get_user_data('display_name'); ?>" class="img-circle "> 
+                                                    <?php if(!wp_is_mobile()): ?>
+                                                        <i class="icon-textDown fa fa-angle-down"></i>
+                                                    <?php endif; ?>
+                                                    </a>
+                                            <?php if(wp_is_mobile()): ?>
+                                                </li>
+                                            <?php else : ?>
                                                 <ul class="dropdown-menu">
-                                    <?php endif; ?>
+                                            <?php endif; ?>
                                                     <li class="menu-item">
                                                         <a href="<?php echo home_url(RHSRewriteRules::POST_URL); ?>">
                                                             <i class="icones-dropdown fa fa-pencil-square-o" aria-hidden="true"></i> Publicar Post
