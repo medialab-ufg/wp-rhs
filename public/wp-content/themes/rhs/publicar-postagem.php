@@ -40,8 +40,18 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
     }
 
     $cur_tags = wp_get_post_tags($edit_post);
+    $cur_tags_arr = array();
 
 
+    foreach ($cur_tags as $cur_tag){
+        $cur_tags_arr[] = $cur_tag->name;
+    }
+
+    if($cur_tags_arr){
+        $cur_tags = implode(', ',$cur_tags_arr);
+    } else {
+        $cur_tags = '';
+    }
 } 
 ?>
 
@@ -119,7 +129,7 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
                                     <div class="panel">
                                         <div class="panel-body sidebar-public">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="ms-filter" placeholder="Tags">
+                                                <input type="text" value="" class="form-control" id="ms-filter" placeholder="Tags">
                                             </div>
                                             <?php UFMunicipio::form( array(
                                                 'content_before' => '',
