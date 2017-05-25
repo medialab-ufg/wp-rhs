@@ -36,7 +36,7 @@ class RHSLogin extends RHSMenssage {
     function login_redirect( $redirect_to, $requested_redirect_to, $user ) {
         if ( empty( $redirect_to ) ) {
             //TODO verificar role do usuário para enviar para a página apropriada
-            $redirect_to = admin_url();
+            $redirect_to =  RHSPerfil::url();
         }
 
         return $redirect_to;
