@@ -58,7 +58,7 @@ Class RHSVote {
 			/**
 			 * ROLES
 			 */
-			$option_name = 'roles_edited';
+			$option_name = 'roles_edited2';
 			if ( ! get_option( $option_name ) ) {
 
 				// só queremos que isso rode uma vez
@@ -67,9 +67,12 @@ Class RHSVote {
 				global $wp_roles;
 
 				$contributor = $wp_roles->get_role( 'contributor' );
+                $contributor->add_cap( 'upload_files' );
 
 				// Criamos o role voter copiando as capabilites de author
-				$voter = $wp_roles->add_role( self::ROLE_VOTER, 'Votante', $contributor->capabilities );
+				$wp_roles->remove_role(self::ROLE_VOTER);
+                $voter = $wp_roles->add_role( self::ROLE_VOTER, 'Votante', $contributor->capabilities );
+                $voter = $wp_roles->get_role( self::ROLE_VOTER );
 
 				// Adicionamos a capability de votar a todos os roles que devem
 				$voter->add_cap( 'vote_posts' );
