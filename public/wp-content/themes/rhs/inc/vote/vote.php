@@ -155,7 +155,7 @@ Class RHSVote {
 
 	function fila_query( $wp_query ) {
 
-		if ( $wp_query->is_main_query() && $wp_query->get( 'filavotacao' ) ) {
+		if ( $wp_query->is_main_query() && $wp_query->get( 'rhs_login_tpl' ) == RHSRewriteRules::VOTING_QUEUE_URL ) {
 
 			$args = array(
 				'post_type'      => 'post',
