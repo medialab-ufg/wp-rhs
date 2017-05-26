@@ -2074,7 +2074,7 @@ article {
                     padding-right: 246px;
                 }
                 &.sair a {
-                    padding-right: 287px !important;
+                    padding-right: 294px !important;
                 }
             }
             >a{
@@ -2120,6 +2120,11 @@ article {
                         border-top: 1px solid $primeira_cor_fundo;
                         margin-top: -3px;
                     }
+                }
+            }
+            .menu-item {
+                a{
+                    padding-right: 296px !important;
                 }
             }
         }
