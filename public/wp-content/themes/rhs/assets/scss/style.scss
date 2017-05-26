@@ -707,7 +707,10 @@ h1.titulo-page {
                 border-left: 1px solid #eee;
                 text-align: center;
                 margin-bottom: 5px;
-
+                padding-left: 42px;
+                @media screen and (max-width: 768px){
+                    padding-left: 5px;
+                }
                 span {
                     display: table-header-group;
                 }

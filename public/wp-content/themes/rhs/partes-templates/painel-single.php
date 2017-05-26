@@ -2,10 +2,10 @@
 	<div class="panel-heading">
 		<div class="row post-titulo">
 		<?php $userOBJ = new RHSUser(get_the_author_meta( 'ID' )); ?>
-			<div class="col-xs-9 col-sm-11 col-md-11">
+			<div class="col-xs-9 col-sm-11 col-md-10">
 				<?php the_title( '<h3>', '</h3>' ); ?>
 			</div>
-			<div class="col-xs-3 col-sm-1 col-md-1 vdivide">
+			<div class="col-xs-3 col-sm-1 col-md-2 vdivide">
 				<?php do_action('rhs_votebox', get_the_ID()); ?>
 			</div>
 			<div class="col-xs-4 col-md-3">
