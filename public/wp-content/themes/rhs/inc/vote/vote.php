@@ -179,6 +179,16 @@ Class RHSVote {
             
             $wp_query->set('post_status', $statuses);
         
+        } elseif ($wp_query->is_author()) {
+        
+            // No perfil do usuário, exibir posts de todos os status
+            
+            $statuses = ['publish', self::VOTING_QUEUE, self::VOTING_EXPIRED];
+            if (is_user_logged_in())
+                $statuses[] = 'private';
+            
+            $wp_query->set('post_status', $statuses);
+        
         }
 
 
