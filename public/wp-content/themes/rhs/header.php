@@ -65,12 +65,12 @@
                                             <?php else : ?>
                                                 <ul class="dropdown-menu">
                                             <?php endif; ?>
-                                                    <li class="menu-item">
+                                                    <li class="menu-item pub">
                                                         <a href="<?php echo home_url(RHSRewriteRules::POST_URL); ?>">
                                                             <i class="icones-dropdown fa fa-pencil-square-o" aria-hidden="true"></i> Publicar Post
                                                         </a>
                                                     </li>
-                                                    <li class="menu-item">
+                                                    <li class="menu-item perf">
                                                         <a href="<?php echo get_author_posts_url($usuario->ID); ?>">
                                                             <i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil
                                                         </a>
@@ -80,7 +80,7 @@
                                                             <i class="icones-dropdown fa fa-calendar" aria-hidden="true"></i> Minhas Postagens
                                                         </a>
                                                     </li>
-                                                    <li class="menu-item">
+                                                    <li class="menu-item sair">
                                                         <a href="<?php echo wp_logout_url(); ?>">
                                                             <i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair
                                                         </a>

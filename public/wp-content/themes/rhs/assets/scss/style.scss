@@ -2044,7 +2044,17 @@ article {
                     &:first-child{
                         border-top: 1px solid $primeira_cor_texto;
                         margin-top: -2px;
+                        padding-right: 188px;
                     }
+                }
+                &.pub a {
+                    padding-right: 222px;
+                }
+                &.perf a {
+                    padding-right: 246px;
+                }
+                &.sair a {
+                    padding-right: 287px !important;
                 }
             }
             >a{
