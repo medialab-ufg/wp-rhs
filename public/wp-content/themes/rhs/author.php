@@ -1,5 +1,8 @@
 <?php get_header(); ?>
+<?php
 
+$curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
+?>
     <div class="row">
         <!-- Container -->
         <div class="col-xs-12 col-md-9">
@@ -7,24 +10,24 @@
                 <!-- Button Publicar e Ver Fila de Votação -->
                 <?php get_template_part('partes-templates/buttons-top' ); ?>
             </div>
-			<?php
-			$curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
-			global $RHSUser;
-            $RHSUser = new RHSUser($curauth->ID);
-            $votos   = new RHSVote();
-			?>
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="verDados">
                     <div class="jumbotron">
+                        <?php if($curauth){ ?>
+                            <?php
+                            global $RHSUser;
+                            $RHSUser = new RHSUser($curauth->ID);
+                            $votos   = new RHSVote();
+                            ?>
                         <div class="avatar-user">
-                            <?php get_avatar($RHSUser->getUserId()); ?>
+                            <?php echo get_avatar($RHSUser->getUserId()); ?>
                         </div>
                         <div class="info-user">
                             <p class="nome-author">
                                 <?php echo $RHSUser->get_user_data('display_name'); ?>
                                 <?php if( is_user_logged_in() && is_author(get_current_user_id())) : ?>
-                                    <span class="btn-editar-user"><button class="btn btn-default">EDITAR</button></span>
+                                    <span class="btn-editar-user"><a class="btn btn-default" href="<?php echo home_url(RHSRewriteRules::PROFILE_URL ); ?>">EDITAR</a></span>
                                 <?php endif; ?>
                             </p>
                             <p class="localidade"><?php echo the_user_ufmun($RHSUser->getUserId()); ?></p>
@@ -42,83 +45,87 @@
                             <button class="btn btn-default">ENVIAR MENSAGEM</button>
                         </span>
                         <div class="clearfix"></div>
+                    <?php } else { ?>
+                            <div class="user-unknown">Esse usúario não exite !</div>
+                    <?php } ?>
                     </div>
                 </div>
             </div>
-
-            <!--Informações Pessoais-->
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="InfoPessoais">
-                                <h4 class="panel-title">
-                                    <a class="collapsed" role="button" data-toggle="collapse"
-                                       data-parent="#accordionInfo" href="#info_pessoais" aria-expanded="false"
-                                       aria-controls="info_pessoais">
-                                        Informações Pessoais</a>
-                                </h4>
-                            </div>
-                            <div id="info_pessoais" class="panel-collapse collapse" role="tabpanel"
-                                 aria-labelledby="InfoPessoais">
-                                <div class="panel-body">
-                                    <p class="hide">Grupos: </p>
-                                    <span class="hide">-Privado-</span>
-									<?php if ( $RHSUser->getLinks() ) { ?>
-                                        <p>Links: </p>
-										<?php foreach ( $RHSUser->getLinks() as $key => $link ) { ?>
-                                            <span><a href="<?php echo $link['url'] ?>"><?php echo $link['title'] ?></a></span>
-											<?php if ( count( $RHSUser->getLinks() ) == ( $key + 1 ) ) { ?>
-                                                ,
-											<?php } ?>
-										<?php } ?>
-									<?php } else { ?>
-                                        Sem Informação.
-                                    <?php } ?>
+            <?php if($curauth){ ?>
+                <!--Informações Pessoais-->
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="InfoPessoais">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse"
+                                           data-parent="#accordionInfo" href="#info_pessoais" aria-expanded="false"
+                                           aria-controls="info_pessoais">
+                                            Informações Pessoais</a>
+                                    </h4>
+                                </div>
+                                <div id="info_pessoais" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="InfoPessoais">
+                                    <div class="panel-body">
+                                        <p class="hide">Grupos: </p>
+                                        <span class="hide">-Privado-</span>
+                                        <?php if ( $RHSUser->getLinks() ) { ?>
+                                            <p>Links: </p>
+                                            <?php foreach ( $RHSUser->getLinks() as $key => $link ) { ?>
+                                                <span><a href="<?php echo $link['url'] ?>"><?php echo $link['title'] ?></a></span>
+                                                <?php if ( count( $RHSUser->getLinks() ) == ( $key + 1 ) ) { ?>
+                                                    ,
+                                                <?php } ?>
+                                            <?php } ?>
+                                        <?php } else { ?>
+                                            Sem Informação.
+                                        <?php } ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div><!--Fim Informações Pessoais-->
+                    </div><!--Fim Informações Pessoais-->
 
-                <!--Sobre e Interesses-->
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="SobreInteresses">
-                                <h4 class="panel-title">
-                                    <a class="collapsed" role="button" data-toggle="collapse"
-                                       data-parent="#accordionSobre" href="#sobre_interesses" aria-expanded="false"
-                                       aria-controls="sobre_interesses">
-                                        Sobre e Interesses</a>
-                                </h4>
-                            </div>
-                            <div id="sobre_interesses" class="panel-collapse collapse" role="tabpanel"
-                                 aria-labelledby="SobreInteresses">
-                                <div class="panel-body">
-									<?php if ( $RHSUser->getSobre() ) { ?>
-                                        <p>Sobre: </p>
-                                        <span><?php echo $RHSUser->getSobre(); ?></span>
-									<?php } ?>
-									<?php if ( $RHSUser->getInteresses() ) { ?>
-                                        <p>Interesses: </p>
-                                        <span><?php echo $RHSUser->getInteresses(); ?></span>
-									<?php } ?>
-									<?php if ( $RHSUser->getFormacao() ) { ?>
-                                        <p>Formação: </p>
-                                        <span><?php echo $RHSUser->getFormacao(); ?></span>
-									<?php } ?>
-									<?php if (!($RHSUser->getSobre()) && $RHSUser->getInteresses() && $RHSUser->getFormacao()) { ?>
-                                        Sem informção.
-									<?php } ?>
+                    <!--Sobre e Interesses-->
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="SobreInteresses">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse"
+                                           data-parent="#accordionSobre" href="#sobre_interesses" aria-expanded="false"
+                                           aria-controls="sobre_interesses">
+                                            Sobre e Interesses</a>
+                                    </h4>
+                                </div>
+                                <div id="sobre_interesses" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="SobreInteresses">
+                                    <div class="panel-body">
+                                        <?php if ( $RHSUser->getSobre() ) { ?>
+                                            <p>Sobre: </p>
+                                            <span><?php echo $RHSUser->getSobre(); ?></span>
+                                        <?php } ?>
+                                        <?php if ( $RHSUser->getInteresses() ) { ?>
+                                            <p>Interesses: </p>
+                                            <span><?php echo $RHSUser->getInteresses(); ?></span>
+                                        <?php } ?>
+                                        <?php if ( $RHSUser->getFormacao() ) { ?>
+                                            <p>Formação: </p>
+                                            <span><?php echo $RHSUser->getFormacao(); ?></span>
+                                        <?php } ?>
+                                        <?php if (!($RHSUser->getSobre()) && $RHSUser->getInteresses() && $RHSUser->getFormacao()) { ?>
+                                            Sem informção.
+                                        <?php } ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div><!--Fim Sobre e Interesses-->
-            </div>
+                    </div><!--Fim Sobre e Interesses-->
+                </div>
 
-			<?php get_template_part( 'partes-templates/loop-posts' ); ?>
+                <?php get_template_part( 'partes-templates/loop-posts' ); ?>
+            <?php } ?>
         </div>
         <!-- Sidebar -->
         <div class="col-xs-12 col-md-3"><?php get_sidebar(); ?></div>

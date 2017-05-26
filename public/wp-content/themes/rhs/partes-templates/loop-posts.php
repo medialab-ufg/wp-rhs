@@ -17,7 +17,7 @@
 	</div>
 	<?php
 		else :
-			get_template_part('partes-templates/content', 'none'); 
+			get_template_part('partes-templates/none'); 
 		endif;
 	?>
 </div>

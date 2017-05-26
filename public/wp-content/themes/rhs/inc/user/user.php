@@ -26,9 +26,9 @@ Class RHSUser extends RHSMenssage {
         self::$instance = true;
     }
 
-    function getAvatarImage() {
+    function getAvatarImage($userID = 0) {
 
-        $avatar = $this->getAvatar();
+        $avatar = $this->getAvatar($userID);
 
         if ( ! empty( $avatar ) ) {
             $avatar = get_site_url() . '/../' . $avatar;
@@ -37,8 +37,16 @@ Class RHSUser extends RHSMenssage {
         return $avatar;
     }
 
+    function getAvatarDefault(){
+        $avatar = get_template_directory_uri() . '/assets/images/default.png' ;
+
+        return $avatar;
+    }
+
     function custom_avatar( $avatar, $id_or_email, $size, $default, $alt ) {
         $user = false;
+
+        $avatar = '';
 
         if ( is_numeric( $id_or_email ) ) {
 
@@ -58,11 +66,12 @@ Class RHSUser extends RHSMenssage {
 
         if ( $user && is_object( $user ) ) {
 
-            if ( $user->data->ID == '1' ) {;
+            $avatar = "<img alt='{$alt}' src='{$this->getAvatarImage($user->ID)}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
 
-                $avatar = "<img alt='{$alt}' src='{$this->getAvatarImage()}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
-            }
+        }
 
+        if(!$avatar){
+            $avatar = "<img alt='{$alt}' src='{$this->getAvatarDefault()}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
         }
 
         return $avatar;
@@ -225,9 +234,13 @@ Class RHSUser extends RHSMenssage {
         update_user_meta( $this->userID, 'rhs_avatar', $_POST['rhs_avatar'] );
     }
 
-    function getAvatar() {
+    function getAvatar($userID = 0) {
 
-        return esc_attr( get_the_author_meta( 'rhs_avatar', $this->userID ) );
+        if(!$userID){
+            $this->userID;
+        }
+
+        return esc_attr( get_the_author_meta( 'rhs_avatar', $userID ) );
     }
 
     function getFormacao() {

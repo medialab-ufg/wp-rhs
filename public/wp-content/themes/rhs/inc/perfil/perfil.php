@@ -95,14 +95,14 @@ class RHSPerfil extends RHSMenssage {
             }
 
             if ( @move_uploaded_file ( $arquivo_tmp, WP_CONTENT_DIR . $caminho . $novoNome ) ) {
-                update_user_meta( $user_id, 'rhs_avatar', 'wp-content/'.$caminho.$novoNome);
+                update_user_meta( $user_id, 'rhs_avatar', 'wp-content'.$caminho.$novoNome);
             } else {
                 $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Erro ao salvar o arquivo.', false, 'error');
 
             }
         }
 
-        $this->set_messages( '<i class="fa fa-check"></i> Informações perfil salvas com sucesso!', false, 'success');
+        $this->set_messages( '<i class="fa fa-check"></i> Informações de perfil salvas com sucesso!', false, 'success');
 
     }
 

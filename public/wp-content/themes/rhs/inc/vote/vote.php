@@ -58,7 +58,7 @@ Class RHSVote {
 			/**
 			 * ROLES
 			 */
-			$option_name = 'roles_edited2';
+			$option_name = 'roles_edited3';
 			if ( ! get_option( $option_name ) ) {
 
 				// só queremos que isso rode uma vez
