@@ -3,17 +3,101 @@
 class RHSPost extends RHSMenssage {
 
     private static $instance;
+    private $post;
 
-    function __construct() {
+    function __construct($postID = null) {
+
+        if ( !empty($postID) && is_numeric($postID) && current_user_can('edit_post', $postID) ) {
+            $this->post = get_post($postID);
+        }
 
         if ( empty ( self::$instance ) ) {
             add_action('wp_ajax_get_tags', array( &$this, 'get_tags' ) );
             add_filter('pre_get_posts', array( &$this, 'pre_get_posts' ) );
             $this->trigger_by_post();
-
         }
 
         self::$instance = true;
+    }
+
+    function is_post(){
+        return (bool) $this->post;
+    }
+
+    function get_post(){
+
+        return $this->post;
+    }
+
+    function get_post_data($field){
+
+        if($field == 'category_json'){
+
+            $string = 'data: [';
+
+            foreach ( get_categories() as $categori ) :
+                $string .= "{id:".$categori->term_id.", name:'".$categori->cat_name."'},";
+            endforeach;
+
+            $string .= '],';
+
+            return $string;
+        }
+
+        if(empty($this->post->ID)){
+            return '';
+        }
+
+        if($field == 'tags_json'){
+
+            $tagsData = wp_get_post_tags($this->post->ID);
+            $tagsDataArr = array();
+
+            foreach ($tagsData as $tag){
+                $tagsDataArr[] = $tag->name;
+            }
+
+            if($tagsDataArr){
+                return "['".implode("', '",$tagsDataArr)."']";
+            } else {
+                return '';
+            }
+
+        }
+
+        if($field == 'category'){
+
+            $categoriesData = wp_get_post_categories($this->post->ID);
+
+            if($categoriesData){
+                return "['".implode("', '",$categoriesData)."']";
+            } else {
+                return '';
+            }
+
+        }
+
+        if($field == 'state'){
+            $cur_ufmun = get_post_ufmun($this->post->ID);
+
+            if (is_numeric($cur_ufmun['uf']['id'])){
+                return $cur_ufmun['uf']['id'];
+            }
+        }
+
+        if($field == 'city'){
+            $cur_ufmun = get_post_ufmun($this->post->ID);
+
+            if (is_numeric($cur_ufmun['mun']['id'])){
+                return $cur_ufmun['mun']['id'];
+            }
+        }
+
+        if(!empty($this->post->{$field})){
+            return $this->post->{$field};
+        }
+
+        return '';
     }
     
     function pre_get_posts($wp_query) {
@@ -62,7 +146,7 @@ class RHSPost extends RHSMenssage {
             'post_content'  => $content,
             'post_status'   => $status,
             'post_author'   => $authorId,
-            'post_category' => array($category)
+            'post_category' => (is_array($category)) ? $category : array($category)
         );
         
         if (is_numeric($ID))
