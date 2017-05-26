@@ -20,9 +20,52 @@ Class RHSUser extends RHSMenssage {
             add_action( 'edit_user_profile_update', array( &$this, 'save_extra_profile_fields' ) );
             add_action('admin_enqueue_scripts', array( &$this, 'admin_theme_style'));
             add_action('pre_get_posts',array( &$this, 'ml_restrict_media_library'));
+            add_filter( 'get_avatar' , array( &$this, 'custom_avatar') , 1 , 5 );
         }
 
         self::$instance = true;
+    }
+
+    function getAvatarImage() {
+
+        $avatar = $this->getAvatar();
+
+        if ( ! empty( $avatar ) ) {
+            $avatar = get_site_url() . '/../' . $avatar;
+        }
+
+        return $avatar;
+    }
+
+    function custom_avatar( $avatar, $id_or_email, $size, $default, $alt ) {
+        $user = false;
+
+        if ( is_numeric( $id_or_email ) ) {
+
+            $id = (int) $id_or_email;
+            $user = get_user_by( 'id' , $id );
+
+        } elseif ( is_object( $id_or_email ) ) {
+
+            if ( ! empty( $id_or_email->user_id ) ) {
+                $id = (int) $id_or_email->user_id;
+                $user = get_user_by( 'id' , $id );
+            }
+
+        } else {
+            $user = get_user_by( 'email', $id_or_email );
+        }
+
+        if ( $user && is_object( $user ) ) {
+
+            if ( $user->data->ID == '1' ) {;
+
+                $avatar = "<img alt='{$alt}' src='{$this->getAvatarImage()}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+            }
+
+        }
+
+        return $avatar;
     }
 
     function getUserId(){
@@ -180,17 +223,6 @@ Class RHSUser extends RHSMenssage {
         update_user_meta( $this->userID, 'rhs_formation', $_POST['rhs_formation'] );
         update_user_meta( $this->userID, 'rhs_interest', $_POST['rhs_interest'] );
         update_user_meta( $this->userID, 'rhs_avatar', $_POST['rhs_avatar'] );
-    }
-
-    function getAvatarImage() {
-
-        $avatar = $this->getAvatar();
-
-        if ( ! empty( $avatar ) ) {
-            $avatar = get_site_url() . '/../' . $avatar;
-        }
-
-        return $avatar;
     }
 
     function getAvatar() {

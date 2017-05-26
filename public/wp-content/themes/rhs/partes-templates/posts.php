@@ -5,7 +5,7 @@
             <div class="img-usuario">
                 <a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"
                    title="Ver o perfil do(a) <?php the_author_meta( 'display_name' ); ?>.">
-                    <img src="<?php echo $userOBJ->getAvatarImage(); ?>" alt="..." class="img-circle">
+                    <?php get_avatar($userOBJ->getUserId()); ?>
                 </a>
             </div>
             <div class="box-title">

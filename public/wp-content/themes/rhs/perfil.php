@@ -59,7 +59,7 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-image <?php echo !$RHSUser->getAvatar() ? 'hide' : ''; ?>">
-                                                <img style="object-fit: cover;" src="<?php echo $RHSUser->getAvatarImage(); ?>" height="100" width="100"/>
+                                                <?php echo get_avatar($RHSUser->getUserId()); ?>
                                                 <input type="hidden" name="avatar" size="60" value="<?php echo $RHSUser->getAvatar(); ?>">
                                             </div>
                                             <div class="form-group">

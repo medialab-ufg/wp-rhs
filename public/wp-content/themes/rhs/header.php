@@ -54,8 +54,8 @@
                                                 <li class="menu-item">
                                         <?php endif; ?>
                                                     <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                                        <?php echo $usuario->display_name; ?> 
-                                                        <img src="<?php echo $RHSUser->getAvatarImage(); ?>" alt="<?php echo $RHSUser->get_user_data('display_name'); ?>" class="img-circle "> 
+                                                        <?php echo $RHSUser->get_user_data('display_name'); ?>
+                                                        <?php echo get_avatar($RHSUser->getUserId()); ?>
                                                     <?php if(!wp_is_mobile()): ?>
                                                         <i class="icon-textDown fa fa-angle-down"></i>
                                                     <?php endif; ?>

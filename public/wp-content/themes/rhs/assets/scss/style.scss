@@ -145,6 +145,7 @@ body {
                             margin-right: 2px;
                             width: 30px;
                             height: 30px;
+                            border-radius: 25px;
                         }
                     }
                 }
@@ -620,6 +621,7 @@ h1.titulo-page {
                 img {
                     width: 65px;
                     height: 65px;
+                    border-radius: 25px;
                 }
             }
             .box-title{
@@ -1239,24 +1241,34 @@ form .comment-form-comment {
             float: left;
             width: calc(100% - 90px);
             padding-left: 25px;
-                .btn-editar-user{
-                    float: right;
-                }
-                .nome-author {
-                    margin-bottom: -4px;
-                    color: #3c3c3c;
-                    font-weight: normal;
-                }
+            .btn-editar-user{
+                float: right;
+            }
+            .nome-author {
+                margin-bottom: -4px;
+                color: #3c3c3c;
+                font-weight: normal;
+            }
+            .localidade{
+                font-size: 13px;
+                margin-top: 0px;
+            }
+            .contagem{
+                float: left;
+                text-align: center;
+                margin-right: 10px;
                 .contagem-valor-author {
                     line-height: 80%;
                     display: block;
-                    font-size: 1em;
+                    font-size: 16px;
                     font-weight: bold;
                     margin-bottom: -6px;
                 }
                 .contagem-desc-author {
-                    font-size: 0.7em;
+                    font-size: 11px;
                 }
+            }
+
         }
     }
     /*Perfil*/
