@@ -33,11 +33,22 @@ class CarrosselMetabox {
         
         wp_nonce_field( 'save_'.__CLASS__, __CLASS__.'_noncename' );
         
-        $highlighted = get_post_meta($post->ID, "_home", true) == 1 ?  "checked" : "";
+        $_home = get_post_meta($post->ID, "_home", true);
+        $highlighted = $_home >= 1 ?  "checked" : "";
         
         ?>
         <input type="checkbox" id="carrossel_<?php echo $post->ID; ?>" name="RHS_Carrossel" <?php echo $highlighted; ?> value="1">
         <label> Adicionar post ao Carrossel </label>
+        <br/>
+        <br/>
+        <label>Posição</label>
+        
+        <select name="RHS_Carrossel_order">
+            <?php for($x=1; $x<=10; $x++): ?>
+                <option value="<?php echo $x; ?>" <?php echo selected($_home, $x); ?> ><?php echo $x; ?></option>
+            <?php endfor; ?>
+        </select>
+        
         <?php
     }
 
@@ -68,8 +79,9 @@ class CarrosselMetabox {
         if(isset($_POST['RHS_Carrossel'])){
             
             if ($_POST['RHS_Carrossel'] == 1)
-                update_post_meta($post_id, '_home', 1);
-            
+                $current = get_post_meta($post_id, "_home", true);
+                if (!$current) $current = 100;
+                Carrossel::move_post_order($post_id, $current, $_POST['RHS_Carrossel_order']);
             
                 
         } else {

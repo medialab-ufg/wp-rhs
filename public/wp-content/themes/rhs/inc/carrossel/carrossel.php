@@ -32,7 +32,7 @@ Class Carrossel {
     static function select($column_name, $id){
 
         if ($column_name=="destaques"){
-            $highlighted = get_post_meta($id, "_home", true) == 1 ?  "checked" : "";
+            $highlighted = get_post_meta($id, "_home", true) >= 1 ?  "checked" : "";
         ?>  
             <input type="checkbox" class="carrossel_button" id="carrossel_<?php echo $id; ?>" <?php echo $highlighted; ?>>
         <?php
@@ -46,6 +46,7 @@ Class Carrossel {
     }
     
     function add() {
+        self::move_order_up();
         update_post_meta($_POST['post_id'], '_home', 1);
         echo 'ok';
         die;
@@ -53,10 +54,52 @@ Class Carrossel {
 
     function remove() {
         delete_post_meta($_POST['post_id'], '_home');
+        self::fix_order();
         echo 'ok';
         die;
     }
     
+    static function fix_order($from = 1) {
+    
+        global $wpdb;
+        $posts = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_key = '_home' AND meta_value >= $from ORDER BY meta_value ASC, meta_id DESC");
+        
+        foreach ($posts as $p) {
+            $wpdb->update($wpdb->postmeta, ['meta_value' => $from], ['meta_id' => $p->meta_id]);
+            $from ++;
+        }
+    
+    }
+    
+    static function move_order_up($from = 1) {
+    
+        global $wpdb;
+        $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = (meta_value + 1) WHERE meta_key = '_home' AND meta_value >= $from");
+    
+    }
+    
+    
+    static function move_post_order($post_id, $from, $to) {
+        global $wpdb;
+        
+        if ($from < $to) {
+            
+            $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = (meta_value - 1) WHERE meta_key = '_home' AND meta_value > $from AND meta_value <= $to");
+            update_post_meta($post_id, '_home', $to);
+            
+        } elseif ($to < $from) {
+            
+            $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = (meta_value + 1) WHERE meta_key = '_home' AND meta_value >= $to");
+            update_post_meta($post_id, '_home', $to);
+        
+        } else {
+            return;
+        }
+        
+        self::fix_order();
+    
+    }
+       
     static function pre_get_posts($wp_query) {
 
         if (!$wp_query->is_main_query())
@@ -73,7 +116,7 @@ Class Carrossel {
     static function get_posts() {
     
     
-        return new WP_Query( 'posts_per_page=-1&meta_key=_home&meta_value=1&ignore_sticky_posts=1&post_type=any' );
+        return new WP_Query( 'posts_per_page=-1&meta_key=_home&orderby=meta_value_num&order=asc&ignore_sticky_posts=1' );
     
     
     }
