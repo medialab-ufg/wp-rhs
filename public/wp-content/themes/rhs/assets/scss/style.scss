@@ -2074,7 +2074,7 @@ article {
                         height: 30px;
                     }
                     &:first-child{
-                        border-top: 1px solid $primeira_cor_texto;
+                        border-top: 1px solid rgba(0, 180, 180, 0.46);
                         margin-top: -2px;
                         padding-right: 188px;
                         white-space: nowrap;
@@ -2130,7 +2130,7 @@ article {
             li{
                 a{
                     &:first-child{
-                        border-top: 1px solid $primeira_cor_fundo;
+                        border-top: 1px solid rgba(0, 60, 70, 0.27);
                         margin-top: -3px;
                     }
 
