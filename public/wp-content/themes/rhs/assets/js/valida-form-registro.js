@@ -10,7 +10,9 @@ jQuery( function( $ ) {
             ignore: ".ignore",
             errorElement: 'p',
             errorClass: 'block-error',
-            focusInvalid: false,
+            focusInvalid: true,
+            focusCleanup: false,
+            onkeyup: false,
             ignore: '',
             rules: {
                 mail: {
@@ -136,7 +138,9 @@ jQuery( function( $ ) {
         $('#login').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
-            focusInvalid: false,
+            focusInvalid: true,
+            focusCleanup: false,
+            onkeyup: false,
             ignore: '',
             rules: {
                 log: {
@@ -194,7 +198,9 @@ jQuery( function( $ ) {
         $('#lostpassword').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
-            focusInvalid: false,
+            focusInvalid: true,
+            focusCleanup: false,
+            onkeyup: false,
             ignore: '',
             rules: {
                 user_login: {
@@ -257,7 +263,9 @@ jQuery( function( $ ) {
         $('#retrievepassword').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
-            focusInvalid: false,
+            focusInvalid: true,
+            focusCleanup: false,
+            onkeyup: false,
             ignore: '',
             rules: {
                 pass1: {
@@ -314,7 +322,9 @@ jQuery( function( $ ) {
         $('#perfil').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
-            focusInvalid: false,
+            focusInvalid: true,
+            focusCleanup: false,
+            onkeyup: false,
             ignore: '',
             rules: {
                 pass_old: {
@@ -408,7 +418,9 @@ jQuery( function( $ ) {
         $('#posting').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
-            focusInvalid: false,
+            focusInvalid: true,
+            focusCleanup: false,
+            onkeyup: false,
             ignore: '[type="button"], .ms-sel-ctn input',
             rules: {
                 title: {

@@ -300,10 +300,11 @@ add_filter('tiny_mce_before_init', 'change_paste_as_text', 1, 2);
 
 
 // Esconde admin dos usuários comuns
+/*
 add_action('admin_init', 'tnb_so_admin_no_admin');
 function tnb_so_admin_no_admin() {
     if ((!defined('DOING_AJAX') || false === DOING_AJAX) && !current_user_can('moderate_comments')) {
         wp_redirect(get_bloginfo('siteurl'));
         exit;
     }
-}
+}*/

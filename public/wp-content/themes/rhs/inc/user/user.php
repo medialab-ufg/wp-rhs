@@ -46,7 +46,6 @@ Class RHSUser extends RHSMenssage {
     function custom_avatar( $avatar, $id_or_email, $size, $default, $alt ) {
         $user = false;
 
-        $avatar = '';
 
         if ( is_numeric( $id_or_email ) ) {
 
@@ -65,13 +64,7 @@ Class RHSUser extends RHSMenssage {
         }
 
         if ( $user && is_object( $user ) ) {
-
             $avatar = "<img alt='{$alt}' src='{$this->getAvatarImage($user->ID)}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
-
-        }
-
-        if(!$avatar){
-            $avatar = "<img alt='{$alt}' src='{$this->getAvatarDefault()}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
         }
 
         return $avatar;

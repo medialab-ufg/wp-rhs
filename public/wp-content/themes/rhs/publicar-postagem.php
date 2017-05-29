@@ -1,77 +1,16 @@
-<?php
-
-$edit_post = get_query_var('rhs_edit_post');
-
-$current_post = false;
-$cur_title = '';
-$cur_content = '';
-$cur_state = false;
-$cur_city = false;
-$cur_status = false;
-$cur_category = false;
-$cur_tags = false;
-
-if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post', $edit_post) ) {
-
-    $current_post = get_post($edit_post);
-
-    $cur_status = $current_post->post_status;
-    $cur_title = $current_post->post_title;
-    $cur_content = $current_post->post_content;
-    $cur_ufmun = get_post_ufmun($edit_post);
-    
-    if (is_numeric($cur_ufmun['uf']['id']))
-        $cur_state = $cur_ufmun['uf']['id'];
-    
-    if (is_numeric($cur_ufmun['mun']['id']))
-        $cur_city = $cur_ufmun['mun']['id'];
-
-    $cur_category = wp_get_post_categories($edit_post);
-
-    if($cur_category){
-
-        $cur_category = current($cur_category);
-        $cur_category = get_category($cur_category);
-
-        if($cur_category){
-            $cur_category = $cur_category->term_id;
-        }
-
-    }
-
-    $cur_tags = wp_get_post_tags($edit_post);
-
-    $cur_tags_arr = array();
-
-
-    foreach ($cur_tags as $cur_tag){
-        $cur_tags_arr[] = $cur_tag->name;
-    }
-
-    if($cur_tags_arr){
-        $cur_tags = "['".implode("', '",$cur_tags_arr)."']";
-    } else {
-        $cur_tags = '';
-    }
-} 
-?>
-
-
 <?php get_header(); ?>
-<?php global $RHSPost; ?>
+<?php $RHSPost = new RHSPost(get_query_var('rhs_edit_post')); ?>
     <div class="row">
         <!-- Container -->
         <form method="post" class="form-horizontal" id="posting" role="form" action="">
-            
-            <?php if ($current_post): ?>
-                <input type="hidden" id="post_ID" name="post_ID" value="<?php echo $edit_post; ?>" />
+            <?php if ($RHSPost->is_post()): ?>
+                <input type="hidden" id="post_ID" name="post_ID" value="<?php echo $RHSPost->get_post_data('ID'); ?>" />
             <?php endif; ?>
-            
             <div class="col-xs-12 col-md-9">
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="verDados">
                         <div class="jumbotron perfil">
-                            <h3 class="perfil-title"><?php echo $current_post ? 'Editar' : 'Criar'; ?> Post</h3>
+                            <h3 class="perfil-title"><?php echo $RHSPost->is_post() ? 'Editar' : 'Criar'; ?> Post</h3>
                             <div class="row">
                                 <div class="col-xs-12">
                                     <?php foreach ($RHSPost->messages() as $type => $messages){ ?>
@@ -86,26 +25,25 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
                                         <div class="panel-body">
                                             <div class="form-group">
                                                 <label for="title">Título <span class="form-required" title="Este campo é obrigatório.">*</span></label>
-                                                <input class="form-control" type="text" id="title" name="title" size="60" maxlength="254" value="<?php echo $cur_title; ?>">
+                                                <input class="form-control" type="text" id="title" name="title" size="60" maxlength="254" value="<?php echo $RHSPost->get_post_data('post_title'); ?>">
                                                 <input class="form-control" type="hidden" value="<?php echo $RHSPost->getKey(); ?>" name="post_user_wp" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="descricao">Conteúdo</label>
                                                 <?php
-                                                wp_editor( $current_post ? $cur_content : 'Escreva seu Post.', 
-                                                            'public_post', 
-                                                            array(
-                                                                'media_buttons' => true,
-                                                                // show insert/upload button(s) to users with permission
-                                                                'dfw'           => false,
-                                                                // replace the default full screen with DFW (WordPress 3.4+)
-                                                                'tinymce'       => array(
-                                                                    'theme_advanced_buttons1' => 'bold,italic,underline,strikethrough,bullist,numlist,code,blockquote,link,unlink,outdent,indent,|,undo,redo,fullscreen,paste'
-                                                                ),
-                                                                'quicktags'     => array(
-                                                                    'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close'
-                                                                )
-                                                            ) 
+                                                wp_editor( $RHSPost->is_post() ? $RHSPost->get_post_data('post_content') : 'Escreva seu Post.', 'public_post',
+                                                    array(
+                                                        'media_buttons' => true,
+                                                        // show insert/upload button(s) to users with permission
+                                                        'dfw'           => false,
+                                                        // replace the default full screen with DFW (WordPress 3.4+)
+                                                        'tinymce'       => array(
+                                                            'theme_advanced_buttons1' => 'bold,italic,underline,strikethrough,bullist,numlist,code,blockquote,link,unlink,outdent,indent,|,undo,redo,fullscreen,paste'
+                                                        ),
+                                                        'quicktags'     => array(
+                                                            'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close'
+                                                        )
+                                                    )
                                                 );
                                                 ?>
                                             </div>
@@ -130,9 +68,9 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
                                     <div class="panel">
                                         <div class="panel-body sidebar-public">
                                             <div class="form-group">
-                                                <input type="text" value="" class="form-control" id="ms-filter" placeholder="Tags">
+                                                <input type="text" value="" class="form-control" id="input-tags" placeholder="Tags">
                                                     <script>
-                                                        var ms = jQuery('#ms-filter').magicSuggest({
+                                                        var ms = jQuery('#input-tags').magicSuggest({
                                                             placeholder: 'Select...',
                                                             allowFreeEntries: false,
                                                             selectionPosition: 'bottom',
@@ -146,9 +84,9 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
                                                             name: 'tags'
                                                         });
 
-                                                        <?php if($cur_tags){ ?>
-                                                            var ms = jQuery('#ms-filter').magicSuggest({});
-                                                            ms.setValue(<?php echo $cur_tags; ?>);
+                                                        <?php if($RHSPost->get_post_data('tags_json')){ ?>
+                                                            var ms = jQuery('#input-tags').magicSuggest({});
+                                                            ms.setValue(<?php echo $RHSPost->get_post_data('tags_json'); ?>);
                                                         <?php } ?>
 
                                                     </script>
@@ -164,22 +102,37 @@ if ( !empty($edit_post) && is_numeric($edit_post) && current_user_can('edit_post
                                                 'city_label' => 'Cidade &nbsp',
                                                 'select_class' => 'form-control',
                                                 'show_label' => false,
-                                                'selected_state' => $cur_state,
-                                                'selected_municipio' => $cur_city,
+                                                'selected_state' => $RHSPost->get_post_data('state'),
+                                                'selected_municipio' => $RHSPost->get_post_data('city'),
                                             ) ); ?>
                                             <div class="form-group">
-                                                <select class="form-control" name="category">
-                                                    <option value="">Categoria</option>
-                                                    <?php foreach ( get_categories() as $categori ) : ?>
-                                                        <option <?php selected($cur_category, $categori->term_id, true) ?> value="<?php echo $categori->term_id; ?>"><?php echo $categori->cat_name; ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
+                                                <input type="text" value="" class="form-control" id="input-category" placeholder="Categoria">
                                             </div>
+                                            <script>
+
+                                                var ms = jQuery('#input-category').magicSuggest({
+                                                    placeholder: 'Select...',
+                                                    allowFreeEntries: false,
+                                                    selectionPosition: 'bottom',
+                                                    selectionStacked: true,
+                                                    <?php echo $RHSPost->get_post_data('category_json'); ?>
+                                                    selectionRenderer: function(data){
+                                                        return data.name;
+                                                    },
+                                                    name: 'category'
+                                                });
+
+                                                <?php if($RHSPost->get_post_data('category')){ ?>
+                                                var ms = jQuery('#input-category').magicSuggest({});
+                                                ms.setValue(<?php echo $RHSPost->get_post_data('category'); ?>);
+                                                <?php } ?>
+
+                                            </script>
                                             <div class="form-group text-center">
                                                 <button type="submit" name="status" value="draft" class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO</button>
                                                 <button type="button" class="btn btn-default form-submit rasc_visu" id="pre-visualizar">PRÉ-VISUALIZAR
                                                 </button>
-                                                <button type="submit" name="status" value="publish" class="btn btn-danger form-submit publicar"><?php echo (!$cur_status || $cur_status == 'draft') ? 'PUBLICAR' : 'EDITAR'; ?>  POST
+                                                <button type="submit" name="status" value="publish" class="btn btn-danger form-submit publicar"><?php echo (!$RHSPost->get_post_data('post_status') || $RHSPost->get_post_data('post_status') == 'draft') ? 'PUBLICAR' : 'EDITAR'; ?>  POST
                                                 </button>
                                             </div>
                                         </div>
