@@ -2002,6 +2002,16 @@ article {
 * Media Querys
 *
 *****************/
+@media only screen and (min-width: 2500px){
+    .navbar-default .navbar-brand > img {
+        margin-left: 734px;
+    }
+}
+@media only screen and (min-width: 1920px){
+    .navbar-default .navbar-brand > img {
+        margin-left: 414px;
+    }
+}
 @media only screen and (min-width: 768px) {
     .navbar-right {
         margin-right: 0;
