@@ -86,6 +86,15 @@ function change_author_permalinks()
 }  
 add_action('init','change_author_permalinks');
 
+function my_wp_is_mobile() {
+    if (
+        ! empty($_SERVER['HTTP_USER_AGENT'])
+
+        // bail out, if iPad
+        && false !== strpos($_SERVER['HTTP_USER_AGENT'], 'iPad')
+    ) return false;
+    return wp_is_mobile();
+}
 
 /* 
 * Incluir JavaScripts necessários no tema 

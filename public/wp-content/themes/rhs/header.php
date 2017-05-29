@@ -36,18 +36,18 @@
                             <?php 
                                 $usuario = wp_get_current_user();
                                 global $RHSUser;
-                                if(wp_is_mobile()){
+                                if(my_wp_is_mobile()){
                                     get_search_form(); 
                                 }
                             ?>
-                            <ul class="nav navbar-nav <?php if(!wp_is_mobile()):?>navbar-right dropdown-menu-right no-mobile<?php else:?>mobile-nav<?php endif;?>">
+                            <ul class="nav navbar-nav <?php if(!my_wp_is_mobile()):?>navbar-right dropdown-menu-right no-mobile<?php else:?>mobile-nav<?php endif;?>">
                                 <?php if(!is_user_logged_in()): ?>
                                     <li><a href="<?php echo wp_login_url(); ?>" style="color: #00b4b4">Faça seu login</a></li>
                                     <span class="navbar-text">ou</span>
                                     <li><a href="<?php echo wp_registration_url(); ?>" style="color: #00b4b4">Cadastre-se</a></li>
                                 <?php 
                                     else : 
-                                        if(!wp_is_mobile()):
+                                        if(!my_wp_is_mobile()):
                                 ?>
                                             <li class="dropdown user-dropdown">
                                         <?php else : ?>
@@ -56,11 +56,11 @@
                                                     <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                                         <?php echo $RHSUser->get_user_data('display_name'); ?>
                                                         <?php echo get_avatar($RHSUser->getUserId()); ?>
-                                                    <?php if(!wp_is_mobile()): ?>
+                                                    <?php if(!my_wp_is_mobile()): ?>
                                                         <i class="icon-textDown fa fa-angle-down"></i>
                                                     <?php endif; ?>
                                                     </a>
-                                            <?php if(wp_is_mobile()): ?>
+                                            <?php if(my_wp_is_mobile()): ?>
                                                 </li>
                                             <?php else : ?>
                                                 <ul class="dropdown-menu">
@@ -94,12 +94,12 @@
                     <div class="collapse navbar-collapse bs-example-navbar-collapse segundo-menu">
                         <div class="container">
                             <?php 
-                                if(!wp_is_mobile()){
+                                if(!my_wp_is_mobile()){
                                     get_search_form(); 
                                 }
                             ?>
                             <?php 
-                                if(wp_is_mobile()): 
+                                if(my_wp_is_mobile()): 
                                     menuDropDownMobile();
                                 else :
                                 ?>
