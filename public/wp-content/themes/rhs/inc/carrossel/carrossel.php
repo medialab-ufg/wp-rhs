@@ -22,7 +22,7 @@ Class Carrossel {
     
     }
     
-    function add_column($defaults){
+    static function add_column($defaults){
         global $post_type;
         if ('post' == $post_type || 'noticias' == $post_type || 'imprensa' == $post_type)
             $defaults['destaques'] = 'Carrossel';
