@@ -2120,6 +2120,13 @@ article {
                         border-top: 1px solid $primeira_cor_fundo;
                         margin-top: -3px;
                     }
+
+                    &:last-child{
+                            padding-left: 16px !important;
+                            white-space: nowrap;
+                            float: left;
+                            font-size: 17px !important;
+                    }
                 }
             }
             .menu-item {
