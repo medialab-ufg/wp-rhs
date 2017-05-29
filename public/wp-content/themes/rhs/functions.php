@@ -86,6 +86,10 @@ function change_author_permalinks()
 }  
 add_action('init','change_author_permalinks');
 
+
+/*
+* Altera a forma que o wp_is_mobile diferenciam o mobile, ipad e desktop.
+*/
 function my_wp_is_mobile() {
     if (
         ! empty($_SERVER['HTTP_USER_AGENT'])
