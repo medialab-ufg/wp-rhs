@@ -1657,7 +1657,6 @@ footer {
     }
     .corporation {
         background-color: $primeira_cor_fundo;
-        border-radius: 0 0 15px 15px;
         text-align: center;
         padding: 9px;
     }
@@ -1668,10 +1667,6 @@ footer {
         color: $primeira_cor_texto;
         text-decoration: underline;
     }
-}
-
-footer.footer {
-    margin-bottom: 12px;
 }
 
 /* End Nav Menu */
