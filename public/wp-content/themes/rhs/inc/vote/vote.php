@@ -169,19 +169,10 @@ Class RHSVote {
 				$wp_query->set( $k, $v );
 			}
 
-		} elseif ($wp_query->is_single()) {
-        
-            // Permite que pessoas vejam a single dos posts com status Fila de Votação
-            
-            $statuses = ['publish', self::VOTING_QUEUE];
-            if (is_user_logged_in())
-                $statuses[] = 'private';
-            
-            $wp_query->set('post_status', $statuses);
-        
-        } elseif ($wp_query->is_author()) {
+        } elseif ($wp_query->is_main_query() && ( $wp_query->is_author() || $wp_query->is_single() ) ) {
         
             // No perfil do usuário, exibir posts de todos os status
+            // Permite que pessoas vejam a single dos posts com status Fila de Votação ou expirados
             
             $statuses = ['publish', self::VOTING_QUEUE, self::VOTING_EXPIRED];
             if (is_user_logged_in())
