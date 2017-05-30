@@ -63,7 +63,7 @@ Class RHSUser extends RHSMenssage {
             $user = get_user_by( 'email', $id_or_email );
         }
 
-        if ( $user && is_object( $user ) ) {
+        if ( $user && is_object( $user ) && $this->getAvatarImage($user->ID) ) {
             $avatar = "<img alt='{$alt}' src='{$this->getAvatarImage($user->ID)}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
         }
 
