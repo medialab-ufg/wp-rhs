@@ -37,12 +37,6 @@ Class RHSUser extends RHSMenssage {
         return $avatar;
     }
 
-    function getAvatarDefault(){
-        $avatar = get_template_directory_uri() . '/assets/images/default.png' ;
-
-        return $avatar;
-    }
-
     function custom_avatar( $avatar, $id_or_email, $size, $default, $alt ) {
         $user = false;
 
