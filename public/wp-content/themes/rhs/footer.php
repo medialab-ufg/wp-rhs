@@ -9,6 +9,7 @@
 			</section>
 			<section class="footerMenu">
 				<nav class="navbar navbar-default">
+					<div class="container">
 					<?php
 	                    /*
                         * menuFundo vem de um register feito nas functions onde o mesmo entra em contato com o menu do 
@@ -16,6 +17,7 @@
                         */
 		                menuRodape();
 		            ?>
+		            </div>
 				</nav>
 			</section>
 

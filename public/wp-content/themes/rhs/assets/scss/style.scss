@@ -102,6 +102,11 @@ body {
 ***********/
 
 /*Menu do Topo que é fixo Nav-menu*/
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  background-color: transparent;
+}
 .navbar-default {
     color: $primeira_cor_texto;
     background-color: $primeira_cor_fundo;
@@ -120,7 +125,7 @@ body {
                 > a {
                     margin-top: 0px;
                     &:hover {
-                        color: $primeira_cor_texto !important;
+                        color: $primeira_cor_texto;
                         text-decoration: underline;
                     }
                     > span {
@@ -214,12 +219,13 @@ Segundo Nav-menu
             &:last-child {
                 border-bottom: 1px solid #00b4b4;
             }
-        }
-        li > a:hover, li > a:focus {
-            background-color: $segunda_cor_fundo;
-            width: 100%;
-            text-align: right;
-            text-decoration: none;
+            &:hover, &:focus{
+                background-color: $segunda_cor_fundo;
+                width: 100%;
+                text-align: right;
+                text-decoration: none;
+                color: $whiteColor; 
+            }
         }
     }
 }
@@ -1650,14 +1656,14 @@ footer {
         float: left;
         padding: 18px;
         margin-left: 40px;
-    }
-    .footerMenu .navbar-default a:hover {
-        color: $primeira_cor_texto;
-        text-decoration: underline;
+        &:hover, &:visited {
+            color: $primeira_cor_texto !important;
+            text-decoration: underline;
+        }
+
     }
     .corporation {
         background-color: $primeira_cor_fundo;
-        border-radius: 0 0 15px 15px;
         text-align: center;
         padding: 9px;
     }
@@ -1668,10 +1674,6 @@ footer {
         color: $primeira_cor_texto;
         text-decoration: underline;
     }
-}
-
-footer.footer {
-    margin-bottom: 12px;
 }
 
 /* End Nav Menu */
@@ -2000,6 +2002,16 @@ article {
 * Media Querys
 *
 *****************/
+@media only screen and (min-width: 2500px){
+    .navbar-default .navbar-brand > img {
+        margin-left: 734px;
+    }
+}
+@media only screen and (min-width: 1920px){
+    .navbar-default .navbar-brand > img {
+        margin-left: 414px;
+    }
+}
 @media only screen and (min-width: 768px) {
     .navbar-right {
         margin-right: 0;
@@ -2062,9 +2074,10 @@ article {
                         height: 30px;
                     }
                     &:first-child{
-                        border-top: 1px solid $primeira_cor_texto;
+                        border-top: 1px solid rgba(0, 180, 180, 0.46);
                         margin-top: -2px;
                         padding-right: 188px;
+                        white-space: nowrap;
                     }
                 }
                 &.pub a {
@@ -2117,14 +2130,21 @@ article {
             li{
                 a{
                     &:first-child{
-                        border-top: 1px solid $primeira_cor_fundo;
+                        border-top: 1px solid rgba(0, 60, 70, 0.27);
                         margin-top: -3px;
+                    }
+
+                    &:last-child{
+                            padding-left: 16px !important;
+                            white-space: nowrap;
+                            float: left;
+                            font-size: 17px !important;
                     }
                 }
             }
             .menu-item {
                 a{
-                    padding-right: 296px !important;
+                    padding-right: 300px !important;
                 }
             }
         }
