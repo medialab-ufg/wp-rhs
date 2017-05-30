@@ -26,8 +26,9 @@ Class RHSVote {
 	var $days_for_expired;
 	var $days_for_expired_default = 14;
 
-	var $votes_to_approval;
-	var $votes_to_approval_default = 5;
+	private $votes_to_approval;
+    private $votes_to_approval_default = 5;
+    private $votes_to_text_help = 'Você não tem permissão para votar';
 
 	function __construct() {
 
@@ -112,6 +113,17 @@ Class RHSVote {
 		}
 
 	}
+
+	public function getTextHelp(){
+
+	    $option = get_option('vq_text_explanation');
+
+	    if($option){
+	        return $option;
+        }
+
+	    return $this->votes_to_text_help;
+    }
 
 	function get_custom_post_status() {
 		return array(
@@ -260,7 +272,7 @@ Class RHSVote {
         }
 
         if ( !current_user_can( 'vote_post', $_POST['post_id'] ) ) {
-            $json = array('error' => 'Você não tem permissão para votar, veja mais <a href="'.get_permalink(get_option('vq_page_explanation')).'" target="_blank">aqui</a>');
+            $json = array('error' => $this->getTextHelp().', veja mais <a href="'.get_permalink(get_option('vq_page_explanation')).'" target="_blank">aqui</a>.');
             echo json_encode($json);
             exit;
         }
@@ -492,11 +504,17 @@ Class RHSVote {
 				'type'    => 'textarea',
 				'default' => ''
 			),
+            'vq_text_explanation'       => array(
+                'name'    => __( "Texto de informação:" ),
+                'type'    => 'text',
+                'help' => 'Texto que aparecerá quando o usuário não tiver permissão.',
+                'default' => $this->votes_to_text_help
+            ),
             'vq_page_explanation'       => array(
-                'name'    => __( "Págiana informativo para as permições:" ),
+                'name'    => __( "Página de informação:" ),
                 'type'    => 'select',
                 'options' => $pagesArr,
-                'default' => ''
+                'help' => 'Página que aparecerá no texto de ajuda quando o usuário não tiver permissão.'
             )
 		);
 
@@ -534,7 +552,8 @@ Class RHSVote {
 					<?php foreach ( $labels as $label => $attr ) { ?>
 						<?php
 
-						$default = $attr['default'];
+						$default = !empty($attr['default']) ? $attr['default'] : '';
+                        $help = !empty($attr['help']) ? $attr['help'] : '';
 						$value   = get_option( $label );
                         
 						?>
@@ -546,17 +565,23 @@ Class RHSVote {
 								<?php if ( $attr['type'] == 'select' ) { ?>
                                     <select name="<?php echo $label; ?>" id="<?php echo $label; ?>">
                                         <?php foreach ($attr['options'] as $i => $text){ ?>
-                                            <option <?php echo $value == $i || ( empty($value) && $i == $default ) ? 'selected' : ''; ?> value="<?php echo $i; ?>"><?php echo $text; ?></option>
+                                            <option <?php echo ($value == $i || (empty($value) && $i == $default )) ? 'selected' : ''; ?> value="<?php echo $i; ?>"><?php echo $text; ?></option>
                                         <?php } ?>
                                     </select>
-                                    <?php if($default){ ?>
-                                        <p><i><?php echo __( 'Valor padrão: ' ) . $default; ?></i></p>
-                                    <?php } ?>
 								<?php } ?>
 								<?php if ( $attr['type'] == 'textarea' ) { ?>
                                     <textarea name="<?php echo $label; ?>" id="<?php echo $label; ?>" class="large-text"
                                               rows="5"><?php echo $value; ?></textarea>
 								<?php } ?>
+                                <?php if ( $attr['type'] == 'text' ) { ?>
+                                    <input class="regular-text" type="text" name="<?php echo $label; ?>" id="<?php echo $label; ?>" value="<?php echo $value; ?>" />
+                                <?php } ?>
+                                <?php if(!empty($default)){ ?>
+                                    <p><i><?php echo __( 'Valor padrão: ' ) . $default; ?></i></p>
+                                <?php } ?>
+                                <?php if(!empty($help)){ ?>
+                                    <p><i><?php echo $help; ?></i></p>
+                                <?php } ?>
                             </td>
                         </tr>
 					<?php } ?>
