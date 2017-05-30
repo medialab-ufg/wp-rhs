@@ -1,18 +1,19 @@
-<div class="row display-row">
-	<?php 
-		if(have_posts()) :
+<?php if(have_posts()) : ?>
+	<div class="row display-row">
+		<?php
 			while (have_posts()): 
 				the_post();
 
 				//Pega o paineldosposts para mostrar na pagina front-page os posts.
 				get_template_part( 'partes-templates/posts');
 			endwhile;	
-	?>
-</div><!--display-row-->
-<div class="row">
-	<div class="col-xs-12">
-		<div class="text-center">
-			<?php paginacao_personalizada(); ?>
+		?>
+	</div><!--display-row-->
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="text-center">
+				<?php paginacao_personalizada(); ?>
+			</div>
 		</div>
 	</div>
 	<?php
@@ -20,4 +21,3 @@
 			get_template_part('partes-templates/none'); 
 		endif;
 	?>
-</div>
