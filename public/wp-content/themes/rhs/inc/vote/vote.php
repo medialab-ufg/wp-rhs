@@ -251,18 +251,26 @@ Class RHSVote {
 
 	function ajax_vote() {
 
-		if ( isset( $_POST['post_id'] ) && is_numeric( $_POST['post_id'] ) ) {
+        $json = array();
 
-			if ( current_user_can( 'vote_post', $_POST['post_id'] ) ) {
+        if ( empty( $_POST['post_id'] ) || !is_numeric( $_POST['post_id'] ) ) {
+            $json = array('error' => 'Não foi encontrado o usuário.');
+            echo json_encode($json);
+            exit;
+        }
 
-				$this->add_vote( $_POST['post_id'], get_current_user_id() );
-				$this->get_vote_box( $_POST['post_id'] );
+        if ( !current_user_can( 'vote_post', $_POST['post_id'] ) ) {
+            $json = array('error' => 'Você não tem permissão para votar, veja mais <a href="'.get_permalink(get_option('vq_page_explanation')).'" target="_blank">aqui</a>');
+            echo json_encode($json);
+            exit;
+        }
 
-			}
+        $this->add_vote( $_POST['post_id'], get_current_user_id() );
+        $this->get_vote_box( $_POST['post_id'] );
 
-		}
-
-		die;
+        $json = array('success' => 'Voto contabilizado com sucesso');
+        echo json_encode($json);
+        exit;
 
 	}
 
@@ -352,18 +360,13 @@ Class RHSVote {
 		// Se o usuário ja votou neste post, não aparece o botão e aparece de alguma maneira que indique q ele já votou
 		// Se ele não estiver logado, aparece só o texto "Votos"
 
-		if ( current_user_can( 'vote_post', $post_id ) ) {
-			$output .= '<span class="vButton"><a class="btn btn-danger js-vote-button" data-post_id="' . $post_id . '">VOTAR</a></span>';
-		} else {
-			if ( is_user_logged_in() && $this->user_has_voted( $post_id ) ) {
-
-				$output .= '<span class="vButton"><a class="btn btn-danger js-vote-button" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
-
-			} else {
-				$output .= '<span class="vTexto">'.$textVotes.'</span>';
-			}
-
-		}
+        if(! is_user_logged_in()){
+            $output .= '<span class="vTexto">'.$textVotes.'</span>';
+        }  else if($this->user_has_voted( $post_id )) {
+            $output .= '<span class="vButton"><a class="btn btn-danger js-vote-button" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
+        } else {
+            $output .= '<span class="vButton"><a class="btn btn-danger js-vote-button" data-post_id="' . $post_id . '">VOTAR</a></span>';
+        }
 
 		$output .= '</div>';
 
@@ -464,22 +467,37 @@ Class RHSVote {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 
-		$labels = array(
+        $pages = get_pages();
+        $pagesArr = array('0'=> '-- Escolha a página --');
+
+        foreach ($pages as $page){
+            $pagesArr[$page->ID] = $page->post_title;
+        }
+
+        $labels = array(
 			'vq_days_for_expired'  => array(
 				'name'    => __( "Dias para expiração:" ),
 				'type'    => 'select',
+                'options' => array_combine(range(1, 50), range(1, 50)),
 				'default' => $this->days_for_expired_default
 			),
 			'vq_votes_to_approval' => array(
 				'name'    => __( "Votos para aprovação:" ),
 				'type'    => 'select',
+                'options' => array_combine(range(1, 50), range(1, 50)),
 				'default' => $this->votes_to_approval_default
 			),
 			'vq_description'       => array(
 				'name'    => __( "Texto introdutório:" ),
 				'type'    => 'textarea',
 				'default' => ''
-			)
+			),
+            'vq_page_explanation'       => array(
+                'name'    => __( "Págiana informativo para as permições:" ),
+                'type'    => 'select',
+                'options' => $pagesArr,
+                'default' => ''
+            )
 		);
 
 		$i = 0;
@@ -527,11 +545,13 @@ Class RHSVote {
                             <td>
 								<?php if ( $attr['type'] == 'select' ) { ?>
                                     <select name="<?php echo $label; ?>" id="<?php echo $label; ?>">
-										<?php for ( $i = 1; $i <= 50; $i ++ ) { ?>
-                                            <option <?php echo $value == $i || ( empty($value) && $i == $default ) ? 'selected' : ''; ?> ><?php echo $i ?></option>
-										<?php } ?>
+                                        <?php foreach ($attr['options'] as $i => $text){ ?>
+                                            <option <?php echo $value == $i || ( empty($value) && $i == $default ) ? 'selected' : ''; ?> value="<?php echo $i; ?>"><?php echo $text; ?></option>
+                                        <?php } ?>
                                     </select>
-                                    <p><i><?php echo __( 'Valor padrão: ' ) . $default; ?></i></p>
+                                    <?php if($default){ ?>
+                                        <p><i><?php echo __( 'Valor padrão: ' ) . $default; ?></i></p>
+                                    <?php } ?>
 								<?php } ?>
 								<?php if ( $attr['type'] == 'textarea' ) { ?>
                                     <textarea name="<?php echo $label; ?>" id="<?php echo $label; ?>" class="large-text"

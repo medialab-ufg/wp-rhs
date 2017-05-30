@@ -74,9 +74,7 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                                             <p>Links: </p>
                                             <?php foreach ( $RHSUser->getLinks() as $key => $link ) { ?>
                                                 <span><a href="<?php echo $link['url'] ?>"><?php echo $link['title'] ?></a></span>
-                                                <?php if ( count( $RHSUser->getLinks() ) == ( $key + 1 ) ) { ?>
-                                                    ,
-                                                <?php } ?>
+                                                <?php echo ( count( $RHSUser->getLinks() ) != ( $key + 1 ) ) ? ',' : ''; ?>
                                             <?php } ?>
                                         <?php } else { ?>
                                             Sem Informação.
@@ -104,15 +102,15 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                                     <div class="panel-body">
                                         <?php if ( $RHSUser->getSobre() ) { ?>
                                             <p>Sobre: </p>
-                                            <span><?php echo $RHSUser->getSobre(); ?></span>
+                                            <span><?php echo change_p_for_br($RHSUser->getSobre()); ?></span>
                                         <?php } ?>
                                         <?php if ( $RHSUser->getInteresses() ) { ?>
                                             <p>Interesses: </p>
-                                            <span><?php echo $RHSUser->getInteresses(); ?></span>
+                                            <span><?php echo change_p_for_br($RHSUser->getInteresses()); ?></span>
                                         <?php } ?>
                                         <?php if ( $RHSUser->getFormacao() ) { ?>
                                             <p>Formação: </p>
-                                            <span><?php echo $RHSUser->getFormacao(); ?></span>
+                                            <span><?php echo change_p_for_br($RHSUser->getFormacao()); ?></span>
                                         <?php } ?>
                                         <?php if (!($RHSUser->getSobre()) && $RHSUser->getInteresses() && $RHSUser->getFormacao()) { ?>
                                             Sem informção.
