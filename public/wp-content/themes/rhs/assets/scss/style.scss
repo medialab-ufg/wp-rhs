@@ -616,6 +616,10 @@ h1.titulo-page {
     > .panel-heading {
         background-color: $whiteColor;
         border-color: $whiteColor;
+        > .alert{
+            margin-top: 9px;
+            margin-bottom: -11px;
+        }
         > .espacamento-topo {
             margin-top: 7%;
         }
@@ -663,6 +667,12 @@ h1.titulo-page {
             .votebox, .vdivide{
                 float: right;
                 text-align: center;
+                i{
+                    font-size: 30px;
+                    margin-right: 21px;
+                    color: #059294;
+                    margin-top: 15px;
+                }
                 .vTexto {
                     line-height: 17px;
                     display: block;

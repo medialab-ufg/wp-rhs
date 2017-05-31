@@ -55,30 +55,13 @@ class RHSPerfil extends RHSMenssage {
 
         wp_update_user($data);
 
-        if($description){
-           update_user_meta( $user_id, 'description', $description);
-        }
+        update_user_meta( $user_id, 'description', $description);
+        update_user_meta( $user_id, 'rhs_formation', $formation);
+        update_user_meta( $user_id, 'rhs_interest', $interest);
+        add_user_ufmun_meta( $user_id, $city, $state);
+        update_user_meta( $user_id, 'rhs_city', $city);
+        update_user_meta( $user_id, 'rhs_links', RHSUser::save_links($links));
 
-        if($formation){
-            update_user_meta( $user_id, 'rhs_formation', $formation);
-        }
-
-
-        if($interest){
-            update_user_meta( $user_id, 'rhs_interest', $interest);
-        }
-
-        if($state && $city){
-            add_user_ufmun_meta( $user_id, $city, $state);
-        }
-
-        if($city){
-            update_user_meta( $user_id, 'rhs_city', $city);
-        }
-
-        if($links){
-            update_user_meta( $user_id, 'rhs_links', RHSUser::save_links($links));
-        }
 
         if ($avatar_file) {
             $arquivo_tmp = $avatar_file[ 'tmp_name' ];

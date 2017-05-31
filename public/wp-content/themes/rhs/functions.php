@@ -317,6 +317,14 @@ function change_paste_as_text($mceInit, $editor_id){
 }
 add_filter('tiny_mce_before_init', 'change_paste_as_text', 1, 2);
 
+function change_p_for_br($string){
+
+    $string = html_entity_decode($string);
+    $string = str_replace('<p>', '',$string);
+    $string = str_replace('</p>', '<br /><br />',$string);
+
+    return $string;
+}
 
 // Esconde admin dos usuários comuns
 /*
