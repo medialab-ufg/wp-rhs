@@ -19,5 +19,5 @@
 	<?php
 		else :
 			get_template_part('partes-templates/none'); 
-		endif;
 	?>
+<?php endif; ?>

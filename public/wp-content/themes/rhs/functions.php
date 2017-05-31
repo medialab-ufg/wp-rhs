@@ -104,18 +104,24 @@ function my_wp_is_mobile() {
 * Incluir JavaScripts necessários no tema 
 */
 function RHS_scripts() {
-   wp_enqueue_script('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/js/bootstrap.min.js', array('jquery'), '3.3.7', true);
-   wp_enqueue_script('bootstrap-hover-dropdown', get_template_directory_uri() . '/vendor/js/bootstrap-hover-dropdown.min.js', array('jquery'), '2.2.1', true);
+    wp_enqueue_script('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/js/bootstrap.min.js', array('jquery'), '3.3.7', true);
+    wp_enqueue_script('bootstrap-hover-dropdown', get_template_directory_uri() . '/vendor/js/bootstrap-hover-dropdown.min.js', array('jquery'), '2.2.1', true);
 
-   /*JS Validar Registro*/
+    /*JS Validar Registro*/
     wp_enqueue_script( 'JqueryValidate', 'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js', array('jquery'), '1.15.0', true );
     wp_enqueue_script('JqueryValidadeMethods', 'https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js', array('JqueryValidate'), '1.16.0', true );
     wp_enqueue_script('ValidarForm', get_template_directory_uri() . '/assets/js/valida-form-registro.js', array('JqueryValidate'),'1.0', true);
 
     wp_enqueue_script('FuncoesForm', get_template_directory_uri() . '/assets/js/functions.js', array('JqueryValidate'),'1.0', true);
-   wp_enqueue_script('magicJS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.js','0.8.0', true);
+    wp_enqueue_script('magicJS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.js','0.8.0', true);
 
-   if(is_singular()) wp_enqueue_script('comment-reply');
+    if(is_singular()) wp_enqueue_script('comment-reply');
+
+    if (get_query_var('rhs_login_tpl') == RHSRewriteRules::POST_URL) {
+        wp_enqueue_media ();
+        wp_enqueue_script('PublicarPostagens', get_template_directory_uri() . '/assets/js/publicar_postagens.js','1.0', true);
+    }
+
 }
 add_action('wp_enqueue_scripts', 'RHS_scripts');
 
@@ -123,10 +129,10 @@ add_action('wp_enqueue_scripts', 'RHS_scripts');
 * Incluir Styles CSS necessários no tema 
 */
 function RHS_styles() {
-   wp_enqueue_style('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/css/bootstrap.min.css');
-   wp_enqueue_style('fontawesome', get_template_directory_uri() . '/vendor/font-awesome/css/font-awesome.min.css');
-   wp_enqueue_style('magicCSS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.css');
-   wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
+    wp_enqueue_style('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/css/bootstrap.min.css');
+    wp_enqueue_style('fontawesome', get_template_directory_uri() . '/vendor/font-awesome/css/font-awesome.min.css');
+    wp_enqueue_style('magicCSS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.css');
+    wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
 }
 add_action('wp_enqueue_scripts', 'RHS_styles');
 

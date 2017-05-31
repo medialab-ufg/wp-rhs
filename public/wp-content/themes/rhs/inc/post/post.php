@@ -135,11 +135,12 @@ class RHSPost extends RHSMenssage {
                 $_POST['category'],
                 $_POST['estado'],
                 $_POST['municipio'],
-                $_POST['tags'] );
+                $_POST['tags'],
+                $_POST['img_destacada'] );
         }
     }
 
-    public function insert( $ID, $title, $content, $status, $authorId, $category, $state = '', $city = '', array $tags = array() ) {
+    public function insert( $ID, $title, $content, $status, $authorId, $category, $state = '', $city = '', array $tags = array(), $featured_image ) {
 
         $dataPost = array(
             'post_title'    => wp_strip_all_tags( $title ),
@@ -166,7 +167,8 @@ class RHSPost extends RHSMenssage {
         
         add_post_ufmun_meta($post_ID, $city, $state);
         wp_set_post_terms( $post_ID, $tags );
-        
+        set_post_thumbnail($post_ID, $featured_image);
+
         if ($status == RHSVote::VOTING_QUEUE) {
             wp_redirect(get_permalink($post_ID));
         } else {
