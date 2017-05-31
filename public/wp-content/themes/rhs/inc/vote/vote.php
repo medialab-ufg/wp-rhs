@@ -128,16 +128,6 @@ Class RHSVote {
 	function get_custom_post_status() {
 		return array(
 
-			self::VOTING_QUEUE => array(
-				'label'                     => 'Fila de votação',
-				'public'                    => false,
-				'exclude_from_search'       => true,
-				'show_in_admin_all_list'    => true,
-				'show_in_admin_status_list' => true,
-				'label_count'               => _n_noop( 'Fila <span class="count">(%s)</span>',
-					'Fila <span class="count">(%s)</span>' ),
-			),
-
 			self::VOTING_EXPIRED => array(
 				'label'                     => 'Não promovidos',
 				'public'                    => false,
@@ -146,7 +136,16 @@ Class RHSVote {
 				'show_in_admin_status_list' => true,
 				'label_count'               => _n_noop( 'Não promovido <span class="count">(%s)</span>',
 					'Não promovidos <span class="count">(%s)</span>' ),
-			)
+			),
+            self::VOTING_QUEUE => array(
+                'label'                     => 'Fila de votação',
+                'public'                    => false,
+                'exclude_from_search'       => true,
+                'show_in_admin_all_list'    => true,
+                'show_in_admin_status_list' => true,
+                'label_count'               => _n_noop( 'Fila <span class="count">(%s)</span>',
+                    'Fila <span class="count">(%s)</span>' ),
+            )
 
 		);
 	}
@@ -267,12 +266,14 @@ Class RHSVote {
 
         if ( empty( $_POST['post_id'] ) || !is_numeric( $_POST['post_id'] ) ) {
             $json = array('error' => 'Não foi encontrado o usuário.');
+
             echo json_encode($json);
             exit;
         }
 
         if ( !current_user_can( 'vote_post', $_POST['post_id'] ) ) {
             $json = array('error' => $this->getTextHelp().', veja mais <a href="'.get_permalink(get_option('vq_page_explanation')).'" target="_blank">aqui</a>.');
+
             echo json_encode($json);
             exit;
         }
@@ -299,8 +300,8 @@ Class RHSVote {
 		if ( ! $this->user_has_voted( $post_id, $user_id ) ) {
 			$wpdb->insert( $this->tablename, array(
 				'user_id'     => $user_id,
-				'post_id'     => $post_id,
-				'vote_source' => $_SERVER['REMOTE_ADDR']
+                'vote_source' => $_SERVER['REMOTE_ADDR'],
+				'post_id'     => $post_id
 			) );
 		}
 
@@ -345,8 +346,7 @@ Class RHSVote {
 		}
 
 		// Verifica se este usuário já votou neste post
-		$vote = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $this->tablename WHERE user_id = %d AND post_id = %d",
-			$user_id, $post_id ) );
+		$vote = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $this->tablename WHERE user_id = %d AND post_id = %d", $user_id, $post_id ) );
 
 		return sizeof( $vote ) > 0;
 
@@ -356,6 +356,7 @@ Class RHSVote {
 
 		$output     = '<div id="votebox-' . $post_id . '">';
 		$totalVotes = $this->get_total_votes( $post_id );
+
 		if ( empty( $totalVotes ) ) {
 			$totalVotes = 0;
 		}
