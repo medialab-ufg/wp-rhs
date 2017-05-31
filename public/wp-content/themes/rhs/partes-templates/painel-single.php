@@ -6,7 +6,9 @@
 				<?php the_title( '<h3>', '</h3>' ); ?>
 			</div>
 			<div class="col-xs-3 col-sm-1 col-md-2 vdivide">
-				<?php do_action('rhs_votebox', get_the_ID()); ?>
+                <div class="votebox">
+				    <?php do_action('rhs_votebox', get_the_ID()); ?>
+                </div>
 			</div>
 			<div class="col-xs-4 col-md-3">
 				<div class="img-usuario">

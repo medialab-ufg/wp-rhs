@@ -279,9 +279,9 @@ Class RHSVote {
         }
 
         $this->add_vote( $_POST['post_id'], get_current_user_id() );
-        $this->get_vote_box( $_POST['post_id'] );
+        $box = $this->get_vote_box( $_POST['post_id'], false);
 
-        $json = array('success' => 'Voto contabilizado com sucesso');
+        $json = array('success' => $box);
         echo json_encode($json);
         exit;
 
@@ -376,7 +376,7 @@ Class RHSVote {
         if(! is_user_logged_in()){
             $output .= '<span class="vTexto">'.$textVotes.'</span>';
         }  else if($this->user_has_voted( $post_id )) {
-            $output .= '<span class="vButton"><a class="btn btn-danger js-vote-button" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
+            $output .= '<span class="vButton"><a class="btn btn-danger" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
         } else {
             $output .= '<span class="vButton"><a class="btn btn-danger js-vote-button" data-post_id="' . $post_id . '">VOTAR</a></span>';
         }

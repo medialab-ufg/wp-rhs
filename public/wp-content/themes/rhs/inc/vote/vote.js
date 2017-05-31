@@ -28,8 +28,7 @@ jQuery( function( $ ) {
                     }
 
                     if(data['success']) {
-                        var alrt = '<div class="alert alert-success"><p>><i class="fa fa-check"></i> '+data['success']+'</p></div>'
-                        $('#votebox-'+post_id).html('<i class="fa fa-check"></i>');
+                        $('#votebox-'+post_id).parent('.votebox').html(data['success']);
                     }
 
                 }

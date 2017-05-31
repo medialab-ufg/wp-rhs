@@ -421,7 +421,7 @@ jQuery( function( $ ) {
             focusInvalid: true,
             focusCleanup: false,
             onkeyup: false,
-            ignore: '[type="button"], .ms-sel-ctn input',
+            ignore: '[type="button"], .ms-ctn input',
             rules: {
                 title: {
                     required: true
