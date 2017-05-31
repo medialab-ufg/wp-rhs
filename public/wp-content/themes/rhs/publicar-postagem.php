@@ -129,6 +129,8 @@
 
                                             </script>
                                             <div class="form-group text-center">
+                                                <input type="hidden" value="" id="img_destacada" name="img_destacada">
+                                                <button type="button" class="btn btn-default form-submit dest_visu set_img_destacada">IMAGEM DESTACADA</button>
                                                 <button type="submit" name="status" value="draft" class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO</button>
                                                 <button type="button" class="btn btn-default form-submit rasc_visu" id="pre-visualizar">PRÉ-VISUALIZAR
                                                 </button>
