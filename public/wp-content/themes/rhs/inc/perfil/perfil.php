@@ -190,7 +190,7 @@ class RHSPerfil extends RHSMenssage {
     }
 
     static function url(){
-        return esc_url(home_url());
+        return esc_url(home_url()); //mudado de home_url(RHSRewriteRules::PROFILE_URL)
     }
 }
 
