@@ -640,20 +640,6 @@ h1.titulo-page {
             .box-title{
                 float: left;
                 width: calc(100% - 147px);
-                .nome-author {
-                    display: block;
-                    margin: 0 0 -4px;
-                    a {
-                        color: black;
-                        font-weight: bold;
-                        font-size: 16px;
-                        line-height: 19px;
-                        display: inline-block;
-                        &:hover {
-                            color: $primeira_cor_texto;
-                        }
-                    }
-                }
                 .post_city{
                     display: block;
                     color: #777;
@@ -664,6 +650,20 @@ h1.titulo-page {
                     color: #aeaeae;
                     @media screen and (max-width: 768px){
                         white-space: nowrap;
+                    }
+                }
+            }
+            .nome-author {
+                display: block;
+                margin: 0 0 -4px;
+                a {
+                    color: black;
+                    font-weight: bold;
+                    font-size: 16px;
+                    line-height: 19px;
+                    display: inline-block;
+                    &:hover {
+                        color: $primeira_cor_texto;
                     }
                 }
             }
@@ -1718,12 +1718,18 @@ footer {
 
 .titulo-quantidade {
     color: $primeira_cor_texto;
-    font-size: 1.3em;
+    font-size: 17px;
     font-weight: bold;
 }
 
 .btn-comentar {
+    background: #00b4b4;
+    border-color: #00b4b4;
     float: right;
+    &:hover{
+        background: rgba(0, 180, 180, 0.52);
+        border-color: rgba(0, 180, 180, 0.52);
+    }
 }
 
 .btn-cancelar-comentario {
@@ -1736,7 +1742,7 @@ article {
         font-size: 0.8em;
     }
     .comment-avatar img {
-        margin: 50px 0 -89px 0px;
+        margin: 0px 0 -86px 24px;
     }
     .comment-box {
         margin: 0px 0 0px 82px;
@@ -1798,10 +1804,6 @@ article {
     -webkit-border-radius: 0 0 4px 4px;
     -moz-border-radius: 0 0 4px 4px;
     border-radius: 0 0 4px 4px;
-}
-
-.comment-box .comment-name.by-author, .comment-box .comment-name.by-author a {
-    color: #03658c;
 }
 
 .comment-box .comment-name{
@@ -2256,14 +2258,14 @@ article {
             font-size: 0.7em;
         }
         .comment-avatar img {
-            margin: 17px 0px -83px -9px;
+            margin: 17px -10px;
             margin-bottom: -39px;
         }
         .img-circle {
             width: 12%;
         }
         .comment-box {
-            margin: 0px 0 0px 30px;
+            margin: -14px 0px 2px 47px;
         }
     }
 

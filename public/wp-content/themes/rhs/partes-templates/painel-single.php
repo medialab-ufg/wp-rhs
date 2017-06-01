@@ -1,6 +1,7 @@
 <style type="text/css">
 	.post-categories{
 		margin-bottom: 7px;
+		padding: 10px 0px 12px;
 	}
 	.post-categories a{
 		color: #00b4b4;
@@ -36,11 +37,11 @@
 		text-decoration: none;
 	}
 	.post-user-date img{
-		filter: grayscale(100%);
+		filter: grayscale(0%);
     	transition: 0.3s all ease-in-out;
 	}
 	.post-user-date img:hover{
-		filter: grayscale(0%);
+		filter: grayscale(100%);
 	}
 	.usuario:after{
 		content: "";
@@ -55,7 +56,7 @@
 	.photo {
 		margin-right: 8px;
     	display: inline-block;
-		border-radius: 5px;
+		border-radius: 25px;
 	}
 	.content{
 		padding-bottom: 0px;
@@ -121,7 +122,7 @@
 							</a>
 						</span>
 					</span>
-					<span class="post-date text-uppercase"><i class="fa fa-clock-o" aria-hidden="true"></i> <?php the_time('d/m/Y - H:i'); ?></span>
+					<span class="post-date text-uppercase"><i class="fa fa-calendar" aria-hidden="true"></i> <?php the_time('d/m/Y'); ?></span>
 				</div>
 			</div>
 			<div class="clearfix"></div>

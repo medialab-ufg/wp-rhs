@@ -148,7 +148,7 @@ if (!function_exists('RHS_Comentarios')) :
         <article>
 
             <figure class="comment-avatar">
-              <?php echo get_avatar($comment, 66,'', '', array( 'class' => array( 'img-responsive', 'img-circle' ) ) ); ?>
+              <?php echo get_avatar($comment, 50,'', '', array( 'class' => array( 'img-responsive', 'img-circle' ) ) ); ?>
             </figure>
 
             <header class="comment-box">
