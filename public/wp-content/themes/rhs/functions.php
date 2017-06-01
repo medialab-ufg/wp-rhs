@@ -150,7 +150,7 @@ if (!function_exists('RHS_Comentarios')) :
             <figure class="comment-avatar">
               <?php echo get_avatar($comment, 66,'', '', array( 'class' => array( 'img-responsive', 'img-circle' ) ) ); ?>
             </figure>
-
+            
             <header class="comment-box">
                 <div class="comment-head">
                     <h6 class="comment-name by-author">Por 
