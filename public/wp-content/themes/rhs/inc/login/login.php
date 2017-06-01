@@ -23,20 +23,16 @@ class RHSLogin extends RHSMenssage {
     }
 
     static function login_url( $login_url, $redirect, $force_reauth ) {
-        $login_page = self::url();
+        $login_page = home_url(RHSRewriteRules::LOGIN_URL);
         $login_url  = add_query_arg( 'redirect_to', $redirect, $login_page );
 
         return $login_url;
     }
 
-    static function url(){
-        return esc_url(home_url(RHSRewriteRules::LOGIN_URL));
-    }
-
     function login_redirect( $redirect_to, $requested_redirect_to, $user ) {
         if ( empty( $redirect_to ) ) {
             //TODO verificar role do usuário para enviar para a página apropriada
-            $redirect_to =  RHSPerfil::url();
+            $redirect_to =  esc_url(home_url());
         }
 
         return $redirect_to;
@@ -59,7 +55,7 @@ class RHSLogin extends RHSMenssage {
                 }
             }
 
-            wp_redirect( self::url() );
+            wp_redirect( home_url(RHSRewriteRules::LOGIN_URL) );
             exit;
         }
 
