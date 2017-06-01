@@ -1804,19 +1804,26 @@ article {
     color: #03658c;
 }
 
-.comment-box .comment-name.by-author:after {
-    content: 'autor';
-    background: #03658c;
-    color: #FFF;
-    font-size: 0.8em;
-    padding: 3px 5px;
-    font-weight: 700;
-    margin-left: 10px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+.comment-box .comment-name{
+    .by-author{
+        &:after {
+            color: #FFF;
+            font-size: 0.8em;
+            padding: 3px 5px;
+            font-weight: 700;
+            margin-left: 10px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+        }
+    }
+    .is-author{
+        &:after{
+            content: 'author';
+            background: #03658c;
+        }
+    }
 }
-
 .screen-reader-text{
     display: none;
 }
