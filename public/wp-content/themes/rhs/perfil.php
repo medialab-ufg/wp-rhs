@@ -16,6 +16,7 @@
                                     <?php } ?>
                                 </div>
                             <?php } ?>
+                            <?php $RHSPerfil->clear_messages(); ?>
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="perfil-title">Configurações de Segurança da Conta</h4>
@@ -58,7 +59,7 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="form-image <?php echo !$RHSUser->getAvatar() ? 'hide' : ''; ?>">
+                                            <div class="form-image <?php echo !get_avatar($RHSUser->getUserId()) ? 'hide' : ''; ?>">
                                                 <?php echo get_avatar($RHSUser->getUserId()); ?>
                                                 <input type="hidden" name="avatar" size="60" value="<?php echo $RHSUser->getAvatar(); ?>">
                                             </div>

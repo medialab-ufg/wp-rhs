@@ -74,7 +74,7 @@ class RHSPerfil extends RHSMenssage {
             $caminho = '/uploads/'. date('Y').'/'.date('m').'/';
 
             if(!file_exists(WP_CONTENT_DIR . $caminho)){
-                mkdir($arquivo_tmp, WP_CONTENT_DIR . $caminho, 0777, true);
+                mkdir( WP_CONTENT_DIR . $caminho, 0777, true);
             }
 
             if ( @move_uploaded_file ( $arquivo_tmp, WP_CONTENT_DIR . $caminho . $novoNome ) ) {
