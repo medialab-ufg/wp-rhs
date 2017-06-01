@@ -74,12 +74,12 @@ class RHSRegister extends RHSMenssage {
             foreach ( $user->get_error_message() as $error ) {
                 $login->set_messages( $error, false, 'success' );
             }
-            wp_redirect( RHSLogin::url() );
+            wp_redirect( home_url(RHSRewriteRules::LOGIN_URL) );
 
             return;
         }
 
-        wp_redirect( RHSPerfil::url() );
+        wp_redirect( esc_url(home_url()) );
         exit;
 
     }
