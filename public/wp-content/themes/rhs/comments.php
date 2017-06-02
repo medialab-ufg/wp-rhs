@@ -29,19 +29,7 @@ if (post_password_required()) {
 			    <form action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="form-comentario" class="clearfix">             
 			        <div class="form-group">
 			        <?php comment_id_fields(); ?>
- 						<?php
-							wp_editor( 'Escreva seu Comentário.', 'comment', array(
-						        'media_buttons' => true, // show insert/upload button(s) to users with permission
-						        'textarea_rows' => '7', // re-size text area
-						        'dfw' => false, // replace the default full screen with DFW (WordPress 3.4+)
-						        'tinymce' => array(
-						            'theme_advanced_buttons1' => 'bold,italic,underline,strikethrough,bullist,numlist,code,blockquote,link,unlink,outdent,indent,|,undo,redo,fullscreen'
-						        ),
-						        'quicktags' => array(
-						           'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close'
-						        )
-						    ) );
-						?>
+ 					<textarea name="comment" id="comment" tabindex="1" onfocus="if (this.value == '<?php _e('Digite seu comentário aqui.', 'rhs'); ?>') this.value = '';" onblur="if (this.value == '') {this.value = '<?php _e('Digite seu comentário aqui.', 'rhs'); ?>';}" class="form-control" rows="4"><?php _e('Digite seu comentário aqui.', 'rhs'); ?></textarea>
 					</div>         
 					<button id="submit" class="btn btn-info btn-comentar" type="submit" name="submit">Comentar</button>
 					<?php cancel_comment_reply_link('Cancelar'); ?>
