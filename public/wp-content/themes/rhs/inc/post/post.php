@@ -271,7 +271,7 @@ class RHSPost extends RHSMenssage {
             $post_status = get_post_status(get_the_ID());
             
             if ($post_status == 'publish') {
-                $status_label = 'Pubilcado';
+                $status_label = 'Publicado';
             } elseif ($post_status == 'draft') {
                 $status_label = 'Rascunho';
             } elseif (array_key_exists($post_status, $RHSVote->get_custom_post_status())) {

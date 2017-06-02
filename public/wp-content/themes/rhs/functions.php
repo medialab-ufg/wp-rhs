@@ -115,7 +115,10 @@ function RHS_scripts() {
     wp_enqueue_script('FuncoesForm', get_template_directory_uri() . '/assets/js/functions.js', array('JqueryValidate'),'1.0', true);
     wp_enqueue_script('magicJS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.js','0.8.0', true);
 
-    if(is_singular()) wp_enqueue_script('comment-reply');
+    if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) { 
+        // enqueue the javascript that performs in-link comment reply fanciness
+        wp_enqueue_script( 'comment-reply' ); 
+    }
 
     if (get_query_var('rhs_login_tpl') == RHSRewriteRules::POST_URL) {
         wp_enqueue_media ();
@@ -148,7 +151,7 @@ if (!function_exists('RHS_Comentarios')) :
         <article>
 
             <figure class="comment-avatar">
-              <?php echo get_avatar($comment, 66,'', '', array( 'class' => array( 'img-responsive', 'img-circle' ) ) ); ?>
+              <?php echo get_avatar($comment, 50,'', '', array( 'class' => array( 'img-responsive', 'img-circle' ) ) ); ?>
             </figure>
             
             <header class="comment-box">
@@ -164,7 +167,7 @@ if (!function_exists('RHS_Comentarios')) :
                         ?>
                     </h6>
                     <time class="comment-date"><?php printf('%s às %s.', get_comment_date(), get_comment_time()); ?></time>
-                    <?php comment_reply_link(array('depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => '<i class="fa fa-reply"></i>', 'login_text' => '<i class="fa fa-block"></i>')) ?>
+                    <?php comment_reply_link(array('depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => '<i class="fa fa-reply"></i>', 'login_text' => '<i class="fa fa-block"></i>')); ?>
                 </div>
                 <div class="comment-content">
                     <?php comment_text(); ?>

@@ -23,13 +23,13 @@ if (post_password_required()) {
 			<div id="respond" class="clearfix">        
 			    <?php if(get_option('comment_registration') && !$user_ID) : ?>
 					<p>
-					<?php printf( __( 'Você precisa está %sloggedin%s para postar um comentário.', 'rhs'), "<a href='" . get_option('siteurl') . "/wp-login.php?redirect_to=" . urlencode(get_permalink()) ."'>", "</a>" ); ?>
+					<?php printf( __( 'Você precisa está %sloggedin%s para postar um comentário.', 'rhs'), "<a href='" . get_option('home') . "/logar?redirect_to=" . urlencode(get_permalink()) ."'>", "</a>" ); ?>
 					</p>        
 			    <?php else : ?>
-			    <form action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="form-comentario" class="clearfix">
-			        <?php comment_id_fields(); ?>             
-			        <div class="form-group">         
-						<?php
+			    <form action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="form-comentario" class="clearfix">             
+			        <div class="form-group">
+			        <?php comment_id_fields(); ?>
+ 						<?php
 							wp_editor( 'Escreva seu Comentário.', 'comment', array(
 						        'media_buttons' => true, // show insert/upload button(s) to users with permission
 						        'textarea_rows' => '7', // re-size text area
@@ -44,9 +44,9 @@ if (post_password_required()) {
 						?>
 					</div>         
 					<button id="submit" class="btn btn-info btn-comentar" type="submit" name="submit">Comentar</button>
-					 <?php cancel_comment_reply_link('Cancelar'); ?>
+					<?php cancel_comment_reply_link('Cancelar'); ?>
 			        <?php if(get_option("comment_moderation") == "1") : ?>
-			        <?php _e('Todos os comentarios precisam ser aprovados.', 'rhs'); ?>
+			        	<?php _e('Todos os comentarios precisam ser aprovados.', 'rhs'); ?>
 			        <?php endif; ?>
 			        <?php do_action('comment_form', $post->ID); ?>
 			    </form>
@@ -74,17 +74,3 @@ if (post_password_required()) {
 	    <?php endif; ?>
 	</div>
 </div>
-
-<script type="text/javascript">
-	jQuery(function($){
-		$('.comment-reply-link').click(function(e){
-			e.preventDefault();
-			var args = $(this).data('onclick');
-			args = args.replace(/.*(|)/gi, '').replace(/"|s+/g, '');
-			args = args.split(',');
-			tinymce.EditorManager.execCommand('mceRemoveControl', true, 'comment');
-			addComment.moveForm.apply( addComment, args );
-			tinymce.EditorManager.execCommand('mceAddControl', true, 'comment');
-		});
-	});
-</script>
