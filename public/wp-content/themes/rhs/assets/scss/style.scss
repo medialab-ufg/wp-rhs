@@ -1226,21 +1226,30 @@ h1.titulo-page {
     }
 }
 
-.pagination > li > a, .pagination > li > span {
-    color: $blackColor;
-    &:hover{
-       color: $primeira_cor_texto; 
-    }
-}
+.pagination {
+    > li{
+        a, span {
+            color: $blackColor;
+            &:hover{
+               color: $primeira_cor_texto; 
+            }
+        }
 
-.pagination > .active > a, 
-.pagination > .active > a:focus, 
-.pagination > .active > a:hover, 
-.pagination > .active > span, 
-.pagination > .active > span:focus, 
-.pagination > .active > span:hover {
-    background-color: $primeira_cor_texto;
-    border-color: $primeira_cor_texto;
+    }
+    > .active {
+        &:focus, &:hover{
+            background-color: $primeira_cor_texto;
+            border-color: $primeira_cor_texto;
+        }
+        span{
+            background: $primeira_cor_texto;
+            border-color: $primeira_cor_texto;
+           &:focus, &:hover{
+                background-color: $primeira_cor_texto;
+                border-color: $primeira_cor_texto;
+            }
+        }
+    }
 }
 
 form .comment-form-comment {
@@ -1551,7 +1560,7 @@ form .comment-form-comment {
     }
 }
 
-.postagens{
+.postagens {
     .wrapper-content {
         padding: 20px;
         border-radius: 3px;
@@ -1585,6 +1594,26 @@ form .comment-form-comment {
     }
 }
 
+.contato{
+    .wrapper-content {
+        padding: 30px;
+        border-radius: 3px;
+        background-color: #fff;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        margin: 0;
+        clear: both;
+    }
+    .btn-contato{
+        width: 100px;
+        height: 40px;
+        color: $primeira_cor_texto;
+        border: 3px solid;
+        border-color: $primeira_cor_texto;
+    }
+    @media screen and (max-width: 768px){
+        margin-bottom: 20px;
+    }
+}
 /***********
 *
 * Sidebar
