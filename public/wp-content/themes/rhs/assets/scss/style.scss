@@ -1597,18 +1597,35 @@ form .comment-form-comment {
 .contato{
     .wrapper-content {
         padding: 30px;
-        border-radius: 3px;
         background-color: #fff;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-        margin: 0;
-        clear: both;
-    }
-    .btn-contato{
-        width: 100px;
-        height: 40px;
-        color: $primeira_cor_texto;
-        border: 3px solid;
-        border-color: $primeira_cor_texto;
+        p{
+            font-size: 14px;
+            a, a:focus, a:visited {
+                color: #000;
+                font-weight: bold;
+                outline: none;
+            }
+        }
+        .panel-heading{
+            border-color: #ddd;
+            color: $primeira_cor_texto;
+        }
+        .panel-body{
+            padding: 24px;
+            form{
+                label{
+                    color: $primeira_cor_texto;
+                    font-size: 14px;
+                }
+            }
+        }
+        .btn-contato{
+            width: 100px;
+            height: 40px;
+            color: $primeira_cor_texto;
+            border: 3px solid;
+            border-color: $primeira_cor_texto;
+        }
     }
     @media screen and (max-width: 768px){
         margin-bottom: 20px;
