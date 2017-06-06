@@ -199,7 +199,9 @@ Class UFMunicipio {
             'separator' => '',
             'select_class' => '',
             'label_class' => '',
-            'show_label' => true
+            'show_label' => true,
+            'tabindex_state' => '',
+            'tabindex_city' => ''
         );
 
         $params = array_merge($defaults, $params);
@@ -213,7 +215,7 @@ Class UFMunicipio {
             </label>
         <?php }
         echo $params['select_before']; ?>
-            <select name="<?php echo $params['state_field_name']; ?>" class="<?php echo $params['select_class']; ?>" id="estado">
+            <select name="<?php echo $params['state_field_name']; ?>" tabindex="<?php echo $params['tabindex_state']; ?>" class="<?php echo $params['select_class']; ?>" id="estado">
                 <?php self::print_states_options($params['selected_state']); ?>
             </select>
         <?php
@@ -228,7 +230,7 @@ Class UFMunicipio {
         </label>
         <?php }
         echo $params['select_before']; ?>
-            <select name="<?php echo $params['city_field_name']; ?>" class="form-control <?php echo $params['select_class']; ?>" id="municipio">
+            <select name="<?php echo $params['city_field_name']; ?>" tabindex="<?php echo $params['tabindex_city']; ?>" class="form-control <?php echo $params['select_class']; ?>" id="municipio">
                 <?php self::print_cities_options($params['selected_state'], $params['selected_municipio']); ?>
             </select>
         <?php

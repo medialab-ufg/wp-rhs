@@ -41,11 +41,11 @@
                                     </div>
                                     <div class="form-group float-label-control">
                                         <label for="email">Email <span class="required">*</span></label>
-                                        <input type="email" name="email" id="email" class="form-control" value="<?php echo $RHSUser->get_user_data('email');?>" >
+                                        <input type="email" tabindex="2" name="email" id="email" class="form-control" value="<?php echo $RHSUser->get_user_data('email');?>" >
                                     </div>
                                     <div class="form-group float-label-control">
                                         <label for="assunto">Assunto</label>
-                                        <input type="text" name="assunto" id="assunto" class="form-control" value="" >
+                                        <input type="text" tabindex="3" name="assunto" id="assunto" class="form-control" value="" >
                                     </div>
                                     <div class="form-group float-label-control">
                                         <div class="row">
@@ -61,17 +61,19 @@
                                                 'select_class' => 'form-control',
                                                 'label_class'  => 'control-label col-sm-4',
                                                 'selected_state' => $location['uf']['id'],
-                                                'selected_municipio' => $location['mun']['id'] 
+                                                'selected_municipio' => $location['mun']['id'],
+                                                'tabindex_state' => 4,
+                                                'tabindex_city' => 5
                                             ) ); ?>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group float-label-control">
                                         <label for="mensagem">Mensagem <span class="required">*</span></label>
-                                        <textarea id="mensagem" class="form-control" rows="5" name="msg"></textarea>
+                                        <textarea id="mensagem" tabindex="6" class="form-control" rows="5" name="msg"></textarea>
                                     </div>
                                     <div class="panel-button form-actions pull-right">
-                                        <button class="btn btn-default btn-contato" type="submit" >Enviar</button>
+                                        <button class="btn btn-default btn-contato" tabindex="7" type="submit" >Enviar</button>
                                     </div>
                                     <div class="clearfix"></div>
                                 </form>
