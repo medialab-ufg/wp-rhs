@@ -61,7 +61,7 @@
                                                 'select_class' => 'form-control',
                                                 'label_class'  => 'control-label col-sm-4',
                                                 'selected_state' => $location['uf']['id'],
-                                                'selected_municipio' => $location['mun']['id']
+                                                'selected_municipio' => $location['mun']['id'] 
                                             ) ); ?>
                                             </div>
                                         </div>
