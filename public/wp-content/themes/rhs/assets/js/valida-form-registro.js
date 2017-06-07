@@ -472,6 +472,101 @@ jQuery( function( $ ) {
             }
         });
 
+        $('#contato').validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: true,
+            focusCleanup: false,
+            onkeyup: false,
+            ignore: '',
+            rules: {
+                name: {
+                    maxlength: 128,
+                    required: true
+                },
+                email: {
+                    email: true,
+                    required: true
+                },
+                category: {
+                    required: true
+                },
+                subject: {
+                    maxlength: 200,
+                    required: true
+                },
+                estado: {
+                    required: true
+                },
+                city: {
+                    required: true
+                },
+                message: {
+                    maxlength: 500,
+                    required: true
+                }
+            },
+            messages: {
+                name: {
+                    maxlength: 'Tamanho maximo de 128 caracteres.',
+                    required: 'Preencha com seu nome.',
+                },
+                email: {
+                    email: 'Formato de email inválido.',
+                    required: 'Preencha a seu email.',
+                },
+                category: {
+                    required: 'Selecione a categoria sobre o contato.'
+                },
+                subject: {
+                    maxlength: 'Tamanho maximo de 200 caracteres.',
+                    required: 'Preencha com o assunto do contato.',
+                },
+                estado: {
+                    required: 'Selecione com seu estado.'
+                },
+                municipio: {
+                    required: 'Selecione com sua cidade.'
+                },
+                message: {
+                    maxlength: 'Tamanho maximo de 500 caracteres.',
+                    required: 'Preencha com a sua mensagem.',
+                }
+            },
+            invalidHandler: function (event, validator) {},
+            errorPlacement: function (error, element) {
+                if (element.parent(".input-group").size() > 0) {
+                    error.insertAfter(element.parent(".input-group"));
+                } else if (element.attr("data-error-container")) {
+                    error.appendTo(element.attr("data-error-container"));
+                } else if (element.parents('.radio-list').size() > 0) {
+                    error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+                } else if (element.parents('.radio-inline').size() > 0) {
+                    error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-list').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else if (element.parent().find('.help-block').size() > 0) {
+
+                } else {
+                    element.parent().append(error);
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            submitHandler: function(form) {
+                $(form).find('[type="submit"]').html('<i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>');
+                form.submit();
+            }
+        });
+
         $.validator.addMethod("check_email_exist", function (value, element, params) {
             var retorno = false;
             var email = $("input[name='mail']").val();
