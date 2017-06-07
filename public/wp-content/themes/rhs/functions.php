@@ -8,6 +8,7 @@ if(!function_exists('rhs_setup')) :
             session_start();
         }
 
+        require_once('inc/custom-status.php');
         require_once('inc/uf-municipio/uf-municipio.php');
         require_once('inc/message/message.php');
         require_once('inc/uf-municipio/uf-municipio.php');
@@ -18,6 +19,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/user/user.php');
         require_once('inc/perfil/perfil.php');
         require_once('inc/register/register.php');
+        require_once('inc/ticket/ticket.php');
         
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');
@@ -162,7 +164,7 @@ if (!function_exists('RHS_Comentarios')) :
                                 $user=get_userdata($comment->user_id);
                                 echo '<a href="'.get_author_posts_url($comment->user_id).'">'.$user->display_name.'</a>';
                             } else { 
-                                comment_author_link(); 
+                                comment_author_link();
                             } 
                         ?>
                     </h6>
@@ -173,7 +175,6 @@ if (!function_exists('RHS_Comentarios')) :
                     <?php comment_text(); ?>
                 </div>
             </header>
-
         </article>
     </section>
     <?php
@@ -338,3 +339,5 @@ function tnb_so_admin_no_admin() {
         exit;
     }
 }*/
+
+
