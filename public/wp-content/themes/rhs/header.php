@@ -34,7 +34,6 @@
                 <div class="collapse navbar-collapse bs-example-navbar-collapse primeiro-menu">
                     <div class="container">
                         <?php 
-                            $usuario = wp_get_current_user();
                             global $RHSUser;
                             if(my_wp_is_mobile()){
                                 get_search_form(); 
@@ -71,7 +70,7 @@
                                                     </a>
                                                 </li>
                                                 <li class="menu-item perf">
-                                                    <a href="<?php echo get_author_posts_url($usuario->ID); ?>">
+                                                    <a href="<?php echo get_author_posts_url($RHSUser->getUserId()  ); ?>">
                                                         <i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil
                                                     </a>
                                                 </li>

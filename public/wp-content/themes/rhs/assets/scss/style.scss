@@ -1226,17 +1226,30 @@ h1.titulo-page {
     }
 }
 
-.pagination > li > a, .pagination > li > span {
-    color: $blackColor;
-}
+.pagination {
+    > li{
+        a, span {
+            color: $blackColor;
+            &:hover{
+               color: $primeira_cor_texto; 
+            }
+        }
 
-.pagination > li > a:hover, .pagination > li > span:hover {
-    color: $primeira_cor_texto;
-}
-
-.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
-    background-color: $primeira_cor_texto;
-    border-color: $primeira_cor_texto;
+    }
+    > .active {
+        &:focus, &:hover{
+            background-color: $primeira_cor_texto;
+            border-color: $primeira_cor_texto;
+        }
+        span{
+            background: $primeira_cor_texto;
+            border-color: $primeira_cor_texto;
+           &:focus, &:hover{
+                background-color: $primeira_cor_texto;
+                border-color: $primeira_cor_texto;
+            }
+        }
+    }
 }
 
 form .comment-form-comment {
@@ -1547,7 +1560,7 @@ form .comment-form-comment {
     }
 }
 
-.postagens{
+.postagens {
     .wrapper-content {
         padding: 20px;
         border-radius: 3px;
@@ -1581,6 +1594,43 @@ form .comment-form-comment {
     }
 }
 
+.contato{
+    .wrapper-content {
+        padding: 30px;
+        background-color: #fff;
+        p{
+            font-size: 14px;
+            a, a:focus, a:visited {
+                color: #000;
+                font-weight: bold;
+                outline: none;
+            }
+        }
+        .panel-heading{
+            border-color: #ddd;
+            color: $primeira_cor_texto;
+        }
+        .panel-body{
+            padding: 24px;
+            form{
+                label{
+                    color: $primeira_cor_texto;
+                    font-size: 14px;
+                }
+            }
+        }
+        .btn-contato{
+            width: 100px;
+            height: 40px;
+            color: $primeira_cor_texto;
+            border: 3px solid;
+            border-color: $primeira_cor_texto;
+        }
+    }
+    @media screen and (max-width: 768px){
+        margin-bottom: 20px;
+    }
+}
 /***********
 *
 * Sidebar
@@ -1723,7 +1773,13 @@ footer {
 }
 
 .btn-comentar {
+    background: #00b4b4;
+    border-color: #00b4b4;
     float: right;
+    &:hover{
+        background: rgba(0, 180, 180, 0.52);
+        border-color: rgba(0, 180, 180, 0.52);
+    }
 }
 
 .btn-cancelar-comentario {
@@ -1736,87 +1792,78 @@ article {
         font-size: 0.8em;
     }
     .comment-avatar img {
-        margin: 50px 0 -89px 0px;
+        margin: 0px 0 -86px 24px;
+        border-radius: 25px;
     }
     .comment-box {
         margin: 0px 0 0px 82px;
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    }
-}
-
-.comment-box .comment-head {
-    background: #FCFCFC;
-    padding: 10px 12px;
-    border-bottom: 1px solid #E5E5E5;
-    overflow: hidden;
-    -webkit-border-radius: 4px 4px 0 0;
-    -moz-border-radius: 4px 4px 0 0;
-    border-radius: 4px 4px 0 0;
-}
-
-.comment-box .comment-head i {
-    float: right;
-    margin-left: 14px;
-    position: relative;
-    top: 2px;
-    color: #A6A6A6;
-    cursor: pointer;
-    -webkit-transition: color 0.3s ease;
-    -o-transition: color 0.3s ease;
-    transition: color 0.3s ease;
-}
-
-.comment-box .comment-head i:hover {
-    color: #03658c;
-}
-
-.comment-box .comment-name {
-    color: #283035;
-    font-size: 0.9em;
-    font-weight: 700;
-    float: left;
-    margin-right: 10px;
-}
-
-.comment-box .comment-name a {
-    color: #283035;
-}
-
-.comment-box .comment-head span {
-    float: left;
-    color: #999;
-    font-size: 0.9em;
-    position: relative;
-    top: 1px;
-}
-
-.comment-box .comment-content {
-    background: #FCFCFC;
-    padding: 12px;
-    font-size: 1em;
-    color: #595959;
-    -webkit-border-radius: 0 0 4px 4px;
-    -moz-border-radius: 0 0 4px 4px;
-    border-radius: 0 0 4px 4px;
-}
-
-.comment-box .comment-name{
-    .by-author{
-        &:after {
-            color: #FFF;
-            font-size: 0.8em;
-            padding: 3px 5px;
-            font-weight: 700;
-            margin-left: 10px;
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            border-radius: 3px;
+        .comment-head {
+            background: #FCFCFC;
+            padding: 10px 12px;
+            border-bottom: 1px solid #E5E5E5;
+            overflow: hidden;
+            -webkit-border-radius: 4px 4px 0 0;
+            -moz-border-radius: 4px 4px 0 0;
+            border-radius: 4px 4px 0 0;
+            i {
+                float: right;
+                margin-left: 14px;
+                position: relative;
+                top: 2px;
+                color: #A6A6A6;
+                cursor: pointer;
+                -webkit-transition: color 0.3s ease;
+                -o-transition: color 0.3s ease;
+                transition: color 0.3s ease;
+                &:hover {
+                    color: #03658c;
+                }
+            }
+            span {
+                float: left;
+                color: #999;
+                font-size: 0.9em;
+                position: relative;
+                top: 1px;
+            }
         }
-    }
-    .is-author{
-        &:after{
-            content: 'author';
-            background: #03658c;
+        .comment-name {
+            color: #283035;
+            font-size: 0.9em;
+            font-weight: 700;
+            float: left;
+            margin-right: 10px;
+            a {
+                color: #283035;
+            }
+            .by-author{
+                &:after {
+                    color: #FFF;
+                    font-size: 0.8em;
+                    padding: 3px 5px;
+                    font-weight: 700;
+                    margin-left: 10px;
+                    -webkit-border-radius: 3px;
+                    -moz-border-radius: 3px;
+                    border-radius: 3px;
+                }
+            }
+            .is-author{
+                &:after{
+                    content: 'author';
+                    background: #03658c;
+                }
+            }
+        }
+        .comment-content {
+            background: #FCFCFC;
+            padding: 12px;
+            font-size: 1em;
+            color: #595959;
+            -webkit-border-radius: 0 0 4px 4px;
+            -moz-border-radius: 0 0 4px 4px;
+            border-radius: 0 0 4px 4px;
         }
     }
 }
@@ -2253,14 +2300,14 @@ article {
             font-size: 0.7em;
         }
         .comment-avatar img {
-            margin: 17px 0px -83px -9px;
+            margin: 17px -10px;
             margin-bottom: -39px;
         }
         .img-circle {
             width: 12%;
         }
         .comment-box {
-            margin: 0px 0 0px 30px;
+            margin: -14px 0px 2px 47px;
         }
     }
 
