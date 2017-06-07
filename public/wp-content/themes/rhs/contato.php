@@ -80,6 +80,32 @@
                             </div>  
                         </fieldset>
                     </div>
+
+                    <div class="wrapper-content table-responsive">
+                        <fieldset class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    Tickets Criados
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Assunto</th>
+                                            <th>Data</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+                    </div>
+
                 </div>
             </div>
         </div>
