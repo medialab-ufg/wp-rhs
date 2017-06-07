@@ -261,7 +261,7 @@ class RHSPost extends RHSMenssage {
     * Function que lista as postagens na página minhas-postagens
     */
     static function minhasPostagens(){
-        global $current_user, $RHSVote;
+        global $current_user;
         wp_get_current_user();
         $author_query = array('posts_per_page' => '-1','author' => $current_user->ID, 'post_status' => array('draft', 'publish', 'voting-queue'));
         $author_posts = new WP_Query($author_query);
