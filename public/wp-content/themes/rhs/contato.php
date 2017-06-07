@@ -1,5 +1,6 @@
 <?php get_header(); ?>
 <?php global $RHSUser; ?>
+<?php $RHSPost = new RHSPost(get_query_var('rhs_edit_post')); ?>
     <div class="row">
         <!-- Container -->
         <div class="col-xs-12 col-md-9">
@@ -37,15 +38,15 @@
                                 <form id="contato" class="form-horizontal" role="form" action="" method="post">
                                     <div class="form-group float-label-control">
                                         <label for="nome">Nome <span class="required">*</span></label>
-                                        <input type="text" tabindex="1" name="nome" id="nome" class="form-control" value="<?php echo $RHSUser->get_user_data('display_name');?>" >
+                                        <input type="text" tabindex="1" name="nome" id="nome" class="form-control" value="<?php echo $RHSUser->get_user_data('display_name');?>" required>
                                     </div>
                                     <div class="form-group float-label-control">
                                         <label for="email">Email <span class="required">*</span></label>
-                                        <input type="email" tabindex="2" name="email" id="email" class="form-control" value="<?php echo $RHSUser->get_user_data('email');?>" >
+                                        <input type="email" tabindex="2" name="email" id="email" class="form-control" value="<?php echo $RHSUser->get_user_data('email');?>" required>
                                     </div>
                                     <div class="form-group float-label-control">
-                                        <label for="assunto">Assunto</label>
-                                        <input type="text" tabindex="3" name="assunto" id="assunto" class="form-control" value="" >
+                                        <label for="assunto">Assunto <span class="required">*</span></label>
+                                        <input type="text" tabindex="4" name="assunto" id="assunto" class="form-control" value="" required>
                                     </div>
                                     <div class="form-group float-label-control">
                                         <div class="row">
@@ -62,50 +63,69 @@
                                                 'label_class'  => 'control-label col-sm-4',
                                                 'selected_state' => $location['uf']['id'],
                                                 'selected_municipio' => $location['mun']['id'],
-                                                'tabindex_state' => 4,
-                                                'tabindex_city' => 5
+                                                'tabindex_state' => 5,
+                                                'tabindex_city' => 6
                                             ) ); ?>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group float-label-control">
                                         <label for="mensagem">Mensagem <span class="required">*</span></label>
-                                        <textarea id="mensagem" tabindex="6" class="form-control" rows="5" name="msg"></textarea>
+                                        <textarea id="mensagem" tabindex="7" class="form-control" rows="5" name="msg" required></textarea>
                                     </div>
                                     <div class="panel-button form-actions pull-right">
-                                        <button class="btn btn-default btn-contato" tabindex="7" type="submit" >Enviar</button>
+                                        <button class="btn btn-default btn-contato" tabindex="8" type="submit" >Enviar</button>
                                     </div>
                                     <div class="clearfix"></div>
                                 </form>
                             </div>  
                         </fieldset>
                     </div>
-
-                    <div class="wrapper-content table-responsive">
-                        <fieldset class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="panel-title">
-                                    Tickets Criados
+                    <?php $ticketArgs = array( 'post_type' => 'tickets', 'posts_per_page' => 5);
+                          $ticketLoop = new WP_Query( $ticketArgs ); ?>
+                        <div class="wrapper-content">
+                            <fieldset class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        Tickets Criados
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="panel-body">
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Assunto</th>
-                                            <th>Data</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                        </fieldset>
-                    </div>
-
+                                <div class="panel-body table-responsive">
+                                    <?php if($ticketLoop->have_posts()) : ?>
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Assunto</th>
+                                                    <th>Categoria</th>
+                                                    <th>Data</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <?php while ( $ticketLoop->have_posts() ) : $ticketLoop->the_post(); ?>
+                                                        <th><?php the_ID(); ?></th>
+                                                        <th><?php the_title(); ?></th>
+                                                        <th><strong>Categoria</strong></th>
+                                                        <th><?php the_time('F jS, Y'); ?></th>
+                                                        <?php if(get_post_status() == 'open')
+                                                                $status = 'Em Aberto'; 
+                                                            elseif(get_post_status() == 'close')
+                                                                $status = 'Fechado'; 
+                                                            elseif(get_post_status() == 'not_response')
+                                                                $status = 'Não Repondido'; ?>
+                                                        <th><?php echo $status ?></th>
+                                                    <?php endwhile; ?>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    <?php else : ?>
+                                        <span>Você não tem tickets criados.</span>
+                                    <?php endif; ?>
+                                </div>
+                            </fieldset>
+                        </div>
                 </div>
             </div>
         </div>

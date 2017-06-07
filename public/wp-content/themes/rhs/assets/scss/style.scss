@@ -1610,6 +1610,9 @@ form .comment-form-comment {
         .panel-heading{
             border-color: #ddd;
             color: $primeira_cor_texto;
+            .panel-title{
+                font-weight: 700;
+            }
         }
         .panel-body{
             padding: 24px;
@@ -1617,6 +1620,26 @@ form .comment-form-comment {
                 label{
                     color: $primeira_cor_texto;
                     font-size: 14px;
+                    font-weight: normal;
+                }
+            }
+            table{
+                thead{
+                    tr{
+                        th{
+                            color: $primeira_cor_texto;
+                            font-size: 15px;
+                            font-weight: normal;
+                            text-align: center;
+                        }
+                    }
+                }
+                tbody{
+                    tr{
+                        th{
+                            text-align: center;
+                        }
+                    }
                 }
             }
         }
