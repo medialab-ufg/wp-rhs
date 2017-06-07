@@ -8,6 +8,7 @@ if(!function_exists('rhs_setup')) :
             session_start();
         }
 
+        require_once('inc/custom-status.php');
         require_once('inc/uf-municipio/uf-municipio.php');
         require_once('inc/message/message.php');
         require_once('inc/uf-municipio/uf-municipio.php');
@@ -18,6 +19,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/user/user.php');
         require_once('inc/perfil/perfil.php');
         require_once('inc/register/register.php');
+        require_once('inc/ticket/ticket.php');
         
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');
@@ -159,12 +161,20 @@ if (!function_exists('RHS_Comentarios')) :
                                 $user=get_userdata($comment->user_id);
                                 echo '<a href="'.get_author_posts_url($comment->user_id).'">'.$user->display_name.'</a>';
                             } else { 
-                                comment_author_link(); 
+                                comment_author_link();
                             } 
                         ?>
                     </h6>
                     <time class="comment-date"><?php printf('%s às %s.', get_comment_date(), get_comment_time()); ?></time>
-                    <?php comment_reply_link(array('depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => '<i class="fa fa-reply"></i>', 'login_text' => '<i class="fa fa-block"></i>')) ?>
+                    <?php
+                    $param = array(
+                        'depth' => $depth,
+                        'reply_text' => '<i class="fa fa-reply"></i>',
+                        'login_text' => '<i class="fa fa-block"></i>'
+                    );
+
+                    $args = $args + $param;
+                    comment_reply_link($args); ?>
                 </div>
                 <div class="comment-content">
                     <?php comment_text(); ?>
@@ -335,3 +345,5 @@ function tnb_so_admin_no_admin() {
         exit;
     }
 }*/
+
+
