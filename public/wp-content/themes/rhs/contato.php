@@ -1,4 +1,5 @@
 <?php get_header(); ?>
+<?php global $RHSTicket; ?>
 <?php global $RHSUser; ?>
 <?php $RHSPost = new RHSPost(get_query_var('rhs_edit_post')); ?>
     <div class="row">
@@ -28,25 +29,45 @@
                                 <p>Acolheremos com atenção sua mensagem e a responderemos tão logo quanto possíve<span style="line-height: 1.1em;">!</span></p>
                             </div>
                         </div>
+                        <?php foreach ($RHSTicket->messages() as $type => $messages){ ?>
+                            <div class="alert alert-<?php echo $type == 'error' ? 'danger' : 'success' ; ?>">
+                                <?php foreach ($messages as $message){ ?>
+                                    <p><?php echo $message ?></p>
+                                <?php } ?>
+                            </div>
+                        <?php } ?>
                         <fieldset class="panel panel-default">
+
                             <div class="panel-heading">
                                 <div class="panel-title">
                                     Envie sua Mensagem
                                 </div>
                             </div>
                             <div class="panel-body">
+                                <?php $RHSTicket->clear_messages(); ?>
                                 <form id="contato" class="form-horizontal" role="form" action="" method="post">
                                     <div class="form-group float-label-control">
-                                        <label for="nome">Nome <span class="required">*</span></label>
-                                        <input type="text" tabindex="1" name="nome" id="nome" class="form-control" value="<?php echo $RHSUser->get_user_data('display_name');?>" required>
+                                        <label for="name">Nome <span class="required">*</span></label>
+                                        <input type="text" tabindex="1" name="name" id="input-name" class="form-control" value="<?php echo $RHSUser->get_user_data('display_name');?>" >
+                                        <input class="form-control" type="hidden" value="<?php echo $RHSTicket->getKey(); ?>" name="ticket_user_wp" />
                                     </div>
                                     <div class="form-group float-label-control">
                                         <label for="email">Email <span class="required">*</span></label>
-                                        <input type="email" tabindex="2" name="email" id="email" class="form-control" value="<?php echo $RHSUser->get_user_data('email');?>" required>
+                                        <input type="email" tabindex="2" name="email" id="input-email" class="form-control" value="<?php echo $RHSUser->get_user_data('email');?>" >
                                     </div>
                                     <div class="form-group float-label-control">
-                                        <label for="assunto">Assunto <span class="required">*</span></label>
-                                        <input type="text" tabindex="4" name="assunto" id="assunto" class="form-control" value="" required>
+                                        <label for="category">Categoria</label>
+                                        <?php $categories = $RHSTicket->category_tree_option(); ?>
+                                        <select tabindex="3"  class="form-control" name="category" id="select-category">
+                                            <option value="">-- Selecione --</option>
+                                            <?php foreach ($categories as $key => $category){ ?>
+                                                <option value="<?php echo $key ?>"><?php echo $category ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group float-label-control">
+                                        <label for="subject">Assunto</label>
+                                        <input type="text" tabindex="4" name="subject" id="input-subject" class="form-control" value="" >
                                     </div>
                                     <div class="form-group float-label-control">
                                         <div class="row">
@@ -70,8 +91,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group float-label-control">
-                                        <label for="mensagem">Mensagem <span class="required">*</span></label>
-                                        <textarea id="mensagem" tabindex="7" class="form-control" rows="5" name="msg" required></textarea>
+                                        <label for="message">Mensagem <span class="required">*</span></label>
+                                        <textarea id="textarea-message" tabindex="7" class="form-control" rows="5" name="message"></textarea>
                                     </div>
                                     <div class="panel-button form-actions pull-right">
                                         <button class="btn btn-default btn-contato" tabindex="8" type="submit" >Enviar</button>

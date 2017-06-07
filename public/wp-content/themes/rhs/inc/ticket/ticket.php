@@ -4,7 +4,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-class RHSTicket extends WP_List_Table {
+class RHSTicket extends RHSMenssage {
 
     const POST_TYPE = 'tickets';
     const TAXONOMY = 'tickets-category';
@@ -12,6 +12,7 @@ class RHSTicket extends WP_List_Table {
     const OPEN = 'open';
     const CLOSE = 'close';
     const CAPABILITIES = 'capabilities';
+    private static $instance;
 
     var $post_status = [];
 
@@ -44,6 +45,10 @@ class RHSTicket extends WP_List_Table {
             new WordPress_Custom_Status(  $status + $args);
         }
 
+        if ( empty ( self::$instance ) ) {
+            $this->trigger_by_post();
+        }
+
         /*$option_name = 'roles_edited_ticket';
         if ( ! get_option( $option_name ) ) {
 
@@ -56,6 +61,161 @@ class RHSTicket extends WP_List_Table {
             $administrator = $wp_roles->get_role( 'administrator' );
             $administrator->add_cap( self::CAPABILITIES );
         }*/
+    }
+
+    private function trigger_by_post() {
+
+        if ( ! empty( $_POST['ticket_user_wp'] ) && $_POST['ticket_user_wp'] == $this->getKey() ) {
+
+            if ( ! $this->validate_by_post() ) {
+                return;
+            }
+
+            $this->insert(
+                $_POST['name'],
+                $_POST['email'],
+                $_POST['subject'],
+                $_POST['estado'],
+                $_POST['municipio'],
+                $_POST['message'],
+                $_POST['category'],
+                get_current_user_id());
+        }
+    }
+
+    public function insert( $name, $email, $subject, $state, $city, $message, $category, $userId = 0 ) {
+
+        if($userId == 0){
+            $userId = $this->getUserDefault()->ID;
+        }
+
+        $dataPost = array(
+            'post_title'    => wp_strip_all_tags( $subject ),
+            'post_content'  => $message,
+            'post_status'   => self::OPEN,
+            'post_author'   => $userId,
+            'post_type'     => self::POST_TYPE,
+            'post_category' => (is_array($category)) ? $category : array($category)
+        );
+
+        $post_ID = wp_insert_post( $dataPost, true );
+
+        if ( $post_ID instanceof WP_Error ) {
+
+            foreach ( $post_ID->get_error_messages() as $error ) {
+                $this->set_messages( $error, false, 'error' );
+            }
+
+            return;
+
+        }
+
+        $this->set_messages(   '<i class="fa fa-check "></i> Contato enviado com sucesso!', false, 'success' );
+        return;
+
+    }
+
+    public function category_tree_option($categories = 0, &$option = array(), $parent = 0)
+    {
+
+        if($categories == 0){
+            $categories = get_terms(self::TAXONOMY, array('hide_empty' => false,'parent' => 0));
+        }
+
+        $prefix = str_repeat("-", $parent);
+        ++$parent;
+
+        foreach($categories as $key => &$value){
+
+            $option[$value->term_id] = (!$prefix) ? $value->name : $prefix.' '.$value->name;
+
+            $children = get_terms(self::TAXONOMY, array('hide_empty' => false,'parent' => 0,'parent'=>$value->term_id));
+
+            if($children){
+                $this->category_tree_option($children, $option, $parent);
+            }
+        }
+
+
+
+        return $option;
+    }
+
+    /**
+     * @return bool|false|object|WP_User
+     */
+    public function getUserDefault(){
+
+        $login = 'rhs_author_default_ticket';
+
+        $user = get_userdatabylogin($login);
+
+        if($user){
+            return $user;
+        }
+
+        $user_data = array(
+            'user_pass' => wp_generate_password(),
+            'user_login' => $login,
+            'user_nicename' => 'author-default-ticket',
+            'user_url' => '',
+            'user_email' => 'thsauthordefaultticket@gmail.com',
+            'display_name' => 'Autor padrão de ticket',
+            'nickname' => 'autor-default',
+            'first_name' => 'Autor Ticket',
+            'user_registered' => current_time('mysql'),
+            'role' => get_option('default_role')
+        );
+
+        $user_id = wp_insert_user( $user_data );
+
+        return get_userdata($user_id);
+
+    }
+
+    private function validate_by_post() {
+
+        $this->clear_messages();
+
+        if ( ! array_key_exists( 'name', $_POST ) ) {
+            $this->set_messages('<i class="fa fa-exclamation-triangle "></i> Preencha o seu nome!', false, 'error' );
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'email', $_POST ) ) {
+            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Preencha o seu email!', false, 'error' );
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'subject', $_POST ) ) {
+            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Preencha o assunto do contato!', false, 'error' );
+
+            return false;
+        }
+
+
+        if ( ! array_key_exists( 'estado', $_POST ) ) {
+            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Selecione o seu estado!', false, 'error' );
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'municipio', $_POST ) ) {
+            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Selecione o sua cidade!', false, 'error' );
+
+            return false;
+        }
+
+        if ( ! array_key_exists( 'category', $_POST ) ) {
+            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Selecione sobre qual categoria é o assunto!', false, 'error' );
+
+            return false;
+        }
+
+        return true;
+
     }
 
     function remove_meta_boxes() {
@@ -85,10 +245,12 @@ class RHSTicket extends WP_List_Table {
             'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
             'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
             'comment_date' => $time,
-            'comment_approved' => 1,
+            'comment_approved' => 1
         );
 
-        wp_insert_comment($data);
+        $comment_id = wp_insert_comment($data);
+
+        wp_set_comment_status( $comment_id, 'span' );
     }
 
     function ticket_post_cap( $caps, $cap, $user_id, $args ) {

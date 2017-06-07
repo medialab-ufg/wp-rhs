@@ -48,7 +48,7 @@ Class UFMunicipio {
 
         if (is_array($cidades) && count($cidades) > 0) {
             foreach ($cidades as $cidade) {
-                $selected = selected($currentCity, $cidade->id);
+                $selected = selected($currentCity, $cidade->id, false);
                 $output .= "<option value='{$cidade->id}' $selected>{$cidade->nome}</option>";
             }
         } else {
@@ -73,7 +73,7 @@ Class UFMunicipio {
         $output = "<option value=''>Selecione o estado...</option>";
         
         foreach ($states as $state) {
-            $selected = selected($currentState, $state->id);
+            $selected = selected($currentState, $state->id, false);
             $output .= "<option value='{$state->id}' $selected>{$state->nome}</option>";
         }
 
@@ -101,7 +101,7 @@ Class UFMunicipio {
      * @return null
      */
     static function print_states_options($currentState = '') {
-        echo self::get_states_options($currentState, $type);
+        echo self::get_states_options($currentState);
     }
     
     
