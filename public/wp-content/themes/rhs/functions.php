@@ -127,8 +127,16 @@ function RHS_scripts() {
         wp_enqueue_script('PublicarPostagens', get_template_directory_uri() . '/assets/js/publicar_postagens.js','1.0', true);
     }
 
+
+
 }
 add_action('wp_enqueue_scripts', 'RHS_scripts');
+
+function load_admin_style(){
+    wp_enqueue_style('fontawesome', get_template_directory_uri() . '/vendor/font-awesome/css/font-awesome.min.css');
+}
+
+add_action( 'admin_enqueue_scripts', 'load_admin_style' );
 
 /* 
 * Incluir Styles CSS necessários no tema 
@@ -339,5 +347,37 @@ function tnb_so_admin_no_admin() {
         exit;
     }
 }*/
+
+add_filter( 'wp_terms_checklist_args', 'wpse_139269_term_radio_checklist' );
+
+function wpse_139269_term_radio_checklist( $args ) {
+    if ( ! empty( $args['taxonomy'] ) && $args['taxonomy'] === RHSTicket::TAXONOMY /* <== Change to your required taxonomy */ ) {
+        if ( empty( $args['walker'] ) || is_a( $args['walker'], 'Walker' ) ) { // Don't override 3rd party walkers.
+            if ( ! class_exists( 'WPSE_139269_Walker_Category_Radio_Checklist' ) ) {
+                /**
+                 * Custom walker for switching checkbox inputs to radio.
+                 *
+                 * @see Walker_Category_Checklist
+                 */
+                class WPSE_139269_Walker_Category_Radio_Checklist extends Walker_Category_Checklist {
+                    function walk( $elements, $max_depth, $args = array() ) {
+                        $output = parent::walk( $elements, $max_depth, $args );
+                        $output = str_replace(
+                            array( 'type="checkbox"', "type='checkbox'" ),
+                            array( 'type="radio"', "type='radio'" ),
+                            $output
+                        );
+
+                        return $output;
+                    }
+                }
+            }
+
+            $args['walker'] = new WPSE_139269_Walker_Category_Radio_Checklist;
+        }
+    }
+
+    return $args;
+}
 
 

@@ -33,11 +33,15 @@ class RHSTicket extends RHSMenssage {
         add_action('add_meta_boxes', array( &$this, "add_meta_boxes"));
         add_action('admin_head', array( &$this, 'css'));
         add_action('admin_footer-post.php', array( &$this, 'custom_post_status'));
-        add_action( 'admin_enqueue_scripts', array( &$this, 'load_admin_style') );
         add_action( 'restrict_manage_posts', array( &$this, 'filter_category') );
         add_action( 'save_post', array(&$this,  'save_wp_editor_fields') );
-        add_filter( 'map_meta_cap', array( &$this, 'ticket_post_cap' ), 10, 4 );
+        //add_filter( 'map_meta_cap', array( &$this, 'ticket_post_cap' ), 10, 4 );
         add_action( 'admin_menu', array( &$this, 'remove_meta_boxes') );
+
+        add_action( self::POST_TYPE.'-category_edit_form_fields', array( &$this, 'edit_category_field') );
+        add_action(self::POST_TYPE.'-category_add_form_fields',array( &$this, 'new_category_field') );
+        add_action( 'edited_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
+        add_action( 'create_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
 
         foreach ($this->post_status as $status => $args){
 
@@ -63,6 +67,87 @@ class RHSTicket extends RHSMenssage {
         }*/
     }
 
+    /**
+     * Adiciona campo de 'Usuário Responsavél' na categoria do ticket na inserção
+     * @param $term
+     */
+    function save_tax_meta( $term_id , $taxonomy ){
+
+        if(isset( $_POST['term_meta']['category_user'])){
+
+            $term_meta = array();
+
+            $term_meta['category_user'] = $_POST['term_meta']['category_user'] ;
+
+            update_option( self::TAXONOMY."_".$term_id, $term_meta );
+
+        }
+    }
+
+    function new_category_field( $term ){
+
+        $args = array(
+            'role' => 'administrator',
+            'orderby' => 'display_name',
+        );
+
+        $subscribers = get_users($args);
+
+        ?>
+
+        <div class="form-field term-parent-wrap">
+            <label for="term_meta[category_user]">Usuário Responsavél</label>
+            <select class="postform" name="term_meta[category_user]" id="term_meta[category_user]">
+                <option value="">-- Selecione --</option>
+                <?php foreach ($subscribers as $subscriber){ ?>
+                <option value="<?php echo $subscriber->ID ?>" ><?php echo $subscriber->display_name ?> (<?php echo $subscriber->user_email ?>)</option>
+                <?php } ?>
+            </select>
+        </div>
+        <?php
+    }
+
+    /**
+     * Adiciona campo de 'Usuário Responsavél' na categoria do ticket na edição
+     * @param $term
+     */
+    function edit_category_field( $term ){
+
+        $term_meta = '';
+
+        if($term instanceof WP_Term){
+            $term_id = $term->term_id;
+            $term_meta = get_option( self::TAXONOMY."_".$term_id );
+        }
+
+        $args = array(
+            'role' => 'administrator',
+            'orderby' => 'display_name',
+        );
+
+        $subscribers = get_users($args);
+
+        ?>
+        <tr class="form-field term-parent-wrap">
+            <th scope="row">
+                <label for="parent">Usuário Responsavél</label>
+            </th>
+            <td>
+                <select class="postform" name="term_meta[category_user]" id="term_meta[category_user]">
+                    <option value="">-- Selecione --</option>
+                    <?php foreach ($subscribers as $subscriber){ ?>
+                        <option value="<?php echo $subscriber->ID ?>" <?php echo (!empty($term_meta['category_user']) && $term_meta['category_user'] == $subscriber->ID) ? 'selected': ''?>><?php echo $subscriber->display_name ?> (<?php echo $subscriber->user_email ?>)</option>
+                    <?php } ?>
+                </select>
+            </td>
+        </tr>
+
+        <?php
+    }
+
+    /**
+     * É chamdo quando o formulário de contato é enviado
+     */
     private function trigger_by_post() {
 
         if ( ! empty( $_POST['ticket_user_wp'] ) && $_POST['ticket_user_wp'] == $this->getKey() ) {
@@ -83,6 +168,17 @@ class RHSTicket extends RHSMenssage {
         }
     }
 
+    /**
+     * Insere contato
+     * @param $name
+     * @param $email
+     * @param $subject
+     * @param $state
+     * @param $city
+     * @param $message
+     * @param $category
+     * @param int $userId
+     */
     public function insert( $name, $email, $subject, $state, $city, $message, $category, $userId = 0 ) {
 
         if($userId == 0){
@@ -115,6 +211,14 @@ class RHSTicket extends RHSMenssage {
 
     }
 
+    /**
+     * Função recursiva que retorna categorias baseado nos pais formatadas
+     * @param int $categories
+     * @param array $option
+     * @param int $parent
+     *
+     * @return array
+     */
     public function category_tree_option($categories = 0, &$option = array(), $parent = 0)
     {
 
@@ -122,7 +226,7 @@ class RHSTicket extends RHSMenssage {
             $categories = get_terms(self::TAXONOMY, array('hide_empty' => false,'parent' => 0));
         }
 
-        $prefix = str_repeat("-", $parent);
+        $prefix = str_repeat("—", $parent);
         ++$parent;
 
         foreach($categories as $key => &$value){
@@ -142,6 +246,7 @@ class RHSTicket extends RHSMenssage {
     }
 
     /**
+     * Retorna usuario padrão, caso não esteja logado
      * @return bool|false|object|WP_User
      */
     public function getUserDefault(){
@@ -173,6 +278,10 @@ class RHSTicket extends RHSMenssage {
 
     }
 
+    /**
+     * Valida compos por backend do contato
+     * @return bool
+     */
     private function validate_by_post() {
 
         $this->clear_messages();
@@ -218,12 +327,17 @@ class RHSTicket extends RHSMenssage {
 
     }
 
+    /**
+     * Remove meta box pad~rao dos comentários
+     */
     function remove_meta_boxes() {
         remove_meta_box('commentsdiv', self::POST_TYPE, 'normal');
     }
 
+    /**
+     * Insere resposta ao ticket
+     */
     function save_wp_editor_fields(){
-
 
         if(empty($_POST['editor_box_comments'])){
             return;
@@ -253,33 +367,10 @@ class RHSTicket extends RHSMenssage {
         wp_set_comment_status( $comment_id, 'span' );
     }
 
-    function ticket_post_cap( $caps, $cap, $user_id, $args ) {
-
-        if ( $cap == self::CAPABILITIES ) {
-
-            $caps = array();
-
-            $post = get_post( $args[0] );
-
-            if ( $post ) {
-
-                if ( strtotime( $post->post_date ) < strtotime( '-' . $this->days_for_expired . ' days' ) ) {
-                    $caps[] = 'vote_old_posts';
-                    $this->check_votes_to_expire( $post );
-                } elseif ( $this->user_has_voted( $post->ID, $user_id ) ) {
-                    $caps[] = 'vote_posts_again';
-                } elseif ( $post->post_author == $user_id ) {
-                    $caps[] = 'vote_own_posts';
-                } else {
-                    $caps[] = 'vote_posts';
-                }
-
-            }
-        }
-
-        return $caps;
-    }
-
+    /**
+     * Status do post
+     * @return array
+     */
     function get_custom_post_status() {
         return array(
 
@@ -314,6 +405,9 @@ class RHSTicket extends RHSMenssage {
         );
     }
 
+    /**
+     * Registra status caso for ticket
+     */
     function init() {
 
         global $post;
@@ -340,12 +434,15 @@ class RHSTicket extends RHSMenssage {
         }
     }
 
+    /**
+     * Adiciona filtro de categoria na listagem do ticket
+     */
     function filter_category() {
         global $typenow, $post, $post_id;
 
         if( $typenow != "page" && $typenow != "post" ){
             //get post type
-            $post_type=get_query_var('post_type');
+            $post_type= get_query_var('post_type');
 
             //get taxonomy associated with current post type
             $taxonomies = get_object_taxonomies($post_type);
@@ -357,21 +454,51 @@ class RHSTicket extends RHSMenssage {
                     $tax_name = $tax_obj->name;
                     $terms = get_terms($tax_name, array('hide_empty' => false));
                     echo "<select name='$tax_slug' id='$tax_slug' class='postform'>";
-                    echo "<option value=''>Categorias</option>";
+
+                    if($post_type == self::POST_TYPE){
+                        echo "<option value=''>Responsável</option>";
+                    } else {
+                       echo "<option value=''>Categorias</option>";
+                    }
+
+                    $options = array();
+
                     foreach ($terms as $term) {
                         $label = (isset($_GET[$tax_slug])) ? $_GET[$tax_slug] : ''; // Fix
-                        echo '<option value='. $term->slug, $label == $term->slug ? ' selected="selected"' : '','>' . $term->name .' (' . $term->count .')</option>';
+
+                        if($post_type == self::POST_TYPE){
+
+                            $option = get_option( self::TAXONOMY."_".$term->term_id );
+
+                            if(empty($option['category_user'])){
+                                continue;
+                            }
+
+                            $user = get_userdata($option['category_user']);
+
+                            if($options && in_array($user->ID,$options)){
+                                continue;
+                            }
+
+                            $options[] = $user->ID;
+
+                            echo '<option value='. $term->slug, $label == $term->slug ? ' selected="selected"' : '','>' . $user->display_name .' (' . $user->user_email .')</option>';
+                        } else {
+                            echo '<option value='. $term->slug, $label == $term->slug ? ' selected="selected"' : '','>' . $term->name .' (' . $term->count .')</option>';
+                        }
+
                     }
+
                     echo "</select>";
                 }
             }
         }
     }
 
-    function load_admin_style() {
-        wp_enqueue_style( 'prefix-font-awesome', '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css', array(), '4.0.3' );
-    }
 
+    /**
+     * Adiciona as 2 meta boxs do ticket
+     */
     function add_meta_boxes() {
 
         global $post;
@@ -379,13 +506,17 @@ class RHSTicket extends RHSMenssage {
         $comments = get_comments(array('post_id'=>$post->ID));
 
         if($comments){
-            add_meta_box('ticket_response', 'Comentários', array( &$this, 'meta_boxe_response'), self::POST_TYPE, 'normal', 'default');
+            add_meta_box('ticket_response', 'Comentários', array( &$this, 'meta_box_response'), self::POST_TYPE, 'normal', 'default');
         }
 
-        add_meta_box('ticket_wp_editor', 'Enviar Comentário', array( &$this, 'meta_boxe_comment'), self::POST_TYPE, 'normal', 'default');
+        add_meta_box('ticket_wp_editor', 'Enviar Comentário', array( &$this, 'meta_box_comment'), self::POST_TYPE, 'normal', 'default');
     }
 
-    function meta_boxe_comment($post){
+    /**
+     * Meta box do ticket, para responder o ticket
+     * @param $post
+     */
+    function meta_box_comment($post){
 
         $editor_id = 'editor_box_comments';
         $uploaded_csv = get_post_meta( $post->ID, 'editor_box_comments', true);
@@ -393,9 +524,13 @@ class RHSTicket extends RHSMenssage {
         wp_editor( $uploaded_csv, $editor_id );
     }
 
-
-
-    function meta_boxe_response($post) {
+    /**
+     * Meta box do ticket, para visualização das respostas
+     * @param $post
+     *
+     * @return string
+     */
+    function meta_box_response($post) {
 
         $comments = get_comments(array('post_id'=>$post->ID));
         $user_current = wp_get_current_user();
@@ -422,7 +557,9 @@ class RHSTicket extends RHSMenssage {
         return '';
     }
 
-
+    /**
+     * Registra novo tipo de post
+     */
     function register_post_type()
     {
         $labels = array(
@@ -463,6 +600,9 @@ class RHSTicket extends RHSMenssage {
         register_post_type(self::POST_TYPE, $args);
     }
 
+    /**
+     * Registra nova taxonomia
+     */
     function register_taxonomy()
     {
         $labels = array(
@@ -492,12 +632,17 @@ class RHSTicket extends RHSMenssage {
 
     }
 
+    /**
+     * Adiciona novos status pelo JS
+     * Função desativada
+     */
     function custom_post_status(){
+
+        return;
+
         global $post;
         $complete = '';
         $label = '';
-
-        return;
 
         if($post->post_type == self::POST_TYPE){
 
@@ -524,6 +669,9 @@ class RHSTicket extends RHSMenssage {
         }
     }
 
+    /**
+     * Css para a caixa de comentários do ticket na administração
+     */
     function css() {
         echo '<style>
     .comments-ticket{
