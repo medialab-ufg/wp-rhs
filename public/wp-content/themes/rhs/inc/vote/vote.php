@@ -180,7 +180,7 @@ Class RHSVote {
 				$wp_query->set( $k, $v );
 			}
 
-        } elseif ($wp_query->is_main_query() && ( $wp_query->is_author() || $wp_query->is_single() ) ) {
+        } elseif ($wp_query->is_main_query() && $wp_query->post_type == 'post' && ( $wp_query->is_author() || $wp_query->is_single() ) ) {
         
             // No perfil do usuário, exibir posts de todos os status
             // Permite que pessoas vejam a single dos posts com status Fila de Votação ou expirados

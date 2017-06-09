@@ -14,7 +14,6 @@ class RHSRewriteRules {
     const POST_URL = 'publicar-postagem';
     const POSTAGENS_URL = 'minhas-postagens';
     const CONTATO = 'contato';
-    const TICKET = 'tickets';
 
     function __construct() {
             add_action( 'generate_rewrite_rules', array( &$this, 'rewrite_rules' ), 10, 1 );
@@ -45,8 +44,7 @@ class RHSRewriteRules {
             'user/me/edit' . "/?$"  => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::PROFILE_URL,
             'node/add/blog' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL,
             self::CONTATO . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::CONTATO,
-            self::TICKET . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::TICKET,
-            self::TICKET . "/([^/]+)/?$"      => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::TICKET . "&rhs_edit_post=" . $wp_rewrite->preg_index(1),
+
         );
 
         $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
