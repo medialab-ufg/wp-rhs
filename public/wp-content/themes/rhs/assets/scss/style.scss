@@ -1638,6 +1638,9 @@ form .comment-form-comment {
                     tr{
                         th{
                             text-align: center;
+                            a{
+                                color: $grayColor;
+                            }
                         }
                     }
                 }
