@@ -44,6 +44,7 @@ class RHSRewriteRules {
             'user/me/edit' . "/?$"  => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::PROFILE_URL,
             'node/add/blog' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL,
             self::CONTATO . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::CONTATO,
+
         );
 
         $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;

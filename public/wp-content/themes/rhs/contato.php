@@ -1,7 +1,6 @@
 <?php get_header(); ?>
 <?php global $RHSTicket; ?>
 <?php global $RHSUser; ?>
-<?php $RHSPost = new RHSPost(get_query_var('rhs_edit_post')); ?>
     <div class="row">
         <!-- Container -->
         <div class="col-xs-12 col-md-9">
@@ -56,7 +55,7 @@
                                         <input type="email" tabindex="2" name="email" id="input-email" class="form-control" value="<?php echo $RHSUser->get_user_data('email');?>" >
                                     </div>
                                     <div class="form-group float-label-control">
-                                        <label for="category">Categoria</label>
+                                        <label for="category">Categoria <span class="required">*</span></label>
                                         <?php $categories = $RHSTicket->category_tree_option(); ?>
                                         <select tabindex="3"  class="form-control" name="category" id="select-category">
                                             <option value="">-- Selecione --</option>
@@ -66,7 +65,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group float-label-control">
-                                        <label for="subject">Assunto</label>
+                                        <label for="subject">Assunto <span class="required">*</span></label>
                                         <input type="text" tabindex="4" name="subject" id="input-subject" class="form-control" value="" >
                                     </div>
                                     <div class="form-group float-label-control">
@@ -78,10 +77,10 @@
                                                 'content_after' => '</div>',
                                                 'content_before_field' => '<div class="col-md-6"><div class="form-group float-label-control">',
                                                 'content_after_field' => '<div class="clearfix"></div></div></div>',
-                                                'state_label'  => 'Estado &nbsp',
-                                                'city_label'   => 'Cidade &nbsp',
+                                                'state_label'  => 'Estado &nbsp <span class="required">*</span>',
+                                                'city_label'   => 'Cidade &nbsp <span class="required">*</span>',
                                                 'select_class' => 'form-control',
-                                                'label_class'  => 'control-label col-sm-4',
+                                                'label_class'  => 'control-label col-sm-5',
                                                 'selected_state' => $location['uf']['id'],
                                                 'selected_municipio' => $location['mun']['id'],
                                                 'tabindex_state' => 5,
@@ -116,7 +115,7 @@
                                         <table class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
+                                                    <th>*</th>
                                                     <th>Assunto</th>
                                                     <th>Categoria</th>
                                                     <th>Data</th>
@@ -124,21 +123,21 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <?php while ( $ticketLoop->have_posts() ) : $ticketLoop->the_post(); ?>
-                                                        <th><?php the_ID(); ?></th>
-                                                        <th><?php the_title(); ?></th>
-                                                        <th><strong>Categoria</strong></th>
-                                                        <th><?php the_time('F jS, Y'); ?></th>
+                                                <?php while ( $ticketLoop->have_posts() ) : $ticketLoop->the_post(); ?>
+                                                    <tr>
+                                                        <th><a href="<?php the_permalink(); ?>" title="Responder"><span class="fa fa-reply"></span></th>
+                                                        <th><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></th>
+                                                        <th><a href="<?php the_permalink(); ?>"><strong>Categoria</strong></a></th>
+                                                        <th><a href="<?php the_permalink(); ?>"><?php the_time('F jS, Y'); ?></a></th>
                                                         <?php if(get_post_status() == 'open')
                                                                 $status = 'Em Aberto'; 
                                                             elseif(get_post_status() == 'close')
                                                                 $status = 'Fechado'; 
                                                             elseif(get_post_status() == 'not_response')
                                                                 $status = 'Não Repondido'; ?>
-                                                        <th><?php echo $status ?></th>
-                                                    <?php endwhile; ?>
-                                                </tr>
+                                                        <th><a href="<?php the_permalink(); ?>"><?php echo $status ?></a></th>
+                                                    </tr>
+                                                <?php endwhile; ?>
                                             </tbody>
                                         </table>
                                     <?php else : ?>
