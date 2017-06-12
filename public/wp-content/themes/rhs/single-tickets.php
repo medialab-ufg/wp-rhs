@@ -35,7 +35,7 @@
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="m-b-md">
-                                                <h2 style="border-bottom: 1px solid rgba(119, 119, 119, 0.1)"><?php echo get_the_title(); ?></h2>
+                                                <h3 style="border-bottom: 1px solid rgba(119, 119, 119, 0.1)"><?php echo get_the_title(); ?></h3>
                                             </div>
                                             <dl class="dl-horizontal">
                                                 <dt>Status:</dt> <dd><span class="label label-<?php echo $lab; ?>"><?php echo $status; ?></span></dd>
@@ -55,30 +55,23 @@
                                             </dl>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <h4>Mensagem:</h4>
-                                            <blockquote><?php the_content(); ?></blockquote>
-                                        </div>
-                                        <div class="col-xs-12">
-                                            <h4>Resposta:</h4>
-                                            <blockquote>Respostas</blockquote>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <h4>Responder:</h4>
-                                            <form>
-                                                <fieldset>
-                                                    <div class="form-group">
-                                                        <textarea class="form-control" placeholder="Escreva sua Resposta" rows="4"></textarea>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-default" style="float: right;">Enviar</button>
-                                                </fieldset>
-                                            </form>
+                                            <h4>Mensagem:</h4>
+                                            <div class="well"><?php the_content(); ?></div>
                                         </div>
+                                        <?php
+                                        global $post;
+                                            $comments = get_comments('post_id='.$post->ID);
+                                            foreach($comments as $comment) :
+                                        ?>
+                                            <div class="col-xs-12">
+                                                    <h4>Resposta:</h4>
+                                                    <div class="well"><?php echo $comment->comment_content; ?><p style="text-align: right;">- <?php echo $comment->comment_author; ?></p></div>
+                                            </div>
+                                        <?php endforeach; ?>
                                     </div>
                                 </div>
                             <?php endwhile; ?>
