@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e03709c644949fcb610d09f589ded674",
+    "hash": "bdd9cd8fbc8084f39d8f2f5dc79a4607",
+    "content-hash": "3aec16a37db79a6bc53353581696b3cb",
     "packages": [
         {
             "name": "components/bootstrap",
@@ -72,7 +73,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2016-07-26T05:59:20+00:00"
+            "time": "2016-07-26 05:59:20"
         },
         {
             "name": "components/jquery",
@@ -114,7 +115,7 @@
             ],
             "description": "jQuery JavaScript Library",
             "homepage": "http://jquery.com",
-            "time": "2017-03-21T07:01:49+00:00"
+            "time": "2017-03-21 07:01:49"
         },
         {
             "name": "composer/installers",
@@ -228,7 +229,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2017-04-24T06:37:16+00:00"
+            "time": "2017-04-24 06:37:16"
         },
         {
             "name": "cwspear/bootstrap-hover-dropdown",
@@ -276,7 +277,7 @@
                 "hover",
                 "twitter"
             ],
-            "time": "2015-12-01T23:35:57+00:00"
+            "time": "2015-12-01 23:35:57"
         },
         {
             "name": "fortawesome/font-awesome",
@@ -324,7 +325,7 @@
                 "font",
                 "icon"
             ],
-            "time": "2016-10-24T15:52:54+00:00"
+            "time": "2016-10-24 15:52:54"
         },
         {
             "name": "google/recaptcha",
@@ -369,25 +370,25 @@
                 "recaptcha",
                 "spam"
             ],
-            "time": "2017-03-09T18:44:34+00:00"
+            "time": "2017-03-09 18:44:34"
         },
         {
             "name": "johnpbloch/wordpress",
-            "version": "4.7.5",
+            "version": "4.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress.git",
-                "reference": "381ef55a27e1dcc1c4bbe8b0c6a7ba2d45623819"
+                "reference": "24edf4daca6bc15ad3b78c5927468df487d47a37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress/zipball/381ef55a27e1dcc1c4bbe8b0c6a7ba2d45623819",
-                "reference": "381ef55a27e1dcc1c4bbe8b0c6a7ba2d45623819",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress/zipball/24edf4daca6bc15ad3b78c5927468df487d47a37",
+                "reference": "24edf4daca6bc15ad3b78c5927468df487d47a37",
                 "shasum": ""
             },
             "require": {
-                "johnpbloch/wordpress-core": "4.7.5",
-                "johnpbloch/wordpress-core-installer": "~0.2",
+                "johnpbloch/wordpress-core": "4.8.0",
+                "johnpbloch/wordpress-core-installer": "^1.0",
                 "php": ">=5.3.2"
             },
             "type": "package",
@@ -408,20 +409,20 @@
                 "cms",
                 "wordpress"
             ],
-            "time": "2017-05-16T22:48:14+00:00"
+            "time": "2017-06-08 15:12:19"
         },
         {
             "name": "johnpbloch/wordpress-core",
-            "version": "4.7.5",
+            "version": "4.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress-core.git",
-                "reference": "9a88a4b4c65f689d78789ef6ff77a7ca0239ec02"
+                "reference": "58f209dfd66f61c4398a47cf53e90d378abc25d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/9a88a4b4c65f689d78789ef6ff77a7ca0239ec02",
-                "reference": "9a88a4b4c65f689d78789ef6ff77a7ca0239ec02",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/58f209dfd66f61c4398a47cf53e90d378abc25d7",
+                "reference": "58f209dfd66f61c4398a47cf53e90d378abc25d7",
                 "shasum": ""
             },
             "require": {
@@ -445,20 +446,20 @@
                 "cms",
                 "wordpress"
             ],
-            "time": "2017-05-16T22:48:08+00:00"
+            "time": "2017-06-08 15:12:14"
         },
         {
             "name": "johnpbloch/wordpress-core-installer",
-            "version": "0.2.1",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress-core-installer.git",
-                "reference": "a04c2c383ef13aae077f36799ed2eafdebd618d2"
+                "reference": "e9e767f2d9f994f358c34b41def2c410ad8717f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress-core-installer/zipball/a04c2c383ef13aae077f36799ed2eafdebd618d2",
-                "reference": "a04c2c383ef13aae077f36799ed2eafdebd618d2",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core-installer/zipball/e9e767f2d9f994f358c34b41def2c410ad8717f2",
+                "reference": "e9e767f2d9f994f358c34b41def2c410ad8717f2",
                 "shasum": ""
             },
             "require": {
@@ -468,7 +469,8 @@
                 "composer/installers": "<1.0.6"
             },
             "require-dev": {
-                "composer/composer": "1.0.*@dev"
+                "composer/composer": "^1.0",
+                "phpunit/phpunit": ">=4.8.35"
             },
             "type": "composer-plugin",
             "extra": {
@@ -493,7 +495,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2015-06-11T15:15:30+00:00"
+            "time": "2017-05-31 18:42:33"
         },
         {
             "name": "nicolasbize/magicsuggest",
@@ -530,7 +532,7 @@
             ],
             "description": "MagicSuggest is a multiple selection auto suggest combo box for Bootstrap 3.",
             "homepage": "http://nicolasbize.com/magicsuggest",
-            "time": "2014-10-16T23:17:26+00:00"
+            "time": "2014-10-16 23:17:26"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -606,7 +608,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2017-03-15T19:32:56+00:00"
+            "time": "2017-03-15 19:32:56"
         },
         {
             "name": "twbs/bootstrap",
@@ -657,7 +659,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2016-07-25T15:51:55+00:00"
+            "time": "2016-07-25 15:51:55"
         },
         {
             "name": "wp-bootstrap/wp-bootstrap-navwalker",
@@ -690,7 +692,7 @@
                 }
             ],
             "description": "A custom WordPress nav walker class to fully implement the Bootstrap 3.0+ navigation style in a custom theme using the WordPress built in menu manager.",
-            "time": "2017-03-14T19:36:23+00:00"
+            "time": "2017-03-14 19:36:23"
         }
     ],
     "packages-dev": [],
