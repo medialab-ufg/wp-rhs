@@ -45,30 +45,19 @@
                             <div class="panel-body">
                                 <?php $RHSTicket->clear_messages(); ?>
                                 <form id="contato" class="form-horizontal" role="form" action="" method="post">
-                                    <div class="form-group float-label-control">
+                                    <?php if(is_user_logged_in()) : $dis = 'none';?>
+                                        <h4>Logado como <a href="<?php echo get_author_posts_url(get_current_user_id(), $RHSUser->get_user_data('name')); ?>"><?php echo $RHSUser->get_user_data('display_name');?></a></h4>
+                                    <?php endif; ?>
+                                    <div class="form-group float-label-control" style="display: <?php echo $dis; ?>">
                                         <label for="name">Nome <span class="required">*</span></label>
                                         <input type="text" tabindex="1" name="name" id="input-name" class="form-control" value="<?php echo $RHSUser->get_user_data('display_name');?>" >
                                         <input class="form-control" type="hidden" value="<?php echo $RHSTicket->getKey(); ?>" name="ticket_user_wp" />
                                     </div>
-                                    <div class="form-group float-label-control">
+                                    <div class="form-group float-label-control" style="display: <?php echo $dis; ?>">
                                         <label for="email">Email <span class="required">*</span></label>
                                         <input type="email" tabindex="2" name="email" id="input-email" class="form-control" value="<?php echo $RHSUser->get_user_data('email');?>" >
                                     </div>
-                                    <div class="form-group float-label-control">
-                                        <label for="category">Categoria <span class="required">*</span></label>
-                                        <?php $categories = $RHSTicket->category_tree_option(); ?>
-                                        <select tabindex="3"  class="form-control" name="category" id="select-category">
-                                            <option value="">-- Selecione --</option>
-                                            <?php foreach ($categories as $key => $category){ ?>
-                                                <option value="<?php echo $key ?>"><?php echo $category ?></option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group float-label-control">
-                                        <label for="subject">Assunto <span class="required">*</span></label>
-                                        <input type="text" tabindex="4" name="subject" id="input-subject" class="form-control" value="" >
-                                    </div>
-                                    <div class="form-group float-label-control">
+                                    <div class="form-group float-label-control" style="display: <?php echo $dis; ?>">
                                         <div class="row">
                                             <div class="col-sm-7">
                                             <?php $location = get_user_ufmun($RHSPerfil->getUserId()); ?>
@@ -88,6 +77,20 @@
                                             ) ); ?>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="form-group float-label-control">
+                                        <label for="category">Categoria <span class="required">*</span></label>
+                                        <?php $categories = $RHSTicket->category_tree_option(); ?>
+                                        <select tabindex="3"  class="form-control" name="category" id="select-category">
+                                            <option value="">-- Selecione --</option>
+                                            <?php foreach ($categories as $key => $category){ ?>
+                                                <option value="<?php echo $key ?>"><?php echo $category ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group float-label-control">
+                                        <label for="subject">Assunto <span class="required">*</span></label>
+                                        <input type="text" tabindex="4" name="subject" id="input-subject" class="form-control" value="" >
                                     </div>
                                     <div class="form-group float-label-control">
                                         <label for="message">Mensagem <span class="required">*</span></label>

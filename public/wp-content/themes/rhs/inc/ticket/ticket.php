@@ -158,11 +158,11 @@ class RHSTicket extends RHSMenssage {
             $this->insert(
                 $_POST['name'],
                 $_POST['email'],
-                $_POST['subject'],
                 $_POST['estado'],
                 $_POST['municipio'],
-                $_POST['message'],
                 $_POST['category'],
+                $_POST['subject'],
+                $_POST['message'],
                 get_current_user_id());
         }
     }
@@ -178,7 +178,7 @@ class RHSTicket extends RHSMenssage {
      * @param $category
      * @param int $userId
      */
-    public function insert( $name, $email, $subject, $state, $city, $message, $category, $userId = 0 ) {
+    public function insert( $name, $email, $state, $city, $category, $subject, $message, $userId = 0 ) {
 
         if($userId == 0){
             $userId = $this->getUserDefault()->ID;

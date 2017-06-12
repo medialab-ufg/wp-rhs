@@ -63,7 +63,7 @@
                                             <div class="well"><?php the_content(); ?></div>
                                         </div>
                                         <?php
-                                        global $post;
+                                            global $post;
                                             $comments = get_comments('post_id='.$post->ID);
                                             foreach($comments as $comment) :
                                         ?>
@@ -77,7 +77,6 @@
                                                                 } else { 
                                                                     comment_author_link();
                                                             } ?>
-                                                                
                                                         </p>
                                                     </div>
                                             </div>
