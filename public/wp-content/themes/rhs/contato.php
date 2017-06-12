@@ -1,3 +1,8 @@
+<?php 
+/**
+* Template name: Contato
+*/
+?>
 <?php get_header(); ?>
 <?php global $RHSTicket; ?>
 <?php global $RHSUser; ?>
