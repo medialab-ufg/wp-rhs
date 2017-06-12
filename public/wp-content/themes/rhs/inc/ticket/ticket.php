@@ -87,7 +87,7 @@ class RHSTicket extends RHSMenssage {
     function new_category_field( $term ){
 
         $args = array(
-            'role' => 'administrator',
+            'role__in' => ['administrator', 'editor'],
             'orderby' => 'display_name',
         );
 
@@ -121,7 +121,7 @@ class RHSTicket extends RHSMenssage {
         }
 
         $args = array(
-            'role' => 'administrator',
+            'role__in' => ['administrator', 'editor'],
             'orderby' => 'display_name',
         );
 
