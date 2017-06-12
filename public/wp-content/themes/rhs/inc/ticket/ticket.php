@@ -191,10 +191,24 @@ class RHSTicket extends RHSMenssage {
             'post_status'   => self::OPEN,
             'post_author'   => $userId,
             'post_type'     => self::POST_TYPE,
-            'post_category' => (is_array($category)) ? $category : array($category)
+            'post_category' => array($category)
         );
 
         $post_ID = wp_insert_post( $dataPost, true );
+
+        $term_meta = get_option(self::TAXONOMY.'_'.$category);
+
+        if(!empty($term_meta['category_user'])){
+
+            $user = get_userdata($term_meta['category_user']);
+            $subject = '['.get_bloginfo('name').' Contato] '.$subject;
+
+            $text_aditional = '<p>Link do ticket: <a href="'.get_edit_post_link($post_ID).'">'.get_edit_post_link($post_ID).'</a></p>';
+
+
+            wp_mail( $user->user_email, $subject, $text_aditional.$message );
+
+        }
 
         if ( $post_ID instanceof WP_Error ) {
 
@@ -432,7 +446,25 @@ class RHSTicket extends RHSMenssage {
                 register_post_status( $post_status, $args );
             }
         }
+
+        $category = array();
+
     }
+
+    private function categories_default(){
+
+        $categories = array(
+            'Formação/cursos',
+            'Outros',
+            'PNH',
+            'RHS',
+            'Suporte Técnico',
+            'SUS'
+        );
+
+
+    }
+
 
     /**
      * Adiciona filtro de categoria na listagem do ticket

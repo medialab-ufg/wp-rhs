@@ -26,7 +26,7 @@ class RHSImporter {
         'post-thumbnails' => 'Importação as imagens destacadas dos posts',
         'estados-cidades' => 'Importação das informações de estado e cidade para posts',
         'estados-cidades-users' => 'Importação das informações de estado e cidade para usuários',
-    
+        'categories-new' => 'Cria Novas Categorias',
     );
     
     
