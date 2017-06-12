@@ -32,7 +32,6 @@ class RHSTicket extends RHSMenssage {
         add_action( 'init', array( &$this, 'init' ) );
         add_action('add_meta_boxes', array( &$this, "add_meta_boxes"));
         add_action('admin_head', array( &$this, 'css'));
-        add_action('admin_footer-post.php', array( &$this, 'custom_post_status'));
         add_action( 'restrict_manage_posts', array( &$this, 'filter_category') );
         add_action( 'save_post', array(&$this,  'save_wp_editor_fields') );
         //add_filter( 'map_meta_cap', array( &$this, 'ticket_post_cap' ), 10, 4 );
@@ -451,21 +450,6 @@ class RHSTicket extends RHSMenssage {
 
     }
 
-    private function categories_default(){
-
-        $categories = array(
-            'Formação/cursos',
-            'Outros',
-            'PNH',
-            'RHS',
-            'Suporte Técnico',
-            'SUS'
-        );
-
-
-    }
-
-
     /**
      * Adiciona filtro de categoria na listagem do ticket
      */
@@ -663,42 +647,6 @@ class RHSTicket extends RHSMenssage {
 
     }
 
-    /**
-     * Adiciona novos status pelo JS
-     * Função desativada
-     */
-    function custom_post_status(){
-
-        return;
-
-        global $post;
-        $complete = '';
-        $label = '';
-
-        if($post->post_type == self::POST_TYPE){
-
-            echo '<script>jQuery(document).ready(function($){
-                    $("select#post_status option").remove();
-                    $(".misc-pub-section label span").remove();';
-
-            foreach ($this->status as $status => $name){
-
-                $complete = '';
-
-                if($post->post_status == $status){
-                    $complete = ' selected=\"selected\"';
-                }
-
-                $label = '<span id=\"post-status-display\"> '.$name.'</span>';
-
-                echo '$("select#post_status").append("<option value=\''.$status.'\' '.$complete.'>'.$name.'</option>");';
-                echo '$(".misc-pub-section label").append("'.$label.'");';
-
-            }
-
-            echo '});</script>';
-        }
-    }
 
     /**
      * Css para a caixa de comentários do ticket na administração
@@ -792,5 +740,3 @@ class RHSTicket extends RHSMenssage {
 
 global $RHSTicket;
 $RHSTicket = new RHSTicket();
-
-include_once WP_CONTENT_DIR .'/themes/rhs/inc/ticket/includes/post_status.php';
