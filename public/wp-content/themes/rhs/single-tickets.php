@@ -69,7 +69,17 @@
                                         ?>
                                             <div class="col-xs-12">
                                                     <h4>Resposta:</h4>
-                                                    <div class="well"><?php echo $comment->comment_content; ?><p style="text-align: right;">- <?php echo $comment->comment_author; ?></p></div>
+                                                    <div class="well"><?php echo $comment->comment_content; ?>
+                                                        <p style="text-align: right;"> <strong>-</strong> 
+                                                            <?php if ($comment->user_id) {
+                                                                $user=get_userdata($comment->user_id);
+                                                                    echo '<a href="'.get_author_posts_url($comment->user_id).'">'.$user->display_name.'</a>';
+                                                                } else { 
+                                                                    comment_author_link();
+                                                            } ?>
+                                                                
+                                                        </p>
+                                                    </div>
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
