@@ -77,8 +77,8 @@
                                                 'label_class'  => 'control-label col-sm-5',
                                                 'selected_state' => $location['uf']['id'],
                                                 'selected_municipio' => $location['mun']['id'],
-                                                'tabindex_state' => 5,
-                                                'tabindex_city' => 6
+                                                'tabindex_state' => 3,
+                                                'tabindex_city' => 4
                                             ) ); ?>
                                             </div>
                                         </div>
@@ -86,7 +86,7 @@
                                     <div class="form-group float-label-control">
                                         <label for="category">Categoria <span class="required">*</span></label>
                                         <?php $categories = $RHSTicket->category_tree_option(); ?>
-                                        <select tabindex="3"  class="form-control" name="category" id="select-category">
+                                        <select tabindex="5"  class="form-control" name="category" id="select-category">
                                             <option value="">-- Selecione --</option>
                                             <?php foreach ($categories as $key => $category){ ?>
                                                 <option value="<?php echo $key ?>"><?php echo $category ?></option>
@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="form-group float-label-control">
                                         <label for="subject">Assunto <span class="required">*</span></label>
-                                        <input type="text" tabindex="4" name="subject" id="input-subject" class="form-control" value="" >
+                                        <input type="text" tabindex="6" name="subject" id="input-subject" class="form-control" value="" >
                                     </div>
                                     <div class="form-group float-label-control">
                                         <label for="message">Mensagem <span class="required">*</span></label>
