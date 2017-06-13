@@ -166,7 +166,7 @@ Class RHSVote {
 
 	function fila_query( $wp_query ) {
 
-		if ( $wp_query->is_main_query() && $wp_query->get( 'rhs_login_tpl' ) == RHSRewriteRules::VOTING_QUEUE_URL ) {
+        if ( $wp_query->is_main_query() && $wp_query->get( 'rhs_login_tpl' ) == RHSRewriteRules::VOTING_QUEUE_URL ) {
 
 			$args = array(
 				'post_type'      => 'post',
@@ -180,10 +180,11 @@ Class RHSVote {
 				$wp_query->set( $k, $v );
 			}
 
-        } elseif ($wp_query->is_main_query() && $wp_query->post_type == 'post' && ( $wp_query->is_author() || $wp_query->is_single() ) ) {
+        } elseif ($wp_query->is_main_query() && $wp_query->get('post_type') == '' && ( $wp_query->is_author() || $wp_query->is_single() ) ) {
         
             // No perfil do usuário, exibir posts de todos os status
             // Permite que pessoas vejam a single dos posts com status Fila de Votação ou expirados
+            // A checagem pelo post type vazio é para ser aplicado apenas no post týpe padrão (post) e não em outros, como o ticket, por exmeplo
             
             $statuses = ['publish', self::VOTING_QUEUE, self::VOTING_EXPIRED];
             if (is_user_logged_in())

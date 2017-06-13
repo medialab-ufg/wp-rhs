@@ -49,7 +49,7 @@
                             </div>
                             <div class="panel-body">
                                 <?php $RHSTicket->clear_messages(); ?>
-                                <form id="contato" class="form-horizontal" role="form" action="" method="post">
+                                <form id="contato" class="form-horizontal" role="form" action="<?php the_permalink(); ?>" method="post">
                                     <?php if(is_user_logged_in()) : $dis = 'none';?>
                                         <h4>Logado como <a href="<?php echo get_author_posts_url(get_current_user_id(), $RHSUser->get_user_data('name')); ?>"><?php echo $RHSUser->get_user_data('display_name');?></a></h4>
                                     <?php endif; ?>

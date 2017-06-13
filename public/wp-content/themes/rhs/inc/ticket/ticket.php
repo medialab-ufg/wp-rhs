@@ -139,6 +139,11 @@ class RHSTicket extends RHSMenssage {
      * @param int $userId
      */
     public function insert( $name, $email, $state, $city, $category, $subject, $message, $userId = 0 ) {
+        
+
+global $wp_query;
+var_dump($wp_query); die;
+
         if($userId == 0){
             $userId = $this->getUserDefault()->ID;
         }
