@@ -189,11 +189,10 @@ class RHSTicket extends RHSMenssage {
             'post_content'  => $message,
             'post_status'   => self::OPEN,
             'post_author'   => $userId,
-            'post_type'     => self::POST_TYPE,
-            'post_category' => array($category)
+            'post_type'     => self::POST_TYPE
         );
-
-        $post_ID = wp_insert_post( $dataPost, true );
+        
+        $post_ID = wp_insert_post($dataPost, true);
 
         $term_meta = get_option(self::TAXONOMY.'_'.$category);
 
@@ -208,7 +207,7 @@ class RHSTicket extends RHSMenssage {
             wp_mail( $user->user_email, $subject, $text_aditional.$message );
 
         }
-
+        
         if ( $post_ID instanceof WP_Error ) {
 
             foreach ( $post_ID->get_error_messages() as $error ) {
@@ -218,7 +217,7 @@ class RHSTicket extends RHSMenssage {
             return;
 
         }
-
+        
         $this->set_messages(   '<i class="fa fa-check "></i> Contato enviado com sucesso!', false, 'success' );
         return;
 
@@ -522,10 +521,10 @@ class RHSTicket extends RHSMenssage {
         $comments = get_comments(array('post_id'=>$post->ID));
 
         if($comments){
-            add_meta_box('ticket_response', 'Comentários', array( &$this, 'meta_box_response'), self::POST_TYPE, 'normal', 'default');
+            add_meta_box('ticket_response', 'Resposta', array( &$this, 'meta_box_response'), self::POST_TYPE, 'normal', 'default');
         }
 
-        add_meta_box('ticket_wp_editor', 'Enviar Comentário', array( &$this, 'meta_box_comment'), self::POST_TYPE, 'normal', 'default');
+        add_meta_box('ticket_wp_editor', 'Enviar Resposta', array( &$this, 'meta_box_comment'), self::POST_TYPE, 'normal', 'default');
     }
 
     /**
@@ -538,6 +537,9 @@ class RHSTicket extends RHSMenssage {
         $uploaded_csv = get_post_meta( $post->ID, 'editor_box_comments', true);
 
         wp_editor( $uploaded_csv, $editor_id );
+        ?>
+        <button type="submit" class="btn btn-default">Enviar</button>
+        <?php
     }
 
     /**
@@ -561,7 +563,7 @@ class RHSTicket extends RHSMenssage {
                     <div class="avatar">
                         <?php echo get_avatar($comment->user_id); ?>
                     </div>
-                    <span>(<?php echo date('d/m/Y á\s H:i',strtotime($comment->comment_date)) ?>) <?php echo $user->display_name ?>, <?php echo $user->user_email ?> <i class="role"><?php echo ($author) ? '(Autor)' : '(Editor)'; ?></i> </span>
+                    <span>(<?php echo date('d/m/Y á\s H:i',strtotime($comment->comment_date)) ?>) <?php echo $user->display_name ?>, <?php echo $user->user_email ?> <i class="role"><?php echo ($author) ? '(Editor)' : '(Autor)'; ?></i> </span>
                     <p><?php echo $comment->comment_content; ?></p>
                     <div class="clearfix"></div>
                 </div>
@@ -653,87 +655,91 @@ class RHSTicket extends RHSMenssage {
      */
     function css() {
         echo '<style>
-    .comments-ticket{
-    box-shadow: 2px 1px 2px 0px #777;
-    border-radius: 7px;
-    padding: 20px;
-    background: rgba(241, 241, 241, 0.19);
-    width: 80%;
-    float: left;
-       margin-top: 10px;
-}
+            #ticket_wp_editor .inside .btn{
+                margin-left: 842px;
+                margin-top: 12px;
+                padding: 5px; 
+                width: 150px;
+            }
+            .comments-ticket{
+                box-shadow: 2px 1px 2px 0px #777;
+                border-radius: 7px;
+                padding: 20px;
+                background: rgba(241, 241, 241, 0.19);
+                width: 80%;
+                float: left;
+                   margin-top: 10px;
+            }
 
-.comments-ticket > .avatar{
-    float: left;
-    display: inline-block;
-    height: 60px;
-    width: 60px;
-    object-fit: cover;
-}
+            .comments-ticket > .avatar{
+                float: left;
+                display: inline-block;
+                height: 60px;
+                width: 60px;
+                object-fit: cover;
+            }
 
-.comments-ticket > .avatar > img{
-    width: 100%;
-    height: 100%;
-}
+            .comments-ticket > .avatar > img{
+                width: 100%;
+                height: 100%;
+            }
 
-.comments-ticket > span{
-    margin-left: 15px;
-    font-weight: 600;
-    font-style: italic;
-    font-size: 12px;
-    float: left;
-    width: calc(100% - 75px);
-}
+            .comments-ticket > span{
+                margin-left: 15px;
+                font-weight: 600;
+                font-style: italic;
+                font-size: 12px;
+                float: left;
+                width: calc(100% - 75px);
+            }
 
-.comments-ticket > span > i{
-    color: #bb0d0d;
-}
+            .comments-ticket > span > i{
+                color: #bb0d0d;
+            }
 
-.comments-ticket > span > .to-author{
-    float: right;
-    text-decoration: none;
-    margin-top: -13px;
-    margin-right: -10px;
-    color: #04b123;
-}
+            .comments-ticket > span > .to-author{
+                float: right;
+                text-decoration: none;
+                margin-top: -13px;
+                margin-right: -10px;
+                color: #04b123;
+            }
 
-.comments-ticket > p{
-    margin-left: 15px;
-    margin-top: 3px;
-    display: block;
-    float: left;
-    width: calc(100% - 75px);
-}
+            .comments-ticket > p{
+                margin-left: 15px;
+                margin-top: 3px;
+                display: block;
+                float: left;
+                width: calc(100% - 75px);
+            }
 
-.clearfix{
-    clear: both;
-}
+            .clearfix{
+                clear: both;
+            }
 
-.comments-ticket.author{
-    float: right;
-    background: rgba(170, 181, 206, 0.27);
-}
+            .comments-ticket.author{
+                float: right;
+                background: rgba(170, 181, 206, 0.27);
+            }
 
-.comments-ticket.author > .avatar{
-    float: right;
-}
+            .comments-ticket.author > .avatar{
+                float: right;
+            }
 
-.comments-ticket.author > span{
-    float: right;
-    margin-left: 0px;
-    margin-right: 15px;
-    text-align: right;
-}
+            .comments-ticket.author > span{
+                float: right;
+                margin-left: 0px;
+                margin-right: 15px;
+                text-align: right;
+            }
 
-.comments-ticket.author > p{
-    float: right;
-    margin-left: 0px;
-    margin-right: 15px;
-    text-align: right;
-}
-
-
-  </style>';
+            .comments-ticket.author > p{
+                float: right;
+                margin-left: 0px;
+                margin-right: 15px;
+                text-align: right;
+            }
+        </style>';
     }
 }
 
