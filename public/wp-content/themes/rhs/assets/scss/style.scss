@@ -619,7 +619,7 @@ h1.titulo-page {
         border-color: $whiteColor;
         padding: 0;
         margin-bottom: 15px;
-        img, p img, span img {
+        .thumbnail_post {
             display: block;
             height: auto !important;
             margin: auto;
