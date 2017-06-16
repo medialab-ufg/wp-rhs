@@ -352,44 +352,18 @@ class RHSTicket extends RHSMenssage {
      */
     function filter_category() {
         global $typenow, $post, $post_id;
-        if( $typenow != "page" && $typenow != "post" ){
-            //get post type
-            $post_type= get_query_var('post_type');
-            //get taxonomy associated with current post type
-            $taxonomies = get_object_taxonomies($post_type);
-            //in next loop add filter for tax
-            if ($taxonomies) {
-                foreach ($taxonomies as $tax_slug) {
-                    $tax_obj = get_taxonomy($tax_slug);
-                    $tax_name = $tax_obj->name;
-                    $terms = get_terms($tax_name, array('hide_empty' => false));
-                    echo "<select name='$tax_slug' id='$tax_slug' class='postform'>";
-                    if($post_type == self::POST_TYPE){
-                        echo "<option value=''>Responsável</option>";
-                    } else {
-                       echo "<option value=''>Categorias</option>";
-                    }
-                    $options = array();
-                    foreach ($terms as $term) {
-                        $label = (isset($_GET[$tax_slug])) ? $_GET[$tax_slug] : ''; // Fix
-                        if($post_type == self::POST_TYPE){
-                            $option = get_option( self::TAXONOMY."_".$term->term_id );
-                            if(empty($option['category_user'])){
-                                continue;
-                            }
-                            $user = get_userdata($option['category_user']);
-                            if($options && in_array($user->ID,$options)){
-                                continue;
-                            }
-                            $options[] = $user->ID;
-                            echo '<option value='. $term->slug, $label == $term->slug ? ' selected="selected"' : '','>' . $user->display_name .' (' . $user->user_email .')</option>';
-                        } else {
-                            echo '<option value='. $term->slug, $label == $term->slug ? ' selected="selected"' : '','>' . $term->name .' (' . $term->count .')</option>';
-                        }
-                    }
-                    echo "</select>";
-                }
+        if( $typenow == self::POST_TYPE ){
+            $tax_obj = get_taxonomy(self::TAXONOMY);
+            $tax_name = $tax_obj->name;
+            $terms = get_terms($tax_name, array('hide_empty' => false));
+            echo "<select name='",self::TAXONOMY,"' id='",self::TAXONOMY,"' class='postform'>";
+            echo "<option value=''>Categorias</option>";
+            $options = array();
+            foreach ($terms as $term) {
+                $label = (isset($_GET[$tax_slug])) ? $_GET[$tax_slug] : ''; // Fix
+                echo '<option value='. $term->slug, $label == $term->slug ? ' selected="selected"' : '','>' . $term->name .' (' . $term->count .')</option>';
             }
+            echo "</select>";
         }
     }
     /**
