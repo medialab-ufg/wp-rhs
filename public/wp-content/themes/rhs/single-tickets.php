@@ -64,11 +64,11 @@
                                         </div>
                                         <?php
                                             global $post;
-                                            $comments = get_comments('post_id='.$post->ID);
+                                            $comments = get_comments('post_id='.$post->ID . '&order=asc');
                                             foreach($comments as $comment) :
                                         ?>
                                             <div class="col-xs-12">
-                                                    <h4>Resposta:</h4>
+                                                    <h4>Respostas:</h4>
                                                     <div class="well"><?php echo $comment->comment_content; ?>
                                                         <p style="text-align: right;"> <strong>-</strong> 
                                                             <?php if ($comment->user_id) {

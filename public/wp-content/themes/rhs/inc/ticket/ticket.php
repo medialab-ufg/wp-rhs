@@ -397,7 +397,7 @@ class RHSTicket extends RHSMenssage {
      */
     function add_meta_boxes() {
         global $post;
-        $comments = get_comments(array('post_id'=>$post->ID));
+        $comments = get_comments(array('post_id'=>$post->ID,'order'=>'asc'));
         if($comments){
             add_meta_box('ticket_response', 'Resposta', array( &$this, 'meta_box_response'), self::POST_TYPE, 'normal', 'default');
         }
@@ -422,7 +422,7 @@ class RHSTicket extends RHSMenssage {
      * @return string
      */
     function meta_box_response($post) {
-        $comments = get_comments(array('post_id'=>$post->ID));
+        $comments = get_comments(array('post_id'=>$post->ID,'order'=>'asc'));
         $user_current = wp_get_current_user();
         foreach ($comments as $comment){
             $author = ($comment->user_id == $user_current->ID) ? true : false;
