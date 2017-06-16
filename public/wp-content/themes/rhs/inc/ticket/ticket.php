@@ -278,7 +278,7 @@ class RHSTicket extends RHSMenssage {
             'comment_author' => $user->user_login,
             'comment_author_email' => $user->user_email,
             'comment_author_url' => $user->user_url,
-            'comment_content' => $_POST['editor_box_comments'],
+            'comment_content' => wpautop($_POST['editor_box_comments']),
             'comment_type' => '',
             'comment_parent' => 0,
             'user_id' => $user->ID,
@@ -397,10 +397,7 @@ class RHSTicket extends RHSMenssage {
      */
     function add_meta_boxes() {
         global $post;
-        $comments = get_comments(array('post_id'=>$post->ID,'order'=>'asc'));
-        if($comments){
-            add_meta_box('ticket_response', 'Resposta', array( &$this, 'meta_box_response'), self::POST_TYPE, 'normal', 'default');
-        }
+        add_meta_box('ticket_response', 'Conversação', array( &$this, 'meta_box_response'), self::POST_TYPE, 'normal', 'default');
         add_meta_box('ticket_wp_editor', 'Enviar Resposta', array( &$this, 'meta_box_comment'), self::POST_TYPE, 'normal', 'default');
     }
     /**
@@ -409,8 +406,9 @@ class RHSTicket extends RHSMenssage {
      */
     function meta_box_comment($post){
         $editor_id = 'editor_box_comments';
-        $uploaded_csv = get_post_meta( $post->ID, 'editor_box_comments', true);
-        wp_editor( $uploaded_csv, $editor_id );
+        wp_editor( '', $editor_id, [
+            'textarea_rows' => 5,
+        ] );
         ?>
         <button type="submit" class="btn btn-default">Enviar</button>
         <?php
@@ -423,16 +421,31 @@ class RHSTicket extends RHSMenssage {
      */
     function meta_box_response($post) {
         $comments = get_comments(array('post_id'=>$post->ID,'order'=>'asc'));
-        $user_current = wp_get_current_user();
+        
+        $user_author = get_userdata( $post->post_author );
+        // Título do ticket e mensagem original
+        echo '<h1>Contato #'.$post->ID . ': ' . $post->post_title.'</h1>';
+        ?>
+        <div class="comments-ticket author">
+            <div class="avatar">
+                <?php echo get_avatar($post->post_author); ?>
+            </div>
+            <span>(<?php echo date('d/m/Y á\s H:i',strtotime($post->post_date)) ?>) <?php echo $user_author->display_name ?>, <?php echo $user_author->user_email ?> <i class="role">(Autor)</i> </span>
+            <p><?php echo apply_filters('the_content', $post->post_content); ?></p>
+            <div class="clearfix"></div>
+        </div>
+        <?php
+        
+        
         foreach ($comments as $comment){
-            $author = ($comment->user_id == $user_current->ID) ? true : false;
+            $isauthor = ($comment->user_id == $post->post_author) ? true : false;
             $user = get_userdata( $comment->user_id );
                 ?>
-                <div class="comments-ticket <?php echo ($author) ? 'author' : ''; ?>">
+                <div class="comments-ticket <?php echo $isauthor ? 'author' : ''; ?>">
                     <div class="avatar">
                         <?php echo get_avatar($comment->user_id); ?>
                     </div>
-                    <span>(<?php echo date('d/m/Y á\s H:i',strtotime($comment->comment_date)) ?>) <?php echo $user->display_name ?>, <?php echo $user->user_email ?> <i class="role"><?php echo ($author) ? '(Editor)' : '(Autor)'; ?></i> </span>
+                    <span>(<?php echo date('d/m/Y á\s H:i',strtotime($comment->comment_date)) ?>) <?php echo $user->display_name ?>, <?php echo $user->user_email ?> <i class="role"><?php echo ($isauthor) ? '(Autor)' : '(Editor)'; ?></i> </span>
                     <p><?php echo $comment->comment_content; ?></p>
                     <div class="clearfix"></div>
                 </div>
@@ -463,7 +476,7 @@ class RHSTicket extends RHSMenssage {
         $args = array(
             'labels' => $labels,
             'hierarchical' => false,
-            'supports' => array('title', 'editor'),
+            'supports' => array('title'),
             'taxonomies' => array(self::TAXONOMY),
             'public' => true,
             'show_ui' => true,
@@ -480,6 +493,10 @@ class RHSTicket extends RHSMenssage {
             'menu_icon' => 'dashicons-tickets'
         );
         register_post_type(self::POST_TYPE, $args);
+        
+        // removemos depois porque se passar um array vazio ele usa os valores padrão
+        remove_post_type_support(self::POST_TYPE, 'title');
+        
     }
     /**
      * Registra nova taxonomia
