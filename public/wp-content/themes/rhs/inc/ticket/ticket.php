@@ -108,6 +108,7 @@ class RHSTicket extends RHSMenssage {
 
         <?php
     }
+    
     /**
      * É chamdo quando o formulário de contato é enviado
      */
@@ -272,31 +273,35 @@ class RHSTicket extends RHSMenssage {
         remove_meta_box('commentsdiv', self::POST_TYPE, 'normal');
     }
     /**
-     * Insere resposta ao ticket
+     * Salvando ticket pelo admin
      */
     function save_wp_editor_fields(){
-        if(empty($_POST['editor_box_comments'])){
-            return;
-        }
         global $post;
-        $time = current_time('mysql');
-        $user = wp_get_current_user();
-        $data = array(
-            'comment_post_ID' => $post->ID,
-            'comment_author' => $user->user_login,
-            'comment_author_email' => $user->user_email,
-            'comment_author_url' => $user->user_url,
-            'comment_content' => wpautop($_POST['editor_box_comments']),
-            'comment_type' => '',
-            'comment_parent' => 0,
-            'user_id' => $user->ID,
-            'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
-            'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
-            'comment_date' => $time,
-            'comment_approved' => 1
-        );
-        $comment_id = wp_insert_comment($data);
-        wp_set_comment_status( $comment_id, 'span' );
+        if(empty($_POST['editor_box_comments'])){
+            $time = current_time('mysql');
+            $user = wp_get_current_user();
+            $data = array(
+                'comment_post_ID' => $post->ID,
+                'comment_author' => $user->user_login,
+                'comment_author_email' => $user->user_email,
+                'comment_author_url' => $user->user_url,
+                'comment_content' => wpautop($_POST['editor_box_comments']),
+                'comment_type' => '',
+                'comment_parent' => 0,
+                'user_id' => $user->ID,
+                'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
+                'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
+                'comment_date' => $time,
+                'comment_approved' => 1
+            );
+            $comment_id = wp_insert_comment($data);
+            wp_set_comment_status( $comment_id, 'span' );
+        }
+        
+        if (isset($_POST['_responsavel'])) {
+            update_post_meta($post->ID, '_responsavel', $_POST['_responsavel']);
+        }
+        
     }
     /**
      * Status do post
@@ -381,6 +386,7 @@ class RHSTicket extends RHSMenssage {
         global $post;
         add_meta_box('ticket_response', 'Conversação', array( &$this, 'meta_box_response'), self::POST_TYPE, 'normal', 'default');
         add_meta_box('ticket_wp_editor', 'Enviar Resposta', array( &$this, 'meta_box_comment'), self::POST_TYPE, 'normal', 'default');
+        add_meta_box('ticket_responsavel', 'Usuário Responsável', array( &$this, 'meta_box_responsavel'), self::POST_TYPE, 'side', 'default');
     }
     /**
      * Meta box do ticket, para responder o ticket
@@ -392,6 +398,7 @@ class RHSTicket extends RHSMenssage {
             'textarea_rows' => 5,
         ] );
         ?>
+        
         <button type="submit" class="btn btn-default">Enviar</button>
         <?php
     }
@@ -436,6 +443,28 @@ class RHSTicket extends RHSMenssage {
         echo "<div class='clearfix'></div>";
         return '';
     }
+    
+    function meta_box_responsavel($post) {
+        
+        $current = get_post_meta($post->ID, '_responsavel', true);
+        
+        $args = array(
+            'role__in' => ['administrator', 'editor'],
+            'orderby' => 'display_name',
+        );
+        $subscribers = get_users($args);
+        ?>
+            <label for="parent">Usuário Responsavél</label>
+            <select class="postform" name="_responsavel" id="_responsavel">
+                <option value="">-- Selecione --</option>
+                <?php foreach ($subscribers as $subscriber){ ?>
+                    <option value="<?php echo $subscriber->ID ?>" <?php selected($subscriber->ID, (int) $current); ?>><?php echo $subscriber->display_name ?></option>
+                <?php } ?>
+            </select>
+
+        <?php
+    }
+    
     /**
      * Registra novo tipo de post
      */
@@ -515,8 +544,7 @@ class RHSTicket extends RHSMenssage {
     function css() {
         echo '<style>
             #ticket_wp_editor .inside .btn{
-                margin-left: 842px;
-                margin-top: 12px;
+                margin-top: 30px;
                 padding: 5px; 
                 width: 150px;
             }
