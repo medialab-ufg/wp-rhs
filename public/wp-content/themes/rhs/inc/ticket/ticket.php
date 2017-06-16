@@ -54,7 +54,7 @@ class RHSTicket extends RHSMenssage {
         if(isset( $_POST['term_meta']['category_user'])){
             $term_meta = array();
             $term_meta['category_user'] = $_POST['term_meta']['category_user'] ;
-            update_option( self::TAXONOMY."_".$term_id, $term_meta );
+            add_term_meta($term_id, 'user', $_POST['term_meta']['category_user']);
         }
     }
     function new_category_field( $term ){
@@ -84,7 +84,7 @@ class RHSTicket extends RHSMenssage {
         $term_meta = '';
         if($term instanceof WP_Term){
             $term_id = $term->term_id;
-            $term_meta = get_option( self::TAXONOMY."_".$term_id );
+            $term_meta = get_term_meta($term_id, 'user', true );
         }
         $args = array(
             'role__in' => ['administrator', 'editor'],
@@ -100,7 +100,7 @@ class RHSTicket extends RHSMenssage {
                 <select class="postform" name="term_meta[category_user]" id="term_meta[category_user]">
                     <option value="">-- Selecione --</option>
                     <?php foreach ($subscribers as $subscriber){ ?>
-                        <option value="<?php echo $subscriber->ID ?>" <?php echo (!empty($term_meta['category_user']) && $term_meta['category_user'] == $subscriber->ID) ? 'selected': ''?>><?php echo $subscriber->display_name ?> (<?php echo $subscriber->user_email ?>)</option>
+                        <option value="<?php echo $subscriber->ID ?>" <?php echo ($term_meta == $subscriber->ID) ? 'selected': ''?>><?php echo $subscriber->display_name ?> (<?php echo $subscriber->user_email ?>)</option>
                     <?php } ?>
                 </select>
             </td>
@@ -155,8 +155,16 @@ class RHSTicket extends RHSMenssage {
 
         $post_ID = wp_insert_post($dataPost, true);
 
+        // insere categoria do ticket
         wp_set_object_terms( $post_ID, (int) $category, self::TAXONOMY );
-
+        
+        // atualiza contagem de tickets na categoria
+        
+        // Salva o usuário padrão setado na categoria como o responsável do ticket
+        // O responsável pode ser alterado depois, via metabox.
+        // o term_meta do usuário padrão da categoria serve apenas para esta setagem na hora que o ticket é criado
+        $responsavel_padrao = get_term_meta($category, 'user', true);
+        if ($responsavel_padrao) add_post_meta($post_ID, '_responsavel', $responsavel_padrao);
 
         $term_meta = get_option(self::TAXONOMY.'_'.$category);
         if(!empty($term_meta['category_user'])){
