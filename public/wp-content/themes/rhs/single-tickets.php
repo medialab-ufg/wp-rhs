@@ -1,3 +1,14 @@
+<?php
+
+// Apenas os donos dos posts podem ver essa página
+
+if (!is_user_logged_in() || wp_get_current_user()->ID != $post->post_author) {
+    wp_redirect(home_url('nao-permitido'));
+}
+
+?>
+
+
 <?php get_header(); ?>
 
     <div class="row">
