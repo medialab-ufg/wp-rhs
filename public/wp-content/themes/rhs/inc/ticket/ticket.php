@@ -57,7 +57,8 @@ class RHSTicket extends RHSMenssage {
     }
     
     function custom_columns_head($defaults) {
-        $defaults['author'] = 'Autor';
+        $defaults['autor'] = 'Autor'; // a chave autor em portugues pq se for em ingles ele monta a coluna com o metodo padrao do wp
+        $defaults['email'] = 'Email';
         $defaults['member_since'] = 'Membro desde';
         $defaults['responsavel'] = 'Responsável';
         
@@ -67,11 +68,23 @@ class RHSTicket extends RHSMenssage {
     function custom_columns_content($column_name, $post_ID) {
         
         $author = get_userdata(get_post_field( 'post_author', $post_ID ));
+        #$defaultAuthor = $this->getUserDefault();
+        $isNotLoggedAuthor = get_post_meta($post_ID, '_not_logged_user', true) == '1';
         
-        if ($column_name == 'author') {
-            echo $author->display_name;
+        if ($column_name == 'autor') {
+            if ($isNotLoggedAuthor || !is_object($author)) {
+                echo get_post_meta($post_ID, '_author_name', true);
+            } else {
+                echo '<a href="' . get_author_posts_url($author->ID) . '">';
+                echo $author->display_name;
+                echo '</a>';
+                
+            }
+                
+        } elseif ($column_name == 'email') {
+            echo $isNotLoggedAuthor || !is_object($author) ? get_post_meta($post_ID, '_author_email', true) : $author->user_email;
         } elseif ($column_name == 'member_since') {
-            echo $author->user_registered;
+            echo $isNotLoggedAuthor || !is_object($author) ? '--' : $author->user_registered;
         } elseif ($column_name == 'responsavel') {
             $u_id = get_post_meta($post_ID, '_responsavel', true);
             if ($u_id) {
@@ -153,15 +166,37 @@ class RHSTicket extends RHSMenssage {
             if ( ! $this->validate_by_post() ) {
                 return;
             }
+            
+            $defaultAuthor = false;
+            if(!is_user_logged_in()){
+                $author = $this->getUserDefault();
+                $defaultAuthor = true;
+            } else {
+                $author = wp_get_current_user();
+            }
+            
+            $name = $defaultAuthor ? $_POST['name'] : $author->display_name;
+             
+            $email = $defaultAuthor ? $_POST['email'] : $author->user_email;
+            
+            if ($defaultAuthor) {
+                $estado = $_POST['estado'];
+                $municipio = $_POST['municipio'];
+            } else {
+                $ufmun = get_user_ufmun($author->ID);
+                $estado = $ufmun['uf']['id'];
+                $municipio = $ufmun['mun']['id'];
+            }
+           
             $this->insert(
-                $_POST['name'],
-                $_POST['email'],
-                $_POST['estado'],
-                $_POST['municipio'],
+                $name,
+                $email,
+                $estado,
+                $municipio,
                 $_POST['category'],
                 $_POST['subject'],
                 $_POST['message'],
-                get_current_user_id());
+                $defaultAuthor);
         }
     }
     /**
@@ -175,23 +210,42 @@ class RHSTicket extends RHSMenssage {
      * @param $category
      * @param int $userId
      */
-    public function insert( $name, $email, $state, $city, $category, $subject, $message, $userId = 0 ) {
-
-        if($userId == 0){
-            $userId = $this->getUserDefault()->ID;
+    public function insert( $name, $email, $state, $city, $category, $subject, $message, $defaultAuthor = false ) {
+        
+        if($defaultAuthor){
+            $author = $this->getUserDefault();
+        } else {
+            $author = wp_get_current_user();
         }
+        
         $dataPost = array(
             'post_title'    => wp_strip_all_tags( $subject ),
             'post_content'  => $message,
             'post_status'   => self::OPEN,
-            'post_author'   => $userId,
+            'post_author'   => $author->ID,
             'post_type'     => self::POST_TYPE
         );
-        
-
 
         $post_ID = wp_insert_post($dataPost, true);
-
+        
+        if ( $post_ID instanceof WP_Error ) {
+            foreach ( $post_ID->get_error_messages() as $error ) {
+                $this->set_messages( $error, false, 'error' );
+            }
+            return;
+        }
+        
+        // insere metadados
+        add_post_meta($post_ID, '_author_name', $name);
+        add_post_meta($post_ID, '_author_email', $email);
+        add_post_ufmun_meta($post_ID, $city, $state);
+        
+        // salvamos também a data de registro do usuário logado
+        add_post_meta($post_ID, '_author_registered', $author->user_registered);
+         
+        // usuário logado?
+        add_post_meta($post_ID, '_not_logged_user', $defaultAuthor);
+        
         // insere categoria do ticket
         wp_set_object_terms( $post_ID, (int) $category, self::TAXONOMY );
         
@@ -203,20 +257,14 @@ class RHSTicket extends RHSMenssage {
         $responsavel_padrao = get_term_meta($category, 'user', true);
         if ($responsavel_padrao) add_post_meta($post_ID, '_responsavel', $responsavel_padrao);
 
-        $term_meta = get_option(self::TAXONOMY.'_'.$category);
-        if(!empty($term_meta['category_user'])){
-            $user = get_userdata($term_meta['category_user']);
+        if($responsavel_padrao){
+            $user = get_userdata($responsavel_padrao);
             $subject = '['.get_bloginfo('name').' Contato] '.$subject;
             $text_aditional = '<p>Link do ticket: <a href="'.get_edit_post_link($post_ID).'">'.get_edit_post_link($post_ID).'</a></p>';
             wp_mail( $user->user_email, $subject, $text_aditional.$message );
         }
         
-        if ( $post_ID instanceof WP_Error ) {
-            foreach ( $post_ID->get_error_messages() as $error ) {
-                $this->set_messages( $error, false, 'error' );
-            }
-            return;
-        }
+        
         
         $this->set_messages(   '<i class="fa fa-check "></i> Contato enviado com sucesso!', false, 'success' );
         return;
