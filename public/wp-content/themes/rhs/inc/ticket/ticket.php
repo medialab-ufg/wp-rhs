@@ -251,7 +251,7 @@ class RHSTicket extends RHSMenssage {
      */
     public function getUserDefault(){
         $login = 'rhs_author_default_ticket';
-        $user = get_userdatabylogin($login);
+        $user = get_user_by('login', $login);
         if($user){
             return $user;
         }
@@ -313,7 +313,7 @@ class RHSTicket extends RHSMenssage {
      */
     function save_wp_editor_fields(){
         global $post;
-        if(empty($_POST['editor_box_comments'])){
+        if(!empty($_POST['editor_box_comments'])){
             $time = current_time('mysql');
             $user = wp_get_current_user();
             $data = array(
