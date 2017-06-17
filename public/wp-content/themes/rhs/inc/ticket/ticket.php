@@ -24,7 +24,7 @@ class RHSTicket extends RHSMenssage {
         add_action( 'init', array(&$this, 'trigger_by_post'), 15 );
         add_action('add_meta_boxes', array( &$this, "add_meta_boxes"));
         add_action('admin_head', array( &$this, 'css'));
-        add_action( 'restrict_manage_posts', array( &$this, 'filter_category') );
+        add_action( 'restrict_manage_posts', array( &$this, 'admin_filters') );
         add_action( 'save_post', array(&$this,  'save_wp_editor_fields') );
         //add_filter( 'map_meta_cap', array( &$this, 'ticket_post_cap' ), 10, 4 );
         add_action( 'admin_menu', array( &$this, 'remove_meta_boxes') );
@@ -32,6 +32,10 @@ class RHSTicket extends RHSMenssage {
         add_action(self::POST_TYPE.'-category_add_form_fields',array( &$this, 'new_category_field') );
         add_action( 'edited_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
         add_action( 'create_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
+        
+        // filtra listagem no admin
+        add_filter( 'parse_query', array(&$this, 'admin_parse_query') );
+        
         foreach ($this->post_status as $status => $args){
             $status = array('slug' => $status, 'post_type' => array( self::POST_TYPE ));
             new WordPress_Custom_Status(  $status + $args);
@@ -361,9 +365,9 @@ class RHSTicket extends RHSMenssage {
         $category = array();
     }
     /**
-     * Adiciona filtro de categoria na listagem do ticket
+     * Adiciona filtro de categoria e responsável na listagem do ticket
      */
-    function filter_category() {
+    function admin_filters() {
         global $typenow, $post, $post_id;
         if( $typenow == self::POST_TYPE ){
             $tax_obj = get_taxonomy(self::TAXONOMY);
@@ -377,8 +381,49 @@ class RHSTicket extends RHSMenssage {
                 echo '<option value='. $term->slug, $label == $term->slug ? ' selected="selected"' : '','>' . $term->name .' (' . $term->count .')</option>';
             }
             echo "</select>";
+            
+            
+            $current = isset($_GET['responsavel']) ? $_GET['responsavel'] : null; 
+        
+            $args = array(
+                'role__in' => ['administrator', 'editor'],
+                'orderby' => 'display_name',
+            );
+            $subscribers = get_users($args);
+            ?>
+                <select class="postform" name="responsavel" id="responsavel">
+                    <option value="">Responsável</option>
+                    <?php foreach ($subscribers as $subscriber){ ?>
+                        <option value="<?php echo $subscriber->ID ?>" <?php selected($subscriber->ID, (int) $current); ?>><?php echo $subscriber->display_name ?></option>
+                    <?php } ?>
+                </select>
+
+            <?php
+            
+            
         }
     }
+    
+    /**
+     * Filtra listagem do admin
+     */ 
+    function admin_parse_query($query) {
+        global $pagenow;
+        $current_page = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
+
+        if ( is_admin() && 
+        self::POST_TYPE == $current_page &&
+        'edit.php' == $pagenow && 
+        isset( $_GET['responsavel'] ) && 
+        $_GET['responsavel'] != '') {
+
+        $responsavel = $_GET['responsavel'];
+        $query->query_vars['meta_key'] = '_responsavel';
+        $query->query_vars['meta_value'] = $responsavel;
+        $query->query_vars['meta_compare'] = '=';
+        }
+    }
+    
     /**
      * Adiciona as 2 meta boxs do ticket
      */
