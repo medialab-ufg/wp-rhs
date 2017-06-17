@@ -11,13 +11,11 @@ class RHSTicket extends RHSMenssage {
     const CAPABILITIES = 'capabilities';
     private static $instance;
     var $post_status = [];
-    var $status = array(
-        'not_response' => 'Não Repondido',
-        'open' => 'Em Aberto',
-        'close' => 'Fechado'
-    );
+
     function __construct() {
+        
         $this->post_status = $this->get_custom_post_status();
+        
         add_action('init', array( &$this, "register_post_type" ));
         add_action('init', array( &$this, "register_taxonomy" ));
         add_action( 'init', array( &$this, 'init' ) );
@@ -33,6 +31,10 @@ class RHSTicket extends RHSMenssage {
         add_action( 'edited_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
         add_action( 'create_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
         
+        // registra post status
+        add_action('init', array(&$this, 'register_post_status'));
+        add_action( 'admin_footer-post.php', array( &$this, 'add_status_dropdown' ) );
+        
         // filtra listagem no admin
         add_filter( 'parse_query', array(&$this, 'admin_parse_query') );
         
@@ -41,10 +43,7 @@ class RHSTicket extends RHSMenssage {
         add_action('manage_posts_custom_column', array(&$this, 'custom_columns_content'), 10, 2);
 
         
-        foreach ($this->post_status as $status => $args){
-            $status = array('slug' => $status, 'post_type' => array( self::POST_TYPE ));
-            new WordPress_Custom_Status(  $status + $args);
-        }
+        
         /*$option_name = 'roles_edited_ticket';
         if ( ! get_option( $option_name ) ) {
             // só queremos que isso rode uma vez
@@ -55,6 +54,50 @@ class RHSTicket extends RHSMenssage {
             $administrator->add_cap( self::CAPABILITIES );
         }*/
     }
+    
+    function register_post_status() {
+        // Registra post status
+		foreach ( $this->post_status as $post_status => $args ) {
+			register_post_status( $post_status, $args );
+		}
+    }
+    
+    function add_status_dropdown() {
+		global $post;
+		$complete = '';
+		$label    = '';
+		if ( $post->post_type == self::POST_TYPE ) {
+
+			$js                  = '';
+			$change_status_label = false;
+
+			foreach ( $this->post_status as $post_status => $args ) {
+
+				$selected = '';
+
+				if ( $post->post_status == $post_status ) {
+					$selected            = 'selected';
+					$change_status_label = $args['label'];
+
+				}
+
+				$js .= '$("select#post_status").append("<option value=\'' . $post_status . '\' ' . $selected . '>' . $args['label'] . '</option>");';
+
+			}
+
+			if ( $change_status_label !== false ) {
+				$js .= '$("#post-status-display").append("' . $change_status_label . '");';
+			}
+
+			echo '
+                <script>
+                    jQuery(document).ready(function($){
+                        ' . $js . '
+                    });
+                </script>
+            ';
+		}
+	}
     
     function custom_columns_head($defaults) {
         $defaults['autor'] = 'Autor'; // a chave autor em portugues pq se for em ingles ele monta a coluna com o metodo padrao do wp
@@ -221,7 +264,7 @@ class RHSTicket extends RHSMenssage {
         $dataPost = array(
             'post_title'    => wp_strip_all_tags( $subject ),
             'post_content'  => $message,
-            'post_status'   => self::OPEN,
+            'post_status'   => self::NOT_RESPONSE,
             'post_author'   => $author->ID,
             'post_type'     => self::POST_TYPE
         );
@@ -362,6 +405,7 @@ class RHSTicket extends RHSMenssage {
     function save_wp_editor_fields(){
         global $post;
         if(!empty($_POST['editor_box_comments'])){
+            
             $time = current_time('mysql');
             $user = wp_get_current_user();
             $data = array(
@@ -380,6 +424,13 @@ class RHSTicket extends RHSMenssage {
             );
             $comment_id = wp_insert_comment($data);
             wp_set_comment_status( $comment_id, 'span' );
+            
+            // Como teve uma resposta, marcamos o ticket como aberto
+            global $wpdb;
+            $wpdb->update($wpdb->posts, ['post_status' => self::OPEN], ['ID' => $post->ID]);
+            // para disparar hooks de mudança de status que possamos usar
+            wp_transition_post_status( self::OPEN, $_POST['original_post_status'], $post );
+            
         }
         
         if (isset($_POST['_responsavel'])) {

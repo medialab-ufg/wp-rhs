@@ -8,7 +8,6 @@ if(!function_exists('rhs_setup')) :
             session_start();
         }
 
-        require_once('inc/custom-status.php');
         require_once('inc/uf-municipio/uf-municipio.php');
         require_once('inc/message/message.php');
         require_once('inc/uf-municipio/uf-municipio.php');
