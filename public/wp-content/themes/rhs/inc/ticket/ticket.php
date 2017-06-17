@@ -36,6 +36,11 @@ class RHSTicket extends RHSMenssage {
         // filtra listagem no admin
         add_filter( 'parse_query', array(&$this, 'admin_parse_query') );
         
+        // colunas no admin
+        add_filter('manage_posts_columns', array(&$this, 'custom_columns_head'));
+        add_action('manage_posts_custom_column', array(&$this, 'custom_columns_content'), 10, 2);
+
+        
         foreach ($this->post_status as $status => $args){
             $status = array('slug' => $status, 'post_type' => array( self::POST_TYPE ));
             new WordPress_Custom_Status(  $status + $args);
@@ -50,6 +55,33 @@ class RHSTicket extends RHSMenssage {
             $administrator->add_cap( self::CAPABILITIES );
         }*/
     }
+    
+    function custom_columns_head($defaults) {
+        $defaults['author'] = 'Autor';
+        $defaults['member_since'] = 'Membro desde';
+        $defaults['responsavel'] = 'Responsável';
+        
+        return $defaults;   
+    }
+    
+    function custom_columns_content($column_name, $post_ID) {
+        
+        $author = get_userdata(get_post_field( 'post_author', $post_ID ));
+        
+        if ($column_name == 'author') {
+            echo $author->display_name;
+        } elseif ($column_name == 'member_since') {
+            echo $author->user_registered;
+        } elseif ($column_name == 'responsavel') {
+            $u_id = get_post_meta($post_ID, '_responsavel', true);
+            if ($u_id) {
+                $u = get_userdata($u_id);
+                echo $u->display_name;
+            }
+        }
+        
+    }
+    
     /**
      * Adiciona campo de 'Usuário Responsavél' na categoria do ticket na inserção
      * @param $term
