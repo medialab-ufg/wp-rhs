@@ -46,7 +46,7 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                         </span>
                         <div class="clearfix"></div>
                     <?php } else { ?>
-                            <div class="user-unknown">Esse usúario não exite !</div>
+                            <div class="user-unknown">Esse usúario não existe !</div>
                     <?php } ?>
                     </div>
                 </div>

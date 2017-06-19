@@ -46,7 +46,7 @@ if (!is_user_logged_in() || wp_get_current_user()->ID != $post->post_author) {
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="m-b-md">
-                                                <h3 style="border-bottom: 1px solid rgba(119, 119, 119, 0.1)"><?php echo get_the_title(); ?></h3>
+                                                <h3><?php echo get_the_title(); ?></h3>
                                             </div>
                                             <dl class="dl-horizontal">
                                                 <dt>Status:</dt> <dd><span class="label label-<?php echo $lab; ?>"><?php echo $status; ?></span></dd>
@@ -81,7 +81,7 @@ if (!is_user_logged_in() || wp_get_current_user()->ID != $post->post_author) {
                                             <div class="col-xs-12">
                                                     <h4>Respostas:</h4>
                                                     <div class="well"><?php echo $comment->comment_content; ?>
-                                                        <p style="text-align: right;"> <strong>-</strong> 
+                                                        <p class="reply"> <strong>-</strong> 
                                                             <?php if ($comment->user_id) {
                                                                 $user=get_userdata($comment->user_id);
                                                                     echo '<a href="'.get_author_posts_url($comment->user_id).'">'.$user->display_name.'</a>';

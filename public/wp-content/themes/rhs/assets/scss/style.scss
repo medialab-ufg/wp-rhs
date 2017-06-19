@@ -1667,6 +1667,9 @@ form .comment-form-comment {
     }
 }
 
+/*
+* Pagina Postagens
+*/
 .postagens {
     .wrapper-content {
         padding: 20px;
@@ -1701,6 +1704,9 @@ form .comment-form-comment {
     }
 }
 
+/*
+* Pagina Contato
+*/
 .contato{
     .wrapper-content {
         padding: 30px;
@@ -1768,6 +1774,30 @@ form .comment-form-comment {
         margin-bottom: 20px;
     }
 }
+
+/*
+* Pagina Tickets
+*/
+.tickets{
+    .wrapper-content{
+        .panel-body{
+            .mb-b-md{
+                h3{
+                    border-bottom: 1px solid rgba(119, 119, 119, 0.1);
+                }
+            }
+        }
+        .panel-heading{
+            .well{
+                .reply{
+                    text-align: right;
+                }
+            }
+        }
+    }
+}
+
+
 /***********
 *
 * Sidebar
