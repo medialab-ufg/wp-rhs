@@ -97,6 +97,19 @@ if (!is_user_logged_in() || wp_get_current_user()->ID != $post->post_author) {
                             <?php endwhile; ?>
                         </div>
                     </div>
+                    <div class="wrapper-content">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <form id="responder_editor" class="" role="form" action="<?php the_permalink(); ?>" method="post">
+                                    <h4>Responder o Editor:</h4>
+                                    <div class="form-group float-label-control">
+                                        <textarea id="textarea-message" tabindex="7" class="form-control" rows="5" name="responder"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-default pull-right">Responder</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
