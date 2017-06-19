@@ -30,7 +30,7 @@
                             <div class="col-md-6">
                                 <p>Todas as mensagens enviadas pelo formulário abaixo, são respondidas por nosso grupo de editores/cuidadores, e, caso haja necessidade, sua questão pode ser também encaminhada ao coletivo ampliado da Política Nacional de Humanização (PNH). Nenhuma mensagem enviada por este formulário será tornada pública em nosso site sem a explícita autorização de quem a enviou.</p>
                                 <p>Caso queira entrar em contato com um membro específico da RHS, utilize o chat disponível na página do perfil de cada participante.</p>
-                                <p>Acolheremos com atenção sua mensagem e a responderemos tão logo quanto possíve<span style="line-height: 1.1em;">!</span></p>
+                                <p>Acolheremos com atenção sua mensagem e a responderemos tão logo quanto possíve<span class="span-line">!</span></p>
                             </div>
                         </div>
                         <?php foreach ($RHSTicket->messages() as $type => $messages){ ?>

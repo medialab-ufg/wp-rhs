@@ -45,7 +45,7 @@
                 ?>
             </div>
             <div class="col-xs-6">
-                <a class="text-right footer-link" href="#"><i class="fa fa-share-alt" aria-hidden="true"></i> COMPARTILHAR</a>
+                <a class="footer-link text-right" href="#"><i class="fa fa-share-alt" aria-hidden="true"></i> COMPARTILHAR</a>
             </div>
         </div>
     </div>

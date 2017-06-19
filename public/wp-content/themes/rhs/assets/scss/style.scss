@@ -1321,6 +1321,9 @@ h1.titulo-page {
         a.footer-link:hover {
             text-decoration: none;
         }
+        a.text-right{
+            float: right;
+        }
     }
 }
 
@@ -1349,7 +1352,13 @@ h1.titulo-page {
         }
     }
 }
-
+.none{
+    p{
+        background: #FFF; 
+        padding: 15px; 
+        font-weight: bold
+    }
+}
 form .comment-form-comment {
     display: inline-grid;
 }
@@ -1703,6 +1712,9 @@ form .comment-form-comment {
                 color: #000;
                 font-weight: bold;
                 outline: none;
+            }
+            .span-line{
+                line-height: 1.1em;
             }
         }
         .panel-heading{
