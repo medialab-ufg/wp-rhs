@@ -611,9 +611,107 @@ h1.titulo-page {
 /*Fim do redimensionamento responsivo do painel*/
 .padding-bottom{
     padding-bottom: 10px;
+    .panel-heading{
+        .post-titulo{
+            h1 {
+                margin-top: 10px;
+                padding-top: 0;
+                margin-bottom: 8px;
+                font-size: 29px;
+                color: #2b2b2b;
+                font-weight: 700;
+            }
+        }
+        .post-categories{
+            margin-bottom: 7px;
+            padding: 10px 0px 12px;
+            a{
+                color: #00b4b4;
+                font-size: 11px;
+                letter-spacing: 2px;
+                font-weight: bold;
+                transition: all 0.3s ease-in-out;
+                text-transform: uppercase;
+                &:hover{
+                    color: rgba(0, 180, 180, 0.34);
+                }
+            }
+        }
+        .post-meta {
+            a, span{
+                font-size: 11px;
+                color: #8d8d8d;
+            }
+            .post-user-date{
+                padding-right: 10px;
+                margin-right: 10px;
+                display: inline-block;
+                position: relative;
+                a{
+                    text-decoration: none;
+                }
+                img{
+                    filter: grayscale(0%);
+                    transition: 0.3s all ease-in-out;
+                    &:hover{
+                        filter: grayscale(100%);
+                    }
+                }
+                .photo {
+                    margin-right: 8px;
+                    display: inline-block;
+                    border-radius: 25px;
+                }
+            }
+            .usuario{
+                &:after{
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    background-color: #d6d6d6;
+                    width: 1px;
+                    top: 5px;
+                    bottom: 5px;
+                    right: -1px;
+                }
+            }
+        }
+        .content{
+            padding-bottom: 0px;
+            margin-bottom: 0px;
+            p, div{
+                line-height: 1.7 !important;
+                font-size: 15px !important;
+                color: #616161 !important;
+            }
+            img{
+                border-radius: 8px;
+                position: relative;
+                z-index: 100;
+                margin: 0 0 15px 0;
+                vertical-align: middle; 
+            }
+        }
+        .panel-footer{
+            .tags-content{
+                margin-top: 35px;
+                a{
+                    display: inline-block;
+                    position: relative;
+                    padding: 0 5px;
+                    line-height: 18px;
+                    margin-right: 10px;
+                    font-size: 10px;
+                    text-transform: uppercase;
+                    border-radius: 100px;
+                    border: 1px solid #e0e0e0;
+                    font-weight: bold;
+                    color: #8d8d8d;
+                }
+            }
+        }
+    }
 }
-
-
 
 .panel-default {
     > .panel-heading {
@@ -1210,17 +1308,17 @@ h1.titulo-page {
     .panel-footer {
         background-color: $whiteColor;
         border-top-color: $whiteColor;
-        a.comments-link > i {
+        a.footer-link > i {
             color: $primeira_cor_texto;
         }
-        a.comments-link {
+        a.footer-link {
             float: left;
             color: $grayColor;
             font-weight: normal;
             font-size: 0.8em;
             letter-spacing: 1px;
         }
-        a.comments-link:hover {
+        a.footer-link:hover {
             text-decoration: none;
         }
     }
