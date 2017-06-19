@@ -11,20 +11,18 @@ class RHSTicket extends RHSMenssage {
     const CAPABILITIES = 'capabilities';
     private static $instance;
     var $post_status = [];
-    var $status = array(
-        'not_response' => 'Não Repondido',
-        'open' => 'Em Aberto',
-        'close' => 'Fechado'
-    );
+
     function __construct() {
+        
         $this->post_status = $this->get_custom_post_status();
+        
         add_action('init', array( &$this, "register_post_type" ));
         add_action('init', array( &$this, "register_taxonomy" ));
         add_action( 'init', array( &$this, 'init' ) );
         add_action( 'init', array(&$this, 'trigger_by_post'), 15 );
         add_action('add_meta_boxes', array( &$this, "add_meta_boxes"));
         add_action('admin_head', array( &$this, 'css'));
-        add_action( 'restrict_manage_posts', array( &$this, 'filter_category') );
+        add_action( 'restrict_manage_posts', array( &$this, 'admin_filters') );
         add_action( 'save_post', array(&$this,  'save_wp_editor_fields') );
         //add_filter( 'map_meta_cap', array( &$this, 'ticket_post_cap' ), 10, 4 );
         add_action( 'admin_menu', array( &$this, 'remove_meta_boxes') );
@@ -32,10 +30,20 @@ class RHSTicket extends RHSMenssage {
         add_action(self::POST_TYPE.'-category_add_form_fields',array( &$this, 'new_category_field') );
         add_action( 'edited_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
         add_action( 'create_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
-        foreach ($this->post_status as $status => $args){
-            $status = array('slug' => $status, 'post_type' => array( self::POST_TYPE ));
-            new WordPress_Custom_Status(  $status + $args);
-        }
+        
+        // registra post status
+        add_action('init', array(&$this, 'register_post_status'));
+        add_action( 'admin_footer-post.php', array( &$this, 'add_status_dropdown' ) );
+        
+        // filtra listagem no admin
+        add_filter( 'parse_query', array(&$this, 'admin_parse_query') );
+        
+        // colunas no admin
+        add_filter('manage_posts_columns', array(&$this, 'custom_columns_head'));
+        add_action('manage_posts_custom_column', array(&$this, 'custom_columns_content'), 10, 2);
+
+        
+        
         /*$option_name = 'roles_edited_ticket';
         if ( ! get_option( $option_name ) ) {
             // só queremos que isso rode uma vez
@@ -46,6 +54,90 @@ class RHSTicket extends RHSMenssage {
             $administrator->add_cap( self::CAPABILITIES );
         }*/
     }
+    
+    function register_post_status() {
+        // Registra post status
+		foreach ( $this->post_status as $post_status => $args ) {
+			register_post_status( $post_status, $args );
+		}
+    }
+    
+    function add_status_dropdown() {
+		global $post;
+		$complete = '';
+		$label    = '';
+		if ( $post->post_type == self::POST_TYPE ) {
+
+			$js                  = '';
+			$change_status_label = false;
+
+			foreach ( $this->post_status as $post_status => $args ) {
+
+				$selected = '';
+
+				if ( $post->post_status == $post_status ) {
+					$selected            = 'selected';
+					$change_status_label = $args['label'];
+
+				}
+
+				$js .= '$("select#post_status").append("<option value=\'' . $post_status . '\' ' . $selected . '>' . $args['label'] . '</option>");';
+
+			}
+
+			if ( $change_status_label !== false ) {
+				$js .= '$("#post-status-display").append("' . $change_status_label . '");';
+			}
+
+			echo '
+                <script>
+                    jQuery(document).ready(function($){
+                        ' . $js . '
+                    });
+                </script>
+            ';
+		}
+	}
+    
+    function custom_columns_head($defaults) {
+        $defaults['autor'] = 'Autor'; // a chave autor em portugues pq se for em ingles ele monta a coluna com o metodo padrao do wp
+        $defaults['email'] = 'Email';
+        $defaults['member_since'] = 'Membro desde';
+        $defaults['responsavel'] = 'Responsável';
+        
+        return $defaults;   
+    }
+    
+    function custom_columns_content($column_name, $post_ID) {
+        
+        $author = get_userdata(get_post_field( 'post_author', $post_ID ));
+        #$defaultAuthor = $this->getUserDefault();
+        $isNotLoggedAuthor = get_post_meta($post_ID, '_not_logged_user', true) == '1';
+        
+        if ($column_name == 'autor') {
+            if ($isNotLoggedAuthor || !is_object($author)) {
+                echo get_post_meta($post_ID, '_author_name', true);
+            } else {
+                echo '<a href="' . get_author_posts_url($author->ID) . '">';
+                echo $author->display_name;
+                echo '</a>';
+                
+            }
+                
+        } elseif ($column_name == 'email') {
+            echo $isNotLoggedAuthor || !is_object($author) ? get_post_meta($post_ID, '_author_email', true) : $author->user_email;
+        } elseif ($column_name == 'member_since') {
+            echo $isNotLoggedAuthor || !is_object($author) ? '--' : $author->user_registered;
+        } elseif ($column_name == 'responsavel') {
+            $u_id = get_post_meta($post_ID, '_responsavel', true);
+            if ($u_id) {
+                $u = get_userdata($u_id);
+                echo $u->display_name;
+            }
+        }
+        
+    }
+    
     /**
      * Adiciona campo de 'Usuário Responsavél' na categoria do ticket na inserção
      * @param $term
@@ -54,7 +146,7 @@ class RHSTicket extends RHSMenssage {
         if(isset( $_POST['term_meta']['category_user'])){
             $term_meta = array();
             $term_meta['category_user'] = $_POST['term_meta']['category_user'] ;
-            update_option( self::TAXONOMY."_".$term_id, $term_meta );
+            add_term_meta($term_id, 'user', $_POST['term_meta']['category_user']);
         }
     }
     function new_category_field( $term ){
@@ -84,7 +176,7 @@ class RHSTicket extends RHSMenssage {
         $term_meta = '';
         if($term instanceof WP_Term){
             $term_id = $term->term_id;
-            $term_meta = get_option( self::TAXONOMY."_".$term_id );
+            $term_meta = get_term_meta($term_id, 'user', true );
         }
         $args = array(
             'role__in' => ['administrator', 'editor'],
@@ -100,7 +192,7 @@ class RHSTicket extends RHSMenssage {
                 <select class="postform" name="term_meta[category_user]" id="term_meta[category_user]">
                     <option value="">-- Selecione --</option>
                     <?php foreach ($subscribers as $subscriber){ ?>
-                        <option value="<?php echo $subscriber->ID ?>" <?php echo (!empty($term_meta['category_user']) && $term_meta['category_user'] == $subscriber->ID) ? 'selected': ''?>><?php echo $subscriber->display_name ?> (<?php echo $subscriber->user_email ?>)</option>
+                        <option value="<?php echo $subscriber->ID ?>" <?php echo ($term_meta == $subscriber->ID) ? 'selected': ''?>><?php echo $subscriber->display_name ?> (<?php echo $subscriber->user_email ?>)</option>
                     <?php } ?>
                 </select>
             </td>
@@ -108,6 +200,7 @@ class RHSTicket extends RHSMenssage {
 
         <?php
     }
+    
     /**
      * É chamdo quando o formulário de contato é enviado
      */
@@ -116,15 +209,37 @@ class RHSTicket extends RHSMenssage {
             if ( ! $this->validate_by_post() ) {
                 return;
             }
+            
+            $defaultAuthor = false;
+            if(!is_user_logged_in()){
+                $author = $this->getUserDefault();
+                $defaultAuthor = true;
+            } else {
+                $author = wp_get_current_user();
+            }
+            
+            $name = $defaultAuthor ? $_POST['name'] : $author->display_name;
+             
+            $email = $defaultAuthor ? $_POST['email'] : $author->user_email;
+            
+            if ($defaultAuthor) {
+                $estado = $_POST['estado'];
+                $municipio = $_POST['municipio'];
+            } else {
+                $ufmun = get_user_ufmun($author->ID);
+                $estado = $ufmun['uf']['id'];
+                $municipio = $ufmun['mun']['id'];
+            }
+           
             $this->insert(
-                $_POST['name'],
-                $_POST['email'],
-                $_POST['estado'],
-                $_POST['municipio'],
+                $name,
+                $email,
+                $estado,
+                $municipio,
                 $_POST['category'],
                 $_POST['subject'],
                 $_POST['message'],
-                get_current_user_id());
+                $defaultAuthor);
         }
     }
     /**
@@ -138,33 +253,23 @@ class RHSTicket extends RHSMenssage {
      * @param $category
      * @param int $userId
      */
-    public function insert( $name, $email, $state, $city, $category, $subject, $message, $userId = 0 ) {
-
-        if($userId == 0){
-            $userId = $this->getUserDefault()->ID;
+    public function insert( $name, $email, $state, $city, $category, $subject, $message, $defaultAuthor = false ) {
+        
+        if($defaultAuthor){
+            $author = $this->getUserDefault();
+        } else {
+            $author = wp_get_current_user();
         }
+        
         $dataPost = array(
             'post_title'    => wp_strip_all_tags( $subject ),
             'post_content'  => $message,
-            'post_status'   => self::OPEN,
-            'post_author'   => $userId,
+            'post_status'   => self::NOT_RESPONSE,
+            'post_author'   => $author->ID,
             'post_type'     => self::POST_TYPE
         );
-        
-
 
         $post_ID = wp_insert_post($dataPost, true);
-
-        wp_set_object_terms( $post_ID, (int) $category, self::TAXONOMY );
-
-
-        $term_meta = get_option(self::TAXONOMY.'_'.$category);
-        if(!empty($term_meta['category_user'])){
-            $user = get_userdata($term_meta['category_user']);
-            $subject = '['.get_bloginfo('name').' Contato] '.$subject;
-            $text_aditional = '<p>Link do ticket: <a href="'.get_edit_post_link($post_ID).'">'.get_edit_post_link($post_ID).'</a></p>';
-            wp_mail( $user->user_email, $subject, $text_aditional.$message );
-        }
         
         if ( $post_ID instanceof WP_Error ) {
             foreach ( $post_ID->get_error_messages() as $error ) {
@@ -172,6 +277,37 @@ class RHSTicket extends RHSMenssage {
             }
             return;
         }
+        
+        // insere metadados
+        add_post_meta($post_ID, '_author_name', $name);
+        add_post_meta($post_ID, '_author_email', $email);
+        add_post_ufmun_meta($post_ID, $city, $state);
+        
+        // salvamos também a data de registro do usuário logado
+        add_post_meta($post_ID, '_author_registered', $author->user_registered);
+         
+        // usuário logado?
+        add_post_meta($post_ID, '_not_logged_user', $defaultAuthor);
+        
+        // insere categoria do ticket
+        wp_set_object_terms( $post_ID, (int) $category, self::TAXONOMY );
+        
+        // atualiza contagem de tickets na categoria
+        
+        // Salva o usuário padrão setado na categoria como o responsável do ticket
+        // O responsável pode ser alterado depois, via metabox.
+        // o term_meta do usuário padrão da categoria serve apenas para esta setagem na hora que o ticket é criado
+        $responsavel_padrao = get_term_meta($category, 'user', true);
+        if ($responsavel_padrao) add_post_meta($post_ID, '_responsavel', $responsavel_padrao);
+
+        if($responsavel_padrao){
+            $user = get_userdata($responsavel_padrao);
+            $subject = '['.get_bloginfo('name').' Contato] '.$subject;
+            $text_aditional = '<p>Link do ticket: <a href="'.get_edit_post_link($post_ID).'">'.get_edit_post_link($post_ID).'</a></p>';
+            wp_mail( $user->user_email, $subject, $text_aditional.$message );
+        }
+        
+        
         
         $this->set_messages(   '<i class="fa fa-check "></i> Contato enviado com sucesso!', false, 'success' );
         return;
@@ -206,7 +342,7 @@ class RHSTicket extends RHSMenssage {
      */
     public function getUserDefault(){
         $login = 'rhs_author_default_ticket';
-        $user = get_userdatabylogin($login);
+        $user = get_user_by('login', $login);
         if($user){
             return $user;
         }
@@ -264,31 +400,43 @@ class RHSTicket extends RHSMenssage {
         remove_meta_box('commentsdiv', self::POST_TYPE, 'normal');
     }
     /**
-     * Insere resposta ao ticket
+     * Salvando ticket pelo admin
      */
     function save_wp_editor_fields(){
-        if(empty($_POST['editor_box_comments'])){
-            return;
-        }
         global $post;
-        $time = current_time('mysql');
-        $user = wp_get_current_user();
-        $data = array(
-            'comment_post_ID' => $post->ID,
-            'comment_author' => $user->user_login,
-            'comment_author_email' => $user->user_email,
-            'comment_author_url' => $user->user_url,
-            'comment_content' => $_POST['editor_box_comments'],
-            'comment_type' => '',
-            'comment_parent' => 0,
-            'user_id' => $user->ID,
-            'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
-            'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
-            'comment_date' => $time,
-            'comment_approved' => 1
-        );
-        $comment_id = wp_insert_comment($data);
-        wp_set_comment_status( $comment_id, 'span' );
+        if(!empty($_POST['editor_box_comments'])){
+            
+            $time = current_time('mysql');
+            $user = wp_get_current_user();
+            $data = array(
+                'comment_post_ID' => $post->ID,
+                'comment_author' => $user->user_login,
+                'comment_author_email' => $user->user_email,
+                'comment_author_url' => $user->user_url,
+                'comment_content' => wpautop($_POST['editor_box_comments']),
+                'comment_type' => '',
+                'comment_parent' => 0,
+                'user_id' => $user->ID,
+                'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
+                'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
+                'comment_date' => $time,
+                'comment_approved' => 1
+            );
+            $comment_id = wp_insert_comment($data);
+            wp_set_comment_status( $comment_id, 'span' );
+            
+            // Como teve uma resposta, marcamos o ticket como aberto
+            global $wpdb;
+            $wpdb->update($wpdb->posts, ['post_status' => self::OPEN], ['ID' => $post->ID]);
+            // para disparar hooks de mudança de status que possamos usar
+            wp_transition_post_status( self::OPEN, $_POST['original_post_status'], $post );
+            
+        }
+        
+        if (isset($_POST['_responsavel'])) {
+            update_post_meta($post->ID, '_responsavel', $_POST['_responsavel']);
+        }
+        
     }
     /**
      * Status do post
@@ -348,60 +496,73 @@ class RHSTicket extends RHSMenssage {
         $category = array();
     }
     /**
-     * Adiciona filtro de categoria na listagem do ticket
+     * Adiciona filtro de categoria e responsável na listagem do ticket
      */
-    function filter_category() {
+    function admin_filters() {
         global $typenow, $post, $post_id;
-        if( $typenow != "page" && $typenow != "post" ){
-            //get post type
-            $post_type= get_query_var('post_type');
-            //get taxonomy associated with current post type
-            $taxonomies = get_object_taxonomies($post_type);
-            //in next loop add filter for tax
-            if ($taxonomies) {
-                foreach ($taxonomies as $tax_slug) {
-                    $tax_obj = get_taxonomy($tax_slug);
-                    $tax_name = $tax_obj->name;
-                    $terms = get_terms($tax_name, array('hide_empty' => false));
-                    echo "<select name='$tax_slug' id='$tax_slug' class='postform'>";
-                    if($post_type == self::POST_TYPE){
-                        echo "<option value=''>Responsável</option>";
-                    } else {
-                       echo "<option value=''>Categorias</option>";
-                    }
-                    $options = array();
-                    foreach ($terms as $term) {
-                        $label = (isset($_GET[$tax_slug])) ? $_GET[$tax_slug] : ''; // Fix
-                        if($post_type == self::POST_TYPE){
-                            $option = get_option( self::TAXONOMY."_".$term->term_id );
-                            if(empty($option['category_user'])){
-                                continue;
-                            }
-                            $user = get_userdata($option['category_user']);
-                            if($options && in_array($user->ID,$options)){
-                                continue;
-                            }
-                            $options[] = $user->ID;
-                            echo '<option value='. $term->slug, $label == $term->slug ? ' selected="selected"' : '','>' . $user->display_name .' (' . $user->user_email .')</option>';
-                        } else {
-                            echo '<option value='. $term->slug, $label == $term->slug ? ' selected="selected"' : '','>' . $term->name .' (' . $term->count .')</option>';
-                        }
-                    }
-                    echo "</select>";
-                }
+        if( $typenow == self::POST_TYPE ){
+            $tax_obj = get_taxonomy(self::TAXONOMY);
+            $tax_name = $tax_obj->name;
+            $terms = get_terms($tax_name, array('hide_empty' => false));
+            echo "<select name='",self::TAXONOMY,"' id='",self::TAXONOMY,"' class='postform'>";
+            echo "<option value=''>Categorias</option>";
+            $options = array();
+            foreach ($terms as $term) {
+                $label = (isset($_GET[$tax_slug])) ? $_GET[$tax_slug] : ''; // Fix
+                echo '<option value='. $term->slug, $label == $term->slug ? ' selected="selected"' : '','>' . $term->name .' (' . $term->count .')</option>';
             }
+            echo "</select>";
+            
+            
+            $current = isset($_GET['responsavel']) ? $_GET['responsavel'] : null; 
+        
+            $args = array(
+                'role__in' => ['administrator', 'editor'],
+                'orderby' => 'display_name',
+            );
+            $subscribers = get_users($args);
+            ?>
+                <select class="postform" name="responsavel" id="responsavel">
+                    <option value="">Responsável</option>
+                    <?php foreach ($subscribers as $subscriber){ ?>
+                        <option value="<?php echo $subscriber->ID ?>" <?php selected($subscriber->ID, (int) $current); ?>><?php echo $subscriber->display_name ?></option>
+                    <?php } ?>
+                </select>
+
+            <?php
+            
+            
         }
     }
+    
+    /**
+     * Filtra listagem do admin
+     */ 
+    function admin_parse_query($query) {
+        global $pagenow;
+        $current_page = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
+
+        if ( is_admin() && 
+        self::POST_TYPE == $current_page &&
+        'edit.php' == $pagenow && 
+        isset( $_GET['responsavel'] ) && 
+        $_GET['responsavel'] != '') {
+
+        $responsavel = $_GET['responsavel'];
+        $query->query_vars['meta_key'] = '_responsavel';
+        $query->query_vars['meta_value'] = $responsavel;
+        $query->query_vars['meta_compare'] = '=';
+        }
+    }
+    
     /**
      * Adiciona as 2 meta boxs do ticket
      */
     function add_meta_boxes() {
         global $post;
-        $comments = get_comments(array('post_id'=>$post->ID));
-        if($comments){
-            add_meta_box('ticket_response', 'Resposta', array( &$this, 'meta_box_response'), self::POST_TYPE, 'normal', 'default');
-        }
+        add_meta_box('ticket_response', 'Conversação', array( &$this, 'meta_box_response'), self::POST_TYPE, 'normal', 'default');
         add_meta_box('ticket_wp_editor', 'Enviar Resposta', array( &$this, 'meta_box_comment'), self::POST_TYPE, 'normal', 'default');
+        add_meta_box('ticket_responsavel', 'Usuário Responsável', array( &$this, 'meta_box_responsavel'), self::POST_TYPE, 'side', 'default');
     }
     /**
      * Meta box do ticket, para responder o ticket
@@ -409,9 +570,11 @@ class RHSTicket extends RHSMenssage {
      */
     function meta_box_comment($post){
         $editor_id = 'editor_box_comments';
-        $uploaded_csv = get_post_meta( $post->ID, 'editor_box_comments', true);
-        wp_editor( $uploaded_csv, $editor_id );
+        wp_editor( '', $editor_id, [
+            'textarea_rows' => 5,
+        ] );
         ?>
+        
         <button type="submit" class="btn btn-default">Enviar</button>
         <?php
     }
@@ -422,17 +585,32 @@ class RHSTicket extends RHSMenssage {
      * @return string
      */
     function meta_box_response($post) {
-        $comments = get_comments(array('post_id'=>$post->ID));
-        $user_current = wp_get_current_user();
+        $comments = get_comments(array('post_id'=>$post->ID,'order'=>'asc'));
+        
+        $user_author = get_userdata( $post->post_author );
+        // Título do ticket e mensagem original
+        echo '<h1>Contato #'.$post->ID . ': ' . $post->post_title.'</h1>';
+        ?>
+        <div class="comments-ticket author">
+            <div class="avatar">
+                <?php echo get_avatar($post->post_author); ?>
+            </div>
+            <span>(<?php echo date('d/m/Y á\s H:i',strtotime($post->post_date)) ?>) <?php echo $user_author->display_name ?>, <?php echo $user_author->user_email ?> <i class="role">(Autor)</i> </span>
+            <p><?php echo apply_filters('the_content', $post->post_content); ?></p>
+            <div class="clearfix"></div>
+        </div>
+        <?php
+        
+        
         foreach ($comments as $comment){
-            $author = ($comment->user_id == $user_current->ID) ? true : false;
+            $isauthor = ($comment->user_id == $post->post_author) ? true : false;
             $user = get_userdata( $comment->user_id );
                 ?>
-                <div class="comments-ticket <?php echo ($author) ? 'author' : ''; ?>">
+                <div class="comments-ticket <?php echo $isauthor ? 'author' : ''; ?>">
                     <div class="avatar">
                         <?php echo get_avatar($comment->user_id); ?>
                     </div>
-                    <span>(<?php echo date('d/m/Y á\s H:i',strtotime($comment->comment_date)) ?>) <?php echo $user->display_name ?>, <?php echo $user->user_email ?> <i class="role"><?php echo ($author) ? '(Editor)' : '(Autor)'; ?></i> </span>
+                    <span>(<?php echo date('d/m/Y á\s H:i',strtotime($comment->comment_date)) ?>) <?php echo $user->display_name ?>, <?php echo $user->user_email ?> <i class="role"><?php echo ($isauthor) ? '(Autor)' : '(Editor)'; ?></i> </span>
                     <p><?php echo $comment->comment_content; ?></p>
                     <div class="clearfix"></div>
                 </div>
@@ -441,6 +619,28 @@ class RHSTicket extends RHSMenssage {
         echo "<div class='clearfix'></div>";
         return '';
     }
+    
+    function meta_box_responsavel($post) {
+        
+        $current = get_post_meta($post->ID, '_responsavel', true);
+        
+        $args = array(
+            'role__in' => ['administrator', 'editor'],
+            'orderby' => 'display_name',
+        );
+        $subscribers = get_users($args);
+        ?>
+            <label for="parent">Usuário Responsavél</label>
+            <select class="postform" name="_responsavel" id="_responsavel">
+                <option value="">-- Selecione --</option>
+                <?php foreach ($subscribers as $subscriber){ ?>
+                    <option value="<?php echo $subscriber->ID ?>" <?php selected($subscriber->ID, (int) $current); ?>><?php echo $subscriber->display_name ?></option>
+                <?php } ?>
+            </select>
+
+        <?php
+    }
+    
     /**
      * Registra novo tipo de post
      */
@@ -463,7 +663,7 @@ class RHSTicket extends RHSMenssage {
         $args = array(
             'labels' => $labels,
             'hierarchical' => false,
-            'supports' => array('title', 'editor'),
+            'supports' => array('title'),
             'taxonomies' => array(self::TAXONOMY),
             'public' => true,
             'show_ui' => true,
@@ -480,6 +680,10 @@ class RHSTicket extends RHSMenssage {
             'menu_icon' => 'dashicons-tickets'
         );
         register_post_type(self::POST_TYPE, $args);
+        
+        // removemos depois porque se passar um array vazio ele usa os valores padrão
+        remove_post_type_support(self::POST_TYPE, 'title');
+        
     }
     /**
      * Registra nova taxonomia
@@ -516,8 +720,7 @@ class RHSTicket extends RHSMenssage {
     function css() {
         echo '<style>
             #ticket_wp_editor .inside .btn{
-                margin-left: 842px;
-                margin-top: 12px;
+                margin-top: 30px;
                 padding: 5px; 
                 width: 150px;
             }
