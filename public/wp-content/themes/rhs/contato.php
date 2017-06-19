@@ -52,7 +52,10 @@
                                 <form id="contato" class="form-horizontal" role="form" action="<?php the_permalink(); ?>" method="post">
                                     <?php if(is_user_logged_in()) : $dis = 'none';?>
                                         <h4>Logado como <a href="<?php echo get_author_posts_url(get_current_user_id(), $RHSUser->get_user_data('name')); ?>"><?php echo $RHSUser->get_user_data('display_name');?></a></h4>
-                                    <?php endif; ?>
+                                    <?php 
+                                        else : 
+                                            $dis = 'block'; 
+                                    endif; ?>
                                     <div class="form-group float-label-control" style="display: <?php echo $dis; ?>">
                                         <label for="name">Nome <span class="required">*</span></label>
                                         <input type="text" tabindex="1" name="name" id="input-name" class="form-control" value="<?php echo $RHSUser->get_user_data('display_name');?>" >
@@ -108,9 +111,10 @@
                                 </form>
                             </div>  
                         </fieldset>
-                    </div>
-                    <?php $ticketArgs = array( 'post_type' => 'tickets', 'posts_per_page' => 5);
-                          $ticketLoop = new WP_Query( $ticketArgs ); ?>
+                    </div>  
+                    <?php if(is_user_logged_in()) :
+                        $ticketArgs = array('author' => get_current_user_id(),'post_type' => 'tickets', 'posts_per_page' => 5);
+                        $ticketLoop = new WP_Query( $ticketArgs ); ?>
                         <div class="wrapper-content">
                             <fieldset class="panel panel-default">
                                 <div class="panel-heading">
@@ -154,6 +158,7 @@
                                 </div>
                             </fieldset>
                         </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
