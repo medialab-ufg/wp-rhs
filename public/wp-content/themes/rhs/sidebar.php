@@ -1,3 +1,3 @@
-<div id="sidebar" class="sidebar">
+<div id="sidebar" class="sidebar hidden-print">
     <?php dynamic_sidebar(); ?>
 </div>

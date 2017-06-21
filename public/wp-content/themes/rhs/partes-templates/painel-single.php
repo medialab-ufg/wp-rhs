@@ -29,7 +29,17 @@
 							</a>
 						</span>
 					</span>
-					<span class="post-date text-uppercase"><i class="fa fa-calendar" aria-hidden="true"></i> <?php the_time('d/m/Y'); ?></span>
+					<span class="post-date text-uppercase">
+						<i class="fa fa-calendar" aria-hidden="true"></i> <?php the_time('d/m/Y'); ?>
+					</span>
+					<div class="pull-right" style="display: flex;">
+						<span class="hidden-print" style="margin-left: 4px">
+							<?php echo do_shortcode('[addtoany]' ); ?>
+						</span>
+						<span class="hidden-print" style="margin-left: 4px;">
+							<a class="btn btn-default btn-xs" onclick="javascript:window.print();" style="padding: 7px 9px; border-radius: 25px;"><i class="fa fa-print fa-lg" aria-hidden="true" style="color: #000;"></i></a>
+						</span>
+					</div>
 				</div>
 			</div>
 			<div class="clearfix"></div>
@@ -48,7 +58,7 @@
 		</div>
 	</div>
 </div><!-- .panel .panel-default -->
-<div class="panel panel-default">
+<div class="panel panel-default hidden-print">
 	<div class="panel-footer panel-comentarios">
 		<?php  
 			if ( comments_open() || get_comments_number() ) {

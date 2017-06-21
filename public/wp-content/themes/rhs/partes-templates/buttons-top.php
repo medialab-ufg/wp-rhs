@@ -1,4 +1,4 @@
-<section class="buttons_top">
+<section class="buttons_top hidden-print">
         <div class="col-xs-12 col-sm-12 col-md-12 full-width">
             <div class="btn-group btn-group-justified" role="group">
                 <div class="btn-group" role="group">

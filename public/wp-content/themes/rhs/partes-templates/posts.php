@@ -45,7 +45,7 @@
                 ?>
             </div>
             <div class="col-xs-6">
-                <a class="footer-link text-right" href="#"><i class="fa fa-share-alt" aria-hidden="true"></i> COMPARTILHAR</a>
+                <span class="pull-right"><?php echo get_post_meta(get_the_ID(), 'socialcount_TOTAL', true); ?></span>
             </div>
         </div>
     </div>

@@ -15,7 +15,12 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-        <?php wp_head(); ?>
+
+    <meta property="og:title" content="<?php bloginfo('name' ); ?>">
+    <meta property="og:image" content="<?php echo get_meta_thumb(); ?>">
+    <meta property="og:description" content="<?php echo get_meta_description(); ?>">
+    <meta property="og:url" content="<?php the_permalink(); ?>">
+    <?php wp_head(); ?>
     </head>
     <body>
         <!-- Tag header para o Primeiro Menu -->

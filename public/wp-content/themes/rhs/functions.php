@@ -379,4 +379,28 @@ function wpse_139269_term_radio_checklist( $args ) {
     return $args;
 }
 
+/*
+Função para Uso nos meta para os meios sociais.
+*/
+function get_meta_description(){
+    $custom_field_meta_description = get_post_meta(get_the_ID(), 'meta_description_field', true);
+    if($custom_field_meta_description != ''){
+        return $custom_field_meta_description;
+    } elseif ( is_single() ) {
+        return get_the_title();
+    } else {
+        return get_bloginfo('description');
+    }
+}
 
+function get_meta_thumb(){
+    $custom_field_meta_description = get_post_meta(get_the_ID(), 'thumb', true);
+    if($custom_field_meta_description != ''){
+        return $custom_field_meta_description;
+    } elseif ( is_single() ) {
+        return get_the_post_thumbnail_url();
+    } else {
+        return get_bloginfo();
+    }
+}
+/*Fim Função para Uso nos meta para os meios sociais.*/

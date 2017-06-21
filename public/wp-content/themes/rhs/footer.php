@@ -3,7 +3,7 @@
 			</div><!-- /.container -->
 		</section><!-- /.section -->
 
-		<footer class="footer">
+		<footer class="footer hidden-print">
 			<section class="footerDescricao">
 				<p><?php bloginfo( 'description' ); ?></p>
 			</section>
