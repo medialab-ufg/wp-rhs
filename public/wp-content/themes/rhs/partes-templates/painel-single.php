@@ -32,12 +32,22 @@
 					<span class="post-date text-uppercase">
 						<i class="fa fa-calendar" aria-hidden="true"></i> <?php the_time('d/m/Y'); ?>
 					</span>
-					<div class="pull-right" style="display: flex;">
-						<span class="hidden-print" style="margin-left: 4px">
-							<?php echo do_shortcode('[addtoany]' ); ?>
-						</span>
-						<span class="hidden-print" style="margin-left: 4px;">
-							<a class="btn btn-default btn-xs" onclick="javascript:window.print();" style="padding: 7px 9px; border-radius: 25px;"><i class="fa fa-print fa-lg" aria-hidden="true" style="color: #000;"></i></a>
+					<div class="pull-right share share-wrap" style="display: flex;">
+						<span class="hidden-print" style="">
+							<?php //echo do_shortcode('[ssba]'); ?>
+
+							<a data-site="" class="facebook_share" href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>" target="_blank">
+								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/facebook.png" title="Facebook" class="share share-img" alt="Compartilhar no Facebook">
+							</a>
+							<a data-site="" class="twitter_share" href="http://twitter.com/share?url=<?php the_permalink(); ?>&amp;text=<?php the_title(); ?>&amp;via=RedeHumanizaSUS" target="_blank">
+								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/twitter.png" title="Twitter" class="share share-img" alt="Compartilhar no Twitter">
+							</a>
+							<a data-site="" class="whatsapp_share" href="whatsapp://send?url=<?php the_permalink(); ?>&amp;text=<?php the_title(); ?>" target="_blank">
+								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/whatsapp.png" title="Twitter" class="share share-img" alt="Compartilhar no Whatsapp">
+							</a>
+							<a data-site="print" class="share_print share_link" href="#" onclick="window.print()">
+								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/print.png" title="Print" class="share share-img" alt="Imprimir está página">
+							</a>
 						</span>
 					</div>
 				</div>

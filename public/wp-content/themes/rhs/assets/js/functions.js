@@ -48,4 +48,52 @@ jQuery( function( $ ) {
 
     });
 
+
+
+    //Share
+    // upon clicking a share button
+    jQuery('.share-wrap a').click(function(event){
+
+        // don't go the the href yet
+        event.preventDefault();
+
+        // if it's facebook mobile
+        if(jQuery(this).data('facebook') == 'mobile') {
+            FB.ui({
+                method: 'share',
+                mobile_iframe: true,
+                href: jQuery(this).data('href')
+            }, function(response){});
+        } else {
+            // these share options don't need to have a popup
+            if (jQuery(this).data('site') == 'email' || jQuery(this).data('site') == 'print') {
+
+                // just redirect
+                window.location.href = jQuery(this).attr("href");
+            } else {
+
+                // prepare popup window
+                var width  = 575,
+                    height = 520,
+                    left   = (jQuery(window).width()  - width)  / 2,
+                    top    = (jQuery(window).height() - height) / 2,
+                    opts   = 'status=1' +
+                        ',width='  + width  +
+                        ',height=' + height +
+                        ',top='    + top    +
+                        ',left='   + left;
+
+                // open the share url in a smaller window
+                window.open(jQuery(this).attr("href"), 'share', opts);
+            }
+        }
+    });
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9";
+        fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
 });

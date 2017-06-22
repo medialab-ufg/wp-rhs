@@ -381,7 +381,7 @@ function wpse_139269_term_radio_checklist( $args ) {
 
 /*
 Função para Uso nos meta para os meios sociais.
-*/
+
 function get_meta_description(){
     $custom_field_meta_description = get_post_meta(get_the_ID(), 'meta_description_field', true);
     if($custom_field_meta_description != ''){
@@ -402,5 +402,5 @@ function get_meta_thumb(){
     } else {
         return get_bloginfo();
     }
-}
+}*/
 /*Fim Função para Uso nos meta para os meios sociais.*/

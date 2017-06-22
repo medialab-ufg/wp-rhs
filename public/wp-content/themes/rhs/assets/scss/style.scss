@@ -675,6 +675,26 @@ h1.titulo-page {
                     right: -1px;
                 }
             }
+            .share, .share a{
+                text-decoration: none;
+                border: 0;
+                background: none;
+                font-family: Indie Flower;
+                font-weight: bold;
+                img{
+                        width: 40px !important;
+                        padding: 6px;
+                        border: 0;
+                        box-shadow: none !important;
+                        display: inline !important;
+                        vertical-align: middle;
+                }
+                @media only screen and (min-width: 768px){
+                    .whatsapp_share{
+                        display: none;
+                    }
+                }
+            }
         }
         .content{
             padding-bottom: 0px;
