@@ -689,7 +689,7 @@ h1.titulo-page {
                         display: inline !important;
                         vertical-align: middle;
                 }
-                @media only screen and (min-width: 768px){
+                @media only screen and (min-width: 769px){
                     .whatsapp_share{
                         display: none;
                     }
@@ -712,9 +712,11 @@ h1.titulo-page {
                 vertical-align: middle; 
             }
         }
-        .panel-footer{
-            .tags-content{
-                margin-top: 35px;
+    }
+    .panel-footer{
+        .tags-content{
+            margin-top: 35px;
+            .tags-list{
                 a{
                     display: inline-block;
                     position: relative;

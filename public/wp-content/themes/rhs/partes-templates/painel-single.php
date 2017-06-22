@@ -32,7 +32,7 @@
 					<span class="post-date text-uppercase">
 						<i class="fa fa-calendar" aria-hidden="true"></i> <?php the_time('d/m/Y'); ?>
 					</span>
-					<div class="pull-right share share-wrap" style="display: flex;">
+					<div class="pull-right share share-wrap">
 						<span class="hidden-print" style="">
 							<?php //echo do_shortcode('[ssba]'); ?>
 
@@ -62,7 +62,7 @@
 		<div class="tags-content">	
 			<?php if(has_tag()) : ?>
 				<span class="tags-list">
-					<?php the_tags('', ''); ?>
+					<?php the_tags('', '', ''); ?>
 				</span>
 			<?php endif; ?>
 		</div>
