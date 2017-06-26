@@ -125,12 +125,18 @@ class RHSPost extends RHSMenssage {
             if ( ! $this->validate_by_post() ) {
                 return;
             }
+
+            $status = null;
+
+            if(!$_POST['post_ID']){
+                $status = ( $_POST['status'] == 'draft' ) ? 'draft' : RHSVote::VOTING_QUEUE;
+            }
             
             $this->insert(
                 $_POST['post_ID'],
                 $_POST['title'],
                 $_POST['public_post'],
-                ( $_POST['status'] == 'draft' ) ? 'draft' : RHSVote::VOTING_QUEUE,
+                $status,
                 get_current_user_id(),
                 $_POST['category'],
                 $_POST['estado'],
@@ -147,13 +153,19 @@ class RHSPost extends RHSMenssage {
             'post_content'  => $content,
             'post_status'   => $status,
             'post_author'   => $authorId,
-            'post_category' => (is_array($category)) ? $category : array($category)
+            'post_category' => (is_array($category)) ? $category : array($category),
+            'comment_status' => 'open'
         );
         
-        if (is_numeric($ID))
+        if (is_numeric($ID)){
             $dataPost['ID'] = $ID;
+            unset($dataPost['post_status']);
+            $post_ID = wp_update_post( $dataPost, true );
+        } else {
+            $post_ID = wp_insert_post( $dataPost, true );
+        }
 
-        $post_ID = wp_insert_post( $dataPost, true );
+
 
         if ( $post_ID instanceof WP_Error ) {
 
