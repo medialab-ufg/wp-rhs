@@ -6,6 +6,7 @@ if (!is_user_logged_in() || wp_get_current_user()->ID != $post->post_author) {
     wp_redirect(home_url('nao-permitido'));
 }
 
+global $post;
 ?>
 
 
@@ -25,10 +26,11 @@ if (!is_user_logged_in() || wp_get_current_user()->ID != $post->post_author) {
             </div>
             <div class="row">
                 <div class="col-xs-12 tickets">
+                    <?php while (have_posts()): the_post(); ?>
                     <div class="wrapper-content">
                         <div class="panel panel-default">
                             <?php $term_list = wp_get_post_terms($post->ID, 'tickets-category'); ?>
-                            <?php  while (have_posts()): the_post();
+                            <?php  
                                 if(get_post_status() == 'open'){
                                     $status = 'Em Aberto';
                                     $lab = 'success';
@@ -74,7 +76,6 @@ if (!is_user_logged_in() || wp_get_current_user()->ID != $post->post_author) {
                                             <div class="well"><?php the_content(); ?></div>
                                         </div>
                                         <?php
-                                            global $post;
                                             $comments = get_comments('post_id='.$post->ID . '&order=asc');
                                             foreach($comments as $comment) :
                                         ?>
@@ -94,22 +95,27 @@ if (!is_user_logged_in() || wp_get_current_user()->ID != $post->post_author) {
                                         <?php endforeach; ?>
                                     </div>
                                 </div>
-                            <?php endwhile; ?>
                         </div>
                     </div>
                     <div class="wrapper-content">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <form id="responder_editor" class="" role="form" action="<?php the_permalink(); ?>" method="post">
+                                <form id="responder_editor" action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php"  method="post">
                                     <h4>Responder o Editor:</h4>
                                     <div class="form-group float-label-control">
-                                        <textarea id="textarea-message" tabindex="7" class="form-control" rows="5" name="responder"></textarea>
+                                        <?php comment_id_fields(); ?>
+                                        <textarea name="comment" id="comment" tabindex="1" onfocus="if (this.value == '<?php _e('Digite seu comentário aqui.', 'rhs'); ?>') this.value = '';" onblur="if (this.value == '') {this.value = '<?php _e('Digite seu comentário aqui.', 'rhs'); ?>';}" class="form-control" rows="4"><?php _e('Digite seu comentário aqui.', 'rhs'); ?></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-default pull-right">Responder</button>
+                                    <?php if(get_option("comment_moderation") == "1") : ?>
+                                        <?php _e('Todos os comentarios precisam ser aprovados.', 'rhs'); ?>
+                                    <?php endif; ?>
+                                    <?php do_action('comment_form', $post->ID); ?>
                                 </form>
                             </div>
                         </div>
                     </div>
+                    <?php endwhile; ?>
                 </div>
             </div>
         </div>
