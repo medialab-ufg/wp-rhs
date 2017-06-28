@@ -266,7 +266,8 @@ class RHSTicket extends RHSMenssage {
             'post_content'  => $message,
             'post_status'   => self::NOT_RESPONSE,
             'post_author'   => $author->ID,
-            'post_type'     => self::POST_TYPE
+            'post_type'     => self::POST_TYPE,
+            'comment_status' => 'open'
         );
 
         $post_ID = wp_insert_post($dataPost, true);
