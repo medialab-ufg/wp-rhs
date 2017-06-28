@@ -306,9 +306,8 @@ class RHSTicket extends RHSMenssage {
             $text_aditional = '<p>Link do ticket: <a href="'.get_edit_post_link($post_ID).'">'.get_edit_post_link($post_ID).'</a></p>';
             wp_mail( $user->user_email, $subject, $text_aditional.$message );
         }
-        
-        
-        
+
+
         $this->set_messages(   '<i class="fa fa-check "></i> Contato enviado com sucesso!', false, 'success' );
         return;
     }
@@ -336,6 +335,14 @@ class RHSTicket extends RHSMenssage {
         }
         return $option;
     }
+
+    public function category_parent(){
+
+        return get_terms(self::TAXONOMY, array('hide_empty' => false,'parent' => 0));
+
+    }
+
+
     /**
      * Retorna usuario padrão, caso não esteja logado
      * @return bool|false|object|WP_User

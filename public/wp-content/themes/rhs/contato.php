@@ -49,12 +49,12 @@
                             </div>
                             <div class="panel-body">
                                 <?php $RHSTicket->clear_messages(); ?>
-                                <form id="contato" class="form-horizontal" role="form" action="<?php the_permalink(); ?>" method="post">
+                                <form id="contato" class="form-horizontal" role="form" action="" method="post">
                                     <?php if(is_user_logged_in()) : $dis = 'none';?>
                                         <h4>Logado como <a href="<?php echo get_author_posts_url(get_current_user_id(), $RHSUser->get_user_data('name')); ?>"><?php echo $RHSUser->get_user_data('display_name');?></a></h4>
-                                    <?php 
-                                        else : 
-                                            $dis = 'block'; 
+                                    <?php
+                                        else :
+                                            $dis = 'block';
                                     endif; ?>
                                     <div class="form-group float-label-control" style="display: <?php echo $dis; ?>">
                                         <label for="name">Nome <span class="required">*</span></label>
@@ -88,11 +88,11 @@
                                     </div>
                                     <div class="form-group float-label-control">
                                         <label for="category">Categoria <span class="required">*</span></label>
-                                        <?php $categories = $RHSTicket->category_tree_option(); ?>
+                                        <?php $categories = $RHSTicket->category_parent(); ?>
                                         <select tabindex="5"  class="form-control" name="category" id="select-category">
                                             <option value="">-- Selecione --</option>
-                                            <?php foreach ($categories as $key => $category){ ?>
-                                                <option value="<?php echo $key ?>"><?php echo $category ?></option>
+                                            <?php foreach ($categories as $category){ ?>
+                                                <option value="<?php echo $category->term_id ?>"><?php echo $category->name ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
