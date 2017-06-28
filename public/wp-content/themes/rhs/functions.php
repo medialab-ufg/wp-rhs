@@ -382,25 +382,33 @@ function wpse_139269_term_radio_checklist( $args ) {
 /*
 Função para Uso nos meta para os meios sociais.
 */
-function get_meta_description(){
-    $custom_field_meta_description = get_post_meta(get_the_ID(), 'meta_description_field', true);
-    if($custom_field_meta_description != ''){
-        return $custom_field_meta_description;
-    } elseif ( is_single() ) {
-        return get_the_title();
+function facebook_meta() {
+    global $post;
+ 
+    if(is_single()) {
+        if(has_post_thumbnail($post->ID)) {
+            $img_src = get_the_post_thumbnail_url($post->ID);;
+        } else {
+            $img_src = get_stylesheet_directory_uri() . '/assets/images/rhs-sidebar.jpg';
+        }
+        if($excerpt = $post->post_excerpt) {
+            $excerpt = strip_tags($post->post_excerpt);
+            $excerpt = str_replace("", "'", $excerpt);
+        } else {
+            $excerpt = get_bloginfo('description');
+        }
+        ?>
+ 
+    <meta property="og:title" content="<?php echo the_title(); ?>"/>
+    <meta property="og:description" content="<?php echo $excerpt; ?>"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content="<?php echo the_permalink(); ?>"/>
+    <meta property="og:site_name" content="<?php echo get_bloginfo(); ?>"/>
+    <meta property="og:image" content="<?php echo $img_src; ?>"/>
+ 
+<?php
     } else {
-        return get_bloginfo('description');
+        return;
     }
 }
-
-function get_meta_thumb(){
-    $custom_field_meta_description = get_post_meta(get_the_ID(), 'thumb', true);
-    if($custom_field_meta_description != ''){
-        return $custom_field_meta_description;
-    } elseif ( is_single() ) {
-        return get_the_post_thumbnail_url();
-    } else {
-        return get_bloginfo();
-    }
-}
-/*Fim Função para Uso nos meta para os meios sociais.*/
+add_action('wp_head', 'facebook_meta', 5);

@@ -4,6 +4,7 @@
     <meta charset="<?php bloginfo( 'charset' ); ?>"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#00b4b4">
     <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon.ico"/>
     <title><?php wp_title( '|', true, 'right' );
         bloginfo( 'name' ); ?></title>
@@ -15,10 +16,7 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-    <meta property="og:title" content="<?php bloginfo('name' ); ?>">
-    <meta property="og:image" content="<?php echo get_meta_thumb(); ?>">
-    <meta property="og:description" content="<?php echo get_meta_description(); ?>">
-    <meta property="og:url" content="<?php the_permalink(); ?>">
+    
     <?php wp_head(); ?>
     </head>
     <body>
