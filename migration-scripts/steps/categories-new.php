@@ -1,5 +1,17 @@
 <?php
 
+$this->log('Limpando categorias do ticket com ID maior que 1');
+
+$categories = $wpdb->get_results("SELECT * FROM $wpdb->term_taxonomy WHERE taxonomy = '".RHSTicket::TAXONOMY."';");
+
+foreach ($categories as $category){
+
+    $wpdb->query("DELETE FROM $wpdb->term_taxonomy WHERE term_taxonomy_id = '$category->term_taxonomy_id';");
+    $wpdb->query("DELETE FROM $wpdb->terms WHERE term_id = '$category->term_id';");
+    $wpdb->query("DELETE FROM $wpdb->options WHERE option_name = 'tickets-category_children';");
+}
+
+
 $categories = array(
     'Formação/cursos' => array(
         'Certificado',
@@ -61,19 +73,34 @@ $categories = array(
     )
 );
 
-foreach ($categories as $category){
+$categories_ids = array();
 
+// Insere as categorias pais
+foreach ($categories as $first_name => $seconds){
 
+    $data =  array( 'name' => $first_name, 'slug' => $first_name );
+    $wpdb->insert($wpdb->terms, $data);
 
+    $parent = $wpdb->insert_id;
+    $categories_ids[$parent] = array();
 
+    $data = array('term_id' => $wpdb->insert_id, 'taxonomy' => RHSTicket::TAXONOMY);
+    $wpdb->insert($wpdb->term_taxonomy, $data);
+
+    // Insere as categorias filhas
+    foreach ($seconds as $second){
+
+        $data =  array( 'name' => $second, 'slug' => $second );
+        $wpdb->insert($wpdb->terms, $data);
+
+        $children = $wpdb->insert_id;
+        $categories_ids[$parent][] = $children;
+
+        $data = array('term_id' => $wpdb->insert_id, 'taxonomy' => RHSTicket::TAXONOMY, 'parent' => $parent);
+        $wpdb->insert($wpdb->term_taxonomy, $data);
+    }
 }
 
-$my_cat = array(
-    'cat_name' => 'My Category',
-    'category_parent' => '',
-    'taxonomy' => RHSTicket::TAXONOMY);
-
-// Create the category
-$my_cat_id = wp_insert_category($my_cat);
-
-
+// Insere o controle de categorias pais e filhas por post type
+$data =  array( 'option_name' => 'tickets-category_children', 'option_value' => serialize($categories_ids));
+$wpdb->insert($wpdb->options, $data);
