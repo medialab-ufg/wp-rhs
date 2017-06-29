@@ -13,6 +13,7 @@ class RHSRewriteRules {
     const PROFILE_URL = 'perfil';
     const POST_URL = 'publicar-postagem';
     const POSTAGENS_URL = 'minhas-postagens';
+    const COMUNIDADE = 'comunidades';
 
     function __construct() {
             add_action( 'generate_rewrite_rules', array( &$this, 'rewrite_rules' ), 10, 1 );
@@ -42,6 +43,7 @@ class RHSRewriteRules {
             'user/register' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::REGISTER_URL,
             'user/me/edit' . "/?$"  => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::PROFILE_URL,
             'node/add/blog' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL,
+            'comunidades' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::COMUNIDADE,
         );
 
         $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
