@@ -303,12 +303,24 @@ class RHSTicket extends RHSMenssage {
 
         if($responsavel_padrao){
             $user = get_userdata($responsavel_padrao);
-            $subject = '['.get_bloginfo('name').' Contato] '.$subject;
-            $text_aditional = '<p>Link do ticket: <a href="'.get_edit_post_link($post_ID).'">'.get_edit_post_link($post_ID).'</a></p>';
-            wp_mail( $user->user_email, $subject, $text_aditional.$message );
+
+            $RHSEmail = new RHSEmail();
+
+            $args = array(
+                'site_nome' => get_bloginfo('name'),
+                'ticket_id' => $post_ID,
+                'mensagem' => $message,
+                'login' => $user->user_login,
+                'email' => $user->user_email,
+                'nome' => $user->display_name,
+                'link' => get_edit_post_link($post_ID)
+            );
+
+            $subject = $RHSEmail->get_subject('new_ticket_message', $args);
+            $message = $RHSEmail->get_message('new_ticket_message', $args);
+
+            wp_mail($user->user_email, $subject, $message);
         }
-
-
 
         $this->set_messages(   '<i class="fa fa-check "></i> Contato enviado com sucesso!', false, 'success' );
         return;

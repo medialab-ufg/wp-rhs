@@ -442,6 +442,7 @@ Class RHSVote {
 		);
 
 		wp_update_post( $new_post );
+        do_action('rhs_post_promoted', $postID);
 
 		$this->update_user_role( $postID );
 	}

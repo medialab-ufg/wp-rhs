@@ -19,6 +19,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/perfil/perfil.php');
         require_once('inc/register/register.php');
         require_once('inc/ticket/ticket.php');
+        require_once('inc/email/email.php');
         
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');
