@@ -22,16 +22,14 @@
                 <div class="col-xs-12 contato">
                     <div class="wrapper-content">
                         <div class="row">
-                            <div class="col-md-6">
-                                <p>Utilize o formulário abaixo para se comunicar com o Coletivo de Editores/Cuidadores da Rede HumanizaSUS.</p>
-                                <p>A Rede HumanizaSUS (RHS) é uma rede social das pessoas interessadas na humanização da gestão e do cuidado no SUS. Constitui-se como um espaço de discussão das políticas de saúde do SUS, onde são compartilhadas narrativas, ideias, críticas, sugestões e práticas que promovam o fortalecimento da humanização da saúde pública.</p>
-                                <p>Tire dúvidas, peça esclarecimentos, peça ajuda para postar ou faça perguntas sobre uso da rede. Não funcionamos oficialmente como um espaço de denúncias relacionadas à área da saúde. Para esse fim, sugerimos que você busque o Conselho de Saúde de sua cidade e/ou a Ouvidoria do SUS, <a href="#">clicando aqui</a>.&nbsp;</p>
-                            </div>
-                            <div class="col-md-6">
-                                <p>Todas as mensagens enviadas pelo formulário abaixo, são respondidas por nosso grupo de editores/cuidadores, e, caso haja necessidade, sua questão pode ser também encaminhada ao coletivo ampliado da Política Nacional de Humanização (PNH). Nenhuma mensagem enviada por este formulário será tornada pública em nosso site sem a explícita autorização de quem a enviou.</p>
-                                <p>Caso queira entrar em contato com um membro específico da RHS, utilize o chat disponível na página do perfil de cada participante.</p>
-                                <p>Acolheremos com atenção sua mensagem e a responderemos tão logo quanto possíve<span class="span-line">!</span></p>
-                            </div>
+                            <?php 
+                                if(have_posts()){
+                                    while(  have_posts()) : the_post(); 
+                                        the_content();
+                                    endwhile;
+                                    wp_reset_query();
+                                }
+                            ?>
                         </div>
                         <?php foreach ($RHSTicket->messages() as $type => $messages){ ?>
                             <div class="alert alert-<?php echo $type == 'error' ? 'danger' : 'success' ; ?>">
