@@ -19,15 +19,15 @@
                     </div>
                     <div class="col-xs-4">
                         <div class="col-xs-4">
-                            <p style="text-align: center;">0</p>
+                            <p class="text-center">0</p>
                             <span>Mensagens</span>
                         </div>
                         <div class="col-xs-4">
-                            <p style="text-align: center;">0</p>
+                            <p class="text-center">0</p>
                             <span>Comentários</span>
                         </div>
                         <div class="col-xs-4">
-                            <p style="text-align: center;">0</p>
+                            <p class="text-center">0</p>
                             <span>Participantes</span>
                         </div>
                     </div>
