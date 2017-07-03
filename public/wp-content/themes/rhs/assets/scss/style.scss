@@ -182,12 +182,12 @@ body {
 
 .alert {
     font-size: 14px;
-    color: #fff;
+    color: $whiteColor;
     &.alert-danger {
         background: #a94442;
 
         a {
-            color: #fff;
+            color: $whiteColor;
             font-weight: 700;
             text-decoration: underline;
         }
@@ -195,7 +195,7 @@ body {
     &.alert-success {
         background: #3c763d;
         a {
-            color: #fff;
+            color: $whiteColor;
             font-weight: 700;
             text-decoration: underline;
         }
@@ -229,7 +229,7 @@ Segundo Nav-menu
             text-align: right;
             width: 100%;
             &:last-child {
-                border-bottom: 1px solid #00b4b4;
+                border-bottom: 1px solid $primeira_cor_texto;
             }
             &:hover, &:focus{
                 background-color: $segunda_cor_fundo;
@@ -266,7 +266,7 @@ Primeiro e Segundo DropDown Menu
             -o-transition: all 0.3s ease-in-out;
             transition: all 0.3s ease-in-out;
             &:last-child {
-                border-bottom: 1px solid #00b4b4;
+                border-bottom: 1px solid $primeira_cor_texto;
             }
             i {
                 color: #006d6d;
@@ -453,7 +453,7 @@ Primeiro e Segundo DropDown Menu
         border-radius: 0px;
     }
     .btn-group {
-        border-right: 1px solid #f2f3f5;
+        border-right: 1px solid $backgroundColor;
     }
     a {
         color: $primeira_cor_texto;
@@ -477,7 +477,7 @@ Primeiro e Segundo DropDown Menu
 
 /*Titulo das Paginas*/
 h1.titulo-page {
-    background: #fff none repeat scroll 0 0;
+    background: $whiteColor none repeat scroll 0 0;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     color: $primeira_cor_texto;
     font-size: 1.6em;
@@ -646,7 +646,7 @@ h1.titulo-page {
             margin-bottom: 7px;
             padding: 10px 0px 12px;
             a{
-                color: #00b4b4;
+                color: $primeira_cor_texto;
                 font-size: 11px;
                 letter-spacing: 2px;
                 font-weight: bold;
@@ -839,7 +839,7 @@ h1.titulo-page {
                 .vTexto {
                     line-height: 17px;
                     display: block;
-                    color: #00b4b4;
+                    color: $primeira_cor_texto;
                     font-size: 18px;
                     margin-bottom: 4px;
                     font-weight: bold;
@@ -859,9 +859,9 @@ h1.titulo-page {
                         -o-transition: all 0.3s ease-in-out;
                         transition: all 0.3s ease-in-out;
                         &:hover{
-                            border-color: #00b4b4;
-                            color: #00b4b4;
-                            background: #fff;
+                            border-color: $primeira_cor_texto;
+                            color: $primeira_cor_texto;
+                            background: $whiteColor;
                         }
                         &[disabled]{
                             cursor: no-drop;
@@ -874,7 +874,7 @@ h1.titulo-page {
                             }
                         }
                         i{
-                            color: #fff;
+                            color: $whiteColor;
                             font-size: 14px;
                             margin: 0;
                         }
@@ -1133,7 +1133,7 @@ h1.titulo-page {
                 right: -2px !important;
                 bottom: -2px !important;
                 left: -2px !important;
-                outline: 2px dotted #fff !important;
+                outline: 2px dotted $whiteColor !important;
                 z-index: -1 !important;
             }
 
@@ -1419,7 +1419,7 @@ h1.titulo-page {
 }
 .none{
     p{
-        background: #FFF; 
+        background: $whiteColor; 
         padding: 15px; 
         font-weight: bold
     }
@@ -1572,7 +1572,7 @@ form .comment-form-comment {
                     }
                 }
                 label {
-                    color: #000000;
+                    color: $blackColor;
                     font-size: 0.9em;
                     font-weight: 500;
                     i {
@@ -1612,12 +1612,12 @@ form .comment-form-comment {
                                 border: 1px solid #b70b0b;
                                 display: inline-block;
                                 text-align: center;
-                                color: #fff;
+                                color: $whiteColor;
                                 padding: 4px 11px;
                                 border-radius: 4px;
                                 &:hover {
                                     color: #b70b0b;
-                                    background: #fff;
+                                    background: $whiteColor;
                                 }
                             }
                         }
@@ -1756,7 +1756,7 @@ form .comment-form-comment {
     .wrapper-content {
         padding: 20px;
         border-radius: 3px;
-        background-color: #fff;
+        background-color: $whiteColor;
         box-shadow: 0 1px 4px rgba(0,0,0,0.2);
         margin: 0;
         clear: both;
@@ -1793,12 +1793,12 @@ form .comment-form-comment {
 .contato{
     .wrapper-content {
         padding: 30px;
-        background-color: #fff;
+        background-color: $whiteColor;
         margin-bottom: 15px;
         p{
             font-size: 14px;
             a, a:focus, a:visited {
-                color: #000;
+                color: $blackColor;
                 font-weight: bold;
                 outline: none;
             }
@@ -1903,7 +1903,7 @@ form .comment-form-comment {
         }
     }
     .ibox-content {
-        background-color: #ffffff;
+        background-color: $whiteColor;
         color: inherit;
         padding: 15px 20px 20px 20px;
         border-color: #e7eaec;
@@ -1952,7 +1952,7 @@ form .comment-form-comment {
     aside {
         border-top: 1px solid $primeira_cor_texto;
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-        background-color: #fff;
+        background-color: $whiteColor;
         margin-bottom: 20px;
         padding: 20px 15px;
         h2{
@@ -2050,9 +2050,10 @@ footer {
         font-weight: bold;
         font-size: 1em;
         padding: 6px;
-    }
-    .footerDescricao p {
-        margin: 10px 0 10px;
+
+        .footerDescricao p {
+            margin: 10px 0 10px;
+        }
     }
     .footerMenu {
         background-color: $primeira_cor_fundo;
@@ -2064,30 +2065,33 @@ footer {
         border-bottom: 1px solid $cor_fundo_formulario_nav;
         margin: -9px 9px 7px 0;
     }
-    .footerMenu .navbar-default a {
-        background-color: $primeira_cor_fundo;
-        color: $primeira_cor_texto;
-        display: inline;
-        float: left;
-        padding: 18px;
-        margin-left: 40px;
-        &:hover, &:visited {
-            color: $primeira_cor_texto !important;
-            text-decoration: underline;
+    .footerMenu {
+        .navbar-default {
+            a {
+                background-color: $primeira_cor_fundo;
+                color: $primeira_cor_texto;
+                display: inline;
+                float: left;
+                padding: 18px;
+                margin-left: 40px;
+                &:hover, &:visited {
+                    color: $primeira_cor_texto !important;
+                    text-decoration: underline;
+                }
+            }
         }
-
     }
     .corporation {
         background-color: $primeira_cor_fundo;
         text-align: center;
         padding: 9px;
-    }
-    .corporation a {
-        color: $primeira_cor_texto;
-    }
-    .corporation a:hover {
-        color: $primeira_cor_texto;
-        text-decoration: underline;
+        a {
+            color: $primeira_cor_texto;
+            &:hover {
+                color: $primeira_cor_texto;
+                text-decoration: underline;
+            }
+        }
     }
 }
 
@@ -2112,8 +2116,8 @@ footer {
 }
 
 .btn-comentar {
-    background: #00b4b4;
-    border-color: #00b4b4;
+    background: $primeira_cor_texto;
+    border-color: $primeira_cor_texto;
     float: right;
     &:hover{
         background: rgba(0, 180, 180, 0.52);
@@ -2178,7 +2182,7 @@ article {
             }
             .by-author{
                 &:after {
-                    color: #FFF;
+                    color: $whiteColor;
                     font-size: 0.8em;
                     padding: 3px 5px;
                     font-weight: 700;
@@ -2266,7 +2270,7 @@ article {
 .comment-box .comment-name{
     .by-author{
         &:after {
-            color: #FFF;
+            color: $whiteColor;
             font-size: 0.8em;
             padding: 3px 5px;
             font-weight: 700;
@@ -2375,7 +2379,7 @@ article {
                     position: relative;
                     z-index: 1;
                     a {
-                        color: #787878;
+                        color: $grayColor;
                         font-size: 15px;
                     }
                 }
@@ -2456,10 +2460,10 @@ article {
                 padding-top: 15px;
                 font-size: 85%;
                 a {
-                    color: #000;
+                    color: $blackColor;
                     font-weight: bold;
                     &:hover {
-                        color: #00b4b4;
+                        color: $primeira_cor_texto;
                     }
                     @media screen and (max-width: 768px) {
                         display: block;
@@ -2850,7 +2854,7 @@ article {
 @media print {
     * {
         background:transparent !important;
-        color:#000 !important;
+        color: $blackColor !important;
         text-shadow:none !important;
         filter:none !important;
         -ms-filter:none !important;
@@ -2882,7 +2886,7 @@ article {
                     margin-bottom: 7px;
                     padding: 10px 0px 12px;
                     a{
-                        color: #00b4b4;
+                        color: $primeira_cor_texto;
                         font-size: 11px;
                         letter-spacing: 2px;
                         font-weight: bold;
