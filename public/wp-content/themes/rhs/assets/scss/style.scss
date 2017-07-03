@@ -1865,57 +1865,7 @@ form .comment-form-comment {
 
             .forum-item {
                 margin: 10px 0;
-                padding: 10px 0 20px;
-                border-bottom: 1px solid #f1f1f1;
-                .forum-sub-title {
-                    color: #999;
-                    margin-left: 50px;
-                    small {
-                        color: #999;
-                    }
-                }
-                .forum-icon {
-                    float: left;
-                    width: 30px;
-                    margin-right: 20px;
-                    text-align: center;
-                    &.fa {
-                        font-size: 30px;
-                        margin-top: 8px;
-                        color: #9b9b9b;
-                    }
-                }
-                .forum-info {
-                    text-align: center;
-                    .views-number {
-                        font-size: 24px;
-                        line-height: 18px;
-                        font-weight: 400;
-                    }
-                }
-
-                a{
-                    &.forum-item-title {
-                        color: inherit;
-                        display: block;
-                        font-size: 18px;
-                        font-weight: 600;
-                    }
-                    &:hover{
-                        color: inherit;
-                    }
-                }
-                &.active {
-                    &.fa {
-                        color: #1ab394;
-                    }
-                    a{
-                        &.forum-item-title {
-                            color: #1ab394;
-                        }
-                    }
-                }
-                
+                padding: 10px 0 20px;                
             }
         }
         .text-navy {
