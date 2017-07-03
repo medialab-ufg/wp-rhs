@@ -7,7 +7,6 @@
     <div class="row comunidade">
         <div class="col-xs-12">
             <div class="wrapper wrapper-content animated fadeInRight">
-
                 <div class="ibox-content m-b-sm border-bottom">
                     <div class="row">
                     <div class="col-xs-6">

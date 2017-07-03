@@ -38,8 +38,8 @@
                 <?php
                 if ( comments_open() ) :
                     comments_popup_link( '0 COMENTÁRIOS',
-                        '<i class="fa fa-commenting-o" aria-hidden="true"></i> 1 COMENTÁRIO',
-                        '<i class="fa fa-commenting-o" aria-hidden="true"></i> % COMENTÁRIOS', 'footer-link',
+                        '<i class="fa fa-comments-o " aria-hidden="true"></i> 1 COMENTÁRIO',
+                        '<i class="fa fa-comments-o " aria-hidden="true"></i> % COMENTÁRIOS', 'footer-link',
                         'Não é permitido Comentários neste post' );
                 endif;
                 ?>

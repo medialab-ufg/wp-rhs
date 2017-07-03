@@ -18,12 +18,12 @@ if (post_password_required()) {
 	<!-- Container -->
 	<div class="col-xs-12 col-md-12" id="comments">
 		<!--show the form-->
-		<h2 class="titulo-quantidade text-uppercase"><i class="fa fa-commenting-o" aria-hidden="true"></i> <?php comments_number(__('não há Comentários', 'rhs'), __('1 Comentário','rhs'), __('% Comentários','rhs') );?></h2>
+		<h2 class="titulo-quantidade text-uppercase"><i class="fa fa-comments-o" aria-hidden="true"></i> <?php comments_number(__('não há Comentários', 'rhs'), __('1 Comentário','rhs'), __('% Comentários','rhs') );?></h2>
 		<?php if('open' == $post->comment_status) : ?>
 			<div id="respond" class="clearfix">        
 			    <?php if(get_option('comment_registration') && !$user_ID) : ?>
 					<p>
-					<?php printf( __( 'Você precisa está %sloggedin%s para postar um comentário.', 'rhs'), "<a href='" . get_option('home') . "/logar?redirect_to=" . urlencode(get_permalink()) ."'>", "</a>" ); ?>
+					<?php printf( __( 'Você precisa realizar %slogin%s para postar um comentário.', 'rhs'), "<a href='" . get_option('home') . "/logar?redirect_to=" . urlencode(get_permalink()) ."'>", "</a>" ); ?>
 					</p>        
 			    <?php else : ?>
 			    <form action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="form-comentario" class="clearfix">             
