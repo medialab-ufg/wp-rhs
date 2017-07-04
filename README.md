@@ -74,6 +74,10 @@ O repositório vem com arquivos modelos: wp-config-sample.php e htaccess-sample,
 
 ### Instale o WordPress e importe os dados
 
+Visite o WordPress pelo navegador e siga o passo a passo.
+
+A raíz do site deve ser a pasta `public` do repositório.
+
 Faça uma instalação do WordPress para criar o banco de dados novo.
 
 Importe os dados da Drupal. Veja [migration-scripts/docs.md](migration-scripts/docs.md).
