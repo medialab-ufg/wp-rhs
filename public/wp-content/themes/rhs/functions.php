@@ -341,8 +341,8 @@ function change_p_for_br($string){
 
 // Esconde admin dos usuários comuns
 
-add_action('admin_init', 'tnb_so_admin_no_admin');
-function tnb_so_admin_no_admin() {
+add_action('admin_init', 'rhs_so_admin_no_admin');
+function rhs_so_admin_no_admin() {
     if ((!defined('DOING_AJAX') || false === DOING_AJAX) && !current_user_can('moderate_comments')) {
         wp_redirect(home_url());
         exit;
