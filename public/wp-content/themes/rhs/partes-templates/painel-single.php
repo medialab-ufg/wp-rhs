@@ -77,3 +77,22 @@
 		?>
 	</div>
 </div>
+<script>
+
+    jQuery( function( $ ) {
+        $.ajax({
+            async: false,
+            type: "POST",
+            dataType: "json",
+            url: vars.ajaxurl,
+            data: {action: 'add_data_view', 'postID': '<?php echo get_the_ID(); ?>', 'json' : true},
+            success: function (data) {
+
+            },
+            error: function (data) {
+
+            }
+        });
+    });
+
+</script>
