@@ -20,6 +20,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/register/register.php');
         require_once('inc/ticket/ticket.php');
         require_once('inc/email/email.php');
+        require_once('inc/network/network.php');
         
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');
@@ -413,3 +414,14 @@ function facebook_meta() {
     }
 }
 add_action('wp_head', 'facebook_meta', 5);
+
+function filterNonAdmins() {
+    if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
+        if (!current_user_can('manage_options')) {
+            wp_redirect(home_url());
+            exit;
+        }
+    }
+}
+
+add_action('admin_init', 'filterNonAdmins');
