@@ -71,6 +71,15 @@
                                                         <i class="icones-dropdown fa fa-pencil-square-o" aria-hidden="true"></i> Publicar Post
                                                     </a>
                                                 </li>
+                                                <?php 
+                                                $current_user = wp_get_current_user();
+                                                if (user_can( $current_user, 'administrator' ) || user_can( $current_user, 'editor' )) : ?>
+                                                <li class="menu-item">
+                                                    <a href="<?php echo admin_url();?>">
+                                                        <i class="icones-dropdown fa fa-tachometer" aria-hidden="true"></i> Painel
+                                                    </a>
+                                                </li>
+                                                <?php endif; ?>
                                                 <li class="menu-item perf">
                                                     <a href="<?php echo get_author_posts_url($RHSUser->getUserId()  ); ?>">
                                                         <i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil
@@ -81,15 +90,6 @@
                                                         <i class="icones-dropdown fa fa-calendar" aria-hidden="true"></i> Minhas Postagens
                                                     </a>
                                                 </li>
-                                                <?php 
-                                                $current_user = wp_get_current_user();
-                                                if (user_can( $current_user, 'administrator' ) || user_can( $current_user, 'editor' )) : ?>
-                                                <li class="menu-item">
-                                                    <a href="<?php echo admin_url();?>">
-                                                        <i class="icones-dropdown fa fa-calendar" aria-hidden="true"></i> Painel
-                                                    </a>
-                                                </li>
-                                                <?php endif; ?>
                                                 <li class="menu-item sair">
                                                     <a href="<?php echo wp_logout_url(); ?>">
                                                         <i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair
