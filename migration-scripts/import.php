@@ -27,6 +27,8 @@ class RHSImporter {
         'estados-cidades' => 'Importação das informações de estado e cidade para posts',
         'estados-cidades-users' => 'Importação das informações de estado e cidade para usuários',
         'categories-new' => 'Cria Novas Categorias',
+        
+        'initial-settings' => 'Cria as configurações básicas para a RHS',
     );
     
     

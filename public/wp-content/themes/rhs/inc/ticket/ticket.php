@@ -323,7 +323,9 @@ class RHSTicket extends RHSMenssage {
         }
 
         $this->set_messages(   '<i class="fa fa-check "></i> Contato enviado com sucesso!', false, 'success' );
-        return;
+        
+        wp_redirect(wp_get_referer());
+        exit;
     }
     /**
      * Função recursiva que retorna categorias baseado nos pais formatadas

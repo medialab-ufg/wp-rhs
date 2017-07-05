@@ -341,8 +341,8 @@ function change_p_for_br($string){
 
 // Esconde admin dos usuários comuns
 
-add_action('admin_init', 'tnb_so_admin_no_admin');
-function tnb_so_admin_no_admin() {
+add_action('admin_init', 'rhs_so_admin_no_admin');
+function rhs_so_admin_no_admin() {
     if ((!defined('DOING_AJAX') || false === DOING_AJAX) && !current_user_can('moderate_comments')) {
         wp_redirect(home_url());
         exit;
@@ -389,9 +389,14 @@ function facebook_meta() {
  
     if(is_single()) {
         if(has_post_thumbnail($post->ID)) {
-            $img_src = get_the_post_thumbnail_url($post->ID);;
+            $img_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), "thumbnail");
+            $img = $img_src[0];
+            $width = $img_src[1];
+            $height = $img_src[2];
         } else {
-            $img_src = get_stylesheet_directory_uri() . '/assets/images/rhs-sidebar.jpg';
+            $img = get_stylesheet_directory_uri() . '/assets/images/rhs-sidebar.jpg';
+            $width = '206';
+            $height = '144';
         }
         if($excerpt = $post->post_excerpt) {
             $excerpt = strip_tags($post->post_excerpt);
@@ -406,11 +411,34 @@ function facebook_meta() {
         <meta property="og:type" content="article"/>
         <meta property="og:url" content="<?php echo the_permalink(); ?>"/>
         <meta property="og:site_name" content="<?php echo get_bloginfo(); ?>"/>
-        <meta property="og:image" content="<?php echo $img_src; ?>"/>
+        <meta property="og:image" content="<?php echo $img; ?>"/>
+        <meta property="og:image:width" content="<?php echo $width; ?>"/>
+        <meta property="og:image:height" content="<?php echo $height; ?>"/>
+
  
 <?php
     } else {
         return;
     }
 }
+
 add_action('wp_head', 'facebook_meta', 5);
+
+function get_current_user_role() {
+    global $wp_roles;
+    $current_user = wp_get_current_user();
+    $roles = $current_user->roles;
+    $role = array_shift($roles);
+    return isset($wp_roles->role_names[$role]) ? translate_user_role($wp_roles->role_names[$role] ) : false;
+}
+
+function filterNonAdmins() {
+    if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
+        if (!get_current_user_role() == 'Editor' || !get_current_user_role() == 'Administrador') {
+            wp_redirect(home_url());
+            exit;
+        }
+    }
+}
+
+add_action('admin_init', 'filterNonAdmins');

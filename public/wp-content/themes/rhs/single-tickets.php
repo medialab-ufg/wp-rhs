@@ -75,21 +75,23 @@ global $post;
                                             <h4>Mensagem:</h4>
                                             <div class="well"><?php the_content(); ?></div>
                                         </div>
+                                        <div class="col-xs-12">
+                                            <h4>Respostas:</h4>
+                                        </div>  
                                         <?php
                                             $comments = get_comments('post_id='.$post->ID . '&order=asc');
                                             foreach($comments as $comment) :
+                                            $user=get_userdata($comment->user_id);
                                         ?>
-                                            <div class="col-xs-12">
-                                                    <h4>Respostas:</h4>
-                                                    <div class="well"><?php echo $comment->comment_content; ?>
-                                                        <p class="reply"> <strong>-</strong> 
+                                            <div class="col-xs-12"><!-- Não esta passando a role no $user. -->
+                                                    <div class="well<?php if($user->roles[0] == 'editor') : ?> text-right<?php endif; ?>"><?php echo $comment->comment_content; ?>
+                                                        <span class="<?php if($user->roles[0] == 'editor') : ?> text-right<?php endif; ?>"> <strong>-</strong> 
                                                             <?php if ($comment->user_id) {
-                                                                $user=get_userdata($comment->user_id);
                                                                     echo '<a href="'.get_author_posts_url($comment->user_id).'">'.$user->display_name.'</a>';
                                                                 } else { 
                                                                     comment_author_link();
                                                             } ?>
-                                                        </p>
+                                                        </span>
                                                     </div>
                                             </div>
                                         <?php endforeach; ?>
