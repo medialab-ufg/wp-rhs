@@ -773,7 +773,9 @@ h1.titulo-page {
         background-color: $whiteColor;
         border-color: $whiteColor;
         padding: 0;
-        margin-bottom: 15px;
+        .panel-title{
+            padding: 7px;
+        }
         .thumbnail_post {
             display: block;
             height: auto !important;
