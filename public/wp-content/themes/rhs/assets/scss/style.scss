@@ -2005,6 +2005,54 @@ form .comment-form-comment {
     @media screen and (max-width: 768px){
         margin-bottom: 20px;
     }
+    .well{
+        &.profile_view{
+            margin-bottom: 20px;
+            display: inline-block;
+            width: 100%;
+                -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.3);
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.3);
+            padding: 10px 0 0;
+            background: $whiteColor;
+            &:hover{
+                -webkit-box-shadow: 0 14px 12px 0 rgba(0,0,0,0.17),0 20px 40px 0 rgba(0,0,0,0.3);
+                box-shadow: 0 14px 12px 0 rgba(0,0,0,0.17),0 20px 40px 0 rgba(0,0,0,0.3); 
+            }
+            .divider{
+                border-top: 1px solid #e5e5e5;
+                padding-top: 5px;
+                margin-top: 5px;
+            }
+            .ratings {
+                margin-bottom: 0;
+            }
+            .bottom {
+                margin-top: -20px;
+                background: #F2F5F7;
+                padding: 9px 0;
+                border-top: 1px solid #E6E9ED;
+            }
+            .left {
+                margin-top: 20px;
+                p {
+                    margin-bottom: 3px;
+                }
+            }
+            .right {
+                margin-top: 0px;
+                padding: 25px;
+            }
+            .img-circle {
+                border: 1px solid #E6E9ED;
+                padding: 2px;
+            }
+            h2 {
+                margin: 5px 0;
+                font-size:18px;
+                font-weight:bold;
+            }
+        }
+    }
 }
 
 /*
