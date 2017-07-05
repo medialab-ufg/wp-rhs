@@ -389,9 +389,14 @@ function facebook_meta() {
  
     if(is_single()) {
         if(has_post_thumbnail($post->ID)) {
-            $img_src = get_the_post_thumbnail_url($post->ID);;
+            $img_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), "thumbnail");
+            $img = $img_src[0];
+            $width = $img_src[1];
+            $height = $img_src[2];
         } else {
-            $img_src = get_stylesheet_directory_uri() . '/assets/images/rhs-sidebar.jpg';
+            $img = get_stylesheet_directory_uri() . '/assets/images/rhs-sidebar.jpg';
+            $width = '206';
+            $height = '144';
         }
         if($excerpt = $post->post_excerpt) {
             $excerpt = strip_tags($post->post_excerpt);
@@ -406,9 +411,9 @@ function facebook_meta() {
         <meta property="og:type" content="article"/>
         <meta property="og:url" content="<?php echo the_permalink(); ?>"/>
         <meta property="og:site_name" content="<?php echo get_bloginfo(); ?>"/>
-        <meta property="og:image" content="<?php echo $img_src; ?>"/>
-        <meta property="og:image:width" content="206"/>
-        <meta property="og:image:height" content="144"/>
+        <meta property="og:image" content="<?php echo $img; ?>"/>
+        <meta property="og:image:width" content="<?php echo $width; ?>"/>
+        <meta property="og:image:height" content="<?php echo $height; ?>"/>
 
  
 <?php
