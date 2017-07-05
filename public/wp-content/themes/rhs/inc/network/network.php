@@ -8,6 +8,18 @@ class RHSNetwork {
 
     public function __construct() {
         add_action('wp_ajax_nopriv_add_data_view', array( &$this, 'add_data_view' ) );
+        add_action('save_post', array( &$this, 'javascript_network'), 10, 1);
+    }
+
+    public function javascript_network($postID){
+
+        ?>
+        <script>
+        var postID = <?php echo $postID; ?>
+        </script>
+        <script type="text/javascript" src="<?php echo get_template_directory_uri(). 'inc/network/network.js' ?>" ></script>
+        <?php
+
     }
 
     private function get_id($post_id){
