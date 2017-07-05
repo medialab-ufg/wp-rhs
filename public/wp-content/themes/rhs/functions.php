@@ -423,3 +423,21 @@ function facebook_meta() {
 }
 add_action('wp_head', 'facebook_meta', 5);
 
+function get_current_user_role() {
+    global $wp_roles;
+    $current_user = wp_get_current_user();
+    $roles = $current_user->roles;
+    $role = array_shift($roles);
+    return isset($wp_roles->role_names[$role]) ? translate_user_role($wp_roles->role_names[$role] ) : false;
+}
+
+function filterNonAdmins() {
+    if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
+        if (!get_current_user_role() == 'Editor' || !get_current_user_role() == 'Administrador') {
+            wp_redirect(home_url());
+            exit;
+        }
+    }
+}
+
+add_action('admin_init', 'filterNonAdmins');
