@@ -13,7 +13,8 @@
         "phpmailer/phpmailer" : "^5.2",
         "FortAwesome/Font-Awesome" : "*",
         "nicolasbize/magicsuggest" : "*",
-        "google/recaptcha" : "*"
+        "google/recaptcha" : "*",
+        "wpackagist-plugin/rest-api-oauth1":"0.3.*"
     },
     "extra": {
         "wordpress-install-dir": "public/wp"
