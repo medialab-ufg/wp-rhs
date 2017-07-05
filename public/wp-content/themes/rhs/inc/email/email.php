@@ -8,23 +8,31 @@ class RHSEmail {
     function __construct() {
 
         add_action('admin_menu', array( &$this, 'gerate_admin_menu' ) );
+        add_filter("retrieve_password_title", array( &$this, 'filter_reset_password_request_email_title'));
         add_filter('retrieve_password_message',  array( &$this, 'filter_reset_password_request_email_body'), 10, 3 );
         add_action('rhs_post_promoted', array( &$this,'post_promoted'), 10, 1);
 
         $this->messages = array(
-            /*'new_user_message' => array(
-                'name'=> 'Novo Usuário',
+            'new_user_message' => array(
+                'name'=> 'Email de Boas Vindas',
                 'var' => array(
                     'site_nome',
                     'login',
+                    'password',
                     'email',
-                    'nome'
+                    'nome',
+                    'site_link',
+                    'site_perfil',
+                    'site_novo_topico'
                 ),
-                'default-subject' => '',
-                'default-email' => ''
-            ),*/
+                'default-subject' => '[%site_nome%] Bem-vindo',
+                'default-email' => '<h3>Bem-vindo %nome%.</h3>
+                    <p>Você pode acessar o site aqui: <a href="%site_link%">%site_link%</a></p>
+                    <p>Edite seu perfil aqui: <a href="%site_perfil%">%site_perfil%</a></p>
+                    <p>Postar um novo tópico: <a href="%site_novo_topico%">%site_novo_topico%</a></p>'
+            ),
             'retrieve_password_message' => array(
-                'name'=> 'Recuperar Senha',
+                'name'=> 'Email de Recuperação Senha',
                 'var' => array(
                     'site_nome',
                     'login',
@@ -32,14 +40,13 @@ class RHSEmail {
                     'nome',
                     'link'
                 ),
-                'default-subject' => '',
-                'subject' => false,
+                'default-subject' => '[%site_nome%] Recuperação de Senha',
                 'default-email' => '
                     <p>Você solicitou a recuperação de senha do %login%.</p>
                     <p>Acesse o link: %link%</p>'
             ),
             'new_ticket_message' => array(
-                'name'=> 'Novo Ticket',
+                'name'=> 'Email de Novo Ticket',
                 'var' => array(
                     'site_nome',
                     'ticket_id',
@@ -55,7 +62,7 @@ class RHSEmail {
                     <p><a href="\&quot;%link%\&quot;">%link%</a></p>'
             ),
             'post_promoted' => array(
-                'name'=> 'Post Promovido',
+                'name'=> 'Email de Post Promovido',
                 'var' => array(
                     'site_nome',
                     'login',
@@ -86,6 +93,17 @@ class RHSEmail {
         );
 
         $this->get_message('retrieve_password_message', $args);
+
+        return $message;
+    }
+
+    function filter_reset_password_request_email_title() {
+
+        $args = array(
+            'site_nome' => get_bloginfo('name')
+        );
+
+        $this->get_message('retrieve_password_title', $args);
 
         return $message;
     }
@@ -162,6 +180,76 @@ class RHSEmail {
 
     function rhs_admin_page_voting_queue() {
 
+        $this->validade_form();
+
+        ?>
+        <div class="wrap">
+            <h2><?php echo __( 'Mensagens de Emails' ); ?></h2>
+        <div class="inside sbwe-inside">
+            <form method="POST"><table class="widefat">
+                    <tbody>
+                    <?php $i = 0; ?>
+                    <?php foreach ($this->messages as $label => $menssage){ ?>
+                        <?php  $var = array_map(function($value) { return '%'.$value.'%'; }, $menssage['var']); ?>
+                        <tr class="alternate">
+                            <th style="vertical-align: top;">
+                                <label for="input-<?php echo $i; ?>">
+                                    <strong><?php echo $menssage['name']; ?></strong>
+                                </label>
+                            </th>
+                            <td style=""></td>
+                        </tr>
+                        <?php if(!isset($menssage['subject']) || $menssage['subject'] == true){ ?>
+                        <tr class="">
+                            <th style="vertical-align: top;">
+                                Assunto
+                                <?php if(!empty($var)){ ?>
+                                <div style="font-size: 10px; color: gray;">
+                                    <?php echo __( 'Variáveis: ' ) . implode(', ', array($var[0])); ?>
+                                </div>
+                                <?php } ?>
+                            </th>
+                            <td style="">
+                                <input value="<?php echo $this->get_option($label, 'subject'); ?>" name="<?php echo 'rhs-subject-'.$label ?>" type="text" placeholder="Assunto" class="regular-text" />
+                            </td>
+                        </tr>
+                        <?php } ?>
+                        <tr class="">
+                            <th style="vertical-align: top;">
+                                Mensagem
+                                <?php if(!empty($var)){ ?>
+                                    <div style="font-size: 10px; color: gray;">
+                                        <?php echo __( 'Variáveis: ' ) . implode(', ', $var); ?>
+                                    </div>
+                                <?php } ?>
+                            </th>
+                            <td style="">
+                                <?php
+
+                                $settings = array('media_buttons' => false, 'textarea_rows' => 2);
+                                wp_editor( $this->get_option($label, 'email'), 'rhs-email-'.$label, $settings );
+
+                                ?>
+                            </td>
+                        </tr>
+                        <?php $i++ ?>
+                    <?php } ?>
+                    <tr class="">
+                        <th style="vertical-align: top;">
+                        </th>
+                        <td style="text-align: right;">
+                            <input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e( 'Save Changes' ) ?>"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        </div>
+        <?php
+    }
+
+    private function validade_form(){
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
         }
@@ -197,48 +285,6 @@ class RHSEmail {
             }
         }
 
-
-        ?>
-
-        <div class="wrap">
-            <h2><?php echo __( 'Mensagens de Emails' ); ?></h2>
-            <form name="form1" method="post" action="">
-                <table class="form-table">
-                    <tbody>
-                    <?php $i = 0; ?>
-                    <?php foreach ($this->messages as $label => $menssage){
-                        $var = array_map(function($value) { return '%'.$value.'%'; }, $menssage['var']);
-                        ?>
-                        <tr>
-                            <th scope="row">
-                                <label for="input-<?php echo $i; ?>"><?php echo $menssage['name']; ?></label>
-                            </th>
-                            <td>
-                                <?php if(!isset($menssage['subject']) || $menssage['subject'] == true){ ?>
-                                <input value="<?php echo $this->get_option($label, 'subject'); ?>" name="<?php echo 'rhs-subject-'.$label ?>" type="text" placeholder="Assunto" class="regular-text" />
-                                <?php } ?>
-                                <?php
-
-                                $settings = array('media_buttons' => false, 'textarea_rows' => 2);
-                                wp_editor( $this->get_option($label, 'email'), 'rhs-email-'.$label, $settings );
-
-                                ?>
-                                <?php if(!empty($var)){ ?>
-                                    <p><i><?php echo __( 'Variáveis: ' ) . implode(', ', $var); ?></i></p>
-                                <?php } ?>
-                            </td>
-                        </tr>
-                        <?php $i++ ?>
-                    <?php } ?>
-                    </tbody>
-                </table>
-                <p class="submit">
-                    <input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e( 'Save Changes' ) ?>"/>
-                </p>
-            </form>
-        </div>
-
-        <?php
     }
 
 
@@ -246,3 +292,37 @@ class RHSEmail {
 
 global $RHSEmail;
 $RHSEmail = new RHSEmail();
+
+if ( !function_exists('wp_new_user_notification') ) {
+    function wp_new_user_notification( $user_id, $plaintext_pass = '' ) {
+        $user = new WP_User($user_id);
+
+        $user_login = stripslashes($user->user_login);
+        $user_email = stripslashes($user->user_email);
+
+        $args = array(
+            'site_nome' => get_bloginfo('name'),
+            'login' => $user->user_login,
+            'password' => $plaintext_pass,
+            'email' => $user->user_email,
+            'nome' => $user->display_name,
+            'site_link' => home_url(),
+            'site_perfil'  => get_author_posts_url($user->ID),
+            'site_novo_topico'  => home_url(RHSRewriteRules::POST_URL)
+        );
+
+        global $RHSEmail;
+
+        $subject = $RHSEmail->get_subject('new_user_message', $args);
+        $message = $RHSEmail->get_message('new_user_message', $args);
+
+        $user_login = stripslashes(get_option('rhs-subject-new_user_message'));
+        $user_email = stripslashes(get_option('rhs-message-new_user_message'));
+
+        if ( empty($plaintext_pass) )
+            return;
+
+        wp_mail($user_email, $subject, $message);
+
+    }
+}
