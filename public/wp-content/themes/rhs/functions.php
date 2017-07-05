@@ -407,6 +407,9 @@ function facebook_meta() {
         <meta property="og:url" content="<?php echo the_permalink(); ?>"/>
         <meta property="og:site_name" content="<?php echo get_bloginfo(); ?>"/>
         <meta property="og:image" content="<?php echo $img_src; ?>"/>
+        <meta property="og:image:width" content="206"/>
+        <meta property="og:image:height" content="144"/>
+
  
 <?php
     } else {
@@ -415,13 +418,3 @@ function facebook_meta() {
 }
 add_action('wp_head', 'facebook_meta', 5);
 
-function filterNonAdmins() {
-    if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
-        if (!current_user_can('manage_options')) {
-            wp_redirect(home_url());
-            exit;
-        }
-    }
-}
-
-add_action('admin_init', 'filterNonAdmins');
