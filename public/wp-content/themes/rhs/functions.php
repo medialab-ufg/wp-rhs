@@ -396,7 +396,7 @@ function facebook_meta() {
         } else {
             $img = get_stylesheet_directory_uri() . '/assets/images/rhs-sidebar.jpg';
             $width = '206';
-            $height = '144';
+            $height = '200';
         }
         if($excerpt = $post->post_excerpt) {
             $excerpt = strip_tags($post->post_excerpt);
