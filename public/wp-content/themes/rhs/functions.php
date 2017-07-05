@@ -390,25 +390,32 @@ function facebook_meta() {
     global $post;
  
     if(is_single()) {
-        if(has_post_thumbnail($post->ID)) {
-            $img_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), "thumbnail");
-        }
+
+        $img_info = (has_post_thumbnail($post->ID)) ? wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), "thumbnail") : '';
+
+        $image = array(
+           'url' => (!empty($img_info[0])) ? $img_info[0] : '',
+           'width' => (!empty($img_info[1])) ? $img_info[1] : 0,
+           'height' => (!empty($img_info[2])) ? $img_info[2] : 0,
+        );
+
+
         if($excerpt = $post->post_excerpt) {
             $excerpt = strip_tags($post->post_excerpt);
             $excerpt = str_replace("", "'", $excerpt);
         } else {
             $excerpt = get_bloginfo('description');
         }
+
         ?>
- 
-        <meta property="og:title" content="<?php echo the_title(); ?>"/>
-        <meta property="og:description" content="<?php echo $excerpt; ?>"/>
         <meta property="og:type" content="article"/>
-        <meta property="og:url" content="<?php echo the_permalink(); ?>"/>
+        <meta property="og:title" content="<?php echo the_title(); ?>"/>
         <meta property="og:site_name" content="<?php echo get_bloginfo(); ?>"/>
-        <meta property="og:image" content="<?php echo $img_src[0]; ?>"/>
-        <meta property="og:image:width" content="<?php echo $img_src[1]; ?>"/>
-        <meta property="og:image:height" content="<?php echo $img_src[2]; ?>"/>
+        <meta property="og:description" content="<?php echo $excerpt; ?>"/>
+        <meta property="og:url" content="<?php echo the_permalink(); ?>"/>
+        <meta property="og:image" content="<?php echo $image['url']; ?>"/>
+        <meta property="og:image:width" content="<?php echo $image['width']; ?>"/>
+        <meta property="og:image:height" content="<?php echo $image['height']; ?>"/>
 
  
 <?php

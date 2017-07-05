@@ -20,10 +20,6 @@
     <?php wp_head(); ?>
     </head>
     <body>
-    <script type="text/javascript" src="<?php echo get_template_directory_uri(). 'inc/network/api.js' ?>" ></script>
-    <script>
-
-    </script>
         <!-- Tag header para o Primeiro Menu -->
         <header id="navBar-top">
             <nav class="navbar navbar-default">
