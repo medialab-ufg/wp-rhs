@@ -116,9 +116,6 @@ body {
     -ms-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
-    &:hover{
-        background-color: #02505d;
-    }
     .navbar-brand {
         padding: 0px 5px;
         > img {
@@ -1969,6 +1966,7 @@ form .comment-form-comment {
                     color: $primeira_cor_texto;
                     font-size: 14px;
                     font-weight: normal;
+                    text-align: left;
                 }
             }
             table{
@@ -2052,6 +2050,17 @@ form .comment-form-comment {
                 font-weight:bold;
             }
         }
+    }
+}
+
+#contato{
+    margin-top: -15px;
+    h4{
+        margin-bottom: 19px;
+    }
+    .form-group{
+        margin-right: 0px;
+        margin-left: 0px;
     }
 }
 

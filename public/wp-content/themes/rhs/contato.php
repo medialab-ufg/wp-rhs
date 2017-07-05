@@ -22,9 +22,9 @@
                 <div class="col-xs-12 contato">
                     <div class="wrapper-content">
                         <div class="row">
-                            <?php 
+                            <?php
                                 if(have_posts()){
-                                    while(  have_posts()) : the_post(); 
+                                    while(  have_posts()) : the_post();
                                         the_content();
                                     endwhile;
                                     wp_reset_query();
@@ -65,7 +65,6 @@
                                     </div>
                                     <div class="form-group float-label-control" style="display: <?php echo $dis; ?>">
                                         <div class="row">
-                                            <div class="col-sm-7">
                                             <?php $location = get_user_ufmun($RHSPerfil->getUserId()); ?>
                                             <?php UFMunicipio::form( array(
                                                 'content_before' => '<div class="row">',
@@ -81,7 +80,6 @@
                                                 'tabindex_state' => 3,
                                                 'tabindex_city' => 4
                                             ) ); ?>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group float-label-control">

@@ -81,7 +81,7 @@
                                                 </li>
                                                 <?php endif; ?>
                                                 <li class="menu-item perf">
-                                                    <a href="<?php echo get_author_posts_url($RHSUser->getUserId()  ); ?>">
+                                                    <a href="<?php echo get_author_posts_url($RHSUser->getUserId()); ?>">
                                                         <i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil
                                                     </a>
                                                 </li>

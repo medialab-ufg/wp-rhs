@@ -421,6 +421,7 @@ function facebook_meta() {
         return;
     }
 }
+
 add_action('wp_head', 'facebook_meta', 5);
 
 function get_current_user_role() {
