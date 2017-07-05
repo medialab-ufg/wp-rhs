@@ -2,8 +2,9 @@
 	<div class="panel-heading" style="padding: 21px;">
 		<div class="row post-titulo">
 		<?php $userOBJ = new RHSUser(get_the_author_meta( 'ID' )); ?>
+            <?php global $RHSNetwork; ?>
 			<div class="col-xs-9 col-sm-11 col-md-10">
-				<?php the_title( '<h1>', '</h1>' ); ?>
+				<?php echo '('.$RHSNetwork->get_data_view(get_the_ID()).') '; ?><?php the_title( '<h1>', '</h1>' ); ?>
 			</div>
 			<div class="col-xs-3 col-sm-1 col-md-2 vdivide">
                 <div class="votebox">
@@ -78,6 +79,56 @@
 	</div>
 </div>
 <script>
+
+    twttr.events.bind(
+        'tweet',
+        function (event) {
+            jQuery( function( $ ) {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    dataType: "json",
+                    url: vars.ajaxurl,
+                    data: {action: 'add_data_twitter', 'postID': '<?php echo get_the_ID(); ?>', 'json' : true},
+                    success: function (data) {
+
+                    },
+                    error: function (data) {
+
+                    }
+                });
+            });
+        }
+    );
+
+    FB.ui({
+        method: 'feed',
+        name: 'Facebook Dialogs',
+        link: 'https://developers.facebook.com/docs/dialogs/',
+        picture: 'http://fbrell.com/f8.jpg',
+        caption: 'Reference Documentation',
+        description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
+        },
+        function(response) {
+            if (response && response.post_id) {
+                jQuery( function( $ ) {
+                    $.ajax({
+                        async: false,
+                        type: "POST",
+                        dataType: "json",
+                        url: vars.ajaxurl,
+                        data: {action: 'add_data_facebook', 'postID': '<?php echo get_the_ID(); ?>', 'json' : true},
+                        success: function (data) {
+
+                        },
+                        error: function (data) {
+
+                        }
+                    });
+                });
+            }
+        }
+    );
 
     jQuery( function( $ ) {
         $.ajax({

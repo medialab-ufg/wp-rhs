@@ -77,6 +77,27 @@ class RHSNetwork {
 
     }
 
+    public function get_data_view($post_id = 0){
+
+        $post_id = $this->get_id($post_id);
+
+        return get_post_meta( $post_id, META_KEY_VIEW, true );
+    }
+
+    public function get_data_twitter($post_id = 0){
+
+        $post_id = $this->get_id($post_id);
+
+        return get_post_meta( $post_id, META_KEY_TWITTER, true );
+    }
+
+    public function get_data_facebook($post_id = 0){
+
+        $post_id = $this->get_id($post_id);
+
+        return get_post_meta( $post_id, META_KEY_FACEBOOK, true );
+    }
+
 }
 
 global $RHSNetwork;
