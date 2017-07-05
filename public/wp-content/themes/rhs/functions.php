@@ -117,6 +117,7 @@ function RHS_scripts() {
 
     wp_enqueue_script('FuncoesForm', get_template_directory_uri() . '/assets/js/functions.js', array('JqueryValidate'),'1.0', true);
     wp_enqueue_script('magicJS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.js','0.8.0', true);
+    wp_enqueue_script('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js', array('bootstrap'), '1.5.0', true);
 
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) { 
         // enqueue the javascript that performs in-link comment reply fanciness
@@ -146,6 +147,7 @@ function RHS_styles() {
     wp_enqueue_style('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/css/bootstrap.min.css');
     wp_enqueue_style('fontawesome', get_template_directory_uri() . '/vendor/font-awesome/css/font-awesome.min.css');
     wp_enqueue_style('magicCSS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.css');
+    wp_enqueue_style('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css');
     wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
 }
 add_action('wp_enqueue_scripts', 'RHS_styles');
@@ -390,9 +392,6 @@ function facebook_meta() {
     if(is_single()) {
         if(has_post_thumbnail($post->ID)) {
             $img_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), "thumbnail");
-            $img = $img_src[0];
-            $width = $img_src[1];
-            $height = $img_src[2];
         }
         if($excerpt = $post->post_excerpt) {
             $excerpt = strip_tags($post->post_excerpt);
@@ -407,9 +406,9 @@ function facebook_meta() {
         <meta property="og:type" content="article"/>
         <meta property="og:url" content="<?php echo the_permalink(); ?>"/>
         <meta property="og:site_name" content="<?php echo get_bloginfo(); ?>"/>
-        <meta property="og:image" content="<?php echo $img; ?>"/>
-        <meta property="og:image:width" content="<?php echo $width; ?>"/>
-        <meta property="og:image:height" content="<?php echo $height; ?>"/>
+        <meta property="og:image" content="<?php echo $img_src[0]; ?>"/>
+        <meta property="og:image:width" content="<?php echo $img_src[1]; ?>"/>
+        <meta property="og:image:height" content="<?php echo $img_src[2]; ?>"/>
 
  
 <?php
