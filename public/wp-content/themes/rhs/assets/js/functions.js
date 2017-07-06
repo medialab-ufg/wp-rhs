@@ -110,4 +110,8 @@ jQuery( function( $ ) {
             {value: 2, text: 'Super Gerenciador'}
            ]
     });
+
+    $('.membros').on('mouseenter mouseleave', function () {
+        $(this).find('.panel').stop().slideToggle();
+    });
 });
