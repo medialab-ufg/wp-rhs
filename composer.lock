@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bdd9cd8fbc8084f39d8f2f5dc79a4607",
-    "content-hash": "3aec16a37db79a6bc53353581696b3cb",
+    "hash": "b78d3e1aff62906260295eba7bba0a76",
+    "content-hash": "ca8b332e25b2a765c1ced50ab85e12f8",
     "packages": [
         {
             "name": "components/bootstrap",
@@ -693,6 +693,26 @@
             ],
             "description": "A custom WordPress nav walker class to fully implement the Bootstrap 3.0+ navigation style in a custom theme using the WordPress built in menu manager.",
             "time": "2017-03-14 19:36:23"
+        },
+        {
+            "name": "wpackagist-plugin/rest-api-oauth1",
+            "version": "0.3.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/rest-api-oauth1/",
+                "reference": "tags/0.3.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/rest-api-oauth1.0.3.0.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/rest-api-oauth1/"
         }
     ],
     "packages-dev": [],
