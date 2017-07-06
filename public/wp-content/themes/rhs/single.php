@@ -11,7 +11,7 @@
             <?php 
                 while (have_posts()): the_post();
             ?>
-            <article id="post-<?php the_ID(); ?>">
+            <article id="post-<?php the_ID(); ?>" class="post-container">
                 <div class="col-xs-12">
                     <?php   
                         //Pega o paineldosposts para mostrar na pagina front-page os posts.
