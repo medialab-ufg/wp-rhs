@@ -25,6 +25,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');
         require_once('inc/carrossel/carrossel.php');
+        require_once('inc/api/rhs-api.php');
         
         // Publicar posts - precisa ser carregado por último
         require_once('inc/post/post.php');
