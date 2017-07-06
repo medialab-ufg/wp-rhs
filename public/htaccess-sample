@@ -3,7 +3,7 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /rhs/
-RewriteRule ^index\.php$ - [L]
+RewriteRule ^index\.php$ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /rhs/index.php [L]

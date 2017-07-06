@@ -13,10 +13,14 @@
         "phpmailer/phpmailer" : "^5.2",
         "FortAwesome/Font-Awesome" : "*",
         "nicolasbize/magicsuggest" : "*",
-        "google/recaptcha" : "*"
+        "google/recaptcha" : "*",
+        "wpackagist-plugin/rest-api-oauth1":"0.3.*"
     },
     "extra": {
-        "wordpress-install-dir": "public/wp"
+        "wordpress-install-dir": "public/wp",
+        "installer-paths": {
+            "public/wp-content/plugins/{$name}/": ["type:wordpress-plugin"]
+        }
     },
     "scripts": {
         "post-install-cmd": [

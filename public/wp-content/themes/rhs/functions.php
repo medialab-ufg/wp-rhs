@@ -25,6 +25,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');
         require_once('inc/carrossel/carrossel.php');
+        require_once('inc/api/rhs-api.php');
         
         // Publicar posts - precisa ser carregado por último
         require_once('inc/post/post.php');
@@ -147,7 +148,7 @@ function RHS_styles() {
     wp_enqueue_style('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/css/bootstrap.min.css');
     wp_enqueue_style('fontawesome', get_template_directory_uri() . '/vendor/font-awesome/css/font-awesome.min.css');
     wp_enqueue_style('magicCSS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.css');
-    wp_enqueue_style('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css');
+    wp_enqueue_style('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', array('bootstrap'));
     wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
 }
 add_action('wp_enqueue_scripts', 'RHS_styles');
