@@ -96,4 +96,16 @@ jQuery( function( $ ) {
         js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9";
         fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
+
+});
+
+jQuery( function( $ ) {
+    $('.roles').editable({
+        value: 1,    
+        source: [
+            {value: 1, text: 'Selecione'},
+            {value: 1, text: 'Gerenciador'},
+            {value: 2, text: 'Super Gerenciador'}
+           ]
+    });
 });
