@@ -4,7 +4,7 @@
 		<?php $userOBJ = new RHSUser(get_the_author_meta( 'ID' )); ?>
             <?php global $RHSNetwork; ?>
 			<div class="col-xs-9 col-sm-11 col-md-10">
-				<?php echo '('.$RHSNetwork->get_data(get_the_ID(), $RHSNetwork::META_KEY_VIEW).') '; ?><?php the_title( '<h1>', '</h1>' ); ?>
+				<?php the_title( '<h1>', '</h1>' ); ?>
 			</div>
 			<div class="col-xs-3 col-sm-1 col-md-2 vdivide">
                 <div class="votebox">
