@@ -8,7 +8,7 @@ class RHSNetwork {
     const META_KEY_VIEW = 'rhs_data_view';
 
     public function __construct() {
-        add_action('wp_ajax_nopriv_add_data_view', array( &$this, 'add_data_view' ) );
+        add_action('wp_ajax_nopriv_add_data', array( &$this, 'add_data' ) );
         add_action('wp_body_init', array( &$this, 'js_api_network'));
         add_action('wp_body_init', array( &$this, 'js_api_network'), 10, 1);
         add_action('wp_enqueue_scripts', array( &$this,'network_js'));
@@ -64,6 +64,7 @@ class RHSNetwork {
 
         if(!empty($_REQUEST['json'])){
             echo json_encode( true );
+            exit;
         }
     }
 

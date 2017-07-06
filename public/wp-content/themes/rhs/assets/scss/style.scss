@@ -1574,6 +1574,17 @@ form .comment-form-comment {
     display: inline-grid;
 }
 
+.popover{
+    max-width: 100%;
+    font-size: 14px;
+    line-height: 22px;
+    .btn{
+        margin-top: 8px;
+        border-radius: 0;
+        font-weight: bold;
+    }
+}
+
 /********
 *
 * Author / Perfil
@@ -1658,6 +1669,38 @@ form .comment-form-comment {
             }
 
         }
+        .painel-members{
+            .list-members{
+                padding: 20px;
+                list-style: none;
+                li{
+                    display: inline-block;
+                    margin-left: 10px;
+                    width: 70px;
+                    height: 90px;
+                    text-align: center;
+                    &:first-child, &:nth-child(13n){
+                        margin-left: 0;
+                    }
+                    .member{
+                        cursor: pointer;
+                        .img-member{
+                            img{
+                                width: 50px;
+                                height: 50px;
+                                border-radius: 25px;
+                            }
+                        }
+                        .name-member{
+                            color: rgba(0, 0, 0, 0.66);
+                            font-size: 15px;
+                            font-weight: 600;
+                        }
+                    }
+                }
+            }
+        }
+
     }
     /*Perfil*/
     .perfil {

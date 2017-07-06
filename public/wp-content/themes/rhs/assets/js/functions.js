@@ -1,5 +1,7 @@
 jQuery( function( $ ) {
 
+    $('.list-members li .member').popover({html : true, container: 'body'});
+
     function readURL(input) {
 
         if (input.files && input.files[0]) {

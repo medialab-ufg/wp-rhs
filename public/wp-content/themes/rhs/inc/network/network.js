@@ -1,13 +1,19 @@
 jQuery( function( $ ) {
 
-    var postID = $('.post-containe').attr('ID');
+    var postID = $('.post-container').attr('id');
+    postID = postID.replace("post-", "");
 
     $.ajax({
         async: false,
         type: "POST",
         dataType: "json",
         url: vars.ajaxurl,
-        data: {action: 'add_data_view', 'postID': postID, 'json' : true, type: 'rhs_data_view'},
+        data: {
+            action: 'add_data',
+            postID: postID,
+            json : true,
+            type: 'rhs_data_view'
+        },
         success: function (data) {
 
         },
@@ -23,7 +29,7 @@ jQuery( function( $ ) {
                 type: "POST",
                 dataType: "json",
                 url: vars.ajaxurl,
-                data: {action: 'add_data_facebook', 'postID': postID, 'json' : true, type: 'rhs_data_facebook'},
+                data: {action: 'add_data', postID: postID, 'json' : true, type: 'rhs_data_facebook'},
                 success: function (data) {
 
                 },
@@ -41,7 +47,7 @@ jQuery( function( $ ) {
                 type: "POST",
                 dataType: "json",
                 url: vars.ajaxurl,
-                data: {action: 'add_data_twitter', 'postID': postID, 'json' : true, type: 'rhs_data_twitter'},
+                data: {action: 'add_data', postID: postID, 'json' : true, type: 'rhs_data_twitter'},
                 success: function (data) {
 
                 },
@@ -59,7 +65,7 @@ jQuery( function( $ ) {
                 type: "POST",
                 dataType: "json",
                 url: vars.ajaxurl,
-                data: {action: 'add_data_whatsapp', 'postID': postID, 'json' : true, type: 'rhs_data_whatsapp'},
+                data: {action: 'add_data', postID: postID, 'json' : true, type: 'rhs_data_whatsapp'},
                 success: function (data) {
 
                 },
