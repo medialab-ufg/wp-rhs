@@ -2,15 +2,15 @@
 
 Class RHSApi  {
 
-    
+
     function __construct() {
 
         add_action( 'generate_rewrite_rules', array( &$this, 'rewrite_rules' ), 10, 1 );
         add_filter( 'query_vars', array( &$this, 'rewrite_rules_query_vars' ) );
         add_filter( 'template_include', array( &$this, 'rewrite_rule_template_include' ) );
-     
+
     }
-    
+
     function rewrite_rules( &$wp_rewrite ) {
 
         $new_rules = array(
@@ -36,7 +36,7 @@ Class RHSApi  {
 
             // Retorno após fazer autenticação via oauth utilizando a API
             // ver método handle_callback_redirect() da classe WP_REST_OAuth1_UI do plaugin Rest Oauth
-            echo json_encode($_GET);
+            wp_logout();
             die;
 
         }
@@ -45,7 +45,7 @@ Class RHSApi  {
 
 
     }
-    
+
 
 }
 
