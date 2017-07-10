@@ -165,7 +165,7 @@ body {
                 }
             }
             > .navbar-text {
-                margin-left: 12px;
+                margin-left: 0px;
                 margin-right: 0px;
                 color: $whiteColor;
                 margin-top: 21px;
@@ -1704,6 +1704,7 @@ form .comment-form-comment {
     }
     /*Perfil*/
     .perfil {
+        margin-top: 0;
         padding: 20px;
         .perfil-title {
             color: $primeira_cor_texto;
@@ -1859,18 +1860,6 @@ form .comment-form-comment {
                         border-radius: 11px;
                         display: inline-block;
                         margin-bottom: 10px;
-                    }
-                }
-            }
-            .sidebar-public {
-                button {
-                    &.form-submit {
-                        width: 100%;
-                        margin-bottom: 10px;
-                    }
-                    &.rasc_visu {
-                        border: 2px solid $primeira_cor_texto;
-                        color: $primeira_cor_texto;
                     }
                 }
             }
@@ -2398,6 +2387,23 @@ form .comment-form-comment {
                 }
             }
         }
+        .panel{
+            margin-top: 10px;
+            .sidebar-public {
+                padding: 25px;
+                button {
+                    &.form-submit {
+                        width: 100%;
+                        margin-bottom: 10px;
+                    }
+                    &.rasc_visu {
+                        border: 2px solid $primeira_cor_texto;
+                        color: $primeira_cor_texto;
+                    }
+                }
+            }
+        }
+
     }
 
 }

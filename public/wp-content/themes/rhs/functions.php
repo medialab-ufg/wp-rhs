@@ -8,7 +8,6 @@ if(!function_exists('rhs_setup')) :
             session_start();
         }
 
-        require_once('inc/network/network.php');
         require_once('inc/uf-municipio/uf-municipio.php');
         require_once('inc/message/message.php');
         require_once('inc/uf-municipio/uf-municipio.php');
@@ -21,6 +20,9 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/register/register.php');
         require_once('inc/ticket/ticket.php');
         require_once('inc/email/email.php');
+        require_once('inc/network/network.php');
+        require_once('inc/comunity/comunity.php');
+        require_once('inc/html/html.php');
 
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');

@@ -1,12 +1,4 @@
 <?php get_header(); ?>
-
-<div class="row">
-    <!-- Container -->
-    <div class="col-xs-12 col-md-9">
-        <div class="row">
-            <!-- Button Publicar e Ver Fila de Votação -->
-            <?php get_template_part('partes-templates/buttons-top' ); ?>
-        </div>
         <div class="row">
             <?php 
                 while (have_posts()): the_post();
@@ -21,10 +13,4 @@
             </article><!-- #post-## -->
             <?php endwhile; ?>
         </div>
-    </div>
-
-    <!-- Sidebar -->
-    <div class="col-xs-12 col-md-3"><?php get_sidebar(); ?></div>
-</div>
-
 <?php get_footer();

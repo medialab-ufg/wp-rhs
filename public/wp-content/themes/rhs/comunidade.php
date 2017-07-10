@@ -3,7 +3,7 @@
 * Template name: Comunidade
 */
 ?>
-<?php get_header(); ?>
+<?php get_header('full'); ?>
     <div class="col-xs-12 comunidade">
         <div class="card hovercard">
             <div class="card-background">
@@ -88,4 +88,4 @@
     });
     </script>
 
-<?php get_footer();
+<?php get_footer('full');

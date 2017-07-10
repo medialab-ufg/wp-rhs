@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b78d3e1aff62906260295eba7bba0a76",
     "content-hash": "ca8b332e25b2a765c1ced50ab85e12f8",
     "packages": [
         {
@@ -73,7 +72,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2016-07-26 05:59:20"
+            "time": "2016-07-26T05:59:20+00:00"
         },
         {
             "name": "components/jquery",
@@ -115,7 +114,7 @@
             ],
             "description": "jQuery JavaScript Library",
             "homepage": "http://jquery.com",
-            "time": "2017-03-21 07:01:49"
+            "time": "2017-03-21T07:01:49+00:00"
         },
         {
             "name": "composer/installers",
@@ -229,7 +228,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2017-04-24 06:37:16"
+            "time": "2017-04-24T06:37:16+00:00"
         },
         {
             "name": "cwspear/bootstrap-hover-dropdown",
@@ -277,7 +276,7 @@
                 "hover",
                 "twitter"
             ],
-            "time": "2015-12-01 23:35:57"
+            "time": "2015-12-01T23:35:57+00:00"
         },
         {
             "name": "fortawesome/font-awesome",
@@ -325,7 +324,7 @@
                 "font",
                 "icon"
             ],
-            "time": "2016-10-24 15:52:54"
+            "time": "2016-10-24T15:52:54+00:00"
         },
         {
             "name": "google/recaptcha",
@@ -370,7 +369,7 @@
                 "recaptcha",
                 "spam"
             ],
-            "time": "2017-03-09 18:44:34"
+            "time": "2017-03-09T18:44:34+00:00"
         },
         {
             "name": "johnpbloch/wordpress",
@@ -409,7 +408,7 @@
                 "cms",
                 "wordpress"
             ],
-            "time": "2017-06-08 15:12:19"
+            "time": "2017-06-08T15:12:19+00:00"
         },
         {
             "name": "johnpbloch/wordpress-core",
@@ -446,7 +445,7 @@
                 "cms",
                 "wordpress"
             ],
-            "time": "2017-06-08 15:12:14"
+            "time": "2017-06-08T15:12:14+00:00"
         },
         {
             "name": "johnpbloch/wordpress-core-installer",
@@ -495,7 +494,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2017-05-31 18:42:33"
+            "time": "2017-05-31T18:42:33+00:00"
         },
         {
             "name": "nicolasbize/magicsuggest",
@@ -532,7 +531,7 @@
             ],
             "description": "MagicSuggest is a multiple selection auto suggest combo box for Bootstrap 3.",
             "homepage": "http://nicolasbize.com/magicsuggest",
-            "time": "2014-10-16 23:17:26"
+            "time": "2014-10-16T23:17:26+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -608,7 +607,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2017-03-15 19:32:56"
+            "time": "2017-03-15T19:32:56+00:00"
         },
         {
             "name": "twbs/bootstrap",
@@ -659,7 +658,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2016-07-25 15:51:55"
+            "time": "2016-07-25T15:51:55+00:00"
         },
         {
             "name": "wp-bootstrap/wp-bootstrap-navwalker",
@@ -692,7 +691,7 @@
                 }
             ],
             "description": "A custom WordPress nav walker class to fully implement the Bootstrap 3.0+ navigation style in a custom theme using the WordPress built in menu manager.",
-            "time": "2017-03-14 19:36:23"
+            "time": "2017-03-14T19:36:23+00:00"
         },
         {
             "name": "wpackagist-plugin/rest-api-oauth1",

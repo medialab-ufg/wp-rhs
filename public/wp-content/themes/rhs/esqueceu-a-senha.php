@@ -1,4 +1,4 @@
-<?php get_header(); ?>
+<?php get_header('full'); ?>
 <?php
 global $RHSCaptcha;
 global $RHSLostPassword;
@@ -43,4 +43,4 @@ global $RHSLostPassword;
 	</div>
 </div>
 <?php $RHSLostPassword->clear_messages(); ?>
-<?php get_footer();
+<?php get_footer('full');
