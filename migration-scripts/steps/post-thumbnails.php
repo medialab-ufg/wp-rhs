@@ -69,9 +69,29 @@ foreach ($images as $image) {
     // move the file
     $sourcefile = str_replace('public://', get_root_path() . '/sites/default/files/', $image->uri);
     if (!file_exists($sourcefile)) {
-        $this->log('Erro ao localizar imagem: ' . $sourcefile . ' (fid ' . $image->fid . ')');
-        $error++;
-        continue;
+        
+        
+        // Caso seja ambiente de desenvolvimento, tentamos pegar do ar
+        if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+            $file_contents = file_get_contents( str_replace('public://', 'http://redehumanizasus.net/sites/default/files/', $image->uri) );
+            
+            if ( $file_contents ) {
+                @file_put_contents( $sourcefile, $file_contents );
+            } else {
+            
+                $this->log('Erro ao localizar imagem: ' . $sourcefile . ' (fid ' . $image->fid . ')');
+                $error++;
+                continue;
+            
+            }
+            
+        } else {
+        
+            $this->log('Erro ao localizar imagem: ' . $sourcefile . ' (fid ' . $image->fid . ')');
+            $error++;
+            continue;
+            
+        }
     }
     
     if (copy($sourcefile, $upload['file'])) {
