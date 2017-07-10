@@ -18,11 +18,9 @@
             </div>
             <div class="card-info">
                 <div class="row">
+                    <div class="col-xs-12">
                     <div class="col-sm-7 col-xs-12 col-xs-pull-3 col-sm-pull-0">
-                        <div class="pull-right">
-                            <div class="card-title">Media Lab / UFG</div>
-                            <small class="card-subtitle">Descrição</small>
-                        </div>
+                            <div class="card-title pull-right">Media Lab / UFG</div>
                     </div>
                     <div class="col-sm-5 col-xs-12 col-xs-pull-1 col-sm-pull-0">
                         <div class="pull-right espace">
@@ -39,6 +37,8 @@
                                 <span>Participantes</span>
                             </div>
                         </div>
+                    </div>
+                    <small class="card-subtitle">DescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescrição</small>
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
             </div>
             <div class="btn-group" role="group">
                 <a class="btn btn-default" href="#">
-                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
                     <div class="hidden-xs">Seguir</div>
                 </a>
             </div>

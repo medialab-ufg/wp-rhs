@@ -165,10 +165,8 @@ body {
                 }
             }
             > .navbar-text {
-                margin-left: 12px;
-                margin-right: 0px;
                 color: $whiteColor;
-                margin-top: 21px;
+                margin: 21px 12px 0 12px;
             }
             &:visited {
                 color: $primeira_cor_texto;
@@ -2200,19 +2198,18 @@ form .comment-form-comment {
             }
             .card-info {
                 position: absolute;
-                bottom: 14px;
+                bottom: 0px;
                 left: 0;
                 right: 0;
                 overflow: hidden;
                 font-size: 12px;
-                line-height: 20px;
                 color: #737373;
                 text-overflow: ellipsis;
                 .card-title {
-                    padding:0 5px;
+                    margin-top: 20px;
                     font-size: 20px;
-                    line-height: 1;
                     color: #262626;
+                    line-height: 0;
                     -webkit-border-radius: 4px;
                     -moz-border-radius: 4px;
                     border-radius: 4px;
@@ -2220,10 +2217,11 @@ form .comment-form-comment {
                 .card-subtitle {
                     font-size: 14px;
                     color: black;
-                    line-height: 1;
+                    line-height: 0;
                     -webkit-border-radius: 4px;
                     -moz-border-radius: 4px;
                     border-radius: 4px;
+                    word-wrap: break-word;
                 }
                 .espace{
                     span, p{
@@ -2938,7 +2936,7 @@ article {
                     &:first-child{
                         border-top: 1px solid rgba(0, 180, 180, 0.46);
                         margin-top: -2px;
-                        padding-right: 188px;
+                        padding-right: 0;
                         white-space: nowrap;
                     }
                 }
