@@ -1,4 +1,4 @@
-<?php get_header(); ?>
+<?php get_header('full'); ?>
 <?php global $RHSUser; ?>
 <?php global $RHSPerfil; ?>
     <div class="row">
@@ -167,4 +167,4 @@
         </div>
     </div>
 <?php $RHSPerfil->clear_messages(); ?>
-<?php get_footer();
+<?php get_footer('full');

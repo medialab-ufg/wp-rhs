@@ -1,4 +1,4 @@
-<?php get_header(); ?>
+<?php get_header('full'); ?>
     <div class="row">
         <!-- Container -->
         <div class="col-xs-12 col-md-12 login">
@@ -37,4 +37,4 @@
             </header>
         </div>
     </div>
-<?php get_footer();
+<?php get_footer('full');

@@ -26,8 +26,8 @@ class RHSTicket extends RHSMenssage {
         add_action( 'save_post', array(&$this,  'save_wp_editor_fields') );
         //add_filter( 'map_meta_cap', array( &$this, 'ticket_post_cap' ), 10, 4 );
         add_action( 'admin_menu', array( &$this, 'remove_meta_boxes') );
-        add_action( self::POST_TYPE.'-category_edit_form_fields', array( &$this, 'edit_category_field') );
-        add_action(self::POST_TYPE.'-category_add_form_fields',array( &$this, 'new_category_field') );
+        add_action( self::TAXONOMY.'_edit_form_fields', array( &$this, 'edit_category_field') );
+        add_action( self::TAXONOMY.'_add_form_fields',array( &$this, 'new_category_field') );
         add_action( 'edited_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
         add_action( 'create_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
         
@@ -146,9 +146,15 @@ class RHSTicket extends RHSMenssage {
         if(isset( $_POST['term_meta']['category_user'])){
             $term_meta = array();
             $term_meta['category_user'] = $_POST['term_meta']['category_user'] ;
-            add_term_meta($term_id, 'user', $_POST['term_meta']['category_user']);
+            add_term_meta($term_id, 'user', $_POST['term_meta']['category_user'], true);
+
+            if ( !  add_term_meta($term_id, 'user', $_POST['term_meta']['category_user'], true) ) {
+
+                update_term_meta($term_id, 'user', $_POST['term_meta']['category_user']);
+            }
         }
     }
+
     function new_category_field( $term ){
         $args = array(
             'role__in' => ['administrator', 'editor'],
@@ -678,8 +684,8 @@ class RHSTicket extends RHSMenssage {
             'new_item' => 'Novo Ticket',
             'view_item' => 'Visualizar',
             'search_items' => 'Pesquisar',
-            'not_found' => 'Nenhuma ticket encontrado',
-            'not_found_in_trash' => 'Nenhuma ticket encontrado na lixeira',
+            'not_found' => 'Nenhum ticket encontrado',
+            'not_found_in_trash' => 'Nenhum ticket encontrado na lixeira',
             'parent_item_colon' => 'Ticket acima:',
             'menu_name' => 'Tickets'
         );

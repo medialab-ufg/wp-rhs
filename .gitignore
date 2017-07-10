@@ -24,3 +24,4 @@ public/wp-content/themes/rhs/page-fila-de-votacao.html
 public/wp-content/themes/rhs/vendor
 dev_uploads/
 sites
+!/public/wp-content/themes/rhs/inc/comunity/comunity.php

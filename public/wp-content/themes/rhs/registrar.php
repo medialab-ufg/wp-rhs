@@ -1,4 +1,4 @@
-<?php get_header();
+<?php get_header('full');
 global $RHSRegister;
 global $RHSCaptcha;
 ?>
@@ -157,4 +157,4 @@ global $RHSCaptcha;
         </div>
     </div>
 <?php $RHSRegister->clear_messages(); ?>
-<?php get_footer();
+<?php get_footer('full');

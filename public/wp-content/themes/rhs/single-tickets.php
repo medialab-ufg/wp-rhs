@@ -9,22 +9,9 @@ if (!is_user_logged_in() || wp_get_current_user()->ID != $post->post_author) {
 global $post;
 ?>
 
-
+<?php RHSHtml::setTitulo('Tickets'); ?>
 <?php get_header(); ?>
-
     <div class="row">
-        <!-- Container -->
-        <div class="col-xs-12 col-md-9">
-            <div class="row">
-                <!-- Button Publicar e Ver Fila de Votação -->
-                <?php get_template_part('partes-templates/buttons-top' ); ?>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <h1 class="titulo-page"><?php _e('Tickets') ?> </h1>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-xs-12 tickets">
                     <?php while (have_posts()): the_post(); ?>
                     <div class="wrapper-content">
@@ -120,9 +107,4 @@ global $post;
                     <?php endwhile; ?>
                 </div>
             </div>
-        </div>
-        <!-- Sidebar -->
-        <div class="col-xs-12 col-md-3"><?php get_sidebar(); ?></div>
-    </div>
-
 <?php get_footer();

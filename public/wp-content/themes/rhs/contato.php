@@ -3,21 +3,10 @@
 * Template name: Contato
 */
 ?>
+<?php RHSHtml::setTitulo('Contato'); ?>
 <?php get_header(); ?>
 <?php global $RHSTicket; ?>
 <?php global $RHSUser; ?>
-    <div class="row">
-        <!-- Container -->
-        <div class="col-xs-12 col-md-9">
-            <div class="row">
-                <!-- Button Publicar e Ver Fila de Votação -->
-                <?php get_template_part('partes-templates/buttons-top' ); ?>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <h1 class="titulo-page"><?php _e('Contato') ?></h1>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-xs-12 contato">
                     <div class="wrapper-content">
@@ -157,9 +146,4 @@
                     <?php endif; ?>
                 </div>
             </div>
-        </div>
-        <!-- Sidebar -->
-        <div class="col-xs-12 col-md-3"><?php get_sidebar(); ?></div>
-    </div>
-
 <?php get_footer();

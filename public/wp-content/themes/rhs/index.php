@@ -12,7 +12,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<!-- form de busca -->				
+				<!-- form de busca -->
 			</div>
 		</div>
 		<?php get_template_part( 'partes-templates/loop-posts'); ?>

@@ -1,4 +1,4 @@
-<?php get_header(); ?>
+<?php get_header('full'); ?>
 <?php global $RHSLogin; ?>
 <div class="row">
 	<!-- Container -->
@@ -54,4 +54,4 @@
 	</div>
 </div>
 <?php $RHSLogin->clear_messages(); ?>
-<?php get_footer();
+<?php get_footer('full');

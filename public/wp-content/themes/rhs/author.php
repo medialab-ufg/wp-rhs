@@ -3,13 +3,6 @@
 
 $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
 ?>
-    <div class="row">
-        <!-- Container -->
-        <div class="col-xs-12 col-md-9">
-            <div class="row">
-                <!-- Button Publicar e Ver Fila de Votação -->
-                <?php get_template_part('partes-templates/buttons-top' ); ?>
-            </div>
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="verDados">
@@ -124,9 +117,4 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
 
                 <?php get_template_part( 'partes-templates/loop-posts' ); ?>
             <?php } ?>
-        </div>
-        <!-- Sidebar -->
-        <div class="col-xs-12 col-md-3"><?php get_sidebar(); ?></div>
-    </div>
-
 <?php get_footer();

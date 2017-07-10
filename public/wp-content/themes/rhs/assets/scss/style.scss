@@ -125,7 +125,6 @@ body {
     }
     .navbar-collapse {
         .navbar-nav {
-            text-align: center;
             > li {
                 > a {
                     margin-top: 0px;
@@ -1702,6 +1701,7 @@ form .comment-form-comment {
     }
     /*Perfil*/
     .perfil {
+        margin-top: 0;
         padding: 20px;
         .perfil-title {
             color: $primeira_cor_texto;
@@ -1857,18 +1857,6 @@ form .comment-form-comment {
                         border-radius: 11px;
                         display: inline-block;
                         margin-bottom: 10px;
-                    }
-                }
-            }
-            .sidebar-public {
-                button {
-                    &.form-submit {
-                        width: 100%;
-                        margin-bottom: 10px;
-                    }
-                    &.rasc_visu {
-                        border: 2px solid $primeira_cor_texto;
-                        color: $primeira_cor_texto;
                     }
                 }
             }
@@ -2206,7 +2194,7 @@ form .comment-form-comment {
                 color: #737373;
                 text-overflow: ellipsis;
                 .card-title {
-                    margin-top: 20px;
+                    padding: 15px 0;
                     font-size: 20px;
                     color: #262626;
                     line-height: 0;
@@ -2228,7 +2216,7 @@ form .comment-form-comment {
                         color: black;
                     }
                     @media only screen and (max-width: 360px){
-                        margin-top: 3px;
+                        margin: 3px 0 6px 0
                     }
                 }
                 @media only screen and (max-width: 360px){
@@ -2396,6 +2384,23 @@ form .comment-form-comment {
                 }
             }
         }
+        .panel{
+            margin-top: 10px;
+            .sidebar-public {
+                padding: 25px;
+                button {
+                    &.form-submit {
+                        width: 100%;
+                        margin-bottom: 10px;
+                    }
+                    &.rasc_visu {
+                        border: 2px solid $primeira_cor_texto;
+                        color: $primeira_cor_texto;
+                    }
+                }
+            }
+        }
+
     }
 
 }

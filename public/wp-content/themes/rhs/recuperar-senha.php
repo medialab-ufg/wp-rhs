@@ -2,7 +2,7 @@
 global $RHSLostPassword;
 $RHSLostPassword->retrievepassword();
 ?>
-<?php get_header(); ?>
+<?php get_header('full'); ?>
     <div class="row">
         <!-- Container -->
         <div class="login">
@@ -43,4 +43,4 @@ $RHSLostPassword->retrievepassword();
             </header>
         </div>
     </div>
-<?php get_footer();
+<?php get_footer('full');

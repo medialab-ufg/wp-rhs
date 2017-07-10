@@ -3,7 +3,7 @@
 * Template name: Comunidade
 */
 ?>
-<?php get_header(); ?>
+<?php get_header('full'); ?>
     <div class="col-xs-12 comunidade">
         <div class="card hovercard">
             <div class="card-background">
@@ -18,7 +18,6 @@
             </div>
             <div class="card-info">
                 <div class="row">
-                    <div class="col-xs-12">
                     <div class="col-sm-7 col-xs-12 col-xs-pull-3 col-sm-pull-0">
                             <div class="card-title pull-right">Media Lab / UFG</div>
                     </div>
@@ -37,8 +36,6 @@
                                 <span>Participantes</span>
                             </div>
                         </div>
-                    </div>
-                    <small class="card-subtitle">DescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescriçãoDescrição</small>
                     </div>
                 </div>
             </div>
@@ -88,4 +85,4 @@
     });
     </script>
 
-<?php get_footer();
+<?php get_footer('full');
