@@ -24,7 +24,7 @@ class RHSLogin extends RHSMenssage {
 
     static function login_url( $login_url, $redirect, $force_reauth ) {
         $login_page = home_url(RHSRewriteRules::LOGIN_URL);
-        $login_url  = add_query_arg( 'redirect_to', $redirect, $login_page );
+        $login_url  = add_query_arg( 'redirect_to', urlencode($redirect), $login_page );
 
         return $login_url;
     }

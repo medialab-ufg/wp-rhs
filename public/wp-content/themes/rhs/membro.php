@@ -1,7 +1,4 @@
-<?php // Template Name: Membro ?>
-<?php get_header(); ?>
-
-    <div class="row">
+<div class="row">
         <!-- Container -->
         <div class="col-xs-12">
             <div class="row">
@@ -22,15 +19,9 @@
                                         </div>
                                         <div class="right col-xs-8 col-lg-pull-1">
                                             <h2>Raphael Henrique Travia</h2>
+                                            <p><strong>Membro desde: </strong> 2000. </p>
+                                            <p><strong>Localidade: </strong> Anápolis / GO. </p>
                                         </div>
-
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <p>Especialidade: RedeHumaniza SuS</p>
-                                                <p>Membro desde: 2000</p>
-                                            </div>
-                                        </div>
-
                                     </div>
                                     <div class="bottom col-xs-12 text-center">
                                         <a href="#" class="btn btn-danger btn-xs"> 
@@ -50,15 +41,9 @@
                                         </div>
                                         <div class="right col-xs-8 col-lg-pull-1">
                                             <h2>Maria Luiza Carrilho Sardenberg</h2>
+                                            <p><strong>Membro desde: </strong> 2000. </p>
+                                            <p><strong>Localidade: </strong> Anápolis / GO. </p>
                                         </div>
-
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <p>Especialidade: RedeHumaniza SuS</p>
-                                                <p>Membro desde: 2000</p><br>
-                                            </div>
-                                        </div>
-
                                     </div>
                                     <div class="bottom col-xs-12 text-center">
                                         <a href="#" class="btn btn-danger btn-xs"> 
@@ -78,15 +63,9 @@
                                         </div>
                                         <div class="right col-xs-8 col-lg-pull-1">
                                             <h2>Media lab</h2>
+                                            <p><strong>Membro desde: </strong> 2000. </p>
+                                            <p><strong>Localidade: </strong> Anápolis / GO. </p>
                                         </div>
-
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <p>Especialidade: RedeHumaniza SuS</p>
-                                                <p>Membro desde: 2000</p>
-                                            </div>
-                                        </div>
-
                                     </div>
                                     <div class="bottom col-xs-12 text-center">
                                         <a href="#" class="btn btn-danger btn-xs"> 
@@ -106,15 +85,9 @@
                                         </div>
                                         <div class="right col-xs-8 col-lg-pull-1">
                                             <h2>Media lab</h2>
+                                            <p><strong>Membro desde: </strong> 2000. </p>
+                                            <p><strong>Localidade: </strong> Anápolis / GO. </p>
                                         </div>
-
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <p>Especialidade: RedeHumaniza SuS</p>
-                                                <p>Membro desde: 2000</p>
-                                            </div>
-                                        </div>
-
                                     </div>
                                     <div class="bottom col-xs-12 text-center">
                                         <a href="#" class="btn btn-danger btn-xs"> 
@@ -137,15 +110,9 @@
                                         </div>
                                         <div class="right col-xs-8 col-lg-pull-1">
                                             <h2>Raphael Henrique Travia</h2>
+                                            <p><strong>Membro desde: </strong> 2000. </p>
+                                            <p><strong>Localidade: </strong> Anápolis / GO. </p>
                                         </div>
-
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <p>Especialidade: RedeHumaniza SuS</p>
-                                                <p>Membro desde: 2000</p>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -157,15 +124,9 @@
                                         </div>
                                         <div class="right col-xs-8 col-lg-pull-1">
                                             <h2>Maria Luiza Carrilho Sardenberg</h2>
+                                            <p><strong>Membro desde: </strong> 2000. </p>
+                                            <p><strong>Localidade: </strong> Anápolis / GO. </p>
                                         </div>
-
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <p>Especialidade: RedeHumaniza SuS</p>
-                                                <p>Membro desde: 2000</p>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -177,15 +138,9 @@
                                         </div>
                                         <div class="right col-xs-8 col-lg-pull-1">
                                             <h2>Media lab</h2>
+                                            <p><strong>Membro desde: </strong> 2000. </p>
+                                            <p><strong>Localidade: </strong> Anápolis / GO. </p>
                                         </div>
-
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <p>Especialidade: RedeHumaniza SuS</p>
-                                                <p>Membro desde: 2000</p>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -197,15 +152,9 @@
                                         </div>
                                         <div class="right col-xs-8 col-lg-pull-1">
                                             <h2>Media lab</h2>
+                                            <p><strong>Membro desde: </strong> 2000. </p>
+                                            <p><strong>Localidade: </strong> Anápolis / GO. </p>
                                         </div>
-
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <p>Especialidade: RedeHumaniza SuS</p>
-                                                <p>Membro desde: 2000</p>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -220,15 +169,9 @@
                                         </div>
                                         <div class="right col-xs-8 col-lg-pull-1">
                                             <h2>Media lab</h2>
+                                            <p><strong>Membro desde: </strong> 2000. </p>
+                                            <p><strong>Localidade: </strong> Anápolis / GO. </p>
                                         </div>
-
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <p>Especialidade: RedeHumaniza SuS</p>
-                                                <p>Membro desde: 2000</p>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -240,15 +183,9 @@
                                         </div>
                                         <div class="right col-xs-8 col-lg-pull-1">
                                             <h2>Media lab</h2>
+                                            <p><strong>Membro desde: </strong> 2000. </p>
+                                            <p><strong>Localidade: </strong> Anápolis / GO. </p>
                                         </div>
-
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <p>Especialidade: RedeHumaniza SuS</p>
-                                                <p>Membro desde: 2000</p>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -260,15 +197,9 @@
                                         </div>
                                         <div class="right col-xs-8 col-lg-pull-1">
                                             <h2>Media lab</h2>
+                                            <p><strong>Membro desde: </strong> 2000. </p>
+                                            <p><strong>Localidade: </strong> Anápolis / GO. </p>
                                         </div>
-
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <p>Especialidade: RedeHumaniza SuS</p>
-                                                <p>Membro desde: 2000</p>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -280,15 +211,9 @@
                                         </div>
                                         <div class="right col-xs-8 col-lg-pull-1">
                                             <h2>Media lab</h2>
+                                            <p><strong>Membro desde: </strong> 2000. </p>
+                                            <p><strong>Localidade: </strong> Anápolis / GO. </p>
                                         </div>
-
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <p>Especialidade: RedeHumaniza SuS</p>
-                                                <p>Membro desde: 2000</p>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -298,5 +223,3 @@
             </div>
         </div>
     </div>
-
-<?php get_footer();

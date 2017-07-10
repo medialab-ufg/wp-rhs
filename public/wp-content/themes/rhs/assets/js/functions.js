@@ -97,11 +97,9 @@ jQuery( function( $ ) {
         js = d.createElement(s); js.id = id;
         js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9";
         fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
+    }(document, 'script', 'facebook-jssdk'));
 
-});
-
-jQuery( function( $ ) {
+    //Pagina Membros
     $('.roles').editable({
         value: 1,    
         source: [
@@ -111,7 +109,9 @@ jQuery( function( $ ) {
            ]
     });
 
-    $('.membros').on('mouseenter mouseleave', function () {
+    /*$('.membros').on('mouseenter mouseleave', function () {
         $(this).find('.panel').stop().slideToggle();
-    });
+    });*/
+    //Fim Membros
+
 });
