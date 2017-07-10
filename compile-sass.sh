@@ -10,7 +10,7 @@ command -v sass >/dev/null 2>&1 || {
 echo "Compilando Sass..."
 cd public/wp-content/themes/rhs/assets/scss/
  
-sass style.scss:../../style.css
+sass -E 'UTF-8' style.scss:../../style.css
 echo "Sass Compilado"
  
 echo "Compilação do Sass Concluído!"
