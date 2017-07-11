@@ -21,18 +21,18 @@
                     <div class="col-sm-7 col-xs-12 col-xs-pull-3 col-sm-pull-0">
                             <div class="card-title pull-right">Media Lab / UFG</div>
                     </div>
-                    <div class="col-sm-5 col-xs-12 col-xs-pull-1 col-sm-pull-0">
+                    <div class="col-sm-5 col-xs-12 col-xs-pull-1 col-sm-pull-1">
                         <div class="pull-right espace">
                             <div class="col-xs-4">
-                                <p class="text-center">0</p>
-                                <span>Mensagens</span>
+                                <p class="text-center">100</p>
+                                <span>Posts</span>
                             </div>
                             <div class="col-xs-4">
-                                <p class="text-center">0</p>
-                                <span>Comentários</span>
+                                <p class="text-center">300</p>
+                                <span>Seguidores</span>
                             </div>
                             <div class="col-xs-4">
-                                <p class="text-center">0</p>
+                                <p class="text-center">50</p>
                                 <span>Participantes</span>
                             </div>
                         </div>
@@ -71,14 +71,18 @@
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="tab1">
                     <div class="row">
-                        <div class="col-xs-12">
                             <div class="wrapper-content">
                                 <div class="panel">
                                     <div class="panel-body">
-                                        
+                                        <p class="text-center">Aqui a descrição da Comunidade</p>
+                                        <div class="col-xs-6 pull-left">
+                                            
+                                        </div>
+                                        <div class="col-xs-6 pull-right">
+                                            
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
