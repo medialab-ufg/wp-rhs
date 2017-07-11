@@ -38,9 +38,6 @@ $cor_fundo_corporation: #00343d;
 $seguir_mensagem_desktop: none; /*inline*/
 $seguir_mensagem_mobile: none; /*inline-grid*/
 
-//notificações e mensagens (Menu Topo)
-$notifi_mensagens: none; /*inline-grid*/
-
 // End Tags
 
 /*Fontes*/
@@ -335,7 +332,6 @@ Primeiro e Segundo DropDown Menu
                 color: $whiteColor;
                 font-weight: bold;
                 margin-top: 13px;
-                padding-top: 5px;
                 padding-bottom: 7px;
             }
             a.user-dropdown-link:hover {

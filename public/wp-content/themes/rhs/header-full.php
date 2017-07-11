@@ -46,31 +46,37 @@
                         <li><a href="<?php echo wp_login_url(); ?>" style="color: #00b4b4">Faça seu login</a></li>
                         <span class="navbar-text">ou</span>
                         <li><a href="<?php echo wp_registration_url(); ?>" style="color: #00b4b4">Cadastre-se</a></li>
-                        <?php
-                    else :
-                        if(!my_wp_is_mobile()):
-                            ?>
-                            <li class="dropdown user-dropdown">
+                    <?php else : ?>
+                        <li class="dropdown user-dropdown hidden-xs">
+                            <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span aria-hidden="true" class="glyphicon glyphicon-bell"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="menu-item pub"><a href="notificacoes">Notificações</a></li>
+                            </ul>
+                        </li>
+                        <?php if(!my_wp_is_mobile()): ?>
+                        <li class="dropdown user-dropdown">
                         <?php else : ?>
-                            <li class="menu-item">
+                        <li class="menu-item">
                         <?php endif; ?>
-                        <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <?php echo $RHSUser->get_user_data('display_name'); ?>
-                            <?php echo get_avatar($RHSUser->getUserId()); ?>
-                            <?php if(!my_wp_is_mobile()): ?>
-                                <i class="icon-textDown fa fa-angle-down"></i>
-                            <?php endif; ?>
-                        </a>
-                        <?php if(my_wp_is_mobile()): ?>
+                                <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <?php echo $RHSUser->get_user_data('display_name'); ?>
+                                    <?php echo get_avatar($RHSUser->getUserId()); ?>
+                                    <?php if(!my_wp_is_mobile()): ?>
+                                        <i class="icon-textDown fa fa-angle-down"></i>
+                                    <?php endif; ?>
+                                </a>
+                    <?php if(my_wp_is_mobile()): ?>
                         </li>
                     <?php else : ?>
                         <ul class="dropdown-menu">
                     <?php endif; ?>
-                        <li class="menu-item pub">
-                            <a href="<?php echo home_url(RHSRewriteRules::POST_URL); ?>">
-                                <i class="icones-dropdown fa fa-pencil-square-o" aria-hidden="true"></i> Publicar Post
-                            </a>
-                        </li>
+                            <li class="menu-item pub">
+                                <a href="<?php echo home_url(RHSRewriteRules::POST_URL); ?>">
+                                    <i class="icones-dropdown fa fa-pencil-square-o" aria-hidden="true"></i> Publicar Post
+                                </a>
+                            </li>
                         <?php
                         $current_user = wp_get_current_user();
                         if (user_can( $current_user, 'administrator' ) || user_can( $current_user, 'editor' )) : ?>
@@ -80,21 +86,21 @@
                                 </a>
                             </li>
                         <?php endif; ?>
-                        <li class="menu-item perf">
-                            <a href="<?php echo get_author_posts_url($RHSUser->getUserId()); ?>">
-                                <i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="<?php echo home_url(RHSRewriteRules::POSTAGENS_URL);?>">
-                                <i class="icones-dropdown fa fa-list-alt" aria-hidden="true"></i> Minhas Postagens
-                            </a>
-                        </li>
-                        <li class="menu-item sair">
-                            <a href="<?php echo wp_logout_url(); ?>">
-                                <i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair
-                            </a>
-                        </li>
+                            <li class="menu-item perf">
+                                <a href="<?php echo get_author_posts_url($RHSUser->getUserId()); ?>">
+                                    <i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="<?php echo home_url(RHSRewriteRules::POSTAGENS_URL);?>">
+                                    <i class="icones-dropdown fa fa-list-alt" aria-hidden="true"></i> Minhas Postagens
+                                </a>
+                            </li>
+                            <li class="menu-item sair">
+                                <a href="<?php echo wp_logout_url(); ?>">
+                                    <i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair
+                                </a>
+                            </li>
                         </ul>
                         </li>
                     <?php endif; ?>
