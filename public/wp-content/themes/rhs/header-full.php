@@ -107,8 +107,6 @@
                 if(!my_wp_is_mobile()){
                     get_search_form();
                 }
-                ?>
-                <?php
                 if(my_wp_is_mobile()):
                     menuDropDownMobile();
                 else :

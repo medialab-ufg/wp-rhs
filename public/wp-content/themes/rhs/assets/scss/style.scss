@@ -2309,6 +2309,7 @@ form .comment-form-comment {
         background-color: $whiteColor;
         margin-bottom: 20px;
         padding: 20px 15px;
+        min-height: 101px;
         h2{
             &.widget-title{
                 margin-left: -15px;
@@ -2370,7 +2371,7 @@ form .comment-form-comment {
             }
         }
         form {
-            margin-top: 0px;
+            margin-top: 6px;
         }
         &:hover{
             h2{
