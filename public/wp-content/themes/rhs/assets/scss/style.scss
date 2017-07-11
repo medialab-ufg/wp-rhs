@@ -2240,6 +2240,17 @@ form .comment-form-comment {
             }
         }
     }
+    form{
+        fieldset{
+            .btn-editar{
+                width: 100px;
+                height: 40px;
+                color: $primeira_cor_texto;
+                border: 3px solid;
+                border-color: $primeira_cor_texto;
+            }
+        }
+    }
     // @media (max-width: 992px) {
     //     .forum-container{
     //         .forum-title{
