@@ -55,7 +55,11 @@
                                 <div class="notify-drop-title">
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-6">Notificações (<b>2</b>)</div>
-                                        <div class="col-md-6 col-sm-6 col-xs-6 text-right"><a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="tümü okundu."><i class="fa fa-dot-circle-o"></i></a></div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                            <a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom">
+                                                <i class="fa fa-dot-circle-o"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- end notify title -->
