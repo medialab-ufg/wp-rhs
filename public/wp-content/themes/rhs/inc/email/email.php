@@ -80,15 +80,9 @@ class RHSEmail {
         );
     }
 
-    function filter_reset_password_request_email_body( $message, $key, $user_id ) {
+    function filter_reset_password_request_email_body( $message, $key, $user_login ) {
 
-        echo $user_id;
-
-        $data = get_userdata($user_id);
-
-        echo '<pre>';
-        print_r($data);
-        exit;
+        $data = get_user_by('login', $user_login);
 
         if($data){
             return;
