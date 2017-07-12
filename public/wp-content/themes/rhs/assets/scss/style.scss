@@ -291,6 +291,113 @@ Primeiro e Segundo DropDown Menu
                 }
             }
         }
+        &.notify-drop {
+            min-width: 330px;
+            background-color: #fff;
+            max-height: 360px;
+            .notify-drop-title {
+                border-bottom: 1px solid #e2e2e2;
+                padding: 5px 15px 10px 15px;
+                .allRead {
+                    margin-right: 7px;
+                }
+            }
+            .drop-content {
+                max-height: 280px;
+                overflow-y: scroll;
+                &::-webkit-scrollbar-track {
+                    background-color: #F5F5F5;
+                }
+                &::-webkit-scrollbar {
+                    width: 8px;
+                    background-color: #F5F5F5;
+                }
+                &::-webkit-scrollbar-thumb {
+                    background-color: #ccc;
+                }
+                > li {
+                    border-bottom: 1px solid #e2e2e2;
+                    font-size: 11px;
+                    font-weight: bold;
+                    padding: 10px 0px 5px 0px;
+                    &:nth-child(2n+0) {
+                        background-color: #fafafa;
+                    }
+                    &:after {
+                        content: "";
+                        clear: both;
+                        display: block;
+                    }
+                    &:hover {
+                        background-color: #fcfcfc;
+                    }
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                    .notify-img {
+                        float: left;
+                        display: inline-block;
+                        width: 45px;
+                        height: 45px;
+                        margin: 0px 0px 8px 0px;
+                    }
+                    a {
+                        font-size: 12px;
+                        font-weight: normal;
+                    }
+                    hr {
+                        margin: 5px 0;
+                        width: 70%;
+                        border-color: #e2e2e2;
+                    }
+                    p {
+                        font-size: 11px;
+                        color: #666;
+                        font-weight: normal;
+                        margin: 3px 0;
+                        .time {
+                            font-size: 10px;
+                            font-weight: 600;
+                            top: -6px;
+                            margin: 8px 0px 0px 0px;
+                            padding: 0px 3px;
+                            border: 1px solid #e2e2e2;
+                            position: relative;
+                            background-image: linear-gradient(#fff,#f2f2f2);
+                            display: inline-block;
+                            border-radius: 2px;
+                            color: #B97745;
+                            &:hover {
+                                background-image: linear-gradient(#fff,#fff);
+                            }
+                        }
+                    }
+                }
+                .pd-l0 {
+                    padding-left: 0;
+                }
+            }
+            .rIcon {
+                float: right;
+                color: #999;
+                &:hover {
+                    color: #333;
+                }
+            }
+            .notify-drop-footer {
+                border-top: 1px solid #e2e2e2;
+                bottom: 0;
+                position: relative;
+                padding: 8px 15px;
+                a {
+                    color: #777;
+                    text-decoration: none;
+                    &:hover {
+                        color: #333;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -328,18 +435,41 @@ Primeiro e Segundo DropDown Menu
                     background-color: #089292;
                 }
             }
-            a.user-dropdown-link {
+            .user-dropdown-link {
                 color: $whiteColor;
                 font-weight: bold;
                 margin-top: 13px;
                 padding-bottom: 7px;
-            }
-            a.user-dropdown-link:hover {
-                background: none !important;
-                text-decoration: none;
-            }
-            a.user-dropdown-link > i:hover {
-                color: $whiteColor !important;
+                &:hover {
+                    background: none !important;
+                    text-decoration: none;
+                }
+                > i {
+                    &:hover {
+                        color: $whiteColor !important;
+                    }
+                    &.notification-count {
+                        margin-right: 6.8775px;
+                        &:after {
+                            position: absolute;
+                            content: attr(data-count);
+                            margin-left: -6.8775px;
+                            margin-top: -6.8775px;
+                            padding: 0 4px;
+                            min-width: 13.755px;
+                            height: 13.755px;
+                            line-height: 13.755px;
+                            background: red;
+                            border-radius: 10px;
+                            color: #fff;
+                            text-align: center;
+                            vertical-align: middle;
+                            font-size: 11.004px;
+                            font-weight: 600;
+                            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                        }
+                    }
+                }
             }
         }
         .separar-menu {

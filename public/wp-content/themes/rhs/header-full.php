@@ -47,14 +47,58 @@
                         <span class="navbar-text">ou</span>
                         <li><a href="<?php echo wp_registration_url(); ?>" style="color: #00b4b4">Cadastre-se</a></li>
                     <?php else : ?>
-                        <li class="dropdown user-dropdown hidden-xs">
-                            <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <span aria-hidden="true" class="glyphicon glyphicon-bell"></span>
+                        <li class="dropdown user-dropdown">
+                            <a href="#notifications-panel" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown"  data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i data-count="2" class="glyphicon glyphicon-bell notification-count"></i>
                             </a>
-                            <ul class="dropdown-menu">
-                                <li class="menu-item pub"><a href="notificacoes">Notificações</a></li>
+                            <ul class="dropdown-menu notify-drop">
+                                <div class="notify-drop-title">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">Notificações (<b>2</b>)</div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6 text-right"><a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="tümü okundu."><i class="fa fa-dot-circle-o"></i></a></div>
+                                    </div>
+                                </div>
+                                <!-- end notify title -->
+                                <!-- notify content -->
+                                <div class="drop-content">
+                                    <li>
+                                        <div class="col-md-3 col-sm-3 col-xs-3">
+                                            <div class="notify-img">
+                                                <img src="http://placehold.it/45x45" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">
+                                            <a href="#">Fabiano Alencar</a>. 
+                                            <a href="#">Votou em um...</a> 
+                                            <a href="" class="rIcon">
+                                                <i class="fa fa-dot-circle-o"></i>
+                                            </a>
+                                            <hr>
+                                            <p class="time">12/02/2017 14:33</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="col-md-3 col-sm-3 col-xs-3">
+                                            <div class="notify-img">
+                                                <img src="http://placehold.it/45x45" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">
+                                            <a href="#">Fabiano Alencar</a>. 
+                                            <a href="#">Comentou em um...</a> 
+                                            <a href="" class="rIcon">
+                                                <i class="fa fa-dot-circle-o"></i>
+                                            </a>
+                                            <hr>
+                                            <p class="time">12/02/2017 13:33</p>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div class="notify-drop-footer text-center">
+                                    <a href=""><i class="fa fa-eye"></i> Veja todas as notificações</a>
+                                </div>
                             </ul>
-                        </li>
+                        </li><!-- /dropdown -->
                         <?php if(!my_wp_is_mobile()): ?>
                         <li class="dropdown user-dropdown">
                         <?php else : ?>
