@@ -7,6 +7,8 @@ class RHSPost extends RHSMenssage {
 
     function __construct($postID = null) {
 
+        add_action( 'admin_menu', array( &$this, 'remove_meta_boxes') );
+
         if ( !empty($postID) && is_numeric($postID) && current_user_can('edit_post', $postID) ) {
             $this->post = get_post($postID);
         }
@@ -18,6 +20,15 @@ class RHSPost extends RHSMenssage {
         }
 
         self::$instance = true;
+    }
+
+    function remove_meta_boxes() {
+        remove_meta_box('commentsdiv', 'post', 'normal');
+        remove_meta_box('trackbacksdiv', 'post', 'normal');
+        remove_meta_box('postcustom', 'post', 'normal');
+        remove_meta_box('commentstatusdiv', 'post', 'normal');
+        remove_meta_box('authordiv', 'post', 'normal');
+        remove_meta_box('tagsdiv-comunity-category', 'post', 'normal');
     }
 
     function is_post(){

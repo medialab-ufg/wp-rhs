@@ -4,44 +4,58 @@
 */
 ?>
 <?php get_header('full'); ?>
+<?php global $RHSComunity;?>
+<?php $RHSComunity->check_comunity();?>
     <div class="col-xs-12 comunidade">
         <div class="card hovercard">
             <div class="card-background">
-                <img class="card-bkimg" alt="" src="http://www.blog.saude.gov.br/images/cmigration/humanizasus.jpg">
+                <img class="card-bkimg" alt="" src="http://www.teleios.com.br/wp-content/uploads/2006/08/indios1.jpg">
+            </div>
+            <div class="card-buttons">
+                <a href="#">Seguir Comunidade <i class="fa fa-rss"></i></a>
+                <a href="#">Deixar de Seguir Comunidade <i class="fa fa-rss"></i></a>
+                <a href="#">Sair na Comunidade <i class="fa fa-remove"></i></a>
+                <a href="#">Entrar na Comunidade <i class="fa fa fa-sign-in"></i></a>
             </div>
             <div class="useravatar">
                 <div class="row">
                     <div class="col-xs-12">
-                        <img alt="" src="http://www.blog.saude.gov.br/images/cmigration/humanizasus.jpg">
+                        <img alt="" src="http://www.teleios.com.br/wp-content/uploads/2006/08/indios1.jpg">
                     </div>
                 </div>
             </div>
             <div class="card-info">
                 <div class="row">
-                    <div class="col-sm-7 col-xs-12 col-xs-pull-3 col-sm-pull-0">
-                            <div class="card-title pull-right">Media Lab / UFG</div>
+                    <div class="col-md-12 col-sm-7 col-xs-12 col-xs-pull-3 col-sm-pull-0">
+                        <div class="card-title">
+                            Indígena
+                            <i title="Esse grupo é privado" class="fa fa-lock"></i>
+                            <i title="Você faz parte desta comunidade" class="fa fa-check"></i>
+                        </div>
                     </div>
-                    <div class="col-sm-5 col-xs-12 col-xs-pull-1 col-sm-pull-0">
-                        <div class="pull-right espace">
-                            <div class="col-xs-4">
-                                <p class="text-center">0</p>
-                                <span>Mensagens</span>
-                            </div>
-                            <div class="col-xs-4">
-                                <p class="text-center">0</p>
-                                <span>Comentários</span>
-                            </div>
-                            <div class="col-xs-4">
-                                <p class="text-center">0</p>
-                                <span>Participantes</span>
-                            </div>
+                    <div class="col-md-12 col-sm-5 col-xs-12 col-xs-pull-1 col-sm-pull-0">
+                        <div class="espace">
+                            <ul>
+                                <li>
+                                    <span class="views-number">0</span>
+                                    <small>Membros</small>
+                                </li>
+                                <li>
+                                    <span class="views-number">0</span>
+                                    <small>Posts</small>
+                                </li>
+                                <li>
+                                    <span class="views-number">0</span>
+                                    <small>Seguidores</small>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
-            <div class="btn-group" role="group">
+            <div class="btn-group active" role="group">
                 <button type="button" id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab">
                     <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
                     <div class="hidden-xs">Posts</div>
@@ -52,12 +66,6 @@
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                     <div class="hidden-xs">Membros</div>
                 </button>
-            </div>
-            <div class="btn-group" role="group">
-                <a class="btn btn-default" href="#">
-                    <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                    <div class="hidden-xs">Seguir</div>
-                </a>
             </div>
         </div>
 
