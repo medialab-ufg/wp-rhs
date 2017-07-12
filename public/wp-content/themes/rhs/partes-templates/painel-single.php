@@ -38,16 +38,16 @@
 							<?php //echo do_shortcode('[ssba]'); ?>
 
 							<a data-site="" class="facebook_share" href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>" target="_blank">
-								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/facebook.png" title="Facebook" class="share share-img" alt="Compartilhar no Facebook">
+								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/facebook.png" title="Facebook" alt="Compartilhar no Facebook">
 							</a>
 							<a data-site="" class="twitter_share" href="http://twitter.com/share?url=<?php the_permalink(); ?>&amp;text=<?php the_title(); ?>&amp;via=RedeHumanizaSUS" target="_blank">
-								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/twitter.png" title="Twitter" class="share share-img" alt="Compartilhar no Twitter">
+								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/twitter.png" title="Twitter" alt="Compartilhar no Twitter">
 							</a>
-							<a data-site="" class="whatsapp_share" href="whatsapp://send?url=<?php the_permalink(); ?>&amp;text=<?php the_title(); ?>" target="_blank">
-								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/whatsapp.png" title="Twitter" class="share share-img" alt="Compartilhar no Whatsapp">
+							<a href="whatsapp://send?text=<?php the_title(); ?>%20<?php the_permalink(); ?>" data-text="<?php the_title(); ?>" data-href="<?php the_permalink(); ?>" target="_top" onclick="window.parent.null">
+								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/whatsapp.png" title="Whatsapp" alt="Compartilhar no Whatsapp">
 							</a>
 							<a data-site="print" class="share_print share_link" href="#" onclick="window.print()">
-								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/print.png" title="Print" class="share share-img" alt="Imprimir está página">
+								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/print.png" title="Print" alt="Imprimir está página">
 							</a>
 						</span>
 					</div>
