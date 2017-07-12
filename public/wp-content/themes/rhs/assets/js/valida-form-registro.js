@@ -535,7 +535,10 @@ jQuery( function( $ ) {
             },
             invalidHandler: function (event, validator) {},
             errorPlacement: function (error, element) {
-                if (element.parent(".input-group").size() > 0) {
+
+                if(!element.parent(".form-group").is(':visible')){
+                    $(element).parents("form").prepend(error);
+                } else if (element.parent(".input-group").size() > 0) {
                     error.insertAfter(element.parent(".input-group"));
                 } else if (element.attr("data-error-container")) {
                     error.appendTo(element.attr("data-error-container"));

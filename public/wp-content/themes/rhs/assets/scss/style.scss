@@ -2097,6 +2097,16 @@ form .comment-form-comment {
 
 #contato{
     margin-top: -15px;
+    > span{
+        &.help-block-error{
+            background: #a94442;
+            color: #fff;
+            padding: 14px 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    }
     h4{
         margin-bottom: 19px;
     }
