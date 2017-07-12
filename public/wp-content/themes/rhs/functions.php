@@ -269,7 +269,7 @@ function menuRodape(){
 	    'menu'              => 'menuRodape',
 	    'theme_location'    => 'menuRodape',
 	    'depth'             => 0,
-        'container_class'   => 'col-xs-12 col-sm-push-2',
+        'container_class'   => 'col-xs-12',
 	    'menu_class'        => 'nav navbar-nav',
 	    'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
 	    'walker'            => new WP_Bootstrap_Navwalker()) // Classe usada para compor o menu bootstrap com o WP
