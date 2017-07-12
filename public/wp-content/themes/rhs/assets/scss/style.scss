@@ -38,9 +38,6 @@ $cor_fundo_corporation: #00343d;
 $seguir_mensagem_desktop: none; /*inline*/
 $seguir_mensagem_mobile: none; /*inline-grid*/
 
-//notificações e mensagens (Menu Topo)
-$notifi_mensagens: none; /*inline-grid*/
-
 // End Tags
 
 /*Fontes*/
@@ -335,7 +332,6 @@ Primeiro e Segundo DropDown Menu
                 color: $whiteColor;
                 font-weight: bold;
                 margin-top: 13px;
-                padding-top: 5px;
                 padding-bottom: 7px;
             }
             a.user-dropdown-link:hover {
@@ -2552,6 +2548,7 @@ form .comment-form-comment {
         background-color: $whiteColor;
         margin-bottom: 20px;
         padding: 20px 15px;
+        min-height: 101px;
         h2{
             &.widget-title{
                 margin-left: -15px;
@@ -2613,7 +2610,7 @@ form .comment-form-comment {
             }
         }
         form {
-            margin-top: -17px;
+            margin-top: 6px;
         }
         &:hover{
             h2{
@@ -2667,21 +2664,19 @@ footer {
         font-size: 1em;
         padding: 6px;
 
-        .footerDescricao p {
+        p {
             margin: 10px 0 10px;
         }
-    }
-    .footerMenu {
-        background-color: $primeira_cor_fundo;
-        color: $primeira_cor_texto;
-        margin-bottom: -20px;
-        font-size: 0.75em;
     }
     .bordar {
         border-bottom: 1px solid $cor_fundo_formulario_nav;
         margin: -9px 9px 7px 0;
     }
     .footerMenu {
+        background-color: $primeira_cor_fundo;
+        color: $primeira_cor_texto;
+        margin-bottom: -20px;
+        font-size: 0.75em;
         .navbar-default {
             a {
                 background-color: $primeira_cor_fundo;
@@ -2690,6 +2685,8 @@ footer {
                 float: left;
                 padding: 18px;
                 margin-left: 40px;
+                text-transform: uppercase;
+                font-weight: 900;
                 &:hover, &:visited {
                     color: $primeira_cor_texto !important;
                     text-decoration: underline;

@@ -68,20 +68,22 @@ global $post;
                                         <?php
                                             $comments = get_comments('post_id='.$post->ID . '&order=asc');
                                             foreach($comments as $comment) :
-                                            $user=get_userdata($comment->user_id);
-                                        ?>
-                                            <div class="col-xs-12"><!-- Não esta passando a role no $user. -->
-                                                    <div class="well<?php if($user->roles[0] == 'editor') : ?> text-right<?php endif; ?>"><?php echo $comment->comment_content; ?>
-                                                        <span class="<?php if($user->roles[0] == 'editor') : ?> text-right<?php endif; ?>"> <strong>-</strong> 
-                                                            <?php if ($comment->user_id) {
-                                                                    echo '<a href="'.get_author_posts_url($comment->user_id).'">'.$user->display_name.'</a>';
-                                                                } else { 
-                                                                    comment_author_link();
-                                                            } ?>
-                                                        </span>
-                                                    </div>
-                                            </div>
-                                        <?php endforeach; ?>
+                                                $commentAuthor=get_userdata($comment->user_id);
+                                                ?>
+                                                <div class="col-xs-12"><!-- Não esta passando a role no $user. -->
+                                                        <div class="well<?php if($comment->user_id != $post->post_author) : ?> text-right<?php endif; ?>"><?php echo $comment->comment_content; ?>
+                                                            <span class="<?php if($comment->user_id != $post->post_author) : ?> text-right<?php endif; ?>"> <strong>-</strong> 
+                                                                <?php if ($comment->user_id) {
+                                                                        echo '<a href="'.get_author_posts_url($comment->user_id).'">'.$commentAuthor->display_name.'</a>';
+                                                                    } else { 
+                                                                        comment_author_link();
+                                                                } ?>
+                                                            </span>
+                                                        </div>
+                                                </div>
+                                            <?php 
+                                            endforeach; 
+                                            ?>
                                     </div>
                                 </div>
                         </div>
