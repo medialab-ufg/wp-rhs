@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Entidade da Comunidade
+ * Class RHSComunity
+ */
 class RHSComunity {
 
     private $id;
