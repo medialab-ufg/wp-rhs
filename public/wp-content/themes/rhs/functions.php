@@ -389,6 +389,27 @@ function wpse_139269_term_radio_checklist( $args ) {
     return $args;
 }
 
+
+/*
+Limitador de texto para limitar o content de um post.
+Ex: limitatexto(CONTENT, '[...]', TAMANHO);
+*/
+function limitatexto($texto, $final, $limite){
+    $result = $texto;
+    $len_texto = strlen($texto);
+    $len_final = strlen($final);
+    
+    if ($len_texto + $len_final > $limite){
+        for ($i=$limite-$len_final;$i!==-1;$i--){
+            if (substr($texto, $i, 1) == " " && substr($texto, $i-1, 1) !== " "){
+                return substr($texto, 0, $i).$final;
+                break;
+            }
+        }
+    }
+    return $texto;
+}
+
 /*
 Função para Uso nos meta para os meios sociais.
 */
@@ -404,10 +425,9 @@ function facebook_meta() {
            'width' => (!empty($img_info[1])) ? $img_info[1] : 0,
            'height' => (!empty($img_info[2])) ? $img_info[2] : 0,
         );
-
-
-        if($excerpt = $post->post_excerpt) {
-            $excerpt = strip_tags($post->post_excerpt);
+        $content = limitatexto($post->post_content, '[...]', 150);
+        if($excerpt = $content) {
+            $excerpt = strip_tags($content);
             $excerpt = str_replace("", "'", $excerpt);
         } else {
             $excerpt = get_bloginfo('description');
