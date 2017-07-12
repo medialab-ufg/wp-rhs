@@ -330,7 +330,7 @@ class RHSTicket extends RHSMenssage {
 
         $this->set_messages(   '<i class="fa fa-check "></i> Contato enviado com sucesso!', false, 'success' );
         
-        wp_redirect(wp_get_referer());
+        wp_redirect(home_url('contato'));
         exit;
     }
     /**
