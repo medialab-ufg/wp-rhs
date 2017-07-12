@@ -59,8 +59,21 @@ global $post;
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <h4>Mensagem:</h4>
-                                            <div class="well"><?php the_content(); ?></div>
+                                            <article class="panel panel-primary">
+
+                                                <!-- Heading -->
+                                                <div class="panel-heading">
+                                                    <h2 class="panel-title">Mensagem:</h2>
+                                                </div>
+                                                <!-- /Heading -->
+
+                                                <!-- Body -->
+                                                <div class="panel-body">
+                                                    <?php the_content(); ?>
+                                                </div>
+                                                <!-- /Body -->
+
+                                            </article>
                                         </div>
                                         <div class="col-xs-12">
                                             <h4>Respostas:</h4>

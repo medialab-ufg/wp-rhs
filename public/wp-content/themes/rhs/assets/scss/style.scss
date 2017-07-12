@@ -2265,7 +2265,7 @@ form .comment-form-comment {
                     position: absolute;
                     display: block;
                     left: -9px;
-                    top: 2px;
+                    top: 3px;
                     content: '';
                     border: inherit;
                     border-width: 12px;
@@ -2277,7 +2277,7 @@ form .comment-form-comment {
             .well-after{
                 &::after{
                     position: absolute;
-                    top: 2px;
+                    top: 3px;
                     right: -9px;
                     content: '';
                     border: inherit;
@@ -2285,6 +2285,24 @@ form .comment-form-comment {
                     border-top-color: transparent;
                     border-bottom-color: transparent;
                     border-right-color: transparent;
+                }
+            }
+            article{
+                &.panel{
+                    &::before {
+                        position: absolute;
+                        display: block;
+                        top: 3px;
+                        left: -9px;
+                        content: '';
+                        width: 0px;
+                        height: 0px;
+                        border: inherit;
+                        border-width: 12px;
+                        border-top-color: transparent;
+                        border-bottom-color: transparent;
+                        border-left-color: transparent;
+                    }
                 }
             }
         }
