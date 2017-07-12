@@ -24,7 +24,7 @@ class RHSComunity extends RHSMenssage {
 
         add_action('add_meta_boxes', array( &$this, "add_meta_box"));
         add_action( 'publish_post', 'set_category_by_default', 5, 1 );
-        add_filter( 'wp_insert_post_data' , array( &$this,'filter_post_data') , '99', 2 );
+        //add_filter( 'wp_insert_post_data' , array( &$this,'filter_post_data') , '99', 2 );
     }
 
 

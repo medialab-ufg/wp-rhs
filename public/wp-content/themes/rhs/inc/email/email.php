@@ -103,7 +103,7 @@ class RHSEmail {
             'site_nome' => get_bloginfo('name')
         );
 
-        $this->get_message('retrieve_password_title', $args);
+        $message = $this->get_message('retrieve_password_title', $args);
 
         return $message;
     }
