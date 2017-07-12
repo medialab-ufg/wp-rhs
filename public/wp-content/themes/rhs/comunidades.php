@@ -4,7 +4,7 @@
  */
 ?>
 <?php get_header( 'full' ); ?>
-<?php global $RHSComunity; ?>
+<?php global $RHSComunities; ?>
     <div class="row comunidades">
         <div class="col-xs-12">
             <h1 class="titulo-page">Comunidades</h1>
@@ -18,7 +18,7 @@
                                     <select class="form-control" name="sort_order" id="select-sort_order">
                                         <option value="">-- Selecione --</option>
                                         <?php foreach (
-                                            $RHSComunity->filter_value( 'sort_order', 'search' ) as $value => $name
+                                            $RHSComunities->filter_value( 'sort_order', 'search' ) as $value => $name
                                         ) { ?>
                                             <option <?php echo ( $name['selected'] ) ? 'selected' : ''; ?>
                                                     value="<?php echo $value ?>"><?php echo $name['nome'] ?></option>
@@ -54,69 +54,73 @@
                     </form>
                     <div class="forum-item">
                         <div class="row">
-                            <?php if ($RHSComunity->get_comunities( get_the_ID() ) ) { ?>
-                                <?php foreach ( $RHSComunity->get_comunities( get_the_ID() ) as $comunidade ) { ?>
+                            <?php if ($RHSComunities->get_comunities_by_user( get_current_user_id() ) ) { ?>
+                                <?php foreach ( $RHSComunities->get_comunities_by_user(  get_current_user_id() ) as $comunidade ) { ?>
                                     <div class="col-md-12">
-                                        <a href="<?php echo home_url( 'comunidade/?comunidade_id=' . $comunidade['id'] ) ?>"
+                                        <a href="<?php echo $comunidade->get_url(); ?>"
                                            class="forum-item-link">
                                             <div class="forum-item-title">
                                                 <div class="forum-item-image">
-                                                    <img src="http://www.teleios.com.br/wp-content/uploads/2006/08/indios1.jpg"/>
+                                                    <img src="<?php echo $comunidade->get_image(); ?>"/>
                                                 </div>
                                                 <span>
-                                                    <?php echo $comunidade['name'] ?>
-                                                    <?php echo ( $comunidade['type'] && $comunidade['type'] != RHSComunity::TYPE_OPEN ) ? '<i title="Esse grupo é privado" class="fa fa-lock"></i>' : ''; ?>
-                                                    <?php echo ( $comunidade['user_inside'] ) ? '<i title="Você faz parte desta comunidade" class="fa fa-check"></i>' : ''; ?>
+                                                    <?php echo $comunidade->get_name() ?>
+                                                    <?php if($comunidade->is_lock()){ ?>
+                                                        <i title="Esse grupo é privado" class="fa fa-lock"></i>
+                                                    <?php } ?>
+                                                    <?php if($comunidade->is_member()){ ?>
+                                                    <i title="Você faz parte desta comunidade" class="fa fa-check"></i>
+                                                    <?php } ?>
                                                 </span>
                                             </div>
                                         </a>
                                         <div class="forum-info">
                                             <ul>
                                                 <li>
-                                                    <span class="views-number"><?php echo $comunidade['members']; ?></span>
+                                                    <span class="views-number"><?php echo $comunidade->get_members_number(); ?></span>
                                                     <small>Membros</small>
                                                 </li>
                                                 <li>
-                                                    <span class="views-number"><?php echo $comunidade['posts']; ?></span>
+                                                    <span class="views-number"><?php echo $comunidade->get_posts_number(); ?></span>
                                                     <small>Posts</small>
                                                 </li>
                                                 <li>
-                                                    <?php if ( $comunidade['can_edit'] ) { ?>
+                                                    <?php if ( $comunidade->can_edit() ) { ?>
                                                         <a title="Editar a comunidade"
-                                                           href="<?php echo home_url( 'comunidade/' . $comunidade['id'] . '/editar' ) ?>">
+                                                           href="<?php echo $comunidade->get_url_edit(); ?>">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     <?php } ?>
-                                                    <?php if ( $comunidade['can_members'] ) { ?>
+                                                    <?php if ( $comunidade->can_see_members() ) { ?>
                                                         <a title="Ver membros"
-                                                           href="<?php echo home_url( 'comunidade/' . $comunidade['id'] . '/membros' ) ?>">
+                                                           href="<?php echo $comunidade->get_url_members(); ?>">
                                                             <i class="fa fa-users"></i>
                                                         </a>
                                                     <?php } ?>
-                                                    <?php if ( $comunidade['can_follow'] ) { ?>
+                                                    <?php if ( $comunidade->can_follow() ) { ?>
                                                         <a title="Seguir a comunidade"
-                                                           href="<?php echo home_url( 'comunidade/' . $comunidade['id'] . '/seguir' ) ?>">
+                                                           href="<?php echo $comunidade->get_url_follow(); ?>">
                                                             <i class="fa fa-rss"></i>
                                                         </a>
                                                     <?php } ?>
-                                                    <?php if ( $comunidade['can_not_follow'] ) { ?>
+                                                    <?php if ( $comunidade->can_not_follow() ) { ?>
                                                         <a title="Deixar de seguir a comunidade"
-                                                           href="<?php echo home_url( 'comunidade/' . $comunidade['id'] . '/deixar-seguir' ) ?>">
-                                                <span class="fa-stack fa-lg">
-                                                  <i class="fa fa-rss fa-stack-1x"></i>
-                                                  <i class="fa fa-remove fa-stack-2x text-danger"></i>
-                                                </span>
+                                                           href="<?php echo $comunidade->get_url_not_follow(); ?>">
+                                                            <span class="fa-stack fa-lg">
+                                                              <i class="fa fa-rss fa-stack-1x"></i>
+                                                              <i class="fa fa-remove fa-stack-2x text-danger"></i>
+                                                            </span>
                                                         </a>
                                                     <?php } ?>
-                                                    <?php if ( $comunidade['can_enter'] ) { ?>
+                                                    <?php if ( $comunidade->can_enter() ) { ?>
                                                         <a title="Participar da comunidade"
-                                                           href="<?php echo home_url( 'comunidade/' . $comunidade['id'] . '/entrar' ) ?>">
+                                                           href="<?php echo $comunidade->get_url_enter(); ?>">
                                                             <i class="fa fa-sign-in"></i>
                                                         </a>
                                                     <?php } ?>
-                                                    <?php if ( $comunidade['can_leave'] ) { ?>
+                                                    <?php if ( $comunidade->can_leave() ) { ?>
                                                         <a title="Sair da comunidade"
-                                                           href="<?php echo home_url( 'comunidade/' . $comunidade['id'] . '/sair' ) ?>">
+                                                           href="<?php echo $comunidade->get_url_leave(); ?>">
                                                             <i class="fa fa-remove"></i>
                                                         </a>
                                                     <?php } ?>
@@ -136,7 +140,6 @@
                                 <li class="page-item">
                                     <a class="page-link" href="#" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
-                                        <span class="sr-only">Previous</span>
                                     </a>
                                 </li>
                                 <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -145,7 +148,6 @@
                                 <li class="page-item">
                                     <a class="page-link" href="#" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
-                                        <span class="sr-only">Next</span>
                                     </a>
                                 </li>
                             </ul>

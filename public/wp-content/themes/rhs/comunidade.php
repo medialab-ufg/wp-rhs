@@ -4,23 +4,31 @@
 */
 ?>
 <?php get_header('full'); ?>
-<?php global $RHSComunity;?>
-<?php $RHSComunity->check_comunity();?>
+<?php global $RHSComunities;?>
+<?php if($comunity = $RHSComunities->get_comunity_by_request()){ ?>
     <div class="col-xs-12 comunidade">
         <div class="card hovercard">
             <div class="card-background">
-                <img class="card-bkimg" alt="" src="http://www.teleios.com.br/wp-content/uploads/2006/08/indios1.jpg">
+                <img class="card-bkimg" alt="" src="<?php echo $comunity->get_image(); ?>">
             </div>
             <div class="card-buttons">
-                <a href="#">Seguir Comunidade <i class="fa fa-rss"></i></a>
-                <a href="#">Deixar de Seguir Comunidade <i class="fa fa-rss"></i></a>
-                <a href="#">Sair na Comunidade <i class="fa fa-remove"></i></a>
-                <a href="#">Entrar na Comunidade <i class="fa fa fa-sign-in"></i></a>
+                <?php if($comunity->can_follow()){ ?>
+                    <a href="<?php echo $comunity->get_url_follow(); ?>">Seguir Comunidade <i class="fa fa-rss"></i></a>
+                <?php } ?>
+                <?php if($comunity->can_follow()){ ?>
+                    <a href="<?php echo $comunity->get_url_not_follow(); ?>">Deixar de Seguir Comunidade <i class="fa fa-rss"></i></a>
+                <?php } ?>
+                <?php if($comunity->can_leave()){ ?>
+                    <a href="#">Sair na Comunidade <i class="fa fa-remove"></i></a>
+                <?php } ?>
+                <?php if($comunity->can_enter()){ ?>
+                    <a href="#">Entrar na Comunidade <i class="fa fa fa-sign-in"></i></a>
+                <?php } ?>
             </div>
             <div class="useravatar">
                 <div class="row">
                     <div class="col-xs-12">
-                        <img alt="" src="http://www.teleios.com.br/wp-content/uploads/2006/08/indios1.jpg">
+                        <img src="<?php echo $comunity->get_image(); ?>" />
                     </div>
                 </div>
             </div>
@@ -28,24 +36,28 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-7 col-xs-12 col-xs-pull-3 col-sm-pull-0">
                         <div class="card-title">
-                            Indígena
-                            <i title="Esse grupo é privado" class="fa fa-lock"></i>
-                            <i title="Você faz parte desta comunidade" class="fa fa-check"></i>
+                            <?php echo $comunity->get_name(); ?>
+                            <?php if($comunity->is_lock()){ ?>
+                                <i title="Esse grupo é privado" class="fa fa-lock"></i>
+                            <?php } ?>
+                            <?php if($comunity->is_member()){ ?>
+                                <i title="Você faz parte desta comunidade" class="fa fa-check"></i>
+                            <?php } ?>
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-5 col-xs-12 col-xs-pull-1 col-sm-pull-0">
                         <div class="espace">
                             <ul>
                                 <li>
-                                    <span class="views-number">0</span>
+                                    <span class="views-number"><?php echo $comunity->get_members_number(); ?></span>
                                     <small>Membros</small>
                                 </li>
                                 <li>
-                                    <span class="views-number">0</span>
+                                    <span class="views-number"><?php echo $comunity->get_posts_number(); ?></span>
                                     <small>Posts</small>
                                 </li>
                                 <li>
-                                    <span class="views-number">0</span>
+                                    <span class="views-number"><?php echo $comunity->get_follows_number(); ?></span>
                                     <small>Seguidores</small>
                                 </li>
                             </ul>
@@ -97,5 +109,6 @@
             </div>
         </div>
     </div>
+<?php } ?>
 
 <?php get_footer('full');
