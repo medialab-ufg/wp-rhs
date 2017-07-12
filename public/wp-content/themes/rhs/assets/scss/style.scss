@@ -2258,6 +2258,36 @@ form .comment-form-comment {
                 }
             }
         }
+        .panel-heading{
+            padding: 13px;
+            .well-before{
+                &::before{
+                    position: absolute;
+                    display: block;
+                    left: -9px;
+                    top: 2px;
+                    content: '';
+                    border: inherit;
+                    border-width: 12px;
+                    border-top-color: transparent;
+                    border-bottom-color: transparent;
+                    border-left-color: transparent;
+                }
+            }
+            .well-after{
+                &::after{
+                    position: absolute;
+                    top: 2px;
+                    right: -9px;
+                    content: '';
+                    border: inherit;
+                    border-width: 12px;
+                    border-top-color: transparent;
+                    border-bottom-color: transparent;
+                    border-right-color: transparent;
+                }
+            }
+        }
     }
 }
 
