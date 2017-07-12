@@ -121,10 +121,19 @@
                                             </thead>
                                             <tbody>
                                                 <?php while ( $ticketLoop->have_posts() ) : $ticketLoop->the_post(); ?>
+                                                <?php 
+                                                    $term_list = wp_get_post_terms(get_the_ID(), 'tickets-category'); 
+                                                ?>
                                                     <tr>
                                                         <th><a href="<?php the_permalink(); ?>" title="Responder"><span class="fa fa-reply"></span></th>
                                                         <th><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></th>
-                                                        <th><a href="<?php the_permalink(); ?>"><strong>Categoria</strong></a></th>
+                                                        <th>
+                                                            <a href="<?php the_permalink(); ?>">
+                                                                <strong>
+                                                                    <?php echo $term_list[0]->name; ?>
+                                                                </strong>
+                                                            </a>
+                                                        </th>
                                                         <th><a href="<?php the_permalink(); ?>"><?php the_time('F jS, Y'); ?></a></th>
                                                         <?php if(get_post_status() == 'open')
                                                                 $status = 'Em Aberto'; 
