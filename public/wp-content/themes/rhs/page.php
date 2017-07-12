@@ -1,3 +1,4 @@
+<?php RHSHtml::setTitulo(get_the_title()); ?>
 <?php get_header(); ?>
 		<div class="row">
 			<?php 
@@ -6,15 +7,6 @@
 			<article id="post-<?php the_ID(); ?>">
 				<div class="col-xs-12">
 					<div class="panel panel-default padding-bottom">
-						<div class="panel-heading" style="border-bottom: 1px solid rgba(119, 119, 119, 0.13);">
-							<div class="row post-titulo">
-								<?php $userOBJ = new RHSUser(get_the_author_meta( 'ID' )); ?>
-								<div class="col-xs-9 col-sm-11 col-md-10">
-									<?php the_title( '<h3>', '</h3>' ); ?>
-								</div>
-								<div class="clearfix"></div>
-							</div>
-						</div>
 						<div class="panel-body content">
 							<?php the_content(); ?>
 						</div><!-- .paine-body -->

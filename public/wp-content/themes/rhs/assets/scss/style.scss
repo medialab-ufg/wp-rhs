@@ -2130,6 +2130,7 @@ form .comment-form-comment {
     .card {
         margin-top: 20px;
         padding: 30px;
+        padding-bottom: 10px;
         background-color: rgba(214, 224, 226, 0.2);
         -webkit-border-top-left-radius:5px;
         -moz-border-top-left-radius:5px;
@@ -2141,21 +2142,22 @@ form .comment-form-comment {
         -moz-box-sizing: border-box;
         box-sizing: border-box;
         &.hovercard {
+            border: 1px solid #e3e3e3;
             position: relative;
             overflow: hidden;
             text-align: center;
             background-color: rgba(255, 255, 255, 1);
             .card-background {
-                height: 130px;
+                height: 0px;
                 img {
                     -webkit-filter: blur(25px);
                     -moz-filter: blur(25px);
                     -o-filter: blur(25px);
                     -ms-filter: blur(25px);
                     filter: blur(25px);
-                    margin-left: -100px;
+                    margin-left: -29px;
                     margin-top: -200px;
-                    min-width: 130%;
+                    width: 1111px;
                     @media only screen and (max-width: 768px){
                         filter: blur(14px);
                         min-width: 247%;
@@ -2164,35 +2166,59 @@ form .comment-form-comment {
                     }
                 }
             }
-            .useravatar {
+            .card-buttons{
                 position: absolute;
-                top: 15px;
-                left: 0;
-                right: 0;
+                right: 10px;
+                top: 5px;
+                z-index: 1;
+                a{
+                    color: #fff;
+                    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.63);
+                    display: block;
+                    text-align: right;
+                    font-size: 10px;
+                    text-transform: uppercase;
+                    z-index: 1;
+                    webkit-transition: all 0.3s ease;
+                    -moz-transition: all 0.3s ease;
+                    -ms-transition: all 0.3s ease;
+                    -o-transition: all 0.3s ease;
+                    transition: all 0.3s ease;
+                    i{
+                        margin-right: 5px;
+                        font-size: 14px;
+                    }
+                    &:hover{
+                        text-decoration: none;
+                        text-shadow: 1px 2px 4px rgba(0, 0, 0, 0);
+                        font-size: 11px;
+                    }
+                }
+            }
+            .useravatar {
+
                 img {
                     width: 100px;
                     height: 100px;
                     max-width: 100px;
                     max-height: 100px;
+                    object-fit: cover;
                     -webkit-border-radius: 50%;
                     -moz-border-radius: 50%;
                     border-radius: 50%;
                     border: 5px solid rgba(255, 255, 255, 0.5);
+                    box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.6);
                 }
             }
             .card-info {
-                position: absolute;
-                bottom: 0px;
-                left: 0;
-                right: 0;
-                overflow: hidden;
                 font-size: 12px;
                 color: #737373;
                 text-overflow: ellipsis;
                 .card-title {
                     padding: 15px 0;
-                    font-size: 20px;
-                    color: #262626;
+                    font-size: 23px;
+                    color: #ffffff;
+                    text-shadow: 1px 3px 2px rgba(0, 0, 0, 0.6);
                     line-height: 0;
                     -webkit-border-radius: 4px;
                     -moz-border-radius: 4px;
@@ -2208,11 +2234,23 @@ form .comment-form-comment {
                     word-wrap: break-word;
                 }
                 .espace{
-                    span, p{
-                        color: black;
-                    }
-                    @media only screen and (max-width: 360px){
-                        margin: 3px 0 6px 0
+                    ul{
+                        list-style: none;
+                        text-align: center;
+                        padding: 0;
+                        li{
+                            display: inline-block;
+                            margin-left: 10px;
+                            span, small{
+                                display: block;
+                                color: #fff;
+                                font-size: 14px;
+                                text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.63);
+                            }
+                            small{
+                                font-size: 12px;
+                            }
+                        }
                     }
                 }
                 @media only screen and (max-width: 360px){
@@ -2227,25 +2265,34 @@ form .comment-form-comment {
         }
     }
     .btn-pref{
-        .btn{
-            -webkit-border-radius:0 !important;
-            &:hover, &:active, &:focus {
-                .fa-heart {
-                    color: red;
+        .active{
+            .btn{
+                -webkit-border-radius:0 !important;
+                background-color: #009b9b;
+                border-color: #009b9b;
+                color: #fff;
+                &:hover{
+                    box-shadow: 1px 1px 1px 0px #009b9b;
                 }
             }
         }
-    }
-    form{
-        fieldset{
-            .btn-editar{
-                width: 100px;
-                height: 40px;
-                color: $primeira_cor_texto;
-                border: 3px solid;
-                border-color: $primeira_cor_texto;
+        .btn{
+            color: #787878;
+            border: 1px solid #e3e3e3;
+            background: #fff;
+            box-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
+            webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+            outline: none !important;
+            margin-bottom: -2px;
+            &:hover{
+                box-shadow: 1px 1px 1px 0px #cac6c6;
             }
         }
+
     }
     // @media (max-width: 992px) {
     //     .forum-container{
@@ -2300,6 +2347,191 @@ form .comment-form-comment {
     //         margin-bottom: 10px;
     //     }
     // }
+}
+
+.comunidades{
+    .ibox-content {
+        background-color: $whiteColor;
+        color: inherit;
+        padding: 15px 20px 20px 20px;
+        border-color: #e7eaec;
+        border-image: none;
+        border-style: solid solid none;
+        border-width: 1px 0;
+        .mid-icon {
+            font-size: 66px;
+        }
+        &.forum-container {
+            padding: 30px !important;
+            padding-top: 0 !important;
+            .form-inline{
+                margin-top: 25px;
+                margin-bottom: 10px;
+                label{
+                    font-size: 14px;
+                    font-weight: 400;
+                }
+                select, input, button{
+                    border-radius: 0;
+                }
+                .input-group-btn{
+                    .btn{
+                        background: #009b9b;
+                        border-color: #009b9b;
+                        i{
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+            .forum-item {
+                min-height: 350px;
+                margin: 10px 0;
+                padding: 10px 0 20px;
+                h4{
+                    margin-top: 50px;
+                }
+                > .row{
+                    > div{
+                        &:hover{
+                            background: #ececec;
+                        }
+                        webkit-transition: all 0.3s ease;
+                        -moz-transition: all 0.3s ease;
+                        -ms-transition: all 0.3s ease;
+                        -o-transition: all 0.3s ease;
+                        transition: all 0.3s ease;
+                        .forum-item-link{
+                            -webkit-transition: all 0.5s ease;
+                            -moz-transition: all 0.5s ease;
+                            -ms-transition: all 0.5s ease;
+                            -o-transition: all 0.5s ease;
+                            transition: all 0.5s ease;
+                            padding: 10px;
+                            display: inline-block;
+                            float: left;
+                            .forum-item-title{
+                                .forum-item-image{
+                                    width: 75px;
+                                    height: 75px;
+                                    float: left;
+                                    img{
+                                        display: inline-block;
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: cover;
+                                        border-radius: 100px;
+                                    }
+                                }
+                                span{
+                                    float: left;
+                                    margin-top: 25px;
+                                    margin-left: 15px;
+                                    font-size: 19px;
+                                    color: #868383;
+                                    -webkit-transition: all 0.5s ease;
+                                    -moz-transition: all 0.5s ease;
+                                    -ms-transition: all 0.5s ease;
+                                    -o-transition: all 0.5s ease;
+                                    transition: all 0.5s ease;
+                                    i{
+                                        &.fa-lock{
+                                            color: #da3e3e;
+                                        }
+                                        &.fa-check{
+                                            color: #2f9829;
+                                        }
+                                        font-size: 12px;
+                                        -webkit-transition: all 0.5s ease;
+                                        -moz-transition: all 0.5s ease;
+                                        -ms-transition: all 0.5s ease;
+                                        -o-transition: all 0.5s ease;
+                                        transition: all 0.5s ease;
+                                    }
+                                }
+                            }
+                            &:hover{
+                                .forum-item-title{
+                                    span{
+                                        color: #5f5e5e;
+                                    }
+                                }
+                            }
+                        }
+                        .forum-info{
+                            float: right;
+                            ul{
+                                list-style: none;
+                                margin-top: 15px;
+                                padding: 0;
+                                li{
+                                    text-align: center;
+                                    float: left;
+                                    margin-left: 15px;
+                                    margin-top: 10px;
+                                    &:first-child{
+                                        margin-left: 0;
+                                    }
+                                    .views-number{
+                                        font-size: 20px;
+                                    }
+                                    small{
+                                        display: block;
+                                        line-height: 6px;
+                                    }
+                                    a{
+                                        width: 40px;
+                                        height: 40px;
+                                        display: inline-block;
+                                        i{
+                                            -webkit-transition: all 0.5s ease;
+                                            -moz-transition: all 0.5s ease;
+                                            -ms-transition: all 0.5s ease;
+                                            -o-transition: all 0.5s ease;
+                                            transition: all 0.5s ease;
+                                            font-size: 20px;
+                                            margin-top: 12px;
+                                            color: #787878;
+                                            &.fa-stack-2x{
+                                                font-size: 14px;
+                                                margin-top: 6px;
+                                                margin-left: 12px;
+                                            }
+                                            &.fa-stack-1x{
+                                                margin: 0;
+                                            }
+                                        }
+                                        &:hover{
+                                            i{
+                                                color: #00b4b4;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .pagination{
+                li{
+                    a{
+                        font-size: 13px;
+                        color: #787878;
+                    }
+                }
+            }
+        }
+        .text-navy {
+            color: #1ab394;
+            &.mid-icon {
+                font-size: 66px !important;
+            }
+        }
+        &.m-b-sm {
+            margin-bottom: 10px;
+        }
+    }
 }
 
 

@@ -139,9 +139,12 @@ add_action('wp_enqueue_scripts', 'RHS_scripts');
 
 function load_admin_style(){
     wp_enqueue_style('fontawesome', get_template_directory_uri() . '/vendor/font-awesome/css/font-awesome.min.css');
+    wp_enqueue_script( 'media-editor', plugin_dir_url( __FILE__ ) . '/wp-includes/js/media-editor.min.js' );
+    wp_enqueue_script( 'media-editor', plugin_dir_url( __FILE__ ) . '/wp-includes/js/media-views.min.js' );
 }
 
 add_action( 'admin_enqueue_scripts', 'load_admin_style' );
+
 
 /* 
 * Incluir Styles CSS necessários no tema 
