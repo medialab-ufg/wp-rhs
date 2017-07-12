@@ -82,7 +82,7 @@ class RHSEmail {
 
     function filter_reset_password_request_email_body( $message, $key, $user_login ) {
 
-        $data = get_user_by('user_login'. $user_login);
+        $data = get_user_by('login', $user_login);
 
         if($data){
             return;
