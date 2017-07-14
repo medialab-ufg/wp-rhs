@@ -38,7 +38,6 @@ class RHSComunities extends RHSMenssage {
         add_action('wp_ajax_not_follow_comunity', array($this, 'ajax_not_follow_comunity'));
 
         add_action('add_meta_boxes', array( &$this, "add_meta_box"));
-        add_action( 'publish_post', 'set_category_by_default', 5, 1 );
         add_filter( 'wp_insert_post_data' , array( &$this,'filter_post_data') , '99', 2 );
     }
 
@@ -245,12 +244,6 @@ class RHSComunities extends RHSMenssage {
         </script>
     <?php }
 
-    function set_category_by_default( $data , $postarr ) {
-
-        //$data['post_category'] = array($_POST['post_comunity']);
-        return $data;
-    }
-
     /**
      * (Post) Adiciona MetaBox para a escolha da comunidade
      */
@@ -319,7 +312,9 @@ class RHSComunities extends RHSMenssage {
 
     function filter_post_data( $data , $postarr ) {
 
-        wp_set_post_terms( $postarr['ID'], $_POST['post_comunity'], self::TAXONOMY );
+        if(!empty($_POST['post_comunity'])){
+            wp_set_post_terms( $postarr['ID'], $_POST['post_comunity'], self::TAXONOMY );
+        }
 
         return $data;
     }
