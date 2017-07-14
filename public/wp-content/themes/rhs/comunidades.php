@@ -9,6 +9,8 @@
         <div class="col-xs-12">
             <h1 class="titulo-page">Comunidades</h1>
             <div class="wrapper wrapper-content animated fadeInRight">
+
+                <?php if($RHSComunities->can_see_comunities()){ ?>
                 <div class="ibox-content forum-container">
                     <form class="form-inline">
                         <div class="row">
@@ -58,7 +60,7 @@
                                 <?php foreach ( $RHSComunities->get_comunities_by_user(  get_current_user_id() ) as $comunidade ) { ?>
                                     <div class="col-md-12">
                                         <a href="<?php echo $comunidade->get_url(); ?>"
-                                           class="forum-item-link">
+                                           class="forum-item-link"  >
                                             <div class="forum-item-title">
                                                 <div class="forum-item-image">
                                                     <img src="<?php echo $comunidade->get_image(); ?>"/>
@@ -74,7 +76,7 @@
                                                 </span>
                                             </div>
                                         </a>
-                                        <div class="forum-info">
+                                        <div class="forum-info" data-id="<?php echo $comunidade->get_id(); ?>">
                                             <ul>
                                                 <li>
                                                     <span class="views-number"><?php echo $comunidade->get_members_number(); ?></span>
@@ -85,45 +87,33 @@
                                                     <small>Posts</small>
                                                 </li>
                                                 <li>
-                                                    <?php if ( $comunidade->can_edit() ) { ?>
-                                                        <a title="Editar a comunidade"
-                                                           href="<?php echo $comunidade->get_url_edit(); ?>">
-                                                            <i class="fa fa-edit"></i>
-                                                        </a>
-                                                    <?php } ?>
-                                                    <?php if ( $comunidade->can_see_members() ) { ?>
-                                                        <a title="Ver membros"
-                                                           href="<?php echo $comunidade->get_url_members(); ?>">
-                                                            <i class="fa fa-users"></i>
-                                                        </a>
-                                                    <?php } ?>
-                                                    <?php if ( $comunidade->can_follow() ) { ?>
-                                                        <a title="Seguir a comunidade"
-                                                           href="<?php echo $comunidade->get_url_follow(); ?>">
-                                                            <i class="fa fa-rss"></i>
-                                                        </a>
-                                                    <?php } ?>
-                                                    <?php if ( $comunidade->can_not_follow() ) { ?>
-                                                        <a title="Deixar de seguir a comunidade"
-                                                           href="<?php echo $comunidade->get_url_not_follow(); ?>">
-                                                            <span class="fa-stack fa-lg">
-                                                              <i class="fa fa-rss fa-stack-1x"></i>
-                                                              <i class="fa fa-remove fa-stack-2x text-danger"></i>
-                                                            </span>
-                                                        </a>
-                                                    <?php } ?>
-                                                    <?php if ( $comunidade->can_enter() ) { ?>
-                                                        <a title="Participar da comunidade"
-                                                           href="<?php echo $comunidade->get_url_enter(); ?>">
-                                                            <i class="fa fa-sign-in"></i>
-                                                        </a>
-                                                    <?php } ?>
-                                                    <?php if ( $comunidade->can_leave() ) { ?>
-                                                        <a title="Sair da comunidade"
-                                                           href="<?php echo $comunidade->get_url_leave(); ?>">
-                                                            <i class="fa fa-remove"></i>
-                                                        </a>
-                                                    <?php } ?>
+                                                    <a class="<?php echo (!$comunidade->can_edit()) ? 'hide' : '';?>" title="Editar a comunidade" id="comunity-edit"
+                                                       href="<?php echo $comunidade->get_url_edit(); ?>">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                    <a class="<?php echo (!$comunidade->can_see_members()) ? 'hide' : '';?>" title="Ver membros" id="comunity-see-members"
+                                                       href="<?php echo $comunidade->get_url_members(); ?>">
+                                                        <i class="fa fa-users"></i>
+                                                    </a>
+                                                    <a class="<?php echo (!$comunidade->can_follow()) ? 'hide' : '';?>" title="Seguir a comunidade" id="comunity-follow"
+                                                       href="javascript:;">
+                                                        <i class="fa fa-rss"></i>
+                                                    </a>
+                                                    <a class="<?php echo (!$comunidade->can_not_follow()) ? 'hide' : '';?>" title="Deixar de seguir a comunidade" id="comunity-not-follow"
+                                                       href="javascript:;">
+                                                        <span class="fa-stack fa-lg">
+                                                          <i class="fa fa-rss fa-stack-1x"></i>
+                                                          <i class="fa fa-remove fa-stack-2x text-danger"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a class="<?php echo (!$comunidade->can_enter()) ? 'hide' : '';?>" title="Participar da comunidade" id="comunity-enter"
+                                                       href="javascript:;">
+                                                        <i class="fa fa-sign-in"></i>
+                                                    </a>
+                                                    <a class="<?php echo (!$comunidade->can_leave()) ? 'hide' : '';?>" title="Sair da comunidade"
+                                                       href="javascript:;" id="comunity-leave">
+                                                        <i class="fa fa-remove"></i>
+                                                    </a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -155,6 +145,15 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+                <?php } else { ?>
+                <div class="ibox-content forum-container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="text-center">Você não tem permissão de ver essa área</h4>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
             </div>
         </div>
     </div>

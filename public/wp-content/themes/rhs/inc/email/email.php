@@ -9,7 +9,7 @@ class RHSEmail {
 
         add_action('admin_menu', array( &$this, 'gerate_admin_menu' ) );
         add_filter("retrieve_password_title", array( &$this, 'filter_reset_password_request_email_title'));
-        add_filter('retrieve_password_message',  array( &$this, 'filter_reset_password_request_email_body'), 10, 3 );
+        add_filter('retrieve_password_message',  array( &$this, 'filter_reset_password_request_email_body'), 10, 4 );
         add_action('rhs_post_promoted', array( &$this,'post_promoted'), 10, 1);
 
         $this->messages = array(
@@ -80,7 +80,7 @@ class RHSEmail {
         );
     }
 
-    function filter_reset_password_request_email_body( $message, $key, $user_login ) {
+    function filter_reset_password_request_email_body($message, $key, $user_login, $user_data) {
 
         $data = get_user_by('login', $user_login);
 
@@ -93,12 +93,10 @@ class RHSEmail {
             'login' => $data->user_login,
             'email' => $data->user_email,
             'nome' => $data->display_name,
-            'link' => network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $$data->user_login ), 'login' )
+            'link' => home_url( "resetar-senha/?key=$key&login=" . rawurlencode( $user_login ))
         );
 
-        $this->get_message('retrieve_password_message', $args);
-
-        return $message;
+        return $this->get_message('retrieve_password_message', $args);
     }
 
     function filter_reset_password_request_email_title() {
