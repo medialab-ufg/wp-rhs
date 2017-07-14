@@ -2361,9 +2361,14 @@ form .comment-form-comment {
             }
             .card-buttons{
                 position: absolute;
-                right: 10px;
-                top: 5px;
+                top: 9px;
                 z-index: 1;
+                &.left{
+                    left: 6px;
+                }
+                &.right{
+                    right: 10px;
+                }
                 a{
                     color: #fff;
                     text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.63);
@@ -2434,6 +2439,7 @@ form .comment-form-comment {
                         li{
                             display: inline-block;
                             margin-left: 10px;
+                            line-height: 16px;
                             span, small{
                                 display: block;
                                 color: #fff;
@@ -2458,17 +2464,6 @@ form .comment-form-comment {
         }
     }
     .btn-pref{
-        .active{
-            .btn{
-                -webkit-border-radius:0 !important;
-                background-color: #009b9b;
-                border-color: #009b9b;
-                color: #fff;
-                &:hover{
-                    box-shadow: 1px 1px 1px 0px #009b9b;
-                }
-            }
-        }
         .btn{
             color: #787878;
             border: 1px solid #e3e3e3;
@@ -2483,6 +2478,17 @@ form .comment-form-comment {
             margin-bottom: -2px;
             &:hover{
                 box-shadow: 1px 1px 1px 0px #cac6c6;
+            }
+            &.btn-primary{
+                -webkit-border-radius:0 !important;
+                background-color: #009b9b;
+                border-color: #009b9b;
+                color: #fff;
+                &:hover{
+                    box-shadow: 1px 1px 1px 0px #009b9b;
+                    background: #057b7b;
+                    border-color: #057b7b;
+                }
             }
         }
 
