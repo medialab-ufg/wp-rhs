@@ -5,9 +5,13 @@ jQuery(document).ready(function() {
     wp.media.featuredImage.select = function() {
             
             wp.media.view.settings.post.featuredImageId = this.get('selection').single().id;
+            
+            var imgurl = this.get('selection').single().attributes.sizes.thumbnail.url;
 
             //set image id to hidden input
             document.getElementById("img_destacada").value = this.get('selection').single().id;
+            
+            jQuery("#img_destacada_preview").html('<img src="'+imgurl+'">');
     }
     
     jQuery('.set_img_destacada').click(function() {
@@ -15,5 +19,10 @@ jQuery(document).ready(function() {
             wp.media.featuredImage.frame().open();
     
     });
+    
+    wp.media.view.settings.post = {
+        id: jQuery('#post_ID').val(),
+        featuredImageId: jQuery('#img_destacada').val()
+    }
 
 });

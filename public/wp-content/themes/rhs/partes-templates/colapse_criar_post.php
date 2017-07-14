@@ -23,7 +23,7 @@
     </div>
     <div id="Imagem" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
       <div class="panel-body">
-        Para incluir imagens em sua publicação, clique no ícone "inserir imagem" disponível na caixa de texto do post. Ao clicar no ícone, você terá acesso a um navegador de arquivos, nele você verá as imagens vinculdas a sua conta e poderá fazer upload das imagens do seu computador. Dê preferência a uma imagem de boa resolução, sem ultrapassar o limite de 2 megapixels. Depois de realizar o upload, clique na imagem e ela aparecerá em sua publicação. Não esqueça de clicar em "enviar" para terminar a inserção da imagem. Boa publicação!
+        Para incluir imagens em sua publicação, clique no ícone "Adicionar Mídia" disponível na caixa de texto do post. Ao clicar no ícone, você terá acesso a um navegador de arquivos, nele você verá as imagens vinculdas a sua conta e poderá fazer upload das imagens do seu computador. Clique em DEFINIR IMAGEM DESTACADA para escolher qual das imagens do seu post ficará em destaque nas listagens. Dê preferência a uma imagem de boa resolução, sem ultrapassar o limite de 2 megapixels. Depois de realizar o upload, clique na imagem e ela aparecerá em sua publicação. Não esqueça de clicar em "enviar" para terminar a inserção da imagem. Boa publicação!
       </div>
     </div>
   </div>
