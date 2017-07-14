@@ -24,5 +24,5 @@ jQuery(document).ready(function() {
         id: jQuery('#post_ID').val(),
         featuredImageId: jQuery('#img_destacada').val()
     }
-
+    
 });

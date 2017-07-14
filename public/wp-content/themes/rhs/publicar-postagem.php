@@ -130,7 +130,7 @@
                                     <?php $thumbId = get_post_thumbnail_id($RHSPost->get_post_data('ID')); ?>
                                     <input type="hidden" value="<?php echo $thumbId; ?>" id="img_destacada" name="img_destacada">
                                     <div id="img_destacada_preview">
-                                        <?php if ($thumbId) echo get_the_post_thumbnail($RHSPost->get_post_data('ID'), 'thumbnail'); ?>
+                                        <?php if ($thumbId) echo get_the_post_thumbnail($RHSPost->get_post_data('ID'), array( 200, 200)); ?>
                                     </div>
                                     <button type="button" class="btn btn-default form-submit dest_visu set_img_destacada">DEFINIR IMAGEM DESTACADA</button>
                                     <button type="submit" name="status" value="draft" class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO</button>
