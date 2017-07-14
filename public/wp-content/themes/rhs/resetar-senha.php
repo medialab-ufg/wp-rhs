@@ -1,4 +1,5 @@
 <?php get_header('full'); ?>
+<?php global $RHSLogin; ?>
     <div class="row">
         <!-- Container -->
         <div class="col-xs-12 col-md-12 login">
@@ -8,15 +9,11 @@
                         <div class="panel-heading">
                             <div class="panel-title">Recuperação de Senha</div>
                         </div>
-                        <?php
-                        global $RHSLogin;
-                        $errors = $RHSLogin->retrievepassword();
-                        ?>
                         <div class="panel-body" >
-                            <?php if($errors){ ?>
-                                <div class="alert alert-danger">
-                                    <?php foreach ($errors as $erro){ ?>
-                                        <p><?php echo $erro ?></p>
+                            <?php foreach ($RHSLostPassword->messages() as $type => $messages){ ?>
+                                <div class="alert alert-<?php echo ($type == 'error') ? 'danger' : 'success'; ?>">
+                                    <?php foreach ($messages as $message){ ?>
+                                        <p><?php echo $message ?></p>
                                     <?php } ?>
                                 </div>
                             <?php } ?>

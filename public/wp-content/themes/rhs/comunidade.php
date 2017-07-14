@@ -11,19 +11,13 @@
             <div class="card-background">
                 <img class="card-bkimg" alt="" src="<?php echo $comunity->get_image(); ?>">
             </div>
-            <div class="card-buttons">
-                <?php if($comunity->can_follow()){ ?>
-                    <a href="<?php echo $comunity->get_url_follow(); ?>">Seguir Comunidade <i class="fa fa-rss"></i></a>
-                <?php } ?>
-                <?php if($comunity->can_follow()){ ?>
-                    <a href="<?php echo $comunity->get_url_not_follow(); ?>">Deixar de Seguir Comunidade <i class="fa fa-rss"></i></a>
-                <?php } ?>
-                <?php if($comunity->can_leave()){ ?>
-                    <a href="#">Sair na Comunidade <i class="fa fa-remove"></i></a>
-                <?php } ?>
-                <?php if($comunity->can_enter()){ ?>
-                    <a href="#">Entrar na Comunidade <i class="fa fa fa-sign-in"></i></a>
-                <?php } ?>
+            <div class="card-buttons left">
+                <a class="<?php echo !$comunity->can_follow() ? 'hide' : ''; ?>" href="javascript:;">Seguir <i class="fa fa-rss"></i></a>
+                <a class="<?php echo !$comunity->can_not_follow() ? 'hide' : ''; ?>" href="javascript:;">Deixar de seguir <i class="fa fa-rss"></i></a>
+            </div>
+            <div class="card-buttons right">
+                <a class="<?php echo !$comunity->can_leave() ? 'hide' : ''; ?>" href="javascript:;">Sair <i class="fa fa-remove"></i></a>
+                <a class="<?php echo !$comunity->can_enter() ? 'hide' : ''; ?>" href="javascript:;">Entrar <i class="fa fa fa-sign-in"></i></a>
             </div>
             <div class="useravatar">
                 <div class="row">
@@ -34,7 +28,7 @@
             </div>
             <div class="card-info">
                 <div class="row">
-                    <div class="col-md-12 col-sm-7 col-xs-12 col-xs-pull-3 col-sm-pull-0">
+                    <div class="col-md-12 col-sm-7 col-xs-12 col-sm-pull-0">
                         <div class="card-title">
                             <?php echo $comunity->get_name(); ?>
                             <?php if($comunity->is_lock()){ ?>
@@ -45,7 +39,7 @@
                             <?php } ?>
                         </div>
                     </div>
-                    <div class="col-md-12 col-sm-5 col-xs-12 col-xs-pull-1 col-sm-pull-0">
+                    <div class="col-md-12 col-sm-5 col-xs-12 col-sm-pull-0">
                         <div class="espace">
                             <ul>
                                 <li>
@@ -67,14 +61,14 @@
             </div>
         </div>
         <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
-            <div class="btn-group active" role="group">
+            <div class="btn-group" role="group">
                 <button type="button" id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab">
                     <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
                     <div class="hidden-xs">Posts</div>
                 </button>
             </div>
             <div class="btn-group" role="group">
-                <button type="button" id="membros" class="btn btn-default" href="#tab3" data-toggle="tab">
+                <button type="button" id="membros" class="btn btn-default" href="#tab2" data-toggle="tab">
                     <span class="fa fa-user" aria-hidden="true"></span>
                     <div class="hidden-xs">Membros</div>
                 </button>
@@ -84,26 +78,20 @@
         <div class="well">
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="tab1">
-                    <div class="row">
-                            <div class="wrapper-content">
-                                <div class="panel">
-                                    <div class="panel-body">
-                                        <p class="text-center">Aqui a descrição da Comunidade</p>
-                                        <div class="col-xs-6 pull-left">
-                                            
-                                        </div>
-                                        <div class="col-xs-6 pull-right">
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade in" id="tab2">
+                    <?php $args = array(
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => RHSComunities::TAXONOMY,
+                                'field' => 'term_id',
+                                'terms' => $_GET['comunidade_id']
+                            )
+                        )
+                    );
+
+                    query_posts($args); ?>
                     <?php get_template_part( 'partes-templates/loop-posts'); ?>
                 </div>
-                <div class="tab-pane fade in" id="tab3">
+                <div class="tab-pane fade in" id="tab2">
                     <?php get_template_part('membro'); ?>
                 </div>
             </div>

@@ -32,9 +32,14 @@ class RHSComunities extends RHSMenssage {
         add_action( 'create_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
         add_action( 'admin_footer', array ( $this, 'add_script' ) );
 
+        add_action('wp_ajax_enter_comunity', array($this, 'ajax_enter_comunity'));
+        add_action('wp_ajax_leave_comunity', array($this, 'ajax_leave_comunity'));
+        add_action('wp_ajax_follow_comunity', array($this, 'ajax_follow_comunity'));
+        add_action('wp_ajax_not_follow_comunity', array($this, 'ajax_not_follow_comunity'));
+
         add_action('add_meta_boxes', array( &$this, "add_meta_box"));
         add_action( 'publish_post', 'set_category_by_default', 5, 1 );
-        //add_filter( 'wp_insert_post_data' , array( &$this,'filter_post_data') , '99', 2 );
+        add_filter( 'wp_insert_post_data' , array( &$this,'filter_post_data') , '99', 2 );
     }
 
     /**
@@ -240,11 +245,11 @@ class RHSComunities extends RHSMenssage {
         </script>
     <?php }
 
-    /*function set_category_by_default( $data , $postarr ) {
+    function set_category_by_default( $data , $postarr ) {
 
         //$data['post_category'] = array($_POST['post_comunity']);
         return $data;
-    }*/
+    }
 
     /**
      * (Post) Adiciona MetaBox para a escolha da comunidade
@@ -264,8 +269,6 @@ class RHSComunities extends RHSMenssage {
         $comunities = $this->get_comunities(true);
         $comunities_post = $this->get_comunities_by_post($post->ID);
 
-        $comunity_post = array();
-
         ?>
         <div id="taxonomy-category" class="categorydiv">
             <ul id="category-tabs" class="category-tabs">
@@ -276,10 +279,15 @@ class RHSComunities extends RHSMenssage {
             <div id="category-all" class="tabs-panel">
                 <input type="hidden" name="post_comunity[]" value="0">
                 <ul class="categorychecklist">
-                    <?php foreach ($categories as $category){ ?>
+                    <?php foreach ($comunities as $category){ ?>
                         <li id="comunity-<?php echo $category->term_id ?>" class="popular-category">
                             <label class="selectit">
-                                <input <?php  checked($comunity_post, $category->term_id); ?> value="<?php echo $category->name ?>" type="radio" name="post_comunity" id="in-comunity-<?php echo $category->term_id ?>" /> <?php echo $category->name ?>
+                                <?php
+
+                                $checked = ($comunities_post && $comunities_post->term_id == $category->term_id) ? 'checked' : '';
+
+                                ?>
+                                <input <?php echo $checked; ?> value="<?php echo $category->name ?>" type="radio" name="post_comunity" id="in-comunity-<?php echo $category->term_id ?>" /> <?php echo $category->name ?>
                             </label>
                         </li>
                     <?php } ?>
@@ -306,6 +314,14 @@ class RHSComunities extends RHSMenssage {
 
         return current($comunity);
 
+    }
+
+
+    function filter_post_data( $data , $postarr ) {
+
+        wp_set_post_terms( $postarr['ID'], $_POST['post_comunity'], self::TAXONOMY );
+
+        return $data;
     }
 
     /*====================================================================================================
@@ -376,10 +392,41 @@ class RHSComunities extends RHSMenssage {
 
     /**
      * Adiciona membro a comunidade
+     *
+     * @param $term_id
      * @param $user_id
      */
-    function add_user_comunity($user_id){
+    function add_user_comunity($term_id, $user_id){
         add_term_meta($term_id, self::MEMBER, $user_id);
+    }
+    /**
+     * Remove membro da comunidade
+     *
+     * @param $term_id
+     * @param $user_id
+     */
+    function delete_user_comunity($term_id, $user_id){
+        delete_term_meta($term_id, self::MEMBER, $user_id);
+    }
+
+    /**
+     * Adiciona membro a seguidor comunidade
+     *
+     * @param $term_id
+     * @param $user_id
+     */
+    function add_user_comunity_follow($term_id, $user_id){
+        add_term_meta($term_id, self::MEMBER_FOLLOW, $user_id);
+    }
+
+    /**
+     * Remove membro de seguidor comunidade
+     *
+     * @param $term_id
+     * @param $user_id
+     */
+    function delete_user_comunity_follow($term_id, $user_id){
+        delete_term_meta($term_id, self::MEMBER_FOLLOW, $user_id);
     }
 
     /**
@@ -428,9 +475,84 @@ class RHSComunities extends RHSMenssage {
      * @return RHSComunity
      */
     function get_comunity_by_user(WP_Term $comunity, $user_id){
-
-
         return new RHSComunity($comunity, get_userdata($user_id));
+    }
+
+
+    /**
+     * Checa se tem permissão de ver tela de comunidades
+     * @return bool
+     */
+    function can_see_comunities(){
+
+        if(get_current_user_id()){
+            return true;
+        }
+
+        return false;
+
+    }
+
+    /*====================================================================================================
+                                                AJAX
+    ======================================================================================================*/
+
+    function ajax_enter_comunity(){
+
+        $comunity = $this->get_comunity_by_request();
+
+        if($comunity && $comunity->can_enter()){
+            $this->add_user_comunity($_POST['comunidade_id'], get_current_user_id());
+
+            echo json_encode(true);
+            exit;
+        }
+
+        echo json_encode(false);
+        exit;
+    }
+
+    function ajax_leave_comunity(){
+        $comunity = $this->get_comunity_by_request();
+
+        if($comunity && $comunity->can_leave()){
+            $this->delete_user_comunity($_POST['comunidade_id'], get_current_user_id());
+
+            echo json_encode(true);
+            exit;
+        }
+
+        echo json_encode(false);
+        exit;
+    }
+
+    function ajax_follow_comunity(){
+
+        $comunity = $this->get_comunity_by_request();
+
+        if($comunity && $comunity->can_follow()) {
+            $this->add_user_comunity_follow( $_POST['comunidade_id'], get_current_user_id() );
+
+            echo json_encode(true);
+            exit;
+        }
+
+        echo json_encode(false);
+        exit;
+    }
+
+    function ajax_not_follow_comunity(){
+        $comunity = $this->get_comunity_by_request();
+
+        if($comunity && $comunity->can_not_follow()) {
+            $this->delete_user_comunity_follow( $_POST['comunidade_id'], get_current_user_id() );
+
+            echo json_encode(true);
+            exit;
+        }
+
+        echo json_encode(false);
+        exit;
     }
 
 }
