@@ -325,7 +325,7 @@ class RHSTicket extends RHSMenssage {
             $subject = $RHSEmail->get_subject('new_ticket_message', $args);
             $message = $RHSEmail->get_message('new_ticket_message', $args);
 
-            wp_mail($user->user_email, $subject, $message);
+            wp_mail($user->user_email, $subject, $message,'Content-type: text/html; charset=iso-8859-1');
         }
 
         $this->set_messages(   '<i class="fa fa-check "></i> Contato enviado com sucesso!', false, 'success' );
