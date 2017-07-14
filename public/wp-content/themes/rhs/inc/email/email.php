@@ -215,6 +215,9 @@ class RHSEmail {
         $subject = $RHSEmail->get_subject('post_promoted', $args);
         $message = $RHSEmail->get_message('post_promoted', $args);
 
+        echo 'foi';
+        exit;
+
         wp_mail($user->user_email, $subject, $message, 'MIME-Version: 1.0' . "\r\n" . 'Content-type: text/html; charset=iso-8859-1' . "\r\n");
     }
 
