@@ -48,7 +48,6 @@ class RHSComunity {
 
         // TODO: Pegar informações
         $this->image = 'http://www.teleios.com.br/wp-content/uploads/2006/08/indios1.jpg';
-        $this->posts = array();
     }
 
     /**
@@ -193,7 +192,7 @@ class RHSComunity {
     }
 
     function can_follow(){
-        return ($this->is_member && !$this->is_follow);
+       return ($this->is_member && !$this->is_follow);
     }
 
     function can_not_follow(){

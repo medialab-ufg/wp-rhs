@@ -96,6 +96,8 @@ class RHSEmail {
             'link' => home_url( "resetar-senha/?key=$key&login=" . rawurlencode( $user_login ))
         );
 
+        $message = $this->get_message('retrieve_password_message', $args);
+
         return $this->get_message('retrieve_password_message', $args);
     }
 
@@ -153,7 +155,7 @@ class RHSEmail {
             $subject = str_replace('%'.$var.'%', $args[$var], $subject);
         }
 
-        return $subject;
+        return htmlentities($subject);
     }
 
     function gerate_admin_menu() {
