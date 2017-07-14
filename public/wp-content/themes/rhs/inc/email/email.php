@@ -27,9 +27,9 @@ class RHSEmail {
                 ),
                 'default-subject' => '[%site_nome%] Bem-vindo',
                 'default-email' => '<h3>Bem-vindo %nome%.</h3>
-                    <p>Você pode acessar o site aqui: <a href="%site_link%">%site_link%</a></p>
-                    <p>Edite seu perfil aqui: <a href="%site_perfil%">%site_perfil%</a></p>
-                    <p>Postar um novo tópico: <a href="%site_novo_topico%">%site_novo_topico%</a></p>'
+                    <p>Você pode acessar o site aqui: %site_link%</p>
+                    <p>Edite seu perfil aqui: %site_perfil%</p>
+                    <p>Postar um novo tópico: %site_novo_topico%</p>'
             ),
             'retrieve_password_message' => array(
                 'name'=> 'Email de Recuperação Senha',
@@ -59,7 +59,7 @@ class RHSEmail {
                 'default-subject' => '[%site_nome%] Novo Ticket #%ticket_id%',
                 'default-email' => '<h3>Parabéns %nome%.</h3>
                     <p>Seu ticket foi criado com sucesso, para acompanhar o ticket acesse o link:</p>
-                    <p><a href="\&quot;%link%\&quot;">%link%</a></p>'
+                    <p>%link%</p>'
             ),
             'post_promoted' => array(
                 'name'=> 'Email de Post Promovido',
@@ -75,7 +75,7 @@ class RHSEmail {
                 'default-email' => '<h3>Parabéns %nome%.</h3>
                     <p>Seu post atingiu a quantidade de votos e foi publicado.</p>
                     <p>Você pode acessar aqui:</p>
-                    <p><a href="%link%">%link%</a></p>'
+                    <p>%link%</p>'
             )
         );
     }

@@ -319,7 +319,7 @@ class RHSTicket extends RHSMenssage {
                 'login' => $user->user_login,
                 'email' => $user->user_email,
                 'nome' => $user->display_name,
-                'link' => get_edit_post_link($post_ID)
+                'link' => '<a href="'.get_permalink($post_ID).'">'. get_permalink($post_ID) . '</a>'
             );
 
             $subject = $RHSEmail->get_subject('new_ticket_message', $args);
