@@ -155,7 +155,7 @@ class RHSEmail {
             $subject = str_replace('%'.$var.'%', $args[$var], $subject);
         }
 
-        return htmlentities($subject);
+        return htmlspecialchars_decode($subject);
     }
 
     function gerate_admin_menu() {
