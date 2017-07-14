@@ -13,7 +13,7 @@ class RHSEmail {
         add_action('rhs_post_promoted', array( &$this,'post_promoted'), 10, 1);
 
         $this->messages = array(
-            'new_user_message' => array(
+            /*'new_user_message' => array(
                 'name'=> 'Email de Boas Vindas',
                 'var' => array(
                     'site_nome',
@@ -29,7 +29,12 @@ class RHSEmail {
                 'default-email' => '<h3>Bem-vindo %nome%.</h3>
                     <p>Você pode acessar o site aqui: %site_link%</p>
                     <p>Edite seu perfil aqui: %site_perfil%</p>
-                    <p>Postar um novo tópico: %site_novo_topico%</p>'
+                    <p>Postar um novo tópico: %site_novo_topico%</p>
+                    <b /><b />
+                    <p>Atenciosamente,</p>
+                    <p>Equipe Rede HumanizaSUS</p>
+                    <p>http://rhs.dev.medialab.ufg.br</p>
+            '
             ),
             'retrieve_password_message' => array(
                 'name'=> 'Email de Recuperação Senha',
@@ -43,8 +48,30 @@ class RHSEmail {
                 'default-subject' => '[%site_nome%] Recuperação de Senha',
                 'default-email' => '
                     <p>Você solicitou a recuperação de senha do %login%.</p>
-                    <p>Acesse o link: %link%</p>'
+                    <p>Acesse o link: %link%</p>
+                    <b />  <b />
+                    <p>Atenciosamente,</p>
+                    <p>Equipe Rede HumanizaSUS</p>
+                    <p>http://rhs.dev.medialab.ufg.br</p>'
             ),
+            'alter_password_message' => array(
+                'name'=> 'Email de Edição de Senha',
+                'var' => array(
+                    'site_nome',
+                    'login',
+                    'email',
+                    'nome',
+                    'link'
+                ),
+                'default-subject' => '[%site_nome%] Recuperação de Senha',
+                'default-email' => '
+                    <p>Sua senha foi editada <strong>%login%</strong>.</p>
+                    <p>Acesse o link: %link%</p>
+                    <b />  <b />
+                    <p>Atenciosamente,</p>
+                    <p>Equipe Rede HumanizaSUS</p>
+                    <p>http://rhs.dev.medialab.ufg.br</p>'
+            ),*/
             'new_ticket_message' => array(
                 'name'=> 'Email de Novo Ticket',
                 'var' => array(
@@ -58,11 +85,12 @@ class RHSEmail {
                 ),
                 'default-subject' => '[%site_nome%] Novo Ticket #%ticket_id%',
                 'default-email' => '
-                    <p>
-                    <h4>Um novo ticket foi criado</h4>
-                    <br />
-                    para acompanhar acesse o link: %link%</h4>
-                    </p>'
+                    <h4>Um novo ticket foi criado #%ticket_id%</h4>
+                    <p>para acompanhar acesse o link: %link%</p>
+                    <b /><b />
+                    <p>Atenciosamente,</p>
+                    <p>Equipe Rede HumanizaSUS</p>
+                    <p>http://rhs.dev.medialab.ufg.br</p>'
             ),
             'post_promoted' => array(
                 'name'=> 'Email de Post Promovido',
@@ -75,10 +103,15 @@ class RHSEmail {
                     'post_title'
                 ),
                 'default-subject' => '[%site_nome%] Parabéns seu post foi publicado',
-                'default-email' => '<h3>Parabéns %nome%.</h3>
+                'default-email' => '<h4>Parabéns %nome%.</h4>
                     <p>Seu post atingiu a quantidade de votos e foi publicado.</p>
                     <p>Você pode acessar aqui:</p>
-                    <p>%link%</p>'
+                    <p>%link%</p>
+                    <b />  <b />
+                    <p>Atenciosamente,</p>
+                    <p>Equipe Rede HumanizaSUS</p>
+                    <p>http://rhs.dev.medialab.ufg.br</p>
+                   </p>'
             )
         );
     }
@@ -182,7 +215,7 @@ class RHSEmail {
         $subject = $RHSEmail->get_subject('post_promoted', $args);
         $message = $RHSEmail->get_message('post_promoted', $args);
 
-        wp_mail($user->user_email, $subject, $message);
+        wp_mail($user->user_email, $subject, $message, 'MIME-Version: 1.0' . "\r\n" . 'Content-type: text/html; charset=iso-8859-1' . "\r\n");
     }
 
     function rhs_admin_page_voting_queue() {
