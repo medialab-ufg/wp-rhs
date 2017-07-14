@@ -1010,8 +1010,10 @@ h1.titulo-page {
                 }
             }
             h3 {
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
                 color: $primeira_cor_texto;
                 font-weight: bold;
+                padding: 13px 20px;
             }
 
             small {
@@ -2275,6 +2277,9 @@ form .comment-form-comment {
                 }
             }
             .well-after{
+                p{
+                    display: inline;
+                }
                 &::after{
                     position: absolute;
                     top: 3px;
