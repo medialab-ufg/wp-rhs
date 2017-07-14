@@ -57,9 +57,12 @@ class RHSEmail {
                     'link'
                 ),
                 'default-subject' => '[%site_nome%] Novo Ticket #%ticket_id%',
-                'default-email' => '<h3>Parabéns %nome%.</h3>
-                    <p>Seu ticket foi criado com sucesso, para acompanhar o ticket acesse o link:</p>
-                    <p>%link%</p>'
+                'default-email' => '
+                    <p>
+                    <h4>Um novo ticket foi criado</h4>
+                    <br />
+                    para acompanhar acesse o link: %link%</h4>
+                    </p>'
             ),
             'post_promoted' => array(
                 'name'=> 'Email de Post Promovido',
