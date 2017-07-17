@@ -1,8 +1,3 @@
-<?php 
-/**
-* Template name: Comunidade
-*/
-?>
 <?php get_header('full'); ?>
 <?php global $RHSComunities;?>
 <?php if($comunity = $RHSComunities->get_comunity_by_request()){ ?>
@@ -83,7 +78,7 @@
                             array(
                                 'taxonomy' => RHSComunities::TAXONOMY,
                                 'field' => 'term_id',
-                                'terms' => $_GET['comunidade_id']
+                                'terms' => $comunity->get_id()
                             )
                         )
                     );

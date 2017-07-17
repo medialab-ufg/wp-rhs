@@ -17,6 +17,7 @@ class RHSImporter {
         'users' => 'Importação básica dos usuários',
         'users-roles' => 'Importação dos papeis usuários',
         'users-meta' => 'Importação avançadas dos usuários',
+        'users-change-emails' => 'Modifica emails dos usuários comuns caso seja ambiente de teste/dev',
         'votes' => 'Importação dos votos em posts',
         'comments' => 'Importação dos comentários de posts',
         'taxonomy' => 'Importação das tags e categorias',
