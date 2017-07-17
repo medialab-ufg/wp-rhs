@@ -118,7 +118,6 @@ function RHS_scripts() {
     wp_enqueue_script( 'JqueryValidate', 'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js', array('jquery'), '1.15.0', true );
     wp_enqueue_script('JqueryValidadeMethods', 'https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js', array('JqueryValidate'), '1.16.0', true );
     wp_enqueue_script('ValidarForm', get_template_directory_uri() . '/assets/js/valida-form-registro.js', array('JqueryValidate'),'1.0', true);
-    wp_enqueue_script('Comunidades', get_template_directory_uri() . '/assets/js/comunity.js', array(),'1.0', true);
 
     wp_enqueue_script('FuncoesForm', get_template_directory_uri() . '/assets/js/functions.js', array('JqueryValidate'),'1.0', true);
     wp_enqueue_script('magicJS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.js','0.8.0', true);

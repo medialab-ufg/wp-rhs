@@ -96,22 +96,22 @@
                                                         <i class="fa fa-users"></i>
                                                     </a>
                                                     <a class="<?php echo (!$comunidade->can_follow()) ? 'hide' : '';?>" title="Seguir a comunidade" id="comunity-follow"
-                                                       href="javascript:;">
+                                                       href="<?php echo $comunidade->get_url_follow(); ?>">
                                                         <i class="fa fa-rss"></i>
                                                     </a>
                                                     <a class="<?php echo (!$comunidade->can_not_follow()) ? 'hide' : '';?>" title="Deixar de seguir a comunidade" id="comunity-not-follow"
-                                                       href="javascript:;">
+                                                       href="<?php echo $comunidade->get_url_not_follow(); ?>">
                                                         <span class="fa-stack fa-lg">
                                                           <i class="fa fa-rss fa-stack-1x"></i>
                                                           <i class="fa fa-remove fa-stack-2x text-danger"></i>
                                                         </span>
                                                     </a>
                                                     <a class="<?php echo (!$comunidade->can_enter()) ? 'hide' : '';?>" title="Participar da comunidade" id="comunity-enter"
-                                                       href="javascript:;">
+                                                       href="<?php echo $comunidade->get_url_enter(); ?>">
                                                         <i class="fa fa-sign-in"></i>
                                                     </a>
                                                     <a class="<?php echo (!$comunidade->can_leave()) ? 'hide' : '';?>" title="Sair da comunidade"
-                                                       href="javascript:;" id="comunity-leave">
+                                                       href="<?php echo $comunidade->get_url_leave(); ?>" id="comunity-leave">
                                                         <i class="fa fa-remove"></i>
                                                     </a>
                                                 </li>

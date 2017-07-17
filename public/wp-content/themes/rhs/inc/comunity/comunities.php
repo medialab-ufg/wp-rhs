@@ -39,7 +39,20 @@ class RHSComunities extends RHSMenssage {
 
         add_action('add_meta_boxes', array( &$this, "add_meta_box"));
         add_filter( 'wp_insert_post_data' , array( &$this,'filter_post_data') , '99', 2 );
+        //add_filter('rewrite_rules_array', array( &$this,'my_car_rewrite_rules'));
     }
+
+    /*function my_car_rewrite_rules( $rules ) {
+        $newrules = array();
+
+        // add a rule for this kind of url:
+        // http://myhost.com/cars/ferrari/used/123
+        // => http://myhost.com/index.php?post_type=cars&ferrari=used&p=123
+
+        $newrules['^comunidade/([^/]+)/([^/]+)/([^/]+)$'] = 'index.php?taxonomy='.self::TAXONOMY.'&$matches[1]=$matches[2]&param=$matches[3]';
+        return $newrules + $rules;
+    }*/
+
 
     /**
      * Pega as comunidades
@@ -97,6 +110,9 @@ class RHSComunities extends RHSMenssage {
                 'hierarchical' => false,
                 'parent_item'  => null,
                 'parent_item_colon' => null,
+                'rewrite' => array(
+                    //'slug' => 'comunidade/%comunity%'
+                )
             )
         );
     }
@@ -452,7 +468,7 @@ class RHSComunities extends RHSMenssage {
      */
     function get_comunity_by_request(){
 
-         if(empty($_REQUEST['comunidade_id'])){
+         if(empty(get_queried_object()->term_id)){
              return array();
          }
 
@@ -460,7 +476,7 @@ class RHSComunities extends RHSMenssage {
             return array();
         }
 
-        return $this->get_comunity_by_user(get_term($_REQUEST['comunidade_id'], self::TAXONOMY), get_current_user_id());
+        return $this->get_comunity_by_user(get_term(get_queried_object()->term_id, self::TAXONOMY), get_current_user_id());
     }
 
     /**

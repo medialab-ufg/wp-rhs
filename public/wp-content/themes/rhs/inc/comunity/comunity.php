@@ -124,49 +124,49 @@ class RHSComunity {
      * @return string
      */
     function get_url(){
-        return home_url('comunidade/?comunidade_id=' . $this->id);
+        return get_term_link($this->id, RHSComunities::TAXONOMY);
     }
 
     /**
      * @return string
      */
     function get_url_edit(){
-        return $this->get_url().'&action=edit';
+        return $this->get_url();
     }
 
     /**
      * @return string
      */
     function get_url_members(){
-        return $this->get_url().'&action=members';
+        return $this->get_url().'?acao=membros';
     }
 
     /**
      * @return string
      */
     function get_url_follow(){
-        return $this->get_url().'&action=follow';
+        return $this->get_url().'?acao=seguir';
     }
 
     /**
      * @return string
      */
     function get_url_not_follow(){
-        return $this->get_url().'&action=not_follow';
+        return $this->get_url().'?acao=deixar-seguir';
     }
 
     /**
      * @return string
      */
     function get_url_enter(){
-        return $this->get_url().'&action=enter';
+        return $this->get_url().'/entrar';
     }
 
     /**
      * @return string
      */
     function get_url_leave(){
-        return $this->get_url().'&action=leave';
+        return $this->get_url().'/sair';
     }
 
     /**
