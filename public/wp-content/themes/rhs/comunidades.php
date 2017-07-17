@@ -8,7 +8,7 @@
     <div class="row comunidades">
         <div class="col-xs-12">
             <h1 class="titulo-page">Comunidades</h1>
-            <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="wrapper wrapper-content">
 
                 <?php if($RHSComunities->can_see_comunities()){ ?>
                 <div class="ibox-content forum-container">
