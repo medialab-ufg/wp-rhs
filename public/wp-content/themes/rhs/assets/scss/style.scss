@@ -2329,18 +2329,20 @@ form .comment-form-comment {
                 display:table;
                 width:100%;
                 > .panel-heading{
+                    padding: 5px;
                     border-right: 1px solid #ddd;
                     border-top-right-radius: 0;
                     border-bottom-left-radius: 4px;
+                    @media only screen and (min-width: 768px){
+                        width: 10%;
+                    }
                 }
-                > .panel-heading, 
-                > .panel-body, 
+                > .panel-body{
+                    display: inline-grid;
+                }
+                > .panel-heading,
                 > .panel-footer {
                     display:table-cell;
-                }
-                > .panel-heading, 
-                > .panel-footer{
-                    width: 25%;
                     border:0;
                     vertical-align: middle;
                 }
