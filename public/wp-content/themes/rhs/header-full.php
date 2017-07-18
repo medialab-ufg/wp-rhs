@@ -47,7 +47,7 @@
                         <span class="navbar-text">ou</span>
                         <li><a href="<?php echo wp_registration_url(); ?>" style="color: #00b4b4">Cadastre-se</a></li>
                     <?php else : ?>
-                        <li class="dropdown user-dropdown">
+                        <li class="dropdown user-dropdown hidden-xs">
                             <a href="#notifications-panel" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown"  data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i data-count="2" class="glyphicon glyphicon-bell notification-count"></i>
                             </a>
@@ -56,8 +56,8 @@
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-6">Notificações (<b>2</b>)</div>
                                         <div class="col-md-6 col-sm-6 col-xs-6 text-right">
-                                            <a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom">
-                                                <i class="fa fa-dot-circle-o"></i>
+                                            <a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="Marcar todos lido">
+                                                <i class="fa fa-dot-circle-o"></i> Marcar como Lidas
                                             </a>
                                         </div>
                                     </div>
@@ -68,13 +68,13 @@
                                     <li>
                                         <div class="col-md-3 col-sm-3 col-xs-3">
                                             <div class="notify-img">
-                                                <img src="http://placehold.it/45x45" alt="">
+                                                <img src="http://placehold.it/45x45" alt="" class="img-circle">
                                             </div>
                                         </div>
                                         <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">
                                             <a href="#">Fabiano Alencar</a>. 
                                             <a href="#">Votou em um...</a> 
-                                            <a href="" class="rIcon">
+                                            <a href="" class="rIcon" title="Marcar como lido">
                                                 <i class="fa fa-dot-circle-o"></i>
                                             </a>
                                             <hr>
@@ -84,13 +84,13 @@
                                     <li>
                                         <div class="col-md-3 col-sm-3 col-xs-3">
                                             <div class="notify-img">
-                                                <img src="http://placehold.it/45x45" alt="">
+                                                <img src="http://placehold.it/45x45" alt="" class="img-circle">
                                             </div>
                                         </div>
                                         <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">
                                             <a href="#">Fabiano Alencar</a>. 
                                             <a href="#">Comentou em um...</a> 
-                                            <a href="" class="rIcon">
+                                            <a href="" class="rIcon" title="Marcar como lido">
                                                 <i class="fa fa-dot-circle-o"></i>
                                             </a>
                                             <hr>
@@ -99,7 +99,7 @@
                                     </li>
                                 </div>
                                 <div class="notify-drop-footer text-center">
-                                    <a href=""><i class="fa fa-eye"></i> Veja todas as notificações</a>
+                                    <a href="notificacoes"><i class="fa fa-eye"></i> Veja todas as notificações</a>
                                 </div>
                             </ul>
                         </li><!-- /dropdown -->
@@ -142,6 +142,11 @@
                             <li class="menu-item">
                                 <a href="<?php echo home_url(RHSRewriteRules::POSTAGENS_URL);?>">
                                     <i class="icones-dropdown fa fa-list-alt" aria-hidden="true"></i> Minhas Postagens
+                                </a>
+                            </li>
+                            <li class="menu-item hidden-sm hidden-md hidden-lg">
+                                <a href="notificacoes">
+                                    <i class="icones-dropdown fa fa-list-alt" aria-hidden="true"></i> Notificações(<b>2</b>)
                                 </a>
                             </li>
                             <li class="menu-item sair">

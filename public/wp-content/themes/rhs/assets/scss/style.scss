@@ -126,9 +126,6 @@ body {
                 > a {
                     margin-top: 0px;
                     text-decoration: none;
-                    &:hover {
-                        color: $primeira_cor_texto;
-                    }
                     > span {
                         color: $whiteColor;
                     }
@@ -156,6 +153,9 @@ body {
                         }
                         > i{
                             margin-top: -13px;
+                        }
+                        &:hover {
+                            text-decoration: underline;
                         }
                     }
                 }
@@ -446,7 +446,7 @@ Primeiro e Segundo DropDown Menu
                 }
                 > i {
                     &:hover {
-                        color: $whiteColor !important;
+                        color: #00b4b4 !important;
                     }
                     &.notification-count {
                         margin-right: 6.8775px;
@@ -499,8 +499,11 @@ Primeiro e Segundo DropDown Menu
             }
         }
 
-        > .open > a, .navbar-nav > .open > a:hover {
-            background-color: $cor_fundo_formulario_nav;
+        > .open > a {
+            background-color: transparent;
+            i:active{
+                color: #00b4b4;
+            }
         }
         ul.dropdown-menu, .nav ul.dropdown-menu {
             padding: 0;
@@ -2143,6 +2146,9 @@ form .comment-form-comment {
                             text-align: center;
                             a{
                                 color: $grayColor;
+                                &:hover{
+                                    color: $primeira_cor_texto;
+                                }
                             }
                         }
                     }
@@ -2263,7 +2269,7 @@ form .comment-form-comment {
         .panel-heading{
             padding: 13px;
             .well-before{
-                &::before{
+                &:before{
                     position: absolute;
                     display: block;
                     left: -9px;
@@ -2280,7 +2286,7 @@ form .comment-form-comment {
                 p{
                     display: inline;
                 }
-                &::after{
+                &:after{
                     position: absolute;
                     top: 3px;
                     right: -9px;
@@ -2294,7 +2300,7 @@ form .comment-form-comment {
             }
             article{
                 &.panel{
-                    &::before {
+                    &:before {
                         position: absolute;
                         display: block;
                         top: 3px;
@@ -2339,6 +2345,9 @@ form .comment-form-comment {
                 }
                 > .panel-body{
                     display: inline-grid;
+                    @media only screen and (max-width: 768px){
+                        font-size: 14px;
+                    }
                 }
                 > .panel-heading,
                 > .panel-footer {
@@ -2347,7 +2356,7 @@ form .comment-form-comment {
                     vertical-align: middle;
                 }
                 > .panel-footer {
-                    border-left: 1px solid #ddd;
+                    border-left: 0px solid #ddd;
                     border-top-left-radius: 0;
                     border-bottom-right-radius: 4px;
                 }
@@ -3619,7 +3628,11 @@ article {
         }
     }
 }
-
+@media only screen and (width: 1024px){
+    .navbar-default .navbar-brand > img{
+       margin-left: 48px; 
+    }
+}
 @media only screen and (width: 768px) and (height: 1024px) {
     .primeiro-menu
     .dropdown-menu-right
