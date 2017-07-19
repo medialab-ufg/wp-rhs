@@ -71,7 +71,6 @@ Agora você esta com todas as bibliotecas e classes necessárias da RHS.
 O repositório vem com arquivos modelos: wp-config-sample.php e htaccess-sample, faça uma cópia para wp-config.php e .htaccess, respectivamente e edite com suas informações.
 
 
-
 ### Instale o WordPress e importe os dados
 
 Visite o WordPress pelo navegador e siga o passo a passo.
