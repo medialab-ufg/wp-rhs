@@ -36,7 +36,7 @@
         <div class="collapse navbar-collapse bs-example-navbar-collapse primeiro-menu">
             <div class="container">
                 <?php
-                global $RHSUser;
+                global $RHSUsers;
                 if(my_wp_is_mobile()){
                     get_search_form();
                 }
@@ -109,8 +109,8 @@
                         <li class="menu-item">
                         <?php endif; ?>
                                 <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <?php echo $RHSUser->get_user_data('display_name'); ?>
-                                    <?php echo get_avatar($RHSUser->getUserId()); ?>
+                                    <?php echo $RHSUsers->get_user_data('display_name'); ?>
+                                    <?php echo get_avatar($RHSUsers->getUserId()); ?>
                                     <?php if(!my_wp_is_mobile()): ?>
                                         <i class="icon-textDown fa fa-angle-down"></i>
                                     <?php endif; ?>
@@ -135,7 +135,7 @@
                             </li>
                         <?php endif; ?>
                             <li class="menu-item perf">
-                                <a href="<?php echo get_author_posts_url($RHSUser->getUserId()); ?>">
+                                <a href="<?php echo get_author_posts_url($RHSUsers->getUserId()); ?>">
                                     <i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil
                                 </a>
                             </li>

@@ -1,7 +1,7 @@
 <div class="panel panel-default padding-bottom">
 	<div class="panel-heading" style="padding: 21px;">
 		<div class="row post-titulo">
-		<?php $userOBJ = new RHSUser(get_the_author_meta( 'ID' )); ?>
+		<?php $userOBJ = new RHSUsers(get_the_author_meta( 'ID' )); ?>
             <?php global $RHSNetwork; ?>
 			<div class="col-xs-9 col-sm-11 col-md-10">
 				<?php the_title( '<h1>', '</h1>' ); ?>

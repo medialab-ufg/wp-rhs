@@ -1,127 +1,62 @@
-<?php 
-/**
-* Template name: Comunidade Membros
-*/
-?>
-<?php get_header(); ?>
-<?php
-    $array = array(
-        'João' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Maria' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Beatriz' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Camila' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Laura' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Ana' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Carolina' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Yasmin' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Guilherme' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Vinícius' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Henrique' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Leonardo' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Vitor' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Gustavo' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Enzo' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Rodrigo' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Eduardo' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Diego' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Rafael' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Maria' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Amanda' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Júlia' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Larissa' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Letícia' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-        'Luana' => 'http://2.gravatar.com/avatar/b7a0216719034222834c37c60e03daf7?s=96&d=mm&r=g',
-    );
-
-?>
-    <div class="row comunidade">
-        <div class="col-xs-12">
-            <div class="tab-content">
-                <div class="tab-pane fade in active" id="verDados">
-                    <div class="jumbotron perfil">
-                        <h3 class="perfil-title"> Membros: Raio de Sol (452)</h3>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body painel-members">
-                                        <h4>Administrador</h4>
-                                        <ul class="list-members">
-                                            <?php foreach ($array as $name => $img){ ?>
-                                            <li>
-                                                <div class="member"
-                                                     data-toggle="popover"
-                                                     title="<b><?php echo $name ?></b>"
-                                                     data-placement="top"
-                                                     data-content="<b>Nome completo:</b> João Frascisco<br />
-                                                     <b>Cidade / Estado:</b> Goiânia(GO)<br />
-                                                     <b>Idade:</b> 22 anos<br />
-                                                     <b>Data de cadastro:</b> 22/07/2017 ás 18:40<br />
-                                                     <b>Quantidade de Posts:</b> 42<br />
-                                                     <b>Quantidade de Votos:</b> 152<br />"
-                                                     >
-                                                    <div class="img-member">
-                                                        <img src="<?php echo $img ?>" />
-                                                    </div>
-                                                    <div class="name-member"><?php echo $name ?></div>
-                                                </div>
-                                            </li>
-                                            <?php break; } ?>
-                                        </ul>
-                                        <h4>Moderadores</h4>
-                                        <ul class="list-members">
-                                            <?php foreach ($array as $name => $img){ ?>
-                                                <li>
-                                                    <div class="member"
-                                                         data-toggle="popover"
-                                                         title="<b><?php echo $name ?></b>"
-                                                         data-placement="top"
-                                                         data-content="<b>Nome completo:</b> João Frascisco<br />
-                                                     <b>Cidade / Estado:</b> Goiânia(GO)<br />
-                                                     <b>Idade:</b> 22 anos<br />
-                                                     <b>Data de cadastro:</b> 22/07/2017 ás 18:40<br />
-                                                     <b>Quantidade de Posts:</b> 42<br />
-                                                     <b>Quantidade de Votos:</b> 152<br />"
-                                                    >
-                                                        <div class="img-member">
-                                                            <img src="<?php echo $img ?>" />
-                                                        </div>
-                                                        <div class="name-member"><?php echo $name ?></div>
-                                                    </div>
-                                                </li>
-                                            <?php } ?>
-                                        </ul>
-                                        <h4>Membros</h4>
-                                        <ul class="list-members">
-                                            <?php foreach ($array as $name => $img){ ?>
-                                                <li>
-                                                    <div class="member"
-                                                         data-toggle="popover"
-                                                         title="<b><?php echo $name ?></b>"
-                                                         data-placement="top"
-                                                         data-content="<b>Nome completo:</b> João Frascisco<br />
-                                                     <b>Cidade / Estado:</b> Goiânia(GO)<br />
-                                                     <b>Idade:</b> 22 anos<br />
-                                                     <b>Data de cadastro:</b> 22/07/2017 ás 18:40<br />
-                                                     <b>Quantidade de Posts:</b> 42<br />
-                                                     <b>Quantidade de Votos:</b> 152<br />
-                                                     <a class='btn btn-success' href=''>Promover</a>
-                                                     <a class='btn btn-danger' href=''>Banir</a>"
-                                                    >
-                                                        <div class="img-member">
-                                                            <img src="<?php echo $img ?>" />
-                                                        </div>
-                                                        <div class="name-member"><?php echo $name ?></div>
-                                                    </div>
-                                                </li>
-                                            <?php } ?>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<?php $members = $comunity->get_members_saparete_by_capability(); ?>
+<div class="row contato">
+    <div class="wrapper-content">
+        <?php if($members){ ?>
+        <?php foreach ( $members as $type_member => $members_sub ) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3><?php echo ( $type_member == 'modarates' ) ? 'Moderadores' : 'Membros'; ?></h3>
                 </div>
             </div>
-        </div>
+            <div class="row">
+                <?php foreach ( $members_sub as $member ) { ?>
+                    <div class="col-md-4 col-xs-12 well-disp" data-userid="<?php echo $member->get_id(); ?>"
+                         data-id="<?php echo $comunity->get_id(); ?>">
+                        <div class="well profile_view">
+                            <a href="<?php echo $member->get_link(); ?>" class="membros">
+                                <div class="left">
+                                    <img src="<?php echo $member->get_avatar(); ?>" alt=""
+                                         class="img-circle img-responsive">
+                                </div>
+                                <div class="right">
+                                    <h2><?php echo $member->get_name() ?></h2>
+                                    <div class="info">
+                                        <p><strong>Membro
+                                                desde: </strong> <?php echo $member->get_date_registered( 'Y' ) ?> </p>
+                                        <?php if ( $member->get_city() && $member->get_state_uf() ) { ?>
+                                            <p><strong>Localidade: </strong> <?php echo $member->get_city(); ?>
+                                                <?php if ( $member->get_state_uf() ) { ?>
+                                                    / <?php echo $member->get_state_uf(); ?>
+                                                <?php } ?> </p>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </a>
+                            <?php if ( $comunity->is_admin() ) { ?>
+                                <div class="bottom-mask col-xs-12"></div>
+                                <div class="bottom col-xs-12">
+                                    <?php $comun = $member->get_comunity( $comunity->get_id() ) ?>
+                                    <a data-type="leave" <?php echo !$comun->can_leave() ? 'style="display: none;"' : ''; ?> href="javascript:;" class="btn btn-danger btn-xs">
+                                        <i class="fa fa-remove"></i> Remover da cominidade
+                                    </a>
+                                    <a data-type="moderate" <?php echo !$comun->can_modarate() ? 'style="display: none;"' : ''; ?> href="javascript:;" class="btn btn-primary btn-xs">
+                                        <i class="fa fa-arrow-up"></i> Tornar Moderador
+                                    </a>
+                                    <a data-type="not_moderate" <?php echo !$comun->can_not_modarate() ? 'style="display: none;"' : ''; ?> href="javascript:;" class="btn btn-primary btn-xs">
+                                        <i class="fa fa-arrow-down"></i> Retirar Moderador
+                                    </a>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+        <?php }
+        } else { ?>
+            <div class="row">
+                <h3 class="text-center">Nenhum moderador</h3>
+            </div>
+        <?php } ?>
     </div>
-<?php get_footer();
+</div>

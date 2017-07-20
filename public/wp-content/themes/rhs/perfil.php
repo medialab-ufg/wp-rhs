@@ -1,5 +1,5 @@
 <?php get_header('full'); ?>
-<?php global $RHSUser; ?>
+<?php global $RHSUsers; ?>
 <?php global $RHSPerfil; ?>
     <div class="row">
         <!-- Container -->
@@ -26,8 +26,8 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="mail">Endereço de email</label>
-                                                <input value="<?php echo $RHSUser->get_user_data('user_login') ?>" disabled class="form-control" type="text" id="mail" name="mail" size="60" maxlength="254">
-                                                <input value="<?php echo $RHSUser->getKey(); ?>" name="edit_user_wp" type="hidden" />
+                                                <input value="<?php echo $RHSUsers->get_user_data('user_login') ?>" disabled class="form-control" type="text" id="mail" name="mail" size="60" maxlength="254">
+                                                <input value="<?php echo $RHSUsers->getKey(); ?>" name="edit_user_wp" type="hidden" />
                                                 <p class="help-block">Um email válido. Todos os emails do sistema são
                                                     enviados para este endereço. O email não é visível para o público e
                                                     será usado apenas se você precisar recuperar a sua senha ou desejar
@@ -59,9 +59,9 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="form-image <?php echo !get_avatar($RHSUser->getUserId()) ? 'hide' : ''; ?>">
-                                                <?php echo get_avatar($RHSUser->getUserId()); ?>
-                                                <input type="hidden" name="avatar" size="60" value="<?php echo $RHSUser->getAvatar(); ?>">
+                                            <div class="form-image <?php echo !get_avatar($RHSUsers->getUserId()) ? 'hide' : ''; ?>">
+                                                <?php echo get_avatar($RHSUsers->getUserId()); ?>
+                                                <input type="hidden" name="avatar" size="60" value="<?php echo $RHSUsers->getAvatar(); ?>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="edit-avatar">Enviar Foto</label>
@@ -72,19 +72,19 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="first_name">Primeiro nome</label>
-                                                <input value="<?php echo $RHSUser->get_user_data('first_name'); ?>" class="form-control" type="text" id="first_name" name="first_name" size="60" maxlength="254">
+                                                <input value="<?php echo $RHSUsers->get_user_data('first_name'); ?>" class="form-control" type="text" id="first_name" name="first_name" size="60" maxlength="254">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="last_name">Segundo nome</label>
-                                                <input class="form-control" value="<?php echo $RHSUser->get_user_data('last_name'); ?>" type="text" id="last_name" name="last_name" size="60" maxlength="254">
+                                                <input class="form-control" value="<?php echo $RHSUsers->get_user_data('last_name'); ?>" type="text" id="last_name" name="last_name" size="60" maxlength="254">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label for="edit-sobre">Sobre mim</label>
-                                                <textarea class="form-control form-textarea" id="description" name="description" rows="4"><?php echo $RHSUser->get_user_data('description'); ?></textarea>
+                                                <textarea class="form-control form-textarea" id="description" name="description" rows="4"><?php echo $RHSUsers->get_user_data('description'); ?></textarea>
                                             </div>
                                         </div>
                                         <?php
@@ -106,13 +106,13 @@
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label class="control-label" for="edit-formacao">Formação</label>
-                                                <input class="form-control form-width" value="<?php echo $RHSUser->get_user_data('rhs_formation'); ?>" type="text" id="formation" name="formation" size="30" maxlength="254" data-role="tagsinput">
+                                                <input class="form-control form-width" value="<?php echo $RHSUsers->get_user_data('rhs_formation'); ?>" type="text" id="formation" name="formation" size="30" maxlength="254" data-role="tagsinput">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label for="edit-interesses">Interesses</label>
-                                                <textarea class="form-control form-textarea" id="interest" name="interest" rows="4"><?php echo $RHSUser->get_user_data('rhs_interest'); ?></textarea>
+                                                <textarea class="form-control form-textarea" id="interest" name="interest" rows="4"><?php echo $RHSUsers->get_user_data('rhs_interest'); ?></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -123,7 +123,7 @@
                                     <h4 class="perfil-title">Links</h4>
                                 </div>
                                 <div class="panel-body">
-                                    <?php foreach ( $RHSUser->getLinks( true ) as $key => $link ) { ?>
+                                    <?php foreach ( $RHSUsers->getLinks( true ) as $key => $link ) { ?>
                                     <div class="row links">
                                         <div class="col-sm-6">
                                             <div class="form-group">

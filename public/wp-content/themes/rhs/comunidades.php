@@ -9,150 +9,109 @@
         <div class="col-xs-12">
             <h1 class="titulo-page">Comunidades</h1>
             <div class="wrapper wrapper-content animated fadeInRight">
-
-                <?php if($RHSComunities->can_see_comunities()){ ?>
-                <div class="ibox-content forum-container">
-                    <form class="form-inline">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="select-sort_order">Ordernar por:</label>
-                                    <select class="form-control" name="sort_order" id="select-sort_order">
-                                        <option value="">-- Selecione --</option>
-                                        <?php foreach (
-                                            $RHSComunities->filter_value( 'sort_order', 'search' ) as $value => $name
-                                        ) { ?>
-                                            <option <?php echo ( $name['selected'] ) ? 'selected' : ''; ?>
-                                                    value="<?php echo $value ?>"><?php echo $name['nome'] ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <script>
-                                    jQuery(function ($) {
-
-                                        $('#select-sort_order').on('change', function () {
-                                            var url = $(this).val();
-                                            if (url) {
-                                                window.location = url;
-                                            }
-                                            return false;
-                                        });
-                                    });
-                                </script>
-                            </div>
-                            <div class="col-md-offset-5 col-md-3">
-                                <div class="pull-right">
-                                    <div class="input-group">
-                                        <input type="text"
-                                               value="<?php echo ! empty( $_REQUEST['search'] ) ? $_REQUEST['search'] : ''; ?>"
-                                               class="form-control" name="search" placeholder="Procurar...">
-                                        <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="forum-item">
-                        <div class="row">
-                            <?php if ($RHSComunities->get_comunities_by_user( get_current_user_id() ) ) { ?>
-                                <?php foreach ( $RHSComunities->get_comunities_by_user(  get_current_user_id() ) as $comunidade ) { ?>
-                                    <div class="col-md-12">
-                                        <a href="<?php echo $comunidade->get_url(); ?>"
-                                           class="forum-item-link"  >
-                                            <div class="forum-item-title">
-                                                <div class="forum-item-image">
-                                                    <img src="<?php echo $comunidade->get_image(); ?>"/>
-                                                </div>
-                                                <span>
+                <?php if ( $RHSComunities->can_see_comunities() ) { ?>
+                    <div class="ibox-content forum-container">
+                        <div class="forum-item">
+                            <?php if ( $RHSComunities->get_comunities_by_user( get_current_user_id() ) ) { ?>
+                                <?php foreach ( $RHSComunities->get_comunities_by_user( get_current_user_id() ) as $comunidade ) { ?>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <a href="<?php echo $comunidade->get_url(); ?>"
+                                               class="forum-item-link">
+                                                <div class="forum-item-title">
+                                                    <div class="forum-item-image">
+                                                        <img src="<?php echo $comunidade->get_image(); ?>"/>
+                                                    </div>
+                                                    <span>
                                                     <?php echo $comunidade->get_name() ?>
-                                                    <?php if($comunidade->is_lock()){ ?>
-                                                        <i title="Esse grupo é privado" class="fa fa-lock"></i>
-                                                    <?php } ?>
-                                                    <?php if($comunidade->is_member()){ ?>
-                                                    <i title="Você faz parte desta comunidade" class="fa fa-check"></i>
-                                                    <?php } ?>
+                                                        <?php if ( $comunidade->is_lock() ) { ?>
+                                                            <i title="Esse grupo é privado" class="fa fa-lock"></i>
+                                                        <?php } ?>
+                                                        <?php if ( $comunidade->is_member() ) { ?>
+                                                            <i title="Você faz parte desta comunidade"
+                                                               class="fa fa-check"></i>
+                                                        <?php } ?>
                                                 </span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <div class="forum-info">
+                                                <ul>
+                                                    <li>
+                                                        <span class="views-number"><?php echo $comunidade->get_members_number(); ?></span>
+                                                        <small>Membros</small>
+                                                    </li>
+                                                    <li>
+                                                        <span class="views-number"><?php echo $comunidade->get_posts_number(); ?></span>
+                                                        <small>Posts</small>
+                                                    </li>
+                                                </ul>
                                             </div>
-                                        </a>
-                                        <div class="forum-info" data-id="<?php echo $comunidade->get_id(); ?>">
-                                            <ul>
-                                                <li>
-                                                    <span class="views-number"><?php echo $comunidade->get_members_number(); ?></span>
-                                                    <small>Membros</small>
-                                                </li>
-                                                <li>
-                                                    <span class="views-number"><?php echo $comunidade->get_posts_number(); ?></span>
-                                                    <small>Posts</small>
-                                                </li>
-                                                <li>
-                                                    <a class="<?php echo (!$comunidade->can_edit()) ? 'hide' : '';?>" title="Editar a comunidade" id="comunity-edit"
-                                                       href="<?php echo $comunidade->get_url_edit(); ?>">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
-                                                    <a class="<?php echo (!$comunidade->can_see_members()) ? 'hide' : '';?>" title="Ver membros" id="comunity-see-members"
-                                                       href="<?php echo $comunidade->get_url_members(); ?>">
-                                                        <i class="fa fa-users"></i>
-                                                    </a>
-                                                    <a class="<?php echo (!$comunidade->can_follow()) ? 'hide' : '';?>" title="Seguir a comunidade" id="comunity-follow"
-                                                       href="<?php echo $comunidade->get_url_follow(); ?>">
-                                                        <i class="fa fa-rss"></i>
-                                                    </a>
-                                                    <a class="<?php echo (!$comunidade->can_not_follow()) ? 'hide' : '';?>" title="Deixar de seguir a comunidade" id="comunity-not-follow"
-                                                       href="<?php echo $comunidade->get_url_not_follow(); ?>">
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <div class="forum-info" data-id="<?php echo $comunidade->get_id(); ?>"
+                                                 data-userid="<?php echo get_current_user_id(); ?>">
+                                                <ul>
+                                                    <li>
+                                                        <a data-type="members" <?php echo ! $comunidade->can_see_members() ? 'style="display: none;"' : ''; ?>
+                                                           title="Ver membros"
+                                                           href="<?php echo $comunidade->get_url_members(); ?>">
+                                                            <i class="fa fa-users"></i>
+                                                        </a>
+                                                        <a data-type="follow" <?php echo ! $comunidade->can_follow() ? 'style="display: none;"' : ''; ?>
+                                                           title="Seguir a comunidade" href="javascript:;">
+                                                            <i class="fa fa-rss"></i>
+                                                        </a>
+                                                        <a data-type="not_follow" <?php echo ! $comunidade->can_not_follow() ? 'style="display: none;"' : ''; ?>
+                                                           title="Deixar de seguir a comunidade" href="javascript:;">
                                                         <span class="fa-stack fa-lg">
                                                           <i class="fa fa-rss fa-stack-1x"></i>
                                                           <i class="fa fa-remove fa-stack-2x text-danger"></i>
                                                         </span>
-                                                    </a>
-                                                    <a class="<?php echo (!$comunidade->can_enter()) ? 'hide' : '';?>" title="Participar da comunidade" id="comunity-enter"
-                                                       href="<?php echo $comunidade->get_url_enter(); ?>">
-                                                        <i class="fa fa-sign-in"></i>
-                                                    </a>
-                                                    <a class="<?php echo (!$comunidade->can_leave()) ? 'hide' : '';?>" title="Sair da comunidade"
-                                                       href="<?php echo $comunidade->get_url_leave(); ?>" id="comunity-leave">
-                                                        <i class="fa fa-remove"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                                        </a>
+                                                        <a data-type="enter" <?php echo ! $comunidade->can_enter() ? 'style="display: none;"' : ''; ?>
+                                                           title="Participar da comunidade" href="javascript:;">
+                                                            <i class="fa fa-sign-in"></i>
+                                                        </a>
+                                                        <a data-type="leave" <?php echo ! $comunidade->can_leave() ? 'style="display: none;"' : ''; ?>
+                                                           title="Sair da comunidade" href="javascript:;">
+                                                            <i class="fa fa-remove"></i>
+                                                        </a>
+                                                        <a data-type="request" <?php echo ! $comunidade->can_request() ? 'style="display: none;"' : ''; ?>
+                                                           title="Pedir para fazer parte da comunidade"
+                                                           href="javascript:;">
+                                                            <i class="fa fa-external-link"></i>
+                                                        </a>
+                                                        <a data-type="wait_request" <?php echo ! $comunidade->can_wait_request() ? 'style="display: none;"' : ''; ?>
+                                                           title="Seu pedido foi enviado, aguarde"
+                                                           href="javascript:void(0);">
+                                                            <i class="fa fa-send"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 <?php } ?>
                             <?php } else { ?>
-                                <h4 class="text-center">Nenhuma comunidade encontrada</h4>
+                                <div class="row">
+                                    <h4 class="text-center">Nenhuma comunidade encontrada</h4>
+                                </div>
                             <?php } ?>
                         </div>
+                        <div class="clearfix"></div>
                     </div>
-                    <div class="pull-right hide">
-                        <nav>
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
                 <?php } else { ?>
-                <div class="ibox-content forum-container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4 class="text-center">Você não tem permissão de ver essa área</h4>
+                    <div class="ibox-content forum-container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="min-height">
+                                    <h4 class="text-center">Faça um login para poder ver essa área.</h4>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
                 <?php } ?>
             </div>
         </div>

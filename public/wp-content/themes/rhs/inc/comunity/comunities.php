@@ -10,6 +10,8 @@ class RHSComunities extends RHSMenssage {
     const TYPE_HIDE = 'hide';
     const MEMBER = 'rhs-comunity-member';
     const MEMBER_FOLLOW = 'rhs-comunity-member-follow';
+    const MEMBER_REQUEST = 'rhs-comunity-member-request';
+    const CAPABILITY_MODERATOR = 'rhs-comunity-moderator';
 
     /**
      * @var RHSComunity[]
@@ -18,6 +20,7 @@ class RHSComunities extends RHSMenssage {
 
     public function __construct() {
         $this->events_wordpress();
+        $this->trigger_by_post();
     }
 
     /**
@@ -32,30 +35,17 @@ class RHSComunities extends RHSMenssage {
         add_action( 'create_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
         add_action( 'admin_footer', array ( $this, 'add_script' ) );
 
-        add_action('wp_ajax_enter_comunity', array($this, 'ajax_enter_comunity'));
-        add_action('wp_ajax_leave_comunity', array($this, 'ajax_leave_comunity'));
-        add_action('wp_ajax_follow_comunity', array($this, 'ajax_follow_comunity'));
-        add_action('wp_ajax_not_follow_comunity', array($this, 'ajax_not_follow_comunity'));
+        add_action('wp_ajax_comunity_action', array($this, 'ajax_comunity_action'));
 
         add_action('add_meta_boxes', array( &$this, "add_meta_box"));
         add_filter( 'wp_insert_post_data' , array( &$this,'filter_post_data') , '99', 2 );
-        //add_filter('rewrite_rules_array', array( &$this,'my_car_rewrite_rules'));
+
     }
-
-    /*function my_car_rewrite_rules( $rules ) {
-        $newrules = array();
-
-        // add a rule for this kind of url:
-        // http://myhost.com/cars/ferrari/used/123
-        // => http://myhost.com/index.php?post_type=cars&ferrari=used&p=123
-
-        $newrules['^comunidade/([^/]+)/([^/]+)/([^/]+)$'] = 'index.php?taxonomy='.self::TAXONOMY.'&$matches[1]=$matches[2]&param=$matches[3]';
-        return $newrules + $rules;
-    }*/
 
 
     /**
-     * Pega as comunidades
+     * Retorna as comunidades
+     *
      * @param bool $get_empty - Categorias sem posts
      * @param array $filter - Filtro do WP_Terms
      *
@@ -82,7 +72,7 @@ class RHSComunities extends RHSMenssage {
     ======================================================================================================*/
 
     /**
-     * Registra a taxonomia da "ComunidadeS"
+     * Registra a taxonomia "Comunidades"
      */
     function register_taxonomy()
     {
@@ -111,28 +101,18 @@ class RHSComunities extends RHSMenssage {
                 'parent_item'  => null,
                 'parent_item_colon' => null,
                 'rewrite' => array(
-                    //'slug' => 'comunidade/%comunity%'
+                    'slug' => 'comunidade'
                 )
             )
         );
     }
 
     /**
-     * TODO: Resolver problema ao escolher imagem
-     * (Taxonomy) Adiciona campo "Tipo" e "Imagem" ao inserir
+     * (Taxonomy) Adiciona campo "Tipo" ao inserir
      * @param $term
      */
     function new_category_field( $term ){
         ?>
-        <div class="form-field term-group">
-            <label for="category-image-id"><?php _e('Imagem'); ?></label>
-            <input type="hidden" id="category-image-id" name="category-image-id" class="custom_media_url" value="">
-            <div id="category-image-wrapper"></div>
-            <p>
-                <input type="button" class="button button-secondary ct_tax_media_button" id="ct_tax_media_button" name="ct_tax_media_button" value="<?php _e( 'Adicionar Imagem'  ); ?>" />
-                <input type="button" class="button button-secondary ct_tax_media_remove" id="ct_tax_media_remove" name="ct_tax_media_remove" value="<?php _e( 'Remover'  ); ?>" />
-            </p>
-        </div>
         <div class="form-field term-parent-wrap">
             <label for="term_meta[<?php echo self::TYPE ?>]">Tipo</label>
             <br />
@@ -155,7 +135,7 @@ class RHSComunities extends RHSMenssage {
     }
 
     /**
-     * (Taxonomy) Adiciona campo "Tipo" e "Imagem" ao editar
+     * (Taxonomy) Adiciona campo "Tipo" ao editar
      * @param $term
      */
     function edit_category_field( $term ){
@@ -196,13 +176,13 @@ class RHSComunities extends RHSMenssage {
     }
 
     /**
-     * (Taxonomy) Salva o campo "Tipo" e "Imagem"
+     * (Taxonomy) Salva o campo "Tipo"
      * @param $term_id
      * @param $taxonomy
      */
     function save_tax_meta( $term_id , $taxonomy ){
 
-        if(isset( $_POST['term_meta'][self::TYP])){
+        if(isset( $_POST['term_meta'][self::TYPE])){
             $term_meta = array();
 
             if ( ! add_term_meta($term_id, self::TYPE, $_POST['term_meta'][self::TYPE], true) ) {
@@ -211,54 +191,6 @@ class RHSComunities extends RHSMenssage {
             }
         }
     }
-
-    /**
-     * (Taxonomy) Adiciona script para a seleção da imagem
-     */
-    function add_script() { ?>
-        <script>
-            jQuery(document).ready( function($) {
-                function ct_media_upload(button_class) {
-                    var _custom_media = true,
-                        _orig_send_attachment = wp.media.editor.send.attachment;
-                    $('body').on('click', button_class, function(e) {
-                        var button_id = '#'+$(this).attr('id');
-                        var send_attachment_bkp = wp.media.editor.send.attachment;
-                        var button = $(button_id);
-                        _custom_media = true;
-                        wp.media.editor.send.attachment = function(props, attachment){
-                            if ( _custom_media ) {
-                                $('#category-image-id').val(attachment.id);
-                                $('#category-image-wrapper').html('<img class="custom_media_image" src="" style="margin:0;padding:0;max-height:100px;float:none;" />');
-                                $('#category-image-wrapper .custom_media_image').attr('src',attachment.sizes.thumbnail.url).css('display','block');
-                            } else {
-                                return _orig_send_attachment.apply( button_id, [props, attachment] );
-                            }
-                        }
-                        wp.media.editor.open(button);
-                        return false;
-                    });
-                }
-                ct_media_upload('.ct_tax_media_button.button');
-                $('body').on('click','.ct_tax_media_remove',function(){
-                    $('#category-image-id').val('');
-                    $('#category-image-wrapper').html('<img class="custom_media_image" src="" style="margin:0;padding:0;max-height:100px;float:none;" />');
-                });
-                // Thanks: http://stackoverflow.com/questions/15281995/wordpress-create-category-ajax-response
-                $(document).ajaxComplete(function(event, xhr, settings) {
-                    var queryStringArr = settings.data.split('&');
-                    if( $.inArray('action=add-tag', queryStringArr) !== -1 ){
-                        var xml = xhr.responseXML;
-                        $response = $(xml).find('term_id').text();
-                        if($response!=""){
-                            // Clear the thumb image
-                            $('#category-image-wrapper').html('');
-                        }
-                    }
-                });
-            });
-        </script>
-    <?php }
 
     /**
      * (Post) Adiciona MetaBox para a escolha da comunidade
@@ -309,7 +241,7 @@ class RHSComunities extends RHSMenssage {
     }
 
     /**
-     * (Post) Pega a comunidade do post
+     * (Post) Pega a comunidade escolhida
      * @param int $post_id
      *
      * @return array|WP_Error|WP_Term
@@ -325,7 +257,13 @@ class RHSComunities extends RHSMenssage {
 
     }
 
-
+    /**
+     * (Post) Insere a comunidade escolhida
+     * @param $data
+     * @param $postarr
+     *
+     * @return mixed
+     */
     function filter_post_data( $data , $postarr ) {
 
         if(!empty($_POST['post_comunity'])){
@@ -338,6 +276,48 @@ class RHSComunities extends RHSMenssage {
     /*====================================================================================================
                                                 CLIENTE
     ======================================================================================================*/
+
+    /**
+     * Salva imagem pelo post
+     */
+    public function trigger_by_post(){
+        if ( ! empty( $_POST['edit_image_comunity_wp'] ) && $_POST['edit_image_comunity_wp'] == $this->getKey() ) {
+            $this->update_image_post($_POST['comunity_id'], $_FILES['avatar_comunity']);
+        }
+    }
+
+    /**
+     * Salva imagem
+     *
+     * @param $comunity_id
+     * @param $avatar_file
+     */
+    function update_image_post($comunity_id, $avatar_file){
+
+        if ($avatar_file) {
+            $arquivo_tmp = $avatar_file[ 'tmp_name' ];
+            $nome = $avatar_file[ 'name' ];
+
+            $extensao = pathinfo ( $nome, PATHINFO_EXTENSION );
+            $extensao = strtolower ( $extensao );
+
+            $novoNome = uniqid ( time () ) . '.' . $extensao;
+            $caminho = '/uploads/'. date('Y').'/'.date('m').'/';
+
+            if(!file_exists(WP_CONTENT_DIR . $caminho)){
+                mkdir( WP_CONTENT_DIR . $caminho, 0777, true);
+            }
+
+            if ( @move_uploaded_file ( $arquivo_tmp, WP_CONTENT_DIR . $caminho . $novoNome ) ) {
+
+                self::update_image($comunity_id,'wp-content'.$caminho.$novoNome);
+            } else {
+                $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Erro ao salvar o arquivo.', false, 'error');
+
+            }
+        }
+
+    }
 
     /**
      * Pega comunidades baseado na pemissão do cliente
@@ -354,37 +334,7 @@ class RHSComunities extends RHSMenssage {
             }
         }
 
-        $filter = array();
-
-        if(!empty($_REQUEST['search'])){
-            // TODO: Filtrar por palavra
-        }
-
-        if(!empty($_REQUEST['sort_order'])){
-
-            switch ($_REQUEST['sort_order']){
-                case 'alpha':
-                    $filter['orderby'] = 'name';
-                    $filter['order'] = 'ASC';
-                    break;
-                case 'bigger_member':
-                    // TODO: Filtrar por maior quantidade de membros
-                    break;
-                case 'bigger_posts':
-                    $filter['orderby'] = 'count';
-                    $filter['order'] = 'DESC';
-                    break;
-                case 'smaller_member':
-                    // TODO: Filtrar por menor quantidade de membros
-                    break;
-                case 'smaller_posts':
-                    $filter['orderby'] = 'count';
-                    $filter['order'] = 'ASC';
-                    break;
-            }
-        }
-
-        $comunities = $this->get_comunities(false, $filter);
+        $comunities = $this->get_comunities(true);
 
         $return = array();
 
@@ -392,7 +342,7 @@ class RHSComunities extends RHSMenssage {
 
             $obj_comunity = $this->get_comunity_by_user($comunity, $user_id);
 
-            if($obj_comunity){
+            if($obj_comunity->get_id()){
                 $return[] = $obj_comunity;
             }
         }
@@ -407,8 +357,9 @@ class RHSComunities extends RHSMenssage {
      * @param $term_id
      * @param $user_id
      */
-    function add_user_comunity($term_id, $user_id){
+    static function add_user_comunity($term_id, $user_id){
         add_term_meta($term_id, self::MEMBER, $user_id);
+        self::delete_user_comunity_request($term_id, $user_id);
     }
     /**
      * Remove membro da comunidade
@@ -416,8 +367,10 @@ class RHSComunities extends RHSMenssage {
      * @param $term_id
      * @param $user_id
      */
-    function delete_user_comunity($term_id, $user_id){
+    static function delete_user_comunity($term_id, $user_id){
         delete_term_meta($term_id, self::MEMBER, $user_id);
+        self::delete_user_comunity_modarate($term_id, $user_id);
+        self::delete_user_comunity_follow($term_id, $user_id);
     }
 
     /**
@@ -426,7 +379,7 @@ class RHSComunities extends RHSMenssage {
      * @param $term_id
      * @param $user_id
      */
-    function add_user_comunity_follow($term_id, $user_id){
+    static function add_user_comunity_follow($term_id, $user_id){
         add_term_meta($term_id, self::MEMBER_FOLLOW, $user_id);
     }
 
@@ -436,34 +389,119 @@ class RHSComunities extends RHSMenssage {
      * @param $term_id
      * @param $user_id
      */
-    function delete_user_comunity_follow($term_id, $user_id){
+    static function delete_user_comunity_follow($term_id, $user_id){
         delete_term_meta($term_id, self::MEMBER_FOLLOW, $user_id);
     }
 
     /**
-     * Retorna o HTML dos options do filtro de ordenação
-     * @param $name - Nome do select
-     * @param $name_serach - Nome do campo de busca
+     * Adiciona o pedido do membro para entrar na comunidade
      *
-     * @return array
+     * @param $term_id
+     * @param $user_id
      */
-     function filter_value($name, $name_serach){
-
-
-        $search = !empty($_REQUEST[$name_serach]) ? $_REQUEST[$name_serach] : '';
-        $url = home_url('comunidades');
-
-        return array(
-            $url.'?'.$name.'=alpha&'.$name_serach.'='.$search => array('nome' => 'Ordem Alfabetica', 'selected' => (!empty($_REQUEST[$name]) && $_REQUEST[$name] == 'alpha') ? 1 : 0),
-            $url.'?'.$name.'=bigger_member&'.$name_serach.'='.$search => array('nome' => 'Maior quantidade de membros', 'selected' => (!empty($_REQUEST[$name]) && $_REQUEST[$name] == 'bigger_member') ? 1 : 0),
-            $url.'?'.$name.'=bigger_posts&'.$name_serach.'='.$search => array('nome' => 'Maior quantidade de posts', 'selected' => (!empty($_REQUEST[$name]) && $_REQUEST[$name] == 'bigger_posts') ? 1 : 0),
-            $url.'?'.$name.'=smaller_member&'.$name_serach.'='.$search => array('nome' => 'Menor quantidade de membros', 'selected' => (!empty($_REQUEST[$name]) && $_REQUEST[$name] == 'smaller_member') ? 1 : 0),
-            $url.'?'.$name.'=smaller_posts&'.$name_serach.'='.$search => array('nome' => 'Menor quantidade de posts', 'selected' => (!empty($_REQUEST[$name]) && $_REQUEST[$name] == 'smaller_posts') ? 1 : 0),
-        );
-
+    static function add_user_comunity_request($term_id, $user_id){
+        add_term_meta($term_id, self::MEMBER_REQUEST, $user_id);
     }
 
     /**
+     * Deleta o pedido do membro para entrar na comunidade
+     *
+     * @param $term_id
+     * @param $user_id
+     */
+    static function delete_user_comunity_request($term_id, $user_id){
+        delete_term_meta($term_id, self::MEMBER_REQUEST, $user_id);
+    }
+
+    /**
+     * Atribui o usuário como moderador da comunidade
+     *
+     * @param $term_id
+     * @param $user_id
+     */
+    static function add_user_comunity_modarate($term_id, $user_id){
+        $user = get_userdata($user_id);
+        $user->add_cap(RHSComunities::CAPABILITY_MODERATOR.'_'.$term_id);
+    }
+
+    /**
+     * Remove o usuário como moderador da comunidade
+     *
+     * @param $term_id
+     * @param $user_id
+     */
+    static function delete_user_comunity_modarate($term_id, $user_id){
+        $user = get_userdata($user_id);
+        $user->remove_cap(RHSComunities::CAPABILITY_MODERATOR.'_'.$term_id);
+    }
+
+    /**
+     * Adiciona ou atualiza avatar da comunidade
+     *
+     * @param $term_id
+     * @param $image_path
+     */
+    static function update_image($term_id, $image_path) {
+        if(!add_term_meta($term_id, self::IMAGE, $image_path, true)){
+            update_term_meta($term_id, self::IMAGE, $image_path);
+        };
+    }
+
+    /**
+     * Retorna avatar da comunidade
+     *
+     * @param $term_id
+     */
+    static function get_image($term_id){
+
+        $meta = get_term_meta($term_id, self::IMAGE, true);
+
+        if(!$meta){
+            return 'http://2.gravatar.com/avatar/53d8710f31508b6b3a8e014835f380e0?s=96&d=mm&r=g';
+        }
+
+        return home_url($meta);
+    }
+
+    /**
+     * Retorna os membros da comunidade
+     *
+     * @param $term_id
+     */
+    static function get_members($term_id){
+        return get_term_meta($term_id, self::MEMBER);
+    }
+
+
+    /**
+     * Retorna os seguidores da comunidade
+     *
+     * @param $term_id
+     */
+    static function get_follows($term_id){
+        return get_term_meta($term_id, self::MEMBER_FOLLOW);
+    }
+
+    /**
+     * Retorna os seguidores da comunidade
+     *
+     * @param $term_id
+     */
+    static function get_requests($term_id){
+        return get_term_meta($term_id, self::MEMBER_REQUEST);
+    }
+
+    /**
+     * Retorna o tipo da comunidade
+     *
+     * @param $term_id
+     */
+    static function get_type($term_id){
+        return get_term_meta($term_id, self::TYPE, true);
+    }
+
+    /**
+     * Retorna entidade da comunidade por objeto da sessão
      * @return array|RHSComunity
      */
     function get_comunity_by_request(){
@@ -476,10 +514,25 @@ class RHSComunities extends RHSMenssage {
             return array();
         }
 
-        return $this->get_comunity_by_user(get_term(get_queried_object()->term_id, self::TAXONOMY), get_current_user_id());
+        return $this->get_comunity_by_param_id(get_queried_object()->term_id, get_current_user_id());
+    }
+
+
+    /**
+     * Retorna entidade da comunidade por parâmentros
+     *
+     * @param $term_id
+     * @param $user_id
+     *
+     * @return RHSComunity
+     */
+    function get_comunity_by_param_id($term_id, $user_id){
+        return $this->get_comunity_by_user(get_term($term_id, self::TAXONOMY), $user_id);
     }
 
     /**
+     * Retorna entidade da comunidade por id do usuário
+     *
      * @param WP_Term $comunity
      * @param int $user_id
      *
@@ -504,66 +557,142 @@ class RHSComunities extends RHSMenssage {
 
     }
 
-    /*====================================================================================================
-                                                AJAX
-    ======================================================================================================*/
+    /**
+     * (Ajax) de interação
+     */
+    function ajax_comunity_action(){
 
-    function ajax_enter_comunity(){
+        if(!empty($_POST['type'])){
 
-        $comunity = $this->get_comunity_by_request();
+            $user_id = !empty($_POST['user_id']) ? $_POST['user_id'] : get_current_user_id();
+            $term_id = !empty($_POST['term_id']) ? $_POST['term_id'] : get_queried_object()->term_id;
 
-        if($comunity && $comunity->can_enter()){
-            $this->add_user_comunity($_POST['comunidade_id'], get_current_user_id());
+            $comunity = $this->get_comunity_by_param_id($term_id, $user_id);
 
-            echo json_encode(true);
-            exit;
+            $this->clear_messages();
+            $data = array();
+
+            $name_user = !empty($_POST['user_out']) ? get_userdata($user_id)->display_name : 'Você' ;
+
+            switch ($_POST['type']){
+                case 'enter':
+                    if($comunity->can_enter()){
+                        self::add_user_comunity($term_id, $user_id);
+                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' entrou na <strong>'.$comunity->get_name().'</strong>', false, 'success');
+                    } else {
+                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para entrar na <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                    }
+
+                    $data['refresh'] = true;
+
+                    break;
+                case 'leave':
+
+                    if($comunity->can_leave()){
+                        self::delete_user_comunity($term_id, $user_id);
+                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' saiu da <strong>'.$comunity->get_name().'</strong>', false, 'success');
+                    } else {
+                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para sair da <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                    }
+
+                    $data['refresh'] = true;
+
+                    break;
+                case 'follow':
+
+                    if($comunity->can_follow()){
+
+                        self::add_user_comunity_follow($term_id, $user_id);
+                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' começou seguiu a <strong>'.$comunity->get_name().'</strong>', false, 'success');
+                    } else {
+                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para seguir a <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                    }
+
+                    break;
+                case 'not_follow':
+
+                    if($comunity->can_not_follow()){
+                        self::delete_user_comunity_follow($term_id, $user_id);
+                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' deixou de seguir a <strong>'.$comunity->get_name().'</strong>', false, 'success');
+                    } else {
+                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para deixar de seguir a <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                    }
+
+                    break;
+
+                case 'request':
+
+                    if($comunity->can_request()){
+                        self::add_user_comunity_request($term_id, $user_id);
+                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' requisitou a entrada na <strong>'.$comunity->get_name().'</strong>', false, 'success');
+                    } else {
+                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para requisitar a entrada na <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                    }
+
+                    $data['refresh'] = true;
+
+                    break;
+                case 'moderate':
+
+                    if($comunity->can_modarate()){
+                        self::add_user_comunity_modarate($term_id, $user_id);
+                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' é o novo moderadorda <strong>'.$comunity->get_name().'</strong>', false, 'success');
+                    } else {
+                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para requisitar a moderação na <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                    }
+
+                    break;
+                case 'not_moderate':
+
+                    if($comunity->can_not_modarate()){
+                        self::delete_user_comunity_modarate($term_id, $user_id);
+                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' é o novo moderador da <strong>'.$comunity->get_name().'</strong>', false, 'success');
+                    } else {
+                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para requisitar a moderação na <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                    }
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            $permissions = array(
+                'enter' => false,
+                'leave' => false,
+                'follow' => false,
+                'not_follow' => false,
+                'request' => false,
+                'wait_request' => false,
+                'moderate' => false,
+                'not_moderategitr ' => false
+            );
+
+            $comunity = $this->get_comunity_by_param_id($term_id, $user_id);
+
+            foreach ($permissions as $permission => $value){
+                $data['permissions'][$permission] = $comunity->{'can_'.$permission}();
+            }
+
+            foreach ($this->messages() as $type => $messages){
+
+                $html = '<div class="alert alert-'.($type == "error" ? "danger" : "success").'">';
+
+                foreach ($messages as $message){
+                    $html .= '<p>'.$message.'</p>';
+                }
+
+                $html .= '</div>';
+
+                $data['messages'][] = $html;
+            }
+
+            $this->clear_messages();
         }
 
-        echo json_encode(false);
+        echo json_encode($data);
         exit;
-    }
 
-    function ajax_leave_comunity(){
-        $comunity = $this->get_comunity_by_request();
-
-        if($comunity && $comunity->can_leave()){
-            $this->delete_user_comunity($_POST['comunidade_id'], get_current_user_id());
-
-            echo json_encode(true);
-            exit;
-        }
-
-        echo json_encode(false);
-        exit;
-    }
-
-    function ajax_follow_comunity(){
-
-        $comunity = $this->get_comunity_by_request();
-
-        if($comunity && $comunity->can_follow()) {
-            $this->add_user_comunity_follow( $_POST['comunidade_id'], get_current_user_id() );
-
-            echo json_encode(true);
-            exit;
-        }
-
-        echo json_encode(false);
-        exit;
-    }
-
-    function ajax_not_follow_comunity(){
-        $comunity = $this->get_comunity_by_request();
-
-        if($comunity && $comunity->can_not_follow()) {
-            $this->delete_user_comunity_follow( $_POST['comunidade_id'], get_current_user_id() );
-
-            echo json_encode(true);
-            exit;
-        }
-
-        echo json_encode(false);
-        exit;
     }
 
 }

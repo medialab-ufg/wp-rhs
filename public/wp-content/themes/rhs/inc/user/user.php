@@ -1,284 +1,123 @@
 <?php
+/**
+ * Entidade do Usuário
+ * Class RHSUser
+ */
+class RHSUser {
 
-Class RHSUser extends RHSMenssage {
+    private $id;
+    private $avatar;
+    private $name;
+    private $date_registered;
+    private $city;
+    private $state;
+    private $state_uf;
+    private $link;
+    private $user_object;
+    private $is_admin;
+    private $user_role;
 
-    static $instance;
-    const SEPARATE = "&#44;";
-    private $userID;
+    /**
+     * RHSUser constructor.
+     *
+     * @param WP_User $user
+     */
+    function __construct(WP_User $user) {
 
-    function __construct( $userID ) {
-
-        $this->userID = $userID;
-
-        if ( empty( self::$instance ) ) {
-
-            add_action( 'admin_enqueue_scripts', array( &$this, 'addJS' ) );
-            add_action( 'show_user_profile', array( &$this, 'extra_profile_fields' ) );
-            add_action( 'edit_user_profile', array( &$this, 'extra_profile_fields' ) );
-            add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_admin' ) );
-            add_action( 'personal_options_update', array( &$this, 'save_extra_profile_fields' ) );
-            add_action( 'edit_user_profile_update', array( &$this, 'save_extra_profile_fields' ) );
-            add_action('admin_enqueue_scripts', array( &$this, 'admin_theme_style'));
-            add_action('pre_get_posts',array( &$this, 'ml_restrict_media_library'));
-            add_filter( 'get_avatar' , array( &$this, 'custom_avatar') , 1 , 5 );
-        }
-
-        self::$instance = true;
-    }
-
-    function getAvatarImage($userID = 0) {
-
-        $avatar = $this->getAvatar($userID);
-
-        if ( ! empty( $avatar ) ) {
-            $avatar = get_site_url() . '/../' . $avatar;
-        }
-
-        return $avatar;
-    }
-
-    function custom_avatar( $avatar, $id_or_email, $size, $default, $alt ) {
-        $user = false;
-
-
-        if ( is_numeric( $id_or_email ) ) {
-
-            $id = (int) $id_or_email;
-            $user = get_user_by( 'id' , $id );
-
-        } elseif ( is_object( $id_or_email ) ) {
-
-            if ( ! empty( $id_or_email->user_id ) ) {
-                $id = (int) $id_or_email->user_id;
-                $user = get_user_by( 'id' , $id );
-            }
-
-        } else {
-            $user = get_user_by( 'email', $id_or_email );
-        }
-
-        if ( $user && is_object( $user ) && $this->getAvatarImage($user->ID) ) {
-            $avatar = "<img alt='{$alt}' src='{$this->getAvatarImage($user->ID)}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
-        }
-
-        return $avatar;
-    }
-
-    function getUserId(){
-        return $this->userID;
-    }
-
-    function ml_restrict_media_library( $wp_query_obj ) {
-        global $current_user, $pagenow;
-        if( !is_a( $current_user, 'WP_User') )
+        if(!$user){
             return;
-        if( 'admin-ajax.php' != $pagenow || $_REQUEST['action'] != 'query-attachments' )
-            return;
-        if( !current_user_can('manage_media_library') )
-            $wp_query_obj->set('author', $current_user->ID );
-        return;
-    }
-
-    function addJS() {
-        wp_enqueue_script( 'rhs_user', get_template_directory_uri() . '/inc/user/user.js', array( 'jquery' ) );
-    }
-
-    function admin_theme_style() {
-        wp_enqueue_style('user-admin-style', get_template_directory_uri() . '/inc/user/user.css');
-    }
-
-    function get_user_data($field){
-        $data = get_userdata($this->userID);
-
-        if(!$data){
-            return '';
         }
 
-        if(!empty($data->{$field})){
-            return $data->{$field};
-        }
+        $this->id = $user->ID;
+        $this->avatar = get_avatar_url($this->id);
+        $this->name = $user->display_name;
+        $this->date_registered = $user->user_registered;
+        $this->link = esc_url(get_author_posts_url($this->id));
+        $this->user_object = $user;
+        $this->user_role = ($user->roles) ? current($user->roles) : '';;
+        $this->is_admin = ($this->user_role == 'administrator' || $this->user_role == 'editor');
 
-        return esc_attr( get_the_author_meta( $field, $this->userID ) );
+        $info_location = get_user_ufmun($user->ID);
+
+        $this->city = !empty($info_location['mun']['nome']) ? $info_location['mun']['nome'] : '';
+        $this->state = !empty($info_location['uf']['nome']) ?  $info_location['uf']['nome'] : '';
+        $this->state_uf = !empty($info_location['uf']['sigla']) ?  $info_location['uf']['sigla'] : '';
+    }
+
+    /**
+     * @return int
+     */
+    function get_id(){
+        return $this->id;
+    }
+
+    /**
+     * @return false|string
+     */
+    function get_avatar(){
+        return $this->avatar;
+    }
+
+    /**
+     * @return string
+     */
+    function get_name(){
+        return $this->name;
+    }
+
+    /**
+     * @param string $format
+     *
+     * @return false|string
+     */
+    function get_date_registered($format = 'd/m/Y'){
+
+        return date($format, strtotime($this->date_registered));
 
     }
 
-    function extra_profile_fields() {
-        if ( function_exists( 'wp_enqueue_media' ) ) {
-            wp_enqueue_media();
-        } else {
-            wp_enqueue_style( 'thickbox' );
-            wp_enqueue_script( 'media-upload' );
-            wp_enqueue_script( 'thickbox' );
-        }
-
-
-        ?>
-        <table class="form-table field-add">
-            <tbody>
-            <tr class="user-links">
-                <th><label for="links"><?php _e( 'Links' ) ?></label></th>
-                <td>
-                    <div class="input-group">
-                        <?php foreach ( $this->getLinks( true ) as $key => $link ) { ?>
-                            <p>
-                                <input placeholder="Titulo" type="text" name="rhs_links[title][]" id="links"
-                                       value="<?php echo $link['title'] ?>" class="regular-text code">
-                                <input placeholder="Url" type="url" name="rhs_links[url][]" id="links"
-                                       value="<?php echo $link['url'] ?>" class="regular-text code">
-                                <i><a onclick="removerLinkUser(this)" title="Remover Link" class="remove" href="javascript:;">X</a></i>
-                            </p>
-                        <?php } ?>
-                    </div>
-                    <div class="help-block">
-                        <a class="js-add-user-link"
-                           style="outline: none !important; box-shadow: none !important; text-decoration: none;">
-                            + <?php _e( 'Adicionar' ); ?>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            <tr class="user-formation">
-                <th><label for="formation"><?php _e( 'Formação' ) ?></label></th>
-                <td><input type="text" name="rhs_formation" id="formation"
-                           value="<?php echo $this->getFormacao(); ?>"
-                           class="regular-text code"></td>
-            </tr>
-            <tr class="user-interest">
-                <th><label for="url"><?php _e( 'Interesses' ) ?></label></th>
-                <td><textarea name="rhs_interest" id="interest" rows="5"
-                              cols="30"><?php echo $this->getInteresses(); ?></textarea></td>
-            </tr>
-            <tr class="user-avatar">
-                <th><label for="pass1-text"><?php _e( 'Foto do Perfil' ); ?></label></th>
-                <td>
-                    <input class="header_logo_url" type="hidden" name="rhs_avatar" size="60"
-                           value="<?php echo $this->getAvatar(); ?>">
-                    <a class="header_logo_upload"
-                       style="<?php echo $this->getAvatar() ? '' : 'display: none;' ?>line-height: 0; outline: none !important; box-shadow: none !important;"
-                       href="#">
-                        <img style="object-fit: cover;" class="header_logo"
-                             src="<?php echo $this->getAvatarImage(); ?>" height="100" width="100"/>
-                    </a>
-                    <div>
-                        <button type="button"
-                                class="header_logo_upload button wp-generate-pw hide-if-no-js"><?php _e( 'Selecionar imagem' ) ?></button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <?php
+    /**
+     * @return string
+     */
+    function get_city(){
+        return $this->city;
     }
 
-    function enqueue_admin() {
-        wp_enqueue_script( 'thickbox' );
-        wp_enqueue_style( 'thickbox' );
-
-        wp_enqueue_script( 'media-upload' );
+    /**
+     * @return string
+     */
+    function get_state(){
+        return $this->state;
     }
 
-    static function save_links($links_post){
-
-        if ( ! empty( $links_post ) && is_array( $links_post ) ) {
-
-            if ( ! empty( $links_post['title'] ) ) {
-                $links_post['title'] = array_filter( $links_post['title'] );
-                $links_post['title'] = implode( self::SEPARATE, $links_post['title'] );
-            }
-
-            if ( ! empty( $links_post['url'] ) ) {
-                $links_post['url'] = array_filter( $links_post['url'] );
-                $links_post['url'] = implode( self::SEPARATE, $links_post['url'] );
-            }
-
-            return json_encode( $links_post );
-
-        }
-
-        return array();
-
+    /**
+     * @return string
+     */
+    function get_state_uf(){
+        return $this->state_uf;
     }
 
-    function save_extra_profile_fields( $userID ) {
-
-        $this->userID = $userID;
-
-        if ( ! current_user_can( 'edit_user', $this->userID ) ) {
-            return false;
-        }
-
-        $_POST['rhs_links'] = self::save_links(! empty( $_POST['rhs_links'] ) ? $_POST['rhs_links'] : array());
-
-        if ( ! empty( $_POST['rhs_avatar'] ) ) {
-            $url                 = get_site_url();
-            $url                 = str_replace( 'wp', '', $url );
-            $_POST['rhs_avatar'] = str_replace( $url, '', $_POST['rhs_avatar'] );
-        }
-
-        update_user_meta( $this->userID, 'rhs_links', $_POST['rhs_links'] );
-        update_user_meta( $this->userID, 'rhs_formation', $_POST['rhs_formation'] );
-        update_user_meta( $this->userID, 'rhs_interest', $_POST['rhs_interest'] );
-        update_user_meta( $this->userID, 'rhs_avatar', $_POST['rhs_avatar'] );
+    /**
+     * @return string
+     */
+    function get_link(){
+        return $this->link;
     }
 
-    function getAvatar($userID = 0) {
-
-        if(!$userID){
-            $this->userID;
-        }
-
-        return esc_attr( get_the_author_meta( 'rhs_avatar', $userID ) );
+    /**
+     * @param $comunityID
+     *
+     * @return RHSComunity
+     */
+    function get_comunity($comunityID){
+        return new RHSComunity(get_term($comunityID), $this->user_object);
     }
 
-    function getFormacao() {
-
-        return esc_attr( get_the_author_meta( 'rhs_formation', $this->userID ) );
-    }
-
-    function getInteresses() {
-
-        return esc_attr( get_the_author_meta( 'rhs_interest', $this->userID ) );
-    }
-
-    function getSobre() {
-        return esc_attr( get_the_author_meta( 'description', $this->userID ) );
-    }
-
-    function getLinks( $default = false ) {
-
-        $links = get_the_author_meta( 'rhs_links', $this->userID );
-        $data  = array();
-
-        if ( $default ) {
-            $data[] = array( 'title' => '', 'url' => '' );
-        }
-
-        if ( ! empty( $links ) ) {
-
-            $links = json_decode( $links, true );
-
-            if ( ! empty( $links['title'] ) ) {
-
-                $data = array();
-
-                $links['title'] = explode( self::SEPARATE, $links['title'] );
-                $links['url']   = explode( self::SEPARATE, $links['url'] );
-
-                foreach ( $links['title'] as $key => $link ) {
-
-                    $data[] = array(
-                        'title' => $links['title'][ $key ],
-                        'url'   => $links['url'][ $key ]
-                    );
-
-                }
-            }
-        }
-
-        return $data;
+    /**
+     * @return bool
+     */
+    function is_admin(){
+        return $this->is_admin;
     }
 
 }
-
-global $RHSUser;
-$RHSUser = new RHSUser( ! empty( $_GET['user_id'] ) ? $_GET['user_id'] : get_current_user_id() );

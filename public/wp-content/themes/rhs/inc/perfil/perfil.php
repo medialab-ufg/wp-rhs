@@ -105,9 +105,9 @@ class RHSPerfil extends RHSMenssage {
 
         if(array_key_exists('pass', $_POST) && $_POST['pass']){
 
-            $RHSUser = new RHSUser($this->userID);
+            $RHSUsers = new RHSUsers($this->userID);
 
-            if(empty($_POST['pass_old'] ) || !wp_check_password( $_POST['pass_old'], $RHSUser->get_user_data('user_pass'), $this->userID) ){
+            if(empty($_POST['pass_old'] ) || !wp_check_password( $_POST['pass_old'], $RHSUsers->get_user_data('user_pass'), $this->userID) ){
                 $this->set_messages('<i class="fa fa-exclamation-triangle "></i> Sua senha antiga está incorreta!', false, 'error');
                 return false;
             }

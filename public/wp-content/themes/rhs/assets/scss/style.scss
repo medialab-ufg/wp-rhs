@@ -1851,6 +1851,7 @@ form .comment-form-comment {
             .panel-heading {
                 h4 {
                     margin: 0;
+                    padding: 10px 18px;
                     &:before {
                         content: "\f04b";
                         font-family: FontAwesome;
@@ -2174,11 +2175,12 @@ form .comment-form-comment {
             margin-bottom: 20px;
             display: inline-block;
             width: 100%;
-                -webkit-box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 0px 8px 0 rgba(0, 0, 0, 0.3);
+            -webkit-box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 0px 8px 0 rgba(0, 0, 0, 0.3);
             box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 0px 8px 0 rgba(0, 0, 0, 0.3);
             padding: 0;
             background: $whiteColor;
-            min-height: 139px;
+            height: 100%;
+            position: relative;
             &:hover{
                 -webkit-box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.17), 0 0px 9px 0 rgba(0, 0, 0, 0.3);
                 box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.17), 0 0px 9px 0 rgba(0, 0, 0, 0.3); 
@@ -2191,28 +2193,52 @@ form .comment-form-comment {
             .ratings {
                 margin-bottom: 0;
             }
+            .bottom-mask{
+                height: 50px;
+            }
             .bottom {
+                text-align: right;
                 background: #F2F5F7;
-                padding: 9px 0;
+                padding: 9px 10px;
                 border-top: 1px solid #E6E9ED;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 46px;
+                .btn{
+                    padding: 3px 10px;
+                    font-weight: bold;
+                }
             }
             .left {
                 margin-top: 7px;
+                width: 92px;
+                float: left;
+                margin-left: 12px;
                 p {
                     margin-bottom: 3px;
                 }
             }
             .right {
-                margin-top: 0px;
-                padding-top: 5px;
-                min-height: 72px;
-                p{
-                    font-size: 12px;
-                    margin: 0;
+                float: left;
+                margin-left: 16px;
+                position: relative;
+                height: 97px;
+                width: 59%;
+                .info{
+                    position: absolute;
+                    bottom: 5px;
+                    left: 0;
+                    p{
+                        font-size: 12px;
+                        margin: 0;
+                        color: #787878;
+                    }
                 }
                 h2 {
                     font-size: 16px;
                     font-weight: bold;
+                    color: #787878;
                 }
             }
             .membros{
@@ -2222,6 +2248,17 @@ form .comment-form-comment {
             }
             .img-circle {
                 border: 1px solid #E6E9ED;
+            }
+        }
+    }
+}
+
+.tab-content{
+    .tab-pane{
+        .contato{
+            .wrapper-content{
+                padding-top: 15px;
+                background: none !important;
             }
         }
     }
@@ -2394,19 +2431,86 @@ form .comment-form-comment {
                 }
             }
             .useravatar {
+                .image-comunity{
+                    position: relative;
+                    display: inline-block;
+                    img {
+                        width: 100px;
+                        height: 100px;
+                        max-width: 100px;
+                        max-height: 100px;
+                        object-fit: cover;
+                        -webkit-border-radius: 50%;
+                        -moz-border-radius: 50%;
+                        border-radius: 50%;
+                        border: 5px solid rgba(255, 255, 255, 0.5);
+                        box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.6);
+                    }
+                    input[type='file']{
+                        display: none;
+                        bottom: 0;
+                        top: 0;
+                        height: 100%;
+                        width: 100%;
+                        position: absolute;
+                        z-index: 1;
+                        opacity: 0;
+                        &::-webkit-file-upload-button { cursor:pointer; }
+                    }
+                    .button-end{
+                        webkit-transition: all 0.3s ease;
+                        -moz-transition: all 0.3s ease;
+                        -ms-transition: all 0.3s ease;
+                        -o-transition: all 0.3s ease;
+                        transition: all 0.3s ease;
+                        position: absolute;
+                        bottom: 6px;
+                        right: 8px;
+                        .btn-default{
+                            opacity: 0;
+                            border: none;
+                            outline: none;
+                            background: rgba(255, 255, 255, 0.8);
+                            box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.6);
+                            padding: 0px 3px 0px 6px;
+                        }
 
-                img {
-                    width: 100px;
-                    height: 100px;
-                    max-width: 100px;
-                    max-height: 100px;
-                    object-fit: cover;
-                    -webkit-border-radius: 50%;
-                    -moz-border-radius: 50%;
-                    border-radius: 50%;
-                    border: 5px solid rgba(255, 255, 255, 0.5);
-                    box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.6);
+                    }
+                    .btn-group{
+                        position: absolute;
+                        bottom: -3px;
+                        right: -15px;
+                        white-space: nowrap;
+                        width: calc(100% + 30px);
+                        text-align: center;
+                        .btn{
+                            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.6);
+                            display: inline-block;
+                            float: none;
+                            border-radius: 4px;
+                            font-size: 11px;
+                            padding: 3px 7px;
+                            &.btn-success{
+                                background: #099830;
+                                border-color: #099830;
+
+                            }
+                            &.btn-danger{
+                                background: #bd1a28;
+                                margin-left: 5px;
+                                border-color: #bd1a28;
+                            }
+                        }
+                    }
+                    &:hover{
+                        .button-end{
+                            .btn-default{
+                                opacity: 1;
+                            }
+                        }
+                    }
                 }
+
             }
             .card-info {
                 font-size: 12px;
@@ -2563,6 +2667,12 @@ form .comment-form-comment {
         &.forum-container {
             padding: 30px !important;
             padding-top: 0 !important;
+            .min-height{
+                min-height: 372px;
+                h4{
+                    padding-top: 50px;
+                }
+            }
             .form-inline{
                 margin-top: 25px;
                 margin-bottom: 10px;
@@ -2591,10 +2701,15 @@ form .comment-form-comment {
                     margin-top: 50px;
                 }
                 > .row{
+                    @media screen and (max-width: 768px) {
+                        margin-bottom: 35px;
+                        padding-bottom: 35px;
+                        border-bottom: 1px solid #b5b5b5;
+                    }
+                    &:hover{
+                        background: #ececec;
+                    }
                     > div{
-                        &:hover{
-                            background: #ececec;
-                        }
                         webkit-transition: all 0.3s ease;
                         -moz-transition: all 0.3s ease;
                         -ms-transition: all 0.3s ease;
@@ -2609,6 +2724,9 @@ form .comment-form-comment {
                             padding: 10px;
                             display: inline-block;
                             float: left;
+                            @media screen and (max-width: 768px) {
+                                width: 100%;
+                            }
                             .forum-item-title{
                                 .forum-item-image{
                                     width: 75px;
@@ -2620,6 +2738,10 @@ form .comment-form-comment {
                                         height: 100%;
                                         object-fit: cover;
                                         border-radius: 100px;
+                                    }
+                                    @media screen and (max-width: 768px) {
+                                        float: none;
+                                        display: inline-block;
                                     }
                                 }
                                 span{
@@ -2647,6 +2769,12 @@ form .comment-form-comment {
                                         -o-transition: all 0.5s ease;
                                         transition: all 0.5s ease;
                                     }
+                                    @media screen and (max-width: 768px) {
+                                        display: block;
+                                        float: none;
+                                        width: 100%;
+                                        margin: 0;
+                                    }
                                 }
                             }
                             &:hover{
@@ -2659,10 +2787,20 @@ form .comment-form-comment {
                         }
                         .forum-info{
                             float: right;
+                            @media screen and (max-width: 768px) {
+                                float: none;
+                                text-align: center;
+                            }
                             ul{
                                 list-style: none;
                                 margin-top: 15px;
                                 padding: 0;
+                                @media screen and (max-width: 768px) {
+                                    display: block;
+                                    float: none;
+                                    width: 100%;
+                                    margin: 0;
+                                }
                                 li{
                                     text-align: center;
                                     float: left;
@@ -2706,8 +2844,17 @@ form .comment-form-comment {
                                             }
                                         }
                                     }
+                                    @media screen and (max-width: 768px) {
+                                        float: none;
+                                        text-align: center;
+                                        display: inline-block;
+                                    }
                                 }
                             }
+                        }
+                        @media screen and (max-width: 768px) {
+                            width: 100%;
+                            text-align: center;
                         }
                     }
                 }
@@ -2719,6 +2866,11 @@ form .comment-form-comment {
                         color: #787878;
                     }
                 }
+            }
+            .alert{
+                margin: 0;
+                margin-top: 18px;
+                margin-bottom: -10px;
             }
         }
         .text-navy {
