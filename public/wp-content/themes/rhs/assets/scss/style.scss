@@ -191,6 +191,14 @@ body {
             text-decoration: underline;
         }
     }
+    &.alert-info {
+        background: #009b9b;
+        a {
+            color: $whiteColor;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+    }
 }
 
 /******************
@@ -877,6 +885,9 @@ h1.titulo-page {
 
 .panel-default {
 
+    >.alert{
+        margin: 10px 10px;
+    }
     &:hover{
         box-shadow: 2px 2px 1px 1px #c1c1c1;
     }

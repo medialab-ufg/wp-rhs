@@ -2,9 +2,6 @@ jQuery( function( $ ) {
 
     $(function () {
 
-        $('#input-tags.ms-ctn.form-control').find('input').attr('name','tags');
-        $('#input-category.ms-ctn.form-control').find('input').attr('name','category');
-
         jQuery.validator.setDefaults({
             debug: true,
             focusCleanup: true
