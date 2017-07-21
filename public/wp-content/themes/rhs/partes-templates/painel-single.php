@@ -2,16 +2,6 @@
 	<div class="panel-heading" style="padding: 21px;">
 		<div class="row post-titulo">
 		<?php $userOBJ = new RHSUser(get_the_author_meta( 'ID' )); ?>
-            		<?php global $RHSNetwork; ?>
-            		<?php
-            			$user = wp_get_current_user();
-			$allowed_roles = array('editor', 'administrator', 'author');
-            		?>
-			<?php if( array_intersect($allowed_roles, $user->roles ) ) : ?>
-				<span class="col-xs-12">
-					<button class="pull-right btn btn-default" style="margin-bottom: 2%">Editar</button>
-				</span>
-			<?php endif; ?>
 			<div class="col-xs-9 col-sm-11 col-md-10">
 				<?php the_title( '<h1>', '</h1>' ); ?>
 			</div>
