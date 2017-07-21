@@ -2,20 +2,29 @@
 	<div class="panel-heading" style="padding: 21px;">
 		<div class="row post-titulo">
 		<?php $userOBJ = new RHSUser(get_the_author_meta( 'ID' )); ?>
-            <?php global $RHSNetwork; ?>
+            		<?php global $RHSNetwork; ?>
+            		<?php
+            			$user = wp_get_current_user();
+			$allowed_roles = array('editor', 'administrator', 'author');
+            		?>
+			<?php if( array_intersect($allowed_roles, $user->roles ) ) : ?>
+				<span class="col-xs-12">
+					<button class="pull-right btn btn-default" style="margin-bottom: 2%">Editar</button>
+				</span>
+			<?php endif; ?>
 			<div class="col-xs-9 col-sm-11 col-md-10">
 				<?php the_title( '<h1>', '</h1>' ); ?>
 			</div>
 			<div class="col-xs-3 col-sm-1 col-md-2 vdivide">
-                <div class="votebox">
-				    <?php do_action('rhs_votebox', get_the_ID()); ?>
-                </div>
+                			<div class="votebox">
+					<?php do_action('rhs_votebox', get_the_ID()); ?>
+                			</div>
 			</div>
 			<div class="col-xs-9 col-sm-11 col-md-10">
 				<div class="post-categories">
 					<?php if(has_category()) : ?>
 							<?php the_category(', '); ?>
-					<?php endif; ?>	
+					<?php endif; ?>
 				</div>
 			</div>
 			<div class="col-xs-12 col-md-12">
@@ -23,8 +32,8 @@
 					<span class="post-user-date">
 						<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
 						    <?php echo get_avatar($userOBJ->getUserId(),33); ?>
-	                    </a>
-	                    <span class="usuario">
+						</a>
+						<span class="usuario">
 							<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
 								<?php the_author(); ?>
 							</a>
@@ -60,7 +69,7 @@
 		<?php the_content(); ?>
 	</div><!-- .paine-body -->
 	<div class="panel-footer">
-		<div class="tags-content">	
+		<div class="tags-content">
 			<?php if(has_tag()) : ?>
 				<span class="tags-list">
 					<?php the_tags('', '', ''); ?>
@@ -71,7 +80,7 @@
 </div><!-- .panel .panel-default -->
 <div class="panel panel-default hidden-print">
 	<div class="panel-footer panel-comentarios">
-		<?php  
+		<?php
 			if ( comments_open() || get_comments_number() ) {
 				comments_template();
 			}
