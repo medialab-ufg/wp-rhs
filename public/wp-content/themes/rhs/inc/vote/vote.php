@@ -425,7 +425,6 @@ Class RHSVote {
 
 	function check_votes_to_upgrade( $postID ) {
 
-
 		if ( $this->get_total_votes( $postID ) < $this->votes_to_approval ) {
 			return;
 		}
