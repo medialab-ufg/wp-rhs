@@ -2845,6 +2845,11 @@ form .comment-form-comment {
                 #img_destacada_preview{
                     margin-bottom: 15px;
                 }
+                .has-error{
+                    .help-block{
+                        font-size: 13px;
+                    }
+                }
             }
         }
 
