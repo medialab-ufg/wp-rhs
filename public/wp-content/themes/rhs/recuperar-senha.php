@@ -21,7 +21,7 @@ $RHSLostPassword->retrievepassword();
                                     <?php } ?>
                                 </div>
                             <?php } ?>
-                            <form id="retrievepassword" class="form-horizontal" method="post" role="form" action="">
+                            <form autocomplete="off" id="retrievepassword" class="form-horizontal" method="post" role="form" action="">
                                 <div class="form-group float-label-control">
                                     <label for="user_login">Nova senha: </label>
                                     <input type="password" tabindex="1" name="pass1" id="pass1-text" class="form-control" value="" size="20" required />

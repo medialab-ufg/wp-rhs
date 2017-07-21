@@ -4,7 +4,7 @@
     <div class="row">
         <!-- Container -->
         <div class="col-xs-12 col-md-12">
-            <form role="form" id="perfil" method="post" action="" enctype="multipart/form-data">
+            <form autocomplete="off" role="form" id="perfil" method="post" action="" enctype="multipart/form-data">
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="verDados">
                         <div class="jumbotron perfil">

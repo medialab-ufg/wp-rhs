@@ -2,7 +2,7 @@
 <?php $RHSPost = new RHSPost(get_query_var('rhs_edit_post')); ?>
     <div class="row">
         <!-- Container -->
-        <form method="post" class="form-horizontal" id="posting" role="form" action="">
+        <form autocomplete="off" method="post" class="form-horizontal" id="posting" role="form" action="">
             <?php if ($RHSPost->is_post()): ?>
                 <input type="hidden" id="post_ID" name="post_ID" value="<?php echo $RHSPost->get_post_data('ID'); ?>" />
             <?php endif; ?>

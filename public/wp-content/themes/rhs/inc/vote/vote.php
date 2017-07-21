@@ -548,7 +548,7 @@ Class RHSVote {
 		?>
         <div class="wrap">
             <h2><?php echo __( 'Fila de votação' ); ?></h2>
-            <form name="form1" method="post" action="">
+            <form autocomplete="off" name="form1" method="post" action="">
                 <table class="form-table">
                     <tbody>
 					<?php foreach ( $labels as $label => $attr ) { ?>

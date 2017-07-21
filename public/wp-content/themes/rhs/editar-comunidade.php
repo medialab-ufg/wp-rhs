@@ -8,7 +8,7 @@
     <div class="col-xs-12 comunidade">
         <h1 class="titulo-page">Editar Comunidade</h1>
         <div class="panel panel-default">
-            <form class="form-horizontal">
+            <form autocomplete="off" class="form-horizontal">
                 <fieldset class="panel-body" style="padding: 20px">
                         <div class="form-group float-label-control">
                             <label for="nome">Nome <span class="required">*</span></label>

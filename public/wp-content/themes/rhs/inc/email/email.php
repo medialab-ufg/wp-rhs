@@ -226,7 +226,7 @@ class RHSEmail {
         <div class="wrap">
             <h2><?php echo __( 'Mensagens de Emails' ); ?></h2>
         <div class="inside sbwe-inside">
-            <form method="POST"><table class="widefat">
+            <form autocomplete="off" method="POST"><table class="widefat">
                     <tbody>
                     <?php $i = 0; ?>
                     <?php foreach ($this->messages as $label => $menssage){ ?>

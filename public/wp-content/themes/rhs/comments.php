@@ -26,7 +26,7 @@ if (post_password_required()) {
 					<?php printf( __( 'Você precisa realizar %slogin%s para postar um comentário.', 'rhs'), "<a href='" . get_option('home') . "/logar?redirect_to=" . urlencode(get_permalink()) ."'>", "</a>" ); ?>
 					</p>        
 			    <?php else : ?>
-			    <form action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="form-comentario" class="clearfix">             
+			    <form autocomplete="off" action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="form-comentario" class="clearfix">
 			        <div class="form-group">
 			        <?php comment_id_fields(); ?>
  					<textarea name="comment" id="comment" tabindex="1" onfocus="if (this.value == '<?php _e('Digite seu comentário aqui.', 'rhs'); ?>') this.value = '';" onblur="if (this.value == '') {this.value = '<?php _e('Digite seu comentário aqui.', 'rhs'); ?>';}" class="form-control" rows="4"><?php _e('Digite seu comentário aqui.', 'rhs'); ?></textarea>

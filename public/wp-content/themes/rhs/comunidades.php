@@ -12,7 +12,7 @@
 
                 <?php if($RHSComunities->can_see_comunities()){ ?>
                 <div class="ibox-content forum-container">
-                    <form class="form-inline">
+                    <form autocomplete="off" class="form-inline">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
