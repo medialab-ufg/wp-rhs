@@ -360,7 +360,7 @@ class RHSTicket extends RHSMenssage {
 
     public function category_parent(){
 
-        return get_terms(self::TAXONOMY, array('hide_empty' => false,'parent' => 0));
+        return get_terms(self::TAXONOMY, array('hide_empty' => false,'parent' => 0, 'orderby'    => 'term_id'));
 
     }
 
