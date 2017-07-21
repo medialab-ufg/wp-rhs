@@ -19,7 +19,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php RHSPost::minhasPostagens(); ?>
+                                <?php RHSPosts::minhasPostagens(); ?>
                             </tbody>
                         </table>
                     </div>

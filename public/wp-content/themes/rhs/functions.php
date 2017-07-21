@@ -32,6 +32,7 @@ if(!function_exists('rhs_setup')) :
         
         // Publicar posts - precisa ser carregado por último
         require_once('inc/post/post.php');
+        require_once('inc/post/posts.php');
 
         //// Drupal 7 Password Check
         require_once('inc/drupal-password-check.php');
