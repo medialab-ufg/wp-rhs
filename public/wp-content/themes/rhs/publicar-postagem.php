@@ -48,9 +48,6 @@
                                                 );
                                                 ?>
                                             </div>
-                                            <div class="form-group">
-                                                <?php get_template_part( 'partes-templates/colapse_criar_post' ); ?>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
