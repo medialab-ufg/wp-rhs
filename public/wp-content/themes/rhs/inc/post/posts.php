@@ -91,17 +91,11 @@ class RHSPosts extends RHSMenssage {
                 return;
             }
 
-            $status = null;
-
-            if(!$_POST['post_ID']){
-                $status = ( $_POST['status'] == 'draft' ) ? 'draft' : RHSVote::VOTING_QUEUE;
-            }
-
             $postObj = new RHSPost();
             $postObj->setId($_POST['post_ID']);
             $postObj->setTitle($_POST['title']);
             $postObj->setContent($_POST['public_post']);
-            $postObj->setStatus($status);
+            $postObj->setStatus($_POST['status']);
             $postObj->setAuthorId(get_current_user_id());
             $postObj->setCategoriesId($_POST['category']);
             $postObj->setState($_POST['estado']);
@@ -125,11 +119,22 @@ class RHSPosts extends RHSMenssage {
         );
         
         if ($post->getId()){
+
+            $postObj = new RHSPost($post->getId());
+
+            if($postObj->getStatus() == 'draft' && $data['post_status'] == 'publish'){
+                $data['post_status'] = RHSVote::VOTING_QUEUE;
+            } else {
+                unset($data['post_status']);
+            }
+
             $data['ID'] = $post->getId();
-            unset($data['post_status']);
 
             $return = wp_update_post( $data, true );
         } else {
+
+            $data['post_status'] = ($data['post_status'] == 'draft' ) ? 'draft' : RHSVote::VOTING_QUEUE;
+
             $return = wp_insert_post( $data, true );
         }
 

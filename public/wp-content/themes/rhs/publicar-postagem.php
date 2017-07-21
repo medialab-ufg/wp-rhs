@@ -134,7 +134,9 @@
                                         <?php if ($RHSPost->getFeaturedImageId()) echo $RHSPost->getFeaturedImage(array( 200, 200)); ?>
                                     </div>
                                     <button type="button" class="btn btn-default form-submit dest_visu set_img_destacada">DEFINIR IMAGEM DESTACADA</button>
+                                    <?php if(!$RHSPost->getId() || $RHSPost->getStatus() == 'draft'){ ?>
                                     <button type="submit" name="status" value="draft" class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO</button>
+                                    <?php } ?>
                                     <button type="button" class="btn btn-default form-submit rasc_visu" id="pre-visualizar">PRÉ-VISUALIZAR
                                     </button>
                                     <button type="submit" name="status" value="publish" class="btn btn-danger form-submit publicar">
