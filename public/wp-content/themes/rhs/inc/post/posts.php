@@ -124,6 +124,7 @@ class RHSPosts extends RHSMenssage {
 
             if($postObj->getStatus() == 'draft' && $data['post_status'] == 'publish'){
                 $data['post_status'] = RHSVote::VOTING_QUEUE;
+                $post->setStatus(RHSVote::VOTING_QUEUE);
             } else {
                 unset($data['post_status']);
             }
