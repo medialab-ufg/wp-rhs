@@ -100,6 +100,12 @@ class RHSTicket extends RHSMenssage {
 	}
     
     function custom_columns_head($defaults) {
+        
+        global $typenow;
+        
+        if ($typenow != self::POST_TYPE)
+            return $defaults;
+        
         $defaults['autor'] = 'Autor'; // a chave autor em portugues pq se for em ingles ele monta a coluna com o metodo padrao do wp
         $defaults['email'] = 'Email';
         $defaults['member_since'] = 'Membro desde';
