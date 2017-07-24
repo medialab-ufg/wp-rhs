@@ -1,4 +1,4 @@
-<?php get_header(); ?>
+<?php get_header('full'); ?>
             <div class="row">
                 <div class="col-xs-12">
                     <h1 class="titulo-page"><?php _e('Minhas Postagens') ?></h1>
@@ -25,6 +25,4 @@
                     </div>
                 </div>
             </div>
-
-
-<?php get_footer();
+<?php get_footer('full');

@@ -114,11 +114,7 @@ Class Carrossel {
     }
     
     static function get_posts() {
-    
-    
         return new WP_Query( 'posts_per_page=-1&meta_key=_home&orderby=meta_value_num&order=asc&ignore_sticky_posts=1' );
-    
-    
     }
     
     
