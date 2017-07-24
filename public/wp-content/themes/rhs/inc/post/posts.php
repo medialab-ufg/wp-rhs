@@ -134,8 +134,9 @@ class RHSPosts extends RHSMenssage {
             $return = wp_update_post( $data, true );
         } else {
 
-            $data['post_status'] = ($data['post_status'] == 'draft' ) ? 'draft' : RHSVote::VOTING_QUEUE;
-
+            $setStatus = ( $data['post_status'] == 'draft' ) ? 'draft' : RHSVote::VOTING_QUEUE;
+            $data['post_status'] = $setStatus;
+            $post->setStatus($setStatus);
             $return = wp_insert_post( $data, true );
         }
 
