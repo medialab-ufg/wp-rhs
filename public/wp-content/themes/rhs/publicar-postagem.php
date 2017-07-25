@@ -72,7 +72,7 @@
                                     <script>
                                         var ms = jQuery('#input-tags').magicSuggest({
                                             placeholder: 'Select...',
-                                            allowFreeEntries: false,
+                                            allowFreeEntries: true,
                                             selectionPosition: 'bottom',
                                             selectionStacked: true,
                                             selectionRenderer: function(data){
