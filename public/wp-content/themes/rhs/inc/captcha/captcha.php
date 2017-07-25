@@ -41,7 +41,7 @@ class RHSCaptcha {
     function recaptcha_options_page() { ?>
         <div class="wrap">
             <h1>reCaptcha Options</h1>
-            <form method="post" action="options.php">
+            <form autocomplete="off" method="post" action="options.php">
                 <?php
                 settings_fields( "header_section" );
                 do_settings_sections( "recaptcha-options" );

@@ -1,38 +1,43 @@
 <?php get_header('full'); ?>
-<?php $RHSPost = new RHSPost(get_query_var('rhs_edit_post')); ?>
+<?php global $RHSPosts; ?>
+<?php ; ?>
+
+<?php $RHSPost = new RHSPost(get_query_var('rhs_edit_post'), null, true); ?>
+<?php if(!$RHSPost->getId()){
+    $RHSPost = $RHSPosts->set_by_post();
+} ?>
     <div class="row">
         <!-- Container -->
-        <form method="post" class="form-horizontal" id="posting" role="form" action="">
-            <?php if ($RHSPost->is_post()): ?>
-                <input type="hidden" id="post_ID" name="post_ID" value="<?php echo $RHSPost->get_post_data('ID'); ?>" />
+        <form autocomplete="off" method="post" class="form-horizontal" id="posting" role="form" action="">
+            <?php if ($RHSPost->getId()): ?>
+                <input type="hidden" id="post_ID" name="post_ID" value="<?php echo $RHSPost->getId(); ?>" />
             <?php endif; ?>
             <div class="col-xs-12 col-md-9">
-                <h1 class="titulo-page"><?php echo $RHSPost->is_post() ? 'Editar' : 'Criar'; ?> Post</h1>
+                <h1 class="titulo-page"><?php echo $RHSPost->getId() ? 'Editar' : 'Criar'; ?> Post</h1>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="verDados">
                         <div class="jumbotron perfil">
                             <div class="row">
                                 <div class="col-xs-12">
-
                                     <div class="panel panel-default">
-                                        <?php foreach ($RHSPost->messages() as $type => $messages){ ?>
-                                            <div class="alert alert-<?php echo $type == 'error' ? 'danger' : 'success' ; ?>">
+                                        <?php foreach ($RHSPosts->messages() as $type => $messages){ ?>
+                                            <div class="alert alert-<?php echo $type == 'error' ? 'info' : 'success' ; ?>">
                                                 <?php foreach ($messages as $message){ ?>
                                                     <p><?php echo $message ?></p>
                                                 <?php } ?>
                                             </div>
                                         <?php } ?>
-                                        <?php $RHSPost->clear_messages(); ?>
+                                        <?php $RHSPosts->clear_messages(); ?>
                                         <div class="panel-body">
                                             <div class="form-group">
                                                 <label for="title">Título <span class="form-required" title="Este campo é obrigatório.">*</span></label>
-                                                <input class="form-control" type="text" id="title" name="title" size="60" maxlength="254" value="<?php echo $RHSPost->get_post_data('post_title'); ?>">
-                                                <input class="form-control" type="hidden" value="<?php echo $RHSPost->getKey(); ?>" name="post_user_wp" />
+                                                <input class="form-control" type="text" id="title" name="title" size="60" maxlength="254" value="<?php echo $RHSPost->getTitle(); ?>">
+                                                <input class="form-control" type="hidden" value="<?php echo $RHSPosts->getKey(); ?>" name="post_user_wp" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="descricao">Conteúdo</label>
                                                 <?php
-                                                wp_editor( $RHSPost->is_post() ? $RHSPost->get_post_data('post_content') : 'Escreva seu Post.', 'public_post',
+                                                wp_editor( $RHSPost->getContent() ? $RHSPost->getContent() : '', 'public_post',
                                                     array(
                                                         'media_buttons' => true,
                                                         // show insert/upload button(s) to users with permission
@@ -47,9 +52,6 @@
                                                     )
                                                 );
                                                 ?>
-                                            </div>
-                                            <div class="form-group">
-                                                <?php get_template_part( 'partes-templates/colapse_criar_post' ); ?>
                                             </div>
                                         </div>
                                     </div>
@@ -70,7 +72,7 @@
                                     <script>
                                         var ms = jQuery('#input-tags').magicSuggest({
                                             placeholder: 'Select...',
-                                            allowFreeEntries: false,
+                                            allowFreeEntries: true,
                                             selectionPosition: 'bottom',
                                             selectionStacked: true,
                                             selectionRenderer: function(data){
@@ -82,9 +84,9 @@
                                             name: 'tags'
                                         });
 
-                                        <?php if($RHSPost->get_post_data('tags_json')){ ?>
+                                        <?php if($RHSPost->getTagsJson()){ ?>
                                         var ms = jQuery('#input-tags').magicSuggest({});
-                                        ms.setValue(<?php echo $RHSPost->get_post_data('tags_json'); ?>);
+                                        ms.setValue(<?php echo $RHSPost->getTagsJson(); ?>);
                                         <?php } ?>
 
                                     </script>
@@ -100,8 +102,8 @@
                                     'city_label' => 'Cidade &nbsp',
                                     'select_class' => 'form-control',
                                     'show_label' => false,
-                                    'selected_state' => $RHSPost->get_post_data('state'),
-                                    'selected_municipio' => $RHSPost->get_post_data('city'),
+                                    'selected_state' => $RHSPost->getState(),
+                                    'selected_municipio' => $RHSPost->getCity(),
                                 ) ); ?>
                                 <div class="form-group">
                                     <input type="text" value="" class="form-control" id="input-category" placeholder="Categoria">
@@ -113,30 +115,32 @@
                                         allowFreeEntries: false,
                                         selectionPosition: 'bottom',
                                         selectionStacked: true,
-                                        <?php echo $RHSPost->get_post_data('category_json'); ?>
+                                        <?php echo $RHSPost->getCategoriesJson(); ?>
                                         selectionRenderer: function(data){
                                             return data.name;
                                         },
                                         name: 'category'
                                     });
 
-                                    <?php if($RHSPost->get_post_data('category')){ ?>
+                                    <?php if($RHSPost->getCategoriesIdJson()){ ?>
                                     var ms = jQuery('#input-category').magicSuggest({});
-                                    ms.setValue(<?php echo $RHSPost->get_post_data('category'); ?>);
+                                    ms.setValue(<?php echo $RHSPost->getCategoriesIdJson(); ?>);
                                     <?php } ?>
 
                                 </script>
                                 <div class="form-group text-center">
-                                    <?php $thumbId = get_post_thumbnail_id($RHSPost->get_post_data('ID')); ?>
-                                    <input type="hidden" value="<?php echo $thumbId; ?>" id="img_destacada" name="img_destacada">
+                                    <input type="hidden" value="<?php echo $RHSPost->getFeaturedImageId(); ?>" id="img_destacada" name="img_destacada">
                                     <div id="img_destacada_preview">
-                                        <?php if ($thumbId) echo get_the_post_thumbnail($RHSPost->get_post_data('ID'), array( 200, 200)); ?>
+                                        <?php if ($RHSPost->getFeaturedImageId()) echo $RHSPost->getFeaturedImage(array( 200, 200)); ?>
                                     </div>
                                     <button type="button" class="btn btn-default form-submit dest_visu set_img_destacada">DEFINIR IMAGEM DESTACADA</button>
+                                    <?php if(!$RHSPost->getId() || $RHSPost->getStatus() == 'draft'){ ?>
                                     <button type="submit" name="status" value="draft" class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO</button>
+                                    <?php } ?>
                                     <button type="button" class="btn btn-default form-submit rasc_visu" id="pre-visualizar">PRÉ-VISUALIZAR
                                     </button>
-                                    <button type="submit" name="status" value="publish" class="btn btn-danger form-submit publicar"><?php echo (!$RHSPost->get_post_data('post_status') || $RHSPost->get_post_data('post_status') == 'draft') ? 'PUBLICAR' : 'EDITAR'; ?>  POST
+                                    <button type="submit" name="status" value="publish" class="btn btn-danger form-submit publicar">
+                                        <?php echo (!$RHSPost->getId() || $RHSPost->getStatus() == 'draft') ? 'PUBLICAR' : 'EDITAR'; ?>  POST
                                     </button>
                                 </div>
                             </div>

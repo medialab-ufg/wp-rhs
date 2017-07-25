@@ -1,6 +1,7 @@
 jQuery( function( $ ) {
 
     $(function () {
+
         jQuery.validator.setDefaults({
             debug: true,
             focusCleanup: true
@@ -421,7 +422,7 @@ jQuery( function( $ ) {
             focusInvalid: true,
             focusCleanup: false,
             onkeyup: false,
-            ignore: '[type="button"], .ms-ctn input',
+            ignore: '[type="button"]',
             rules: {
                 title: {
                     required: true
@@ -440,7 +441,9 @@ jQuery( function( $ ) {
             },
             invalidHandler: function (event, validator) {},
             errorPlacement: function (error, element) {
-                if (element.parent(".input-group").size() > 0) {
+                if (element.parents(".ms-ctn").size() > 0) {
+                    error.insertAfter(element.parents(".ms-ctn"));
+                } else if (element.parent(".input-group").size() > 0) {
                     error.insertAfter(element.parent(".input-group"));
                 } else if (element.attr("data-error-container")) {
                     error.appendTo(element.attr("data-error-container"));

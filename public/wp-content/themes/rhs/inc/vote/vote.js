@@ -23,8 +23,9 @@ jQuery( function( $ ) {
                 if(data){
 
                     if(data['error']) {
-                        var alrt = '<div class="alert alert-danger"><p><i class="fa fa-exclamation-triangle"></i> '+data['error']+'</p></div>';
+                        var alrt = '<div class="alert alert-info"><p><i class="fa fa-exclamation-triangle"></i> '+data['error']+'</p></div>';
                         $('#votebox-'+post_id).html('<i class="fa fa-remove"></i>');
+                        $('div.vdivide').css({"top": "-49px", "border": "none"});
                     }
 
                     if(data['success']) {

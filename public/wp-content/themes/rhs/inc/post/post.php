@@ -1,346 +1,348 @@
 <?php
 
-class RHSPost extends RHSMenssage {
+class RHSPost {
 
-    private static $instance;
-    private $post;
+    private $id;
+    private $title;
+    private $content;
+    private $status;
+    private $authorId;
+    private $categories;
+    private $categoriesJson;
+    private $categoriesId;
+    private $categoriesIdJson;
+    private $state;
+    private $city;
+    private $tags;
+    private $tags_json;
+    private $featuredImage;
+    private $featuredImageId;
+    private $error;
 
-    function __construct($postID = null) {
+    function __construct($postId = 0, WP_Post $post = null, $only_current = false) {
 
-        add_action( 'admin_menu', array( &$this, 'remove_meta_boxes') );
-
-        if ( !empty($postID) && is_numeric($postID) && current_user_can('edit_post', $postID) ) {
-            $this->post = get_post($postID);
+        if(!$postId && !$post){
+            return;
         }
 
-        if ( empty ( self::$instance ) ) {
-            add_action('wp_ajax_get_tags', array( &$this, 'get_tags' ) );
-            add_filter('pre_get_posts', array( &$this, 'pre_get_posts' ) );
-            $this->trigger_by_post();
+
+        $post = !$post ? get_post( $postId ) : $post;
+
+        if ( ! $post ) {
+            return;
         }
 
-        self::$instance = true;
-    }
+        $this->setId($post->ID);
 
-    function remove_meta_boxes() {
-        remove_meta_box('commentsdiv', 'post', 'normal');
-        remove_meta_box('trackbacksdiv', 'post', 'normal');
-        remove_meta_box('postcustom', 'post', 'normal');
-        remove_meta_box('commentstatusdiv', 'post', 'normal');
-        remove_meta_box('authordiv', 'post', 'normal');
-        remove_meta_box('tagsdiv-comunity-category', 'post', 'normal');
-    }
-
-    function is_post(){
-        return (bool) $this->post;
-    }
-
-    function get_post(){
-
-        return $this->post;
-    }
-
-    function get_post_data($field){
-
-        if($field == 'category_json'){
-
-            $string = 'data: [';
-
-            foreach ( get_categories() as $categori ) :
-                $string .= "{id:".$categori->term_id.", name:'".$categori->cat_name."'},";
-            endforeach;
-
-            $string .= '],';
-
-            return $string;
+        if($only_current && !$this->isCurrentAuthor()){
+            $this->id = null;
+            return;
         }
 
-        if(empty($this->post->ID)){
-            return '';
+        $this->setTitle($post->post_title);
+        $this->setContent($post->post_content);
+        $this->setStatus($post->post_status);
+        $this->setAuthorId($post->post_author);
+        $this->setCategories(get_the_category( $post->ID ));
+        $this->setCategoriesId(wp_get_post_categories( $post->ID ));
+
+        $cur_ufmun = get_post_ufmun( $post->ID );
+
+        if (!empty($cur_ufmun['uf']['id'])) {
+            $this->setState($cur_ufmun['uf']['id']);
         }
 
-        if($field == 'tags_json'){
+        if (!empty($cur_ufmun['mun']['id'])) {
+            $this->setState($cur_ufmun['mun']['id']);
+        }
 
-            $tagsData = wp_get_post_tags($this->post->ID);
-            $tagsDataArr = array();
+        $this->setTags(wp_get_post_tags( $post->ID ));
 
-            foreach ($tagsData as $tag){
+        $thumbnail_id = get_post_thumbnail_id( $post->ID );
+
+        $this->setFeaturedImageId(get_post_thumbnail_id( $post->ID ));
+        $this->setFeaturedImage(get_the_post_thumbnail( $post->ID, 'post-thumbnail' ));
+    }
+
+    /**
+     * @return int
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId( $id ) {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle() {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle( $title ) {
+        $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent() {
+        return $this->content;
+    }
+
+    /**
+     * @param string $content
+     */
+    public function setContent( $content ) {
+        $this->content = $content;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus() {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus( $status ) {
+        $this->status = $status;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAuthorId() {
+        return $this->authorId;
+    }
+
+    /**
+     * @param int $authorId
+     */
+    public function setAuthorId( $authorId ) {
+        $this->authorId = $authorId;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCategories() {
+        return $this->categories;
+    }
+
+    /**
+     * @param array $categories
+     */
+    public function setCategories( $categories ) {
+        $this->categories = $categories;
+    }
+
+    /**
+     * @return int
+     */
+    public function getState() {
+        return $this->state;
+    }
+
+    /**
+     * @param int $state
+     */
+    public function setState( $state ) {
+        $this->state = $state;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCity() {
+        return $this->city;
+    }
+
+    /**
+     * @param int $city
+     */
+    public function setCity( $city ) {
+        $this->city = $city;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTags() {
+        return $this->tags;
+    }
+
+    /**
+     * @param array $tags
+     */
+    public function setTags( $tags ) {
+        $this->tags = $tags;
+    }
+
+    /**
+     * @param string $size
+     *
+     * @return string
+     */
+    public function getFeaturedImage( $size = 'post-thumbnail' ) {
+
+        if ( is_string( $size ) && $size == 'post-thumbnail' ){
+            return $this->featuredImage;
+        }
+
+        return get_the_post_thumbnail( $this->id, $size );
+
+    }
+
+    /**
+     * @param $featured_image
+     * @param string $size
+     */
+    public function setFeaturedImage( $featuredImage ) {
+        $this->featuredImage = $featuredImage;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategoriesJson() {
+
+        if ( $this->categoriesJson ) {
+            return $this->categoriesJson;
+        }
+
+        $string = 'data: [';
+
+        foreach ( get_categories() as $category ) :
+            $string .= "{id:" . $category->term_id . ", name:'" . $category->cat_name . "'},";
+        endforeach;
+
+        $string .= '],';
+
+        return $this->categoriesJson = $string;
+    }
+
+    /**
+     * @param mixed $categoriesJson
+     */
+    public function setCategoriesJson( $categoriesJson ) {
+        $this->categoriesJson = $categoriesJson;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTagsJson() {
+
+        if ( $this->tags_json ) {
+            return $this->tags_json;
+        }
+
+        $tagsDataArr = array();
+
+        if ( $this->tags ) {
+            foreach ( $this->tags as $tag ) {
                 $tagsDataArr[] = $tag->name;
             }
-
-            if($tagsDataArr){
-                return "['".implode("', '",$tagsDataArr)."']";
-            } else {
-                return '';
-            }
-
         }
 
-        if($field == 'category'){
-
-            $categoriesData = wp_get_post_categories($this->post->ID);
-
-            if($categoriesData){
-                return "['".implode("', '",$categoriesData)."']";
-            } else {
-                return '';
-            }
-
+        if ( $tagsDataArr ) {
+            return $this->tags_json = "['" . implode( "', '", $tagsDataArr ) . "']";
         }
 
-        if($field == 'state'){
-            $cur_ufmun = get_post_ufmun($this->post->ID);
-
-            if (is_numeric($cur_ufmun['uf']['id'])){
-                return $cur_ufmun['uf']['id'];
-            }
-        }
-
-        if($field == 'city'){
-            $cur_ufmun = get_post_ufmun($this->post->ID);
-
-            if (is_numeric($cur_ufmun['mun']['id'])){
-                return $cur_ufmun['mun']['id'];
-            }
-        }
-
-        if(!empty($this->post->{$field})){
-            return $this->post->{$field};
-        }
-
-        return '';
-    }
-    
-    function pre_get_posts($wp_query) {
-        
-        if ( $wp_query->is_main_query() && $wp_query->get( 'rhs_login_tpl' ) == RHSRewriteRules::POST_URL ) {
-
-			if ( $wp_query->get( 'rhs_edit_post' ) && is_numeric($wp_query->get( 'rhs_edit_post' )) ) {
-            
-                $wp_query->set('p', $wp_query->get( 'rhs_edit_post' ));
-            
-            } else {
-                $u = wp_get_current_user();
-                $wp_query->set('author', $u->ID);
-            
-            }
-
-		}
-        
-    }
-    
-    private function trigger_by_post() {
-
-        if ( ! empty( $_POST['post_user_wp'] ) && $_POST['post_user_wp'] == $this->getKey() ) {
-
-            if ( ! $this->validate_by_post() ) {
-                return;
-            }
-
-            $status = null;
-
-            if(!$_POST['post_ID']){
-                $status = ( $_POST['status'] == 'draft' ) ? 'draft' : RHSVote::VOTING_QUEUE;
-            }
-            
-            $this->insert(
-                $_POST['post_ID'],
-                $_POST['title'],
-                $_POST['public_post'],
-                $status,
-                get_current_user_id(),
-                $_POST['category'],
-                $_POST['estado'],
-                $_POST['municipio'],
-                $_POST['tags'],
-                $_POST['img_destacada'] );
-        }
+        return $this->tags_json;
     }
 
-    public function insert( $ID, $title, $content, $status, $authorId, $category, $state = '', $city = '', array $tags = array(), $featured_image ) {
-
-        $dataPost = array(
-            'post_title'    => wp_strip_all_tags( $title ),
-            'post_content'  => $content,
-            'post_status'   => $status,
-            'post_author'   => $authorId,
-            'post_category' => (is_array($category)) ? $category : array($category),
-            'comment_status' => 'open'
-        );
-        
-        if (is_numeric($ID)){
-            $dataPost['ID'] = $ID;
-            unset($dataPost['post_status']);
-            $post_ID = wp_update_post( $dataPost, true );
-        } else {
-            $post_ID = wp_insert_post( $dataPost, true );
-        }
-
-
-
-        if ( $post_ID instanceof WP_Error ) {
-
-            foreach ( $post_ID->get_error_messages() as $error ) {
-                $this->set_messages( $error, false, 'error' );
-            }
-
-            return;
-
-        }
-        
-        add_post_ufmun_meta($post_ID, $city, $state);
-        wp_set_post_terms( $post_ID, $tags );
-        set_post_thumbnail($post_ID, $featured_image);
-
-        if ($status == RHSVote::VOTING_QUEUE) {
-            wp_redirect(get_permalink($post_ID));
-        } else {
-            $this->set_messages(   '<i class="fa fa-check "></i> Rascunho salvo com sucesso! <a href="'.home_url('minhas-postagens').'">Clique aqui</a>  para ver a listagem de seus posts', false, 'success' );
-            wp_redirect(get_home_url() . '/' . RHSRewriteRules::POST_URL . '/' . $post_ID);
-        } 
-        
-        exit;
-        
+    /**
+     * @param mixed $tags_json
+     */
+    public function setTagsJson( $tags_json ) {
+        $this->tags_json = $tags_json;
     }
 
-    private function validate_by_post() {
-
-        $this->clear_messages();
-
-        if ( ! array_key_exists( 'title', $_POST ) ) {
-            $this->set_messages('<i class="fa fa-exclamation-triangle "></i> Preencha o seu email!', false, 'error' );
-
-            return false;
-        }
-
-        if ( ! get_current_user_id() ) {
-            $this->set_messages(  '<i class="fa fa-exclamation-triangle "></i> Efetue o login para realizar um post', false, 'error'  );
-
-            return false;
-        }
-
-        if ( ! array_key_exists( 'public_post', $_POST ) ) {
-            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Escreva o conteúdo do post!', false, 'error' );
-
-            return false;
-        }
-
-
-
-        if ( ! array_key_exists( 'category', $_POST ) ) {
-            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Selecione uma categoria!', false, 'error' );
-
-            return false;
-        }
-
-        if ( ! array_key_exists( 'estado', $_POST ) ) {
-            $_POST['estado'] = '';
-
-        }
-
-        if ( ! array_key_exists( 'municipio', $_POST ) ) {
-            $_POST['municipio'] = '';
-
-        }
-
-        if ( ! array_key_exists( 'post_ID', $_POST ) ) {
-            $_POST['post_ID'] = null;
-        
-        }
-
-        if ( ! array_key_exists( 'tags', $_POST ) ) {
-            $_POST['tags'] = array();
-
-        }
-
-        return true;
-
+    /**
+     * @return array|WP_Error
+     */
+    public function getCategoriesId() {
+        return $this->categoriesId;
     }
 
-    public function get_tags() {
+    /**
+     * @param array|WP_Error $categoriesId
+     */
+    public function setCategoriesId( $categoriesId ) {
+        $this->categoriesId = $categoriesId;
+    }
 
-        $result_tags = array();
+    /**
+     * @return mixed
+     */
+    public function getCategoriesIdJson() {
 
-        if ( empty( $_POST['query'] ) ) {
-            echo json_encode( $result_tags );
-            exit;
+        if ( $this->categoriesIdJson ) {
+            return $this->categoriesIdJson;
         }
 
-        $tags = get_tags( array( 'name__like' => $_POST['query'] ) );
-
-        foreach ( $tags as $tag ) {
-            $result_tags[] = array(
-                'id'   => $tag->name,
-                'name' => $tag->name
-            );
+        if ( $this->categoriesId ) {
+            $this->categoriesIdJson = "['" . implode( "', '", $this->categoriesId ) . "']";
         }
 
-        echo json_encode( $result_tags );
-        exit;
+        return $this->categoriesIdJson;
+    }
+
+    /**
+     * @param mixed $categoriesIdJson
+     */
+    public function setCategoriesIdJson( $categoriesIdJson ) {
+        $this->categoriesIdJson = $categoriesIdJson;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getFeaturedImageId() {
+        return $this->featuredImageId;
+    }
+
+    /**
+     * @param int|string $featuredImageId
+     */
+    public function setFeaturedImageId( $featuredImageId ) {
+        $this->featuredImageId = $featuredImageId;
+    }
+
+    /**
+     * @return array
+     */
+    public function getError() {
+        return $this->error;
+    }
+
+    /**
+     * @param array $error
+     */
+    public function setError(WP_Error $error ) {
+
+        $this->error = $error->get_error_messages();
+    }
+
+    public function isCurrentAuthor(){
+        return current_user_can('edit_post', $this->id);
     }
 
 
-    /*
-    * Function que lista as postagens na página minhas-postagens
-    */
-    static function minhasPostagens(){
-        global $current_user;
-        wp_get_current_user();
-        $author_query = array('posts_per_page' => '-1','author' => $current_user->ID, 'post_status' => array('draft', 'publish', 'voting-queue'));
-        $author_posts = new WP_Query($author_query);
-        global $RHSVote;
-        while($author_posts->have_posts()) : $author_posts->the_post();
-        
-            $post_status = get_post_status(get_the_ID());
-            
-            if ($post_status == 'publish') {
-                $status_label = 'Publicado';
-            } elseif ($post_status == 'draft') {
-                $status_label = 'Rascunho';
-            } elseif (array_key_exists($post_status, $RHSVote->get_custom_post_status())) {
-                $status_label = $RHSVote->get_custom_post_status()[$post_status]['label'];
-            } else {
-                $status_label = $post_status;
-            }
-            
-            
-        ?>
-            <tr>
-                <td><?php the_title(); ?></td>
-                <td><?php the_time('D, d/m/Y - H:i'); ?></td>
-                <td></td>
-                <td>
-                    <?php
-                        if ( comments_open() ) :
-                          comments_popup_link( '0', '1 ', '%', '', '<i class="fa fa-ban" aria-hidden="true"></i>');
-                        endif;
-                    ?>
-                </td>
-                <td>
-                <?php
-                    $votos = $RHSVote->get_total_votes(get_the_ID());
-                    if($votos <= 0){
-                        echo '0';
-                    }else {
-                        echo $votos;
-                    }
-                ?>
-                </td>
-                <td>
-                    <?php echo $status_label; ?>
-                    
-                    <?php if(current_user_can('edit_post', get_the_ID())): ?>
-                        <a href="<?php echo get_home_url() . '/' . RHSRewriteRules::POST_URL . '/' . get_the_ID(); ?>">
-                            (Editar)
-                        </a>
-                    <?php endif; ?>
-                    
-                </td>
-            </tr>   
-        <?php           
-        endwhile;
-    }
 }
 
 global $RHSPost;
-$RHSPost = new RHSPost();
+//$RHSPost = new RHSPost( get_the_ID() );

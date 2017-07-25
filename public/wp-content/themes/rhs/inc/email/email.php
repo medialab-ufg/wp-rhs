@@ -212,8 +212,8 @@ class RHSEmail {
             'post_title' => $post->post_title
         );
 
-        $subject = $RHSEmail->get_subject('post_promoted', $args);
-        $message = $RHSEmail->get_message('post_promoted', $args);
+        $subject = $this->get_subject('post_promoted', $args);
+        $message = $this->get_message('post_promoted', $args);
 
         wp_mail($user->user_email, $subject, $message, 'MIME-Version: 1.0' . "\r\n" . 'Content-type: text/html; charset=iso-8859-1' . "\r\n");
     }
@@ -226,7 +226,7 @@ class RHSEmail {
         <div class="wrap">
             <h2><?php echo __( 'Mensagens de Emails' ); ?></h2>
         <div class="inside sbwe-inside">
-            <form method="POST"><table class="widefat">
+            <form autocomplete="off" method="POST"><table class="widefat">
                     <tbody>
                     <?php $i = 0; ?>
                     <?php foreach ($this->messages as $label => $menssage){ ?>

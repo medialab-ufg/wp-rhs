@@ -104,7 +104,7 @@ global $post;
                     <div class="wrapper-content">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <form id="responder_editor" action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php"  method="post">
+                                <form autocomplete="off" id="responder_editor" action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php"  method="post">
                                     <h4>Responder o Editor:</h4>
                                     <div class="form-group float-label-control">
                                         <?php comment_id_fields(); ?>

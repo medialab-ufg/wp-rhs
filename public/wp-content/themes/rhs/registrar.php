@@ -7,7 +7,7 @@ global $RHSCaptcha;
         <div class="login">
             <header class="userpage">
                 <div class="col-md-12 col-sm-12">
-                    <form method="post" class="form-horizontal" role="form" id="register" action="">
+                    <form autocomplete="off" method="post" class="form-horizontal" role="form" id="register" action="">
                         <div class="panel panel-info">
                             <div class="panel-heading">
                                 <div class="panel-title">Registro</div>

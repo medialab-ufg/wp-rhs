@@ -90,6 +90,11 @@ body {
     a {
         font-weight: normal;
     }
+    > section{
+        > .container{
+            min-height: 500px;
+        }
+    }
 }
 
 /**********
@@ -185,6 +190,14 @@ body {
     }
     &.alert-success {
         background: #3c763d;
+        a {
+            color: $whiteColor;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+    }
+    &.alert-info {
+        background: #009b9b;
         a {
             color: $whiteColor;
             font-weight: 700;
@@ -877,6 +890,9 @@ h1.titulo-page {
 
 .panel-default {
 
+    >.alert{
+        margin: 10px 10px;
+    }
     &:hover{
         box-shadow: 2px 2px 1px 1px #c1c1c1;
     }
@@ -2084,6 +2100,20 @@ form .comment-form-comment {
                 }    
             }
         }
+        h4{
+            &.titulo-page{
+                margin: 0;
+                margin-bottom: -10px;
+                color: #00b4b4;
+                font-size: 20px;
+                text-align: center;
+            }
+        }
+        p{
+            &.postnone{
+                text-align: center;
+            }
+        }
         @media screen and (max-width: 768px){
             margin-bottom: 20px;
             padding: 10px;
@@ -2952,7 +2982,6 @@ form .comment-form-comment {
                     font-size: 0.8em;
                     font-weight: bold;
                     outline: none;
-                    word-break: break-all;
                     &:hover {
                         color: $primeira_cor_texto;
                         text-decoration: none;
@@ -2996,6 +3025,14 @@ form .comment-form-comment {
                 }
                 #img_destacada_preview{
                     margin-bottom: 15px;
+                    img{
+                        width: 200px;
+                    }
+                }
+                .has-error{
+                    .help-block{
+                        font-size: 13px;
+                    }
                 }
             }
         }

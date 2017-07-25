@@ -279,6 +279,7 @@ Class RHSVote {
             exit;
         }
 
+
         $this->add_vote( $_POST['post_id'], get_current_user_id() );
         $box = $this->get_vote_box( $_POST['post_id'], false);
 
@@ -291,6 +292,7 @@ Class RHSVote {
 	function add_vote( $post_id, $user_id = null ) {
 
 		global $wpdb;
+		global $RHSPosts;
 
 		if ( is_null( $user_id ) ) {
 			$current_user = wp_get_current_user();
@@ -307,6 +309,7 @@ Class RHSVote {
 		}
 
 		$this->update_vote_count( $post_id );
+        $RHSPosts->update_date_order($post_id);
 		$this->check_votes_to_upgrade( $post_id );
 
 	}
@@ -424,7 +427,6 @@ Class RHSVote {
 	}
 
 	function check_votes_to_upgrade( $postID ) {
-
 
 		if ( $this->get_total_votes( $postID ) < $this->votes_to_approval ) {
 			return;
@@ -549,7 +551,7 @@ Class RHSVote {
 		?>
         <div class="wrap">
             <h2><?php echo __( 'Fila de votação' ); ?></h2>
-            <form name="form1" method="post" action="">
+            <form autocomplete="off" name="form1" method="post" action="">
                 <table class="form-table">
                     <tbody>
 					<?php foreach ( $labels as $label => $attr ) { ?>

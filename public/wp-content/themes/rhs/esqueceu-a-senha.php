@@ -21,7 +21,7 @@ global $RHSLostPassword;
                             <?php } ?>
                         </div>
                         <?php } ?>
-                        <form id="lostpassword" class="form-horizontal" method="post" role="form" action="">
+                        <form autocomplete="off" id="lostpassword" class="form-horizontal" method="post" role="form" action="">
                             <div class="form-group float-label-control">
                                 <label for="user_login">Digite seu e-mail: </label>
                                 <input type="email" tabindex="1" name="user_login" id="user_login" class="form-control" value="" size="20" required>

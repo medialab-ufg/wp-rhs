@@ -13,22 +13,6 @@ foreach ($categories as $category){
 
 
 $categories = array(
-    'Formação/cursos' => array(
-        'Certificado',
-        'Contato com formador',
-        'Divulgação',
-        'Elogio',
-        'Informação',
-        'Inscrição',
-        'Logística',
-        'Material de referência',
-        'Outros'
-    ),
-    'Outros' => array(
-        'Pedido de ajuda',
-        'Spam',
-        'Outros'
-    ),
     'Política Nacional de Humanização (PNH)' => array(
         'Apoio',
         'Informação',
@@ -69,6 +53,22 @@ $categories = array(
         'Ouvidoria',
         'Produção de conhecimento',
         'SUS que dá certo',
+        'Outros'
+    ),
+    'Cursos/formação' => array(
+        'Certificado',
+        'Contato com formador',
+        'Divulgação',
+        'Elogio',
+        'Informação',
+        'Inscrição',
+        'Logística',
+        'Material de referência',
+        'Outros'
+    ),
+    'Outros' => array(
+        'Pedido de ajuda',
+        'Spam',
         'Outros'
     )
 );

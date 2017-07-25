@@ -37,7 +37,7 @@ SELECT DISTINCT
     "" `to_ping`,
     "" `pinged`,
     "" `post_content_filtered`,
-    IF(n.status = 1, 'publish', 'private') `post_status`,
+    IF(n.status = 1, 'publish', 'draft') `post_status`,
     CONCAT('http://redehumanizasus.net/node/', n.nid) `guid`
 
 FROM

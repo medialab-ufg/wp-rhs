@@ -1,3 +1,4 @@
+<?php if(is_user_logged_in()) : ?>
 <section class="buttons_top hidden-print">
         <div class="col-xs-12 col-sm-12 col-md-12 full-width">
             <div class="btn-group btn-group-justified" role="group">
@@ -10,3 +11,4 @@
             </div>
         </div>
 </section>
+<?php endif; ?>
