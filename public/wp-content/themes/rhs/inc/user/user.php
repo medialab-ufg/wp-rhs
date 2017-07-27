@@ -29,7 +29,7 @@ class RHSUser {
         }
 
         $this->id = $user->ID;
-        $this->avatar = get_avatar_url($this->id);
+        $this->avatar = get_avatar($this->id);
         $this->name = $user->display_name;
         $this->date_registered = $user->user_registered;
         $this->link = esc_url(get_author_posts_url($this->id));

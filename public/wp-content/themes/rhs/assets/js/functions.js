@@ -1,5 +1,7 @@
 jQuery( function( $ ) {
 
+    $('[data-toggle="tooltip"]').tooltip();
+
     $('.list-members li .member').popover({html : true, container: 'body'});
 
     function readURL(input) {

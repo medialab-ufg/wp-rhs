@@ -26,19 +26,21 @@ class RHSComunities extends RHSMenssage {
     /**
      * Action, Filters e Hooks para o wordpress
      */
-    function events_wordpress(){
-        add_action('init', array( &$this, "register_taxonomy" ));
+    function events_wordpress() {
+        add_action( 'init', array( &$this, "register_taxonomy" ) );
 
-        add_action( self::TAXONOMY.'_edit_form_fields', array( &$this, 'edit_category_field') );
-        add_action( self::TAXONOMY.'_add_form_fields',array( &$this, 'new_category_field') );
-        add_action( 'edited_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
-        add_action( 'create_'.self::TAXONOMY, array( &$this,'save_tax_meta'), 10, 2 );
-        add_action( 'admin_footer', array ( $this, 'add_script' ) );
+        add_action( self::TAXONOMY . '_edit_form_fields', array( &$this, 'edit_category_field' ) );
+        add_action( self::TAXONOMY . '_add_form_fields', array( &$this, 'new_category_field' ) );
+        add_action( 'edited_' . self::TAXONOMY, array( &$this, 'save_tax_meta' ), 10, 2 );
+        add_action( 'create_' . self::TAXONOMY, array( &$this, 'save_tax_meta' ), 10, 2 );
 
-        add_action('wp_ajax_comunity_action', array($this, 'ajax_comunity_action'));
+        add_action( 'wp_ajax_comunity_action', array( $this, 'ajax_comunity_action' ) );
+        add_action( 'wp_ajax_complete_comunity_members', array( $this, 'ajax_complete_comunity_members' ) );
+        add_action( 'wp_ajax_comunity_action_add_member', array( $this, 'ajax_comunity_action_add_member' ) );
 
-        add_action('add_meta_boxes', array( &$this, "add_meta_box"));
-        add_filter( 'wp_insert_post_data' , array( &$this,'filter_post_data') , '99', 2 );
+
+        add_action( 'add_meta_boxes', array( &$this, "add_meta_box" ) );
+        add_filter( 'wp_insert_post_data', array( &$this, 'filter_post_data' ), '99', 2 );
 
     }
 
@@ -51,20 +53,20 @@ class RHSComunities extends RHSMenssage {
      *
      * @return WP_Term[]
      */
-    public function get_comunities($get_empty = false, array $filter = array()){
+    public function get_comunities( $get_empty = false, array $filter = array() ) {
 
-        $filter_default = array('taxonomy' => self::TAXONOMY);
+        $filter_default = array( 'taxonomy' => self::TAXONOMY );
 
-        if($get_empty){
+        if ( $get_empty ) {
             $filter_default['hide_empty'] = 0;
             $filter_default['pad_counts'] = true;
         }
 
-        if($filter){
-            $filter_default = array_merge($filter_default, $filter);
+        if ( $filter ) {
+            $filter_default = array_merge( $filter_default, $filter );
         }
 
-        return get_categories($filter_default);
+        return get_categories( $filter_default );
     }
 
     /*====================================================================================================
@@ -74,33 +76,32 @@ class RHSComunities extends RHSMenssage {
     /**
      * Registra a taxonomia "Comunidades"
      */
-    function register_taxonomy()
-    {
+    function register_taxonomy() {
         $labels = array(
-            'name' =>'Comunidades',
-            'singular_name' => 'Comunidade',
-            'search_items' => 'Buscar Comunidade',
-            'all_items' => 'Todas as Comunidades',
-            'parent_item' => 'Comunidades Acima',
+            'name'              => 'Comunidades',
+            'singular_name'     => 'Comunidade',
+            'search_items'      => 'Buscar Comunidade',
+            'all_items'         => 'Todas as Comunidades',
+            'parent_item'       => 'Comunidades Acima',
             'parent_item_colon' => 'Comunidades Acima:',
-            'edit_item' => 'Editar Comunidade',
-            'update_item' => 'Atualizar Comunidades',
-            'add_new_item' => 'Adicionar Nova Comunidade',
-            'new_item_name' => 'Novo nome da Comunidade',
+            'edit_item'         => 'Editar Comunidade',
+            'update_item'       => 'Atualizar Comunidades',
+            'add_new_item'      => 'Adicionar Nova Comunidade',
+            'new_item_name'     => 'Novo nome da Comunidade',
         );
         register_taxonomy(
             self::TAXONOMY,
-            array('post'),
+            array( 'post' ),
             array(
-                'hierarchical' => true,
-                'labels' => $labels,
-                'show_ui' => true,
-                'query_var' => true,
-                'rewrite' => false,
-                'hierarchical' => false,
-                'parent_item'  => null,
+                'hierarchical'      => true,
+                'labels'            => $labels,
+                'show_ui'           => true,
+                'query_var'         => true,
+                'rewrite'           => false,
+                'hierarchical'      => false,
+                'parent_item'       => null,
                 'parent_item_colon' => null,
-                'rewrite' => array(
+                'rewrite'           => array(
                     'slug' => 'comunidade'
                 )
             )
@@ -109,24 +110,25 @@ class RHSComunities extends RHSMenssage {
 
     /**
      * (Taxonomy) Adiciona campo "Tipo" ao inserir
+     *
      * @param $term
      */
-    function new_category_field( $term ){
+    function new_category_field( $term ) {
         ?>
         <div class="form-field term-parent-wrap">
             <label for="term_meta[<?php echo self::TYPE ?>]">Tipo</label>
-            <br />
+            <br/>
             <fieldset>
                 <label>
-                    <input checked type="radio" name="term_meta[<?php echo self::TYPE ?>]" value="open" />
+                    <input checked type="radio" name="term_meta[<?php echo self::TYPE ?>]" value="open"/>
                     <span>Aberto</span>
                 </label>
                 <label>
-                    <input type="radio" name="term_meta[<?php echo self::TYPE ?>]" value="private" />
+                    <input type="radio" name="term_meta[<?php echo self::TYPE ?>]" value="private"/>
                     <span>Privado</span>
                 </label>
                 <label>
-                    <input type="radio" name="term_meta[<?php echo self::TYPE ?>]" value="hide" />
+                    <input type="radio" name="term_meta[<?php echo self::TYPE ?>]" value="hide"/>
                     <span>Oculto</span>
                 </label>
             </fieldset>
@@ -136,15 +138,15 @@ class RHSComunities extends RHSMenssage {
 
     /**
      * (Taxonomy) Adiciona campo "Tipo" ao editar
+     *
      * @param $term
      */
-    function edit_category_field( $term ){
+    function edit_category_field( $term ) {
         $term_meta = '';
-        if($term instanceof WP_Term){
-            $term_id = $term->term_id;
-            $term_meta = get_term_meta($term_id, self::TYPE, true );
+        if ( $term instanceof WP_Term ) {
+            $term_id   = $term->term_id;
+            $term_meta = get_term_meta( $term_id, self::TYPE, true );
         }
-
 
 
         ?>
@@ -155,17 +157,23 @@ class RHSComunities extends RHSMenssage {
             <td>
                 <fieldset>
                     <label>
-                        <input <?php echo ($term_meta == 'open' || !$term_meta) ? 'checked' : ''; ?> type="radio" name="term_meta[<?php echo self::TYPE ?>]" value="open" />
+                        <input <?php echo ( $term_meta == 'open' || ! $term_meta ) ? 'checked' : ''; ?> type="radio"
+                                                                                                        name="term_meta[<?php echo self::TYPE ?>]"
+                                                                                                        value="open"/>
                         <span>Aberto</span>
                     </label>
-                    <br />
+                    <br/>
                     <label>
-                        <input <?php echo ($term_meta == 'private') ? 'checked' : ''; ?> type="radio" name="term_meta[<?php echo self::TYPE ?>]" value="private" />
+                        <input <?php echo ( $term_meta == 'private' ) ? 'checked' : ''; ?> type="radio"
+                                                                                           name="term_meta[<?php echo self::TYPE ?>]"
+                                                                                           value="private"/>
                         <span>Privado</span>
                     </label>
-                    <br />
+                    <br/>
                     <label>
-                        <input <?php echo ($term_meta == 'hide') ? 'checked' : ''; ?> type="radio" name="term_meta[<?php echo self::TYPE ?>]" value="hide" />
+                        <input <?php echo ( $term_meta == 'hide' ) ? 'checked' : ''; ?> type="radio"
+                                                                                        name="term_meta[<?php echo self::TYPE ?>]"
+                                                                                        value="hide"/>
                         <span>Oculto</span>
                     </label>
                 </fieldset>
@@ -177,17 +185,18 @@ class RHSComunities extends RHSMenssage {
 
     /**
      * (Taxonomy) Salva o campo "Tipo"
+     *
      * @param $term_id
      * @param $taxonomy
      */
-    function save_tax_meta( $term_id , $taxonomy ){
+    function save_tax_meta( $term_id, $taxonomy ) {
 
-        if(isset( $_POST['term_meta'][self::TYPE])){
+        if ( isset( $_POST['term_meta'][ self::TYPE ] ) ) {
             $term_meta = array();
 
-            if ( ! add_term_meta($term_id, self::TYPE, $_POST['term_meta'][self::TYPE], true) ) {
+            if ( ! add_term_meta( $term_id, self::TYPE, $_POST['term_meta'][ self::TYPE ], true ) ) {
 
-                update_term_meta($term_id, self::TYPE, $_POST['term_meta'][self::TYPE]);
+                update_term_meta( $term_id, self::TYPE, $_POST['term_meta'][ self::TYPE ] );
             }
         }
     }
@@ -196,19 +205,21 @@ class RHSComunities extends RHSMenssage {
      * (Post) Adiciona MetaBox para a escolha da comunidade
      */
     function add_meta_box() {
-        add_meta_box('category_comunity', 'Comunidades', array( &$this, 'meta_box_response'), 'post', 'side', 'default');
+        add_meta_box( 'category_comunity', 'Comunidades', array( &$this, 'meta_box_response' ), 'post', 'side',
+            'default' );
     }
 
     /**
      * (Post) HTML da MetaBox
+     *
      * @param WP_Post $post
      *
      * @return string
      */
-    function meta_box_response($post) {
+    function meta_box_response( $post ) {
 
-        $comunities = $this->get_comunities(true);
-        $comunities_post = $this->get_comunities_by_post($post->ID);
+        $comunities      = $this->get_comunities( true );
+        $comunities_post = $this->get_comunities_by_post( $post->ID );
 
         ?>
         <div id="taxonomy-category" class="categorydiv">
@@ -220,15 +231,17 @@ class RHSComunities extends RHSMenssage {
             <div id="category-all" class="tabs-panel">
                 <input type="hidden" name="post_comunity[]" value="0">
                 <ul class="categorychecklist">
-                    <?php foreach ($comunities as $category){ ?>
+                    <?php foreach ( $comunities as $category ) { ?>
                         <li id="comunity-<?php echo $category->term_id ?>" class="popular-category">
                             <label class="selectit">
                                 <?php
 
-                                $checked = ($comunities_post && $comunities_post->term_id == $category->term_id) ? 'checked' : '';
+                                $checked = ( $comunities_post && $comunities_post->term_id == $category->term_id ) ? 'checked' : '';
 
                                 ?>
-                                <input <?php echo $checked; ?> value="<?php echo $category->name ?>" type="radio" name="post_comunity" id="in-comunity-<?php echo $category->term_id ?>" /> <?php echo $category->name ?>
+                                <input <?php echo $checked; ?> value="<?php echo $category->name ?>" type="radio"
+                                                               name="post_comunity"
+                                                               id="in-comunity-<?php echo $category->term_id ?>"/> <?php echo $category->name ?>
                             </label>
                         </li>
                     <?php } ?>
@@ -242,31 +255,33 @@ class RHSComunities extends RHSMenssage {
 
     /**
      * (Post) Pega a comunidade escolhida
+     *
      * @param int $post_id
      *
      * @return array|WP_Error|WP_Term
      */
-    function get_comunities_by_post($post_id){
-        $comunity = wp_get_post_terms($post_id, self::TAXONOMY);
+    function get_comunities_by_post( $post_id ) {
+        $comunity = wp_get_post_terms( $post_id, self::TAXONOMY );
 
-        if(!$comunity){
+        if ( ! $comunity ) {
             return array();
         }
 
-        return current($comunity);
+        return current( $comunity );
 
     }
 
     /**
      * (Post) Insere a comunidade escolhida
+     *
      * @param $data
      * @param $postarr
      *
      * @return mixed
      */
-    function filter_post_data( $data , $postarr ) {
+    function filter_post_data( $data, $postarr ) {
 
-        if(!empty($_POST['post_comunity'])){
+        if ( ! empty( $_POST['post_comunity'] ) ) {
             wp_set_post_terms( $postarr['ID'], $_POST['post_comunity'], self::TAXONOMY );
         }
 
@@ -280,9 +295,9 @@ class RHSComunities extends RHSMenssage {
     /**
      * Salva imagem pelo post
      */
-    public function trigger_by_post(){
+    public function trigger_by_post() {
         if ( ! empty( $_POST['edit_image_comunity_wp'] ) && $_POST['edit_image_comunity_wp'] == $this->getKey() ) {
-            $this->update_image_post($_POST['comunity_id'], $_FILES['avatar_comunity']);
+            $this->update_image_post( $_POST['comunity_id'], $_FILES['avatar_comunity'] );
         }
     }
 
@@ -292,27 +307,28 @@ class RHSComunities extends RHSMenssage {
      * @param $comunity_id
      * @param $avatar_file
      */
-    function update_image_post($comunity_id, $avatar_file){
+    function update_image_post( $comunity_id, $avatar_file ) {
 
-        if ($avatar_file) {
-            $arquivo_tmp = $avatar_file[ 'tmp_name' ];
-            $nome = $avatar_file[ 'name' ];
+        if ( $avatar_file ) {
+            $arquivo_tmp = $avatar_file['tmp_name'];
+            $nome        = $avatar_file['name'];
 
-            $extensao = pathinfo ( $nome, PATHINFO_EXTENSION );
-            $extensao = strtolower ( $extensao );
+            $extensao = pathinfo( $nome, PATHINFO_EXTENSION );
+            $extensao = strtolower( $extensao );
 
-            $novoNome = uniqid ( time () ) . '.' . $extensao;
-            $caminho = '/uploads/'. date('Y').'/'.date('m').'/';
+            $novoNome = uniqid( time() ) . '.' . $extensao;
+            $caminho  = '/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/';
 
-            if(!file_exists(WP_CONTENT_DIR . $caminho)){
-                mkdir( WP_CONTENT_DIR . $caminho, 0777, true);
+            if ( ! file_exists( WP_CONTENT_DIR . $caminho ) ) {
+                mkdir( WP_CONTENT_DIR . $caminho, 0777, true );
             }
 
-            if ( @move_uploaded_file ( $arquivo_tmp, WP_CONTENT_DIR . $caminho . $novoNome ) ) {
+            if ( @move_uploaded_file( $arquivo_tmp, WP_CONTENT_DIR . $caminho . $novoNome ) ) {
 
-                self::update_image($comunity_id,'wp-content'.$caminho.$novoNome);
+                self::update_image( $comunity_id, 'wp-content' . $caminho . $novoNome );
             } else {
-                $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Erro ao salvar o arquivo.', false, 'error');
+                $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Erro ao salvar o arquivo.', false,
+                    'error' );
 
             }
         }
@@ -321,33 +337,34 @@ class RHSComunities extends RHSMenssage {
 
     /**
      * Pega comunidades baseado na pemissão do cliente
+     *
      * @param $user_id
      *
      * @return RHSComunity[]
      */
-    function get_comunities_by_user($user_id){
+    function get_comunities_by_user( $user_id ) {
 
         // Singleton para usar em verificação e não fazer a consulta novamente
-        if($user_id){
-            if(!empty(self::$comunity[$user_id])){
-                return self::$comunity[$user_id];
+        if ( $user_id ) {
+            if ( ! empty( self::$comunity[ $user_id ] ) ) {
+                return self::$comunity[ $user_id ];
             }
         }
 
-        $comunities = $this->get_comunities(true);
+        $comunities = $this->get_comunities( true );
 
         $return = array();
 
-        foreach ($comunities as $comunity){
+        foreach ( $comunities as $comunity ) {
 
-            $obj_comunity = $this->get_comunity_by_user($comunity, $user_id);
+            $obj_comunity = $this->get_comunity_by_user( $comunity, $user_id );
 
-            if($obj_comunity->get_id()){
+            if ( $obj_comunity->get_id() ) {
                 $return[] = $obj_comunity;
             }
         }
 
-        return self::$comunity[$user_id] = $return;
+        return self::$comunity[ $user_id ] = $return;
 
     }
 
@@ -357,20 +374,22 @@ class RHSComunities extends RHSMenssage {
      * @param $term_id
      * @param $user_id
      */
-    static function add_user_comunity($term_id, $user_id){
-        add_term_meta($term_id, self::MEMBER, $user_id);
-        self::delete_user_comunity_request($term_id, $user_id);
+    static function add_user_comunity( $term_id, $user_id ) {
+        add_term_meta( $term_id, self::MEMBER, $user_id );
+        self::delete_user_comunity_request( $term_id, $user_id );
     }
+
     /**
      * Remove membro da comunidade
      *
      * @param $term_id
      * @param $user_id
      */
-    static function delete_user_comunity($term_id, $user_id){
-        delete_term_meta($term_id, self::MEMBER, $user_id);
-        self::delete_user_comunity_modarate($term_id, $user_id);
-        self::delete_user_comunity_follow($term_id, $user_id);
+    static function delete_user_comunity( $term_id, $user_id ) {
+        delete_term_meta( $term_id, self::MEMBER, $user_id );
+        self::delete_user_comunity_moderate( $term_id, $user_id );
+        self::delete_user_comunity_follow( $term_id, $user_id );
+        self::delete_user_comunity_request( $term_id, $user_id );
     }
 
     /**
@@ -379,8 +398,8 @@ class RHSComunities extends RHSMenssage {
      * @param $term_id
      * @param $user_id
      */
-    static function add_user_comunity_follow($term_id, $user_id){
-        add_term_meta($term_id, self::MEMBER_FOLLOW, $user_id);
+    static function add_user_comunity_follow( $term_id, $user_id ) {
+        add_term_meta( $term_id, self::MEMBER_FOLLOW, $user_id );
     }
 
     /**
@@ -389,8 +408,8 @@ class RHSComunities extends RHSMenssage {
      * @param $term_id
      * @param $user_id
      */
-    static function delete_user_comunity_follow($term_id, $user_id){
-        delete_term_meta($term_id, self::MEMBER_FOLLOW, $user_id);
+    static function delete_user_comunity_follow( $term_id, $user_id ) {
+        delete_term_meta( $term_id, self::MEMBER_FOLLOW, $user_id );
     }
 
     /**
@@ -399,8 +418,8 @@ class RHSComunities extends RHSMenssage {
      * @param $term_id
      * @param $user_id
      */
-    static function add_user_comunity_request($term_id, $user_id){
-        add_term_meta($term_id, self::MEMBER_REQUEST, $user_id);
+    static function add_user_comunity_request( $term_id, $user_id ) {
+        add_term_meta( $term_id, self::MEMBER_REQUEST, $user_id );
     }
 
     /**
@@ -409,8 +428,8 @@ class RHSComunities extends RHSMenssage {
      * @param $term_id
      * @param $user_id
      */
-    static function delete_user_comunity_request($term_id, $user_id){
-        delete_term_meta($term_id, self::MEMBER_REQUEST, $user_id);
+    static function delete_user_comunity_request( $term_id, $user_id ) {
+        delete_term_meta( $term_id, self::MEMBER_REQUEST, $user_id );
     }
 
     /**
@@ -419,9 +438,9 @@ class RHSComunities extends RHSMenssage {
      * @param $term_id
      * @param $user_id
      */
-    static function add_user_comunity_modarate($term_id, $user_id){
-        $user = get_userdata($user_id);
-        $user->add_cap(RHSComunities::CAPABILITY_MODERATOR.'_'.$term_id);
+    static function add_user_comunity_moderate( $term_id, $user_id ) {
+        $user = get_userdata( $user_id );
+        $user->add_cap( RHSComunities::CAPABILITY_MODERATOR . '_' . $term_id );
     }
 
     /**
@@ -430,9 +449,9 @@ class RHSComunities extends RHSMenssage {
      * @param $term_id
      * @param $user_id
      */
-    static function delete_user_comunity_modarate($term_id, $user_id){
-        $user = get_userdata($user_id);
-        $user->remove_cap(RHSComunities::CAPABILITY_MODERATOR.'_'.$term_id);
+    static function delete_user_comunity_moderate( $term_id, $user_id ) {
+        $user = get_userdata( $user_id );
+        $user->remove_cap( RHSComunities::CAPABILITY_MODERATOR . '_' . $term_id );
     }
 
     /**
@@ -441,9 +460,9 @@ class RHSComunities extends RHSMenssage {
      * @param $term_id
      * @param $image_path
      */
-    static function update_image($term_id, $image_path) {
-        if(!add_term_meta($term_id, self::IMAGE, $image_path, true)){
-            update_term_meta($term_id, self::IMAGE, $image_path);
+    static function update_image( $term_id, $image_path ) {
+        if ( ! add_term_meta( $term_id, self::IMAGE, $image_path, true ) ) {
+            update_term_meta( $term_id, self::IMAGE, $image_path );
         };
     }
 
@@ -452,15 +471,15 @@ class RHSComunities extends RHSMenssage {
      *
      * @param $term_id
      */
-    static function get_image($term_id){
+    static function get_image( $term_id ) {
 
-        $meta = get_term_meta($term_id, self::IMAGE, true);
+        $meta = get_term_meta( $term_id, self::IMAGE, true );
 
-        if(!$meta){
+        if ( ! $meta ) {
             return 'http://2.gravatar.com/avatar/53d8710f31508b6b3a8e014835f380e0?s=96&d=mm&r=g';
         }
 
-        return home_url($meta);
+        return home_url( $meta );
     }
 
     /**
@@ -468,8 +487,8 @@ class RHSComunities extends RHSMenssage {
      *
      * @param $term_id
      */
-    static function get_members($term_id){
-        return get_term_meta($term_id, self::MEMBER);
+    static function get_members( $term_id ) {
+        return get_term_meta( $term_id, self::MEMBER );
     }
 
 
@@ -478,8 +497,8 @@ class RHSComunities extends RHSMenssage {
      *
      * @param $term_id
      */
-    static function get_follows($term_id){
-        return get_term_meta($term_id, self::MEMBER_FOLLOW);
+    static function get_follows( $term_id ) {
+        return get_term_meta( $term_id, self::MEMBER_FOLLOW );
     }
 
     /**
@@ -487,8 +506,8 @@ class RHSComunities extends RHSMenssage {
      *
      * @param $term_id
      */
-    static function get_requests($term_id){
-        return get_term_meta($term_id, self::MEMBER_REQUEST);
+    static function get_requests( $term_id ) {
+        return get_term_meta( $term_id, self::MEMBER_REQUEST );
     }
 
     /**
@@ -496,25 +515,25 @@ class RHSComunities extends RHSMenssage {
      *
      * @param $term_id
      */
-    static function get_type($term_id){
-        return get_term_meta($term_id, self::TYPE, true);
+    static function get_type( $term_id ) {
+        return get_term_meta( $term_id, self::TYPE, true );
     }
 
     /**
      * Retorna entidade da comunidade por objeto da sessão
      * @return array|RHSComunity
      */
-    function get_comunity_by_request(){
+    function get_comunity_by_request() {
 
-         if(empty(get_queried_object()->term_id)){
-             return array();
-         }
-
-        if(!get_current_user_id()){
+        if ( empty( get_queried_object()->term_id ) ) {
             return array();
         }
 
-        return $this->get_comunity_by_param_id(get_queried_object()->term_id, get_current_user_id());
+        if ( ! get_current_user_id() ) {
+            return array();
+        }
+
+        return $this->get_comunity_by_param_id( get_queried_object()->term_id, get_current_user_id() );
     }
 
 
@@ -526,8 +545,8 @@ class RHSComunities extends RHSMenssage {
      *
      * @return RHSComunity
      */
-    function get_comunity_by_param_id($term_id, $user_id){
-        return $this->get_comunity_by_user(get_term($term_id, self::TAXONOMY), $user_id);
+    function get_comunity_by_param_id( $term_id, $user_id ) {
+        return $this->get_comunity_by_user( get_term( $term_id, self::TAXONOMY ), $user_id );
     }
 
     /**
@@ -538,8 +557,8 @@ class RHSComunities extends RHSMenssage {
      *
      * @return RHSComunity
      */
-    function get_comunity_by_user(WP_Term $comunity, $user_id){
-        return new RHSComunity($comunity, get_userdata($user_id));
+    function get_comunity_by_user( WP_Term $comunity, $user_id ) {
+        return new RHSComunity( $comunity, get_userdata( $user_id ) );
     }
 
 
@@ -547,9 +566,9 @@ class RHSComunities extends RHSMenssage {
      * Checa se tem permissão de ver tela de comunidades
      * @return bool
      */
-    function can_see_comunities(){
+    function can_see_comunities() {
 
-        if(get_current_user_id()){
+        if ( get_current_user_id() ) {
             return true;
         }
 
@@ -560,27 +579,30 @@ class RHSComunities extends RHSMenssage {
     /**
      * (Ajax) de interação
      */
-    function ajax_comunity_action(){
+    function ajax_comunity_action() {
 
-        if(!empty($_POST['type'])){
+        if ( ! empty( $_POST['type'] ) ) {
 
-            $user_id = !empty($_POST['user_id']) ? $_POST['user_id'] : get_current_user_id();
-            $term_id = !empty($_POST['term_id']) ? $_POST['term_id'] : get_queried_object()->term_id;
+            $user_id = ! empty( $_POST['user_id'] ) ? $_POST['user_id'] : get_current_user_id();
+            $term_id = ! empty( $_POST['term_id'] ) ? $_POST['term_id'] : get_queried_object()->term_id;
 
-            $comunity = $this->get_comunity_by_param_id($term_id, $user_id);
+            $comunity = $this->get_comunity_by_param_id( $term_id, $user_id );
 
             $this->clear_messages();
             $data = array();
 
-            $name_user = !empty($_POST['user_out']) ? get_userdata($user_id)->display_name : 'Você' ;
+            $name_user = ! empty( $_POST['user_out'] ) ? get_userdata( $user_id )->display_name : 'Você';
 
-            switch ($_POST['type']){
+            switch ( $_POST['type'] ) {
                 case 'enter':
-                    if($comunity->can_enter()){
-                        self::add_user_comunity($term_id, $user_id);
-                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' entrou na <strong>'.$comunity->get_name().'</strong>', false, 'success');
+
+                    if ( $comunity->can_enter() ) {
+                        self::add_user_comunity( $term_id, $user_id );
+                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' entrou na <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'success' );
                     } else {
-                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para entrar na <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode entrar na <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'error' );
                     }
 
                     $data['refresh'] = true;
@@ -588,11 +610,13 @@ class RHSComunities extends RHSMenssage {
                     break;
                 case 'leave':
 
-                    if($comunity->can_leave()){
-                        self::delete_user_comunity($term_id, $user_id);
-                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' saiu da <strong>'.$comunity->get_name().'</strong>', false, 'success');
+                    if ( $comunity->can_leave() ) {
+                        self::delete_user_comunity( $term_id, $user_id );
+                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' saiu da <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'success' );
                     } else {
-                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para sair da <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode sair da <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'error' );
                     }
 
                     $data['refresh'] = true;
@@ -600,33 +624,39 @@ class RHSComunities extends RHSMenssage {
                     break;
                 case 'follow':
 
-                    if($comunity->can_follow()){
+                    if ( $comunity->can_follow() ) {
 
-                        self::add_user_comunity_follow($term_id, $user_id);
-                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' começou seguiu a <strong>'.$comunity->get_name().'</strong>', false, 'success');
+                        self::add_user_comunity_follow( $term_id, $user_id );
+                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' começou seguiu a <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'success' );
                     } else {
-                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para seguir a <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode seguir a <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'error' );
                     }
 
                     break;
                 case 'not_follow':
 
-                    if($comunity->can_not_follow()){
-                        self::delete_user_comunity_follow($term_id, $user_id);
-                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' deixou de seguir a <strong>'.$comunity->get_name().'</strong>', false, 'success');
+                    if ( $comunity->can_not_follow() ) {
+                        self::delete_user_comunity_follow( $term_id, $user_id );
+                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' deixou de seguir a <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'success' );
                     } else {
-                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para deixar de seguir a <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode deixar de seguir a <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'error' );
                     }
 
                     break;
 
                 case 'request':
 
-                    if($comunity->can_request()){
-                        self::add_user_comunity_request($term_id, $user_id);
-                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' requisitou a entrada na <strong>'.$comunity->get_name().'</strong>', false, 'success');
+                    if ( $comunity->can_request() ) {
+                        self::add_user_comunity_request( $term_id, $user_id );
+                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' requisitou a entrada na <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'success' );
                     } else {
-                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para requisitar a entrada na <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode requisitar a entrada na <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'error' );
                     }
 
                     $data['refresh'] = true;
@@ -634,21 +664,49 @@ class RHSComunities extends RHSMenssage {
                     break;
                 case 'moderate':
 
-                    if($comunity->can_modarate()){
-                        self::add_user_comunity_modarate($term_id, $user_id);
-                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' é o novo moderadorda <strong>'.$comunity->get_name().'</strong>', false, 'success');
+                    if ( $comunity->can_moderate() ) {
+                        self::add_user_comunity_moderate( $term_id, $user_id );
+                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' é o novo moderador da <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'success' );
                     } else {
-                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para requisitar a moderação na <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode ser moderador na <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'error' );
                     }
 
                     break;
                 case 'not_moderate':
 
-                    if($comunity->can_not_modarate()){
-                        self::delete_user_comunity_modarate($term_id, $user_id);
-                        $this->set_messages('<i class="fa fa-check"></i> '.$name_user.' é o novo moderador da <strong>'.$comunity->get_name().'</strong>', false, 'success');
+                    if ( $comunity->can_not_moderate() ) {
+                        self::delete_user_comunity_moderate( $term_id, $user_id );
+                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' foi removido como moderador da <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'success' );
                     } else {
-                        $this->set_messages('<i class="fa fa-exclamation-triangle"></i> '.$name_user.' não tem permissão para requisitar a moderação na <strong>'.$comunity->get_name().'</strong>', false, 'error');
+                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode ser removido da morderação da <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'error' );
+                    }
+
+                    break;
+                case 'accept_request':
+
+                    if ( $comunity->can_accept_request() ) {
+                        self::add_user_comunity( $term_id, $user_id );
+                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' foi aceito na <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'success' );
+                    } else {
+                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode ser aceita na <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'error' );
+                    }
+
+                    break;
+                case 'reject_request':
+
+                    if ( $comunity->can_reject_request() ) {
+                        self::delete_user_comunity( $term_id, $user_id );
+                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' foi rejeitado da <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'success' );
+                    } else {
+                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode ser rejeitado na <strong>' . $comunity->get_name() . '</strong>',
+                            false, 'error' );
                     }
 
                     break;
@@ -658,28 +716,36 @@ class RHSComunities extends RHSMenssage {
             }
 
             $permissions = array(
-                'enter' => false,
-                'leave' => false,
-                'follow' => false,
-                'not_follow' => false,
-                'request' => false,
-                'wait_request' => false,
-                'moderate' => false,
-                'not_moderategitr ' => false
+                'enter'          => false,
+                'leave'          => false,
+                'follow'         => false,
+                'not_follow'     => false,
+                'request'        => false,
+                'wait_request'   => false,
+                'moderate'       => false,
+                'not_moderate'   => false,
+                'accept_request' => false,
+                'reject_request' => false
             );
 
-            $comunity = $this->get_comunity_by_param_id($term_id, $user_id);
+            $comunity = $this->get_comunity_by_param_id( $term_id, $user_id );
 
-            foreach ($permissions as $permission => $value){
-                $data['permissions'][$permission] = $comunity->{'can_'.$permission}();
+            foreach ( $permissions as $permission => $value ) {
+
+                if ( ! method_exists( $comunity, 'can_' . $permission ) ) {
+                    echo $permission;
+                    exit;
+                }
+
+                $data['permissions'][ $permission ] = $comunity->{'can_' . $permission}();
             }
 
-            foreach ($this->messages() as $type => $messages){
+            foreach ( $this->messages() as $type => $messages ) {
 
-                $html = '<div class="alert alert-'.($type == "error" ? "danger" : "success").'">';
+                $html = '<div class="alert alert-' . ( $type == "error" ? "danger" : "success" ) . '">';
 
-                foreach ($messages as $message){
-                    $html .= '<p>'.$message.'</p>';
+                foreach ( $messages as $message ) {
+                    $html .= '<p>' . $message . '</p>';
                 }
 
                 $html .= '</div>';
@@ -687,12 +753,87 @@ class RHSComunities extends RHSMenssage {
                 $data['messages'][] = $html;
             }
 
+
             $this->clear_messages();
+        }
+
+        echo json_encode( $data );
+        exit;
+
+    }
+
+    /**
+     * (Ajax) Busca membros para adicionar a comunidade
+     */
+    function ajax_complete_comunity_members() {
+
+        $data = array("query"=> "Unit", 'suggestions'=> array());
+
+        if ( ! $_POST['comunity_id'] || ! $_POST['string'] ) {
+
+            $data['suggestions'][] = array(
+                'data' => 0,
+                'value' => 'Nenhum membro encontrado.'
+            );
+
+            echo json_encode( $data );
+            exit;
+        }
+
+        $users = new WP_User_Query( array(
+            'search'         => '*'.esc_attr(  $_POST['string'] ).'*',
+            'search_columns' => array(
+                'user_nicename'
+            ),
+            'number' => 7,
+            'orderby' => 'display_name',
+        ) );
+
+        foreach ($users->results as $user){
+
+            $data['suggestions'][] = array(
+                'data' => $user->ID,
+                'value' => $user->display_name
+            );
         }
 
         echo json_encode($data);
         exit;
 
+    }
+
+    /**
+     * (Ajax) Adiciona membro a comunidade
+     */
+    function ajax_comunity_action_add_member(){
+
+        if ( ! $_POST['user_id'] || ! $_POST['comunity_id'] ) {
+            echo json_encode( false );
+            exit;
+        }
+
+        $return = self::add_user_comunity($_POST['comunity_id'], $_POST['user_id']);
+
+        $user = new RHSUser(get_userdata($_POST['user_id']));
+        $comunity = $this->get_comunity_by_param_id($_POST['comunity_id'] ,$_POST['user_id']);
+
+        $data = array(
+            'user_id' => $_POST['user_id'],
+            'comunity_id' => $_POST['comunity_id'],
+            'avatar' => $user->get_avatar(),
+            'name' => $user->get_name(),
+            'local' => $user->get_city() . ' / ' . $user->get_state_uf(),
+            'date' => $user->get_date_registered('Y'),
+            'buttons' =>
+                $comunity->get_button_moderate('Adicionar como moderador').
+                $comunity->get_button_not_moderate('Remover como moderador').
+                $comunity->get_button_leave('Remover da comunidade').
+                $comunity->get_button_accept_request().
+                $comunity->get_button_reject_request()
+        );
+
+        echo json_encode( $data );
+        exit;
     }
 
 }

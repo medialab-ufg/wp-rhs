@@ -7,14 +7,14 @@
                 <img class="card-bkimg" alt="" src="<?php echo $comunity->get_image(); ?>">
             </div>
             <div class="card-buttons left">
-                <a data-type="follow" <?php echo (!$comunity->can_follow()) ? 'style="display: none;"' : ''; ?> href="javascript:;">Seguir <i class="fa fa-rss"></i></a>
-                <a data-type="not_follow" <?php echo (!$comunity->can_not_follow()) ? 'style="display: none;"' : ''; ?> href="javascript:;">Deixar de seguir <i class="fa fa-rss"></i></a>
+                <?php echo $comunity->get_button_follow(); ?>
+                <?php echo $comunity->get_button_not_follow(); ?>
             </div>
             <div class="card-buttons right">
-                <a data-type="leave" <?php echo (!$comunity->can_leave()) ? 'style="display: none;"' : ''; ?> href="javascript:;">Sair <i class="fa fa-remove"></i></a>
-                <a data-type="enter" <?php echo (!$comunity->can_enter()) ? 'style="display: none;"' : ''; ?> href="javascript:;">Entrar <i class="fa fa fa-sign-in"></i></a>
-                <a data-type="request" <?php echo (!$comunity->can_request()) ? 'style="display: none;"' : ''; ?> href="javascript:;">Pedir pra entrar <i class="fa fa fa-external-link"></i></a>
-            </div>
+                <?php echo $comunity->get_button_leave(); ?>
+                <?php echo $comunity->get_button_enter(); ?>
+                <?php echo $comunity->get_button_request(); ?>
+              </div>
             <div class="useravatar">
                 <div class="row">
                     <div class="col-xs-12">

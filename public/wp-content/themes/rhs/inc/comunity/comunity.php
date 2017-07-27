@@ -280,6 +280,15 @@ class RHSComunity {
     }
 
     /**
+     * Checa se o usuário está pedindo para entra na comunidade
+     *
+     * @return bool
+     */
+    function is_request(){
+        return $this->is_request;
+    }
+
+    /**
      * Checa se o usuário pode editar a comunidade
      *
      * @return bool
@@ -321,7 +330,7 @@ class RHSComunity {
      * @return bool
      */
     function can_enter(){
-        return (!$this->is_member && $this->type == RHSComunities::TYPE_OPEN);
+        return (!$this->is_member && ($this->type == RHSComunities::TYPE_OPEN || $this->is_admin));
     }
 
     /**
@@ -330,7 +339,7 @@ class RHSComunity {
      * @return bool
      */
     function can_request(){
-        return (!$this->is_member && $this->type == RHSComunities::TYPE_PRIVATE && !$this->is_request);
+        return (!$this->is_member && !$this->is_admin && $this->type == RHSComunities::TYPE_PRIVATE && !$this->is_request);
     }
 
     /**
@@ -339,7 +348,7 @@ class RHSComunity {
      * @return bool
      */
     function can_wait_request(){
-        return ($this->type == RHSComunities::TYPE_PRIVATE && $this->is_request);
+        return ($this->type == RHSComunities::TYPE_PRIVATE && $this->is_request && !$this->is_admin);
     }
 
     /**
@@ -356,7 +365,7 @@ class RHSComunity {
      *
      * @return bool
      */
-    function can_modarate(){
+    function can_moderate(){
         return (!$this->is_moderate && $this->is_member) ;
     }
 
@@ -365,8 +374,26 @@ class RHSComunity {
      *
      * @return bool
      */
-    function can_not_modarate(){
+    function can_not_moderate(){
         return ($this->is_moderate && $this->is_member) ;
+    }
+
+    /**
+     * Checa se o usuário está pedindo para entrar e pode ser aceito na comunidade
+     *
+     * @return bool
+     */
+    function can_accept_request(){
+        return ($this->is_request) ;
+    }
+
+    /**
+     * Checa se o usuário está pedindo para entrar e pode ser rejeitado na comunidade
+     *
+     * @return bool
+     */
+    function can_reject_request(){
+        return ($this->is_request) ;
     }
 
     /**
@@ -381,11 +408,23 @@ class RHSComunity {
     /**
      * Retorna os membros separados por tipo
      *
-     * @return array
+     * @return RHSUser[]
      */
     function get_members_saparete_by_capability(){
 
         $users = array();
+
+        if($this->is_moderate) {
+            $requests = RHSComunities::get_requests( $this->id );
+
+            foreach ( $requests as $request ) {
+                $userdata = get_userdata( $request );
+
+                $comunity = new RHSComunity( $this->term_object, $userdata );
+
+                $users[] = new RHSUser( $userdata );
+            }
+        }
 
         foreach ($this->get_members() as $member){
 
@@ -393,17 +432,219 @@ class RHSComunity {
 
             $comunity = new RHSComunity($this->term_object, $userdata);
 
-            if($comunity->is_moderate()){
-                $users['modarates'][] = new RHSUser($userdata);
-            } else {
-                $users['members'][] = new RHSUser($userdata);
-            }
+            $users[] = new RHSUser($userdata);
 
         }
 
-        return array_reverse($users);
+        return $users;
 
     }
 
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    function get_button_members($text = 'Ver membros'){
+        return '<a class="btn btn-default btn-rhs" 
+                   data-type="members" 
+                   title="'.__($text).'"
+                   href="'.$this->get_url_members().'" 
+                   '.(! $this->can_see_members() ? 'style="display: none;"' : '').'
+                   data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-users"></i>
+                </a>';
+    }
 
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    function get_button_follow($text = 'Seguir a comunidade'){
+        return '<a class="btn btn-default btn-rhs" 
+                   data-type="follow"
+                   title="'.__($text).'"
+                   href="javascript:;" 
+                   '.(! $this->can_follow() ? 'style="display: none;"' : '').'
+                   data-toggle="tooltip" data-placement="top">
+                    <i class="fa fa-rss"></i>
+                </a>';
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    function get_button_not_follow($text = 'Seguir a comunidade'){
+        return '<a class="btn btn-default btn-rhs" 
+                   data-type="not_follow"
+                   title="'.__($text).'"
+                   href="javascript:;" 
+                   '.(! $this->can_not_follow() ? 'style="display: none;"' : '').'
+                   data-toggle="tooltip" data-placement="top">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-rss fa-stack-1x"></i>
+                          <i class="fa fa-remove fa-stack-2x text-danger"></i>
+                        </span>
+                </a>';
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    function get_button_enter($text = 'Participar da comunidade'){
+        return '<a class="btn btn-default btn-rhs" 
+                   data-type="enter"
+                   title="'.__($text).'"
+                   href="javascript:;"
+                   '.(! $this->can_enter() ? 'style="display: none;"' : '').'
+                   data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-sign-in"></i>
+                </a>';
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    function get_button_leave($text = ''){
+        return '<a class="btn btn-default btn-rhs" 
+                   data-type="leave"
+                   title="'.__($text).'"
+                   href="javascript:;" 
+                   '.(! $this->can_leave() ? 'style="display: none;"' : '').'
+                   data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-remove"></i>
+                </a>';
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    function get_button_request($text = 'Pedir para fazer parte da comunidade'){
+        return '<a class="btn btn-default btn-rhs" 
+                   data-type="request"
+                   title="'.__($text).'"
+                   href="javascript:;" 
+                   '.(! $this->can_request() ? 'style="display: none;"' : '').'
+                   data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-external-link"></i>
+                </a>';
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    function get_button_wait_request($text = 'Seu pedido está em analise, você será notificado da resposta!'){
+        return '<a class="btn btn-default btn-rhs" 
+                   data-type="wait_request"
+                   title="'.__($text).'"
+                   href="javascript:void(0);" 
+                   '.(! $this->can_wait_request() ? 'style="display: none;"' : '').'
+                   data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-send"></i>
+                </a>';
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    function get_button_moderate($text = 'Moderar'){
+        return '<a class="btn btn-default btn-rhs" 
+                   data-type="moderate"
+                   title="'.__($text).'"
+                   href="javascript:;" 
+                   '.(! $this->can_moderate() ? 'style="display: none;"' : '').'
+                   data-toggle="tooltip" data-placement="top">
+                        <span class="fa-stack fa-near fa-lg">
+                          <i class="fa fa-user fa-stack-1x"></i>
+                          <i class="fa fa-long-arrow-up fa-stack-1x"></i>
+                        </span>
+                </a>';
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    function get_button_not_moderate($text = 'Remover da moderação'){
+        return '<a class="btn btn-default btn-rhs" 
+                   data-type="not_moderate"
+                   title="'.__($text).'"
+                   href="javascript:;" 
+                   '.(! $this->can_not_moderate() ? 'style="display: none;"' : '').'
+                   data-toggle="tooltip" data-placement="top">
+                        <span class="fa-stack fa-near fa-lg">
+                          <i class="fa fa-user fa-stack-1x"></i>
+                          <i class="fa fa-long-arrow-down fa-stack-1x"></i>
+                        </span>
+                </a>';
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    function get_button_accept_request($text = 'Aceitar o pedido para entrar'){
+        return '<a class="btn btn-default btn-rhs" 
+                   data-type="accept_request"
+                   title="'.__($text).'"
+                   href="javascript:;" 
+                   '.(! $this->can_accept_request() ? 'style="display: none;"' : '').'
+                   data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-check"></i>
+                </a>';
+    }
+
+    function get_button_reject_request($text = 'Rejeitar o pedido para entrar'){
+        return '<a class="btn btn-default btn-rhs" 
+                   data-type="reject_request"
+                   title="'.__($text).'"
+                   href="javascript:;" 
+                   '.(! $this->can_reject_request() ? 'style="display: none;"' : '').'
+                   data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-remove"></i>
+                </a>';
+    }
+
+    /**
+     *  Pesquisa membros baseado na string
+     * @param $string
+     *
+     * @return array
+     */
+    function get_members_by_string($string){
+
+        $data = array();
+
+        foreach ($this->members as $membro){
+            $user = get_userdata($membro);
+
+            if(!$user){
+                continue;
+            }
+
+            if(strpos($user->display_name, $string) === false){
+                continue;
+            }
+
+            $data[] = $user;
+        }
+
+        return $data;
+
+    }
 }
