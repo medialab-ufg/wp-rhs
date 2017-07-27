@@ -116,6 +116,7 @@ function RHS_scripts() {
     wp_enqueue_script('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/js/bootstrap.min.js', array('jquery'), '3.3.7', true);
     wp_enqueue_script('bootstrap-hover-dropdown', get_template_directory_uri() . '/vendor/js/bootstrap-hover-dropdown.min.js', array('bootstrap'), '1.0', true);
     wp_enqueue_script('jquery-autocomplete', get_template_directory_uri() . '/assets/includes/jquery-autocomplete/src/jquery.autocomplete.js', array('bootstrap'), '1.0', true);
+    wp_enqueue_script('sweetalert', get_template_directory_uri() . '/assets/includes/bootstrap-sweetalert/dist/sweetalert.min.js', array('bootstrap'), '1.0', true);
 
     /*JS Validar Registro*/
     wp_enqueue_script( 'JqueryValidate', 'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js', array('jquery'), '1.15.0', true );
@@ -158,6 +159,7 @@ function RHS_styles() {
     wp_enqueue_style('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/css/bootstrap.min.css');
     wp_enqueue_style('fontawesome', get_template_directory_uri() . '/vendor/font-awesome/css/font-awesome.min.css');
     wp_enqueue_style('magicCSS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.css');
+    wp_enqueue_style('sweetalert', get_template_directory_uri() . '/assets/includes/bootstrap-sweetalert/dist/sweetalert.css');
     wp_enqueue_style('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', array('bootstrap'));
     wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
 }

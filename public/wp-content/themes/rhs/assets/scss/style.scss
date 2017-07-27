@@ -4141,6 +4141,9 @@ article {
                 margin-top: 3px;
                 color: #fff;
             }
+            &.fa-rss{
+                font-size: 15px;
+            }
         }
         &.fa-near {
             > i {
@@ -4188,3 +4191,69 @@ article {
     }
 }
 
+.sweet-alert{
+    border-radius: 0px;
+    h2{
+        font-size: 17px;
+    }
+    .sa-confirm-button-container{
+        button{
+            display: inline-block;
+            font-size: 14px;
+            color: #ffffff;
+            background-color: #00b4b4;
+            border: none;
+            padding: 10px 16px;
+            box-shadow: none;
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            &:hover, &:focus, &:hover:focus {
+                outline: none;
+                color: #ffffff;
+                background-color: #009b9b;
+                border: none;
+                box-shadow: none;
+            }
+            &:active, &:active:hover, &:active:focus {
+                outline: none;
+                color: #ffffff;
+                background-color: #009b9b;
+                border: none;
+                box-shadow: 3px 4px 0px 0px #037b7b inset;
+            }
+        }
+    }
+    .sa-button-container{
+        > button{
+            display: inline-block;
+            font-size: 14px;
+            color: #797979;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            padding: 10px 16px;
+            box-shadow: none;
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            &:hover, &:focus, &:hover:focus {
+                outline: none;
+                color: #797979;
+                background-color: #fff;
+                box-shadow: none;
+            }
+            &:active, &:active:hover, &:active:focus {
+                outline: none;
+                color: #797979;
+                background-color: #fff;
+                box-shadow: 3px 4px 0px 0px #797979 inset;
+            }
+        }
+    }
+}

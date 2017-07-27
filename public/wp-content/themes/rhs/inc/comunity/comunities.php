@@ -598,10 +598,10 @@ class RHSComunities extends RHSMenssage {
 
                     if ( $comunity->can_enter() ) {
                         self::add_user_comunity( $term_id, $user_id );
-                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' entrou na <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' entrou na ' . $comunity->get_name(),
                             false, 'success' );
                     } else {
-                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode entrar na <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' não pode entrar na ' . $comunity->get_name(),
                             false, 'error' );
                     }
 
@@ -612,10 +612,10 @@ class RHSComunities extends RHSMenssage {
 
                     if ( $comunity->can_leave() ) {
                         self::delete_user_comunity( $term_id, $user_id );
-                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' saiu da <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' saiu da ' . $comunity->get_name(),
                             false, 'success' );
                     } else {
-                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode sair da <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' não pode sair da ' . $comunity->get_name(),
                             false, 'error' );
                     }
 
@@ -627,10 +627,10 @@ class RHSComunities extends RHSMenssage {
                     if ( $comunity->can_follow() ) {
 
                         self::add_user_comunity_follow( $term_id, $user_id );
-                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' começou seguiu a <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' começou seguiu a ' . $comunity->get_name(),
                             false, 'success' );
                     } else {
-                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode seguir a <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' não pode seguir a ' . $comunity->get_name(),
                             false, 'error' );
                     }
 
@@ -639,10 +639,10 @@ class RHSComunities extends RHSMenssage {
 
                     if ( $comunity->can_not_follow() ) {
                         self::delete_user_comunity_follow( $term_id, $user_id );
-                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' deixou de seguir a <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' deixou de seguir a ' . $comunity->get_name(),
                             false, 'success' );
                     } else {
-                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode deixar de seguir a <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' não pode deixar de seguir a ' . $comunity->get_name(),
                             false, 'error' );
                     }
 
@@ -652,10 +652,10 @@ class RHSComunities extends RHSMenssage {
 
                     if ( $comunity->can_request() ) {
                         self::add_user_comunity_request( $term_id, $user_id );
-                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' requisitou a entrada na <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' requisitou a entrada na ' . $comunity->get_name(),
                             false, 'success' );
                     } else {
-                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode requisitar a entrada na <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' não pode requisitar a entrada na ' . $comunity->get_name(),
                             false, 'error' );
                     }
 
@@ -666,10 +666,10 @@ class RHSComunities extends RHSMenssage {
 
                     if ( $comunity->can_moderate() ) {
                         self::add_user_comunity_moderate( $term_id, $user_id );
-                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' é o novo moderador da <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' é o novo moderador da ' . $comunity->get_name(),
                             false, 'success' );
                     } else {
-                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode ser moderador na <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' não pode ser moderador na ' . $comunity->get_name(),
                             false, 'error' );
                     }
 
@@ -678,10 +678,10 @@ class RHSComunities extends RHSMenssage {
 
                     if ( $comunity->can_not_moderate() ) {
                         self::delete_user_comunity_moderate( $term_id, $user_id );
-                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' foi removido como moderador da <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' foi removido como moderador da ' . $comunity->get_name(),
                             false, 'success' );
                     } else {
-                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode ser removido da morderação da <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' não pode ser removido da morderação da ' . $comunity->get_name(),
                             false, 'error' );
                     }
 
@@ -690,10 +690,10 @@ class RHSComunities extends RHSMenssage {
 
                     if ( $comunity->can_accept_request() ) {
                         self::add_user_comunity( $term_id, $user_id );
-                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' foi aceito na <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' foi aceito na ' . $comunity->get_name(),
                             false, 'success' );
                     } else {
-                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode ser aceita na <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' não pode ser aceita na ' . $comunity->get_name(),
                             false, 'error' );
                     }
 
@@ -702,10 +702,10 @@ class RHSComunities extends RHSMenssage {
 
                     if ( $comunity->can_reject_request() ) {
                         self::delete_user_comunity( $term_id, $user_id );
-                        $this->set_messages( '<i class="fa fa-check"></i> ' . $name_user . ' foi rejeitado da <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' foi rejeitado da ' . $comunity->get_name(),
                             false, 'success' );
                     } else {
-                        $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> ' . $name_user . ' não pode ser rejeitado na <strong>' . $comunity->get_name() . '</strong>',
+                        $this->set_messages( $name_user . ' não pode ser rejeitado na ' . $comunity->get_name(),
                             false, 'error' );
                     }
 
@@ -716,6 +716,7 @@ class RHSComunities extends RHSMenssage {
             }
 
             $permissions = array(
+                'members'        => false,
                 'enter'          => false,
                 'leave'          => false,
                 'follow'         => false,
@@ -740,18 +741,7 @@ class RHSComunities extends RHSMenssage {
                 $data['permissions'][ $permission ] = $comunity->{'can_' . $permission}();
             }
 
-            foreach ( $this->messages() as $type => $messages ) {
-
-                $html = '<div class="alert alert-' . ( $type == "error" ? "danger" : "success" ) . '">';
-
-                foreach ( $messages as $message ) {
-                    $html .= '<p>' . $message . '</p>';
-                }
-
-                $html .= '</div>';
-
-                $data['messages'][] = $html;
-            }
+            $data['messages'] = $this->messages();
 
 
             $this->clear_messages();
@@ -767,12 +757,12 @@ class RHSComunities extends RHSMenssage {
      */
     function ajax_complete_comunity_members() {
 
-        $data = array("query"=> "Unit", 'suggestions'=> array());
+        $data = array( "query" => "Unit", 'suggestions' => array() );
 
         if ( ! $_POST['comunity_id'] || ! $_POST['string'] ) {
 
             $data['suggestions'][] = array(
-                'data' => 0,
+                'data'  => 0,
                 'value' => 'Nenhum membro encontrado.'
             );
 
@@ -781,23 +771,23 @@ class RHSComunities extends RHSMenssage {
         }
 
         $users = new WP_User_Query( array(
-            'search'         => '*'.esc_attr(  $_POST['string'] ).'*',
+            'search'         => '*' . esc_attr( $_POST['string'] ) . '*',
             'search_columns' => array(
                 'user_nicename'
             ),
-            'number' => 7,
-            'orderby' => 'display_name',
+            'number'         => 7,
+            'orderby'        => 'display_name',
         ) );
 
-        foreach ($users->results as $user){
+        foreach ( $users->results as $user ) {
 
             $data['suggestions'][] = array(
-                'data' => $user->ID,
+                'data'  => $user->ID,
                 'value' => $user->display_name
             );
         }
 
-        echo json_encode($data);
+        echo json_encode( $data );
         exit;
 
     }
@@ -805,32 +795,57 @@ class RHSComunities extends RHSMenssage {
     /**
      * (Ajax) Adiciona membro a comunidade
      */
-    function ajax_comunity_action_add_member(){
+    function ajax_comunity_action_add_member() {
+
+        $this->clear_messages();
 
         if ( ! $_POST['user_id'] || ! $_POST['comunity_id'] ) {
-            echo json_encode( false );
+
+            $this->set_messages( 'Faltando informações para adicionar o membro',
+                false, 'error' );
+
+            $data['messages'] = $this->messages();
+
+            echo json_encode( $data );
             exit;
         }
 
-        $return = self::add_user_comunity($_POST['comunity_id'], $_POST['user_id']);
+        $comunity = $this->get_comunity_by_param_id( $_POST['comunity_id'], $_POST['user_id'] );
 
-        $user = new RHSUser(get_userdata($_POST['user_id']));
-        $comunity = $this->get_comunity_by_param_id($_POST['comunity_id'] ,$_POST['user_id']);
+        if ( $comunity->is_member() ) {
+            $this->set_messages( 'Esse membro já faz parte da comunidade',
+                false, 'error' );
 
-        $data = array(
-            'user_id' => $_POST['user_id'],
+            $data['messages'] = $this->messages();
+
+            echo json_encode( $data );
+            exit;
+        }
+
+        $return = self::add_user_comunity( $_POST['comunity_id'], $_POST['user_id'] );
+
+        $user     = new RHSUser( get_userdata( $_POST['user_id'] ) );
+        $comunity = $this->get_comunity_by_param_id( $_POST['comunity_id'], $_POST['user_id'] );
+
+        $data['user'] = array(
+            'user_id'     => $_POST['user_id'],
             'comunity_id' => $_POST['comunity_id'],
-            'avatar' => $user->get_avatar(),
-            'name' => $user->get_name(),
-            'local' => $user->get_city() . ' / ' . $user->get_state_uf(),
-            'date' => $user->get_date_registered('Y'),
-            'buttons' =>
-                $comunity->get_button_moderate('Adicionar como moderador').
-                $comunity->get_button_not_moderate('Remover como moderador').
-                $comunity->get_button_leave('Remover da comunidade').
-                $comunity->get_button_accept_request().
+            'avatar'      => $user->get_avatar(),
+            'name'        => $user->get_name(),
+            'local'       => $user->get_city() . ' / ' . $user->get_state_uf(),
+            'date'        => $user->get_date_registered( 'Y' ),
+            'buttons'     =>
+                $comunity->get_button_moderate( 'Adicionar como moderador' ) .
+                $comunity->get_button_not_moderate( 'Remover como moderador' ) .
+                $comunity->get_button_leave( 'Remover da comunidade' ) .
+                $comunity->get_button_accept_request() .
                 $comunity->get_button_reject_request()
         );
+
+        $this->set_messages( $user->get_name() . ' foi adicionado',
+            false, 'error' );
+
+        $data['messages'] = $this->messages();
 
         echo json_encode( $data );
         exit;

@@ -267,7 +267,7 @@ class RHSComunity {
      * @return bool
      */
     function is_member(){
-        return $this->is_member;
+        return ($this->is_member || $this->type == RHSComunities::TYPE_OPEN);
     }
 
     /**
@@ -302,7 +302,7 @@ class RHSComunity {
      *
      * @return bool
      */
-    function can_see_members(){
+    function can_members(){
        return $this->can_see();
     }
 
@@ -450,7 +450,7 @@ class RHSComunity {
                    data-type="members" 
                    title="'.__($text).'"
                    href="'.$this->get_url_members().'" 
-                   '.(! $this->can_see_members() ? 'style="display: none;"' : '').'
+                   '.(! $this->can_members() ? 'style="display: none;"' : '').'
                    data-toggle="tooltip" data-placement="top">
                         <i class="fa fa-users"></i>
                 </a>';
@@ -512,7 +512,7 @@ class RHSComunity {
      *
      * @return string
      */
-    function get_button_leave($text = ''){
+    function get_button_leave($text = 'Sair da comunidade'){
         return '<a class="btn btn-default btn-rhs" 
                    data-type="leave"
                    title="'.__($text).'"

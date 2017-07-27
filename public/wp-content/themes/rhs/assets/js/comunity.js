@@ -1,6 +1,6 @@
 jQuery( function( $ ) {
 
-    $('.comunidade .contato .well.profile_view .bottom a').click(function () {
+    $( "body" ).on( "click", '.comunidade .contato .well.profile_view .bottom a', function () {
 
         var obj = '';
         var term_id = $(this).closest('.well-disp').attr('data-id');
@@ -11,6 +11,22 @@ jQuery( function( $ ) {
 
         if(href != 'javascript:;'){
             return false;
+        }
+
+        if(type == 'leave'){
+            swal({
+                    title: "Tem certeza que quer sair da comunidade?",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "Remover",
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: true
+                },
+                function(){
+                    if (!isConfirm) {
+                        return false;
+                    }
+                });
         }
 
         $.ajax({
@@ -57,26 +73,27 @@ jQuery( function( $ ) {
                         });
                     }
 
-                    /*if (data['messages']) {
-                        $('.comunidade > .alert').remove();
+                    if (data['messages']) {
+
+                        var html = '';
+
                         Object.keys(data['messages']).forEach(function(key) {
-                            $('.wrapper-content').prepend(data['messages'][key]);
+                            html += data['messages'][key];
                         });
 
-                    }*/
+                        swal(html);
+                    }
 
                 }
             },
             error: function (data) {
-                /*var alert = '<div class="alert alert-danger">Sua requisição não foi, tente novamente.</div>';
-
-                $('.comunidades .ibox-content.forum-container').prepend(alert);*/
+                swal(data);
             }
         });
 
     });
 
-    $('.comunidade .card.hovercard .card-buttons a').click(function () {
+    $( "body" ).on( "click", '.comunidade .card.hovercard .card-buttons a', function () {
 
         var obj = '';
         var term_id = $(this).closest('.comunidade').attr('data-id');
@@ -130,6 +147,17 @@ jQuery( function( $ ) {
 
                     }*/
 
+                    if (data['messages']) {
+
+                        var html = '';
+
+                        Object.keys(data['messages']).forEach(function(key) {
+                            html += data['messages'][key];
+                        });
+
+                        swal(html);
+                    }
+
                     if (data['refresh']) {
                         setTimeout(function () {
                             window.location.reload();
@@ -146,7 +174,7 @@ jQuery( function( $ ) {
 
     });
 
-    $('.comunidades .content-table ul li .btn-rhs').click(function () {
+    $( "body" ).on( "click", '.comunidades .content-table ul li .btn-rhs', function () {
         var obj = '';
         var term_id = $(this).closest('tr').attr('data-id');
         var user_id = $(this).closest('tr').attr('data-userid');
@@ -162,6 +190,20 @@ jQuery( function( $ ) {
 
         if(type == 'leave'){
             number = Number($(number_members).html()) - 1;
+
+            /*swal({
+                    title: "Tem certeza que quer sair da comunidade?",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "Remover",
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: true
+                },
+                function(){
+                    if (!isConfirm) {
+                        return false;
+                    }
+                });*/
         }
 
         if(href != 'javascript:;'){
@@ -213,19 +255,20 @@ jQuery( function( $ ) {
 
                     }
 
-                    /*if (data['messages']) {
-                        $('.comunidades .ibox-content.forum-container > .alert').remove();
+                    if (data['messages']) {
+
+                        var html = '';
+
                         Object.keys(data['messages']).forEach(function(key) {
-                            $('.comunidades .ibox-content.forum-container').prepend(data['messages'][key]);
+                            html += data['messages'][key];
                         });
 
-                    }*/
+                        swal(html);
+                    }
                 }
             },
             error: function (data) {
-                /*var alert = '<div class="alert alert-danger">Sua requisição não foi, tente novamente.</div>';
-
-                $('.comunidades .ibox-content.forum-container').prepend(alert);*/
+                swal(data);
             }
         });
     });
@@ -254,18 +297,18 @@ jQuery( function( $ ) {
                 },
                 success: function (data) {
 
-                    if(data){
+                    if(data['user']){
 
                         var box = $('.comunidade .tab-content .tab-pane .contato .wrapper-content > .row:last-child > div:first-child').clone();
-                        $(box).find('.well-disp').attr('data-userid', data['user_id']);
-                        $(box).find('.well-disp').attr('data-id', data['comunity_id']);
-                        $(box).find('.well.profile_view .comunity-avatar').html(data['avatar']);
-                        $(box).find('.well.profile_view .comunity-name').html(data['name']);
+                        $(box).find('.well-disp').attr('data-userid', data['user']['user_id']);
+                        $(box).find('.well-disp').attr('data-id', data['user']['comunity_id']);
+                        $(box).find('.well.profile_view .comunity-avatar').html(data['user']['avatar']);
+                        $(box).find('.well.profile_view .comunity-name').html(data['user']['name']);
                         $(box).find('.well.profile_view .comunity-moderate').hide();
                         $(box).find('.well.profile_view .comunity-request').hide();
-                        $(box).find('.well.profile_view .comunity-location').html(data['location']);
-                        $(box).find('.well.profile_view .comunity-date').html(data['date']);
-                        $(box).find('.well.profile_view .comunity-buttons').html(data['buttons']);
+                        $(box).find('.well.profile_view .comunity-location').html(data['user']['location']);
+                        $(box).find('.well.profile_view .comunity-date').html(data['user']['date']);
+                        $(box).find('.well.profile_view .comunity-buttons').html(data['user']['buttons']);
                         $(box).hide();
 
                         $('.comunidade .tab-content .tab-pane .contato .wrapper-content > .row:last-child').prepend(box);
@@ -273,11 +316,20 @@ jQuery( function( $ ) {
                         $('[data-toggle="tooltip"]').tooltip();
                     }
 
+                    if (data['messages']) {
+
+                        var html = '';
+
+                        Object.keys(data['messages']).forEach(function(key) {
+                            html += data['messages'][key];
+                        });
+
+                        swal(html);
+                    }
+
                 },
                 error: function (data) {
-                    /*var alert = '<div class="alert alert-danger">Sua requisição não foi, tente novamente.</div>';
-
-                     $('.comunidades .ibox-content.forum-container').prepend(alert);*/
+                    swal(data);
                 }
             });
         }
