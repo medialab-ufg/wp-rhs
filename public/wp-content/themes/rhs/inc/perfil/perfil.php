@@ -8,19 +8,13 @@ class RHSPerfil extends RHSMenssage {
     function __construct($userID) {
 
         $this->userID = $userID;
-
-        if ( empty ( self::$instance ) ) {
-            $this->trigger_by_post();
-        }
-
-        self::$instance = true;
     }
 
     function getUserId(){
         return $this->userID;
     }
 
-    private function trigger_by_post() {
+    public function trigger_by_post() {
 
         if ( ! empty( $_POST['edit_user_wp'] ) && $_POST['edit_user_wp'] == $this->getKey() ) {
 
@@ -105,9 +99,9 @@ class RHSPerfil extends RHSMenssage {
 
         if(array_key_exists('pass', $_POST) && $_POST['pass']){
 
-            $RHSUser = new RHSUser($this->userID);
+            $RHSUsers = new RHSUsers($this->userID);
 
-            if(empty($_POST['pass_old'] ) || !wp_check_password( $_POST['pass_old'], $RHSUser->get_user_data('user_pass'), $this->userID) ){
+            if(empty($_POST['pass_old'] ) || !wp_check_password( $_POST['pass_old'], $RHSUsers->get_user_data('user_pass'), $this->userID) ){
                 $this->set_messages('<i class="fa fa-exclamation-triangle "></i> Sua senha antiga está incorreta!', false, 'error');
                 return false;
             }

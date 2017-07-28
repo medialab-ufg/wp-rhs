@@ -128,6 +128,27 @@
                                     <?php } ?>
 
                                 </script>
+                                <div class="form-group form-checkbox">
+                                    <?php global $RHSComunities; ?>
+                                    <?php $comunidades = $RHSComunities->get_comunities_by_user( get_current_user_id() ) ?>
+                                    <?php if($RHSPost->getStatus() == 'private' || $comunidades){ ?>
+                                        <div>
+                                            <input <?php echo (!$RHSPost->getComunities() || $RHSPost->getStatus() != 'private') ? 'checked' : ''; ?> type="checkbox" class="uniform" id="comunity-status" name="comunity-status[]" value="public">
+                                            <label for="checkbox1">Público</label>
+                                        </div>
+                                        <?php foreach ( $RHSComunities->get_comunities_by_user( get_current_user_id() ) as $key => $comunidade ) { ?>
+                                            <?php if(!$comunidade->is_member()){
+                                                continue;
+                                            } ?>
+                                            <div>
+                                                <input <?php echo $RHSPost->getComunitiesId() && in_array($comunidade->get_id(), $RHSPost->getComunitiesId()) ? 'checked' : ''; ?> type="checkbox" class="uniform" id="comunity-status-<?php echo $key; ?>" name="comunity-status[]" value="<?php echo $comunidade->get_name(); ?>">
+                                                <label for="comunity-status-<?php echo $key; ?>"><?php echo $comunidade->get_name() ?> <strong>(Comunidade)</strong></label>
+                                            </div>
+                                        <?php } ?>
+                                    <?php } else { ?>
+                                        <input type="hidden" class="form-control" name="comunity-status[]" value="public" />
+                                    <?php } ?>
+                                </div>
                                 <div class="form-group text-center">
                                     <input type="hidden" value="<?php echo $RHSPost->getFeaturedImageId(); ?>" id="img_destacada" name="img_destacada">
                                     <div id="img_destacada_preview">

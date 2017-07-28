@@ -1,7 +1,6 @@
 <div class="panel panel-default padding-bottom">
 	<div class="panel-heading" style="padding: 21px;">
 		<div class="row post-titulo">
-		<?php $userOBJ = new RHSUser(get_the_author_meta( 'ID' )); ?>
 			<div class="col-xs-9 col-sm-11 col-md-10">
 				<?php the_title( '<h1>', '</h1>' ); ?>
 			</div>
@@ -21,7 +20,7 @@
 				<div class="post-meta">
 					<span class="post-user-date">
 						<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
-						    <?php echo get_avatar($userOBJ->getUserId(),33); ?>
+						    <?php echo get_avatar(get_the_author_meta( 'ID' ),33); ?>
 						</a>
 						<span class="usuario">
 							<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">

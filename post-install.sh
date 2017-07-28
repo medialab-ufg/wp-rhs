@@ -41,6 +41,9 @@ if (file_exists("vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-n
 if (file_exists("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js")) {
     copy("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js", "public/wp-content/themes/rhs/vendor/js/bootstrap-hover-dropdown.min.js");
 }
+if (file_exists("vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js")) {
+    copy("vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js", "public/wp-content/themes/rhs/vendor/js/typeahead.bundle.min.js");
+}
 if (file_exists("wp-content/plugins/wp-bootstrap-navwalker")) {
     deleteDir("wp-content");
 }
