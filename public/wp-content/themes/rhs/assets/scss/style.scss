@@ -815,17 +815,41 @@ h1.titulo-page {
                     display: inline-block;
                     border-radius: 25px;
                 }
+                .usuario{
+                    &:after{
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        background-color: #d6d6d6;
+                        width: 1px;
+                        top: 5px;
+                        bottom: 5px;
+                        right: -1px;
+                    }
+                }
             }
-            .usuario{
-                &:after{
-                    content: "";
-                    display: block;
-                    position: absolute;
-                    background-color: #d6d6d6;
-                    width: 1px;
-                    top: 5px;
-                    bottom: 5px;
-                    right: -1px;
+            .post-user-edit{
+                margin-left: 10px;
+                display: inline-block;
+                position: relative;
+                .divisor{
+                    a{
+                        color: $primeira_cor_texto;
+                        &:hover{
+                            color: $primeira_cor_fundo;
+                            text-decoration: underline;
+                        }
+                    }
+                    &:before{
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        background-color: #d6d6d6;
+                        width: 1px;
+                        top: 5px;
+                        bottom: 5px;
+                        left: -1px;
+                    }
                 }
             }
             .share, .share a{
