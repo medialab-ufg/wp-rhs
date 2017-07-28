@@ -6,13 +6,13 @@ INSERT IGNORE INTO {{postmeta}}
     meta_value
 )
 
-SELECT DISTINCT
+SELECT 
 
-    n.nid `post_id`,
+    n.post_id `post_id`,
     'rhs-post-date-order' as `meta_key`,
-    FROM_UNIXTIME(n.created) as `meta_value`
+    MAX(n.vote_date) as `meta_value`
 
-FROM {{drupaldb}}.node n
-	INNER JOIN {{drupaldb}}.field_data_body r
-	ON r.entity_type = 'node' AND r.entity_id = n.nid
-		WHERE n.type IN ('blog')
+FROM {{votes}} n
+    GROUP BY n.post_id
+;
+
