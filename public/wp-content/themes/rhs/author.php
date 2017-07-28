@@ -9,21 +9,21 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                     <div class="jumbotron">
                         <?php if($curauth){ ?>
                             <?php
-                            global $RHSUser;
-                            $RHSUser = new RHSUser($curauth->ID);
+                            global $RHSUsers;
+                            $RHSUsers = new RHSUsers($curauth->ID);
                             $votos   = new RHSVote();
                             ?>
                         <div class="avatar-user">
-                            <?php echo get_avatar($RHSUser->getUserId()); ?>
+                            <?php echo get_avatar($RHSUsers->getUserId()); ?>
                         </div>
                         <div class="info-user">
                             <p class="nome-author">
-                                <?php echo $RHSUser->get_user_data('display_name'); ?>
+                                <?php echo $RHSUsers->get_user_data('display_name'); ?>
                                 <?php if( is_user_logged_in() && is_author(get_current_user_id())) : ?>
                                     <span class="btn-editar-user"><a class="btn btn-default" href="<?php echo home_url(RHSRewriteRules::PROFILE_URL ); ?>">EDITAR</a></span>
                                 <?php endif; ?>
                             </p>
-                            <p class="localidade"><?php echo the_user_ufmun($RHSUser->getUserId()); ?></p>
+                            <p class="localidade"><?php echo the_user_ufmun($RHSUsers->getUserId()); ?></p>
                             <div class="contagem">
                                 <span class="contagem-valor-author"><?php echo count_user_posts( $curauth->ID ); ?></span>
                                 <span class="contagem-desc-author">POSTS</span>
@@ -63,11 +63,11 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                                     <div class="panel-body">
                                         <p class="hide">Grupos: </p>
                                         <span class="hide">-Privado-</span>
-                                        <?php if ( $RHSUser->getLinks() ) { ?>
+                                        <?php if ( $RHSUsers->getLinks() ) { ?>
                                             <p>Links: </p>
-                                            <?php foreach ( $RHSUser->getLinks() as $key => $link ) { ?>
+                                            <?php foreach ( $RHSUsers->getLinks() as $key => $link ) { ?>
                                                 <span><a href="<?php echo $link['url'] ?>"><?php echo $link['title'] ?></a></span>
-                                                <?php echo ( count( $RHSUser->getLinks() ) != ( $key + 1 ) ) ? ',' : ''; ?>
+                                                <?php echo ( count( $RHSUsers->getLinks() ) != ( $key + 1 ) ) ? ',' : ''; ?>
                                             <?php } ?>
                                         <?php } else { ?>
                                             Sem Informação.
@@ -93,19 +93,19 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                                 <div id="sobre_interesses" class="panel-collapse collapse" role="tabpanel"
                                      aria-labelledby="SobreInteresses">
                                     <div class="panel-body">
-                                        <?php if ( $RHSUser->getSobre() ) { ?>
+                                        <?php if ( $RHSUsers->getSobre() ) { ?>
                                             <p>Sobre: </p>
-                                            <span><?php echo change_p_for_br($RHSUser->getSobre()); ?></span>
+                                            <span><?php echo change_p_for_br($RHSUsers->getSobre()); ?></span>
                                         <?php } ?>
-                                        <?php if ( $RHSUser->getInteresses() ) { ?>
+                                        <?php if ( $RHSUsers->getInteresses() ) { ?>
                                             <p>Interesses: </p>
-                                            <span><?php echo change_p_for_br($RHSUser->getInteresses()); ?></span>
+                                            <span><?php echo change_p_for_br($RHSUsers->getInteresses()); ?></span>
                                         <?php } ?>
-                                        <?php if ( $RHSUser->getFormacao() ) { ?>
+                                        <?php if ( $RHSUsers->getFormacao() ) { ?>
                                             <p>Formação: </p>
-                                            <span><?php echo change_p_for_br($RHSUser->getFormacao()); ?></span>
+                                            <span><?php echo change_p_for_br($RHSUsers->getFormacao()); ?></span>
                                         <?php } ?>
-                                        <?php if (!($RHSUser->getSobre()) && $RHSUser->getInteresses() && $RHSUser->getFormacao()) { ?>
+                                        <?php if (!($RHSUsers->getSobre()) && $RHSUsers->getInteresses() && $RHSUsers->getFormacao()) { ?>
                                             Sem informção.
                                         <?php } ?>
                                     </div>

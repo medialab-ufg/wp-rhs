@@ -11,7 +11,7 @@
         <?php the_excerpt(); ?>
     </div><!-- .paine-body -->
     <div class="panel-footer">
-        <?php $userOBJ = new RHSUser( get_the_author_meta( 'ID' ) ); ?>
+        <?php $userOBJ = new RHSUsers( get_the_author_meta( 'ID' ) ); ?>
         <div class="row">
             <div class="col-xs-12">
                 <div class="post-titulo espacamento-topo">

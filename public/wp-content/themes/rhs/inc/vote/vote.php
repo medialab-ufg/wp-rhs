@@ -12,8 +12,8 @@ Class RHSVote {
 
 	const VOTING_QUEUE = 'voting-queue';
 	const VOTING_EXPIRED = 'voting-expired';
-	const PUBLISH = 'publish';
 	const ROLE_VOTER = 'voter';
+	const META_PUBISH = 'rhs-promoted-publish';
 
 	static $instance;
 
@@ -440,8 +440,10 @@ Class RHSVote {
 
 		$new_post = array(
 			'ID'          => $postID,
-			'post_status' => self::PUBLISH
+			'post_status' => 'publish'
 		);
+
+		add_post_meta($postID, self::META_PUBISH, '1', true);
 
 		wp_update_post( $new_post );
         do_action('rhs_post_promoted', $postID);

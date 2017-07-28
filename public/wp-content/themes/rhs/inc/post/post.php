@@ -17,14 +17,23 @@ class RHSPost {
     private $tags_json;
     private $featuredImage;
     private $featuredImageId;
+    private $comunities;
+    private $comunitiesId;
+    private $comunitiesName;
     private $error;
 
+    /**
+     * RHSPost constructor.
+     *
+     * @param int $postId
+     * @param WP_Post|null $post
+     * @param bool $only_current apenas author pode ser esse post
+     */
     function __construct($postId = 0, WP_Post $post = null, $only_current = false) {
 
         if(!$postId && !$post){
             return;
         }
-
 
         $post = !$post ? get_post( $postId ) : $post;
 
@@ -43,25 +52,6 @@ class RHSPost {
         $this->setContent($post->post_content);
         $this->setStatus($post->post_status);
         $this->setAuthorId($post->post_author);
-        $this->setCategories(get_the_category( $post->ID ));
-        $this->setCategoriesId(wp_get_post_categories( $post->ID ));
-
-        $cur_ufmun = get_post_ufmun( $post->ID );
-
-        if (!empty($cur_ufmun['uf']['id'])) {
-            $this->setState($cur_ufmun['uf']['id']);
-        }
-
-        if (!empty($cur_ufmun['mun']['id'])) {
-            $this->setState($cur_ufmun['mun']['id']);
-        }
-
-        $this->setTags(wp_get_post_tags( $post->ID ));
-
-        $thumbnail_id = get_post_thumbnail_id( $post->ID );
-
-        $this->setFeaturedImageId(get_post_thumbnail_id( $post->ID ));
-        $this->setFeaturedImage(get_the_post_thumbnail( $post->ID, 'post-thumbnail' ));
     }
 
     /**
@@ -138,6 +128,13 @@ class RHSPost {
      * @return array
      */
     public function getCategories() {
+
+        if($this->categories){
+            return $this->categories;
+        }
+
+        $this->setCategories(get_the_category( $this->id ));
+
         return $this->categories;
     }
 
@@ -166,6 +163,13 @@ class RHSPost {
      * @return int
      */
     public function getCity() {
+
+        if($this->city){
+            return $this->city;
+        }
+
+        $this->setStateCity();
+
         return $this->city;
     }
 
@@ -176,10 +180,30 @@ class RHSPost {
         $this->city = $city;
     }
 
+    private function setStateCity(){
+
+        $cur_ufmun = get_post_ufmun( $this->id );
+
+        if (!empty($cur_ufmun['uf']['id'])) {
+            $this->setState($cur_ufmun['uf']['id']);
+        }
+
+        if (!empty($cur_ufmun['mun']['id'])) {
+            $this->setCity($cur_ufmun['mun']['id']);
+        }
+    }
+
     /**
      * @return array
      */
     public function getTags() {
+
+        if($this->tags){
+            return $this->tags;
+        }
+
+        $this->setTags(wp_get_post_tags( $this->id ));
+
         return $this->tags;
     }
 
@@ -191,26 +215,22 @@ class RHSPost {
     }
 
     /**
-     * @param string $size
+     * @param string|array $size
      *
      * @return string
      */
     public function getFeaturedImage( $size = 'post-thumbnail' ) {
 
-        if ( is_string( $size ) && $size == 'post-thumbnail' ){
+        if($this->featuredImage){
             return $this->featuredImage;
         }
 
-        return get_the_post_thumbnail( $this->id, $size );
+        return get_the_post_thumbnail( $post->ID, $size);
 
     }
 
-    /**
-     * @param $featured_image
-     * @param string $size
-     */
-    public function setFeaturedImage( $featuredImage ) {
-        $this->featuredImage = $featuredImage;
+    public function setFeaturedImage($featuredImage){
+        return $this->featuredImage = $featuredImage;
     }
 
     /**
@@ -275,6 +295,13 @@ class RHSPost {
      * @return array|WP_Error
      */
     public function getCategoriesId() {
+
+        if($this->categoriesId){
+            return $this->categoriesId;
+        }
+
+        $this->setCategoriesId(wp_get_post_categories( $this->id ));
+
         return $this->categoriesId;
     }
 
@@ -312,6 +339,13 @@ class RHSPost {
      * @return int|string
      */
     public function getFeaturedImageId() {
+
+        if($this->featuredImageId){
+            return $this->featuredImageId;
+        }
+
+        $this->setFeaturedImageId(get_post_thumbnail_id( $this->id ));
+
         return $this->featuredImageId;
     }
 
@@ -340,6 +374,70 @@ class RHSPost {
     public function isCurrentAuthor(){
         return current_user_can('edit_post', $this->id);
     }
+
+    /**
+     * @return WP_Term[]
+     */
+    public function getComunities() {
+
+        if($this->comunities){
+            return $this->comunities;
+        }
+        $this->setComunities(wp_get_post_terms( $this->id , RHSComunities::TAXONOMY ));
+
+        return $this->comunities;
+    }
+
+    /**
+     * @param mixed $comunities
+     */
+    public function setComunities( $comunities ) {
+        $this->comunities = $comunities;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComunitiesId() {
+
+        if($this->comunitiesId){
+            return $this->comunitiesId;
+        }
+
+        foreach ($this->getComunities() as $category){
+
+            if($category instanceof WP_Term){
+                $this->comunitiesId[] = $category->term_id;
+            }
+        }
+
+        return $this->comunitiesId;
+    }
+
+    public function getComunitiesName() {
+
+        if($this->comunitiesName){
+            return $this->comunitiesName;
+        }
+
+        foreach ($this->getComunities() as $category){
+
+            if($category instanceof WP_Term){
+                $this->comunitiesName[] = $category->name;
+            }
+        }
+
+        return $this->comunitiesName;
+    }
+
+    /**
+     * @param mixed $comunitiesId
+     */
+    public function setComunitiesId( $comunitiesId ) {
+        $this->comunitiesId = $comunitiesId;
+    }
+
+
 
 
 }

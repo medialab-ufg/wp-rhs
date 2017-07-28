@@ -4,6 +4,7 @@ class RHSPosts extends RHSMenssage {
 
     private static $instance;
     const META_DATE_ORDER = 'rhs-post-date-order';
+    const META_COMUNITY = 'rhs-comunity-status';
 
     function __construct( $postID = null ) {
 
@@ -15,19 +16,74 @@ class RHSPosts extends RHSMenssage {
 
         if ( empty ( self::$instance ) ) {
             add_filter( 'pre_get_posts', array( &$this, 'pre_get_posts' ) );
-            $this->trigger_by_post();
+            add_action( 'wp_footer', array( &$this, 'add_message_script_footer'));
         }
 
         self::$instance = true;
     }
 
+    /*====================================================================================================
+                                               ADMINISTAÇÃO
+   ======================================================================================================*/
 
+    /**
+     * Remove checkboxs padrões do wordpress que não será utilizado no sistema
+     */
+    function remove_meta_boxes() {
+        remove_meta_box( 'commentsdiv', 'post', 'normal' );
+        remove_meta_box( 'trackbacksdiv', 'post', 'normal' );
+        remove_meta_box( 'postcustom', 'post', 'normal' );
+        remove_meta_box( 'commentstatusdiv', 'post', 'normal' );
+        remove_meta_box( 'authordiv', 'post', 'normal' );
+        remove_meta_box( 'tagsdiv-comunity-category', 'post', 'normal' );
+    }
+
+    /*====================================================================================================
+                                                CLIENTE
+    ======================================================================================================*/
+
+    /**
+     * Adiciona alerta de mensagens no footer
+     */
+    function add_message_script_footer(){
+
+        if(!$this->get_alert()){
+            return;
+        }
+
+        ?>
+        <script>
+
+            jQuery( function( $ ) {
+                swal('<?php echo $this->get_alert(); ?>');
+            });
+
+        </script>
+        <?php
+
+        $this->clear_alert();
+    }
+
+    /**
+     * Adiciona um placehoder(Texto de instrução dentro do input) no wp_editor
+     *
+     * @param $html
+     *
+     * @return mixed
+     */
     function add_placeholder_editor( $html ) {
         $html = preg_replace( '/<textarea/', '<textarea placeholder="Escreva seu texto aqui." ', $html );
 
         return $html;
     }
 
+    /**
+     * Plugin para adicionar o placehoder
+     *
+     * @param $plugins
+     *
+     * @return mixed
+     */
     function add_mce_placeholder_plugin( $plugins ) {
 
         // Optional, check for specific post type to add this
@@ -38,16 +94,9 @@ class RHSPosts extends RHSMenssage {
         return $plugins;
     }
 
-    function remove_meta_boxes() {
-        remove_meta_box( 'commentsdiv', 'post', 'normal' );
-        remove_meta_box( 'trackbacksdiv', 'post', 'normal' );
-        remove_meta_box( 'postcustom', 'post', 'normal' );
-        remove_meta_box( 'commentstatusdiv', 'post', 'normal' );
-        remove_meta_box( 'authordiv', 'post', 'normal' );
-        remove_meta_box( 'tagsdiv-comunity-category', 'post', 'normal' );
-    }
-
     /**
+     * Mundaça da query que pega os posts
+     *
      * @param WP_Query $wp_query
      */
     function pre_get_posts( $wp_query ) {
@@ -76,6 +125,10 @@ class RHSPosts extends RHSMenssage {
     }
 
     /**
+     * Caso redirecione ou post volte sem adicionar,
+     * salva as informações no objeto para não perder tudo
+     * e o usuário precisar digitar novamente
+     *
      * @return RHSPost
      */
     function set_by_post() {
@@ -94,7 +147,10 @@ class RHSPosts extends RHSMenssage {
 
     }
 
-    private function trigger_by_post() {
+    /**
+     * Quando enviado o formulário para salvar ou editor um postagem
+     */
+    public function trigger_by_post() {
 
         if ( ! empty( $_POST['post_user_wp'] ) && $_POST['post_user_wp'] == $this->getKey() ) {
 
@@ -113,13 +169,22 @@ class RHSPosts extends RHSMenssage {
             $postObj->setCity( $_POST['municipio'] );
             $postObj->setTags( $_POST['tags'] );
             $postObj->setFeaturedImageId( $_POST['img_destacada'] );
+            $postObj->setComunities($_POST['comunity-status']);
 
             $this->insert( $postObj );
         }
     }
 
+    /**
+     * Insere ou edita publicação
+     *
+     * @param RHSPost $post
+     */
     function insert( RHSPost $post ) {
 
+        /**
+         * Informações para salvar/editar
+         */
         $data = array(
             'post_title'     => wp_strip_all_tags( $post->getTitle() ),
             'post_content'   => $post->getContent(),
@@ -129,28 +194,66 @@ class RHSPosts extends RHSMenssage {
             'comment_status' => 'open'
         );
 
+        /**
+         * Edição
+         */
         if ( $post->getId() ) {
 
-            $postObj = new RHSPost( $post->getId() );
+            /**
+             * Obejtco com Informações antigas da postagem
+             */
+            $oldPost = new RHSPost( $post->getId() );
 
-            if ( $postObj->getStatus() == 'draft' && $data['post_status'] == 'publish' ) {
-                $data['post_status'] = RHSVote::VOTING_QUEUE;
-                $post->setStatus(RHSVote::VOTING_QUEUE);
+            if($data['post_status'] == 'draft'){
+                $setStatus = 'draft';
+
+            } else if (!in_array('public',$post->getComunities())){
+                $setStatus = 'private';
+
+            } else if ($data['post_status'] == 'publish' && !get_post_meta($post->getId(), RHSVote::META_PUBISH) ) {
+                $setStatus = RHSVote::VOTING_QUEUE;
+
+            } else if($data['post_status'] == 'publish'){
+                $setStatus == 'publish';
+
             } else {
-                unset( $data['post_status'] );
+                /**
+                 * Se o usuário estiver editando um post, que esteja na fila de votação
+                 * ou que já foi publicado, mantemos o status que já está no post,
+                 * por isso retiramos das informações
+                 */
+                $setStatus =  $oldPost->getStatus();
             }
+
+            $data['post_status'] = $setStatus;
+            $post->setStatus($setStatus);
 
             $data['ID'] = $post->getId();
 
             $return = wp_update_post( $data, true );
-        } else {
+        } /**
+         * Inserção
+         */
+        else {
 
-            $setStatus = ( $data['post_status'] == 'draft' ) ? 'draft' : RHSVote::VOTING_QUEUE;
+            if($data['post_status'] == 'draft'){
+                $setStatus = 'draft';
+
+            } else if ($post->getComunities() && !in_array('public',$post->getComunities())){
+                $setStatus = 'private';
+
+            } else {
+                $setStatus = RHSVote::VOTING_QUEUE;
+            }
+
             $data['post_status'] = $setStatus;
             $post->setStatus($setStatus);
             $return = wp_insert_post( $data, true );
         }
 
+        /**
+         * Se não conseguiu salvar/editar, salva com os erros
+         */
         if ( $return instanceof WP_Error ) {
             $post->setError( $return );
         } else {
@@ -165,19 +268,52 @@ class RHSPosts extends RHSMenssage {
             return;
         }
 
+        /**
+         * Salvar/edita informações Cidade/Estado
+         */
         add_post_ufmun_meta( $post->getId(), $post->getCity(), $post->getState() );
-        wp_set_post_terms( $post->getId(), $post->getTags() );
-        set_post_thumbnail( $post->getId(), $post->getFeaturedImageId() );
 
-        if ( $post->getStatus() == RHSVote::VOTING_QUEUE ) {
+        /**
+         * Salvar/edita tags
+         */
+        wp_set_post_terms( $post->getId(), $post->getTags() );
+
+        $comunities = $post->getComunities();
+
+        $key = array_search('public', $comunities);
+
+        if(strlen($key)){
+            unset($comunities[$key]);
+        }
+
+        wp_set_post_terms( $post->getId(), $comunities, RHSComunities::TAXONOMY );
+
+        /**
+         * Salvar/edita a thumbnail
+         */
+        set_post_thumbnail($post->getId(), $post->getFeaturedImageId());
+
+
+        if(!empty($data['ID'])){
+            $this->set_alert('Post editado!');
+        } else if($post->getStatus() == 'draft'){
+            $this->set_alert('Rascunho salvo!');
+        } else if($post->getStatus() == 'public'){
+            $this->set_alert('Post publicado!');
+        } else if($post->getStatus() == 'private') {
+            $this->set_alert('Post privado publicado nas comunidades!');
+        } else if($post->getStatus() == RHSVote::VOTING_QUEUE) {
+            $this->set_alert('Post publicado na fila de votação, ele será publicado na página incial quando atingir '.get_option( 'vq_votes_to_approval' ).' votos!');
+        }
+
+        if($post->getStatus() == RHSVote::VOTING_QUEUE || $post->getStatus() == 'public'){
             wp_redirect( get_permalink( $post->getId() ) );
         } else {
-            $this->set_messages( '<i class="fa fa-check "></i> Rascunho salvo com sucesso! <a href="' . home_url( 'minhas-postagens' ) . '">Clique aqui</a>  para ver a listagem de seus posts',
-                false, 'success' );
-            wp_redirect( get_home_url() . '/' . RHSRewriteRules::POST_URL . '/' . $post->getId() );
+            wp_redirect( home_url('minhas-postagens') );
         }
 
         exit;
+
 
     }
 
@@ -197,6 +333,13 @@ class RHSPosts extends RHSMenssage {
 
             return false;
         }
+
+       if ( ! array_key_exists( 'comunity-status', $_POST ) ) {
+           $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Selecione o status do post!', false,
+               'error' );
+
+           return false;
+       }
 
         if ( ! array_key_exists( 'public_post', $_POST ) ) {
             $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Escreva o conteúdo do post!', false,
@@ -270,7 +413,7 @@ class RHSPosts extends RHSMenssage {
         $author_query = array(
             'posts_per_page' => '-1',
             'author'         => $current_user->ID,
-            'post_status'    => array( 'draft', 'publish', 'voting-queue' )
+            'post_status'    => array( 'draft', 'publish', RHSVote::VOTING_QUEUE, 'private' )
         );
         $author_posts = new WP_Query( $author_query );
         global $RHSVote;
@@ -282,6 +425,8 @@ class RHSPosts extends RHSMenssage {
                 $status_label = 'Publicado';
             } elseif ( $post_status == 'draft' ) {
                 $status_label = 'Rascunho';
+            } else if ( $post_status == 'private' ) {
+                $status_label = 'Privado';
             } elseif ( array_key_exists( $post_status, $RHSVote->get_custom_post_status() ) ) {
                 $status_label = $RHSVote->get_custom_post_status()[ $post_status ]['label'];
             } else {
