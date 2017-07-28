@@ -461,3 +461,14 @@ function so174837_registration_email_alert( $user_id ) {
     wp_mail( 'avelardesigner@gmail.com', 'New User registration', $message );
 }
 add_action('user_register', 'so174837_registration_email_alert');
+
+add_filter( 'get_edit_post_link', 'rhs_edit_post_link' );
+function rhs_edit_post_link($url) {
+    global $post;
+
+    if (!current_user_can('edit_others_posts')) {
+        $url = home_url('publicar-postagem/' . $post->ID);
+    }
+
+    return $url;
+}

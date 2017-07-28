@@ -7,10 +7,10 @@
 			</div>
 			<div class="col-xs-3 col-sm-1 col-md-2 vdivide">
                 			<div class="votebox">
-					<?php do_action('rhs_votebox', get_the_ID()); ?>
+								<?php do_action('rhs_votebox', get_the_ID()); ?>
                 			</div>
 			</div>
-			<div class="col-xs-9 col-sm-11 col-md-10">
+			<div class="col-xs-12">
 				<div class="post-categories">
 					<?php if(has_category()) : ?>
 							<?php the_category(', '); ?>
@@ -31,6 +31,9 @@
 					</span>
 					<span class="post-date text-uppercase">
 						<i class="fa fa-calendar" aria-hidden="true"></i> <?php the_time('d/m/Y'); ?>
+					</span>
+					<span class="post-user-edit">
+						<?php edit_post_link( __( 'Editar Post', 'rhs' ), '<span class="divisor text-uppercase">', '</span>', null, 'btn' ); ?>
 					</span>
 					<div class="pull-right share share-wrap">
 						<span class="hidden-print" style="">
