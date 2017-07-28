@@ -888,6 +888,18 @@ h1.titulo-page {
                 margin: 0 0 15px 0;
                 vertical-align: middle; 
             }
+            .edit-page{
+                margin-top: -28px;
+                margin-bottom: 12px;
+                a{
+                    color: $primeira_cor_texto;
+                    &:hover{
+                        color: $primeira_cor_fundo;
+                        border-color: $primeira_cor_fundo;
+                        background: $whiteColor;
+                    }
+                }
+            }
         }
     }
     .panel-footer{
@@ -2152,6 +2164,18 @@ form .comment-form-comment {
         padding: 30px;
         background-color: $whiteColor;
         margin-bottom: 15px;
+        .edit-page{
+            margin-top: -28px;
+            margin-bottom: 12px;
+            a{
+                color: $primeira_cor_texto;
+                &:hover{
+                    color: $primeira_cor_fundo;
+                    border-color: $primeira_cor_fundo;
+                    background: $whiteColor;
+                }
+            }
+        }
         p{
             font-size: 14px;
             a, a:focus, a:visited {

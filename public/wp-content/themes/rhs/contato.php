@@ -14,6 +14,11 @@
                             <?php
                                 if(have_posts()){
                                     while(  have_posts()) : the_post();
+                                    ?>
+                                    <div class="pull-right edit-page">
+                                        <?php edit_post_link( __( 'Editar Página', 'rhs' ), '<span class="text-uppercase">', '</span>', null, 'btn btn-default' ); ?>
+                                    </div>
+                                    <?php
                                         the_content();
                                     endwhile;
                                     wp_reset_query();
