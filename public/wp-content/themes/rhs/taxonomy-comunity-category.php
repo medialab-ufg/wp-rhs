@@ -50,10 +50,12 @@
                         <div class="card-title">
                             <?php echo $comunity->get_name(); ?>
                             <?php if($comunity->is_lock()){ ?>
-                                <i title="Esse grupo é privado" class="fa fa-lock"></i>
+                                <i data-toggle="tooltip" data-placement="top" title="Essa comunidade é privada" class="fa fa-lock"></i>
+                            <?php } else { ?>
+                                <i data-toggle="tooltip" data-placement="top" title="Essa comunidade é aberta" class="fa fa-check"></i>
                             <?php } ?>
                             <?php if($comunity->is_member()){ ?>
-                                <i title="Você faz parte desta comunidade" class="fa fa-check"></i>
+                                <i data-toggle="tooltip" data-placement="top" title="Você faz parte desta comunidade" class="fa fa-user"></i>
                             <?php } ?>
                         </div>
                     </div>
@@ -93,6 +95,7 @@
                 <div class="tab-pane fade in <?php echo (!$comunity->is_to_see_members()) ? 'active' : '';  ?>" id="tab1">
                 <?php if($comunity->can_see()){ ?>
                         <?php $args = array(
+                            'post_status' => array('publish', 'private', RHSVote::VOTING_QUEUE),
                             'tax_query' => array(
                                 array(
                                     'taxonomy' => RHSComunities::TAXONOMY,
@@ -109,7 +112,7 @@
                     <?php } ?>
                 </div>
                 <div class="tab-pane fade in <?php echo ($comunity->is_to_see_members()) ? 'active' : '';  ?>" id="tab2">
-                    <?php if($comunity->can_see_members()){ ?>
+                    <?php if($comunity->can_members()){ ?>
                         <?php include(locate_template('comunidade-membros.php')); ?>
                     <?php } else { ?>
                         <h4 class="text-center">Você não tem permissão para ver os membros desta comunidade</h4>

@@ -1,6 +1,7 @@
 jQuery( function( $ ) {
 
     $('[data-toggle="tooltip"]').tooltip();
+    $('.uniform').uniform();
 
     $('.list-members li .member').popover({html : true, container: 'body'});
 

@@ -416,6 +416,9 @@ jQuery( function( $ ) {
             }
         });
 
+        $('#input-tags').find('input').attr('name','tags');
+        $('#input-category').find('input').attr('name','category');
+
         $('#posting').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
@@ -427,7 +430,7 @@ jQuery( function( $ ) {
                 title: {
                     required: true
                 },
-                category: {
+                'comunity-status[]': {
                     required: true
                 }
             },
@@ -435,13 +438,15 @@ jQuery( function( $ ) {
                 title: {
                     required: 'Preencha o titulo.'
                 },
-                category: {
-                    required: 'Selecione a categoria'
+                'comunity-status[]': {
+                    required: 'Selecione onde será publicado.'
                 }
             },
             invalidHandler: function (event, validator) {},
             errorPlacement: function (error, element) {
-                if (element.parents(".ms-ctn").size() > 0) {
+                if (element.parents(".form-checkbox").size() > 0) {
+                    error.appendTo(element.parents(".form-checkbox"));
+                }else if (element.parents(".ms-ctn").size() > 0) {
                     error.insertAfter(element.parents(".ms-ctn"));
                 } else if (element.parent(".input-group").size() > 0) {
                     error.insertAfter(element.parent(".input-group"));

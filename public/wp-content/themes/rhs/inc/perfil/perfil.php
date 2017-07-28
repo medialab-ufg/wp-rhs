@@ -8,19 +8,13 @@ class RHSPerfil extends RHSMenssage {
     function __construct($userID) {
 
         $this->userID = $userID;
-
-        if ( empty ( self::$instance ) ) {
-            $this->trigger_by_post();
-        }
-
-        self::$instance = true;
     }
 
     function getUserId(){
         return $this->userID;
     }
 
-    private function trigger_by_post() {
+    public function trigger_by_post() {
 
         if ( ! empty( $_POST['edit_user_wp'] ) && $_POST['edit_user_wp'] == $this->getKey() ) {
 

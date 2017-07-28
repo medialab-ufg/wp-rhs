@@ -3162,11 +3162,32 @@ form .comment-form-comment {
                         font-size: 13px;
                     }
                 }
+                .form-checkbox{
+                    margin: 0 -15px;
+                    label{
+                        font-size: 14px;
+                        font-weight: 500;
+                    }
+                    &.has-error{
+                        label{
+                            color: #a94442;
+                        }
+                        .help-block-error{
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+                > .help-block-error{
+                    margin-top: 2px;
+                    font-size: 13px;
+                    line-height: 16px;
+                    color: #a94442;
+                    margin-left: -14px;
+                }
+
             }
         }
-
     }
-
 }
 
 /************

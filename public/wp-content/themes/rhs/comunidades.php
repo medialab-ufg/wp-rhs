@@ -32,8 +32,8 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <i data-toggle="tooltip" data-placement="top" title="Esse grupo é privado" class="fa fa-lock" <?php echo !$comunidade->is_lock() ? 'style="display:none"' : '' ?>></i>
-                                    <i data-toggle="tooltip" data-placement="top" title="Esse grupo é aberto" class="fa fa-check" <?php echo $comunidade->is_lock() ? 'style="display:none"' : '' ?>></i>
+                                    <i data-toggle="tooltip" data-placement="top" title="Essa comunidade é privada" class="fa fa-lock" <?php echo !$comunidade->is_lock() ? 'style="display:none"' : '' ?>></i>
+                                    <i data-toggle="tooltip" data-placement="top" title="Esse comunidade é aberta" class="fa fa-check" <?php echo $comunidade->is_lock() ? 'style="display:none"' : '' ?>></i>
                                     <i data-toggle="tooltip" data-placement="top" title="Você faz parte desta comunidade" class="fa fa-user" <?php echo !$comunidade->is_member() ? 'style="display:none"' : '' ?>></i>
                                 </td>
                                 <td>

@@ -20,7 +20,6 @@ class RHSComunities extends RHSMenssage {
 
     public function __construct() {
         $this->events_wordpress();
-        $this->trigger_by_post();
     }
 
     /**
@@ -37,7 +36,6 @@ class RHSComunities extends RHSMenssage {
         add_action( 'wp_ajax_comunity_action', array( $this, 'ajax_comunity_action' ) );
         add_action( 'wp_ajax_complete_comunity_members', array( $this, 'ajax_complete_comunity_members' ) );
         add_action( 'wp_ajax_comunity_action_add_member', array( $this, 'ajax_comunity_action_add_member' ) );
-
 
         add_action( 'add_meta_boxes', array( &$this, "add_meta_box" ) );
         add_filter( 'wp_insert_post_data', array( &$this, 'filter_post_data' ), '99', 2 );
@@ -219,7 +217,7 @@ class RHSComunities extends RHSMenssage {
     function meta_box_response( $post ) {
 
         $comunities      = $this->get_comunities( true );
-        $comunities_post = $this->get_comunities_by_post( $post->ID );
+        $comunities_post = self::get_comunities_by_post( $post->ID );
 
         ?>
         <div id="taxonomy-category" class="categorydiv">
@@ -235,9 +233,7 @@ class RHSComunities extends RHSMenssage {
                         <li id="comunity-<?php echo $category->term_id ?>" class="popular-category">
                             <label class="selectit">
                                 <?php
-
-                                $checked = ( $comunities_post && $comunities_post->term_id == $category->term_id ) ? 'checked' : '';
-
+                                $checked = ( $comunities_post && in_array($category->term_id, $comunities_post) ) ? 'checked' : '';
                                 ?>
                                 <input <?php echo $checked; ?> value="<?php echo $category->name ?>" type="radio"
                                                                name="post_comunity"
@@ -260,15 +256,20 @@ class RHSComunities extends RHSMenssage {
      *
      * @return array|WP_Error|WP_Term
      */
-    function get_comunities_by_post( $post_id ) {
-        $comunity = wp_get_post_terms( $post_id, self::TAXONOMY );
+    static function get_comunities_by_post( $post_id ) {
+        $comunities = wp_get_post_terms( $post_id, self::TAXONOMY );
 
-        if ( ! $comunity ) {
+        if ( ! $comunities ) {
             return array();
         }
 
-        return current( $comunity );
+        $return = array();
 
+        foreach ($comunities as $comunity){
+            $return[] = $comunity->term_id;
+        }
+
+        return $return;
     }
 
     /**
