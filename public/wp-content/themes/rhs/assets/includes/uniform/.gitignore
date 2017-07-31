@@ -1,0 +1,5 @@
+.*
+!.bithoundrc
+!.git*
+!.npmignore
+/node_modules

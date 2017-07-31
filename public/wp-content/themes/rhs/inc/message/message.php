@@ -13,6 +13,25 @@ class RHSMenssage {
         return $this->key = sha1($_SERVER['REMOTE_ADDR']);
     }
 
+    function set_alert($alert){
+
+        $_SESSION["alert_{$this->getKey()}"] = $alert;
+    }
+
+    function get_alert(){
+
+        if(!empty($_SESSION["alert_{$this->getKey()}"])){
+            return $_SESSION["alert_{$this->getKey()}"];
+        }
+
+        return '';
+    }
+
+    function clear_alert(){
+
+        unset($_SESSION["alert_{$this->getKey()}"]);
+    }
+
     function set_messages($messages, $clear = false, $type = ''){
 
         $class_name = get_class($this);

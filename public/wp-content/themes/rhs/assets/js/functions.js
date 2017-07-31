@@ -1,5 +1,14 @@
 jQuery( function( $ ) {
 
+    $('.grid').masonry({
+        itemSelector: '.grid-item', // use a separate class for itemSelector, other than .col-
+        columnWidth: '.grid-sizer',
+        percentPosition: true
+    });
+
+    $('[data-toggle="tooltip"]').tooltip();
+    $('.uniform').uniform();
+    
     $('.list-members li .member').popover({html : true, container: 'body'});
 
     function readURL(input) {
@@ -10,6 +19,9 @@ jQuery( function( $ ) {
             reader.onload = function (e) {
                 $('.form-image').removeClass('hide');
                 $('.form-image img').attr('src', e.target.result);
+                $('.form-image .save').removeClass('hide');
+                $('.form-image .button-end .btn').addClass('hide');
+
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -17,6 +29,10 @@ jQuery( function( $ ) {
     }
 
     $("#edit-avatar").change(function () {
+        readURL(this);
+    });
+
+    $('#file-avatar_comunity').change(function () {
         readURL(this);
     });
     
