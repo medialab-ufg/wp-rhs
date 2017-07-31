@@ -70,12 +70,10 @@
 		</div>
 	</div>
 </div><!-- .panel .panel-default -->
-<div class="panel panel-default hidden-print">
-	<div class="panel-footer panel-comentarios">
-		<?php
-			if ( comments_open() || get_comments_number() ) {
-				comments_template();
-			}
-		?>
+<?php if ( comments_open() || get_comments_number() ) { ?>
+	<div class="panel panel-default hidden-print">
+		<div class="panel-footer panel-comentarios">
+			<?php comments_template(); ?>
+		</div>
 	</div>
-</div>
+<?php } ?>
