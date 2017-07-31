@@ -155,23 +155,17 @@ class RHSComunities extends RHSMenssage {
             <td>
                 <fieldset>
                     <label>
-                        <input <?php echo ( $term_meta == 'open' || ! $term_meta ) ? 'checked' : ''; ?> type="radio"
-                                                                                                        name="term_meta[<?php echo self::TYPE ?>]"
-                                                                                                        value="open"/>
+                        <input <?php echo ( $term_meta == 'open' || ! $term_meta ) ? 'checked' : ''; ?> type="radio" name="term_meta[<?php echo self::TYPE ?>]" value="open"/>
                         <span>Aberto</span>
                     </label>
                     <br/>
                     <label>
-                        <input <?php echo ( $term_meta == 'private' ) ? 'checked' : ''; ?> type="radio"
-                                                                                           name="term_meta[<?php echo self::TYPE ?>]"
-                                                                                           value="private"/>
+                        <input <?php echo ( $term_meta == 'private' ) ? 'checked' : ''; ?> type="radio" name="term_meta[<?php echo self::TYPE ?>]" value="private"/>
                         <span>Privado</span>
                     </label>
                     <br/>
                     <label>
-                        <input <?php echo ( $term_meta == 'hide' ) ? 'checked' : ''; ?> type="radio"
-                                                                                        name="term_meta[<?php echo self::TYPE ?>]"
-                                                                                        value="hide"/>
+                        <input <?php echo ( $term_meta == 'hide' ) ? 'checked' : ''; ?> type="radio" name="term_meta[<?php echo self::TYPE ?>]" value="hide"/>
                         <span>Oculto</span>
                     </label>
                 </fieldset>
@@ -235,9 +229,7 @@ class RHSComunities extends RHSMenssage {
                                 <?php
                                 $checked = ( $comunities_post && in_array($category->term_id, $comunities_post) ) ? 'checked' : '';
                                 ?>
-                                <input <?php echo $checked; ?> value="<?php echo $category->name ?>" type="radio"
-                                                               name="post_comunity"
-                                                               id="in-comunity-<?php echo $category->term_id ?>"/> <?php echo $category->name ?>
+                                <input <?php echo $checked; ?> value="<?php echo $category->name ?>" type="radio" name="post_comunity" id="in-comunity-<?php echo $category->term_id ?>"/> <?php echo $category->name ?>
                             </label>
                         </li>
                     <?php } ?>
