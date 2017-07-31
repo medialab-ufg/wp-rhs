@@ -88,6 +88,19 @@ function trigger_functions(){
 }
 add_action( 'wp_loaded', 'trigger_functions');
 
+/*
+* Adicionar button Justify ao Wp-Editor
+*/
+function rhs_buttons_justify( $button ){   
+    if ( !in_array( 'alignjustify', $button ) && in_array( 'alignright', $button ) ){
+        $key = array_search( 'alignright', $button );
+        $inserted = array( 'alignjustify' );
+        array_splice( $button, $key + 1, 0, $inserted );
+    }
+    return $button;
+}
+add_filter( 'mce_buttons', 'rhs_buttons_justify', 5 );
+
 /* 
 * Desabilita os Emojis 
 */
