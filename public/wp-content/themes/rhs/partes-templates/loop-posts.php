@@ -1,19 +1,21 @@
 <?php if(have_posts()) : ?>
 	<div class="row">
 		<div class="grid">
-			<div class="grid-sizer col-xs-6"></div>
+			<div class="grid-sizer col-xs-12 col-md-6"></div>
 			
+					<div class="grid-item">
 			<?php
 				while (have_posts()): 
 					the_post();
 				?>
-					<div class="grid-item col-xs-6">
+					<div class="col-xs-12 col-sm-6">
 						<?php
 							//Pega o paineldosposts para mostrar na pagina front-page os posts.
 							get_template_part( 'partes-templates/posts');
 						?>
 					</div>
 				<?php endwhile; ?>
+					</div>
 		</div>
 	</div>
 	<div class="col-xs-12">
