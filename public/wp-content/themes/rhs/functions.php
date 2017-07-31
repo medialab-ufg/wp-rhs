@@ -374,6 +374,15 @@ function change_paste_as_text($mceInit, $editor_id){
 }
 add_filter('tiny_mce_before_init', 'change_paste_as_text', 1, 2);
 
+/*
+* Deixa visivel as opções avançadas do editor 
+*/
+function rhs_wpEditor_show_adv( $in ) {
+    $in['wordpress_adv_hidden'] = FALSE;
+    return $in;
+}
+add_filter( 'tiny_mce_before_init', 'rhs_wpEditor_show_adv' );
+
 function change_p_for_br($string){
 
     $string = html_entity_decode($string);
