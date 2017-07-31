@@ -12,11 +12,13 @@
                     </div>
                     <div class="panel-body">
                         <?php foreach ($RHSLogin->messages() as $type => $messages){ ?>
-                        <div class="alert alert-<?php echo $type == 'error' ? 'danger' : 'success' ; ?>">
                             <?php foreach ($messages as $message){ ?>
-                                <p><?php echo $message ?></p>
+                                <script>
+                                    jQuery( function( $ ) {
+                                        swal({title: '<?php echo $message ?>', html: true});
+                                    });
+                                </script>
                             <?php } ?>
-                        </div>
                         <?php } ?>
                         <form autocomplete="off" id="login" class="form-horizontal" role="form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
                             <div class="form-group float-label-control">
