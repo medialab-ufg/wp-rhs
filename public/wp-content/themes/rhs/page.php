@@ -1,9 +1,13 @@
-<?php RHSHtml::setTitulo(get_the_title()); ?>
 <?php get_header(); ?>
-		<div class="row">
-			<?php 
-				while (have_posts()): the_post();
-			?>
+    <?php while (have_posts()): the_post();?>
+        
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="titulo-page"><?php the_title(); ?></h1>
+            </div>
+        </div>
+        <div class="row">
+			
 			<article id="post-<?php the_ID(); ?>">
 				<div class="col-xs-12">
 					<div class="panel panel-default padding-bottom">
@@ -32,7 +36,9 @@
 					</div><!-- .panel .panel-default -->
 				</div>
 			</article><!-- #post-## -->
-			<?php endwhile;	?>
+			
 		</div>
+        
+    <?php endwhile;	?>
 
 <?php get_footer();

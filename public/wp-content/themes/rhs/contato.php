@@ -3,10 +3,14 @@
 * Template name: Contato
 */
 ?>
-<?php RHSHtml::setTitulo('Contato'); ?>
 <?php get_header(); ?>
 <?php global $RHSTicket; ?>
 <?php global $RHSUsers; ?>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 class="titulo-page">Contato</h1>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xs-12 contato">
                     <div class="wrapper-content">
