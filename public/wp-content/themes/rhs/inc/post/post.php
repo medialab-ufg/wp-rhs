@@ -225,7 +225,7 @@ class RHSPost {
             return $this->featuredImage;
         }
 
-        return get_the_post_thumbnail( $post->ID, $size);
+        return get_the_post_thumbnail( $this->id, $size);
 
     }
 

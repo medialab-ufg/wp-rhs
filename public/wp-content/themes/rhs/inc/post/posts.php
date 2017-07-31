@@ -115,7 +115,7 @@ class RHSPosts extends RHSMenssage {
 
         }
 
-        if ( $wp_query->is_main_query() && ! $wp_query->is_admin && ! $wp_query->get( 'orderby' ) ) {
+        if ( $wp_query->is_main_query() && $wp_query->is_home() ) {
 
             $wp_query->set('meta_key', self::META_DATE_ORDER);
             $wp_query->set('orderby', 'meta_value');

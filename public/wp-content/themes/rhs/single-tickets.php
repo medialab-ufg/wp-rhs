@@ -9,11 +9,20 @@ if (!is_user_logged_in() || wp_get_current_user()->ID != $post->post_author) {
 global $post;
 ?>
 
-<?php RHSHtml::setTitulo('Tickets'); ?>
 <?php get_header(); ?>
-    <div class="row">
+    
+    <?php while (have_posts()): the_post(); ?>
+    
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="titulo-page"><?php the_title(); ?></h1>
+            </div>
+        </div>
+        
+        
+        <div class="row">
                 <div class="col-xs-12 tickets">
-                    <?php while (have_posts()): the_post(); ?>
+                    
                     <div class="wrapper-content">
                         <div class="panel panel-default">
                             <?php $term_list = wp_get_post_terms($post->ID, 'tickets-category'); ?>
@@ -119,7 +128,7 @@ global $post;
                             </div>
                         </div>
                     </div>
-                    <?php endwhile; ?>
-                </div>
-            </div>
+                </div> <!-- .tickets -->
+        </div> <!-- .row -->
+    <?php endwhile; ?>
 <?php get_footer();

@@ -24,7 +24,6 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/network/network.php');
         require_once('inc/comunity/comunities.php');
         require_once('inc/comunity/comunity.php');
-        require_once('inc/html/html.php');
 
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');
@@ -73,7 +72,7 @@ if(!function_exists('rhs_setup')) :
 
 endif;
 
-add_action( 'wp_loaded', 'trigger_functions');
+add_action( 'after_setup_theme', 'rhs_setup' );
 
 function trigger_functions(){
 
@@ -87,8 +86,20 @@ function trigger_functions(){
     $RHSRegister->trigger_by_post();
     $RHSComunities->trigger_by_post();
 }
+add_action( 'wp_loaded', 'trigger_functions');
 
-add_action( 'after_setup_theme', 'rhs_setup' );
+/*
+* Adicionar button Justify ao Wp-Editor
+*/
+function rhs_buttons_justify( $button ){   
+    if ( !in_array( 'alignjustify', $button ) && in_array( 'alignright', $button ) ){
+        $key = array_search( 'alignright', $button );
+        $inserted = array( 'alignjustify' );
+        array_splice( $button, $key + 1, 0, $inserted );
+    }
+    return $button;
+}
+add_filter( 'mce_buttons', 'rhs_buttons_justify', 5 );
 
 /* 
 * Desabilita os Emojis 
@@ -142,6 +153,7 @@ function RHS_scripts() {
     wp_enqueue_script('FuncoesForm', get_template_directory_uri() . '/assets/js/functions.js', array('JqueryValidate'),'1.0', true);
     wp_enqueue_script('magicJS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.js','0.8.0', true);
     wp_enqueue_script('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js', array('bootstrap'), '1.5.0', true);
+    wp_enqueue_script('masonry', get_template_directory_uri() . '/vendor/js/masonry.pkgd.min.js','4.2.0', true);
 
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) { 
         // enqueue the javascript that performs in-link comment reply fanciness
@@ -178,6 +190,7 @@ function RHS_styles() {
     wp_enqueue_style('uniform', get_template_directory_uri() . '/assets/includes/uniform/dist/css/default.css');
     wp_enqueue_style('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', array('bootstrap'));
     wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
+    wp_enqueue_style('editor_style', get_template_directory_uri(). '/rhs_editor-style.css', array('style'));
 }
 add_action('wp_enqueue_scripts', 'RHS_styles');
 
@@ -360,6 +373,15 @@ function change_paste_as_text($mceInit, $editor_id){
     return $mceInit;
 }
 add_filter('tiny_mce_before_init', 'change_paste_as_text', 1, 2);
+
+/*
+* Deixa visivel as opções avançadas do editor 
+*/
+function rhs_wpEditor_show_adv( $in ) {
+    $in['wordpress_adv_hidden'] = FALSE;
+    return $in;
+}
+add_filter( 'tiny_mce_before_init', 'rhs_wpEditor_show_adv' );
 
 function change_p_for_br($string){
 

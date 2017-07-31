@@ -14,7 +14,8 @@
         "FortAwesome/Font-Awesome" : "*",
         "nicolasbize/magicsuggest" : "*",
         "google/recaptcha" : "*",
-        "wpackagist-plugin/rest-api-oauth1":"0.3.*"
+        "wpackagist-plugin/rest-api-oauth1":"0.3.*",
+        "desandro/masonry" : "4.2.0"
     },
     "extra": {
         "wordpress-install-dir": "public/wp",

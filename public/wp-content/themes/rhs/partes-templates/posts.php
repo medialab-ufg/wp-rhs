@@ -1,4 +1,4 @@
-<div class="panel panel-default display-panel">
+<div class="grid-item-content panel panel-default">
     <div class="panel-heading">
         <?php if ( has_post_thumbnail() ) : ?>
             <a href="<?php the_permalink(); ?>">
