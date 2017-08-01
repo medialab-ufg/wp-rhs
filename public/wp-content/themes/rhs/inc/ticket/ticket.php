@@ -334,7 +334,7 @@ class RHSTicket extends RHSMenssage {
             wp_mail($user->user_email, $subject, $message,'MIME-Version: 1.0' . "\r\n" . 'Content-type: text/html; charset=iso-8859-1' . "\r\n");
         }
 
-        $this->set_messages(   '<i class="fa fa-check "></i> Contato enviado com sucesso!', false, 'success' );
+        $this->set_alert(   '<i class="fa fa-check "></i> Contato enviado com sucesso!');
         
         wp_redirect(home_url('contato'));
         exit;
