@@ -26,9 +26,9 @@ Class RHSVote {
 	var $days_for_expired;
 	var $days_for_expired_default = 14;
 
-	private $votes_to_approval;
-    private $votes_to_approval_default = 5;
-    private $votes_to_text_help = 'Você não tem permissão para votar';
+	public $votes_to_approval;
+    public $votes_to_approval_default = 5;
+    public $votes_to_text_help = 'Você não tem permissão para votar';
 
 	function __construct() {
 
