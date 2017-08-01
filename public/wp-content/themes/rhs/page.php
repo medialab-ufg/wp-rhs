@@ -4,6 +4,9 @@
         <div class="row">
             <div class="col-xs-12">
                 <h1 class="titulo-page"><?php the_title(); ?></h1>
+                <div class="pull-right edit-page">
+                    <?php edit_post_link( __( 'Editar Página', 'rhs' ), '<span class="text-uppercase">', '</span>', null, 'btn btn-default' ); ?>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -12,9 +15,6 @@
 				<div class="col-xs-12">
 					<div class="panel panel-default padding-bottom">
 						<div class="panel-body content">
-                            <div class="pull-right edit-page">
-                                <?php edit_post_link( __( 'Editar Página', 'rhs' ), '<span class="text-uppercase">', '</span>', null, 'btn btn-default' ); ?>
-                            </div>
 							<?php the_content(); ?>
 						</div><!-- .paine-body -->
 						<div class="col-xs-12">
