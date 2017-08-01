@@ -977,7 +977,7 @@ h1.titulo-page {
                     display: block;
                     color: $primeira_cor_texto;
                     font-weight: bold;
-                    a {
+                    .btn {
                         border-color: $primeira_cor_texto;
                         background-color: $primeira_cor_texto;
                         font-weight: 700;
@@ -1566,7 +1566,7 @@ h1.titulo-page {
                     display: block;
                     color: $primeira_cor_texto;
                     font-weight: bold;
-                    a {
+                    .btn {
                         border-color: $primeira_cor_texto;
                         background-color: $primeira_cor_texto;
                         font-weight: 400;
@@ -1579,10 +1579,18 @@ h1.titulo-page {
                         width: 63px;
                         height: 29px;
                         padding: 4px;
+                        i {
+                            color: #fff;
+                            font-size: 14px;
+                            margin: 0;
+                        }
                         &:hover {
                             border-color: #00b4b4;
                             color: #00b4b4;
                             background: #fff;
+                            i.fa-spinner{
+                                color: #00b4b4;
+                            }
                         }
                         &[disabled] {
                             cursor: no-drop;
@@ -1594,11 +1602,7 @@ h1.titulo-page {
                                 cursor: no-drop;
                             }
                         }
-                        i {
-                            color: #fff;
-                            font-size: 14px;
-                            margin: 0;
-                        }
+
                     }
                 }
             }

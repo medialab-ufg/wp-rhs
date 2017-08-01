@@ -107,6 +107,7 @@
                                 ) ); ?>
                                 <div class="form-group">
                                     <input type="text" value="" class="form-control" id="input-category" placeholder="Categoria">
+                                    <input type="hidden" value="" id="category_verify" name="category_verify" />
                                 </div>
                                 <script>
 
@@ -121,6 +122,16 @@
                                         },
                                         name: 'category'
                                     });
+
+                                    jQuery(ms).on('selectionchange', function(e,m){
+
+                                        if(this.getValue().length){
+                                            jQuery('#category_verify').val(1);
+                                        } else {
+                                            jQuery('#category_verify').val('');
+                                        }
+
+                                    })
 
                                     <?php if($RHSPost->getCategoriesIdJson()){ ?>
                                     var ms = jQuery('#input-category').magicSuggest({});

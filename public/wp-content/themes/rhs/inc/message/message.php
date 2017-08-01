@@ -75,4 +75,5 @@ class RHSMenssage {
         unset($_SESSION["messages_{$class_name}_{$this->getKey()}"]);
     }
 
+
 }

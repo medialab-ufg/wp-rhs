@@ -55,7 +55,7 @@ class RHSPosts extends RHSMenssage {
         <script>
 
             jQuery( function( $ ) {
-                swal('<?php echo $this->get_alert(); ?>');
+                swal({title:'<?php echo $this->get_alert(); ?>', html: true});
             });
 
         </script>
@@ -295,15 +295,15 @@ class RHSPosts extends RHSMenssage {
 
 
         if(!empty($data['ID'])){
-            $this->set_alert('Post editado!');
+            $this->set_alert('<i class="fa fa-check"></i> Post editado!');
         } else if($post->getStatus() == 'draft'){
-            $this->set_alert('Rascunho salvo!');
+            $this->set_alert('<i class="fa fa-check"></i> Rascunho salvo!');
         } else if($post->getStatus() == 'public'){
-            $this->set_alert('Post publicado!');
+            $this->set_alert('<i class="fa fa-check"></i> Post publicado!');
         } else if($post->getStatus() == 'private') {
-            $this->set_alert('Post privado publicado nas comunidades!');
+            $this->set_alert('<i class="fa fa-check"></i> Post privado publicado nas comunidades!');
         } else if($post->getStatus() == RHSVote::VOTING_QUEUE) {
-            $this->set_alert('Post publicado na fila de votação, ele será publicado na página incial quando atingir '.get_option( 'vq_votes_to_approval' ).' votos!');
+            $this->set_alert('<i class="fa fa-check"></i> Post publicado na fila de votação, ele será publicado na página incial quando atingir '.get_option( 'vq_votes_to_approval' ).' votos!');
         }
 
         if($post->getStatus() == RHSVote::VOTING_QUEUE || $post->getStatus() == 'public'){

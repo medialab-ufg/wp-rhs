@@ -2,8 +2,13 @@ jQuery( function( $ ) {
 
     $('.js-vote-button').click(function() {
         var post_id = $(this).data('post_id');
-
         var panel = $(this).closest('.panel-heading');
+        var button = $(this);
+        var button_text = $(this).html();
+
+        if($(this).hasClass('loading')){
+            return false;
+        }
 
         $.ajax({
             url: vote.ajaxurl,
@@ -14,31 +19,26 @@ jQuery( function( $ ) {
                 post_id: post_id
             },
             beforeSend: function () {
-                $('#votebox-'+post_id).html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
+                $(button).addClass('loading');
+                $(button).html('<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>');
             },
             success: function (data) {
-
-                $('#votebox-'+post_id+' i').remove();
 
                 if(data){
 
                     if(data['error']) {
-                        var alrt = '<div class="alert alert-info"><p><i class="fa fa-exclamation-triangle"></i> '+data['error']+'</p></div>';
-                        $('#votebox-'+post_id).html('<i class="fa fa-remove"></i>');
-                        $('div.vdivide').css({"top": "-49px", "border": "none"});
+                        swal({'title':data['error']['text'], html: true});
                     }
 
                     if(data['success']) {
-                        $('#votebox-'+post_id).parent('.votebox').html(data['success']);
+                        swal({'title':data['success']['text'], html: true});
+                        $('#votebox-'+post_id).parent('.votebox').html(data['success']['html']);
+                    } else {
+                        $(button).html(button_text);
                     }
-
                 }
 
-                $(alrt).hide();
-
-                $(panel).children('.alert').fadeOut();
-                $(panel).prepend(alrt).fadeIn();
-
+                $(button).removeClass('loading');
             }
         });
 

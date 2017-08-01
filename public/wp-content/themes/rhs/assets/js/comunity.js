@@ -15,7 +15,7 @@ jQuery( function( $ ) {
 
         if(type == 'leave'){
             swal({
-                    title: "Tem certeza que quer sair da comunidade?",
+                    title: "<i class='fa fa-exclamation-triangle'></i> Tem certeza que quer sair da comunidade?",
                     showCancelButton: true,
                     confirmButtonClass: "btn-success",
                     confirmButtonText: "Remover",
@@ -81,13 +81,13 @@ jQuery( function( $ ) {
                             html += data['messages'][key];
                         });
 
-                        swal(html);
+                        swal({title: html, html: true});
                     }
 
                 }
             },
             error: function (data) {
-                swal(data);
+                swal({title: data, html: true});
             }
         });
 
@@ -155,7 +155,7 @@ jQuery( function( $ ) {
                             html += data['messages'][key];
                         });
 
-                        swal(html);
+                        swal({title: html, html: true});
                     }
 
                     if (data['refresh']) {
@@ -263,12 +263,12 @@ jQuery( function( $ ) {
                             html += data['messages'][key];
                         });
 
-                        swal(html);
+                        swal({title: html, html: true});
                     }
                 }
             },
             error: function (data) {
-                swal(data);
+                swal({title: data, html: true});
             }
         });
     });
@@ -324,12 +324,12 @@ jQuery( function( $ ) {
                             html += data['messages'][key];
                         });
 
-                        swal(html);
+                        swal({title: html, html: true});
                     }
 
                 },
                 error: function (data) {
-                    swal(data);
+                    swal({title: data, html: true});
                 }
             });
         }

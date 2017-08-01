@@ -430,6 +430,9 @@ jQuery( function( $ ) {
                 title: {
                     required: true
                 },
+                category_verify: {
+                    required: true
+                },
                 'comunity-status[]': {
                     required: true
                 }
@@ -437,6 +440,9 @@ jQuery( function( $ ) {
             messages: {
                 title: {
                     required: 'Preencha o titulo.'
+                },
+                category_verify: {
+                    required: 'Selecione uma categoria.'
                 },
                 'comunity-status[]': {
                     required: 'Selecione onde será publicado.'
