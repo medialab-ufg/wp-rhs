@@ -89,6 +89,9 @@ global $post;
                                         </div>  
                                         <?php
                                             $comments = get_comments('post_id='.$post->ID . '&order=asc');
+                                            if(!$comments){
+                                                echo '<span style="margin-left: 33px;">Agradecemos por entrar em contato, em breve você será respondi. <strong>-</strong> Rede Humaniza SuS</span>';
+                                            }
                                             foreach($comments as $comment) :
                                                 $commentAuthor=get_userdata($comment->user_id);
                                                 ?>
@@ -114,10 +117,10 @@ global $post;
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <form autocomplete="off" id="responder_editor" action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php"  method="post">
-                                    <h4>Responder o Editor:</h4>
+                                    <h4>Novo comentário</h4>
                                     <div class="form-group float-label-control">
                                         <?php comment_id_fields(); ?>
-                                        <textarea name="comment" id="comment" tabindex="1" onfocus="if (this.value == '<?php _e('Digite seu comentário aqui.', 'rhs'); ?>') this.value = '';" onblur="if (this.value == '') {this.value = '<?php _e('Digite seu comentário aqui.', 'rhs'); ?>';}" class="form-control" rows="4"><?php _e('Digite seu comentário aqui.', 'rhs'); ?></textarea>
+                                        <textarea name="comment" id="comment" tabindex="1" class="form-control" rows="4"></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-default pull-right">Responder</button>
                                     <?php if(get_option("comment_moderation") == "1") : ?>

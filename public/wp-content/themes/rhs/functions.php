@@ -190,7 +190,7 @@ function RHS_styles() {
     wp_enqueue_style('uniform', get_template_directory_uri() . '/assets/includes/uniform/dist/css/default.css');
     wp_enqueue_style('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', array('bootstrap'));
     wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
-    wp_enqueue_style('editor_style', get_template_directory_uri(). '/rhs_editor-style.css', array('style'));
+    wp_enqueue_style('editor_style', get_template_directory_uri(). '/rhs_editor_style.css', array('style'));
 }
 add_action('wp_enqueue_scripts', 'RHS_styles');
 
@@ -370,19 +370,14 @@ add_action( 'widgets_init', 'rhs_widgets_init' );
 */
 function change_paste_as_text($mceInit, $editor_id){
     $mceInit['paste_as_text'] = true;
+    $mceInit['wordpress_adv_hidden'] = FALSE;
     return $mceInit;
 }
 add_filter('tiny_mce_before_init', 'change_paste_as_text', 1, 2);
 
 /*
-* Deixa visivel as opções avançadas do editor 
+* Muda os posts de p para br 
 */
-function rhs_wpEditor_show_adv( $in ) {
-    $in['wordpress_adv_hidden'] = FALSE;
-    return $in;
-}
-add_filter( 'tiny_mce_before_init', 'rhs_wpEditor_show_adv' );
-
 function change_p_for_br($string){
 
     $string = html_entity_decode($string);
