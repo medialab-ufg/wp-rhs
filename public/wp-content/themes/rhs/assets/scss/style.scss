@@ -899,7 +899,8 @@ h1.titulo-page {
         }
         .thumbnail_post {
             display: block;
-            height: auto !important;
+            height: 300px !important;
+            object-fit: cover;
             margin: auto;
             width: 100% !important;
         }
