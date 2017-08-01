@@ -191,7 +191,6 @@ function RHS_styles() {
     wp_enqueue_style('uniform', get_template_directory_uri() . '/assets/includes/uniform/dist/css/default.css');
     wp_enqueue_style('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', array('bootstrap'));
     wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
-    wp_enqueue_style('editor_style', get_template_directory_uri(). '/rhs_editor_style.css', array('style'));
 }
 add_action('wp_enqueue_scripts', 'RHS_styles');
 
