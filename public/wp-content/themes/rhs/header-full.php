@@ -68,12 +68,12 @@
                                     <li>
                                         <div class="col-md-3 col-sm-3 col-xs-3">
                                             <div class="notify-img">
-                                                <img src="http://placehold.it/45x45" alt="" class="img-circle">
+                                                <img src="http://www.knowmuhammad.org/img/default_avatar.gif" alt="" class="img-circle" width="45">
                                             </div>
                                         </div>
                                         <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">
                                             <a href="#">Fabiano Alencar</a>. 
-                                            <a href="#">Votou em um...</a> 
+                                            Comentou no post... 
                                             <a href="" class="rIcon" title="Marcar como lido">
                                                 <i class="fa fa-dot-circle-o"></i>
                                             </a>
@@ -84,12 +84,12 @@
                                     <li>
                                         <div class="col-md-3 col-sm-3 col-xs-3">
                                             <div class="notify-img">
-                                                <img src="http://placehold.it/45x45" alt="" class="img-circle">
+                                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/post-promovido.png" alt="" class="img-circle" width="45">
                                             </div>
                                         </div>
                                         <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">
-                                            <a href="#">Fabiano Alencar</a>. 
-                                            <a href="#">Comentou em um...</a> 
+                                            Seu post <a href="#post">Teste de notificação post</a>. 
+                                            <a href="#">foi...</a> 
                                             <a href="" class="rIcon" title="Marcar como lido">
                                                 <i class="fa fa-dot-circle-o"></i>
                                             </a>
