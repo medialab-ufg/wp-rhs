@@ -7,7 +7,7 @@
                 <div class="col-xs-12">
                     <?php   
                         //Pega o paineldosposts para mostrar na pagina front-page os posts.
-                        get_template_part( 'partes-templates/painel-single', get_post_format()); 
+                        get_template_part( 'partes-templates/painel-single', get_post_format());
                     ?>
                 </div>
             </article><!-- #post-## -->

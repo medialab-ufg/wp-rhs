@@ -54,7 +54,7 @@ class RHSPerfil extends RHSMenssage {
         update_user_meta( $user_id, 'rhs_interest', $interest);
         add_user_ufmun_meta( $user_id, $city, $state);
         update_user_meta( $user_id, 'rhs_city', $city);
-        update_user_meta( $user_id, 'rhs_links', RHSUser::save_links($links));
+        update_user_meta( $user_id, 'rhs_links', RHSUsers::save_links($links));
 
 
         if ($avatar_file) {

@@ -2041,6 +2041,9 @@ form .comment-form-comment {
 #InfoPessoais, #SobreInteresses {
     h4 a {
         color: $primeira_cor_texto;
+        &:hover{
+            text-decoration: none;
+        }
     }
     a[aria-expanded="true"]:after {
         /* symbol for "opening" panels */
