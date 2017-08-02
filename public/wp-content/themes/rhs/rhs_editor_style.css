@@ -1,0 +1,36 @@
+/*inline*/
+/*inline-grid*/
+/*Fontes*/
+@font-face {
+  font-family: 'Solitas-NorReg';
+  font-weight: 300;
+  src: url("assets/webfonts/2F2567_0_0.eot");
+  src: url("assets/webfonts/2F2567_0_0.eot?#iefix") format("embedded-opentype"), url("assets/webfonts/2F2567_0_0.woff2") format("woff2"), url("assets/webfonts/2F2567_0_0.woff") format("woff"), url("assets/webfonts/2F2567_0_0.ttf") format("truetype"); }
+@font-face {
+  font-family: 'Solitas-NorReg';
+  font-weight: 600;
+  font-style: italic;
+  src: url("assets/webfonts/2F2567_1_0.eot");
+  src: url("assets/webfonts/2F2567_1_0.eot?#iefix") format("embedded-opentype"), url("assets/webfonts/2F2567_1_0.woff2") format("woff2"), url("assets/webfonts/2F2567_1_0.woff") format("woff"), url("assets/webfonts/2F2567_1_0.ttf") format("truetype"); }
+@font-face {
+  font-family: 'Solitas-NorReg';
+  font-weight: 100;
+  src: url("assets/webfonts/2F2567_2_0.eot");
+  src: url("assets/webfonts/2F2567_2_0.eot?#iefix") format("embedded-opentype"), url("assets/webfonts/2F2567_2_0.woff2") format("woff2"), url("assets/webfonts/2F2567_2_0.woff") format("woff"), url("assets/webfonts/2F2567_2_0.ttf") format("truetype"); }
+@font-face {
+  font-family: 'Solitas-NorReg';
+  font-weight: 600;
+  src: url("assets/webfonts/2F2567_3_0.eot");
+  src: url("assets/webfonts/2F2567_3_0.eot?#iefix") format("embedded-opentype"), url("assets/webfonts/2F2567_3_0.woff2") format("woff2"), url("assets/webfonts/2F2567_3_0.woff") format("woff"), url("assets/webfonts/2F2567_3_0.ttf") format("truetype"); }
+@font-face {
+  font-family: 'Solitas-NorReg';
+  font-weight: 400;
+  src: url("assets/webfonts/2F2567_4_0.eot");
+  src: url("assets/webfonts/2F2567_4_0.eot?#iefix") format("embedded-opentype"), url("assets/webfonts/2F2567_4_0.woff2") format("woff2"), url("assets/webfonts/2F2567_4_0.woff") format("woff"), url("assets/webfonts/2F2567_4_0.ttf") format("truetype"); }
+.content h1, .content h2, .content h3, .content h4 {
+  font-family: "Solitas-NorReg";
+  color: #00b4b4; }
+.content p, .content strong, .content b, .content i, .content em {
+  font-family: "Solitas-NorReg"; }
+
+/*# sourceMappingURL=rhs_editor_style.css.map */

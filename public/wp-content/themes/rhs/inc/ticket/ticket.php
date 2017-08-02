@@ -9,6 +9,7 @@ class RHSTicket extends RHSMenssage {
     const OPEN = 'open';
     const CLOSE = 'close';
     const CAPABILITIES = 'capabilities';
+    const COMMENT_STATUS = 'ticket-status';
     private static $instance;
     var $post_status = [];
 
@@ -19,7 +20,6 @@ class RHSTicket extends RHSMenssage {
         add_action('init', array( &$this, "register_post_type" ));
         add_action('init', array( &$this, "register_taxonomy" ));
         add_action( 'init', array( &$this, 'init' ) );
-        add_action( 'init', array(&$this, 'trigger_by_post'), 15 );
         add_action('add_meta_boxes', array( &$this, "add_meta_boxes"));
         add_action('admin_head', array( &$this, 'css'));
         add_action( 'restrict_manage_posts', array( &$this, 'admin_filters') );
@@ -42,8 +42,9 @@ class RHSTicket extends RHSMenssage {
         add_filter('manage_posts_columns', array(&$this, 'custom_columns_head'));
         add_action('manage_posts_custom_column', array(&$this, 'custom_columns_content'), 10, 2);
 
-        
-        
+
+        add_action('admin_footer', array(&$this, 'remove_column_span_comments'));
+        add_filter('option_comment_moderation', array(&$this, 'check_moderable_post_types'));
         /*$option_name = 'roles_edited_ticket';
         if ( ! get_option( $option_name ) ) {
             // só queremos que isso rode uma vez
@@ -53,6 +54,27 @@ class RHSTicket extends RHSMenssage {
             $administrator = $wp_roles->get_role( 'administrator' );
             $administrator->add_cap( self::CAPABILITIES );
         }*/
+
+    }
+
+    function check_moderable_post_types($value) {
+        exit;
+        if (get_post_type() == 'species') return 1;
+        return $value;
+    }
+
+
+    function remove_column_span_comments() {
+
+        return '';
+        echo "
+            <script type='text/javascript'>
+                jQuery( function( $ ) {
+                    $('body.edit-comments-php #wpbody-content .wrap ul.subsubsub li.moderated').remove();
+                    $('body.edit-comments-php #wpbody-content .wrap ul.subsubsub li.all').remove();
+                
+                });
+            </script>";
     }
     
     function register_post_status() {
@@ -218,7 +240,7 @@ class RHSTicket extends RHSMenssage {
      */
     public function trigger_by_post() {
         if ( ! empty( $_POST['ticket_user_wp'] ) && $_POST['ticket_user_wp'] == $this->getKey() ) {
-            if ( ! $this->validate_by_post() ) {
+            if ( ! $this->validate_by_post_insert() ) {
                 return;
             }
             
@@ -242,7 +264,7 @@ class RHSTicket extends RHSMenssage {
                 $estado = $ufmun['uf']['id'];
                 $municipio = $ufmun['mun']['id'];
             }
-           
+
             $this->insert(
                 $name,
                 $email,
@@ -252,6 +274,24 @@ class RHSTicket extends RHSMenssage {
                 $_POST['subject'],
                 $_POST['message'],
                 $defaultAuthor);
+        }
+
+        if ( ! empty( $_POST['add_comment_ticket_wp'] ) && $_POST['add_comment_ticket_wp'] == $this->getKey() ) {
+
+            if ( ! $this->validate_by_post_comment() ) {
+                return;
+            }
+
+            $this->insert_comment(
+                    $_POST['comment_post_ID'],
+                    get_current_user_id(),
+                    wp_get_current_user()->user_login,
+                    wp_get_current_user()->user_email,
+                    wp_get_current_user()->user_url, $_POST['comment']);
+
+            $this->set_alert('<i class="fa fa-check"></i> Comentário salvo');
+            wp_redirect(get_permalink($_POST['comment_post_ID']));
+            exit;
         }
     }
     /**
@@ -396,34 +436,53 @@ class RHSTicket extends RHSMenssage {
         $user_id = wp_insert_user( $user_data );
         return get_userdata($user_id);
     }
+
     /**
-     * Valida compos por backend do contato
+     * Valida compos por backend ao inserir o comentário do contato
      * @return bool
      */
-    private function validate_by_post() {
+    private function validate_by_post_comment() {
+        $this->clear_messages();
+        if ( ! array_key_exists( 'comment_post_ID', $_POST ) ) {
+            $this->set_alert('<i class="fa fa-exclamation-triangle "></i> Sem informação do ticket!' );
+            return false;
+        }
+        if ( ! array_key_exists( 'comment', $_POST ) ) {
+            $this->set_alert(   '<i class="fa fa-exclamation-triangle "></i> Preencha com seu comentário!' );
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Valida compos por backend ao inserir o contato
+     * @return bool
+     */
+    private function validate_by_post_insert() {
         $this->clear_messages();
         if ( ! array_key_exists( 'name', $_POST ) ) {
-            $this->set_messages('<i class="fa fa-exclamation-triangle "></i> Preencha o seu nome!', false, 'error' );
+            $this->set_alert('<i class="fa fa-exclamation-triangle "></i> Preencha o seu nome!' );
             return false;
         }
         if ( ! array_key_exists( 'email', $_POST ) ) {
-            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Preencha o seu email!', false, 'error' );
+            $this->set_alert(   '<i class="fa fa-exclamation-triangle "></i> Preencha o seu email!' );
             return false;
         }
         if ( ! array_key_exists( 'subject', $_POST ) ) {
-            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Preencha o assunto do contato!', false, 'error' );
+            $this->set_alert(   '<i class="fa fa-exclamation-triangle "></i> Preencha o assunto do contato!' );
             return false;
         }
         if ( ! array_key_exists( 'estado', $_POST ) ) {
-            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Selecione o seu estado!', false, 'error' );
+            $this->set_alert(   '<i class="fa fa-exclamation-triangle "></i> Selecione o seu estado!' );
             return false;
         }
         if ( ! array_key_exists( 'municipio', $_POST ) ) {
-            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Selecione o sua cidade!', false, 'error' );
+            $this->set_alert(   '<i class="fa fa-exclamation-triangle "></i> Selecione o sua cidade!' );
             return false;
         }
         if ( ! array_key_exists( 'category', $_POST ) ) {
-            $this->set_messages(   '<i class="fa fa-exclamation-triangle "></i> Selecione sobre qual categoria é o assunto!', false, 'error' );
+            $this->set_alert(   '<i class="fa fa-exclamation-triangle "></i> Selecione sobre qual categoria é o assunto!' );
             return false;
         }
         return true;
@@ -434,38 +493,53 @@ class RHSTicket extends RHSMenssage {
     function remove_meta_boxes() {
         remove_meta_box('commentsdiv', self::POST_TYPE, 'normal');
     }
+
+    function insert_comment($postId, $author_id, $author_login, $author_email, $author_url, $content){
+
+        $time = current_time('mysql');
+
+        $data = array(
+            'comment_post_ID' => $postId,
+            'comment_author' => $author_login,
+            'comment_author_email' => $author_email,
+            'comment_author_url' => $author_url,
+            'comment_content' => $content,
+            'comment_type' => '',
+            'comment_parent' => 0,
+            'user_id' => $author_id,
+            'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
+            'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
+            'comment_date' => $time,
+            'comment_approved' => 1
+        );
+
+        $comment_id = wp_insert_comment($data);
+
+        global $wpdb;
+        $wpdb->update( $wpdb->comments, array('comment_approved' => self::COMMENT_STATUS), array( 'comment_ID' => $comment_id ));
+    }
+
     /**
      * Salvando ticket pelo admin
      */
     function save_wp_editor_fields(){
         global $post;
+
         if(!empty($_POST['editor_box_comments'])){
-            
-            $time = current_time('mysql');
-            $user = wp_get_current_user();
-            $data = array(
-                'comment_post_ID' => $post->ID,
-                'comment_author' => $user->user_login,
-                'comment_author_email' => $user->user_email,
-                'comment_author_url' => $user->user_url,
-                'comment_content' => wpautop($_POST['editor_box_comments']),
-                'comment_type' => '',
-                'comment_parent' => 0,
-                'user_id' => $user->ID,
-                'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
-                'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
-                'comment_date' => $time,
-                'comment_approved' => 1
+
+            $this->insert_comment(
+                $post->ID,
+                $user->ID,
+                $user->user_login,
+                $user->user_email,
+                $user->user_url,
+                wpautop($_POST['editor_box_comments'])
             );
-            $comment_id = wp_insert_comment($data);
-            wp_set_comment_status( $comment_id, 'span' );
-            
+
             // Como teve uma resposta, marcamos o ticket como aberto
-            global $wpdb;
             $wpdb->update($wpdb->posts, ['post_status' => self::OPEN], ['ID' => $post->ID]);
             // para disparar hooks de mudança de status que possamos usar
             wp_transition_post_status( self::OPEN, $_POST['original_post_status'], $post );
-            
         }
         
         if (isset($_POST['_responsavel'])) {
@@ -620,7 +694,7 @@ class RHSTicket extends RHSMenssage {
      * @return string
      */
     function meta_box_response($post) {
-        $comments = get_comments(array('post_id'=>$post->ID,'order'=>'asc'));
+        $comments = get_comments(array('post_id'=>$post->ID,'order'=>'asc', 'status' => self::COMMENT_STATUS));
         
         $user_author = get_userdata( $post->post_author );
         // Título do ticket e mensagem original

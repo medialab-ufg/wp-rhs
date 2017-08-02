@@ -80,11 +80,13 @@ function trigger_functions(){
     global $RHSPerfil;
     global $RHSRegister;
     global $RHSComunities;
+    global $RHSTicket;
 
     $RHSPosts->trigger_by_post();
     $RHSPerfil->trigger_by_post();
     $RHSRegister->trigger_by_post();
     $RHSComunities->trigger_by_post();
+    $RHSTicket->trigger_by_post();
 }
 add_action( 'wp_loaded', 'trigger_functions');
 
