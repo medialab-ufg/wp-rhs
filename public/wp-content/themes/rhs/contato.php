@@ -9,6 +9,9 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h1 class="titulo-page">Contato</h1>
+                    <div class="pull-right edit-page">
+                        <?php edit_post_link( __( 'Editar Página', 'rhs' ), '<span class="text-uppercase">', '</span>', null, 'btn btn-default' ); ?>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -19,9 +22,6 @@
                                 if(have_posts()){
                                     while(  have_posts()) : the_post();
                                     ?>
-                                    <div class="pull-right edit-page">
-                                        <?php edit_post_link( __( 'Editar Página', 'rhs' ), '<span class="text-uppercase">', '</span>', null, 'btn btn-default' ); ?>
-                                    </div>
                                     <?php
                                         the_content();
                                     endwhile;
