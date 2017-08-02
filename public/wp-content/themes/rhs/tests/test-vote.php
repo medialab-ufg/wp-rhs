@@ -19,6 +19,8 @@ class VoteTest extends RHS_UnitTestCase {
 		
         global $RHSVote;
         
+        //var_dump(get_user_by('login', 'editor1'));
+        
         $this->assertEquals($RHSVote->votes_to_approval_default, $RHSVote->votes_to_approval);
         
 	}

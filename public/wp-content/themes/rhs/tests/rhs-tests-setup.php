@@ -10,13 +10,86 @@
  */
 abstract class RHS_UnitTestCase extends WP_UnitTestCase {
 
-	/**
+	
+    const testUsers = [
+        [
+            'user_login' => 'editor1',
+            'user_pass'  => '123',
+            'user_email' => 'editor1@test.com',
+            'display_name' => 'Editor 1',
+            'role' => 'editor'
+        ],
+        [
+            'user_login' => 'editor2',
+            'user_pass'  => '123',
+            'user_email' => 'editor2@test.com',
+            'display_name' => 'Editor 2',
+            'role' => 'voter'
+        ],
+        [
+            'user_login' => 'votante1',
+            'user_pass'  => '123',
+            'user_email' => 'votante1@test.com',
+            'display_name' => 'votante1',
+            'role' => 'voter'
+        ],
+        [
+            'user_login' => 'votante2',
+            'user_pass'  => '123',
+            'user_email' => 'votante2@test.com',
+            'display_name' => 'votante2',
+            'role' => 'editor'
+        ],
+        [
+            'user_login' => 'votante3',
+            'user_pass'  => '123',
+            'user_email' => 'votante3@test.com',
+            'display_name' => 'votante3',
+            'role' => 'voter'
+        ],
+        [
+            'user_login' => 'votante4',
+            'user_pass'  => '123',
+            'user_email' => 'votante4@test.com',
+            'display_name' => 'votante4',
+            'role' => 'voter'
+        ],
+        [
+            'user_login' => 'votante5',
+            'user_pass'  => '123',
+            'user_email' => 'votante5@test.com',
+            'display_name' => 'votante5',
+            'role' => 'voter'
+        ],
+        [
+            'user_login' => 'colaborador1',
+            'user_pass'  => '123',
+            'user_email' => 'colaborador1@test.com',
+            'display_name' => 'colaborador1',
+            'role' => 'contributor'
+        ],
+        [
+            'user_login' => 'colaborador2',
+            'user_pass'  => '123',
+            'user_email' => 'colaborador2@test.com',
+            'display_name' => 'colaborador2',
+            'role' => 'contributor'
+        ],
+        
+    ];
+    
+    /**
 	 * Setup Fixtures
 	 */
 	function setUp() {
 		
         //require_once getenv( 'WP_TESTS_DIR' ) . '/wp-content/themes/rhs/functions.php';
         //var_dump(get_option('template'));
+        
+        // Create users
+        
+        foreach (self::testUsers as $user) 
+            wp_insert_user( $user ) ;
         
         
 	}
