@@ -16,7 +16,7 @@ jQuery(document).ready(function() {
     
     });
     
-    jQuery('#sidebar #estado').attr('title', 'Se este post está relacionado a um Estado, indique aqui').tooltip({placement: "left"}).tooltip('show');
+    jQuery('.style #estado').attr('title', 'Se este post está relacionado a um Estado, indique aqui').tooltip({placement: "left"}).tooltip('show');
 
     wp.media.view.settings.post = {
         id: jQuery('#post_ID').val(),

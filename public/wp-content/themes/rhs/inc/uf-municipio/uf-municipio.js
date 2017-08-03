@@ -11,8 +11,9 @@ jQuery( function( $ ) {
                 type: 'post',
                 data: {action: 'get_cities_options', uf: $('#estado').val(), selected: selected},
                 success: function(data) {
-                    $('#estado').tooltip('hide');
-                    $('#municipio').html(data).attr('title', 'Defina o municipio relacionado a este post aqui').tooltip({placement: "left"}).tooltip('show');
+                    $('.style #estado').tooltip('hide');
+                    $('#municipio').html(data);
+                    $('.style #municipio').attr('title', 'Defina o municipio relacionado a este post aqui').tooltip({placement: "left"}).tooltip('show');
                 } 
             });
         }
