@@ -23,7 +23,7 @@ class RHSPerfil extends RHSMenssage {
 
             $current_user = new RHSUser(wp_get_current_user());
 
-            if($user->is_admin()){
+            if($current_user->is_admin()){
                 $user_id = $_POST['user_id'];
             } else {
                 $user_id = get_current_user_id();
