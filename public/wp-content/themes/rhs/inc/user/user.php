@@ -10,8 +10,10 @@ class RHSUser {
     private $avatar_url;
     private $login;
     private $name;
+    private $email;
     private $first_name;
     private $last_name;
+    private $url;
     private $description;
     private $formation;
     private $date_registered;
@@ -103,6 +105,30 @@ class RHSUser {
         }
 
         return $this->name = $this->user_object->display_name;
+    }
+
+    /**
+     * @return string
+     */
+    function get_url(){
+
+        if($this->url || !$this->id){
+            return $this->url;
+        }
+
+        return $this->url = $this->user_object->user_url;
+    }
+
+    /**
+     * @return string
+     */
+    function get_email(){
+
+        if($this->email || !$this->id){
+            return $this->email;
+        }
+
+        return $this->email = $this->user_object->user_email;
     }
 
     /**

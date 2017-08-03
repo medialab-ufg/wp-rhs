@@ -527,14 +527,18 @@ class RHSTicket extends RHSMenssage {
 
         if(!empty($_POST['editor_box_comments'])){
 
+            $user = new RHSUser(get_userdata($_POST['user_ID']));
+
             $this->insert_comment(
                 $post->ID,
-                $user->ID,
-                $user->user_login,
-                $user->user_email,
-                $user->user_url,
+                $user->get_id(),
+                $user->get_login(),
+                $user->get_email(),
+                $user->get_url(),
                 wpautop($_POST['editor_box_comments'])
             );
+
+            global $wpdb;
 
             // Como teve uma resposta, marcamos o ticket como aberto
             $wpdb->update($wpdb->posts, ['post_status' => self::OPEN], ['ID' => $post->ID]);
