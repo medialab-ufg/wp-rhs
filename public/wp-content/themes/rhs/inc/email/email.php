@@ -73,7 +73,7 @@ class RHSEmail {
                     <p>http://rhs.dev.medialab.ufg.br</p>'
             ),*/
             'new_ticket_message' => array(
-                'name'=> 'Email de Novo Ticket',
+                'name'=> 'Email de Novo Contato',
                 'var' => array(
                     'site_nome',
                     'ticket_id',
@@ -83,7 +83,7 @@ class RHSEmail {
                     'nome',
                     'link'
                 ),
-                'default-subject' => '[%site_nome%] Novo Ticket #%ticket_id%',
+                'default-subject' => '[%site_nome%] Novo Contato #%ticket_id%',
                 'default-email' => '
                     <h4>Um novo ticket foi criado #%ticket_id%</h4>
                     <p>para acompanhar acesse o link: %link%</p>

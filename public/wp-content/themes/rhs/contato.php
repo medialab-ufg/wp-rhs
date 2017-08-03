@@ -113,7 +113,7 @@
                             <fieldset class="panel panel-default">
                                 <div class="panel-heading">
                                     <div class="panel-title">
-                                        Tickets Criados
+                                        Contatos Realizados
                                     </div>
                                 </div>
                                 <div class="panel-body table-responsive">
@@ -156,7 +156,7 @@
                                             </tbody>
                                         </table>
                                     <?php else : ?>
-                                        <span>Você não tem tickets criados.</span>
+                                        <span>Você realizou nenhum contato ainda, não seja tímido.</span>
                                     <?php endif; ?>
                                 </div>
                             </fieldset>
