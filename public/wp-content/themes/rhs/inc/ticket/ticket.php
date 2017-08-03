@@ -438,13 +438,13 @@ class RHSTicket extends RHSMenssage {
     }
 
     /**
-     * Valida compos por backend ao inserir o comentário do contato
+     * Valida campos por backend ao inserir o comentário do contato
      * @return bool
      */
     private function validate_by_post_comment() {
         $this->clear_messages();
         if ( ! array_key_exists( 'comment_post_ID', $_POST ) ) {
-            $this->set_alert('<i class="fa fa-exclamation-triangle "></i> Sem informação do ticket!' );
+            $this->set_alert('<i class="fa fa-exclamation-triangle "></i> Sem informação do ticket de suporte!' );
             return false;
         }
         if ( ! array_key_exists( 'comment', $_POST ) ) {
@@ -756,18 +756,18 @@ class RHSTicket extends RHSMenssage {
     function register_post_type()
     {
         $labels = array(
-            'name' => 'Tickets',
-            'singular_name' => 'Ticket',
+            'name' => 'Contatos',
+            'singular_name' => 'Contato',
             'add_new' => 'Adicionar Novo',
-            'add_new_item' =>'Adicionar Ticket',
+            'add_new_item' =>'Adicionar Contato',
             'edit_item' => 'Editar',
-            'new_item' => 'Novo Ticket',
+            'new_item' => 'Novo Contato',
             'view_item' => 'Visualizar',
             'search_items' => 'Pesquisar',
             'not_found' => 'Nenhum ticket encontrado',
-            'not_found_in_trash' => 'Nenhum ticket encontrado na lixeira',
-            'parent_item_colon' => 'Ticket acima:',
-            'menu_name' => 'Tickets'
+            'not_found_in_trash' => 'Nenhum Contato encontrado na lixeira',
+            'parent_item_colon' => 'Contato acima:',
+            'menu_name' => 'Contatos'
         );
         $args = array(
             'labels' => $labels,
