@@ -2,7 +2,8 @@
 	<div class="panel-heading" style="padding: 21px;">
 		<div class="row post-titulo">
 			<div class="col-xs-9 col-sm-11 col-md-10">
-				<?php the_title( '<h1>', '</h1>' ); ?>
+                <?php global $RHSNetwork;?>
+                <?php the_title( '<h1>', '</h1>' ); ?>
 			</div>
 			<div class="col-xs-3 col-sm-1 col-md-2 vdivide">
                 			<div class="votebox">
