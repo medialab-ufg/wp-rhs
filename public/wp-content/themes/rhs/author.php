@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 <?php
-
+get_edit_user_link();
 $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
 ?>
             <!-- Tab panes -->

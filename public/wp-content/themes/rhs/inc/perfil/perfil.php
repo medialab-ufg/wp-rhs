@@ -6,7 +6,6 @@ class RHSPerfil extends RHSMenssage {
     private $userID;
 
     function __construct($userID) {
-
         $this->userID = $userID;
     }
 
@@ -22,8 +21,16 @@ class RHSPerfil extends RHSMenssage {
                 return;
             }
 
+            $current_user = new RHSUser(wp_get_current_user());
+
+            if($user->is_admin()){
+                $user_id = $_POST['user_id'];
+            } else {
+                $user_id = get_current_user_id();
+            }
+
             $this->update(
-                $this->userID,
+                $user_id,
                 $_POST['first_name'],
                 $_POST['last_name'],
                 $_POST['pass'],

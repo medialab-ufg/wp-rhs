@@ -33,6 +33,7 @@ class RHSRewriteRules {
             self::RP_URL . "/?$"                => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::RP_URL,
             self::VOTING_QUEUE_URL . "/?$"      => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::VOTING_QUEUE_URL,
             self::PROFILE_URL . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::PROFILE_URL,
+            self::PROFILE_URL . "/([^/]+)/?$"   => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::PROFILE_URL . "&rhs_user=" . $wp_rewrite->preg_index(1),
             self::POST_URL . "/?$"              => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL,
             self::POST_URL . "/([^/]+)/?$"      => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL . "&rhs_edit_post=" . $wp_rewrite->preg_index(1),
             self::POSTAGENS_URL . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POSTAGENS_URL,
@@ -55,6 +56,7 @@ class RHSRewriteRules {
         $public_query_vars[] = "rhs_custom_login";
         $public_query_vars[] = "rhs_login_tpl";
         $public_query_vars[] = "rhs_edit_post";
+        $public_query_vars[] = "rhs_user";
 
         return $public_query_vars;
 

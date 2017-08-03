@@ -1,6 +1,5 @@
 <?php get_header('full'); ?>
 <?php global $RHSPosts; ?>
-<?php ; ?>
 
 <?php $RHSPost = new RHSPost(get_query_var('rhs_edit_post'), null, true); ?>
 <?php if(!$RHSPost->getId()){
