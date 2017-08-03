@@ -6,7 +6,6 @@ class RHSPerfil extends RHSMenssage {
     private $userID;
 
     function __construct($userID) {
-
         $this->userID = $userID;
     }
 
@@ -22,8 +21,16 @@ class RHSPerfil extends RHSMenssage {
                 return;
             }
 
+            $current_user = new RHSUser(wp_get_current_user());
+
+            if($current_user->is_admin()){
+                $user_id = $_POST['user_id'];
+            } else {
+                $user_id = get_current_user_id();
+            }
+
             $this->update(
-                $this->userID,
+                $user_id,
                 $_POST['first_name'],
                 $_POST['last_name'],
                 $_POST['pass'],
@@ -74,26 +81,24 @@ class RHSPerfil extends RHSMenssage {
             if ( @move_uploaded_file ( $arquivo_tmp, WP_CONTENT_DIR . $caminho . $novoNome ) ) {
                 update_user_meta( $user_id, 'rhs_avatar', 'wp-content'.$caminho.$novoNome);
             } else {
-                $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Erro ao salvar o arquivo.', false, 'error');
+                $this->set_alert( '<i class="fa fa-exclamation-triangle"></i> Erro ao salvar o arquivo.');
 
             }
         }
 
-        $this->set_messages( '<i class="fa fa-check"></i> Informações de perfil salvas com sucesso!', false, 'success');
+        $this->set_alert( '<i class="fa fa-check"></i> Informações de perfil salvas com sucesso!');
 
     }
 
     private function validate_by_post() {
 
-        $this->clear_messages();
-
         if(!array_key_exists('first_name', $_POST)){
-            $this->set_messages('<i class="fa fa-exclamation-triangle "></i> Preencha o sua antiga senha!', false, 'error');
+            $this->set_alert('<i class="fa fa-exclamation-triangle "></i> Preencha o sua antiga senha!');
             return false;
         }
 
         if(!array_key_exists('last_name', $_POST)){
-            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Preencha o sua antiga senha!', false, 'error');
+            $this->set_alert( '<i class="fa fa-exclamation-triangle "></i> Preencha o sua antiga senha!');
             return false;
         }
 
@@ -102,7 +107,7 @@ class RHSPerfil extends RHSMenssage {
             $RHSUsers = new RHSUsers($this->userID);
 
             if(empty($_POST['pass_old'] ) || !wp_check_password( $_POST['pass_old'], $RHSUsers->get_user_data('user_pass'), $this->userID) ){
-                $this->set_messages('<i class="fa fa-exclamation-triangle "></i> Sua senha antiga está incorreta!', false, 'error');
+                $this->set_alert('<i class="fa fa-exclamation-triangle "></i> Sua senha antiga está incorreta!');
                 return false;
             }
         }
@@ -119,12 +124,12 @@ class RHSPerfil extends RHSMenssage {
                 $extensao = strtolower ( $extensao );
 
                 if ( !strstr ( '.jpg;.jpeg;.gif;.png', $extensao ) ) {
-                    $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Você poderá enviar apenas arquivos "*.jpg;*.jpeg;*.gif;*.png', false, 'error');
+                    $this->set_alert( '<i class="fa fa-exclamation-triangle"></i> Você poderá enviar apenas arquivos "*.jpg;*.jpeg;*.gif;*.png');
                     return false;
                 }
 
                 if($avatar_file[ 'size' ] > 5242880){
-                    $this->set_messages( '<i class="fa fa-exclamation-triangle"></i> Tamanho não pode ultrapasar de 5mb', false, 'error');
+                    $this->set_alert( '<i class="fa fa-exclamation-triangle"></i> Tamanho não pode ultrapasar de 5mb');
                     return false;
                 }
             } else {

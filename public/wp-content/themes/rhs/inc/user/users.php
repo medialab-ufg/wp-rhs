@@ -21,10 +21,17 @@ Class RHSUsers extends RHSMenssage {
             add_action('admin_enqueue_scripts', array( &$this, 'admin_theme_style'));
             add_action('pre_get_posts',array( &$this, 'ml_restrict_media_library'));
             add_filter( 'get_avatar' , array( &$this, 'custom_avatar') , 1 , 5 );
+            //add_filter( 'get_edit_user_link' , array( &$this, 'custom_edit_user_link') , 5 , 2 );
         }
 
         self::$instance = true;
     }
+
+    /**
+    function custom_edit_user_link($link, $user_id){
+        return home_url('perfil/'.$user_id);
+    }
+     */
 
     function getAvatarImage($userID = 0) {
 
@@ -57,8 +64,12 @@ Class RHSUsers extends RHSMenssage {
             $user = get_user_by( 'email', $id_or_email );
         }
 
-        if ( $user && is_object( $user ) && $this->getAvatarImage($user->ID) ) {
-            $avatar = "<img alt='{$alt}' src='{$this->getAvatarImage($user->ID)}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+        if ( $user && is_object( $user )){
+            $userObj = new RHSUser($user);
+
+            if($userObj->get_avatar_url()){
+                $avatar = "<img alt='{$alt}' src='{$userObj->get_avatar_url()}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+            }
         }
 
         return $avatar;
@@ -111,6 +122,7 @@ Class RHSUsers extends RHSMenssage {
             wp_enqueue_script( 'thickbox' );
         }
 
+        $user = new RHSUser(get_userdata($this->userID));
 
         ?>
         <table class="form-table field-add">
@@ -119,7 +131,7 @@ Class RHSUsers extends RHSMenssage {
                 <th><label for="links"><?php _e( 'Links' ) ?></label></th>
                 <td>
                     <div class="input-group">
-                        <?php foreach ( $this->getLinks( true ) as $key => $link ) { ?>
+                        <?php foreach ( $user->get_links( true ) as $key => $link ) { ?>
                             <p>
                                 <input placeholder="Titulo" type="text" name="rhs_links[title][]" id="links"
                                        value="<?php echo $link['title'] ?>" class="regular-text code">
@@ -138,30 +150,55 @@ Class RHSUsers extends RHSMenssage {
                 </td>
             </tr>
             <tr class="user-formation">
-                <th><label for="formation"><?php _e( 'Formação' ) ?></label></th>
-                <td><input type="text" name="rhs_formation" id="formation"
-                           value="<?php echo $this->getFormacao(); ?>"
-                           class="regular-text code"></td>
+                <th>
+                    <label for="formation"><?php _e( 'Formação' ) ?></label>
+                </th>
+                <td>
+                    <input type="text" name="rhs_formation" id="formation" value="<?php echo $user->get_formation(); ?>" class="regular-text code">
+                </td>
             </tr>
+            <?php
+
+            UFMunicipio::form( array(
+                'content_before'       => '<tr class="user-state-city">',
+                'content_after'        => '</tr>',
+                'content_before_field' => '',
+                'content_after_field'  => '',
+                'state_label'          => 'Estado &nbsp',
+                'city_label'           => 'Cidade &nbsp',
+                'select_class'         => 'form-control',
+                'select_before'        => '<td>',
+                'select'               => '</td>',
+                'label_before'         => '<th>',
+                'label_after'          => '</th>',
+                'separator'            => '</tr><tr>',
+                'selected_state'       => $user->get_state_id(),
+                'selected_municipio'   => $user->get_city_id()
+            ) );
+
+            ?>
             <tr class="user-interest">
-                <th><label for="url"><?php _e( 'Interesses' ) ?></label></th>
-                <td><textarea name="rhs_interest" id="interest" rows="5"
-                              cols="30"><?php echo $this->getInteresses(); ?></textarea></td>
+                <th>
+                    <label for="url"><?php _e( 'Interesses' ) ?></label>
+                </th>
+                <td>
+                    <textarea name="rhs_interest" id="interest" rows="5" cols="30"><?php echo $user->get_interest(); ?></textarea>
+                </td>
             </tr>
             <tr class="user-avatar">
                 <th><label for="pass1-text"><?php _e( 'Foto do Perfil' ); ?></label></th>
                 <td>
-                    <input class="header_logo_url" type="hidden" name="rhs_avatar" size="60"
-                           value="<?php echo $this->getAvatar(); ?>">
+                    <input class="header_logo_url" type="hidden" name="rhs_avatar" size="60" value="<?php echo $user->get_avatar_url(); ?>">
                     <a class="header_logo_upload"
-                       style="<?php echo $this->getAvatar() ? '' : 'display: none;' ?>line-height: 0; outline: none !important; box-shadow: none !important;"
+                       style="<?php echo $user->get_avatar_url() ? '' : 'display: none;' ?>line-height: 0; outline: none !important; box-shadow: none !important;"
                        href="#">
                         <img style="object-fit: cover;" class="header_logo"
-                             src="<?php echo $this->getAvatarImage(); ?>" height="100" width="100"/>
+                             src="<?php echo $user->get_avatar_url(); ?>" height="100" width="100"/>
                     </a>
                     <div>
-                        <button type="button"
-                                class="header_logo_upload button wp-generate-pw hide-if-no-js"><?php _e( 'Selecionar imagem' ) ?></button>
+                        <button type="button" class="header_logo_upload button wp-generate-pw hide-if-no-js">
+                            <?php _e( 'Selecionar imagem' ) ?>
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -215,6 +252,7 @@ Class RHSUsers extends RHSMenssage {
             $_POST['rhs_avatar'] = str_replace( $url, '', $_POST['rhs_avatar'] );
         }
 
+        add_user_ufmun_meta( $this->userID, $_POST['municipio'], $_POST['estado']);
         update_user_meta( $this->userID, 'rhs_links', $_POST['rhs_links'] );
         update_user_meta( $this->userID, 'rhs_formation', $_POST['rhs_formation'] );
         update_user_meta( $this->userID, 'rhs_interest', $_POST['rhs_interest'] );

@@ -492,7 +492,7 @@ jQuery( function( $ ) {
             focusInvalid: true,
             focusCleanup: false,
             onkeyup: false,
-            ignore: '',
+            ignore: ':hidden:not(.validate)',
             rules: {
                 name: {
                     maxlength: 128,
