@@ -15,7 +15,7 @@
             <div class="col-xs-12 col-md-9">
                 <h1 class="titulo-page"><?php echo $RHSPost->getId() ? 'Editar' : 'Criar'; ?> Post</h1>
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade in active" id="verDados">
+                    <div id="verDados">
                         <div class="jumbotron perfil">
                             <div class="row">
                                 <div class="col-xs-12">
@@ -91,20 +91,22 @@
 
                                     </script>
                                 </div>
-                                <?php UFMunicipio::form( array(
-                                    'content_before' => '',
-                                    'content_after' => '',
-                                    'content_before_field' => '<div class="form-group">',
-                                    'content_after_field' => '</div>',
-                                    'select_before' => ' ',
-                                    'select_after' => ' ',
-                                    'state_label' => 'Estado &nbsp',
-                                    'city_label' => 'Cidade &nbsp',
-                                    'select_class' => 'form-control',
-                                    'show_label' => false,
-                                    'selected_state' => $RHSPost->getState(),
-                                    'selected_municipio' => $RHSPost->getCity(),
-                                ) ); ?>
+                                <div class="form-group style">
+                                    <?php UFMunicipio::form( array(
+                                        'content_before' => '',
+                                        'content_after' => '',
+                                        'content_before_field' => '<div class="form-group">',
+                                        'content_after_field' => '</div>',
+                                        'select_before' => ' ',
+                                        'select_after' => ' ',
+                                        'state_label' => 'Estado &nbsp',
+                                        'city_label' => 'Cidade &nbsp',
+                                        'select_class' => 'form-control',
+                                        'show_label' => false,
+                                        'selected_state' => $RHSPost->getState(),
+                                        'selected_municipio' => $RHSPost->getCity(),
+                                    ) ); ?>
+                                </div>
                                 <div class="form-group">
                                     <input type="text" value="" class="form-control" id="input-category" placeholder="Categoria">
                                     <input type="hidden" value="" id="category_verify" name="category_verify" />
