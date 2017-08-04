@@ -90,7 +90,7 @@ global $RHSTicket;
                                         <?php
                                             $comments = get_comments('post_id='.$post->ID . '&order=asc&status='.RHSTicket::COMMENT_STATUS);
                                             if(!$comments){
-                                                echo '<span style="margin-left: 33px;">Agradecemos por entrar em contato, em breve você será respondi. <strong>-</strong> Rede Humaniza SuS</span>';
+                                                echo '<span style="margin-left: 33px;">Agradecemos por entrar em contato, em breve você será respondido. <strong>-</strong> Rede Humaniza SuS</span>';
                                             }
                                             foreach($comments as $comment) :
                                                 $commentAuthor=get_userdata($comment->user_id);
