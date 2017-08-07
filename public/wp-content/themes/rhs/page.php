@@ -36,9 +36,14 @@
 					</div><!-- .panel .panel-default -->
 				</div>
 			</article><!-- #post-## -->
-			
 		</div>
-        
+        <?php if ( comments_open() || get_comments_number() ) { ?>
+            <div class="panel panel-default hidden-print">
+                <div class="panel-footer panel-comentarios">
+                    <?php comments_template(); ?>
+                </div>
+            </div>
+        <?php } ?>
     <?php endwhile;	?>
 
 <?php get_footer();
