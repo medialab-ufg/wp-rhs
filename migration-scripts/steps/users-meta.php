@@ -4,7 +4,11 @@
 $this->log('Limpando metadados de usuários com ID maior que 1');
 $wpdb->query("DELETE FROM $wpdb->usermeta 
 	WHERE user_id > 1 
-		AND meta_key IN ('nickname','first_name','last_name','description','rhs_formation','rhs_interest','rhs_links','rhs_avatar');");
+		AND meta_key IN ('nickname','first_name','last_name','description','rhs_formation','rhs_interest','rhs_links','rhs_avatar', 'rich_editing');");
+
+$query = $this->get_sql('users-meta-rich-editing');
+$this->log('Adicionando metadado de rich editing...');
+$wpdb->query($query);
 
 $query = $this->get_sql('users-meta-nickname');
 $this->log('Importando informação de apelido dos usuarios...');
