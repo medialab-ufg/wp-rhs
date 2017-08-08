@@ -1,5 +1,11 @@
 <?php
 
+// Criamos tabela de cidades e estados do IBGE
+$this->log('Importando base de cidades e estados do IBGE');
+$query = $this->get_sql('brasil');
+$wpdb->query($query);
+
+
 // Criamos uma tabela para fazer a transição
 
 $table = 'migra_cidades_p';
