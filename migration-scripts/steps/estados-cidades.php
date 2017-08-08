@@ -1,9 +1,12 @@
 <?php
 
 // Criamos tabela de cidades e estados do IBGE
+// Não sei por que isso não funciona por aqui, tem q importar esse SQL na mão
 $this->log('Importando base de cidades e estados do IBGE');
-$query = $this->get_sql('brasil');
-$wpdb->query($query);
+//$query = $this->get_sql('brasil');
+//$wpdb->query($query);
+shell_exec('mysql -u ' . DB_USER . ' -h ' . DB_HOST . ' -p' . DB_PASSWORD . ' ' . DB_NAME . ' < sql/brasil.sql');
+
 
 
 // Criamos uma tabela para fazer a transição
