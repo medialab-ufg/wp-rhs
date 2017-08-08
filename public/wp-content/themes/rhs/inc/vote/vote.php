@@ -109,7 +109,7 @@ Class RHSVote {
                 )
             ";
             global $wpdb;
-            var_dump($wpdb->query( $createQ )); die;
+            $wpdb->query( $createQ );
 
         }
     }
