@@ -31,3 +31,6 @@ $query = $this->get_sql('posts-meta-date', $substitutions);
 $this->log('Importando informação de data do último voto...');
 $wpdb->query($query);
 
+$query = $this->get_sql('votes-posts-status', $substitutions);
+$this->log('Atualizando status dos posts pelo voto...');
+$wpdb->query($query);
