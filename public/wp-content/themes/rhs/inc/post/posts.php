@@ -475,15 +475,21 @@ class RHSPosts extends RHSMenssage {
             <?php
         endwhile;
     }
-
+    
     function add_meta_date( $postID ) {
 
         $data = get_post($postID);
+        
+        /**
+         * Quando cria o post pela primeira vez e ele ainda não tem nenhum voto
+         * adiciona o metadado para ele não ficar vazio e não gerar inconsistencia
+         * add_post_meta só adicinoa, se o metadado já exitir, não faz nada.
+         */ 
         add_post_meta( $postID, self::META_DATE_ORDER, $data->post_date, true );
     }
 
     function update_date_order($postID){
-        update_post_meta( $postID, self::META_DATE_ORDER, date('Y-m-d H:i:s') );
+        update_post_meta( $postID, self::META_DATE_ORDER, current_time('mysql') );
     }
 }
 
