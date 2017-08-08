@@ -1,5 +1,6 @@
 #!/bin/bash
 php -r '
+echo "\nVerificando se as pastas existe...\n\n";
 if (!file_exists("public/wp-content/themes/rhs/vendor")) { 
     mkdir("public/wp-content/themes/rhs/vendor", 0777, true); 
 }
@@ -21,6 +22,7 @@ if (!file_exists("public/wp-content/themes/rhs/vendor/font-awesome/fonts")) {
 if (!file_exists("public/wp-content/themes/rhs/vendor/magicsuggest")) {  
     mkdir("public/wp-content/themes/rhs/vendor/magicsuggest", 0777, true); 
 }
+echo "Copiando arquivos...\n";
 recurse_copy("vendor/twbs/bootstrap/dist/", "public/wp-content/themes/rhs/vendor/bootstrap");
 recurse_copy("vendor/fortawesome/font-awesome/css/", "public/wp-content/themes/rhs/vendor/font-awesome/css");
 recurse_copy("vendor/fortawesome/font-awesome/fonts/", "public/wp-content/themes/rhs/vendor/font-awesome/fonts");
