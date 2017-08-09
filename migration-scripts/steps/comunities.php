@@ -35,7 +35,7 @@ foreach ( $comunities as $key => $comunity ) {
 
     $term = get_term( $term['term_id'], 'comunity-category' );
 
-    add_term_meta( $term->term_id, 'rhs-comunity-type', 'open', true );
+    add_term_meta( $term->term_id, 'rhs-comunity-type', 'private', true );
 
     $query   = $this->get_sql( 'comunities-members', array( '{{comunity_id}}' => $comunity->term_id ) );
     $members = $wpdb->get_results( $query );
