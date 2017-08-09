@@ -267,7 +267,7 @@ class RHSComunity {
      * @return bool
      */
     function is_member(){
-        return ($this->is_member || $this->type == RHSComunities::TYPE_OPEN);
+        return ($this->is_member);
     }
 
     /**

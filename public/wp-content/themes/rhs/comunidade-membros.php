@@ -1,6 +1,7 @@
 <?php $members = $comunity->get_members_saparete_by_capability(); ?>
 <div class="row contato">
     <div class="wrapper-content">
+        <?php if($comunity->is_moderate()){ ?>
         <div class="row">
             <div class="col-md-4">
                 <form class="form">
@@ -10,6 +11,7 @@
                 </form>
             </div>
         </div>
+        <?php } ?>
         <div class="row">
         <?php if($members){ ?>
                 <?php foreach ( $members as $member ) { ?>
