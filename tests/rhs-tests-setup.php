@@ -11,6 +11,9 @@
 abstract class RHS_UnitTestCase extends WP_UnitTestCase {
 
 	
+    /**
+     * Usuários para testes
+     */ 
     const testUsers = [
         [
             'user_login' => 'editor1',

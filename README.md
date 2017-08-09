@@ -129,8 +129,26 @@ Cole as seguintes linhas dentro do arquivo criado:
 bash compile-sass.sh
 ```
 
-
 bash compile-sass.sh -> Arquivo onde se encontra no diretorio do projeto (wp-rhs) e execulta os comandos para compilar o sass.
+
+
+### Testes
+
+Para rodar os testes, basta rodar o script na raíz do repositório:
+
+```
+./run-tests.sh
+```
+
+Da primeira vez que for rodar os testes (ou se por acaso limpar a pasta /tmp), é preciso fazer a instalação do WP de testes. Para isso, é preciso rodar o script que está dentro da pasta `tests/install`.
+
+```
+bash tests/install/install-wp-tests.sh <db-name> <db-user> <db-pass> [db-host] [wp-version] [skip-database-creation]
+```
+
+Antes de rodar, certifique-se de criar uma base de dados para ser a base de testes.
+
+Os parâmetros `db-name`, `db-user` e `db-pass` são obrigatórios.
 
 ### Administrando fixtures
 
