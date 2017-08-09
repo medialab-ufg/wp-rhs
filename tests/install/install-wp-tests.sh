@@ -11,6 +11,7 @@ DB_PASS=$3
 DB_HOST=${4-localhost}
 WP_VERSION=${5-latest}
 SKIP_DB_CREATE=${6-false}
+PROJECT_PATH=$(dirname $(dirname $(pwd)))
 
 WP_TESTS_DIR=${WP_TESTS_DIR-/tmp/wordpress-tests-lib}
 WP_CORE_DIR=${WP_CORE_DIR-/tmp/wordpress/}
@@ -65,6 +66,8 @@ install_wp() {
 	fi
 
 	download https://raw.github.com/markoheijnen/wp-mysqli/master/db.php $WP_CORE_DIR/wp-content/db.php
+    
+    ln -s "$PROJECT_PATH/public/wp-content/themes/rhs" "$WP_CORE_DIR/wp-content/themes/rhs"
 }
 
 install_test_suite() {
