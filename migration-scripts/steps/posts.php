@@ -15,3 +15,7 @@ $wpdb->query($query);
 $query = $this->get_sql('posts-redes-sociais-twitter');
 $this->log('Importando informação das redes sociais de twitter dos posts...');
 $wpdb->query($query);
+
+$query = $this->get_sql('posts-carrossel');
+$this->log('Importando carrossel...');
+$wpdb->query($query);

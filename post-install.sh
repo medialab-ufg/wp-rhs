@@ -34,11 +34,8 @@ if(file_exists("public/wp-content/themes/rhs/vendor/magicsuggest/bower.json")){
     unlink("public/wp-content/themes/rhs/vendor/magicsuggest/magicsuggest.js");
     unlink("public/wp-content/themes/rhs/vendor/magicsuggest/.gitignore");
 }
-if (file_exists("wp-content/plugins/wp-bootstrap-navwalker")) {
-    recurse_copy("wp-content", "vendor/wp-content");
-}
-if (file_exists("vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php")) { 
-    copy("vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php", "public/wp-content/themes/rhs/vendor/wp-bootstrap-navwalker.php"); 
+if (file_exists("public/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php")) { 
+    copy("public/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php", "public/wp-content/themes/rhs/vendor/wp-bootstrap-navwalker.php"); 
 }
 if (file_exists("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js")) {
     copy("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js", "public/wp-content/themes/rhs/vendor/js/bootstrap-hover-dropdown.min.js");

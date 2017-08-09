@@ -104,11 +104,11 @@ Class RHSVote {
                     ID bigint(20) unsigned NOT NULL auto_increment PRIMARY KEY,
                     post_id bigint(20) unsigned NOT NULL default '0',
                     user_id tinytext NOT NULL,
-                    vote_date datetime NOT NULL default CURRENT_TIMESTAMP,
+                    vote_date datetime NOT NULL default '0000-00-00 00:00:00',
                     vote_source varchar(20) NOT NULL default '0.0.0.0'
                 )
             ";
-
+            global $wpdb;
             $wpdb->query( $createQ );
 
         }
@@ -345,7 +345,8 @@ Class RHSVote {
 			$wpdb->insert( $this->tablename, array(
 				'user_id'     => $user_id,
                 'vote_source' => $_SERVER['REMOTE_ADDR'],
-				'post_id'     => $post_id
+				'post_id'     => $post_id,
+				'vote_date'   => current_time('mysql')
 			) );
 		}
 
