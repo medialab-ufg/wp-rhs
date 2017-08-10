@@ -1,6 +1,7 @@
 jQuery( function( $ ) {
 
     $(function () {
+
         jQuery.validator.setDefaults({
             debug: true,
             focusCleanup: true
@@ -415,18 +416,24 @@ jQuery( function( $ ) {
             }
         });
 
+        $('#input-tags').find('input').attr('name','tags');
+        $('#input-category').find('input').attr('name','category');
+
         $('#posting').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
             focusInvalid: true,
             focusCleanup: false,
             onkeyup: false,
-            ignore: '[type="button"], .ms-ctn input',
+            ignore: '[type="button"]',
             rules: {
                 title: {
                     required: true
                 },
-                category: {
+                category_verify: {
+                    required: true
+                },
+                'comunity-status[]': {
                     required: true
                 }
             },
@@ -434,13 +441,20 @@ jQuery( function( $ ) {
                 title: {
                     required: 'Preencha o titulo.'
                 },
-                category: {
-                    required: 'Selecione a categoria'
+                category_verify: {
+                    required: 'Selecione uma categoria.'
+                },
+                'comunity-status[]': {
+                    required: 'Selecione onde será publicado.'
                 }
             },
             invalidHandler: function (event, validator) {},
             errorPlacement: function (error, element) {
-                if (element.parent(".input-group").size() > 0) {
+                if (element.parents(".form-checkbox").size() > 0) {
+                    error.appendTo(element.parents(".form-checkbox"));
+                }else if (element.parents(".ms-ctn").size() > 0) {
+                    error.insertAfter(element.parents(".ms-ctn"));
+                } else if (element.parent(".input-group").size() > 0) {
                     error.insertAfter(element.parent(".input-group"));
                 } else if (element.attr("data-error-container")) {
                     error.appendTo(element.attr("data-error-container"));
@@ -478,7 +492,7 @@ jQuery( function( $ ) {
             focusInvalid: true,
             focusCleanup: false,
             onkeyup: false,
-            ignore: '',
+            ignore: ':hidden:not(.validate)',
             rules: {
                 name: {
                     maxlength: 128,

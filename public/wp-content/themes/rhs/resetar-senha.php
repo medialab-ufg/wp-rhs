@@ -17,7 +17,7 @@
                                     <?php } ?>
                                 </div>
                             <?php } ?>
-                            <form class="form-horizontal" method="post" role="form" action="">
+                            <form autocomplete="off" class="form-horizontal" method="post" role="form" action="">
                                 <div class="form-group float-label-control">
                                     <label for="user_login">Nova senha: </label>
                                     <input type="password" tabindex="1" name="pass1-text" id="pass1-text" class="form-control" value="" size="20" required>

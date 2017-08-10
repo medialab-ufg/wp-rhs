@@ -16,6 +16,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/login/login.php');
         require_once('inc/lostpassword/lostpassword.php');
         require_once('inc/user/user.php');
+        require_once('inc/user/users.php');
         require_once('inc/perfil/perfil.php');
         require_once('inc/register/register.php');
         require_once('inc/ticket/ticket.php');
@@ -23,7 +24,6 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/network/network.php');
         require_once('inc/comunity/comunities.php');
         require_once('inc/comunity/comunity.php');
-        require_once('inc/html/html.php');
 
         require_once('inc/vote/vote.php');
         require_once('inc/vote/widget.php');
@@ -32,6 +32,7 @@ if(!function_exists('rhs_setup')) :
         
         // Publicar posts - precisa ser carregado por último
         require_once('inc/post/post.php');
+        require_once('inc/post/posts.php');
 
         //// Drupal 7 Password Check
         require_once('inc/drupal-password-check.php');
@@ -66,12 +67,42 @@ if(!function_exists('rhs_setup')) :
         add_theme_support( 'html5', array( 'comment-list', 'comment-form' ) );
         
         add_image_size( 'carrossel', 408, 320, true );
-        
+
+        add_editor_style();
     }
 
 endif;
 
 add_action( 'after_setup_theme', 'rhs_setup' );
+
+function trigger_functions(){
+
+    global $RHSPosts;
+    global $RHSPerfil;
+    global $RHSRegister;
+    global $RHSComunities;
+    global $RHSTicket;
+
+    $RHSPosts->trigger_by_post();
+    $RHSPerfil->trigger_by_post();
+    $RHSRegister->trigger_by_post();
+    $RHSComunities->trigger_by_post();
+    $RHSTicket->trigger_by_post();
+}
+add_action( 'wp_loaded', 'trigger_functions');
+
+/*
+* Adicionar button Justify ao Wp-Editor
+*/
+function rhs_buttons_justify( $button ){   
+    if ( !in_array( 'alignjustify', $button ) && in_array( 'alignright', $button ) ){
+        $key = array_search( 'alignright', $button );
+        $inserted = array( 'alignjustify' );
+        array_splice( $button, $key + 1, 0, $inserted );
+    }
+    return $button;
+}
+add_filter( 'mce_buttons', 'rhs_buttons_justify', 5 );
 
 /* 
 * Desabilita os Emojis 
@@ -112,16 +143,20 @@ function my_wp_is_mobile() {
 */
 function RHS_scripts() {
     wp_enqueue_script('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/js/bootstrap.min.js', array('jquery'), '3.3.7', true);
-    wp_enqueue_script('bootstrap-hover-dropdown', get_template_directory_uri() . '/vendor/js/bootstrap-hover-dropdown.min.js', array('jquery'), '2.2.1', true);
+    wp_enqueue_script('bootstrap-hover-dropdown', get_template_directory_uri() . '/vendor/js/bootstrap-hover-dropdown.min.js', array('bootstrap'), '1.0', true);
+    wp_enqueue_script('jquery-autocomplete', get_template_directory_uri() . '/assets/includes/jquery-autocomplete/src/jquery.autocomplete.js', array('bootstrap'), '1.0', true);
+    wp_enqueue_script('sweetalert', get_template_directory_uri() . '/assets/includes/bootstrap-sweetalert/dist/sweetalert.min.js', array('bootstrap'), '1.0', true);
 
     /*JS Validar Registro*/
     wp_enqueue_script( 'JqueryValidate', 'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js', array('jquery'), '1.15.0', true );
     wp_enqueue_script('JqueryValidadeMethods', 'https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js', array('JqueryValidate'), '1.16.0', true );
     wp_enqueue_script('ValidarForm', get_template_directory_uri() . '/assets/js/valida-form-registro.js', array('JqueryValidate'),'1.0', true);
+    wp_enqueue_script('Comunidades', get_template_directory_uri() . '/assets/js/comunity.js', array('jquery'),'1.0', true);
 
     wp_enqueue_script('FuncoesForm', get_template_directory_uri() . '/assets/js/functions.js', array('JqueryValidate'),'1.0', true);
     wp_enqueue_script('magicJS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.js','0.8.0', true);
     wp_enqueue_script('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js', array('bootstrap'), '1.5.0', true);
+    wp_enqueue_script('masonry', get_template_directory_uri() . '/vendor/js/masonry.pkgd.min.js',array('bootstrap'),'4.2.0', true);
 
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) { 
         // enqueue the javascript that performs in-link comment reply fanciness
@@ -133,7 +168,7 @@ function RHS_scripts() {
         wp_enqueue_script('PublicarPostagens', get_template_directory_uri() . '/assets/js/publicar_postagens.js','1.0', true);
     }
 
-
+    wp_enqueue_script('uniform', get_template_directory_uri() . '/assets/includes/uniform/dist/js/jquery.uniform.standalone.js', array('jquery'), '4.2.0', true);
 
 }
 add_action('wp_enqueue_scripts', 'RHS_scripts');
@@ -154,6 +189,8 @@ function RHS_styles() {
     wp_enqueue_style('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/css/bootstrap.min.css');
     wp_enqueue_style('fontawesome', get_template_directory_uri() . '/vendor/font-awesome/css/font-awesome.min.css');
     wp_enqueue_style('magicCSS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.css');
+    wp_enqueue_style('sweetalert', get_template_directory_uri() . '/assets/includes/bootstrap-sweetalert/dist/sweetalert.css');
+    wp_enqueue_style('uniform', get_template_directory_uri() . '/assets/includes/uniform/dist/css/default.css');
     wp_enqueue_style('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', array('bootstrap'));
     wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
 }
@@ -335,10 +372,14 @@ add_action( 'widgets_init', 'rhs_widgets_init' );
 */
 function change_paste_as_text($mceInit, $editor_id){
     $mceInit['paste_as_text'] = true;
+    $mceInit['wordpress_adv_hidden'] = FALSE;
     return $mceInit;
 }
 add_filter('tiny_mce_before_init', 'change_paste_as_text', 1, 2);
 
+/*
+* Muda os posts de p para br 
+*/
 function change_p_for_br($string){
 
     $string = html_entity_decode($string);
@@ -460,3 +501,14 @@ function so174837_registration_email_alert( $user_id ) {
     wp_mail( 'avelardesigner@gmail.com', 'New User registration', $message );
 }
 add_action('user_register', 'so174837_registration_email_alert');
+
+add_filter( 'get_edit_post_link', 'rhs_edit_post_link' );
+function rhs_edit_post_link($url) {
+    global $post;
+
+    if (!current_user_can('edit_others_posts')) {
+        $url = home_url('publicar-postagem/' . $post->ID);
+    }
+
+    return $url;
+}

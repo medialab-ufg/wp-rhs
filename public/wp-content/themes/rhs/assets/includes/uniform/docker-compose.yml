@@ -1,0 +1,6 @@
+builder:
+  image: audithsoftworks/uniform
+  volumes:
+    - .:/home/audith
+  working_dir: /home/audith
+  stdin_open: true

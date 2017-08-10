@@ -28,8 +28,7 @@ class RHSImporter {
         'estados-cidades' => 'Importação das informações de estado e cidade para posts',
         'estados-cidades-users' => 'Importação das informações de estado e cidade para usuários',
         'categories-new' => 'Cria Novas Categorias',
-        
-        'initial-settings' => 'Cria as configurações básicas para a RHS',
+        'comunities' => 'Importação das comunidades'
     );
     
     
@@ -148,6 +147,10 @@ class RHSImporter {
         // Run 
         
         $start = $partial = microtime(true);
+        
+        // Avoid warnings
+        $_SERVER['SERVER_PROTOCOL'] = "HTTP/1.1";
+        $_SERVER['REQUEST_METHOD'] = "GET";
         
         define( 'WP_USE_THEMES', false );
         define( 'SHORTINIT', false );

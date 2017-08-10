@@ -11,6 +11,10 @@ class RHSVoteQueueWidget extends WP_Widget {
     }
 
     public function widget( $args, $instance ) {
+        if ( ! is_user_logged_in() ) {
+            echo '';
+            return;
+        }
         $title = apply_filters( 'widget_title', __('Fila de votação') );
         $blog_title = get_bloginfo( 'name' );
         $tagline = get_bloginfo( 'description' );

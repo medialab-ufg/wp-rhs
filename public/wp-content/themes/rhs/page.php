@@ -1,9 +1,16 @@
-<?php RHSHtml::setTitulo(get_the_title()); ?>
 <?php get_header(); ?>
-		<div class="row">
-			<?php 
-				while (have_posts()): the_post();
-			?>
+    <?php while (have_posts()): the_post();?>
+        
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="titulo-page"><?php the_title(); ?></h1>
+                <div class="pull-right edit-page">
+                    <?php edit_post_link( __( 'Editar Página', 'rhs' ), '<span class="text-uppercase">', '</span>', null, 'btn btn-default' ); ?>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+			
 			<article id="post-<?php the_ID(); ?>">
 				<div class="col-xs-12">
 					<div class="panel panel-default padding-bottom">
@@ -29,7 +36,14 @@
 					</div><!-- .panel .panel-default -->
 				</div>
 			</article><!-- #post-## -->
-			<?php endwhile;	?>
 		</div>
+        <?php if ( comments_open() || get_comments_number() ) { ?>
+            <div class="panel panel-default hidden-print">
+                <div class="panel-footer panel-comentarios">
+                    <?php comments_template(); ?>
+                </div>
+            </div>
+        <?php } ?>
+    <?php endwhile;	?>
 
 <?php get_footer();

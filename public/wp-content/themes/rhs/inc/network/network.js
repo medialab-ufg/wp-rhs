@@ -9,10 +9,10 @@ jQuery( function( $ ) {
         dataType: "json",
         url: vars.ajaxurl,
         data: {
-            action: 'add_data',
+            action: 'rhs_add_stats_data',
             postID: postID,
             json : true,
-            type: 'rhs_data_view'
+            type: RHSNetworkJS.META_KEY_VIEW
         },
         success: function (data) {
 
@@ -23,13 +23,12 @@ jQuery( function( $ ) {
     });
 
     $('.facebook_share').click(function () {
-        jQuery( function( $ ) {
             $.ajax({
                 async: false,
                 type: "POST",
                 dataType: "json",
                 url: vars.ajaxurl,
-                data: {action: 'add_data', postID: postID, 'json' : true, type: 'rhs_data_facebook'},
+                data: {action: 'rhs_add_stats_data', postID: postID, 'json' : true, type: RHSNetworkJS.META_KEY_FACEBOOK},
                 success: function (data) {
 
                 },
@@ -37,17 +36,15 @@ jQuery( function( $ ) {
 
                 }
             });
-        });
     });
 
     $('.twitter_share').click(function () {
-        jQuery( function( $ ) {
             $.ajax({
                 async: false,
                 type: "POST",
                 dataType: "json",
                 url: vars.ajaxurl,
-                data: {action: 'add_data', postID: postID, 'json' : true, type: 'rhs_data_twitter'},
+                data: {action: 'rhs_add_stats_data', postID: postID, 'json' : true, type: RHSNetworkJS.META_KEY_TWITTER},
                 success: function (data) {
 
                 },
@@ -55,17 +52,15 @@ jQuery( function( $ ) {
 
                 }
             });
-        });
     });
 
     $('.whatsapp_share').click(function () {
-        jQuery( function( $ ) {
             $.ajax({
                 async: false,
                 type: "POST",
                 dataType: "json",
                 url: vars.ajaxurl,
-                data: {action: 'add_data', postID: postID, 'json' : true, type: 'rhs_data_whatsapp'},
+                data: {action: 'rhs_add_stats_data', postID: postID, 'json' : true, type: RHSNetworkJS.META_KEY_WHATSAPP},
                 success: function (data) {
 
                 },
@@ -73,7 +68,22 @@ jQuery( function( $ ) {
 
                 }
             });
-        });
+    });
+    
+    $('.share_print').click(function () {
+            $.ajax({
+                async: false,
+                type: "POST",
+                dataType: "json",
+                url: vars.ajaxurl,
+                data: {action: 'rhs_add_stats_data', postID: postID, 'json' : true, type: RHSNetworkJS.META_KEY_PRINT},
+                success: function (data) {
+
+                },
+                error: function (data) {
+
+                }
+            });
     });
 
 });

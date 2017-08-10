@@ -1,5 +1,6 @@
 #!/bin/bash
 php -r '
+echo "\nVerificando se as pastas existe...\n\n";
 if (!file_exists("public/wp-content/themes/rhs/vendor")) { 
     mkdir("public/wp-content/themes/rhs/vendor", 0777, true); 
 }
@@ -21,6 +22,7 @@ if (!file_exists("public/wp-content/themes/rhs/vendor/font-awesome/fonts")) {
 if (!file_exists("public/wp-content/themes/rhs/vendor/magicsuggest")) {  
     mkdir("public/wp-content/themes/rhs/vendor/magicsuggest", 0777, true); 
 }
+echo "Copiando arquivos...\n";
 recurse_copy("vendor/twbs/bootstrap/dist/", "public/wp-content/themes/rhs/vendor/bootstrap");
 recurse_copy("vendor/fortawesome/font-awesome/css/", "public/wp-content/themes/rhs/vendor/font-awesome/css");
 recurse_copy("vendor/fortawesome/font-awesome/fonts/", "public/wp-content/themes/rhs/vendor/font-awesome/fonts");
@@ -32,14 +34,17 @@ if(file_exists("public/wp-content/themes/rhs/vendor/magicsuggest/bower.json")){
     unlink("public/wp-content/themes/rhs/vendor/magicsuggest/magicsuggest.js");
     unlink("public/wp-content/themes/rhs/vendor/magicsuggest/.gitignore");
 }
-if (file_exists("wp-content/plugins/wp-bootstrap-navwalker")) {
-    recurse_copy("wp-content", "vendor/wp-content");
-}
-if (file_exists("vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php")) { 
-    copy("vendor/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php", "public/wp-content/themes/rhs/vendor/wp-bootstrap-navwalker.php"); 
+if (file_exists("public/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php")) { 
+    copy("public/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php", "public/wp-content/themes/rhs/vendor/wp-bootstrap-navwalker.php"); 
 }
 if (file_exists("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js")) {
     copy("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js", "public/wp-content/themes/rhs/vendor/js/bootstrap-hover-dropdown.min.js");
+}
+if (file_exists("vendor/desandro/masonry/dist/masonry.pkgd.min.js")) {
+    copy("vendor/desandro/masonry/dist/masonry.pkgd.min.js", "public/wp-content/themes/rhs/vendor/js/masonry.pkgd.min.js");
+}
+if (file_exists("vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js")) {
+    copy("vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js", "public/wp-content/themes/rhs/vendor/js/typeahead.bundle.min.js");
 }
 if (file_exists("wp-content/plugins/wp-bootstrap-navwalker")) {
     deleteDir("wp-content");
