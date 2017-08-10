@@ -6,7 +6,8 @@ global $RHSPosts;
 $substitutions = [
     '{{votes}}' => $RHSVote->tablename,
     '{{total_meta_key}}' => $RHSVote->total_meta_key,
-    '{{order_meta_key}}' => $RHSPosts->META_DATE_ORDER
+    '{{order_meta_key}}' => $RHSPosts->META_DATE_ORDER,
+    '{{meta_publish_key}}' => RHSVote::META_PUBISH
 ];
 
 
@@ -34,4 +35,8 @@ $wpdb->query($query);
 
 $query = $this->get_sql('votes-posts-status', $substitutions);
 $this->log('Atualizando status dos posts pelo voto...');
+$wpdb->query($query);
+
+$query = $this->get_sql('votes-posts-meta', $substitutions);
+$this->log('Atualizando meta dos posts publicados...');
 $wpdb->query($query);
