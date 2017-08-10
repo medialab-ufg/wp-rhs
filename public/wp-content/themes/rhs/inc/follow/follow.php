@@ -44,10 +44,11 @@ class RHSFollow {
 
 
      /**
-      *  
-      * @param type $author_id 
-      * @param type|null $user_id 
-      * @return type
+      * Check if anuser follows an author (another user)
+      *
+      * @param int $author_id The author that we want to check to see if he/she is followed by the user
+      * @param int $user_id (optional) The ID of the user you want to check if he/she follows the author
+      * @return bool true if usr follows author, false if dont
       */
     function does_user_follow_author($author_id, $user_id = null) {
 
