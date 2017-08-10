@@ -18,21 +18,17 @@ class RHSFollow {
     function show_header_follow_box($author_id) {
         $current_user = wp_get_current_user();
         $user_id      = $current_user->ID;
-        
+
         if ($user_id == $author_id) {
           return;
         }
-        
+
         $isFollowing = $this->does_user_follow_author($author_id);
 
-        if ($isFollowing) {
-            $output = "<button class='btn btn-default unfollow-btn' data-author_id='". $author_id ."'>Parar de Seguir</button>";
-        } else {
-            $output = "<button class='btn btn-default follow-btn' data-author_id='". $author_id ."'>Seguir</button>";
-        }
-        
-        echo $output;
-        
+        $button_html = "<button class='btn btn-default follow-btn' data-author_id='". $author_id ."'>";
+        $button_html .= ($isFollowing) ? "Parar de Seguir" : "Seguir";
+        $button_html .= "</button>";
+        echo $button_html;
     }
 
     function ajax_callback() {
@@ -46,33 +42,31 @@ class RHSFollow {
         exit;
     }
 
-    
-    
+
+
      /**
      * PHP DOCS
-     * 
-     */ 
+     *
+     */
     function does_user_follow_author($author_id, $user_id = null) {
-        
+
         if (is_null($user_id)) {
             $current_user = wp_get_current_user();
             if (!$current_user)
                 return false;
             $user_id = $current_user->ID;
         }
-        
         $follows = $this->get_user_follows($user_id);
-        
         return in_array($author_id, $follows);
-        
+
     }
-    
+
      /**
      * PHP DOCS
-     * 
-     */ 
+     *
+     */
     function toggle_follow($author_id, $user_id) {
-        
+
         if ($this->does_user_follow_author($author_id, $user_id)) {
             if (false !== $this->remove_follow($author_id, $user_id))
                 return 1;
@@ -80,46 +74,46 @@ class RHSFollow {
             if (false !== $this->add_follow($author_id, $user_id))
                 return 2;
         }
-        
+
         return false;
 
     }
-    
+
      /**
      * PHP DOCS
-     * 
-     */ 
+     *
+     */
     function get_user_followers($user_id) {
         return get_user_meta($user_id, self::FOLLOWED_KEY);
     }
-    
+
      /**
      * PHP DOCS
-     * 
-     */ 
+     *
+     */
     function get_user_follows($user_id) {
         return get_user_meta($user_id, self::FOLLOW_KEY);
     }
-    
+
      /**
      * PHP DOCS
-     * 
-     */ 
+     *
+     */
     function add_follow($author_id, $user_id) {
         rhs_add_user_meta_unique($user_id, self::FOLLOW_KEY, $author_id);
         return rhs_add_user_meta_unique($author_id, self::FOLLOWED_KEY, $user_id);
         // muito difícil acontecer um erro só em um dos metadados, então parece seguro retornar só o retorno da segunda chamada
     }
-    
+
     /**
      * PHP DOCS
-     * 
-     */ 
+     *
+     */
     function remove_follow($author_id, $user_id) {
         delete_user_meta($user_id, self::FOLLOW_KEY, $author_id);
         return delete_user_meta($author_id, self::FOLLOWED_KEY, $user_id);
     }
-    
+
 }
 
 add_action('init', function() {

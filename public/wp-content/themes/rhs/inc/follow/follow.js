@@ -1,21 +1,11 @@
 jQuery( function( $ ) {
 
-    var triggers = ".follow-btn, .unfollow-btn";
+    var trigger = ".follow-btn";
 
-    $(triggers).click(function() {
+    $(trigger).click(function() {
         var author_id = $(this).data('author_id');
         var link_class = $(this).attr('class');
         var button = $(this);
-
-        if(button.hasClass('follow-btn')) {
-            $(this).removeClass("follow-btn");
-            $(this).addClass("unfollow-btn");
-            var button_text = "Parar de Seguir";
-        } else {
-            $(this).removeClass("unfollow-btn");
-            $(this).addClass("follow-btn");
-            var button_text = "Seguir";
-        }
 
         $.ajax({
             url: follow.ajaxurl,
@@ -32,9 +22,8 @@ jQuery( function( $ ) {
         });
 
         function changeButton(response){
-            console.log(response);
+            $(button).html(response == 1 ? "Seguir" : "Parar de Seguir");
             $(button).removeClass('loading');
-            $(button).html(button_text);
         };
     });
 
