@@ -31,7 +31,8 @@ jQuery( function( $ ) {
             success: changeButton
         });
 
-        function changeButton(){
+        function changeButton(response){
+            console.log(response);
             $(button).removeClass('loading');
             $(button).html(button_text);
         };

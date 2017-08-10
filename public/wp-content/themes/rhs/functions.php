@@ -513,3 +513,21 @@ function rhs_edit_post_link($url) {
 
     return $url;
 }
+
+function rhs_add_user_meta_unique($user_id, $meta_key, $meta_value) {
+    
+    global $wpdb;
+    
+    $query = $wpdb->prepare( "SELECT umeta_id FROM $wpdb->usermeta
+            WHERE user_id = %d AND meta_key = %s
+            AND meta_value = %d", $user_id, $meta_key, $meta_value );
+    
+    $umeta_id = $wpdb->get_var($query);
+    
+    if (is_numeric($umeta_id))
+        return $umeta_id;
+            
+    return add_user_meta($user_id, $meta_key, $meta_value);
+        
+}
+
