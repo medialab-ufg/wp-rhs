@@ -1739,7 +1739,10 @@ form .comment-form-comment {
             margin-top: 15px;
         }
         .seguir-mensagem {
-            display: $seguir_mensagem_desktop; /*inline;*/
+            position: absolute;
+            display: $seguir_mensagem_desktop;
+            float: right;
+            right: 30px;
             button {
                 color: $primeira_cor_texto;
                 border-color: $primeira_cor_texto;
@@ -3663,6 +3666,16 @@ article {
     }
 }
 
+@media only screen and (width: 1024px){
+    .navbar-default {
+        .navbar-brand {
+            > img {
+                margin-left: 40px;
+            }
+        }
+    }
+}
+
 @media only screen and (min-width: 768px) {
     .navbar-right {
         margin-right: 0;
@@ -3825,6 +3838,7 @@ article {
         .jumbotron {
             .seguir-mensagem {
                 display: $seguir_mensagem_mobile;
+                position: initial;
                 button {
                     margin-bottom: 2%;
                 }
@@ -3942,6 +3956,13 @@ article {
     }
     .primeiro-menu .navbar-nav > li:last-child > a {
         padding-left: 0px !important;
+    }
+    #verDados {
+        .jumbotron {
+            .seguir-mensagem {
+                position: absolute;
+            }
+        }
     }
 }
 
