@@ -43,7 +43,6 @@ class RHSFollow {
     }
 
 
-
      /**
      * PHP DOCS
      *
