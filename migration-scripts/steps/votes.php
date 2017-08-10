@@ -1,6 +1,7 @@
 <?php
 
 global $RHSVote;
+global $RHSPosts;
 
 $substitutions = [
     '{{votes}}' => $RHSVote->tablename,

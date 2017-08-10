@@ -1,14 +1,16 @@
 <?php
 
+global $RHSComunities;
+
 $this->log( 'Comunidades - Limpando informacoes...' );
 
-$comunities = get_categories( array( 'taxonomy' => 'comunity-category', 'hide_empty' => false ) );
+$comunities = $RHSComunities->get_comunities(true);
 $qtd = count( $comunities );
 $this->log( 'Comunidades - '.$qtd . ' no total para serem excluidas' );
 
 foreach ( $comunities as $key => $comunity ) {
     $this->log( 'Comunidades - (' . ( $key + 1 ) . ' de ' . $qtd .') Limpando...' );
-    wp_delete_term( $comunity->term_id, 'comunity-category' );
+    wp_delete_term( $comunity->term_id, RHSComunities::TAXONOMY );
 }
 
 $this->log( 'Comunidades - Limpeza finalizada...' );
@@ -25,7 +27,7 @@ $this->log( 'Comunidades - '.count( $comunities ) . ' no total para serem inclui
 $qtd = count( $comunities );
 foreach ( $comunities as $key => $comunity ) {
 
-    $term = wp_insert_term( $comunity->name, 'comunity-category' );
+    $term = wp_insert_term( $comunity->name, RHSComunities::TAXONOMY );
 
     if($term instanceof WP_Error){
         continue;
@@ -33,9 +35,9 @@ foreach ( $comunities as $key => $comunity ) {
 
     $this->log( 'Comunidades - (' . ( $key + 1 ) . ' de ' . $qtd .') Incluindo '.$comunity->name );
 
-    $term = get_term( $term['term_id'], 'comunity-category' );
+    $term = get_term( $term['term_id'], RHSComunities::TAXONOMY );
 
-    add_term_meta( $term->term_id, 'rhs-comunity-type', 'private', true );
+    add_term_meta( $term->term_id, RHSComunities::TYPE, 'private', true );
 
     $query   = $this->get_sql( 'comunities-members', array( '{{comunity_id}}' => $comunity->term_id ) );
     $members = $wpdb->get_results( $query );
@@ -43,12 +45,12 @@ foreach ( $comunities as $key => $comunity ) {
     $this->log( 'Comunidades - (' . ( $key + 1 ) . ' de ' . $qtd .') Incluindo '.count($members).' membros.' );
 
     foreach ( $members as $member ) {
-        add_term_meta( $term->term_id, 'rhs-comunity-member', $member->user_id );
-        add_term_meta( $term->term_id, 'rhs-comunity-member-follow', $member->user_id );
+        RHSComunities::add_user_comunity($term->term_id, $member->user_id);
+        RHSComunities::add_user_comunity_follow($term->term_id, $member->user_id);
+
 
         if($member->moderate){
-            $user = get_userdata( $member->user_id );
-            $user->add_cap( 'rhs-comunity-moderator_' . $term->term_id );
+            RHSComunities::add_user_comunity_moderate($term->term_id, $member->user_id);
         }
     }
 
