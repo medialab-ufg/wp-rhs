@@ -32,10 +32,9 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                                 <span class="contagem-valor-author"><?php echo $votos->get_total_votes_by_author( $curauth->ID ); ?></span>
                                 <span class="contagem-desc-author">VOTOS</span>
                             </div>
-                        </div>  
+                        </div>
                         <span class="seguir-mensagem">
-                            <button class="btn btn-default">SEGUIR</button>
-                            <button class="btn btn-default">ENVIAR MENSAGEM</button>
+                            <?php do_action('rhs_author_header_actions', $curauth->ID); ?>
                         </span>
                         <div class="clearfix"></div>
                     <?php } else { ?>

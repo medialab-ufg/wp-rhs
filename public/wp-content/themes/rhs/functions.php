@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-if(!function_exists('rhs_setup')) : 
+if(!function_exists('rhs_setup')) :
 
     function rhs_setup() {
 
@@ -26,10 +26,11 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/comunity/comunity.php');
 
         require_once('inc/vote/vote.php');
+        require_once('inc/follow/follow.php');
         require_once('inc/vote/widget.php');
         require_once('inc/carrossel/carrossel.php');
         require_once('inc/api/rhs-api.php');
-        
+
         // Publicar posts - precisa ser carregado por último
         require_once('inc/post/post.php');
         require_once('inc/post/posts.php');
@@ -53,7 +54,7 @@ if(!function_exists('rhs_setup')) :
         /**
         *
         * Registro de navegação personalizado com o painel admin
-        * 
+        *
         **/
         register_nav_menus( array(
             'menuTopo' => __( 'menuTopo', 'rhs' ),
@@ -65,7 +66,7 @@ if(!function_exists('rhs_setup')) :
         add_theme_support( 'post-thumbnails' );
 
         add_theme_support( 'html5', array( 'comment-list', 'comment-form' ) );
-        
+
         add_image_size( 'carrossel', 408, 320, true );
 
         add_editor_style();
@@ -94,7 +95,7 @@ add_action( 'wp_loaded', 'trigger_functions');
 /*
 * Adicionar button Justify ao Wp-Editor
 */
-function rhs_buttons_justify( $button ){   
+function rhs_buttons_justify( $button ){
     if ( !in_array( 'alignjustify', $button ) && in_array( 'alignright', $button ) ){
         $key = array_search( 'alignright', $button );
         $inserted = array( 'alignjustify' );
@@ -104,8 +105,8 @@ function rhs_buttons_justify( $button ){
 }
 add_filter( 'mce_buttons', 'rhs_buttons_justify', 5 );
 
-/* 
-* Desabilita os Emojis 
+/*
+* Desabilita os Emojis
 */
 function disable_wp_emojicons() {
   // all actions related to emojis
@@ -116,12 +117,12 @@ add_action( 'init', 'disable_wp_emojicons' );
 /*
 * Alterar 'usuario' para ser o URL base que você deseja usar
 */
-function change_author_permalinks()  
-{  
-    global $wp_rewrite;  
+function change_author_permalinks()
+{
+    global $wp_rewrite;
     $wp_rewrite->author_base = 'usuario';
-    $wp_rewrite->author_structure = '/' . $wp_rewrite->author_base. '/%author%';  
-}  
+    $wp_rewrite->author_structure = '/' . $wp_rewrite->author_base. '/%author%';
+}
 add_action('init','change_author_permalinks');
 
 
@@ -131,15 +132,15 @@ add_action('init','change_author_permalinks');
 function my_wp_is_mobile() {
     if (
         ! empty($_SERVER['HTTP_USER_AGENT'])
-        
+
         //detecta o Ipad.
         && false !== strpos($_SERVER['HTTP_USER_AGENT'], 'iPad')
     ) return false;
     return wp_is_mobile();
 }
 
-/* 
-* Incluir JavaScripts necessários no tema 
+/*
+* Incluir JavaScripts necessários no tema
 */
 function RHS_scripts() {
     wp_enqueue_script('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/js/bootstrap.min.js', array('jquery'), '3.3.7', true);
@@ -158,9 +159,9 @@ function RHS_scripts() {
     wp_enqueue_script('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js', array('bootstrap'), '1.5.0', true);
     wp_enqueue_script('masonry', get_template_directory_uri() . '/vendor/js/masonry.pkgd.min.js',array('bootstrap'),'4.2.0', true);
 
-    if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) { 
+    if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
         // enqueue the javascript that performs in-link comment reply fanciness
-        wp_enqueue_script( 'comment-reply' ); 
+        wp_enqueue_script( 'comment-reply' );
     }
 
     if (get_query_var('rhs_login_tpl') == RHSRewriteRules::POST_URL) {
@@ -182,8 +183,8 @@ function load_admin_style(){
 add_action( 'admin_enqueue_scripts', 'load_admin_style' );
 
 
-/* 
-* Incluir Styles CSS necessários no tema 
+/*
+* Incluir Styles CSS necessários no tema
 */
 function RHS_styles() {
     wp_enqueue_style('bootstrap', get_template_directory_uri() . '/vendor/bootstrap/css/bootstrap.min.css');
@@ -201,7 +202,7 @@ add_action('wp_enqueue_scripts', 'RHS_styles');
  */
 if (!function_exists('RHS_Comentarios')) :
     function RHS_Comentarios($comment, $args, $depth) {
-    $GLOBALS['comment'] = $comment;  
+    $GLOBALS['comment'] = $comment;
     ?>
     <section id="comment-<?php comment_ID(); ?>">
     <!-- First Comment -->
@@ -210,17 +211,17 @@ if (!function_exists('RHS_Comentarios')) :
             <figure class="comment-avatar">
               <?php echo get_avatar($comment, 50,'', '', array( 'class' => array( 'img-responsive', 'img-circle' ) ) ); ?>
             </figure>
-            
+
             <header class="comment-box">
                 <div class="comment-head">
-                    <h6 class="comment-name by-author">Por 
-                        <?php 
+                    <h6 class="comment-name by-author">Por
+                        <?php
                             if ($comment->user_id) {
                                 $user=get_userdata($comment->user_id);
                                 echo '<a href="'.get_author_posts_url($comment->user_id).'">'.$user->display_name.'</a>';
-                            } else { 
+                            } else {
                                 comment_author_link();
-                            } 
+                            }
                         ?>
                     </h6>
                     <time class="comment-date"><?php printf('%s às %s.', get_comment_date(), get_comment_time()); ?></time>
@@ -353,7 +354,7 @@ function paginacao_personalizada() {
 
 
 /*
-* cadastrando Widgets SideBar 
+* cadastrando Widgets SideBar
 */
 function rhs_widgets_init() {
     register_sidebar( array(
@@ -368,7 +369,7 @@ function rhs_widgets_init() {
 add_action( 'widgets_init', 'rhs_widgets_init' );
 
 /*
-* Deixa ativo o paste_as_text por default 
+* Deixa ativo o paste_as_text por default
 */
 function change_paste_as_text($mceInit, $editor_id){
     $mceInit['paste_as_text'] = true;
@@ -378,7 +379,7 @@ function change_paste_as_text($mceInit, $editor_id){
 add_filter('tiny_mce_before_init', 'change_paste_as_text', 1, 2);
 
 /*
-* Muda os posts de p para br 
+* Muda os posts de p para br
 */
 function change_p_for_br($string){
 
@@ -440,7 +441,7 @@ function limitatexto($texto, $final, $limite){
     $result = $texto;
     $len_texto = strlen($texto);
     $len_final = strlen($final);
-    
+
     if ($len_texto + $len_final > $limite){
         for ($i=$limite-$len_final;$i!==-1;$i--){
             if (substr($texto, $i, 1) == " " && substr($texto, $i-1, 1) !== " "){
@@ -457,7 +458,7 @@ Função para Uso nos meta para os meios sociais.
 */
 function facebook_meta() {
     global $post;
- 
+
     if(is_single()) {
 
         $img_info = (has_post_thumbnail($post->ID)) ? wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), "thumbnail") : '';
@@ -485,7 +486,7 @@ function facebook_meta() {
         <meta property="og:image:width" content="<?php echo $image['width']; ?>"/>
         <meta property="og:image:height" content="<?php echo $image['height']; ?>"/>
 
- 
+
 <?php
     } else {
         return;
