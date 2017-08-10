@@ -44,9 +44,11 @@ class RHSFollow {
 
 
      /**
-     * PHP DOCS
-     *
-     */
+      *  
+      * @param type $author_id 
+      * @param type|null $user_id 
+      * @return type
+      */
     function does_user_follow_author($author_id, $user_id = null) {
 
         if (is_null($user_id)) {
@@ -60,10 +62,14 @@ class RHSFollow {
 
     }
 
-     /**
-     * PHP DOCS
-     *
+
+    /**
+     *  
+     * @param type $author_id 
+     * @param type $user_id 
+     * @return type
      */
+    
     function toggle_follow($author_id, $user_id) {
 
         if ($this->does_user_follow_author($author_id, $user_id)) {
@@ -78,25 +84,29 @@ class RHSFollow {
 
     }
 
-     /**
-     * PHP DOCS
-     *
+    /**
+     *  
+     * @param type $user_id 
+     * @return type
      */
     function get_user_followers($user_id) {
         return get_user_meta($user_id, self::FOLLOWED_KEY);
     }
 
-     /**
-     * PHP DOCS
-     *
+    /**
+     *  
+     * @param type $user_id 
+     * @return type
      */
     function get_user_follows($user_id) {
         return get_user_meta($user_id, self::FOLLOW_KEY);
     }
 
-     /**
-     * PHP DOCS
-     *
+    /**
+     *  
+     * @param type $author_id 
+     * @param type $user_id 
+     * @return type
      */
     function add_follow($author_id, $user_id) {
         rhs_add_user_meta_unique($user_id, self::FOLLOW_KEY, $author_id);
@@ -105,8 +115,10 @@ class RHSFollow {
     }
 
     /**
-     * PHP DOCS
-     *
+     *  
+     * @param type $author_id 
+     * @param type $user_id 
+     * @return type
      */
     function remove_follow($author_id, $user_id) {
         delete_user_meta($user_id, self::FOLLOW_KEY, $author_id);

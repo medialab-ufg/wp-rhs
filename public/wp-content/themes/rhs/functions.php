@@ -514,6 +514,13 @@ function rhs_edit_post_link($url) {
     return $url;
 }
 
+/**
+ *  
+ * @param type $user_id 
+ * @param type $meta_key 
+ * @param type $meta_value 
+ * @return type
+ */
 function rhs_add_user_meta_unique($user_id, $meta_key, $meta_value) {
     
     global $wpdb;
