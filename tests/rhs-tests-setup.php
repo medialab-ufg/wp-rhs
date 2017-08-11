@@ -10,10 +10,10 @@
  */
 abstract class RHS_UnitTestCase extends WP_UnitTestCase {
 
-	
+
     /**
      * Usuários para testes
-     */ 
+     */
     const testUsers = [
         [
             'user_login' => 'editor1',
@@ -78,22 +78,38 @@ abstract class RHS_UnitTestCase extends WP_UnitTestCase {
             'display_name' => 'colaborador2',
             'role' => 'contributor'
         ],
-        
+
     ];
-    
+
+    protected static $users;
+    protected static $test_cat;
+
+
     /**
 	 * Setup Fixtures
 	 */
-	function setUp() {
-		
-        //require_once getenv( 'WP_TESTS_DIR' ) . '/wp-content/themes/rhs/functions.php';
-        //var_dump(get_option('template'));
-        
+	public static function setUpBeforeClass() {
+
         // Create users
-        
-        foreach (self::testUsers as $user) 
-            wp_insert_user( $user ) ;
-        
-        
+
+		$__users = [];
+
+        foreach (self::testUsers as $user) {
+			$uid = wp_insert_user( $user ) ;
+            if (!isset($__users[$user['role']]))
+                $__users[$user['role']] = [];
+            $__users[$user['role']][] = $uid;
+        }
+
+        self::$users = $__users;
+
+        // Cria uma categoria para testes
+        $my_cat = array('cat_name' => 'My Category', 'category_description' => 'A Cool Category', 'category_nicename' => 'category-slug', 'category_parent' => '');
+
+        // Create the category
+        //$this->test_category_id = wp_insert_category($my_cat);
+        self::$test_cat = wp_insert_category($my_cat);
+
+
 	}
 }

@@ -171,7 +171,15 @@ class RHSPosts extends RHSMenssage {
             $postObj->setFeaturedImageId( $_POST['img_destacada'] );
             $postObj->setComunities($_POST['comunity-status']);
 
-            $this->insert( $postObj );
+            $newpost = $this->insert( $postObj );
+
+            if($newpost->getStatus() == RHSVote::VOTING_QUEUE || $newpost->getStatus() == 'public'){
+                wp_redirect( get_permalink( $newpost->getId() ) );
+            } else {
+                wp_redirect( home_url('minhas-postagens') );
+            }
+
+            exit;
         }
     }
 
@@ -306,14 +314,7 @@ class RHSPosts extends RHSMenssage {
             $this->set_alert('Post publicado na fila de votação, ele será publicado na página incial quando atingir '.get_option( 'vq_votes_to_approval' ).' votos!');
         }
 
-        if($post->getStatus() == RHSVote::VOTING_QUEUE || $post->getStatus() == 'public'){
-            wp_redirect( get_permalink( $post->getId() ) );
-        } else {
-            wp_redirect( home_url('minhas-postagens') );
-        }
-
-        exit;
-
+        return $post;
 
     }
 
