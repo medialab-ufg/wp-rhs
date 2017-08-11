@@ -20,7 +20,7 @@ jQuery( function( $ ) {
                 $(button).html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
             },
             success: function(response){
-                response == 1 || response == 2 ? changeButton(response) : errorhandler()
+                response == 1 || response == 2 ? changeButton(response) : error_handler()
             },
             error: error_handler,
         });

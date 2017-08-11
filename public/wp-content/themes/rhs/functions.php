@@ -515,11 +515,14 @@ function rhs_edit_post_link($url) {
 }
 
 /**
- *  
- * @param type $user_id 
- * @param type $meta_key 
- * @param type $meta_value 
- * @return type
+ * Function to check if has unicity of usermeta entry, checking if user_id, meta_key and meta_value are unique
+ * This was created because we have to verify if this values are uniques and not if user_id is present in usermeta
+ * 
+ * @param int $user_id The user id to check and add usermeta
+ * @param int $meta_key The meta key to check and add usermeta
+ * @param int $meta_value The meta value to check and add usermeta
+ * @return int/bool If user dont follows author it returns true with primary key id (umeta_id), false if already follow
+ * @see add_user_meta on wordpress documentation
  */
 function rhs_add_user_meta_unique($user_id, $meta_key, $meta_value) {
     
