@@ -1,7 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/medialab-ufg/wp-rhs.png?label=ready&title=Ready)](https://waffle.io/medialab-ufg/wp-rhs)
 # Rede Humaniza SUS - WordPress
 
-Este é o repositório do projeto Rede Humaniza SUS em WordPress. 
+Este é o repositório do projeto Rede Humaniza SUS em WordPress.
 
 Ele contem todo o projeto, incluindo a instalação de todas as dependências via Composer (incluindo o próprio WordPress), o tema da RHS para WP e os Scripts para a migração dos dados do Drupal para o WP.
 
@@ -84,7 +84,7 @@ Importe os dados da Drupal. Veja [migration-scripts/docs.md](migration-scripts/d
 
 ### Compile o SASS
 
-De dentro da pasta themes/rhs/assets/scss execute o comando para compilar 
+De dentro da pasta themes/rhs/assets/scss execute o comando para compilar
 
 
 ```
@@ -124,7 +124,7 @@ nano post-merge
 Cole as seguintes linhas dentro do arquivo criado:
 ```
 #!/bin/sh
- 
+
 # Generate CSS from SASS
 bash compile-sass.sh
 ```
@@ -134,21 +134,15 @@ bash compile-sass.sh -> Arquivo onde se encontra no diretorio do projeto (wp-rhs
 
 ### Testes
 
+Abra o arquivo `tests/wordpress-tests-lib/wp-tests-config-sample.php`, edite as informações de conexão com banco de dados e salve o arquivo com o nome `wp-tests-config-sample.php`.
+
+**Atenção**: Crie uma base de dados separada exclusivamente para os testes. Ela será apagada e recriada cada vez que você rodar os testes.
+
 Para rodar os testes, basta rodar o script na raíz do repositório:
 
 ```
 ./run-tests.sh
 ```
-
-Da primeira vez que for rodar os testes (ou se por acaso limpar a pasta /tmp), é preciso fazer a instalação do WP de testes. Para isso, é preciso rodar o script que está dentro da pasta `tests/install`.
-
-```
-bash tests/install/install-wp-tests.sh <db-name> <db-user> <db-pass> [db-host] [wp-version] [skip-database-creation]
-```
-
-Antes de rodar, certifique-se de criar uma base de dados para ser a base de testes.
-
-Os parâmetros `db-name`, `db-user` e `db-pass` são obrigatórios.
 
 ### Administrando fixtures
 
@@ -187,5 +181,3 @@ Este comando:
 * commita as alterações de arquivos e o dump do banco
 
 *Atenção*: Quando quiser enviar novas features para o repositorio, dê um RESET antes, adicione as features, e, em seguida, dê o commit. Isso evita que você passe por cima de alerações de outras pessoas e de incluir coisas desnecessárias ao repositorio.
-
-
