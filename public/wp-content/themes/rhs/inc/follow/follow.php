@@ -20,27 +20,27 @@ class RHSFollow {
         $user_id      = $current_user->ID;
 
         if ($user_id == $author_id) {
-          return;
-      }
-
-      $isFollowing = $this->does_user_follow_author($author_id);
-
-      $button_html = "<button class='btn btn-default follow-btn' data-author_id='". $author_id ."'>";
-      $button_html .= ($isFollowing) ? "Parar de Seguir" : "Seguir";
-      $button_html .= "</button>";
-      echo $button_html;
-  }
-
-  function ajax_callback() {
-    if (is_user_logged_in()) {
-        $current_user = wp_get_current_user();
-        $author_id = $_POST['author_id'];
-        if (is_numeric($author_id)) {
-            echo json_encode($this->toggle_follow($author_id, $current_user->ID));
+            return;
         }
+
+        $isFollowing = $this->does_user_follow_author($author_id);
+
+        $button_html = "<button class='btn btn-default follow-btn' data-author_id='". $author_id ."'>";
+        $button_html .= ($isFollowing) ? "Parar de Seguir" : "Seguir";
+        $button_html .= "</button>";
+        echo $button_html;
     }
-    exit;
-}
+
+    function ajax_callback() {
+        if (is_user_logged_in()) {
+            $current_user = wp_get_current_user();
+            $author_id = $_POST['author_id'];
+            if (is_numeric($author_id)) {
+                echo json_encode($this->toggle_follow($author_id, $current_user->ID));
+            }
+        }
+        exit;
+    }
 
 
      /**
@@ -50,8 +50,7 @@ class RHSFollow {
       * @param int $user_id (optional) The ID of the user you want to check if he/she follows the author
       * @return bool true if user follows author, false if dont
       */
-     function does_user_follow_author($author_id, $user_id = null) {
-
+    function does_user_follow_author($author_id, $user_id = null) {
         if (is_null($user_id)) {
             $current_user = wp_get_current_user();
             if (!$current_user)
@@ -60,7 +59,6 @@ class RHSFollow {
         }
         $follows = $this->get_user_follows($user_id);
         return in_array($author_id, $follows);
-
     }
 
 
@@ -73,7 +71,6 @@ class RHSFollow {
      */
     
     function toggle_follow($author_id, $user_id) {
-
         if ($this->does_user_follow_author($author_id, $user_id)) {
             if (false !== $this->remove_follow($author_id, $user_id))
                 return 1;
@@ -81,9 +78,7 @@ class RHSFollow {
             if (false !== $this->add_follow($author_id, $user_id))
                 return 2;
         }
-
         return false;
-
     }
 
     /**
@@ -141,8 +136,8 @@ class RHSFollow {
 }
 
 add_action('init', function() {
-  global $RHSFollow;
-  $RHSFollow = new RHSFollow();
+    global $RHSFollow;
+    $RHSFollow = new RHSFollow();
 });
 
 
