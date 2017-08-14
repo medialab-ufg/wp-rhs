@@ -7,36 +7,81 @@ class RHSNotification {
     const CHANNEL_COMMENTS = 'comments_in_post_%s';
     const CHANNEL_USER = 'user_%s';
     const CHANNEL_COMMUNITY = 'community_%s';
-    const META = '_rhs_channels';
-    const LASTCHECK = '_rhs_notifications_lastcheck';
+    const META = '_channels';
+    const LASTCHECK = '_notifications_lastcheck';
 
     private $user_id;
+    private $user;
+    private $news;
 
     function __construct( $user_id ) {
-        $this->user_id;
+        $this->user_id = $user_id;
         $this->verify_database();
     }
 
-    function check_for_news( $user_id ) {
+    function get_news() {
 
-        $last_check = $this->get_last_check();
-
-        if ( ! $last_check ) {
-            $las_check = get_user_info( 'registration_date' );
+        if($this->news){
+            return $this->news;
         }
 
-        $channels = get_user_meta( $user_id, '_channels' );
+        global $wpdb;
 
-        $channels = array_merge( $channels, [ 'everyone', 'private_for' . $user_id ] );
+        $last_check = $this->get_last_check();
+        $channels = $this->get_user_channels();
+        $channels = implode(', ',$channels);
 
-        $num_notifications = "SELECT COUNT(ID) from $wpdb->notifications WHERE datetime > $lastcheck AND channel IN $channels ...";
+        $query = "SELECT * from $wpdb->notifications WHERE datetime > '$lastcheck' AND channel IN ($channels)";
 
-        update_user_meta( $user_id, '_notifications_lastcheck', $now );
+        return $wpdb->get_results();
+    }
+
+    function get_news_number(){
+
+        if($this->news){
+            return count($this->news);
+        }
+
+        global $wpdb;
+
+        $last_check = $this->get_last_check();
+        $channels = $this->get_user_channels();
+        $channels = implode(', ',$channels);
+
+        $query = "SELECT COUNT(*) from $wpdb->notifications WHERE datetime > '$lastcheck' AND channel IN ($channels)";
+
+        return $wpdb->get_results();
 
     }
 
+    private function get_user_channels(){
+
+        $channels = get_user_meta( $user_id, self::META );
+        $channels = array_merge( $channels, [ self::CHANNEL_EVERYONE, sprintf(self::CHANNEL_PRIVATE, $this->user_id)] );
+
+    }
+
+    /**
+     * @return WP_User
+     */
+    private function get_user_obeject(){
+
+        if($this->user){
+            return $this->user;
+        }
+
+        return get_userdata($this->user_id);
+    }
+
     function get_last_check(){
-        return get_user_meta( $this->user_id, self::LASTCHECK, true );
+
+        $last_check = get_user_meta( $this->user_id, self::LASTCHECK, true );
+
+        if(!$last_check){
+            $this->get_user_obeject()->user_registered;
+        }
+
+        return $last_check;
     }
 
     function set_last_check() {
@@ -71,24 +116,16 @@ class RHSNotification {
 
     private function add_channel( $type, $id_for_channel = 0 ) {
 
-        if ( $type == CHANNEL_EVERYONE ) {
-            $value = $type;
-        } else {
-            $value = sprintf( $type, $id_for_channel );
-        }
+        $value = sprintf( $type, $id_for_channel );
 
         return add_user_meta( $this->user_id, self::META, $value );
     }
 
-    private static function delete_channel( $user_id, $type, $id_for_channel = 0 ) {
+    private function delete_channel($type, $id_for_channel = 0 ) {
 
-        if ( $type == CHANNEL_EVERYONE ) {
-            $value = $type;
-        } else {
-            $value = sprintf( $type, $id_for_channel );
-        }
+        $value = sprintf( $type, $id_for_channel );
 
-        return delete_user_meta( $user_id, self::META, $value );
+        return delete_user_meta( $this->user_id, self::META, $value );
     }
 
     /**
