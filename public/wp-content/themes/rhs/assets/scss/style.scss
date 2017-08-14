@@ -2068,6 +2068,12 @@ form .comment-form-comment {
     }
 }
 
+#followContent {
+    .list-group-item:nth-child(odd) {
+        background-color: $backgroundColor;
+    }
+}
+
 /*
 * Pagina Postagens
 */

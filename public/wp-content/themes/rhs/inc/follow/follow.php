@@ -8,6 +8,7 @@ class RHSFollow {
         add_action('wp_enqueue_scripts', array(&$this, 'addJS'));
         add_action('rhs_author_header_actions', array(&$this, 'show_header_follow_box'));
         add_action('wp_ajax_rhs_follow', array(&$this, 'ajax_callback'));
+        add_action('wp_ajax_get_follows', array(&$this, 'get_follows'));
     }
 
     function addJS() {
@@ -17,7 +18,7 @@ class RHSFollow {
 
     function show_header_follow_box($author_id) {
         $current_user = wp_get_current_user();
-        $user_id      = $current_user->ID;
+        $user_id = $current_user->ID;
 
         if ($user_id == $author_id) {
             return;
@@ -26,7 +27,7 @@ class RHSFollow {
         $isFollowing = $this->does_user_follow_author($author_id);
 
         $button_html = "<button class='btn btn-default follow-btn' data-author_id='". $author_id ."'>";
-        $button_html .= ($isFollowing) ? "Parar de Seguir" : "Seguir";
+        $button_html .= ($isFollowing) ? "Deixar de Seguir" : "Seguir";
         $button_html .= "</button>";
         echo $button_html;
     }
@@ -90,7 +91,14 @@ class RHSFollow {
     function get_user_followers($user_id) {
         return get_user_meta($user_id, self::FOLLOWED_KEY);
     }
-
+    
+    function get_total_follows($user_id, $meta_key) {
+        global $wpdb;
+        $total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(umeta_id) FROM $wpdb->usermeta 
+            WHERE user_id = %d AND meta_key = %s", 
+            $user_id, $meta_key));
+        return $total;
+    }
     /**
      * Return meta user specific for user id to show follows of specific user
      * 
@@ -131,6 +139,64 @@ class RHSFollow {
         delete_user_meta($user_id, self::FOLLOW_KEY, $author_id);
         return delete_user_meta($author_id, self::FOLLOWED_KEY, $user_id);
         // muito difícil acontecer um erro só em um dos metadados, então parece seguro retornar só o retorno da segunda chamada
+    }
+
+
+
+    function get_follows($meta) {
+        $args = array(
+            'meta_key' => $meta,
+            'orderby' => 'ID',
+            'order' => 'DESC'
+        );
+
+        $user_query = new WP_User_Query($args);
+        if (!empty($user_query->results)) {
+            foreach ($user_query->results as $user) {
+                $user_meta = get_user_meta($user->ID, self::FOLLOW_KEY);
+            }
+            
+            foreach ($user_meta as $author_id ) {
+                $user = get_user_by('id', $author_id);
+
+                $isFollowing = $this->does_user_follow_author($author_id);
+                
+                $button_unfollow = "<button class='btn btn-primary follow-btn' data-author_id='". $author_id ."'>";
+                $button_unfollow .= ($isFollowing) ? "Deixar de Seguir" : "Seguir";
+                $button_unfollow .= "</button>";
+                
+                $user_name = $user->first_name . ' ' . $user->last_name;
+
+                $body = '
+                <ul class="list-group" id="followContent">
+                    <li class="list-group-item">
+                        <div class="col-xs-12 col-sm-2">
+                            <div class="img-responsive img-circle">
+                                '. get_avatar($user->ID, 40) .'
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <span class="name">'. $user_name . ' </span><br/>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 text-right">
+                            '. $button_unfollow .'
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+                </ul>';
+                echo $body;
+            }
+        } else {
+            echo _e('Não há usuários seguidos');
+        }
+    }
+
+    function show_follows() {
+        $this->get_follows(self::FOLLOW_KEY);
+    }
+
+    function show_followers() {
+        $this->get_follows(self::FOLLOWED_KEY);
     }
 
 }

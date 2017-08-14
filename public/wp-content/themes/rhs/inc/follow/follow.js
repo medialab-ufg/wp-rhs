@@ -26,7 +26,7 @@ jQuery( function( $ ) {
         });
 
         function changeButton(response){
-            $(button).html(response == 1 ? "Seguir" : "Parar de Seguir");
+            $(button).html(response == 1 ? "Seguir" : "Deixar de Seguir");
             $(button).removeClass('loading');
         };
         
