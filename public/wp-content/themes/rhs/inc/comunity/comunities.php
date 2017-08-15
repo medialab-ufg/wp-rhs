@@ -393,6 +393,11 @@ class RHSComunities extends RHSMenssage {
      */
     static function add_user_comunity_follow( $term_id, $user_id ) {
         add_term_meta( $term_id, self::MEMBER_FOLLOW, $user_id );
+        /**
+         * TODO: do_action
+         */
+        $notificacao = new RHSNotifications();
+        $notificacao->add_user_to_channel(RHSNotifications::CHANNEL_COMMUNITY, $user_id, $term_id);
     }
 
     /**

@@ -14,6 +14,7 @@ class RHSRewriteRules {
     const POST_URL = 'publicar-postagem';
     const POSTAGENS_URL = 'minhas-postagens';
     const COMUNIDADES = 'comunidades';
+    const NOTIFICACOES = 'notificacoes';
 
     function __construct() {
             add_action( 'generate_rewrite_rules', array( &$this, 'rewrite_rules' ), 10, 1 );
@@ -38,6 +39,7 @@ class RHSRewriteRules {
             self::POST_URL . "/([^/]+)/?$"      => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL . "&rhs_edit_post=" . $wp_rewrite->preg_index(1),
             self::POSTAGENS_URL . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POSTAGENS_URL,
             self::COMUNIDADES . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::COMUNIDADES,
+            self::NOTIFICACOES . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::NOTIFICACOES,
             /* Páginas padrões antigas */
             'login' . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             'user' . "/?$"          => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,

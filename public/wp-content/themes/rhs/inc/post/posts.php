@@ -257,6 +257,7 @@ class RHSPosts extends RHSMenssage {
             $data['post_status'] = $setStatus;
             $post->setStatus($setStatus);
             $return = wp_insert_post( $data, true );
+
         }
 
         /**
@@ -265,6 +266,12 @@ class RHSPosts extends RHSMenssage {
         if ( $return instanceof WP_Error ) {
             $post->setError( $return );
         } else {
+
+            // Notificação
+            if(!$post->getId()){
+                do_action( 'rhs_notify_new_post_from_user', array('user_id'=>$post->getAuthorId(), 'post_id'=>$return) );
+            }
+
             $post->setId( $return );
         }
 

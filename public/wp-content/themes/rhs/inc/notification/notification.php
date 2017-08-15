@@ -1,154 +1,224 @@
 <?php
 
+/**
+ * Created by PhpStorm.
+ * User: MediaLab01
+ * Date: 14/08/2017
+ * Time: 13:34
+ */
 class RHSNotification {
 
-    const CHANNEL_EVERYONE = 'everyone';
-    const CHANNEL_PRIVATE = 'private_for_%s';
-    const CHANNEL_COMMENTS = 'comments_in_post_%s';
-    const CHANNEL_USER = 'user_%s';
-    const CHANNEL_COMMUNITY = 'community_%s';
-    const META = '_channels';
-    const LASTCHECK = '_notifications_lastcheck';
+    private $notificationId;
+    private $type;
+    private $channel;
+    private $object_id;
+    private $datetime;
+    private $object;
+    private $text;
+    private $textdate;
+    private $image;
+    private $object_type;
 
-    private $user_id;
-    private $user;
-    private $news;
-
-    function __construct( $user_id ) {
-        $this->user_id = $user_id;
-        $this->verify_database();
+    /**
+     * RHSNotification constructor.
+     *
+     * @param $notificationId
+     */
+    function __construct($notificationId) {
+        $this->notificationId = $notificationId;
     }
 
-    function get_news() {
+    /**
+     * @return mixed
+     */
+    public function getNotificationId() {
+        return $this->notificationId;
+    }
 
-        if($this->news){
-            return $this->news;
+    /**
+     * @param mixed $notificationId
+     */
+    public function setNotificationId( $notificationId ) {
+        $this->notificationId = $notificationId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType() {
+        $this->getObject();
+
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType( $type ) {
+        $this->type = $type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChannel() {
+        $this->getObject();
+
+        return $this->channel;
+    }
+
+    /**
+     * @param mixed $channel
+     */
+    public function setChannel( $channel ) {
+        $this->channel = $channel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getObjectId() {
+        $this->getObject();
+        return $this->object_id;
+    }
+
+    /**
+     * @param mixed $object_id
+     */
+    public function setObjectId( $object_id ) {
+        $this->object_id = $object_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDatetime() {
+        $this->getObject();
+
+        return $this->datetime;
+    }
+
+    /**
+     * @param mixed $datetime
+     */
+    public function setDatetime( $datetime ) {
+        $this->datetime = $datetime;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getText() {
+
+        if($this->text){
+            return $this->text;
+        }
+
+        $type = $this->getObjectType();
+
+        if(is_object($type)){
+            return $this->text = $type->text($this);
+        }
+
+        return $this->text;
+    }
+
+    /**
+     * @param mixed $text
+     */
+    public function setText( $text ) {
+        $this->text = $text;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getObject() {
+        if($this->object){
+            return;
         }
 
         global $wpdb;
 
-        $last_check = $this->get_last_check();
-        $channels = $this->get_user_channels();
-        $channels = implode(', ',$channels);
+        $query = "SELECT * FROM ".$wpdb->prefix."notifications WHERE ID = ".$this->notificationId;
 
-        $query = "SELECT * from $wpdb->notifications WHERE datetime > '$lastcheck' AND channel IN ($channels)";
+        $object = $wpdb->get_results($query);
 
-        return $wpdb->get_results();
-    }
+        $this->object = true;
 
-    function get_news_number(){
-
-        if($this->news){
-            return count($this->news);
+        if(!$object){
+            return;
         }
 
-        global $wpdb;
-
-        $last_check = $this->get_last_check();
-        $channels = $this->get_user_channels();
-        $channels = implode(', ',$channels);
-
-        $query = "SELECT COUNT(*) from $wpdb->notifications WHERE datetime > '$lastcheck' AND channel IN ($channels)";
-
-        return $wpdb->get_results();
-
-    }
-
-    private function get_user_channels(){
-
-        $channels = get_user_meta( $user_id, self::META );
-        $channels = array_merge( $channels, [ self::CHANNEL_EVERYONE, sprintf(self::CHANNEL_PRIVATE, $this->user_id)] );
-
+        $this->type = $object['type'];
+        $this->channel = $object['channel'];
+        $this->objectId = $object['object_id'];
+        $this->datetime = $object['datetime'];
     }
 
     /**
-     * @return WP_User
+     * @param mixed $object
      */
-    private function get_user_obeject(){
-
-        if($this->user){
-            return $this->user;
-        }
-
-        return get_userdata($this->user_id);
-    }
-
-    function get_last_check(){
-
-        $last_check = get_user_meta( $this->user_id, self::LASTCHECK, true );
-
-        if(!$last_check){
-            $this->get_user_obeject()->user_registered;
-        }
-
-        return $last_check;
-    }
-
-    function set_last_check() {
-        if ( ! add_user_meta( $this->user_id, self::LASTCHECK, current_time( 'mysql' ), true ) ) {
-            update_post_meta( $this->user_id, self::LASTCHECK, current_time( 'mysql' ) );
-        }
-    }
-
-    function delete_channel_comunity( $comunity_id ) {
-        return $this->delete_channel( self::CHANNEL_COMMUNITY, $user_id );
-    }
-
-    function add_channel_comunity( $comunity_id ) {
-        return $this->add_channel( self::CHANNEL_COMMUNITY, $user_id );
-    }
-
-    function delete_channel_user( $user_id ) {
-        return $this->delete_channel( self::CHANNEL_USER, $user_id );
-    }
-
-    function add_channel_user( $user_id ) {
-        return $this->add_channel( self::CHANNEL_USER, $user_id );
-    }
-
-    function delete_channel_comments( $post_id ) {
-        return $this->delete_channel( self::CHANNEL_COMMENTS, $post_id );
-    }
-
-    function add_channel_comments( $post_id ) {
-        return $this->add_channel( self::CHANNEL_COMMENTS, $post_id );
-    }
-
-    private function add_channel( $type, $id_for_channel = 0 ) {
-
-        $value = sprintf( $type, $id_for_channel );
-
-        return add_user_meta( $this->user_id, self::META, $value );
-    }
-
-    private function delete_channel($type, $id_for_channel = 0 ) {
-
-        $value = sprintf( $type, $id_for_channel );
-
-        return delete_user_meta( $this->user_id, self::META, $value );
+    public function setObject( $object ) {
+        $this->object = $object;
     }
 
     /**
-     * Verifica se existe tabela, se não, á insere
+     * @return mixed
      */
-    private function verify_database() {
-        $option_name = 'database_' . get_class();
-        if ( ! get_option( $option_name ) ) {
-            add_option( $option_name, true );
-
-            $createQ = "
-                CREATE TABLE IF NOT EXISTS `rhs_notification` (
-                    `ID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                    `type` VARCHAR(250) NOT NULL,
-                    `channel` VARCHAR(250) NOT NULL,
-                    `object_id` INT(11) NOT NULL default '0',
-                    `datetime` DATETIME NOT NULL default '0000-00-00 00:00:00'
-                );
-            ";
-            global $wpdb;
-            $wpdb->query( $createQ );
-
+    public function getTextdate() {
+        if($this->textdate){
+            return $this->textdate;
         }
+
+        return $this->textdate = tempoDecorido($this->datetime);
+    }
+
+    /**
+     * @param mixed $textdate
+     */
+    public function setTextdate( $textdate ) {
+        $this->textdate = $textdate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage() {
+        if($this->image){
+            return $this->image;
+        }
+
+        $type = $this->getObjectType();
+
+        if(is_object($type)){
+            return $this->image = $type->image($this);
+        }
+
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage( $image ) {
+        $this->image = $image;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getObjectType() {
+
+        if($this->object_type){
+            return $this->object_type;
+        }
+
+        if(class_exists($this->type)){
+            $this->object_type = new $this->type();
+        }
+
+        return $this->object_type;
     }
 
 }

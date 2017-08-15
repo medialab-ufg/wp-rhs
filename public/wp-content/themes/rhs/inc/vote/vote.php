@@ -497,6 +497,10 @@ Class RHSVote {
         $this->votes_to_text_help = get_option('vq_text_post_promoted');
 
 		$this->update_user_role( $postID );
+
+        // Notificação
+        $notificacao = new RHSNotifications(get_post_field( 'post_author', $postID ));
+        $notificacao->add_notification_post_promoted($postID);
 	}
 
 	function update_user_role( $postID ) {

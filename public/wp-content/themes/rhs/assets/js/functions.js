@@ -126,4 +126,25 @@ jQuery( function( $ ) {
             $(this).removeClass("btn-default").addClass("btn-primary");   
         });
     });
+
+    $('#button-notifications').click(function () {
+
+        var button = $(this);
+
+        $.ajax({
+            async: false,
+            type: "POST",
+            dataType: "json",
+            url: vars.ajaxurl,
+            data: {action: 'rhs_clear_notification'},
+            success: function (data) {
+                if (data) {
+                    $(button).find('i').removeClass('notification-count');
+                }
+            },
+            error: function (data) {
+
+            }
+        });
+    })
 });
