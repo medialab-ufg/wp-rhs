@@ -205,9 +205,9 @@ class RHSEmail {
 
         $args = array(
             'site_nome' => get_bloginfo('name'),
-            'login' => get_the_author_meta('user_login' , $user->post_author),
-            'email' => get_the_author_meta('user_email' , $user->post_author),
-            'nome' => get_the_author_meta('display_name' , $user->post_author),
+            'login' => get_the_author_meta('user_login' , $post->post_author),
+            'email' => get_the_author_meta('user_email' , $post->post_author),
+            'nome' => get_the_author_meta('display_name' , $post->post_author),
             'link' => get_permalink($post_ID),
             'post_title' => $post->post_title
         );
@@ -215,7 +215,7 @@ class RHSEmail {
         $subject = $this->get_subject('post_promoted', $args);
         $message = $this->get_message('post_promoted', $args);
 
-        wp_mail($user->user_email, $subject, $message, 'MIME-Version: 1.0' . "\r\n" . 'Content-type: text/html; charset=iso-8859-1' . "\r\n");
+        wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, 'MIME-Version: 1.0' . "\r\n" . 'Content-type: text/html; charset=iso-8859-1' . "\r\n");
     }
 
     function rhs_admin_page_voting_queue() {
