@@ -24,6 +24,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/network/network.php');
         require_once('inc/comunity/comunities.php');
         require_once('inc/comunity/comunity.php');
+        require_once('inc/search/search.php');
 
         require_once('inc/vote/vote.php');
         require_once('inc/follow/follow.php');

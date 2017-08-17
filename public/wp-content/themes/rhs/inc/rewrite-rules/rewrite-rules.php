@@ -38,13 +38,25 @@ class RHSRewriteRules {
             self::POST_URL . "/([^/]+)/?$"      => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL . "&rhs_edit_post=" . $wp_rewrite->preg_index(1),
             self::POSTAGENS_URL . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POSTAGENS_URL,
             self::COMUNIDADES . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::COMUNIDADES,
-            /* Páginas padrões antigas */
+
+            /* Busca */
+            'busca/?$'                      => "index.php?rhs_busca=posts&rhs_login_tpl=search",
+            'busca/([A-Z]{2})/?$'           => 'index.php?rhs_busca=posts&rhs_login_tpl=search&uf=$matches[1]',
+            'busca/([A-Z]{2})/([^/]+)/?$'   => 'index.php?rhs_busca=posts&rhs_login_tpl=search&uf=$matches[1]&municipio=$matches[2]',
+            'busca/usuarios/?$'                      => "index.php?rhs_busca=users&rhs_login_tpl=search",
+            'busca/usuarios/([A-Z]{2})/?$'           => 'index.php?rhs_busca=users&rhs_login_tpl=search&uf=$matches[1]',
+            'busca/usuarios/([A-Z]{2})/([^/]+)/?$'   => 'index.php?rhs_busca=users&rhs_login_tpl=search&uf=$matches[1]&municipio=$matches[2]',
+
+
+            /* Páginas padrões antigas do Drupal */
             'login' . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             'user' . "/?$"          => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             'user/login' . "/?$"    => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             'user/register' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::REGISTER_URL,
             'user/me/edit' . "/?$"  => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::PROFILE_URL,
             'node/add/blog' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL,
+
+
         );
 
         $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
@@ -57,6 +69,9 @@ class RHSRewriteRules {
         $public_query_vars[] = "rhs_login_tpl";
         $public_query_vars[] = "rhs_edit_post";
         $public_query_vars[] = "rhs_user";
+        $public_query_vars[] = "uf";
+        $public_query_vars[] = "municipio";
+        $public_query_vars[] = "rhs_busca";
 
         return $public_query_vars;
 
