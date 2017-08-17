@@ -544,7 +544,7 @@ Primeiro e Segundo DropDown Menu
 }
 
 /*Titulo das Paginas*/
-h1.titulo-page {
+.titulo-page {
     background: $whiteColor none repeat scroll 0 0;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     color: $primeira_cor_texto;
@@ -707,6 +707,20 @@ h1.titulo-page {
 }
 
 /*Fim do redimensionamento responsivo do painel*/
+
+/* Categoria Page */
+.categoria{
+    .titulo-page{
+        margin-bottom: 0px;
+    }
+    .descricao{
+        p{
+            background: $whiteColor;
+            padding: 6px 0;
+        }
+    }
+}
+
 .padding-bottom {
     padding-bottom: 10px;
     .panel-heading {
