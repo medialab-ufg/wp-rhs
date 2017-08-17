@@ -284,7 +284,6 @@ Primeiro e Segundo DropDown Menu
                     }
                     .notify-img {
                         float: left;
-                        display: inline-block;
                         width: 45px;
                         height: 45px;
                         margin: 0px 0px 8px 0px;
@@ -544,7 +543,7 @@ Primeiro e Segundo DropDown Menu
 }
 
 /*Titulo das Paginas*/
-h1.titulo-page {
+.titulo-page {
     background: $whiteColor none repeat scroll 0 0;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     color: $primeira_cor_texto;
@@ -707,6 +706,20 @@ h1.titulo-page {
 }
 
 /*Fim do redimensionamento responsivo do painel*/
+
+/* Categoria Page */
+.categoria{
+    .titulo-page{
+        margin-bottom: 0px;
+    }
+    .descricao{
+        p{
+            background: $whiteColor;
+            padding: 6px 0;
+        }
+    }
+}
+
 .padding-bottom {
     padding-bottom: 10px;
     .panel-heading {
@@ -825,7 +838,6 @@ h1.titulo-page {
                     padding: 6px;
                     border: 0;
                     box-shadow: none !important;
-                    display: inline !important;
                     vertical-align: middle;
                 }
                 @media only screen and (min-width: 769px) {
@@ -1086,7 +1098,6 @@ h1.titulo-page {
 
             /* For emoji replacement images */
             img.emoji {
-                display: inline !important;
                 border: none !important;
                 height: 1em !important;
                 width: 1em !important;
@@ -1938,7 +1949,6 @@ form .comment-form-comment {
                                 margin: 0 0 0 12px;
                                 background: #b70b0b;
                                 border: 1px solid #b70b0b;
-                                display: inline-block;
                                 text-align: center;
                                 color: $whiteColor;
                                 padding: 4px 11px;
@@ -2553,7 +2563,7 @@ form .comment-form-comment {
                         }
                     }
                     .button-end {
-                        webkit-transition: all 0.3s ease;
+                        -webkit-transition: all 0.3s ease;
                         -moz-transition: all 0.3s ease;
                         -ms-transition: all 0.3s ease;
                         -o-transition: all 0.3s ease;
@@ -2668,7 +2678,7 @@ form .comment-form-comment {
             border: 1px solid #e3e3e3;
             background: #fff;
             box-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
-            webkit-transition: all 0.3s ease;
+            -webkit-transition: all 0.3s ease;
             -moz-transition: all 0.3s ease;
             -ms-transition: all 0.3s ease;
             -o-transition: all 0.3s ease;
@@ -2886,7 +2896,7 @@ form .comment-form-comment {
                         background: #ececec;
                     }
                     > div {
-                        webkit-transition: all 0.3s ease;
+                        -webkit-transition: all 0.3s ease;
                         -moz-transition: all 0.3s ease;
                         -ms-transition: all 0.3s ease;
                         -o-transition: all 0.3s ease;
@@ -2898,7 +2908,6 @@ form .comment-form-comment {
                             -o-transition: all 0.5s ease;
                             transition: all 0.5s ease;
                             padding: 10px;
-                            display: inline-block;
                             float: left;
                             @media screen and (max-width: 768px) {
                                 width: 100%;
@@ -3243,7 +3252,6 @@ footer {
             a {
                 background-color: $primeira_cor_fundo;
                 color: $primeira_cor_texto;
-                display: inline;
                 float: left;
                 padding: 18px;
                 margin-left: 40px;
@@ -3494,7 +3502,6 @@ article {
             }
             .panel-sub {
                 float: right;
-                display: inline-block;
                 font-size: 13px;
                 font-style: italic;
                 margin-top: 5px;
