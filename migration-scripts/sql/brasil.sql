@@ -25,10 +25,10 @@ SET character_set_client = utf8;
 CREATE TABLE `municipio` (
   `id` int(11) NOT NULL,
   `ufid` int(11) NOT NULL,
-  `nome` char(255) collate utf8_unicode_ci default NULL,
+  `nome` char(255) collate utf8_general_ci default NULL,
   PRIMARY KEY  (`id`),
   KEY `ufid` (`ufid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -37,7 +37,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `municipio` WRITE;
 /*!40000 ALTER TABLE `municipio` DISABLE KEYS */;
-INSERT INTO `municipio` VALUES 
+INSERT INTO `municipio` VALUES
 (1100015,11,"Alta Floresta D'oeste"),
 (1100023,11,"Ariquemes"),
 (1100031,11,"Cabixi"),
@@ -5622,10 +5622,10 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `uf` (
   `id` int(11) NOT NULL,
-  `nome` char(255) collate utf8_unicode_ci default NULL,
-  `sigla` char(2) collate utf8_unicode_ci default NULL,
+  `nome` char(255) collate utf8_general_ci default NULL,
+  `sigla` char(2) collate utf8_general_ci default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 SET character_set_client = @saved_cs_client;
 
 --
