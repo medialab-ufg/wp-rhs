@@ -4,7 +4,7 @@ if(!function_exists('rhs_setup')) :
 
     function rhs_setup() {
 
-        if ( ! session_id() ) {
+        if ( ! session_id() && php_sapi_name() != 'cli' ) {
             session_start();
         }
 
