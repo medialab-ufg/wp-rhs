@@ -3,12 +3,13 @@
 class RHSFollow {
     const FOLLOW_KEY = '_rhs_follow';
     const FOLLOWED_KEY = '_rhs_followed';
+    const USERS_PER_PAGES = 10;
 
     function __construct() {
         add_action('wp_enqueue_scripts', array(&$this, 'addJS'));
         add_action('rhs_author_header_actions', array(&$this, 'show_header_follow_box'));
         add_action('wp_ajax_rhs_follow', array(&$this, 'ajax_callback'));
-        add_action('wp_ajax_get_follows', array(&$this, 'get_follows'));
+        add_action('rhs_total_follows', array(&$this, 'get_total_follows'),10,2);
     }
 
     function addJS() {
@@ -16,14 +17,14 @@ class RHSFollow {
         wp_localize_script('rhs_follow', 'follow', array('ajaxurl' => admin_url('admin-ajax.php')));
     }
 
+    
     function show_header_follow_box($author_id) {
         $current_user = wp_get_current_user();
         $user_id = $current_user->ID;
-
         if ($user_id == $author_id) {
             return;
         }
-
+        
         $isFollowing = $this->does_user_follow_author($author_id);
 
         $button_html = "<button class='btn btn-default follow-btn' data-author_id='". $author_id ."'>";
@@ -97,7 +98,7 @@ class RHSFollow {
         $total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(umeta_id) FROM $wpdb->usermeta 
             WHERE user_id = %d AND meta_key = %s", 
             $user_id, $meta_key));
-        return $total;
+        echo $total;
     }
     /**
      * Return meta user specific for user id to show follows of specific user
@@ -141,62 +142,60 @@ class RHSFollow {
         // muito difícil acontecer um erro só em um dos metadados, então parece seguro retornar só o retorno da segunda chamada
     }
 
-
-
-    function get_follows($meta) {
+    function get_follows_list($author_id, $meta, $paged) {
+        $users_per_page = self::USERS_PER_PAGES;
+        $offset = $users_per_page * ($paged - 1);
         $args = array(
-            'meta_key' => $meta,
-            'orderby' => 'ID',
-            'order' => 'DESC'
+            'meta_key'  => $meta,
+            'meta_value'=> $author_id,
+            'orderby'   => 'display_name',
+            'order'     => 'ASC',
+            'paged'     => $paged,
+            'number'    => $users_per_page,
+            'offset'    => $offset
         );
+        $author_query = new WP_User_Query($args);
+        return $author_query;
+    }
 
-        $user_query = new WP_User_Query($args);
-        if (!empty($user_query->results)) {
-            foreach ($user_query->results as $user) {
-                $user_meta = get_user_meta($user->ID, self::FOLLOW_KEY);
+    function show_follow_pagination($meta, $paged) {
+        $users_per_page = self::USERS_PER_PAGES;
+        $author = get_queried_object();
+        $author_query = $this->get_follows_list($author->ID, $meta, $paged);
+        
+        $total_pages = 1;
+        $total_pages = ceil($author_query->total_users / $users_per_page);
+
+        $big = 999999999;
+        $content = paginate_links( array(
+            'base'         => str_replace($big, '%#%', get_pagenum_link($big)),
+            'format'       => 'page/%#%',
+            'prev_text'    => __('&laquo; Anterior'),
+            'next_text'    => __('Próxima &raquo;'), 
+            'total'        => $total_pages,
+            'current'      => $paged,
+            'end_size'     => 1,
+            'type'         => 'array',
+            'mid_size'     => 8,
+            'prev_next'    => true,
+        ));
+        
+        if (is_array($content)) {
+            $current_page = (get_query_var('rhs_paged') == 0) ? 1 : get_query_var('rhs_paged');
+            echo '<ul class="pagination">';
+            foreach ($content as $i => $page) {
+                if ($current_page == 1 && $i == 0) {
+                    echo "<li class='active'>$page</li>";
+                } else {
+                    if ($current_page != 1 && $current_page == $i) {
+                        echo "<li class='active'>$page</li>";
+                    } else {
+                        echo "<li>$page</li>";
+                    }
+                }
             }
-            
-            foreach ($user_meta as $author_id ) {
-                $user = get_user_by('id', $author_id);
-
-                $isFollowing = $this->does_user_follow_author($author_id);
-                
-                $button_unfollow = "<button class='btn btn-primary follow-btn' data-author_id='". $author_id ."'>";
-                $button_unfollow .= ($isFollowing) ? "Deixar de Seguir" : "Seguir";
-                $button_unfollow .= "</button>";
-                
-                $user_name = $user->first_name . ' ' . $user->last_name;
-
-                $body = '
-                <ul class="list-group" id="followContent">
-                    <li class="list-group-item">
-                        <div class="col-xs-12 col-sm-2">
-                            <div class="img-responsive img-circle">
-                                '. get_avatar($user->ID, 40) .'
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <span class="name">'. $user_name . ' </span><br/>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 text-right">
-                            '. $button_unfollow .'
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                </ul>';
-                echo $body;
-            }
-        } else {
-            echo _e('Não há usuários seguidos');
+            echo '</ul>';
         }
-    }
-
-    function show_follows() {
-        $this->get_follows(self::FOLLOW_KEY);
-    }
-
-    function show_followers() {
-        $this->get_follows(self::FOLLOWED_KEY);
     }
 
 }

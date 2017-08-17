@@ -25,7 +25,7 @@ class RHSRewriteRules {
 
 
     function rewrite_rules( &$wp_rewrite ) {
-
+        
         $new_rules = array(
             self::LOGIN_URL . "/?$"             => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             self::REGISTER_URL . "/?$"          => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::REGISTER_URL,
@@ -40,19 +40,24 @@ class RHSRewriteRules {
             self::POST_URL . "/([^/]+)/?$"      => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL . "&rhs_edit_post=" . $wp_rewrite->preg_index(1),
             self::POSTAGENS_URL . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POSTAGENS_URL,
             self::COMUNIDADES . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::COMUNIDADES,
-            self::FOLLOW_URL . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::FOLLOW_URL,
-            self::FOLLOWED_URL . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::FOLLOWED_URL,
+            'usuario/([^/]+)/' . self::FOLLOWED_URL . '/?$'                         => 'index.php?author_name=$matches[1]&rhs_login_tpl=' . self::FOLLOWED_URL,
+            'usuario/([^/]+)/'. self::FOLLOWED_URL . '/page/?([0-9]{1,})/?$' => 'index.php?author_name=$matches[1]&rhs_paged=$matches[2]&rhs_login_tpl=' . self::FOLLOWED_URL,
+            'usuario/([^/]+)/' . self::FOLLOW_URL . '/?$'                         => 'index.php?author_name=$matches[1]&rhs_login_tpl=' . self::FOLLOW_URL,
+            'usuario/([^/]+)/'. self::FOLLOW_URL . '/page/?([0-9]{1,})/?$'   => 'index.php?author_name=$matches[1]&rhs_paged=$matches[2]&rhs_login_tpl=' . self::FOLLOW_URL,
+            
             /* Páginas padrões antigas */
             'login' . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             'user' . "/?$"          => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             'user/login' . "/?$"    => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             'user/register' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::REGISTER_URL,
             'user/me/edit' . "/?$"  => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::PROFILE_URL,
-            'node/add/blog' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL,
+            'node/add/blog' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL  
         );
+        
 
         $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 
+        //var_dump($wp_rewrite); die;
     }
 
     function rewrite_rules_query_vars( $public_query_vars ) {
@@ -61,6 +66,7 @@ class RHSRewriteRules {
         $public_query_vars[] = "rhs_login_tpl";
         $public_query_vars[] = "rhs_edit_post";
         $public_query_vars[] = "rhs_user";
+        $public_query_vars[] = "rhs_paged";
 
         return $public_query_vars;
 

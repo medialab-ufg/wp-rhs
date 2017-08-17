@@ -4,61 +4,8 @@ get_edit_user_link();
 $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
 ?>
             <!-- Tab panes -->
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="verDados">
-                    <div class="jumbotron">
-                        <?php if($curauth){ ?>
-                            <?php
-                            global $RHSUsers;
-                            $RHSUsers = new RHSUsers($curauth->ID);
-                            $votos = new RHSVote();
-                            ?>
-                        <div class="avatar-user">
-                            <?php echo get_avatar($RHSUsers->getUserId()); ?>
-                        </div>
-                        <div class="info-user">
-                            <p class="nome-author">
-                                <?php echo $RHSUsers->get_user_data('display_name'); ?>
-                                <?php if( is_user_logged_in() && is_author(get_current_user_id())) : ?>
-                                    <span class="btn-editar-user"><a class="btn btn-default" href="<?php echo home_url(RHSRewriteRules::PROFILE_URL ); ?>">EDITAR</a></span>
-                                <?php endif; ?>
-                            </p>
-                            <p class="localidade"><?php echo the_user_ufmun($RHSUsers->getUserId()); ?></p>
-                            <div class="contagem">
-                                <span class="contagem-valor-author"><?php echo count_user_posts( $curauth->ID ); ?></span>
-                                <span class="contagem-desc-author">POSTS</span>
-                            </div>
-                            <div class="contagem">
-                                <span class="contagem-valor-author"><?php echo $votos->get_total_votes_by_author( $curauth->ID ); ?></span>
-                                <span class="contagem-desc-author">VOTOS</span>
-                            </div>
-                            
-                            
-                            <div class="contagem">
-                                <a class="btn-link" href="<?php echo get_home_url() . '/' . RHSRewriteRules::FOLLOW_URL; ?>">
-                                    <span class="contagem-valor-author"><?php echo $RHSFollow->get_total_follows($curauth->ID, RHSFollow::FOLLOW_KEY); ?></span>
-                                    <span class="contagem-desc-author">SEGUINDO</span>
-                                </a>
-                            </div>
-                            
-                            <div class="contagem">
-                                <a class="btn-link" href="<?php echo get_home_url() . '/' . RHSRewriteRules::FOLLOWED_URL; ?>">
-                                    <span class="contagem-valor-author"><?php echo $RHSFollow->get_total_follows($curauth->ID,RHSFollow::FOLLOWED_KEY); ?></span>
-                                    <span class="contagem-desc-author">SEGUIDORES</span>
-                                </a>
-                            </div>
-                            
-                        </div>
-                        <span class="seguir-mensagem">
-                            <?php do_action('rhs_author_header_actions', $curauth->ID); ?>
-                        </span>
-                        <div class="clearfix"></div>
-                    <?php } else { ?>
-                            <div class="user-unknown">Esse usúario não existe !</div>
-                    <?php } ?>
-                    </div>
-                </div>
-            </div>
+            <?php include(locate_template('partes-templates/user-header-info.php')); ?>
+            
             <?php if($curauth){ ?>
                 <!--Informações Pessoais-->
                 <div class="row">
