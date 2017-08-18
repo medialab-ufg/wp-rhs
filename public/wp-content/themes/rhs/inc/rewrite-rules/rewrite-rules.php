@@ -40,12 +40,12 @@ class RHSRewriteRules {
             self::COMUNIDADES . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::COMUNIDADES,
 
             /* Busca */
-            'busca/?$'                      => "index.php?rhs_busca=posts&rhs_login_tpl=search",
-            'busca/([A-Z]{2})/?$'           => 'index.php?rhs_busca=posts&rhs_login_tpl=search&uf=$matches[1]',
-            'busca/([A-Z]{2})/([^/]+)/?$'   => 'index.php?rhs_busca=posts&rhs_login_tpl=search&uf=$matches[1]&municipio=$matches[2]',
-            'busca/usuarios/?$'                      => "index.php?rhs_busca=users&rhs_login_tpl=search",
-            'busca/usuarios/([A-Z]{2})/?$'           => 'index.php?rhs_busca=users&rhs_login_tpl=search&uf=$matches[1]',
-            'busca/usuarios/([A-Z]{2})/([^/]+)/?$'   => 'index.php?rhs_busca=users&rhs_login_tpl=search&uf=$matches[1]&municipio=$matches[2]',
+            RHSSearch::BASE_URL . '/?$'                      => "index.php?rhs_busca=posts&rhs_login_tpl=search",
+            RHSSearch::BASE_URL . '/([A-Z]{2})/?$'           => 'index.php?rhs_busca=posts&rhs_login_tpl=search&uf=$matches[1]',
+            RHSSearch::BASE_URL . '/([A-Z]{2})/([^/]+)/?$'   => 'index.php?rhs_busca=posts&rhs_login_tpl=search&uf=$matches[1]&municipio=$matches[2]',
+            RHSSearch::BASE_USERS_URL . '/?$'                      => "index.php?rhs_busca=users&rhs_login_tpl=search",
+            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/?$'           => 'index.php?rhs_busca=users&rhs_login_tpl=search&uf=$matches[1]',
+            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/([^/]+)/?$'   => 'index.php?rhs_busca=users&rhs_login_tpl=search&uf=$matches[1]&municipio=$matches[2]',
 
 
             /* Páginas padrões antigas do Drupal */

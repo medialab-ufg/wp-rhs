@@ -250,23 +250,25 @@ Class UFMunicipio {
         echo $params['content_after'];
     }
 
-    static function get_uf_link($uf_id, $uf_data = false) {
+    static function get_uf_link($uf_id, $type = 'post', $uf_data = false) {
         global $wpdb;
 
         if (false === $uf_data)
             $uf_data = $wpdb->get_row( $wpdb->prepare("SELECT * FROM uf WHERE id = %d", $uf_id), ARRAY_A );
 
-        return home_url(strtolower($uf_data['sigla']));
+        $base_url = $type == 'user' ? RHSSearch::BASE_USERS_URL : RHSSearch::BASE_URL;
+
+        return home_url($base_url . '/' . $uf_data['sigla']);
 
     }
 
-    static function get_mun_link($mun_id, $mun_data = false) {
+    static function get_mun_link($mun_id, $type = 'post', $mun_data = false) {
         global $wpdb;
 
         if (false === $mun_data)
             $mun_data = $wpdb->get_row( $wpdb->prepare("SELECT * FROM municipio WHERE id = %d", $mun_id), ARRAY_A );
 
-        return self::get_uf_link($mun_data['ufid']) . '/' . $mun_id . '-' . sanitize_title( $mun_data['nome'], '', 'save' );
+        return self::get_uf_link($mun_data['ufid'], $type) . '/' . $mun_id . '-' . sanitize_title( $mun_data['nome'], '', 'save' );
 
     }
 
@@ -359,19 +361,19 @@ Class UFMunicipio {
 
         if ($meta['uf']['id']) {
 
-            $uf_link = self::get_uf_link($meta['uf']['id'], $meta['uf']);
+            $uf_link = self::get_uf_link($meta['uf']['id'], 'post', $meta['uf']);
             $uf_html = "<a href='$uf_link'>".$meta['uf']['sigla']."</a>";
 
-            $uf_html = $meta['uf']['sigla']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
+            //$uf_html = $meta['uf']['sigla']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
 
         }
 
         if ($meta['mun']['id']) {
 
-            $mun_link = self::get_mun_link($meta['mun']['id'], $meta['mun']);
+            $mun_link = self::get_mun_link($meta['mun']['id'], 'post', $meta['mun']);
             $mun_html = "<a href='$mun_link'>".$meta['mun']['nome']."</a>";
 
-            $mun_html = $meta['mun']['nome']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
+            //$mun_html = $meta['mun']['nome']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
 
         }
 
@@ -392,19 +394,19 @@ Class UFMunicipio {
 
         if ($meta['uf']['id']) {
 
-            $uf_link = self::get_uf_link($meta['uf']['id'], $meta['uf']);
+            $uf_link = self::get_uf_link($meta['uf']['id'], 'user', $meta['uf']);
             $uf_html = "<a href='$uf_link'>".$meta['uf']['sigla']."</a>";
 
-            $uf_html = $meta['uf']['sigla']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
+            //$uf_html = $meta['uf']['sigla']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
 
         }
 
         if ($meta['mun']['id']) {
 
-            $mun_link = self::get_mun_link($meta['mun']['id'], $meta['mun']);
+            $mun_link = self::get_mun_link($meta['mun']['id'], 'user', $meta['mun']);
             $mun_html = "<a href='$mun_link'>".$meta['mun']['nome']."</a>";
 
-            $mun_html = $meta['mun']['nome']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
+            //$mun_html = $meta['mun']['nome']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
 
         }
 

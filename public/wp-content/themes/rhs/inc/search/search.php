@@ -2,6 +2,9 @@
 
 class RHSSearch {
 
+    const BASE_URL = 'busca';
+    const BASE_USERS_URL = 'busca/usuarios';
+
     function __construct() {
         add_action('pre_get_posts', array(&$this, 'pre_get_posts'), 2);
     }
@@ -12,13 +15,18 @@ class RHSSearch {
 
             $wp_query->is_home = false;
 
-            $keyword = get_query_var('keyword');
-            $uf = get_query_var('uf');
-            $municipio = get_query_var('municipio');
-            $date_from = get_query_var('date_from');
-            $date_to = get_query_var('date_to');
-            $order = get_query_var('rhs_order');
-            $cat = get_query_var('cat');
+            $keyword =      $this->get_param('keyword');
+            $uf =           $this->get_param('uf');
+            $municipio =    $this->get_param('municipio');
+            $date_from =    $this->get_param('date_from');
+            $date_to =      $this->get_param('date_to');
+            $order =        $this->get_param('rhs_order');
+            //$cat =          $this->get_param('cat');
+
+            /**
+            * Tags e categorias são buscadas automaticamente passando os parametros padrão do WP
+            * Ex: &cat=3&tag=2
+            */
 
             if (!empty($keyword)) {
                 $wp_query->set('s', $keyword);
@@ -53,7 +61,7 @@ class RHSSearch {
 
                 if (!empty($municipio)) {
 
-                    preg_match('/([0-9]{7})-.+$', $municipio, $cod_municipio);
+                    preg_match('/([0-9]{7})-.+$/', $municipio, $cod_municipio);
 
                     if (is_numeric($cod_municipio[1])) {
                         $meta_query['municipio'] = [
@@ -90,7 +98,21 @@ class RHSSearch {
             }
 
 
-var_dump($meta_query);
+            // ORDER
+            switch ($order) {
+                case 'comments':
+                    $q_order = 'DESC';
+                    $q_order_by = 'comment_count';
+                    break;
+
+                // VOTES, SHARES, VIEWS...
+
+                case 'date':
+                default:
+                    $q_order = 'DESC';
+                    $q_order_by = 'post_date';
+                    break;
+            }
 
 
         }
@@ -99,7 +121,7 @@ var_dump($meta_query);
 
     private function parse_date($str_date) {
 
-        preg_match('/([0-9]{4})-([0-9]{2})-([0-9]{2})', $str_date, $matches);
+        preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/', $str_date, $matches);
 
         if (isset($matches[1]) && isset($matches[2]) && isset($matches[3])) {
             return [
@@ -111,6 +133,12 @@ var_dump($meta_query);
 
         return false;
 
+    }
+
+    public function get_param($param) {
+        if (isset($_GET[$param]))
+            return $_GET[$param];
+        return get_query_var($param);
     }
 
 
