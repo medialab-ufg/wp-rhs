@@ -1511,6 +1511,14 @@ Primeiro e Segundo DropDown Menu
         margin: 0 15px 0 15px;
         padding-right: 0;
         padding-left: 0;
+        .relacionado{
+            font-weight: bold;
+            font-size: 0.8em;
+            border: 1px solid #e0e0e0;
+            width: 35%;
+            padding: 5px;
+            border-radius: 12px;
+        }
         .espacamento-topo {
             margin-top: 7%;
             margin-bottom: 5%;
