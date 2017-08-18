@@ -17,7 +17,12 @@ class RHSFollow {
         wp_localize_script('rhs_follow', 'follow', array('ajaxurl' => admin_url('admin-ajax.php')));
     }
 
-    
+    /**
+     * Show button to follow or unfollow user
+     * 
+     * @param int $author_id The author that we want to check and see if he/she is followed by the user
+     * @return mixed it returns button to follow or unfoloww user and check if user is current author, for this case this button must be hide
+     */
     function show_header_follow_box($author_id) {
         $current_user = wp_get_current_user();
         $user_id = $current_user->ID;
@@ -45,13 +50,13 @@ class RHSFollow {
     }
 
 
-     /**
-      * Check if anuser follows an author (another user)
-      *
-      * @param int $author_id The author that we want to check to see if he/she is followed by the user
-      * @param int $user_id (optional) The ID of the user you want to check if he/she follows the author
-      * @return bool true if user follows author, false if dont
-      */
+    /**
+     * Check if anuser follows an author (another user)
+     *
+     * @param int $author_id The author that we want to check and see if he/she is followed by the user
+     * @param int $user_id (optional) The ID of the user you want to check if he/she follows the author
+     * @return bool true if user follows author, false if dont
+     */
     function does_user_follow_author($author_id, $user_id = null) {
         if (is_null($user_id)) {
             $current_user = wp_get_current_user();
@@ -71,7 +76,6 @@ class RHSFollow {
      * @param int $user_id The user id to check if user follow author by they id
      * @return int return '1' if already follow and '2' if not, if not correspond some condition it will return 'false'
      */
-    
     function toggle_follow($author_id, $user_id) {
         if ($this->does_user_follow_author($author_id, $user_id)) {
             if (false !== $this->remove_follow($author_id, $user_id))
@@ -93,6 +97,13 @@ class RHSFollow {
         return get_user_meta($user_id, self::FOLLOWED_KEY);
     }
     
+    /**
+     * Get total count of user according meta key
+     * 
+     * @param int $user_id The user id of author needed to count
+     * @param string $meta_key The meta who needed to count
+     * @return int Number of follows scoped by user and meta (FOLLOW_KEY, FOLLOWED_KEY)
+     */
     function get_total_follows($user_id, $meta_key) {
         global $wpdb;
         $total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(umeta_id) FROM $wpdb->usermeta 
@@ -142,6 +153,14 @@ class RHSFollow {
         // muito difícil acontecer um erro só em um dos metadados, então parece seguro retornar só o retorno da segunda chamada
     }
 
+    /**
+     * Function to return follow list with pagination
+     * 
+     * @param int $author_id The author id of current page
+     * @param string $meta The meta key (FOLLOW_KEY or FOLLOWED_KEY)
+     * @param int $paged Param to get current page according rewrite rules (rhs_paged)
+     * @return mixed Return class with params
+     */
     function get_follows_list($author_id, $meta, $paged) {
         $users_per_page = self::USERS_PER_PAGES;
         $offset = $users_per_page * ($paged - 1);
@@ -158,6 +177,13 @@ class RHSFollow {
         return $author_query;
     }
 
+    /**
+     * Show pagination 
+     * 
+     * @param string $meta The meta key (FOLLOW_KEY or FOLLOWED_KEY) 
+     * @param int $paged Param to get current page according rewrite rules (rhs_paged)
+     * @return mixed Return html with paginate links
+     */
     function show_follow_pagination($meta, $paged) {
         $users_per_page = self::USERS_PER_PAGES;
         $author = get_queried_object();
