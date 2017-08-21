@@ -12,6 +12,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/message/message.php');
         require_once('inc/uf-municipio/uf-municipio.php');
         require_once('inc/rewrite-rules/rewrite-rules.php');
+        require_once('inc/RHS_Options/rhs_options.php');
         require_once('inc/captcha/captcha.php');
         require_once('inc/login/login.php');
         require_once('inc/lostpassword/lostpassword.php');
