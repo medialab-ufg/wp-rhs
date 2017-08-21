@@ -120,7 +120,34 @@ class VoteTest extends RHS_UnitTestCase {
             // O post tem o metadado indicando q foi promovido
             $this->assertEquals('1', get_post_meta($savedPost->getId(), RHSVote::META_PUBISH, true));
 
+
+            // Stats
+            global $RHSNetwork;
+
+            // adiciona alguns views e shares ao post
+            $RHSNetwork->add_data($savedPost->getId(), RHSNetwork::META_KEY_VIEW);
+            $RHSNetwork->add_data($savedPost->getId(), RHSNetwork::META_KEY_VIEW);
+            $RHSNetwork->add_data($savedPost->getId(), RHSNetwork::META_KEY_VIEW);
+            $RHSNetwork->add_data($savedPost->getId(), RHSNetwork::META_KEY_VIEW);
+            $RHSNetwork->add_data($savedPost->getId(), RHSNetwork::META_KEY_VIEW);
+            $RHSNetwork->add_data($savedPost->getId(), RHSNetwork::META_KEY_FACEBOOK);
+            $RHSNetwork->add_data($savedPost->getId(), RHSNetwork::META_KEY_FACEBOOK);
+            $RHSNetwork->add_data($savedPost->getId(), RHSNetwork::META_KEY_WHATSAPP);
+            $RHSNetwork->add_data($savedPost->getId(), RHSNetwork::META_KEY_WHATSAPP);
+            $RHSNetwork->add_data($savedPost->getId(), RHSNetwork::META_KEY_WHATSAPP);
+            $RHSNetwork->add_data($savedPost->getId(), RHSNetwork::META_KEY_TWITTER);
+
+            // checamos a função get data e se os totais salvaram corretamente
+            $this->assertEquals(5, $RHSNetwork->get_data($savedPost->getId(), RHSNetwork::META_KEY_VIEW));
+            $this->assertEquals(2, $RHSNetwork->get_data($savedPost->getId(), RHSNetwork::META_KEY_FACEBOOK));
+            $this->assertEquals(3, $RHSNetwork->get_data($savedPost->getId(), RHSNetwork::META_KEY_WHATSAPP));
+            $this->assertEquals(1, $RHSNetwork->get_data($savedPost->getId(), RHSNetwork::META_KEY_TWITTER));
+            $this->assertEquals(5, $RHSNetwork->get_data($savedPost->getId(), RHSNetwork::META_KEY_TOTAL_SHARES));
+
+
+
 	}
+
 
 
 
