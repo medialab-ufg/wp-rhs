@@ -8,8 +8,8 @@ INSERT IGNORE INTO {{postmeta}}
 SELECT
 
     ssf.nid as `post_id`,
-    '{{META_KEY_FACEBOOK}}' as `meta_key`,
-    ssf.fb_total as `meta_value`
+    '{{META_KEY_TOTAL_SHARES}}' as `meta_key`,
+    ssf.total_virality as `meta_value`
 
-FROM {{drupaldb}}.social_stats_facebook ssf
+FROM {{drupaldb}}.social_stats_total ssf
     GROUP BY ssf.nid;
