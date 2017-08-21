@@ -14,6 +14,7 @@ Class RHSVote {
 	const VOTING_EXPIRED = 'voting-expired';
 	const ROLE_VOTER = 'voter';
 	const META_PUBISH = 'rhs-promoted-publish';
+    const META_TOTAL_VOTES = '_total_votes';
 
 	static $instance;
 
@@ -21,7 +22,7 @@ Class RHSVote {
 
 	var $post_status = [];
 
-	var $total_meta_key = '_total_votes';
+	var $total_meta_key;
 
 	public $days_for_expired_default = 14;
     public $votes_to_approval_default = 5;
@@ -33,6 +34,7 @@ Class RHSVote {
 			global $wpdb;
 			$this->tablename   = $wpdb->prefix . 'votes';
 			$this->post_status = $this->get_custom_post_status();
+            $this->total_meta_key = self::META_TOTAL_VOTES;
 
 			// Hooks
 			add_action( 'init', array( &$this, 'init' ) );

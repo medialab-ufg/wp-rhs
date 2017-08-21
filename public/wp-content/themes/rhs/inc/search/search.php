@@ -54,17 +54,18 @@ class RHSSearch {
 
             }
 
+            $meta_query = [];
+            $has_meta_query = false;
+
             // ESTADOS E MUNICIPIOS
             if (!empty($uf) || !empty($municipio)) {
-                $meta_query = [];
-                $has_meta_query = false;
 
                 if (!empty($municipio)) {
 
                     preg_match('/([0-9]{7})-.+$/', $municipio, $cod_municipio);
 
                     if (is_numeric($cod_municipio[1])) {
-                        $meta_query['municipio'] = [
+                        $meta_query['municipio_clause'] = [
                             'key' => UFMunicipio::MUN_META,
                             'value' => $cod_municipio[1],
                             'compare' => '='
@@ -75,12 +76,12 @@ class RHSSearch {
 
                 }
 
-            if (!empty($uf) && !isset($meta_query['municipio']) /* se já tem municipio não precisa filtrar por estado tb */ ) {
+                if (!empty($uf) && !isset($meta_query['municipio']) /* se já tem municipio não precisa filtrar por estado tb */ ) {
 
                     $cod_uf = UFMunicipio::get_uf_id_from_sigla($uf);
 
                     if (is_numeric($cod_uf)) {
-                        $meta_query['uf'] = [
+                        $meta_query['uf_clause'] = [
                             'key' => UFMunicipio::UF_META,
                             'value' => $cod_uf,
                             'compare' => '='
@@ -90,13 +91,7 @@ class RHSSearch {
 
                 }
 
-                if ($has_meta_query) {
-                    $date_query['relation'] = 'AND';
-                    $wp_query->set('meta_query', [$meta_query]);
-                }
-
             }
-
 
             // ORDER
             switch ($order) {
@@ -105,7 +100,16 @@ class RHSSearch {
                     $q_order_by = 'comment_count';
                     break;
 
-                // VOTES, SHARES, VIEWS...
+                // META KEYS
+                case 'votes':
+                    $q_order_meta = RHSVote::META_TOTAL_VOTES;
+                    break;
+                case 'shares':
+                    $q_order_meta = RHSNetwork::META_KEY_TOTAL_SHARES;
+                    break;
+                case 'views':
+                    $q_order_meta = RHSNetwork::META_KEY_VIEW;
+                    break;
 
                 case 'date':
                 default:
@@ -114,6 +118,24 @@ class RHSSearch {
                     break;
             }
 
+            if (!empty($q_order_meta)) {
+                $meta_query['rhs_meta_order'] = [
+                    'key' => $q_order_meta,
+                    'compare' => 'EXISTS',
+                    'type' => 'numeric'
+                ];
+                $has_meta_query = true;
+                $q_order_by = ['rhs_meta_order' => 'DESC'];
+                $q_order = 'DESC';
+            }
+
+            if ($has_meta_query) {
+                $meta_query['relation'] = 'AND';
+                $wp_query->set('meta_query', [$meta_query]);
+            }
+
+            $wp_query->set('order', $q_order);
+            $wp_query->set('orderby', $q_order_by);
 
         }
 
