@@ -46,12 +46,12 @@ class RHSRewriteRules {
             RHSSearch::BASE_URL . '/([A-Z]{2})/page/([0-9]+)/?$'                 => 'index.php?rhs_busca=posts&rhs_login_tpl=search&uf=$matches[1]&paged=$matches[2]',
             RHSSearch::BASE_URL . '/([A-Z]{2})/([^/]+)/?$'                       => 'index.php?rhs_busca=posts&rhs_login_tpl=search&uf=$matches[1]&municipio=$matches[2]',
             RHSSearch::BASE_URL . '/([A-Z]{2})/([^/]+)/page/([0-9]+)/?$'         => 'index.php?rhs_busca=posts&rhs_login_tpl=search&uf=$matches[1]&municipio=$matches[2]&paged=$matches[3]',
-            RHSSearch::BASE_USERS_URL . '/?$'                                    => "index.php?rhs_busca=users&rhs_login_tpl=search",
-            RHSSearch::BASE_USERS_URL . '/page/([0-9]+)/?$'                      => 'index.php?rhs_busca=users&rhs_login_tpl=search&paged=$matches[1]',
-            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/?$'                         => 'index.php?rhs_busca=users&rhs_login_tpl=search&uf=$matches[1]',
-            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/page/([0-9]+)/?$'           => 'index.php?rhs_busca=users&rhs_login_tpl=search&uf=$matches[1]&paged=$matches[2]',
-            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/([^/]+)/?$'                 => 'index.php?rhs_busca=users&rhs_login_tpl=search&uf=$matches[1]&municipio=$matches[2]',
-            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/([^/]+)/page/([0-9]+)/?$'   => 'index.php?rhs_busca=users&rhs_login_tpl=search&uf=$matches[1]&municipio=$matches[2]&paged=$matches[3]',
+            RHSSearch::BASE_USERS_URL . '/?$'                                    => "index.php?rhs_busca=users&rhs_login_tpl=search-users",
+            RHSSearch::BASE_USERS_URL . '/page/([0-9]+)/?$'                      => 'index.php?rhs_busca=users&rhs_login_tpl=search-users&paged=$matches[1]',
+            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/?$'                         => 'index.php?rhs_busca=users&rhs_login_tpl=search-users&uf=$matches[1]',
+            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/page/([0-9]+)/?$'           => 'index.php?rhs_busca=users&rhs_login_tpl=search-users&uf=$matches[1]&paged=$matches[2]',
+            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/([^/]+)/?$'                 => 'index.php?rhs_busca=users&rhs_login_tpl=search-users&uf=$matches[1]&municipio=$matches[2]',
+            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/([^/]+)/page/([0-9]+)/?$'   => 'index.php?rhs_busca=users&rhs_login_tpl=search-users&uf=$matches[1]&municipio=$matches[2]&paged=$matches[3]',
 
 
             /* Páginas padrões antigas do Drupal */
