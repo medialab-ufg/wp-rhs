@@ -24,18 +24,20 @@ class RHSFollow {
      * @return mixed it returns button to follow or unfoloww user and check if user is current author, for this case this button must be hide
      */
     function show_header_follow_box($author_id) {
-        $current_user = wp_get_current_user();
-        $user_id = $current_user->ID;
-        if ($user_id == $author_id) {
-            return;
-        }
-        
-        $isFollowing = $this->does_user_follow_author($author_id);
+        if (is_user_logged_in()) {
+            $current_user = wp_get_current_user();
+            $user_id = $current_user->ID;
+            if ($user_id == $author_id) {
+                return;
+            }
+            
+            $isFollowing = $this->does_user_follow_author($author_id);
 
-        $button_html = "<button class='btn btn-default follow-btn' data-author_id='". $author_id ."'>";
-        $button_html .= ($isFollowing) ? "Deixar de Seguir" : "Seguir";
-        $button_html .= "</button>";
-        echo $button_html;
+            $button_html = "<button class='btn btn-default follow-btn' data-author_id='". $author_id ."'>";
+            $button_html .= ($isFollowing) ? "Deixar de Seguir" : "Seguir";
+            $button_html .= "</button>";
+            echo $button_html;
+        }
     }
 
     function ajax_callback() {
