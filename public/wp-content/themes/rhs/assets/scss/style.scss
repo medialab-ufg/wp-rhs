@@ -3057,6 +3057,29 @@ form .comment-form-comment {
 
 /***********
 *
+* Busca
+*
+************/
+.busca-page{
+    #posts{
+        .formulario{
+            padding: 0;
+            padding: 15px 0;
+            .form-inline{
+                .form-group{
+                    padding: 5px;
+                }
+            }
+        }
+        .resultado{
+            padding: 15px;
+        }
+    }
+    
+}
+
+/***********
+*
 * Sidebar
 *
 ************/

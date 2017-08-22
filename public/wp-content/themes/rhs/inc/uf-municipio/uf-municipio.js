@@ -14,6 +14,11 @@ jQuery( function( $ ) {
                     $('.style #estado').tooltip('hide');
                     $('#municipio').html(data);
                     $('.style #municipio').attr('title', 'Defina o municipio relacionado a este post aqui').tooltip({placement: "left"}).tooltip('show');
+                    $('.formulario #municipio').append($('<option>', {
+                        value: '',
+                        text: 'Selecione a cidade...',
+                        selected
+                    }));
                 } 
             });
         }

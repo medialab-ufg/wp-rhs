@@ -1,6 +1,6 @@
 <?php
 /**
- * Template de busca para mostrar no menu.
+ * Template de busca para exibir no menu.
  *
  * @package wp-rhs
  * @subpackage Rede Humaniza SuS
