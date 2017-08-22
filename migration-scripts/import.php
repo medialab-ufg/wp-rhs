@@ -238,6 +238,17 @@ class RHSImporter {
     
     }
     
+    function query($sqlname, $substitutions = array()) {
+        $query = $this->get_sql($sqlname, $substitutions);
+        if ($query === false)
+            return false;
+
+        global $wpdb;
+        $c = $wpdb->query($query);
+
+        $this->log("🍕 $c registros afetados\n");
+    }
+    
     function wpcli($command) {
     
         echo exec('cd ../public && wp ' . $command);
