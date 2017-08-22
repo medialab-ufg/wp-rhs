@@ -683,26 +683,28 @@ Primeiro e Segundo DropDown Menu
 *
 * Painels dos Posts e usado na pagina Single
 *
-*************/
+************
 .grid{
     margin: 10px -16px;
-}
-/*Melhor visualização do painel na pagina front-page.
-* Fazendo com que o mesmo tenha um melhor redimensionamento responsivo
-* Inicio
-*/
-.display-row {
-    -moz-column-width: 25em;
-    -webkit-column-width: 25em;
-    -moz-column-gap: .5em;
-    -webkit-column-gap: .5em;
-}
-
-.display-panel {
-    display: inline-block;
-    margin: .8em;
+}*/
+/* ---- masonry ---- */
+.masonry {
+    margin: 1.5em 0;
     padding: 0;
-    width: 93.7%;
+    -moz-column-gap: 1.5em;
+    -webkit-column-gap: 1.5em;
+    column-gap: 0.5em;
+
+    .gutter-sizer { width: 4%; }
+    
+    .grid-sizer, .grid-item{ 
+        width: 48%; 
+        @media only screen and (max-width: 700px){
+            width: 100%;
+        }
+    }
+    
+    .grid-item{ margin-bottom: 10px; }
 }
 
 /*Fim do redimensionamento responsivo do painel*/

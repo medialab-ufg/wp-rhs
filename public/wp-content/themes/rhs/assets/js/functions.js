@@ -125,5 +125,14 @@ jQuery( function( $ ) {
             // $(".tab").addClass("active"); // instead of this do the below 
             $(this).removeClass("btn-default").addClass("btn-primary");   
         });
+
+
+        $('.masonry').masonry({
+            percentPosition: true,
+            itemSelector: '.grid-item',
+            columnWidth: '.grid-sizer',
+            gutter: '.gutter-sizer',
+            horizontalOrder: true
+        });
     });
 });
