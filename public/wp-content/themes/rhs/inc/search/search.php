@@ -78,8 +78,8 @@ class RHSSearch {
 
                 if (!empty($uf) && !isset($meta_query['municipio']) /* se já tem municipio não precisa filtrar por estado tb */ ) {
 
-                    $cod_uf = UFMunicipio::get_uf_id_from_sigla($uf);
-
+                    $cod_uf = is_numeric($uf) ? $uf : UFMunicipio::get_uf_id_from_sigla($uf);
+                    
                     if (is_numeric($cod_uf)) {
                         $meta_query['uf_clause'] = [
                             'key' => UFMunicipio::UF_META,
