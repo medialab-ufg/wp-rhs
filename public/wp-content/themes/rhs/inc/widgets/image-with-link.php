@@ -17,8 +17,11 @@ class Image_With_Link extends WP_Widget {
 	}
 	
 	public function scripts() {
-		wp_enqueue_script('media-upload');
-		wp_enqueue_script('image_with_link', get_template_directory_uri() . '/inc/widgets/image-with-link.js', array('jquery'));
+		global $pagenow;
+		if($pagenow == 'widgets.php') {
+			wp_enqueue_script('media-upload');
+			wp_enqueue_script('image_with_link', get_template_directory_uri() . '/inc/widgets/image-with-link.js', array('jquery'));
+		}
 	}
 	/**
 	 * Front-end display of widget.
@@ -81,6 +84,8 @@ class Image_With_Link extends WP_Widget {
 		<p>
 			<label for="<?php echo $this->get_field_id('link_image'); ?>"><?php _e('Link:'); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id('link_image'); ?>" name="<?php echo $this->get_field_name('link_image'); ?>" type="text" value="<?php echo esc_attr($link_image); ?>">
+			<br/>
+			<small>* insira 'http://'</small>
 		</p>
 
 		<input id="<?php echo $this->get_field_id('image'); ?>" name="<?php echo $this->get_field_name('image'); ?>" type="hidden" value="<?php echo esc_url($image); ?>">
