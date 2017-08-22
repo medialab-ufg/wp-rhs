@@ -1,4 +1,4 @@
-<div class="grid-item-content">
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <?php if ( has_post_thumbnail() ) : ?>
@@ -52,4 +52,3 @@
             </div>
         </div>
     </div><!-- .panel .panel-default -->
-</div>
