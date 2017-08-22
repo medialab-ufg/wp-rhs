@@ -1,21 +1,12 @@
 jQuery( function( $ ) {
 
-    var triggers = ".follow-btn, .unfollow-btn";
-
-    $(triggers).click(function() {
+    var trigger = ".follow-btn";
+        
+    $(trigger).click(function() {
         var author_id = $(this).data('author_id');
         var link_class = $(this).attr('class');
         var button = $(this);
-
-        if(button.hasClass('follow-btn')) {
-            $(this).removeClass("follow-btn");
-            $(this).addClass("unfollow-btn");
-            var button_text = "Parar de Seguir";
-        } else {
-            $(this).removeClass("unfollow-btn");
-            $(this).addClass("follow-btn");
-            var button_text = "Seguir";
-        }
+        var button_value = $(this).html();
 
         $.ajax({
             url: follow.ajaxurl,
@@ -28,13 +19,21 @@ jQuery( function( $ ) {
                 $(button).addClass('loading');
                 $(button).html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
             },
-            success: changeButton
+            success: function(response){
+                response == 1 || response == 2 ? changeButton(response) : error_handler()
+            },
+            error: error_handler,
         });
 
         function changeButton(response){
-            console.log(response);
+            $(button).html(response == 1 ? "Seguir" : "Deixar de Seguir");
             $(button).removeClass('loading');
-            $(button).html(button_text);
+        };
+        
+        var error_handler = function(xhr, textStatus, error){
+            swal({title: "Erro, tente novamente por favor.", html: true});
+            $(button).removeClass('loading');
+            $(button).html(button_value);
         };
     });
 

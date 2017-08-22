@@ -14,8 +14,10 @@
         "FortAwesome/Font-Awesome" : "*",
         "nicolasbize/magicsuggest" : "*",
         "google/recaptcha" : "*",
-        "wpackagist-plugin/rest-api-oauth1":"0.3.*",
-        "desandro/masonry" : "4.2.0"
+        "wpackagist-plugin/rest-api-oauth1":"0.3.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5.5.*"
     },
     "extra": {
         "wordpress-install-dir": "public/wp",

@@ -284,7 +284,6 @@ Primeiro e Segundo DropDown Menu
                     }
                     .notify-img {
                         float: left;
-                        display: inline-block;
                         width: 45px;
                         height: 45px;
                         margin: 0px 0px 8px 0px;
@@ -544,7 +543,7 @@ Primeiro e Segundo DropDown Menu
 }
 
 /*Titulo das Paginas*/
-h1.titulo-page {
+.titulo-page {
     background: $whiteColor none repeat scroll 0 0;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     color: $primeira_cor_texto;
@@ -684,29 +683,45 @@ h1.titulo-page {
 *
 * Painels dos Posts e usado na pagina Single
 *
-*************/
+************
 .grid{
     margin: 10px -16px;
-}
-/*Melhor visualização do painel na pagina front-page.
-* Fazendo com que o mesmo tenha um melhor redimensionamento responsivo
-* Inicio
-*/
-.display-row {
-    -moz-column-width: 25em;
-    -webkit-column-width: 25em;
-    -moz-column-gap: .5em;
-    -webkit-column-gap: .5em;
-}
-
-.display-panel {
-    display: inline-block;
-    margin: .8em;
+}*/
+/* ---- masonry ---- */
+.masonry {
+    margin: 1.5em 0;
     padding: 0;
-    width: 93.7%;
+    -moz-column-gap: 1.5em;
+    -webkit-column-gap: 1.5em;
+    column-gap: 0.5em;
+
+    .gutter-sizer { width: 4%; }
+    
+    .grid-sizer, .grid-item{ 
+        width: 48%; 
+        @media only screen and (max-width: 700px){
+            width: 100%;
+        }
+    }
+    
+    .grid-item{ margin-bottom: 10px; }
 }
 
 /*Fim do redimensionamento responsivo do painel*/
+
+/* Categoria Page */
+.categoria{
+    .titulo-page{
+        margin-bottom: 0px;
+    }
+    .descricao{
+        p{
+            background: $whiteColor;
+            padding: 6px 0;
+        }
+    }
+}
+
 .padding-bottom {
     padding-bottom: 10px;
     .panel-heading {
@@ -825,7 +840,6 @@ h1.titulo-page {
                     padding: 6px;
                     border: 0;
                     box-shadow: none !important;
-                    display: inline !important;
                     vertical-align: middle;
                 }
                 @media only screen and (min-width: 769px) {
@@ -1086,7 +1100,6 @@ h1.titulo-page {
 
             /* For emoji replacement images */
             img.emoji {
-                display: inline !important;
                 border: none !important;
                 height: 1em !important;
                 width: 1em !important;
@@ -1500,6 +1513,14 @@ h1.titulo-page {
         margin: 0 15px 0 15px;
         padding-right: 0;
         padding-left: 0;
+        .relacionado{
+            font-weight: bold;
+            font-size: 0.8em;
+            border: 1px solid #e0e0e0;
+            width: 35%;
+            padding: 5px;
+            border-radius: 12px;
+        }
         .espacamento-topo {
             margin-top: 7%;
             margin-bottom: 5%;
@@ -1938,7 +1959,6 @@ form .comment-form-comment {
                                 margin: 0 0 0 12px;
                                 background: #b70b0b;
                                 border: 1px solid #b70b0b;
-                                display: inline-block;
                                 text-align: center;
                                 color: $whiteColor;
                                 padding: 4px 11px;
@@ -2066,6 +2086,26 @@ form .comment-form-comment {
     + .panel-collapse > .panel-body {
         border-color: $backgroundColor;
     }
+}
+
+#followContent {
+    .list-group-item:nth-child(odd) {
+        background-color: $backgroundColor;
+        padding: 10px 0px;
+    }
+
+    .follow-user-thumb {
+        display: inline-block;
+        padding-right: 10px;
+        img { 
+            border-radius: 100%; 
+        }
+    }
+
+    .user-name {
+        display: inline-block;
+    }
+
 }
 
 /*
@@ -2533,7 +2573,7 @@ form .comment-form-comment {
                         }
                     }
                     .button-end {
-                        webkit-transition: all 0.3s ease;
+                        -webkit-transition: all 0.3s ease;
                         -moz-transition: all 0.3s ease;
                         -ms-transition: all 0.3s ease;
                         -o-transition: all 0.3s ease;
@@ -2648,7 +2688,7 @@ form .comment-form-comment {
             border: 1px solid #e3e3e3;
             background: #fff;
             box-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
-            webkit-transition: all 0.3s ease;
+            -webkit-transition: all 0.3s ease;
             -moz-transition: all 0.3s ease;
             -ms-transition: all 0.3s ease;
             -o-transition: all 0.3s ease;
@@ -2866,7 +2906,7 @@ form .comment-form-comment {
                         background: #ececec;
                     }
                     > div {
-                        webkit-transition: all 0.3s ease;
+                        -webkit-transition: all 0.3s ease;
                         -moz-transition: all 0.3s ease;
                         -ms-transition: all 0.3s ease;
                         -o-transition: all 0.3s ease;
@@ -2878,7 +2918,6 @@ form .comment-form-comment {
                             -o-transition: all 0.5s ease;
                             transition: all 0.5s ease;
                             padding: 10px;
-                            display: inline-block;
                             float: left;
                             @media screen and (max-width: 768px) {
                                 width: 100%;
@@ -3223,7 +3262,6 @@ footer {
             a {
                 background-color: $primeira_cor_fundo;
                 color: $primeira_cor_texto;
-                display: inline;
                 float: left;
                 padding: 18px;
                 margin-left: 40px;
@@ -3474,7 +3512,6 @@ article {
             }
             .panel-sub {
                 float: right;
-                display: inline-block;
                 font-size: 13px;
                 font-style: italic;
                 margin-top: 5px;

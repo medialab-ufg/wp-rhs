@@ -62,13 +62,19 @@
 		<?php the_content(); ?>
 	</div><!-- .paine-body -->
 	<div class="panel-footer">
-		<div class="tags-content">
-			<?php if(has_tag()) : ?>
+		<div class="relacionado">
+			<?php if (has_post_ufmun(get_the_ID())) : ?>
+				<span>Esse Post está relacionado à </span>
+				<?php echo the_ufmun(); ?>
+			<?php endif; ?>
+		</div>
+		<?php if(has_tag()) : ?>
+			<div class="tags-content">
 				<span class="tags-list">
 					<?php the_tags('', '', ''); ?>
 				</span>
-			<?php endif; ?>
-		</div>
+			</div>
+		<?php endif; ?>
 	</div>
 </div><!-- .panel .panel-default -->
 <?php if ( comments_open() || get_comments_number() ) { ?>
