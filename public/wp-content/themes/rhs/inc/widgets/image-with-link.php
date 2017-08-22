@@ -32,20 +32,22 @@ class Image_With_Link extends WP_Widget {
 		$image = !empty($instance['image']) ? $instance['image'] : '';
 		$link_image = !empty($instance['link_image']) ? $instance['link_image'] : '';
 		ob_start();
-		echo $args['before_widget'];
+		// echo $args['before_widget'];
 		if (!empty($instance['link_image'])) {
 			$title;
 		}
 		?>
 		
 		<?php if($image): ?>
-			<a href="<?php echo esc_attr($link_image); ?>">
-				<img src="<?php echo esc_url($image); ?>" alt="">
-			</a>
+			<div class="image-with-link">
+				<a href="<?php echo esc_attr($link_image); ?>">
+					<img src="<?php echo esc_url($image); ?>" class="img-responsive">
+				</a>
+			</div>
 		<?php endif; ?>
 		
 		<?php
-		echo $args['after_widget'];
+		// echo $args['after_widget'];
 		ob_end_flush();
 	}
 
@@ -66,14 +68,16 @@ class Image_With_Link extends WP_Widget {
 			$image_preview .= "<a class='remove-image button button-danger' data-id='". $this->get_field_id('image') ."'>Remover imagem</a>";
 
 		} else {
-			$image_preview = "<img class='thumb-preview' src=''>";
+			$image_preview = "<img class='thumb-preview' src=''><br/>";
+			$image_preview .= "Não há imagem cadastrada";
 		}
 		echo $image_preview;
 		?>
 		<div class="alert alert-image" style="display:none;">
-			Não há imagem cadastrada.
+			Não há imagem selecionada.
 		</div>
 
+		<!-- TODO: Aplicar máscara para http:// -->
 		<p>
 			<label for="<?php echo $this->get_field_id('link_image'); ?>"><?php _e('Link:'); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id('link_image'); ?>" name="<?php echo $this->get_field_name('link_image'); ?>" type="text" value="<?php echo esc_attr($link_image); ?>">
@@ -81,7 +85,11 @@ class Image_With_Link extends WP_Widget {
 
 		<input id="<?php echo $this->get_field_id('image'); ?>" name="<?php echo $this->get_field_name('image'); ?>" type="hidden" value="<?php echo esc_url($image); ?>">
 		
-		<button class="upload_image_button button button-primary">Selecionar Imagem</button>
+		<button class="upload-image-button button button-primary">Selecionar Imagem</button>
+
+		<br/>
+		<br/>
+		<br/>
 
 		<?php
 	}

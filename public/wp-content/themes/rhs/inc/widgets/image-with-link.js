@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($) {
-      $(document).on("click", ".upload_image_button", function (e) {
+      $(document).on("click", ".upload-image-button", function (e) {
             e.preventDefault();
             var $button = $(this);
       
@@ -29,7 +29,7 @@ jQuery(document).ready(function ($) {
 
       function show_buttons(url){
             $('.alert-image').hide();
-            $('.upload_image_button').hide();
+            $('.upload-image-button').hide();
             $(".remove-image").show();
             $('.thumb-label').show();
       }
@@ -40,7 +40,7 @@ jQuery(document).ready(function ($) {
             $('.thumb-label').hide();
             $('.thumb-preview').attr('src','');
             $('.alert-image').show();
-            $('.upload_image_button').show();
+            $('.upload-image-button').show();
             $(this).hide();
       });
 });
