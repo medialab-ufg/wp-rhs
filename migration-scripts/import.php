@@ -17,6 +17,7 @@ class RHSImporter {
         'users' => 'Importação básica dos usuários',
         'users-roles' => 'Importação dos papeis usuários',
         'users-meta' => 'Importação avançadas dos usuários',
+        'users-follow' => 'Importação de info sobre quem segue quem',
         'users-change-emails' => 'Modifica emails dos usuários comuns caso seja ambiente de teste/dev',
         'votes' => 'Importação dos votos em posts',
         'comments' => 'Importação dos comentários de posts',
@@ -236,6 +237,17 @@ class RHSImporter {
         
         return $replaced;
     
+    }
+    
+    function query($sqlname, $substitutions = array()) {
+        $query = $this->get_sql($sqlname, $substitutions);
+        if ($query === false)
+            return false;
+
+        global $wpdb;
+        $c = $wpdb->query($query);
+
+        $this->log("* $c registros afetados \o/*");
     }
     
     function wpcli($command) {
