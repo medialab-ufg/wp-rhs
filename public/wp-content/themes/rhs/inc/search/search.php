@@ -62,7 +62,9 @@ class RHSSearch {
 
                 if (!empty($municipio)) {
 
-                    preg_match('/([0-9]{7})-.+$/', $municipio, $cod_municipio);
+                    // podemos passar só o ID do município, ex: 2900702
+                    // ou o formato da URL, com {id}-{slug}, ex: 2900702-alagoinhas
+                    preg_match('/^([0-9]{7})(-.+)?$/', $municipio, $cod_municipio);
 
                     if (is_numeric($cod_municipio[1])) {
                         $meta_query['municipio_clause'] = [
