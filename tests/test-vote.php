@@ -5,7 +5,7 @@
  * @package Rhs
  */
 
-include('rhs-tests-setup.php');
+include_once('rhs-tests-setup.php');
 
 /**
  * Sample test case.
