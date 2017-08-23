@@ -12,7 +12,6 @@ include_once('rhs-tests-setup.php');
  */
 class FollowTest extends RHS_UnitTestCase {
     
-    
     /**
 	 * Testa função de seguir ou não seguir autho
 	 */
@@ -67,24 +66,18 @@ class FollowTest extends RHS_UnitTestCase {
         $this->assertEquals([],$RHSFollow->get_user_followers(self::$users['contributor'][0]));
         
         // quando há seguindo
-		$this->assertEquals([],$RHSFollow->get_user_follows(self::$users['contributor'][1]));
+        $this->assertTrue(in_array(self::$users['contributor'][1] , $RHSFollow->get_user_follows(self::$users['contributor'][0])));
+        $this->assertFalse(in_array(self::$users['editor'][0] , $RHSFollow->get_user_follows(self::$users['contributor'][1])));
     }
 
     /**
-     * Testa se meta key para usuário foi criado
+     * Testa se meta key para usuário foi criado ou removido
      */
-    function test_add_follow() {
+    function test_add_and_remove_follow() {
         global $RHSFollow;
         $this->assertInternalType("int", $RHSFollow->add_follow(self::$users['contributor'][1], self::$users['contributor'][0]));
+        $this->assertEquals(true, $RHSFollow->does_user_follow_author(self::$users['contributor'][1], self::$users['contributor'][0]));
+        $this->assertEquals(true, $RHSFollow->remove_follow(self::$users['contributor'][1], self::$users['contributor'][0]));   
+        $this->assertEquals(false, $RHSFollow->does_user_follow_author(self::$users['contributor'][1], self::$users['contributor'][0]));
     }
-
-    /**
-     * Testa se meta key para usuário foi removido
-     */
-    function test_remove_follow() {
-        global $RHSFollow;
-        $this->assertInternalType("int", $RHSFollow->add_follow(self::$users['contributor'][0], self::$users['contributor'][1]));
-    }
-
-    
 }
