@@ -9,7 +9,7 @@ class RHSFollow {
         add_action('wp_enqueue_scripts', array(&$this, 'addJS'));
         add_action('rhs_author_header_actions', array(&$this, 'show_header_follow_box'));
         add_action('wp_ajax_rhs_follow', array(&$this, 'ajax_callback'));
-        add_action('rhs_total_follows', array(&$this, 'get_total_follows'),10,2);
+        add_action('rhs_total_follows', array(&$this, 'show_total_follows'),10,2);
     }
 
     function addJS() {
@@ -51,7 +51,6 @@ class RHSFollow {
         exit;
     }
 
-
     /**
      * Check if anuser follows an author (another user)
      *
@@ -69,7 +68,6 @@ class RHSFollow {
         $follows = $this->get_user_follows($user_id);
         return in_array($author_id, $follows);
     }
-
 
     /**
      * Toggle function to check if user follow author and return params for use in other functions
@@ -104,15 +102,27 @@ class RHSFollow {
      * 
      * @param int $user_id The user id of author needed to count
      * @param string $meta_key The meta who needed to count
-     * @return int Number of follows scoped by user and meta (FOLLOW_KEY, FOLLOWED_KEY)
+     * @return string Number of follows scoped by user and meta (FOLLOW_KEY, FOLLOWED_KEY)
      */
     function get_total_follows($user_id, $meta_key) {
         global $wpdb;
         $total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(umeta_id) FROM $wpdb->usermeta 
             WHERE user_id = %d AND meta_key = %s", 
             $user_id, $meta_key));
-        echo $total;
+        return $total;
     }
+
+    /**
+     * Show total of user follow or followed
+     *
+     * @param int $user_id The user id of author needed to count
+     * @param string $meta_key The meta to count
+     * @return string Number of follows scoped by user and meta (FOLLOW_KEY, FOLLOWED_KEY)
+     */
+    function show_total_follows($user_id, $meta_key) {
+        echo $this->get_total_follows($user_id, $meta_key);
+    }
+
     /**
      * Return meta user specific for user id to show follows of specific user
      * 
