@@ -21,11 +21,12 @@ class RHSSearch {
             $date_from =    $this->get_param('date_from');
             $date_to =      $this->get_param('date_to');
             $order =        $this->get_param('rhs_order');
-            //$cat =          $this->get_param('cat');
 
             /**
             * Tags e categorias são buscadas automaticamente passando os parametros padrão do WP
             * Ex: &cat=3&tag=2
+            *
+            * A informação de paginação também já é magicamente tratada pelo WP, pq jogamos ela pra query_var 'paged' lá na rewrite rule
             */
 
             if (!empty($keyword)) {
@@ -142,7 +143,16 @@ class RHSSearch {
         }
 
     }
-
+    
+    /**
+     * Faz parse de uma string de data no formato YYYY-MM-DD e retorna 
+     * um array no formato utilizado nas meta_queries do WP.
+     *
+     * Se a string não for no formato esperado, retorna False.
+     * 
+     * @param  string $str_date string no formato YYYY-MM-DD
+     * @return array|false           array composto de de três elementos, com as chaves year, month e day e seus respectivos valores. Falso caso a string não seja no formato esperado
+     */
     private function parse_date($str_date) {
 
         preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/', $str_date, $matches);
@@ -158,11 +168,67 @@ class RHSSearch {
         return false;
 
     }
-
+    
+    /**
+     * Retorna o valor do parâmetro, que pode estar sendo passado via URL (rewrite rule)
+     * ou diretamente via query string. 
+     * 
+     * Por exemplo, a função retorna o valor para 'uf' e para 'paged' nos dois formatos:
+     * /busca/BA/page/2
+     * /busca?uf=BA&paged=2
+     * 
+     * @param  string $param o nome do parâmetro
+     * @return string        o valor do parâmetro
+     */
     public function get_param($param) {
         if (isset($_GET[$param]))
             return $_GET[$param];
         return get_query_var($param);
+    }
+    
+
+    /**
+     * Busca usuários com filtros específicos da RHS
+     *
+     * Pode-se chamar o método sem nenhum parâmetro (como no template search-users.php). Neste Cadastro
+     * serão usados os parâmetros disponíveis na URL de busca.
+     * 
+     * Opcionalmente pode-se chamar o método passando manualmente os filtros de busca em um array.
+     *
+     * Os parâmetros possíveis são:
+     * $params = array(
+     *     'uf' => 'BA', // pode ser a sigla ou id do estado
+     *     'municipio' => '2922999' // pode ser o id ou url do municipio (ex: 2922999-nome-da-cidade)
+     *     'keyword' => 'aless' // string de busca por nome do usuário
+     *     'paged' => 2 // número da página para paginação de resultados,
+     *     'rhs_order' => 'votes' // ordenação dos resultados. Valores possíveis são: name, register_date, posts, votes
+     * )
+     *
+     * Exemplos de URs que funcionam:
+     * /busca/usuarios/BA
+     * /busca/usuarios/BA/page/2/?keyword=caetano
+     * /busca/usuarios/?uf=BA&keyword=caetano&paged=2&rhs_order=votes
+     * /busca/usuarios/?uf=29&keyword=caetano&paged=2&rhs_order=votes
+     *
+     * 
+     * @param  array  $params opcional, os filtros de busca
+     * @return Object WP_User_Query 
+     */
+    public function searchUsers($params = array()) {
+        
+        $filters = array_merge([
+            'uf' => $this->get_param('uf'),
+            'keyword' => $this->get_param('keyword'),
+            'municipio' => $this->get_param('municipio'),
+            'rhs_order' => $this->get_param('rhs_order'),
+            'paged' => get_query_var('paged'),
+        ], $params);
+        
+        // Lê o valor das coisas na array $filters e monta a Query
+        
+        // Retorna o objeto com a lista de usuários encontrados
+        return new WP_User_Query();
+        
     }
 
 
