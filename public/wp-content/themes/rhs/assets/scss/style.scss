@@ -683,26 +683,28 @@ Primeiro e Segundo DropDown Menu
 *
 * Painels dos Posts e usado na pagina Single
 *
-*************/
+************
 .grid{
     margin: 10px -16px;
-}
-/*Melhor visualização do painel na pagina front-page.
-* Fazendo com que o mesmo tenha um melhor redimensionamento responsivo
-* Inicio
-*/
-.display-row {
-    -moz-column-width: 25em;
-    -webkit-column-width: 25em;
-    -moz-column-gap: .5em;
-    -webkit-column-gap: .5em;
-}
-
-.display-panel {
-    display: inline-block;
-    margin: .8em;
+}*/
+/* ---- masonry ---- */
+.masonry {
+    margin: 1.5em 0;
     padding: 0;
-    width: 93.7%;
+    -moz-column-gap: 1.5em;
+    -webkit-column-gap: 1.5em;
+    column-gap: 0.5em;
+
+    .gutter-sizer { width: 4%; }
+    
+    .grid-sizer, .grid-item{ 
+        width: 48%; 
+        @media only screen and (max-width: 700px){
+            width: 100%;
+        }
+    }
+    
+    .grid-item{ margin-bottom: 10px; }
 }
 
 /*Fim do redimensionamento responsivo do painel*/
@@ -1758,7 +1760,10 @@ form .comment-form-comment {
             margin-top: 15px;
         }
         .seguir-mensagem {
-            display: $seguir_mensagem_desktop; /*inline;*/
+            position: absolute;
+            display: $seguir_mensagem_desktop;
+            float: right;
+            right: 30px;
             button {
                 color: $primeira_cor_texto;
                 border-color: $primeira_cor_texto;
@@ -2081,6 +2086,26 @@ form .comment-form-comment {
     + .panel-collapse > .panel-body {
         border-color: $backgroundColor;
     }
+}
+
+#followContent {
+    .list-group-item:nth-child(odd) {
+        background-color: $backgroundColor;
+        padding: 10px 0px;
+    }
+
+    .follow-user-thumb {
+        display: inline-block;
+        padding-right: 10px;
+        img { 
+            border-radius: 100%; 
+        }
+    }
+
+    .user-name {
+        display: inline-block;
+    }
+
 }
 
 /*
@@ -3701,6 +3726,16 @@ article {
     }
 }
 
+@media only screen and (width: 1024px){
+    .navbar-default {
+        .navbar-brand {
+            > img {
+                margin-left: 40px;
+            }
+        }
+    }
+}
+
 @media only screen and (min-width: 768px) {
     .navbar-right {
         margin-right: 0;
@@ -3863,6 +3898,7 @@ article {
         .jumbotron {
             .seguir-mensagem {
                 display: $seguir_mensagem_mobile;
+                position: initial;
                 button {
                     margin-bottom: 2%;
                 }
@@ -3980,6 +4016,13 @@ article {
     }
     .primeiro-menu .navbar-nav > li:last-child > a {
         padding-left: 0px !important;
+    }
+    #verDados {
+        .jumbotron {
+            .seguir-mensagem {
+                position: absolute;
+            }
+        }
     }
 }
 

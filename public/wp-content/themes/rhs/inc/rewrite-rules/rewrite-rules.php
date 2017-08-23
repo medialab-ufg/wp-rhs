@@ -14,6 +14,8 @@ class RHSRewriteRules {
     const POST_URL = 'publicar-postagem';
     const POSTAGENS_URL = 'minhas-postagens';
     const COMUNIDADES = 'comunidades';
+    const FOLLOW_URL = 'seguindo';
+    const FOLLOWED_URL = 'seguidores';
 
     function __construct() {
             add_action( 'generate_rewrite_rules', array( &$this, 'rewrite_rules' ), 10, 1 );
@@ -23,7 +25,7 @@ class RHSRewriteRules {
 
 
     function rewrite_rules( &$wp_rewrite ) {
-
+        
         $new_rules = array(
             self::LOGIN_URL . "/?$"             => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             self::REGISTER_URL . "/?$"          => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::REGISTER_URL,
@@ -54,19 +56,25 @@ class RHSRewriteRules {
             RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/([^/]+)/page/([0-9]+)/?$'   => 'index.php?rhs_busca=users&rhs_login_tpl=search-users&uf=$matches[1]&municipio=$matches[2]&paged=$matches[3]',
 
 
-            /* Páginas padrões antigas do Drupal */
+            /* Seguidores e seguidos */
+            'usuario/([^/]+)/' . self::FOLLOWED_URL . '/?$'                         => 'index.php?author_name=$matches[1]&rhs_login_tpl=' . self::FOLLOWED_URL,
+            'usuario/([^/]+)/'. self::FOLLOWED_URL . '/page/?([0-9]{1,})/?$' => 'index.php?author_name=$matches[1]&rhs_paged=$matches[2]&rhs_login_tpl=' . self::FOLLOWED_URL,
+            'usuario/([^/]+)/' . self::FOLLOW_URL . '/?$'                         => 'index.php?author_name=$matches[1]&rhs_login_tpl=' . self::FOLLOW_URL,
+            'usuario/([^/]+)/'. self::FOLLOW_URL . '/page/?([0-9]{1,})/?$'   => 'index.php?author_name=$matches[1]&rhs_paged=$matches[2]&rhs_login_tpl=' . self::FOLLOW_URL,
+            
+            /* Páginas padrões antigas */
             'login' . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             'user' . "/?$"          => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             'user/login' . "/?$"    => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             'user/register' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::REGISTER_URL,
             'user/me/edit' . "/?$"  => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::PROFILE_URL,
-            'node/add/blog' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL,
-
-
+            'node/add/blog' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL  
         );
+        
 
         $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 
+        //var_dump($wp_rewrite); die;
     }
 
     function rewrite_rules_query_vars( $public_query_vars ) {
@@ -78,6 +86,7 @@ class RHSRewriteRules {
         $public_query_vars[] = "uf";
         $public_query_vars[] = "municipio";
         $public_query_vars[] = "rhs_busca";
+        $public_query_vars[] = "rhs_paged";
 
         return $public_query_vars;
 

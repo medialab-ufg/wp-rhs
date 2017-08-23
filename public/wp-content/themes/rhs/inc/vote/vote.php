@@ -48,8 +48,6 @@ Class RHSVote {
 
 			add_action( 'pre_get_posts', array( &$this, 'fila_query' ) );
 
-			add_action( 'admin_menu', array( &$this, 'gerate_admin_menu' ) );
-
             $this->verify_role();
             $this->verify_database();
             $this->verify_params();
@@ -526,16 +524,7 @@ Class RHSVote {
 		wp_update_user( $user_new );
 	}
 
-	function gerate_admin_menu() {
-		/*/add_menu_page( 'RHS Menu', 'RHS Menu', 'manage_options', 'rhs/rhs-admin-page.php', 'rhs_admin_page',
-			'dashicons-lock', 30 );
-		add_submenu_page( 'rhs/rhs-admin-page.php', 'RHS Menu', 'RHS Menu', 'manage_options', 'rhs/rhs-admin-page.php',
-			'rhs_admin_page' );*/
-		add_options_page( 'Fila de votação', 'Fila de votação', 'manage_options',
-			'rhs/rhs-fila-de-votacao.php', array( &$this, 'rhs_admin_page_voting_queue' ) );
-	}
-
-	function rhs_admin_page_voting_queue() {
+	static function rhs_admin_page_voting_queue() {
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
