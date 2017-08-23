@@ -157,8 +157,10 @@ function RHS_scripts() {
 
     wp_enqueue_script('FuncoesForm', get_template_directory_uri() . '/assets/js/functions.js', array('JqueryValidate'),'1.0', true);
     wp_enqueue_script('magicJS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.js','0.8.0', true);
-    wp_enqueue_script('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js', array('bootstrap'), '1.5.0', true);
+    wp_enqueue_script('x-editable', get_template_directory_uri() . '/vendor/bootstrap3-editable/js/bootstrap-editable.min.js', array('bootstrap'), '1.5.1', true);
     wp_enqueue_script('masonry', get_template_directory_uri() . '/vendor/js/masonry.pkgd.min.js',array('bootstrap'),'4.2.0', true);
+
+    wp_enqueue_script('bootstrap-datapicker', get_template_directory_uri() . '/vendor/js/bootstrap-datepicker.min.js','1.7.1', true);
 
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
         // enqueue the javascript that performs in-link comment reply fanciness
@@ -193,7 +195,8 @@ function RHS_styles() {
     wp_enqueue_style('magicCSS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.css');
     wp_enqueue_style('sweetalert', get_template_directory_uri() . '/assets/includes/bootstrap-sweetalert/dist/sweetalert.css');
     wp_enqueue_style('uniform', get_template_directory_uri() . '/assets/includes/uniform/dist/css/default.css');
-    wp_enqueue_style('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', array('bootstrap'));
+    wp_enqueue_style('x-editable', get_template_directory_uri() . '/vendor/bootstrap3-editable/css/bootstrap-editable.css', array('bootstrap'));
+    wp_enqueue_style('jquery-ui', get_template_directory_uri() . '/vendor/css/bootstrap-datepicker3.min.css',false,"1.7.1",false);
     wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
 }
 add_action('wp_enqueue_scripts', 'RHS_styles');
