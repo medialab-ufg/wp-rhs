@@ -193,8 +193,10 @@ Class UFMunicipio {
             'select_after' => '</div>',
             'state_label' => 'UF',
             'state_field_name' => 'estado',
+            'state_field_id' => 'estado',
             'city_label' => 'Cidade',
             'city_field_name' => 'municipio',
+            'city_field_id' => 'municipio',
             'selected_state' => '',
             'selected_municipio' => '',
             'separator' => '',
@@ -215,14 +217,14 @@ Class UFMunicipio {
         if($params['show_label']){
             echo $params['label_before'];
             ?>
-            <label for="estado" class="<?php echo $params['label_class']; ?>">
+            <label for="<?php echo $params['state_field_id']; ?>" class="<?php echo $params['label_class']; ?>">
                 <?php echo $params['state_label']; ?>
             </label>
         <?php
             echo $params['label_after'];
         }
         echo $params['select_before']; ?>
-            <select name="<?php echo $params['state_field_name']; ?>" tabindex="<?php echo $params['tabindex_state']; ?>" class="<?php echo $params['select_class']; ?>" id="estado">
+            <select name="<?php echo $params['state_field_name']; ?>" tabindex="<?php echo $params['tabindex_state']; ?>" class="<?php echo $params['select_class']; ?>" id="<?php echo $params['state_field_id']; ?>">
                 <?php self::print_states_options($params['selected_state']); ?>
             </select>
         <?php
@@ -234,14 +236,14 @@ Class UFMunicipio {
         if($params['show_label']){
             echo $params['label_before'];
             ?>
-        <label for="municipio" class="<?php echo $params['label_class']; ?>">
+        <label for="<?php echo $params['city_field_id']; ?>" class="<?php echo $params['label_class']; ?>">
             <?php echo $params['city_label']; ?>
         </label>
         <?php
             echo $params['label_after'];
         }
         echo $params['select_before']; ?>
-            <select name="<?php echo $params['city_field_name']; ?>" tabindex="<?php echo $params['tabindex_city']; ?>" class="form-control <?php echo $params['select_class']; ?>" id="municipio">
+            <select name="<?php echo $params['city_field_name']; ?>" tabindex="<?php echo $params['tabindex_city']; ?>" class="<?php echo $params['select_class']; ?>" id="<?php echo $params['city_field_id']; ?>">
                 <?php self::print_cities_options($params['selected_state'], $params['selected_municipio']); ?>
             </select>
         <?php
