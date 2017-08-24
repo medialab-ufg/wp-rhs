@@ -23,7 +23,7 @@ class RHSNotification_new_post_from_user extends RHSNotification {
 
     function text() {
 
-        $post_ID = $news->getObjectId();
+        $post_ID = $this->getObjectId();
         $user = new RHSUser(get_userdata(get_post_field( 'post_author', $post_ID )));
 
         return sprintf(

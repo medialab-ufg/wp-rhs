@@ -25,13 +25,13 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/network/network.php');
         require_once('inc/comunity/comunities.php');
         require_once('inc/comunity/comunity.php');
-        require_once('inc/notification/notifications.php');
-        require_once('inc/notification/notification.php');
-
+        
         /**
          * Notificação
          */
-        require_once('inc/notification/interface/inotificationtype.php');
+        require_once('inc/notification/notifications.php');
+        require_once('inc/notification/notification.php');
+        
         require_once('inc/notification/types/comments_in_post.php');
         require_once('inc/notification/types/new_community_post.php');
         require_once('inc/notification/types/new_post_from_user.php');

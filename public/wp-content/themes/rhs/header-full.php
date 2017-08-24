@@ -57,48 +57,33 @@
                                 <div class="notify-drop-title">
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-6">Notificações (<b><?php echo $notifications_number; ?></b>)</div>
-                                        <div class="col-md-6 col-sm-6 col-xs-6 text-right">
-                                            <a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="Marcar todos lido">
-                                                <i class="fa fa-dot-circle-o"></i> Marcar como Lidas
-                                            </a>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <!-- end notify title -->
                                 <!-- notify content -->
+                                
+                                
+                                
                                 <div class="drop-content">
-                                    <li>
-                                        <div class="col-md-3 col-sm-3 col-xs-3">
-                                            <div class="notify-img">
-                                                <img src="http://www.knowmuhammad.org/img/default_avatar.gif" alt="" class="img-circle" width="45">
+                                    
+                                    <?php foreach ($RHSNotifications->get_notifications(get_current_user_id()) as $notification): ?>
+                                        
+                                        <li>
+                                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                                <div class="notify-img">
+                                                    <?php echo $notification->getImage(); ?>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">
-                                            <a href="#">Fabiano Alencar</a>. 
-                                            Comentou no post... 
-                                            <a href="" class="rIcon" title="Marcar como lido">
-                                                <i class="fa fa-dot-circle-o"></i>
-                                            </a>
-                                            <hr>
-                                            <p class="time">12/02/2017 14:33</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="col-md-3 col-sm-3 col-xs-3">
-                                            <div class="notify-img">
-                                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/post-promovido.png" alt="" class="img-circle" width="45">
+                                            <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">
+                                                <?php echo $notification->getText(); ?>
+                                                <hr>
+                                                <p class="time"><?php echo $notification->getTextDate(); ?></p>
                                             </div>
-                                        </div>
-                                        <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">
-                                            Seu post <a href="#post">Teste de notificação post</a>. 
-                                            <a href="#">foi...</a> 
-                                            <a href="" class="rIcon" title="Marcar como lido">
-                                                <i class="fa fa-dot-circle-o"></i>
-                                            </a>
-                                            <hr>
-                                            <p class="time">12/02/2017 13:33</p>
-                                        </div>
-                                    </li>
+                                        </li>
+                                        
+                                    <?php endforeach; ?>
+                                    
                                 </div>
                                 <div class="notify-drop-footer text-center">
                                     <a href="notificacoes"><i class="fa fa-eye"></i> Veja todas as notificações</a>

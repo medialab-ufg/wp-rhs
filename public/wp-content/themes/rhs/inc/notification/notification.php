@@ -31,13 +31,14 @@ class RHSNotification {
         if (is_int($notification)) {
             var_dump($notification); die;
             global $wpdb, $RHSNotifications;
-            $this->notificationId = $notification;
+            $this->setNotificationId($notification);
             $query = "SELECT * FROM {$RHSNotifications->table} WHERE ID = $notification";
             $notification = $wpdb->get_row($query);
             
         }
         
         if (is_object($notification) && isset($notification->type)) {
+            $this->setNotificationId($notification->ID);
             $this->setType( $notification->type );
             $this->setChannel( $notification->channel );
             $this->setObjectId( $notification->object_id );
@@ -165,7 +166,7 @@ class RHSNotification {
             return $this->image;
         }
 
-        $this->image = $type->image(); // método da classe filha do tipo de notificacao
+        $this->image = $this->image(); // método da classe filha do tipo de notificacao
         
         return $this->image;
     }

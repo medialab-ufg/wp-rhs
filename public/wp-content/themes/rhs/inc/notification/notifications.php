@@ -49,7 +49,7 @@ class RHSNotifications {
     }
     
     private function register_notifications() {
-        $notifications = include('registered-notifications.php');
+        $notifications = apply_filters('rhs_registered_notifications', include('registered-notifications.php'));
         foreach ($notifications as $hook => $type) {
             add_action($hook, array(self::NOTIFICATION_CLASS_PREFIX . $type, 'notify'));
         }
@@ -130,14 +130,26 @@ class RHSNotifications {
             return self::$news[$user_id];
         }
 
-        global $wpdb;
-
         $last_check = self::get_last_check($user_id);
+        
+        return $this->get_notifications($user_id, $last_check);
+        
+    }
+    
+    public function get_notifications($user_id, $from_datetime = null) {
+        
+        global $wpdb;
+        
         $channels   = self::get_user_channels($user_id);
         $channels   = implode( "', '", $channels );
-
-        $query = "SELECT * FROM {$this->table} WHERE datetime >= '$last_check' AND channel IN ('$channels')";
-
+        
+        $query = "SELECT * FROM {$this->table} WHERE channel IN ('$channels')";
+        
+        if (!is_null($from_datetime))
+            $query .= " AND datetime >= '$from_datetime'";
+        
+        $query .= " ORDER BY datetime DESC";
+        
         $notifications = array();
 
         foreach ( $wpdb->get_results($query) as $result ) {

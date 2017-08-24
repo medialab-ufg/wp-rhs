@@ -21,12 +21,20 @@ class RHSNotification_post_promoted extends RHSNotification {
         
     }
 
-    function text( RHSNotification $news ) {
-        // TODO: Implement text() method.
+    function text() {
+
+        $post_ID = $this->getObjectId();
+        
+        return sprintf(
+            'Seu post <a href="%s"><strong>%s</strong></a> foi promovido.',
+            get_permalink($post_ID),
+            get_post_field( 'post_title', $post_ID )
+        );
     }
 
-    function image(RHSNotification $news){
-
+    function image(){
+        $post_ID = $this->getObjectId();
+        return get_the_post_thumbnail( $post_ID, 'thumbnail');
     }
 
 }
