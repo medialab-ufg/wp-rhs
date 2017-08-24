@@ -60,11 +60,6 @@ if (file_exists("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdow
     copy("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js", "public/wp-content/themes/rhs/vendor/js/bootstrap-hover-dropdown.min.js");
 }
 
-/**
-if (file_exists("vendor/desandro/masonry/dist/masonry.pkgd.min.js")) {
-    copy("vendor/desandro/masonry/dist/masonry.pkgd.min.js", "public/wp-content/themes/rhs/vendor/js/masonry.pkgd.min.js");
-}
-
 echo "...Bootstrap-datepicker\n";
 if (file_exists("vendor/eternicode/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css")) {
     copy("vendor/eternicode/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css", "public/wp-content/themes/rhs/vendor/css/bootstrap-datepicker3.min.css");
@@ -74,8 +69,6 @@ if (file_exists("vendor/eternicode/bootstrap-datepicker/dist/js/bootstrap-datepi
 }
 
 echo "...Typeahead\n";
-*/
-
 if (file_exists("vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js")) {
     copy("vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js", "public/wp-content/themes/rhs/vendor/js/typeahead.bundle.min.js");
 }
