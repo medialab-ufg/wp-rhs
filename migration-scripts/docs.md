@@ -100,7 +100,7 @@ Também está disponível o método `$this->wpcli($command)` para rodar comandos
 
 #### Utilizando um SQL em um passo
 
-Para Queries SQL muito complexas, podemos usar arquivos específicos para isso. Na pasta sql ficam os arquivos SQL que podem ser carregados usando a função `$this->get_sql($name)` dentro do seu passo.
+Para Queries SQL muito complexas, podemos usar arquivos específicos para isso. Na pasta sql ficam os arquivos SQL que podem ser carregados usando a função `$this->query($name)` dentro do seu passo.
 
 Dentro do SQL, você pode usar algumas marcações para se referir aos nomes das tabelas do WordPress e ao nome do banco de dados do Drupal (definido no wp-config.php).
 
@@ -118,9 +118,7 @@ E no arquivo php:
 
 ```PHP
 
-$query = $this->get_sql('posts');
-
-$wpdb->query($query);
+$this->query('posts');
 
 ```
 

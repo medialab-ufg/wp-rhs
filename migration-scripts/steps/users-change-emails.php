@@ -7,16 +7,8 @@
  */ 
 
 if (defined('WP_DEBUG') && true === WP_DEBUG) {
-
-    $query = $this->get_sql('users-change-emails');
     $this->log('Modificando email dos usuários comuns no ambiente de desenvolvimento...');
-    $wpdb->query($query);
-
+    $this->query('users-change-emails');
 } else {
     $this->log('WP DEBUG desligado, pulando este passo');
 }
-
-
-
-
-

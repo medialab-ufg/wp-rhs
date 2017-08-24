@@ -27,7 +27,7 @@ abstract class RHS_UnitTestCase extends WP_UnitTestCase {
             'user_pass'  => '123',
             'user_email' => 'editor2@test.com',
             'display_name' => 'Editor 2',
-            'role' => 'voter'
+            'role' => 'editor'
         ],
         [
             'user_login' => 'votante1',
@@ -41,7 +41,7 @@ abstract class RHS_UnitTestCase extends WP_UnitTestCase {
             'user_pass'  => '123',
             'user_email' => 'votante2@test.com',
             'display_name' => 'votante2',
-            'role' => 'editor'
+            'role' => 'voter'
         ],
         [
             'user_login' => 'votante3',
