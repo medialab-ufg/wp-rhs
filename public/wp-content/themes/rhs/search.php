@@ -29,8 +29,8 @@ echo get_query_var('tag');
                 <div role="tabpanel" class="tab-pane fade in active" id="posts">
                     <div class="jumbotron formulario">
                         <div class="container">
-                            <form >
-                                <div class="col-xs-6">
+                            <form class="form-horizontal">
+                                <div class="col-xs-12 col-sm-7">
                                     <div class="form-inline">    
                                         <?php UFMunicipio::form( array(
                                             'content_before' => '',
@@ -40,35 +40,58 @@ echo get_query_var('tag');
                                             'select_before' => ' ',
                                             'select_after' => ' ',
                                             'state_label' => 'Estado &nbsp',
+                                            'state_field_name' => 'uf',
                                             'city_label' => 'Cidade &nbsp',
                                             'select_class' => 'form-control',
+                                            'label_class' => 'control-label',
                                             'show_label' => true
                                         ) ); ?>
                                     </div>
 
                                     <div class="form-inline">
-                                        <div class="form-group">
-                                            <label for="tag">Tags</label>
-                                            <input type="text" class="form-control" id="tag">
+                                        <div class="col-xs-12 col-sm-6 tags-cats">
+                                            <div class="form-group">
+                                                <label for="tag" class="control-label">Tags</label>
+                                                <input type="text" value="" class="form-control" id="input-tag" placeholder="Tags" name="tag">
+                                                <script>
+                                                    var ms = jQuery('#input-tag').magicSuggest({
+                                                        placeholder: 'Select...',
+                                                        allowFreeEntries: true,
+                                                        selectionPosition: 'bottom',
+                                                        selectionStacked: true,
+                                                        selectionRenderer: function(data){
+                                                            return data.id;
+                                                        },
+                                                        data: vars.ajaxurl,
+                                                        dataUrlParams: { action: 'get_tags' },
+                                                        minChars: 3,
+                                                        name: 'tag',
+                                                        maxSelection: 1
+                                                    });
+                                                </script>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="categoria">Categoria</label>
-                                            <input type="text" class="form-control" id="categoria">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <div class="form-inline">
-                                        <label>Data</label>
-                                        <div class="form-group">
-                                            <div class="input-group input-daterange">
-                                                <input type="text" class="form-control" value="">
-                                                <div class="input-group-addon">até</div>
-                                                <input type="text" class="form-control" value="">
+                                        <div class="col-xs-12 col-sm-6 tags-cats">
+                                            <div class="form-group">
+                                                <label for="categoria" class="control-label">Categoria</label>
+                                                <?php wp_dropdown_categories( 'show_option_none=Selecione uma Categorias&option_none_value=&hierarchical=1&orderby=name&class=form-control tags' ); ?>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-xs-12 col-sm-5">
+                                    <div class="form-inline">
+                                        <label for="date" class="control-label">Data</label>
+                                        <div class="form-group">
+                                            <div class="input-group input-daterange">
+                                                <input type="text" class="form-control" value="" name="date_from">
+                                                <div class="input-group-addon">até</div>
+                                                <input type="text" class="form-control" value="" name="date_to">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-default filtro">Filtrar</button>
                             </form>
                         </div>
                     </div>
@@ -78,7 +101,7 @@ echo get_query_var('tag');
                                 leftArrow: "<i class='fa fa-long-arrow-left'></i>",
                                 rightArrow: "<i class='fa fa-long-arrow-right'></i>"
                             };
-                            jQuery.fn.datepicker.dates["pt-BR"]={days:["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"],daysShort:["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],daysMin:["Do","Se","Te","Qu","Qu","Se","Sa"],months:["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],monthsShort:["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],today:"Hoje",monthsTitle:"Meses",clear:"Limpar",format:"dd/mm/yyyy"};
+                            jQuery.fn.datepicker.dates["pt-BR"]={days:["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"],daysShort:["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],daysMin:["Do","Se","Te","Qu","Qu","Se","Sa"],months:["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],monthsShort:["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],today:"Hoje",monthsTitle:"Meses",clear:"Limpar",format:"yyyy-mm-dd"};
                             jQuery.fn.datepicker.defaults.language = "pt-BR";
                             jQuery('.input-daterange input').each(function() {
                                 jQuery(this).datepicker('clearDates');

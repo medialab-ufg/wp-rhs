@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "676dc422fcef25a055be03b7d1bd23c2",
-    "content-hash": "7e4a6036bc1ba6d063126dc3b059d923",
+    "hash": "0d181b9d4c9084aaeec24178e6bc770a",
+    "content-hash": "80828201723c408e8ad2a9ed051a1384",
     "packages": [
         {
             "name": "components/bootstrap",
@@ -281,45 +281,6 @@
                 "twitter"
             ],
             "time": "2015-12-01 23:35:57"
-        },
-        {
-            "name": "desandro/masonry",
-            "version": "v4.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/desandro/masonry.git",
-                "reference": "dec5a382574eb62a2baf2867a0b0db4bd0b78ceb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/desandro/masonry/zipball/dec5a382574eb62a2baf2867a0b0db4bd0b78ceb",
-                "reference": "dec5a382574eb62a2baf2867a0b0db4bd0b78ceb",
-                "shasum": ""
-            },
-            "type": "component",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "David DeSandro",
-                    "homepage": "http://desandro.com/",
-                    "role": "developer"
-                }
-            ],
-            "description": "Cascading grid layout library",
-            "homepage": "http://masonry.desandro.com",
-            "keywords": [
-                "browser",
-                "dom",
-                "grid",
-                "javascript",
-                "layout",
-                "library",
-                "outlayer"
-            ],
-            "time": "2017-04-20 18:17:46"
         },
         {
             "name": "eternicode/bootstrap-datepicker",

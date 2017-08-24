@@ -3088,16 +3088,53 @@ form .comment-form-comment {
 .busca-page{
     #posts{
         .formulario{
-            padding: 0;
             padding: 15px 0;
-            .form-inline{
-                .form-group{
-                    padding: 5px;
+            margin: 15px 0;
+            margin-bottom: 0;
+            background: transparent;
+            border: 1px solid lightgray;
+            @media only screen and (min-width: 780px){
+                .form-inline{
+                    white-space: nowrap;
+                    .form-group{
+                        padding: 5px;
+                    }
+                    .tags{
+                        max-width: 200px;
+                    }
+                    select[name='uf']{
+                        margin-right: 122px;
+                    }
+                    select[name='municipio']{
+                        width: 209px;
+                    }
+                    #input-tag, select[name='uf']{
+                        width: 154px;
+                    }
+                    label[for='tag']{
+                        margin-right: 7px;
+                    }
+                    label[for='date']{
+                        margin-right: 15px;
+                    }
                 }
+            }
+            @media only screen and (max-width: 700px){
+                .tags-cats{
+                    padding: 0;
+                }
+                label[for='date']{
+                    margin-left: -15px;
+                }
+            }
+            .filtro{
+                float: right;
+                margin: 10px 13px 0 0;
             }
         }
         .resultado{
             padding: 15px;
+            padding-top: 0;
         }
     }
     
