@@ -13,7 +13,8 @@ class RHSNotifications {
     const CHANNEL_COMMENTS = 'comments_in_post_%s';
     const CHANNEL_USER = 'user_%s';
     const CHANNEL_COMMUNITY = 'community_%s';
-
+    
+    const NOTIFICATION_CLASS_PREFIX = 'RHSNotification_';
     /**
      * Tipos
      */
@@ -25,17 +26,32 @@ class RHSNotifications {
     static $news_num;
 
     static $instance;
+    
+    private $table;
 
     /**
      * RHSNotifications constructor.
      */
     function __construct() {
+        
+        global $wpdb;
+        $this->table = $wpdb->prefix . 'notifications';
+        
         $this->verify_database();
         $this->events_wordpress();
+        
+        $this->register_notifications();
 
         if ( ! self::$instance ) {
             $this->events_wordpress();
             self::$instance = true;
+        }
+    }
+    
+    private function register_notifications() {
+        $notifications = include('registered-notifications.php');
+        foreach ($notifications as $hook => $type) {
+            add_action($hook, array(self::NOTIFICATION_CLASS_PREFIX . $type, 'notify'));
         }
     }
     
@@ -98,7 +114,7 @@ class RHSNotifications {
         global $wpdb;
 
         $query = "
-            INSERT INTO " . $wpdb->prefix . "notifications  (`type`, `channel`, `object_id`, `datetime`)
+            INSERT INTO {$this->table} (`type`, `channel`, `object_id`, `datetime`)
             VALUES ('$type', '$channel', '$object_id', '$datetime')";
 
         $wpdb->query( $query );
@@ -108,7 +124,7 @@ class RHSNotifications {
     /**
      * @return RHSNotification[]
      */
-    static function get_news($user_id) {
+    public function get_news($user_id) {
 
         if ( self::$news[$user_id] ) {
             return self::$news[$user_id];
@@ -120,18 +136,16 @@ class RHSNotifications {
         $channels   = self::get_user_channels($user_id);
         $channels   = implode( "', '", $channels );
 
-        $query = "SELECT * FROM " . $wpdb->prefix . "notifications WHERE datetime > '$last_check' AND channel IN ('$channels')";
+        $query = "SELECT * FROM {$this->table} WHERE datetime >= '$last_check' AND channel IN ('$channels')";
 
         $notifications = array();
 
-        foreach ( $wpdb->get_results($query) as $results ) {
+        foreach ( $wpdb->get_results($query) as $result ) {
 
-            $notificationsObj = new RHSNotification( $results->ID);
-            $notificationsObj->setType( $results->type );
-            $notificationsObj->setChannel( $results->channel );
-            $notificationsObj->setObjectId( $results->object_id );
-            $notificationsObj->setDatetime( $results->datetime );
-            $notificationsObj->setObject(true);
+            $className = self::NOTIFICATION_CLASS_PREFIX . $result->type;
+            if (class_exists($className)) {
+                $notificationsObj = new $className($result);
+            }
 
             $notifications[] = $notificationsObj;
         }
@@ -139,7 +153,7 @@ class RHSNotifications {
         return self::$news[$user_id] = $notifications;
     }
 
-    static function get_news_number($user_id) {
+    public function get_news_number($user_id) {
 
         if ( self::$news[$user_id] ) {
             return count( self::$news[$user_id] );
@@ -155,7 +169,7 @@ class RHSNotifications {
         $channels   = self::get_user_channels($user_id);
         $channels   = implode( "', '", $channels );
 
-        $query = "SELECT COUNT(*) AS num FROM " . $wpdb->prefix . "notifications WHERE `datetime` > '$last_check' AND `channel` IN ('$channels')";
+        $query = "SELECT COUNT(*) AS num FROM {$this->table} WHERE `datetime` >= '$last_check' AND `channel` IN ('$channels')";
 
         return self::$news_num[$user_id] = current( $wpdb->get_results( $query ) )->num;
 
@@ -164,7 +178,7 @@ class RHSNotifications {
     /**
      * @return array
      */
-    private static function get_user_channels($user_id) {
+    static function get_user_channels($user_id) {
 
         $channels_meta = get_user_meta( $user_id, self::META );
         $channels      = [ self::CHANNEL_EVERYONE, sprintf( self::CHANNEL_PRIVATE, $user_id ) ];
@@ -231,12 +245,12 @@ class RHSNotifications {
      * Verifica se existe tabela, se não, á insere
      */
     private function verify_database() {
-        $option_name = 'database_' . get_class();
+        $option_name = 'database_' . get_class($this);
         if ( ! get_option( $option_name ) ) {
             add_option( $option_name, true );
-
+            global $wpdb;
             $createQ = "
-                CREATE TABLE IF NOT EXISTS `rhs_notification` (
+                CREATE TABLE IF NOT EXISTS `{$this->table}` (
                     `ID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                     `type` VARCHAR(250) NOT NULL,
                     `channel` VARCHAR(250) NOT NULL,
@@ -244,7 +258,7 @@ class RHSNotifications {
                     `datetime` DATETIME NOT NULL default '0000-00-00 00:00:00'
                 );
             ";
-            global $wpdb;
+            
             $wpdb->query( $createQ );
 
         }

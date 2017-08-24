@@ -1,18 +1,14 @@
 <?php
 
 
-class post_promoted implements INotificationType {
-
-    function __construct() {
-        add_action('rhs_post_promoted', array( &$this, 'notify' ));
-    }
+class RHSNotification_post_promoted extends RHSNotification {
 
     /**
      * @param $post_id ID do Post
      */
-    function notify($post_id) {
+    static function notify($post_id) {
 
-        if(empty($post_id){
+        if(empty($post_id)){
             return;
         }
         
@@ -20,7 +16,7 @@ class post_promoted implements INotificationType {
         
         if (is_object($post)) {
             global $RHSNotifications;
-            $RHSNotifications->add_notification(RHSNotifications::CHANNEL_PRIVATE, $post->post_author, $this->get_name(), $post_id);
+            $RHSNotifications->add_notification(RHSNotifications::CHANNEL_PRIVATE, $post->post_author, self::get_name(), $post_id);
         }
         
     }

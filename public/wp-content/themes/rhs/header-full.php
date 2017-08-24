@@ -38,6 +38,7 @@
                 <?php
                 global $RHSUsers;
                 global $RHSNotifications;
+                $notifications_number = $RHSNotifications->get_news_number(get_current_user_id());
                 if(my_wp_is_mobile()){
                     get_search_form();
                 }
@@ -50,12 +51,12 @@
                     <?php else : ?>
                         <li class="dropdown user-dropdown hidden-xs">
                             <a id="button-notifications" href="#notifications-panel" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i data-count="<?php echo RHSNotifications::get_news_number(get_current_user_id()); ?>" class="glyphicon glyphicon-bell <?php if(RHSNotifications::get_news_number(get_current_user_id())){ ?>notification-count<?php } ?>"></i>
+                                <i data-count="<?php echo $notifications_number; ?>" class="glyphicon glyphicon-bell <?php if($notifications_number){ ?>notification-count<?php } ?>"></i>
                             </a>
                             <ul class="dropdown-menu notify-drop">
                                 <div class="notify-drop-title">
                                     <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-xs-6">Notificações (<b><?php echo RHSNotifications::get_news_number(get_current_user_id()); ?></b>)</div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">Notificações (<b><?php echo $notifications_number; ?></b>)</div>
                                         <div class="col-md-6 col-sm-6 col-xs-6 text-right">
                                             <a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="Marcar todos lido">
                                                 <i class="fa fa-dot-circle-o"></i> Marcar como Lidas

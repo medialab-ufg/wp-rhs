@@ -1,7 +1,7 @@
 <?php
 
 
-class new_post_from_user implements INotificationType {
+class RHSNotification_new_post_from_user extends RHSNotification {
 
     function __construct() {
         add_action('rhs_notify_new_post_from_user', array( &$this, 'notify' ));
@@ -10,7 +10,7 @@ class new_post_from_user implements INotificationType {
     /**
      * @param $args - (user_id) ID do Author ; (post_id) ID do Post
      */
-    function notify($args) {
+    static function notify($args) {
 
         if(empty($args['user_id']) || empty($args['post_id'])){
             return;
@@ -21,7 +21,7 @@ class new_post_from_user implements INotificationType {
 
     }
 
-    function text( RHSNotification $news ) {
+    function text() {
 
         $post_ID = $news->getObjectId();
         $user = new RHSUser(get_userdata(get_post_field( 'post_author', $post_ID )));
@@ -35,9 +35,9 @@ class new_post_from_user implements INotificationType {
         );
     }
 
-    function image(RHSNotification $news){
+    function image(){
 
-        $post_ID = $news->getObjectId();
+        $post_ID = $this->getObjectId();
 
         $user = new RHSUser(get_userdata(get_post_field( 'post_author', $post_ID )));
         return $user->get_avatar();

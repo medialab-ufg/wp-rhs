@@ -8,26 +8,48 @@
  */
 class RHSNotification {
 
-    private $notificationId;
-    private $type;
-    private $channel;
-    private $object_id;
-    private $datetime;
-    private $object;
-    private $text;
-    private $textdate;
-    private $image;
-    private $object_type;
+    public $notificationId;
+    public $type;
+    public $channel;
+    public $object_id;
+    public $datetime;
+    public $object;
+    public $text;
+    public $textdate;
+    public $image;
+    public $object_type;
 
     /**
      * RHSNotification constructor.
      *
-     * @param $notificationId
+     * Pode receber o ID da notificação ou um objeto já com a notificação completa
+     * 
+     * @param int|object $notificationId
      */
-    function __construct($notificationId) {
-        $this->notificationId = $notificationId;
+    function __construct($notification = null) {
+        
+        if (is_int($notification)) {
+            var_dump($notification); die;
+            global $wpdb, $RHSNotifications;
+            $this->notificationId = $notification;
+            $query = "SELECT * FROM {$RHSNotifications->table} WHERE ID = $notification";
+            $notification = $wpdb->get_row($query);
+            
+        }
+        
+        if (is_object($notification) && isset($notification->type)) {
+            $this->setType( $notification->type );
+            $this->setChannel( $notification->channel );
+            $this->setObjectId( $notification->object_id );
+            $this->setDatetime( $notification->datetime );
+        } 
+        
     }
-
+    
+    static public function get_name() {
+        return str_replace(RHSNotifications::NOTIFICATION_CLASS_PREFIX, '', get_called_class());
+    }
+    
     /**
      * @return mixed
      */
@@ -46,8 +68,6 @@ class RHSNotification {
      * @return mixed
      */
     public function getType() {
-        $this->getObject();
-
         return $this->type;
     }
 
@@ -62,8 +82,6 @@ class RHSNotification {
      * @return mixed
      */
     public function getChannel() {
-        $this->getObject();
-
         return $this->channel;
     }
 
@@ -78,7 +96,6 @@ class RHSNotification {
      * @return mixed
      */
     public function getObjectId() {
-        $this->getObject();
         return $this->object_id;
     }
 
@@ -93,8 +110,6 @@ class RHSNotification {
      * @return mixed
      */
     public function getDatetime() {
-        $this->getObject();
-
         return $this->datetime;
     }
 
@@ -114,13 +129,7 @@ class RHSNotification {
             return $this->text;
         }
 
-        $type = $this->getObjectType();
-
-        if(is_object($type)){
-            return $this->text = $type->text($this);
-        }
-
-        return $this->text;
+        return $this->text = $this->text(); // método da classe filha do tipo de notificação
     }
 
     /**
@@ -128,39 +137,6 @@ class RHSNotification {
      */
     public function setText( $text ) {
         $this->text = $text;
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getObject() {
-        if($this->object){
-            return;
-        }
-
-        global $wpdb;
-
-        $query = "SELECT * FROM ".$wpdb->prefix."notifications WHERE ID = ".$this->notificationId;
-
-        $object = $wpdb->get_results($query);
-
-        $this->object = true;
-
-        if(!$object){
-            return;
-        }
-
-        $this->type = $object['type'];
-        $this->channel = $object['channel'];
-        $this->objectId = $object['object_id'];
-        $this->datetime = $object['datetime'];
-    }
-
-    /**
-     * @param mixed $object
-     */
-    public function setObject( $object ) {
-        $this->object = $object;
     }
 
     /**
@@ -189,12 +165,8 @@ class RHSNotification {
             return $this->image;
         }
 
-        $type = $this->getObjectType();
-
-        if(is_object($type)){
-            return $this->image = $type->image($this);
-        }
-
+        $this->image = $type->image(); // método da classe filha do tipo de notificacao
+        
         return $this->image;
     }
 
@@ -203,22 +175,6 @@ class RHSNotification {
      */
     public function setImage( $image ) {
         $this->image = $image;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getObjectType() {
-
-        if($this->object_type){
-            return $this->object_type;
-        }
-
-        if(class_exists($this->type)){
-            $this->object_type = new $this->type();
-        }
-
-        return $this->object_type;
     }
 
 }
