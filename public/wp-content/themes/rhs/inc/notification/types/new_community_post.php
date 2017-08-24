@@ -17,7 +17,7 @@ class new_community_post implements INotificationType {
         }
 
         $notification = new RHSNotifications();
-        $notification->add_notification(RHSNotifications::CHANNEL_COMMUNITY, $args['community_id'], RHSNotifications::COMMUNITY_POST, $args['post_id']);
+        $notification->add_notification(RHSNotifications::CHANNEL_COMMUNITY, $args['community_id'], $this->get_name(), $args['post_id']);
     }
 
     function text( RHSNotification $news ) {
@@ -29,5 +29,3 @@ class new_community_post implements INotificationType {
     }
 
 }
-
-new new_community_post();

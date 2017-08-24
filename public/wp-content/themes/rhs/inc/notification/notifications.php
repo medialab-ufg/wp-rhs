@@ -17,9 +17,9 @@ class RHSNotifications {
     /**
      * Tipos
      */
-    const NEW_POST = 'new_post_from_user';
-    const POST_PROMOTED = 'post_promoted';
-    const COMMUNITY_POST = 'community_post';
+    //const NEW_POST = 'new_post_from_user';
+    //const POST_PROMOTED = 'post_promoted';
+    //const COMMUNITY_POST = 'community_post';
 
     static $news;
     static $news_num;
@@ -38,7 +38,7 @@ class RHSNotifications {
             self::$instance = true;
         }
     }
-
+    
     private function text_per_type() {
 
         return array(
@@ -48,7 +48,6 @@ class RHSNotifications {
         );
 
     }
-
     private function events_wordpress() {
         add_action( 'wp_ajax_rhs_clear_notification', array( &$this, 'ajax_clear_notification' ) );
     }
@@ -177,8 +176,17 @@ class RHSNotifications {
         return $channels;
     }
 
-    static function get_last_check($user_id) {
+    static function get_last_check($user_id = null) {
 
+        if (is_null($user_id)) {
+            $u = wp_get_current_user();
+            if (is_object($u) && isset($u->ID))
+                $user_id = $u->ID;
+        }
+        
+        if (!$user_id)
+            return false;
+        
         $last_check = get_user_meta( $user_id, self::LASTCHECK, true );
 
         if ( ! $last_check ) {
@@ -188,7 +196,16 @@ class RHSNotifications {
         return $last_check;
     }
 
-    function set_last_check($user_id) {
+    function set_last_check($user_id = null) {
+        if (is_null($user_id)) {
+            $u = wp_get_current_user();
+            if (is_object($u) && isset($u->ID))
+                $user_id = $u->ID;
+        }
+        
+        if (!$user_id)
+            return false;
+            
         if ( ! add_user_meta( $user_id, self::LASTCHECK, current_time( 'mysql' ), true ) ) {
             update_user_meta( $user_id, self::LASTCHECK, current_time( 'mysql' ) );
         }

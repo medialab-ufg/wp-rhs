@@ -498,9 +498,6 @@ Class RHSVote {
 
 		$this->update_user_role( $postID );
 
-        // Notificação
-        $notificacao = new RHSNotifications(get_post_field( 'post_author', $postID ));
-        $notificacao->add_notification_post_promoted($postID);
 	}
 
 	function update_user_role( $postID ) {
@@ -521,6 +518,7 @@ Class RHSVote {
 		);
 
 		wp_update_user( $user_new );
+        do_action('rhs_user_promoted', $user->ID);
 	}
 
 	function gerate_admin_menu() {

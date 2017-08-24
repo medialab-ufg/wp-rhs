@@ -17,7 +17,7 @@ class new_post_from_user implements INotificationType {
         }
 
         $notification = new RHSNotifications();
-        $notification->add_notification(RHSNotifications::CHANNEL_USER, $args['user_id'], RHSNotifications::NEW_POST, $args['post_id']);
+        $notification->add_notification(RHSNotifications::CHANNEL_USER, $args['user_id'], $this->get_name(), $args['post_id']);
 
     }
 
@@ -44,5 +44,3 @@ class new_post_from_user implements INotificationType {
     }
 
 }
-
-new new_post_from_user();

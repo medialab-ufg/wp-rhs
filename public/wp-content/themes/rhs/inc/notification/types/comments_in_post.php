@@ -16,8 +16,8 @@ class comments_in_post implements INotificationType {
             return;
         }
 
-        $notification = new RHSNotifications();
-        $notification->add_notification(RHSNotifications::CHANNEL_COMMENTS, $args['post_id'], RHSNotifications::COMMUNITY_POST, $args['comment_id']);
+        global $RHSNotifications;
+        $RHSNotifications->add_notification(RHSNotifications::CHANNEL_COMMENTS, $args['post_id'], $this->get_name(), $args['comment_id']);
     }
 
     function text( RHSNotification $news ) {
@@ -29,5 +29,3 @@ class comments_in_post implements INotificationType {
     }
 
 }
-
-new comments_in_post();
