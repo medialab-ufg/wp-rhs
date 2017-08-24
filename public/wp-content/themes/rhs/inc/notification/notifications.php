@@ -239,16 +239,14 @@ class RHSNotifications {
 
     function add_user_to_channel( $type, $id_for_channel = 0, $user_id ) {
 
-        add_action( 'rhs_notify_add_user_to_channel', array( &$this, 'add_user_to_channel' ), 10, 3 );
-
         $value = sprintf( $type, $id_for_channel );
 
         return add_user_meta( $user_id, self::META, $value );
     }
 
-    private function delete_user_to_channel( $channel, $id_for_channel = 0, $user_id ) {
+    function delete_user_from_channel( $channel, $id_for_channel = 0, $user_id ) {
 
-        $value = sprintf( $type, $id_for_channel );
+        $value = sprintf( $channel, $id_for_channel );
 
         return delete_user_meta( $user_id, self::META, $value );
     }

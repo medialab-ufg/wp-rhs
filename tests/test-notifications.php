@@ -58,6 +58,22 @@ class NotificationsTest extends RHS_UnitTestCase {
         
 
 	}
+    
+    function test_add_remove_from_channel() {
+        
+        global $RHSNotifications;
+        
+        $RHSNotifications->add_user_to_channel(RHSNotifications::CHANNEL_COMMUNITY, 33, self::$users['contributor'][0]);
+        
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, 33), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
+        
+        $RHSNotifications->delete_user_from_channel(RHSNotifications::CHANNEL_COMMUNITY, 33, self::$users['contributor'][0]);
+        
+        $this->assertNotContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, 33), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
+        
+        
+        
+    }
 
 
 
