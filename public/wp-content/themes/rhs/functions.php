@@ -159,15 +159,12 @@ function RHS_scripts() {
     wp_enqueue_script('FuncoesForm', get_template_directory_uri() . '/assets/js/functions.js', array('JqueryValidate'),'1.0', true);
     wp_enqueue_script('magicJS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.js','0.8.0', true);
 
-    //wp_enqueue_script('x-editable', get_template_directory_uri() . '/vendor/bootstrap3-editable/js/bootstrap-editable.min.js', array('bootstrap'), '1.5.1', true);
-    //wp_enqueue_script('masonry', get_template_directory_uri() . '/vendor/js/masonry.pkgd.min.js',array('bootstrap'),'4.2.0', true);
-
-    wp_enqueue_script('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js', array('bootstrap'), '1.5.0', true);
+    wp_enqueue_script('x-editable', get_template_directory_uri() . '/vendor/bootstrap3-editable/js/bootstrap-editable.min.js', array('bootstrap'), '1.5.1', true);
 
     //Masonry Wordpress
     wp_enqueue_script('masonry');
 
-    wp_enqueue_script('bootstrap-datapicker', get_template_directory_uri() . '/vendor/js/bootstrap-datepicker.min.js','1.7.1', true);
+    wp_enqueue_script('bootstrap-datapicker', get_template_directory_uri() . '/vendor/js/bootstrap-datepicker.min.js', array('bootstrap'),'1.7.1', true);
 
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
         // enqueue the javascript that performs in-link comment reply fanciness
