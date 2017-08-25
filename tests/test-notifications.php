@@ -113,6 +113,30 @@ class NotificationsTest extends RHS_UnitTestCase {
         
         
     }
+    
+    function test_comments() {
+        
+        global $RHSNotifications;
+        
+        // Criamos um post
+        wp_set_current_user(self::$users['contributor'][0]);
+        $newpost = self::create_post_to_queue();
+        
+        // Por padrão o autor do post segue o proprio post, então deve estar nesse canal
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMENTS, $newpost->getId()), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
+        
+        // outro usuário comenta, e tb deve ser adicionado ao canal
+        wp_set_current_user(self::$users['editor'][0]);
+        $comment_id = self::add_comment($newpost->getId());
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMENTS, $newpost->getId()), $RHSNotifications::get_user_channels(self::$users['editor'][0]));
+        
+        // Esse comentário tem q ter gerado uma notificação para o primiro usuário
+        $this->assertEquals(1, $RHSNotifications->get_news_number(self::$users['contributor'][0]));
+        $this->assertEquals($comment_id, $RHSNotifications->get_news(self::$users['contributor'][0])[0]->getObjectId());
+        
+        
+        
+    }
 
 
 

@@ -3,29 +3,44 @@
 
 class RHSNotification_comments_in_post extends RHSNotification {
 
-    function __construct() {
-        add_action('rhs_notify_comments_in_post', array( &$this, 'notify' ));
-    }
-
     /**
-     * @param $args - (post_id) ID do post comentado ; (comment_id) ID do comentário
+     * @param Object|Int $comment (ID ou objeto)
      */
-    static function notify($args) {
+    static function notify($comment) {
 
-        if(empty($args['post_id']) || empty($args['comment_id'])){
-            return;
+        $c = is_object($comment) ? $comment : get_comment($comment);
+        
+        if (1 == $c->comment_approved) {
+            global $RHSNotifications;
+            $RHSNotifications->add_notification(RHSNotifications::CHANNEL_COMMENTS, $c->comment_post_ID, self::get_name(), $c->comment_ID);
         }
 
-        global $RHSNotifications;
-        $RHSNotifications->add_notification(RHSNotifications::CHANNEL_COMMENTS, $args['post_id'], $this->get_name(), $args['comment_id']);
+        
     }
 
     function text() {
-        // TODO: Implement text() method.
+        $comment_ID = $this->getObjectId();
+        $c = get_comment($comment_ID);
+        $post_ID = $c->comment_post_ID;
+        
+        $user = new RHSUser(get_userdata(get_post_field( 'post_author', $post_ID )));
+        
+        return sprintf(
+            '<a href="%s"><strong>%s</strong></a> comentou no post <a href="%s"><strong>%s</strong></a>',
+            $user->get_link(),
+            $user->get_name(),
+            get_permalink($post_ID),
+            get_post_field( 'post_title', $post_ID )
+        );
     }
 
     function image() {
+        $comment_ID = $this->getObjectId();
+        $c = get_comment($comment_ID);
+        $post_ID = $c->comment_post_ID;
 
+        $user = new RHSUser(get_userdata(get_post_field( 'post_author', $post_ID )));
+        return $user->get_avatar();
     }
 
 }
