@@ -86,7 +86,7 @@
                                     
                                 </div>
                                 <div class="notify-drop-footer text-center">
-                                    <a href="notificacoes"><i class="fa fa-eye"></i> Veja todas as notificações</a>
+                                    <a href="<?php echo home_url('notificacoes'); ?>"><i class="fa fa-eye"></i> Veja todas as notificações</a>
                                 </div>
                             </ul>
                         </li><!-- /dropdown -->

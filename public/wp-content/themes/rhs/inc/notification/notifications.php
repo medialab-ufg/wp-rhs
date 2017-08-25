@@ -126,10 +126,6 @@ class RHSNotifications {
      */
     public function get_news($user_id) {
 
-        if ( self::$news[$user_id] ) {
-            return self::$news[$user_id];
-        }
-
         $last_check = self::get_last_check($user_id);
         
         return $this->get_notifications($user_id, $last_check);
@@ -162,18 +158,10 @@ class RHSNotifications {
             $notifications[] = $notificationsObj;
         }
 
-        return self::$news[$user_id] = $notifications;
+        return $notifications;
     }
 
     public function get_news_number($user_id) {
-
-        if ( self::$news[$user_id] ) {
-            return count( self::$news[$user_id] );
-        }
-
-        if ( self::$news_num[$user_id] ) {
-            return self::$news_num[$user_id];
-        }
 
         global $wpdb;
 
@@ -183,7 +171,7 @@ class RHSNotifications {
 
         $query = "SELECT COUNT(*) AS num FROM {$this->table} WHERE `datetime` >= '$last_check' AND `channel` IN ('$channels')";
 
-        return self::$news_num[$user_id] = current( $wpdb->get_results( $query ) )->num;
+        return current( $wpdb->get_results( $query ) )->num;
 
     }
 

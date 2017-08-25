@@ -268,8 +268,8 @@ class RHSPosts extends RHSMenssage {
         } else {
 
             // Notificação
-            if(!$post->getId()){
-                do_action( 'rhs_notify_new_post_from_user', array('user_id'=>$post->getAuthorId(), 'post_id'=>$return) );
+            if(!$post->getId() && $setStatus == RHSVote::VOTING_QUEUE){
+                do_action( 'rhs_new_post_from_user', array('user_id'=>$post->getAuthorId(), 'post_id'=>$return) );
             }
 
             $post->setId( $return );
@@ -297,11 +297,12 @@ class RHSPosts extends RHSMenssage {
 
         $key = array_search('public', $comunities);
 
-        if(strlen($key)){
+        if(strlen($key) && isset($comunities[$key])){
             unset($comunities[$key]);
         }
 
         wp_set_post_terms( $post->getId(), $comunities, RHSComunities::TAXONOMY );
+        do_action('rhs_new_post_in_communities', ['communities' => $comunities, 'post_id' => $post->getId(), 'user_id'=>$post->getAuthorId()]);
 
         /**
          * Salvar/edita a thumbnail

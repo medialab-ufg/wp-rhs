@@ -13,6 +13,8 @@ class RHSNotifications_Channel_Hooks {
         // Hooks que adicionam usuários aos canais dependendo das ações
         add_action('rhs_add_user_comunity_follow', array(&$this, 'rhs_add_user_comunity_follow'), 10, 2);
         add_action('rhs_delete_user_comunity_follow', array(&$this, 'rhs_delete_user_comunity_follow'), 10, 2);
+        add_action('rhs_add_user_follow_author', array(&$this, 'rhs_add_user_follow_author'));
+        add_action('rhs_delete_user_follow_author', array(&$this, 'rhs_delete_user_follow_author'));
         
     }
     
@@ -31,6 +33,25 @@ class RHSNotifications_Channel_Hooks {
         global $RHSNotifications;
         $RHSNotifications->delete_user_from_channel(RHSNotifications::CHANNEL_COMMUNITY, $community_id, $user_id);
     }
+    
+    
+    /**
+     * Quando usuário começa a seguir um autor
+     */
+    function rhs_add_user_follow_author($args) {
+        global $RHSNotifications;
+        $RHSNotifications->add_user_to_channel(RHSNotifications::CHANNEL_USER, $args['author_id'], $args['user_id'] );
+    }
+    
+    /**
+     * Quando usuário deixa de seguir um autor
+     */
+    function rhs_delete_user_follow_author($args) {
+        global $RHSNotifications;
+        $RHSNotifications->delete_user_from_channel(RHSNotifications::CHANNEL_USER, $args['author_id'], $args['user_id']);
+    }
+    
+    
     
 }
 

@@ -145,7 +145,10 @@ class RHSFollow {
      */
     function add_follow($author_id, $user_id) {
         rhs_add_user_meta_unique($user_id, self::FOLLOW_KEY, $author_id);
-        return rhs_add_user_meta_unique($author_id, self::FOLLOWED_KEY, $user_id);
+        $return = rhs_add_user_meta_unique($author_id, self::FOLLOWED_KEY, $user_id);
+        if ($return)
+            do_action('rhs_add_user_follow_author', ['user_id' => $user_id, 'author_id' => $author_id]);
+        return $return;
         // muito difícil acontecer um erro só em um dos metadados, então parece seguro retornar só o retorno da segunda chamada
     }
 
@@ -161,7 +164,10 @@ class RHSFollow {
      */
     function remove_follow($author_id, $user_id) {
         delete_user_meta($user_id, self::FOLLOW_KEY, $author_id);
-        return delete_user_meta($author_id, self::FOLLOWED_KEY, $user_id);
+        $return = delete_user_meta($author_id, self::FOLLOWED_KEY, $user_id);
+        if ($return)
+            do_action('rhs_delete_user_follow_author', ['user_id' => $user_id, 'author_id' => $author_id]);
+        return $return;
         // muito difícil acontecer um erro só em um dos metadados, então parece seguro retornar só o retorno da segunda chamada
     }
 

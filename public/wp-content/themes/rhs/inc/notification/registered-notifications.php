@@ -9,13 +9,15 @@
  *
  * É preciso que exista uma subclasse de RHSNotification com o nome deste tipo. Estas subclasses ficam na pasta types (ou podem ser incuídas via plugin).
  *
- * A subclasse do tipo de notificação deve implementar um método chamado verify(), que vai receber o parâmetro que o hook passa e criar uma notificação em um ou mais canais.
+ * A subclasse do tipo de notificação deve implementar um método estático chamado verify(), que vai receber o parâmetro que o hook passa e criar uma notificação em um ou mais canais.
  * 
  * 
  */
 
 return [
 
-    'rhs_post_promoted' => 'post_promoted'
+    'rhs_post_promoted' => 'post_promoted',
+    'rhs_new_post_in_communities' => 'new_community_post',
+    'rhs_new_post_from_user' => 'new_post_from_user',
 
 ];

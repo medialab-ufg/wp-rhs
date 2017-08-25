@@ -3,10 +3,6 @@
 
 class RHSNotification_new_post_from_user extends RHSNotification {
 
-    function __construct() {
-        add_action('rhs_notify_new_post_from_user', array( &$this, 'notify' ));
-    }
-
     /**
      * @param $args - (user_id) ID do Author ; (post_id) ID do Post
      */
@@ -16,8 +12,8 @@ class RHSNotification_new_post_from_user extends RHSNotification {
             return;
         }
 
-        $notification = new RHSNotifications();
-        $notification->add_notification(RHSNotifications::CHANNEL_USER, $args['user_id'], $this->get_name(), $args['post_id']);
+        global $RHSNotifications;
+        $RHSNotifications->add_notification(RHSNotifications::CHANNEL_USER, $args['user_id'], self::get_name(), $args['post_id']);
 
     }
 

@@ -112,4 +112,38 @@ abstract class RHS_UnitTestCase extends WP_UnitTestCase {
 
 
 	}
+    
+    // Cria um post usando as funções da RHS e mandando pra fila de votação
+    public static function create_post_to_queue() {
+        
+        global $RHSPosts;
+        // emulando o méodo RHSPosts::trigger_by_post();
+        $postObj = new RHSPost();
+        $postObj->setTitle( 'teste1' . uniqid() );
+        $postObj->setContent( 'teste1' );
+        $postObj->setStatus( 'publish' ); // status que vem do formulário. A intenção é q nesse caso vá pra fila de votação
+        $postObj->setAuthorId( get_current_user_id() );
+        $postObj->setCategoriesId( [self::$test_cat] );
+        $postObj->setComunities(['public']);
+
+        return $RHSPosts->insert($postObj);
+        
+    }
+    
+    // Cria um post usando as funções da RHS e mandando pra fila de votação
+    public static function create_post_to_draft() {
+        
+        global $RHSPosts;
+        // emulando o méodo RHSPosts::trigger_by_post();
+        $postObj = new RHSPost();
+        $postObj->setTitle( 'teste1' . uniqid() );
+        $postObj->setContent( 'teste1' );
+        $postObj->setStatus( 'draft' ); // status que vem do formulário. A intenção é q nesse caso vá pra fila de votação
+        $postObj->setAuthorId( get_current_user_id() );
+        $postObj->setCategoriesId( [self::$test_cat] );
+        $postObj->setComunities(['public']);
+
+        return $RHSPosts->insert($postObj);
+        
+    }
 }
