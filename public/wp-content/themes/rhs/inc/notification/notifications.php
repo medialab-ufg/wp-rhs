@@ -227,7 +227,7 @@ class RHSNotifications {
      * Verifica se existe tabela, se não, á insere
      */
     private function verify_database() {
-        $option_name = 'database_' . get_class($this);
+        $option_name = 'rhs_database_' . get_class($this);
         if ( ! get_option( $option_name ) ) {
             add_option( $option_name, true );
             global $wpdb;
@@ -241,7 +241,7 @@ class RHSNotifications {
                     `datetime` DATETIME NOT NULL default '0000-00-00 00:00:00'
                 );
             ";
-
+            $wpdb->query( $createQ );
         }
     }
 
