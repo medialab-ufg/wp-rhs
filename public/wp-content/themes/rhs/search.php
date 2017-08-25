@@ -8,9 +8,9 @@ echo $RHSSearch->get_param('municipio');
 echo $RHSSearch->get_param('date_from');
 echo $RHSSearch->get_param('date_to');
 echo $RHSSearch->get_param('rhs_order'); // comments, views, shares, votes ou date (padrão)
+echo $RHSSearch->get_param('s');
 echo get_query_var('cat');
 echo get_query_var('tag');
-
 //var_dump($wp_query);
 
 ?>
@@ -21,7 +21,7 @@ echo get_query_var('tag');
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#posts" aria-controls="posts" role="tab" data-toggle="tab">Posts</a></li>
-                <li role="presentation"><a href="#user" aria-controls="user" role="tab" data-toggle="tab">Usuários</a></li>
+                <li role="presentation"><a href="<?php echo home_url('/'); ?>busca/usuarios/">Usuários</a></li>
             </ul>
 
             <!-- Tab panes -->
@@ -29,7 +29,7 @@ echo get_query_var('tag');
                 <div role="tabpanel" class="tab-pane fade in active" id="posts">
                     <div class="jumbotron formulario">
                         <div class="container">
-                            <form class="form-horizontal">
+                            <form class="form-horizontal form-inline" action="<?php echo home_url('/'); ?>busca/" id="filter">
                                 <div class="col-xs-12 col-sm-7">
                                     <div class="form-inline">    
                                         <?php UFMunicipio::form( array(
@@ -53,22 +53,6 @@ echo get_query_var('tag');
                                             <div class="form-group">
                                                 <label for="tag" class="control-label">Tags</label>
                                                 <input type="text" value="" class="form-control" id="input-tag" placeholder="Tags" name="tag">
-                                                <script>
-                                                    var ms = jQuery('#input-tag').magicSuggest({
-                                                        placeholder: 'Select...',
-                                                        allowFreeEntries: true,
-                                                        selectionPosition: 'bottom',
-                                                        selectionStacked: true,
-                                                        selectionRenderer: function(data){
-                                                            return data.id;
-                                                        },
-                                                        data: vars.ajaxurl,
-                                                        dataUrlParams: { action: 'get_tags' },
-                                                        minChars: 3,
-                                                        name: 'tag',
-                                                        maxSelection: 1
-                                                    });
-                                                </script>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-6 tags-cats">
@@ -90,32 +74,72 @@ echo get_query_var('tag');
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <label for="keyword" class="control-label">Palavra Chave</label>
+                                            <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo $s; ?>">
+                                        </div>
+                                    </div>
                                 </div>
                                 <button type="submit" class="btn btn-default filtro">Filtrar</button>
                             </form>
                         </div>
                     </div>
-                    <script>
-                        jQuery(function() {
-                            jQuery.fn.datepicker.defaults.templates = {
-                                leftArrow: "<i class='fa fa-long-arrow-left'></i>",
-                                rightArrow: "<i class='fa fa-long-arrow-right'></i>"
-                            };
-                            jQuery.fn.datepicker.dates["pt-BR"]={days:["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"],daysShort:["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],daysMin:["Do","Se","Te","Qu","Qu","Se","Sa"],months:["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],monthsShort:["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],today:"Hoje",monthsTitle:"Meses",clear:"Limpar",format:"yyyy-mm-dd"};
-                            jQuery.fn.datepicker.defaults.language = "pt-BR";
-                            jQuery('.input-daterange input').each(function() {
-                                jQuery(this).datepicker('clearDates');
-                            });
-                        });
-                    </script> 
                     <div class="row resultado">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="pull-right">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        Classificar por
+                                        <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a href="?rhs_order=date">Data</a></li>
+                                            <li><a href="?rhs_order=comments">Comentários</a></li>
+                                            <li><a href="?rhs_order=votes">Votos</a></li>
+                                            <li><a href="?rhs_order=views">Visualizações</a></li>
+                                            <li><a href="?rhs_order=shares">Compartilhamentos</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
                         <?php get_template_part( 'partes-templates/loop-posts'); ?>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="user">...</div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    var ms = jQuery('#input-tag').magicSuggest({
+        placeholder: 'Select...',
+        allowFreeEntries: true,
+        selectionPosition: 'bottom',
+        selectionStacked: true,
+        selectionRenderer: function(data){
+            return data.id;
+        },
+        data: vars.ajaxurl,
+        dataUrlParams: { action: 'get_tags' },
+        minChars: 3,
+        name: 'tag',
+        maxSelection: 1
+    });
 
+    jQuery(function() {
+        jQuery.fn.datepicker.defaults.templates = {
+            leftArrow: "<i class='glyphicon glyphicon-chevron-left'></i>",
+            rightArrow: "<i class='glyphicon glyphicon-chevron-right'></i>"
+        };
+        jQuery.fn.datepicker.dates["pt-BR"]={days:["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"],daysShort:["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],daysMin:["Do","Se","Te","Qu","Qu","Se","Sa"],months:["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],monthsShort:["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],today:"Hoje",monthsTitle:"Meses",clear:"Limpar",format:"yyyy-mm-dd"};
+        jQuery.fn.datepicker.defaults.language = "pt-BR";
+        jQuery.fn.datepicker.defaults.orientation = "bottom";
+        jQuery('.input-daterange input').each(function() {
+            jQuery(this).datepicker('clearDates');
+        });
+        jQuery('#filter .tags').val('');
+    });
+</script>
 <?php get_footer('full');
