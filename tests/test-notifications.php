@@ -86,6 +86,33 @@ class NotificationsTest extends RHS_UnitTestCase {
         
         
     }
+    
+    function test_communities() {
+        
+        global $RHSNotifications;
+        
+        $c = self::create_community('private');
+        
+        // membro
+        RHSComunities::add_user_comunity($c, self::$users['contributor'][0]);
+        
+        //membro e seguidor
+        RHSComunities::add_user_comunity($c, self::$users['contributor'][1]);
+        RHSComunities::add_user_comunity_follow($c, self::$users['contributor'][1]);
+        
+        // membro e seguidor deve ter sido registrado no canal, mas o q é só membro não
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, $c), $RHSNotifications::get_user_channels(self::$users['contributor'][1]));
+        $this->assertNotContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, $c), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
+        
+        // cria um post na comunidade
+        wp_set_current_user(self::$users['contributor'][0]);
+        $newpost = self::create_post_to_private_community($c);
+        
+        $this->assertEquals(1, $RHSNotifications->get_news_number(self::$users['contributor'][1]));
+        $this->assertEquals($newpost->getId(), $RHSNotifications->get_news(self::$users['contributor'][1])[0]->getObjectId());
+        
+        
+    }
 
 
 
