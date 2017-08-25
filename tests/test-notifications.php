@@ -104,6 +104,9 @@ class NotificationsTest extends RHS_UnitTestCase {
         $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, $c), $RHSNotifications::get_user_channels(self::$users['contributor'][1]));
         $this->assertNotContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, $c), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
         
+        // coloca o outro pra seguir tb
+        RHSComunities::add_user_comunity_follow($c, self::$users['contributor'][0]);
+        
         // cria um post na comunidade
         wp_set_current_user(self::$users['contributor'][0]);
         $newpost = self::create_post_to_private_community($c);
@@ -111,6 +114,8 @@ class NotificationsTest extends RHS_UnitTestCase {
         $this->assertEquals(1, $RHSNotifications->get_news_number(self::$users['contributor'][1]));
         $this->assertEquals($newpost->getId(), $RHSNotifications->get_news(self::$users['contributor'][1])[0]->getObjectId());
         
+        // o autor do post não deve receber notificação do seu proprio post
+        $this->assertEquals(0, $RHSNotifications->get_news_number(self::$users['contributor'][0]));
         
     }
     
@@ -134,6 +139,9 @@ class NotificationsTest extends RHS_UnitTestCase {
         $this->assertEquals(1, $RHSNotifications->get_news_number(self::$users['contributor'][0]));
         $this->assertEquals($comment_id, $RHSNotifications->get_news(self::$users['contributor'][0])[0]->getObjectId());
         
+        
+        // o autor do comentário não deve receber notificação do seu proprio post
+        $this->assertEquals(0, $RHSNotifications->get_news_number(self::$users['editor'][0]));
         
         
     }

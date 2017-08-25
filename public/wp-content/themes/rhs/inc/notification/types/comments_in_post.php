@@ -12,7 +12,7 @@ class RHSNotification_comments_in_post extends RHSNotification {
         
         if (1 == $c->comment_approved) {
             global $RHSNotifications;
-            $RHSNotifications->add_notification(RHSNotifications::CHANNEL_COMMENTS, $c->comment_post_ID, self::get_name(), $c->comment_ID);
+            $RHSNotifications->add_notification(RHSNotifications::CHANNEL_COMMENTS, $c->comment_post_ID, self::get_name(), $c->comment_ID, $c->user_id);
         }
 
         

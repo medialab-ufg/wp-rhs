@@ -11,9 +11,11 @@ class RHSNotification_new_post_from_user extends RHSNotification {
         if(empty($args['user_id']) || empty($args['post_id'])){
             return;
         }
-
+        
+        $author_id = get_post_field( 'post_author', $args['post_id'] );
+        
         global $RHSNotifications;
-        $RHSNotifications->add_notification(RHSNotifications::CHANNEL_USER, $args['user_id'], self::get_name(), $args['post_id']);
+        $RHSNotifications->add_notification(RHSNotifications::CHANNEL_USER, $args['user_id'], self::get_name(), $args['post_id'], $author_id);
 
     }
 

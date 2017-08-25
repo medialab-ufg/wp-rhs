@@ -302,7 +302,7 @@ class RHSPosts extends RHSMenssage {
         }
 
         wp_set_post_terms( $post->getId(), $comunities, RHSComunities::TAXONOMY );
-        do_action('rhs_new_post_in_communities', ['communities' => $comunities, 'post_id' => $post->getId(), 'user_id'=>$post->getAuthorId()]);
+        do_action('rhs_new_post_in_communities', ['communities' => $comunities, 'post_id' => $post->getId(), 'author_id'=>$post->getAuthorId()]);
 
         /**
          * Salvar/edita a thumbnail

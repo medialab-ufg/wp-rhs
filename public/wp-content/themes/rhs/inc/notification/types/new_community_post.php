@@ -15,7 +15,7 @@ class RHSNotification_new_community_post extends RHSNotification {
         global $RHSNotifications;
         foreach ($args['communities'] as $community) {
             $term = get_term_by( 'name', $community, RHSComunities::TAXONOMY );
-            $RHSNotifications->add_notification(RHSNotifications::CHANNEL_COMMUNITY, $term->term_id, self::get_name(), $args['post_id']);
+            $RHSNotifications->add_notification(RHSNotifications::CHANNEL_COMMUNITY, $term->term_id, self::get_name(), $args['post_id'], $args['author_id']);
         }
         
         

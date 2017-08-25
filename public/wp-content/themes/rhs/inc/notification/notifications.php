@@ -76,22 +76,6 @@ class RHSNotifications {
     }
 
     /**
-     * @param $comment_id
-     * @param $post_id
-     */
-    function add_notification_comments_in_post( $comment_id, $post_id ) {
-        $this->add_notification( self::CHANNEL_COMMENTS, $post_id, self::COMMUNITY_POST, $comment_id );
-    }
-
-    /**
-     * @param $community_id
-     * @param $post_id
-     */
-    function add_notification_community_post( $community_id, $post_id ) {
-        $this->add_notification( self::CHANNEL_COMMUNITY, $community_id, self::COMMUNITY_POST, $post_id );
-    }
-
-    /**
      * Adiciona notificação
      *
      * @param int $type
@@ -99,7 +83,7 @@ class RHSNotifications {
      * @param string $object_id
      * @param null $datetime
      */
-    function add_notification( $channel, $channel_id = null, $type, $object_id, $datetime = null ) {
+    function add_notification( $channel, $channel_id = null, $type, $object_id, $user_id = 0, $datetime = null ) {
 
         if ( $datetime == null ) {
             $datetime = current_time( 'mysql' );
@@ -114,8 +98,8 @@ class RHSNotifications {
         global $wpdb;
 
         $query = "
-            INSERT INTO {$this->table} (`type`, `channel`, `object_id`, `datetime`)
-            VALUES ('$type', '$channel', '$object_id', '$datetime')";
+            INSERT INTO {$this->table} (`type`, `channel`, `object_id`, `user_id`, `datetime`)
+            VALUES ('$type', '$channel', '$object_id', $user_id, '$datetime')";
 
         $wpdb->query( $query );
 
@@ -139,7 +123,7 @@ class RHSNotifications {
         $channels   = self::get_user_channels($user_id);
         $channels   = implode( "', '", $channels );
         
-        $query = "SELECT * FROM {$this->table} WHERE channel IN ('$channels')";
+        $query = "SELECT * FROM {$this->table} WHERE channel IN ('$channels') AND `user_id` <> $user_id";
         
         if (!is_null($from_datetime))
             $query .= " AND datetime >= '$from_datetime'";
@@ -169,7 +153,7 @@ class RHSNotifications {
         $channels   = self::get_user_channels($user_id);
         $channels   = implode( "', '", $channels );
 
-        $query = "SELECT COUNT(*) AS num FROM {$this->table} WHERE `datetime` >= '$last_check' AND `channel` IN ('$channels')";
+        $query = "SELECT COUNT(*) AS num FROM {$this->table} WHERE `datetime` >= '$last_check' AND `channel` IN ('$channels') AND `user_id` <> $user_id";
 
         return current( $wpdb->get_results( $query ) )->num;
 
@@ -253,11 +237,10 @@ class RHSNotifications {
                     `type` VARCHAR(250) NOT NULL,
                     `channel` VARCHAR(250) NOT NULL,
                     `object_id` INT(11) NOT NULL default '0',
+                    `user_id` INT(11) NOT NULL default '0',
                     `datetime` DATETIME NOT NULL default '0000-00-00 00:00:00'
                 );
             ";
-            
-            $wpdb->query( $createQ );
 
         }
     }
