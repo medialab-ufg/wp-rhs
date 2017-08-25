@@ -37,6 +37,8 @@
             <div class="container">
                 <?php
                 global $RHSUsers;
+                global $RHSNotifications;
+                $notifications_number = $RHSNotifications->get_news_number(get_current_user_id());
                 if(my_wp_is_mobile()){
                     get_search_form();
                 }
@@ -47,59 +49,44 @@
                         <span class="navbar-text">ou</span>
                         <li><a href="<?php echo wp_registration_url(); ?>" style="color: #00b4b4">Cadastre-se</a></li>
                     <?php else : ?>
-                        <li class="dropdown user-dropdown">
-                            <a href="#notifications-panel" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown"  data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i data-count="2" class="glyphicon glyphicon-bell notification-count"></i>
+                        <li class="dropdown user-dropdown hidden-xs">
+                            <a id="button-notifications" href="#notifications-panel" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i data-count="<?php echo $notifications_number; ?>" class="glyphicon glyphicon-bell <?php if($notifications_number){ ?>notification-count<?php } ?>"></i>
                             </a>
                             <ul class="dropdown-menu notify-drop">
                                 <div class="notify-drop-title">
                                     <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-xs-6">Notificações (<b>2</b>)</div>
-                                        <div class="col-md-6 col-sm-6 col-xs-6 text-right">
-                                            <a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom">
-                                                <i class="fa fa-dot-circle-o"></i>
-                                            </a>
-                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">Notificações (<b><?php echo $notifications_number; ?></b>)</div>
+                                        
                                     </div>
                                 </div>
                                 <!-- end notify title -->
                                 <!-- notify content -->
+                                
+                                
+                                
                                 <div class="drop-content">
-                                    <li>
-                                        <div class="col-md-3 col-sm-3 col-xs-3">
-                                            <div class="notify-img">
-                                                <img src="http://placehold.it/45x45" alt="">
+                                    
+                                    <?php foreach ($RHSNotifications->get_notifications(get_current_user_id()) as $notification): ?>
+                                        
+                                        <li>
+                                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                                <div class="notify-img">
+                                                    <?php echo $notification->getImage(); ?>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">
-                                            <a href="#">Fabiano Alencar</a>. 
-                                            <a href="#">Votou em um...</a> 
-                                            <a href="" class="rIcon">
-                                                <i class="fa fa-dot-circle-o"></i>
-                                            </a>
-                                            <hr>
-                                            <p class="time">12/02/2017 14:33</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="col-md-3 col-sm-3 col-xs-3">
-                                            <div class="notify-img">
-                                                <img src="http://placehold.it/45x45" alt="">
+                                            <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">
+                                                <?php echo $notification->getText(); ?>
+                                                <hr>
+                                                <p class="time"><?php echo $notification->getTextDate(); ?></p>
                                             </div>
-                                        </div>
-                                        <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">
-                                            <a href="#">Fabiano Alencar</a>. 
-                                            <a href="#">Comentou em um...</a> 
-                                            <a href="" class="rIcon">
-                                                <i class="fa fa-dot-circle-o"></i>
-                                            </a>
-                                            <hr>
-                                            <p class="time">12/02/2017 13:33</p>
-                                        </div>
-                                    </li>
+                                        </li>
+                                        
+                                    <?php endforeach; ?>
+                                    
                                 </div>
                                 <div class="notify-drop-footer text-center">
-                                    <a href=""><i class="fa fa-eye"></i> Veja todas as notificações</a>
+                                    <a href="<?php echo home_url('notificacoes'); ?>"><i class="fa fa-eye"></i> Veja todas as notificações</a>
                                 </div>
                             </ul>
                         </li><!-- /dropdown -->
@@ -142,6 +129,11 @@
                             <li class="menu-item">
                                 <a href="<?php echo home_url(RHSRewriteRules::POSTAGENS_URL);?>">
                                     <i class="icones-dropdown fa fa-list-alt" aria-hidden="true"></i> Minhas Postagens
+                                </a>
+                            </li>
+                            <li class="menu-item hidden-sm hidden-md hidden-lg">
+                                <a href="notificacoes">
+                                    <i class="icones-dropdown fa fa-list-alt" aria-hidden="true"></i> Notificações(<b>2</b>)
                                 </a>
                             </li>
                             <li class="menu-item sair">

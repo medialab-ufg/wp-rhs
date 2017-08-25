@@ -66,9 +66,6 @@ body {
                 > a {
                     margin-top: 0px;
                     text-decoration: none;
-                    &:hover {
-                        color: $primeira_cor_texto;
-                    }
                     > span {
                         color: $whiteColor;
                     }
@@ -96,6 +93,9 @@ body {
                         }
                         > i {
                             margin-top: -13px;
+                        }
+                        &:hover {
+                            text-decoration: none;
                         }
                     }
                 }
@@ -284,9 +284,12 @@ Primeiro e Segundo DropDown Menu
                     }
                     .notify-img {
                         float: left;
-                        width: 45px;
-                        height: 45px;
                         margin: 0px 0px 8px 0px;
+                        img{
+                            width: 50px;
+                            height: 50px;
+                            border-radius: 50%;
+                        }
                     }
                     a {
                         font-size: 12px;
@@ -392,17 +395,17 @@ Primeiro e Segundo DropDown Menu
                     text-decoration: none;
                 }
                 > i {
+                    margin-right: 6px;
                     &:hover {
-                        color: $whiteColor !important;
+                        color: #00b4b4 !important;
                     }
                     &.notification-count {
-                        margin-right: 6.8775px;
                         &:after {
                             position: absolute;
                             content: attr(data-count);
                             margin-left: -6.8775px;
                             margin-top: -6.8775px;
-                            padding: 0 4px;
+                            padding: 1px 4px 0px;
                             min-width: 13.755px;
                             height: 13.755px;
                             line-height: 13.755px;
@@ -414,6 +417,23 @@ Primeiro e Segundo DropDown Menu
                             font-size: 11.004px;
                             font-weight: 600;
                             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                        }
+                    }
+                }
+            }
+            &:first-child{
+                .user-dropdown-link{
+                    padding: 13px 10px 7px;
+                    margin-top: 13px !important;
+                    &:hover{
+                        -webkit-transition: all 0.5s ease;
+                        -moz-transition: all 0.5s ease;
+                        -ms-transition: all 0.5s ease;
+                        -o-transition: all 0.5s ease;
+                        transition: all 0.5s ease;
+                        background: #00b4b4 !important;
+                        i{
+                            color: #fff !important;
                         }
                     }
                 }
@@ -446,15 +466,17 @@ Primeiro e Segundo DropDown Menu
             }
         }
 
-        > .open > a, .navbar-nav > .open > a:hover {
-            background-color: $cor_fundo_formulario_nav;
+        > .open > a {
+            background-color: transparent;
+            i:active{
+                color: #00b4b4;
+            }
         }
         ul.dropdown-menu, .nav ul.dropdown-menu {
             padding: 0;
             margin: 0;
             border: 0;
             margin-top: -2px;
-            margin-right: 2px;
         }
     }
     // Função para definir a cor do placeholder
@@ -2213,6 +2235,9 @@ form .comment-form-comment {
                             text-align: center;
                             a {
                                 color: $grayColor;
+                                &:hover{
+                                    color: $primeira_cor_texto;
+                                }
                             }
                         }
                     }
@@ -2459,6 +2484,51 @@ form .comment-form-comment {
                         border-bottom-color: transparent;
                         border-left-color: transparent;
                     }
+                }
+            }
+        }
+    }
+}
+
+/***********
+*
+* Notificações
+*
+************/
+.notificacoes{
+    .wrapper-content {
+        padding: 30px;
+        background-color: $whiteColor;
+        margin-bottom: 15px;
+        .panel{
+            &.panel-horizontal {
+                display:table;
+                width:100%;
+                > .panel-heading{
+                    padding: 5px;
+                    border-right: 1px solid #ddd;
+                    border-top-right-radius: 0;
+                    border-bottom-left-radius: 4px;
+                    @media only screen and (min-width: 768px){
+                        width: 10%;
+                    }
+                }
+                > .panel-body{
+                    display: inline-grid;
+                    @media only screen and (max-width: 768px){
+                        font-size: 14px;
+                    }
+                }
+                > .panel-heading,
+                > .panel-footer {
+                    display:table-cell;
+                    border:0;
+                    vertical-align: middle;
+                }
+                > .panel-footer {
+                    border-left: 0px solid #ddd;
+                    border-top-left-radius: 0;
+                    border-bottom-right-radius: 4px;
                 }
             }
         }
@@ -3967,7 +4037,11 @@ article {
         }
     }
 }
-
+@media only screen and (width: 1024px){
+    .navbar-default .navbar-brand > img{
+       margin-left: 48px; 
+    }
+}
 @media only screen and (width: 768px) and (height: 1024px) {
     .primeiro-menu
     .dropdown-menu-right
