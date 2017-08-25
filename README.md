@@ -3,13 +3,13 @@
 
 Este é o repositório do projeto Rede Humaniza SUS em WordPress. 
 
-Ele contem todo o projeto, incluindo a instalação de todas as dependências via Composer (incluindo o próprio WordPress), o tema da RHS para WP e os Scripts para a migração dos dados do Drupal para o WP.
+Ele contém todo o projeto, incluindo a instalação de todas as dependências via Composer (incluindo o próprio WordPress), o tema da RHS para WP e os Scripts para a migração dos dados do Drupal para o WP.
 
 Abaixo estão as instruções de como montar o ambiente de desenvolvimento e fazer deploy do projeto.
 
 Para informações sobre o script de migração, veja [migration-scripts/docs.md](migration-scripts/docs.md).
 
-## Criando a ambiente de desenvolvimento
+## Criando o ambiente de desenvolvimento
 
 
 ### Instale as dependências
@@ -44,7 +44,7 @@ cd C:\
 composer create-project wp-cli/wp-cli --no-dev
 ```
 
-Adicione ao [PATH](https://www.java.com/pt_BR/download/help/path.xml) a pasta bin do PHP e MySQL, e também o caminho *C:\wp-cli\bin*
+Adicione ao [PATH](https://www.java.com/pt_BR/download/help/path.xml) o diretório bin do PHP e MySQL, e também o caminho *C:\wp-cli\bin*
 
 ### Clone o Repositório
 
@@ -54,22 +54,22 @@ a seguir:
 ```
 git clone git@github.com:medialab-ufg/wp-rhs.git
 ```
-Acesse a pasta onde se localiza o repositório que foi feito o clone. E
-execute o comando para instalar os repositorios do projeto.
+Acesse o diretório onde se localiza o repositório que foi feito o clone. E
+execute o comando para instalar os repositórios do projeto.
 
 ```
 composer install
 ```
 
-Agora você esta com todas as bibliotecas e classes necessárias da RHS.
+Agora você está com todas as bibliotecas e classes necessárias da RHS.
 
-### Crie a pasta de uploads
+### Crie o diretório uploads
 
+Esse diretório deve ser criado em ``` public/wp-content/ ```
 
-### Crie e edite o wp-config.php e o wp-config-sample.php
+### Crie e edite o wp-config.php e o .htaccess
 
-O repositório vem com arquivos modelos: wp-config-sample.php e htaccess-sample, faça uma cópia para wp-config.php e .htaccess, respectivamente e edite com suas informações.
-
+O repositório vem com arquivos modelos: wp-config-sample.php e htaccess-sample (ambos no diretório `public`), faça uma cópia para wp-config.php e .htaccess, respectivamente e edite com suas informações.
 
 ### Instale o WordPress e importe os dados
 
@@ -86,13 +86,10 @@ Importe os dados da Drupal. Veja [migration-scripts/docs.md](migration-scripts/d
 
 De dentro da pasta themes/rhs/assets/scss execute o comando para compilar 
 
-
 ```
 cd public/wp-content/themes/rhs/assets/scss
 sass style.scss:../../style.css
 ```
-
-
 ## Mantendo o ambiente de desenvolvimento
 
 ### Compilando o SASS
@@ -110,7 +107,7 @@ sass --watch style.scss:../../style.css
 
 ### Auto Compilando SASS ao executar git pull
 
-Ao executar o comando git pull você terá que executar o comando para compilar o sass caso tenha alteração do mesmo. Para não ter necessidade disso.
+Ao executar o comando git pull você terá de executar o comando para compilar o sass caso tenha alteração do mesmo. Para não ter necessidade disso.
 
 ##Execute os seguintes passos:
 
@@ -130,7 +127,7 @@ bash compile-sass.sh
 ```
 
 
-bash compile-sass.sh -> Arquivo onde se encontra no diretorio do projeto (wp-rhs) e execulta os comandos para compilar o sass.
+bash compile-sass.sh -> Arquivo onde se encontra o diretório do projeto (wp-rhs) e execulta os comandos para compilar o sass.
 
 ### Administrando fixtures
 
@@ -150,7 +147,7 @@ Você pode ver a documentação completa deles em: [wp-scripts/scripts-docs.md](
 
 Este comando:
 
-* faz um revert da pasta uploads (remove os arquivos que estão ali mas que não foram adicionados ao git)
+* faz um revert da pasta uploads (remove os arquivos que estão ali, mas que não foram adicionados ao git)
 * pega o arquivo base.sql do git ignorando o seu (executa o git revert antes)
 * aplica o base.sql (que foi pego do git)
 * migra as urls do banco (coloca as urls baseadas no DOMAIN_CURRENT_SITE do seu wp-config.php)
@@ -168,6 +165,6 @@ Este comando:
 * cria dump do banco (base.sql)
 * commita as alterações de arquivos e o dump do banco
 
-*Atenção*: Quando quiser enviar novas features para o repositorio, dê um RESET antes, adicione as features, e, em seguida, dê o commit. Isso evita que você passe por cima de alerações de outras pessoas e de incluir coisas desnecessárias ao repositorio.
+*Atenção*: Quando quiser enviar novas features para o repositorio, dê um RESET antes, adicione as features, e, em seguida, dê o commit. Isso evita que você passe por cima de alterações de outras pessoas e de incluir coisas desnecessárias ao repositório.
 
 
