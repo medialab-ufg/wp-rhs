@@ -214,24 +214,164 @@ class RHSSearch {
      * @param  array  $params opcional, os filtros de busca
      * @return Object WP_User_Query 
      */
-    public function searchUsers($params = array()) {
+    public function search_users($new_params = array(), $paged) {
+        $users_per_page = '10';
+        $meta_query = [];
+        $has_meta_query = false;
         
-        $filters = array_merge([
-            'uf' => $this->get_param('uf'),
-            'keyword' => $this->get_param('keyword'),
-            'municipio' => $this->get_param('municipio'),
-            'rhs_order' => $this->get_param('rhs_order'),
-            'paged' => get_query_var('paged'),
-        ], $params);
+        $keyword =      $this->get_param('keyword');
+        $uf =           $this->get_param('uf');
+        $municipio =    $this->get_param('municipio');
+        $rhs_order =    $this->get_param('rhs_order');
         
-        // Lê o valor das coisas na array $filters e monta a Query
+      
+        if (!empty($uf) || !empty($municipio)) {
+            if (!empty($municipio)) {
+                // podemos passar só o ID do município, ex: 2900702
+                // ou o formato da URL, com {id}-{slug}, ex: 2900702-alagoinhas
+                preg_match('/^([0-9]{7})(-.+)?$/', $municipio, $cod_municipio);
+                if (is_numeric($cod_municipio[1])) {
+                    $meta_query['_municipio'] = [
+                        'key' => UFMunicipio::MUN_META,
+                        'value' => $cod_municipio[1],
+                        'compare' => '='
+                    ];
+                    $cod_municipio = $cod_municipio[1];
+                    $has_meta_query = true;
+                }
+
+            }
+
+            if (!empty($uf) && !isset($meta_query['municipio']) /* se já tem municipio não precisa filtrar por estado tb */ ) {           
+                $cod_uf = is_numeric($uf) ? $uf : UFMunicipio::get_uf_id_from_sigla($uf);
+                if (is_numeric($cod_uf)) {
+                    $meta_query['_uf'] = [
+                        'key' => UFMunicipio::UF_META,
+                        'value' => $cod_uf,
+                        'compare' => '='
+                    ];
+                    $has_meta_query = true;
+                }
+            }
+        }
+        
+        $q_has_publish_posts = false;
+
+        switch ($rhs_order) {
+            case 'name':
+                $q_order = 'ASC';
+                $q_order_by = 'display_name';
+                echo "entrou em name";
+                    break;
+            
+            case 'register_date':
+                $q_order = 'DESC';
+                $q_order_by = 'registered';
+                break;
+            
+            case 'posts':
+                $q_order = 'DESC';
+                $q_order_by = 'post_count';
+                $q_has_publish_posts = true;
+                break;
+                
+            // TODO
+            case 'votes':
+                $q_order_meta = RHSVote::META_TOTAL_VOTES;
+                break;
+
+            default:
+                $q_order = 'ASC';
+                $q_order_by = 'post_date';
+                break;
+        }
+
+        if (!empty($q_order_meta)) {
+            $meta_query['rhs_order'] = [
+                'key' => $q_order_meta,
+                'compare' => 'EXISTS',
+                'type' => 'numeric'
+            ];
+            $has_meta_query = true;
+            $q_order_by = ['rhs_order' => 'DESC'];
+            $q_order = 'DESC';
+        }
+
+        $offset = $users_per_page * ($paged - 1);
+        $cod_uf = ($uf) ? $uf : '' ;
+        $cod_municipio = ($municipio) ? $municipio : '' ;
+        
+        $filters = array(
+            'role'       => 'contributor',
+            'order'      => $q_order,
+            'orderby'    => $q_order_by,
+            'search'     => '*' . esc_attr($this->get_param('keyword')) . '*',
+            'paged'     => $paged,
+            'number'    => $users_per_page,
+            'offset'    => $offset,
+            'has_published_posts' => $q_has_publish_posts,
+            'meta_query' => array(
+                    array(
+                        'key'     => '_uf',
+                        'value'   => $cod_uf,
+                        'compare' => 'LIKE'
+                    ),
+                    array(
+                        'key'     => '_municipio',
+                        'value'   => $cod_municipio,
+                        'compare' => 'LIKE'
+                    )
+            )
+         );     
         
         // Retorna o objeto com a lista de usuários encontrados
-        return new WP_User_Query();
+        return new WP_User_Query($filters);      
         
     }
 
-
+    /**
+     * Show pagination 
+     * 
+     * @return mixed Return html with paginate links
+     */
+    function show_users_pagination($paged) {
+        // TODO
+        $users_per_page = '10';
+        $query_objects = $this->search_users([],$paged);
+        $total_pages = 1;
+        $total_pages = ceil($query_objects->total_users / $users_per_page);
+        
+        $big = 999999999;
+        $content = paginate_links( array(
+            'base'         => str_replace($big, '%#%', get_pagenum_link($big)),
+            'format'       => '/page/%#%',
+            'prev_text'    => __('&laquo; Anterior'),
+            'next_text'    => __('Próxima &raquo;'), 
+            'total'        => $total_pages,
+            'current'      => $paged,
+            'end_size'     => 1,
+            'type'         => 'array',
+            'mid_size'     => 8,
+            'prev_next'    => true,
+        ));
+        
+        if (is_array($content)) {
+            $current_page = ($this->get_param('paged') == 0) ? 1 : $this->get_param('paged');
+            echo '<ul class="pagination">';
+            foreach ($content as $i => $page) {
+                if ($current_page == 1 && $i == 0) {
+                    echo "<li class='active'>$page</li>";
+                } else {
+                    if ($current_page != 1 && $current_page == $i) {
+                        echo "<li class='active'>$page</li>";
+                    } else {
+                        echo "<li>$page</li>";
+                    }
+                }
+            }
+            echo '</ul>';
+        }
+    }
 }
 
 global $RHSSearch;

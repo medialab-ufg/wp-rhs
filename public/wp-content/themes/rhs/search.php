@@ -86,10 +86,40 @@ echo get_query_var('tag');
                         });
                     </script> 
                     <div class="row resultado">
-                        <?php get_template_part( 'partes-templates/loop-posts'); ?>
+                        <?php get_template_part('partes-templates/loop-posts'); ?>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="user">...</div>
+                <div role="tabpanel" class="tab-pane fade" id="user">
+                    <div class="jumbotron formulario">
+                        <div class="container">
+                            <form >
+                                <div class="col-xs-6">
+                                    <div class="form-inline">    
+                                        <?php UFMunicipio::form( array(
+                                            'content_before' => '',
+                                            'content_after' => '',
+                                            'content_before_field' => '<div class="form-group">',
+                                            'content_after_field' => '</div>',
+                                            'select_before' => ' ',
+                                            'select_after' => ' ',
+                                            'state_field_name' => 'estado_user',
+                                            'state_field_id' => 'estado_user',
+                                            'city_field_id' => 'municipio_user',
+                                            'city_field_name' => 'municipio_user',
+                                            'state_label' => 'Estado &nbsp',
+                                            'city_label' => 'Cidade &nbsp',
+                                            'select_class' => 'form-control',
+                                            'show_label' => true
+                                        ) ); ?>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row resultado">
+                        ...
+                    </div>
+                </div>
             </div>
         </div>
     </div>
