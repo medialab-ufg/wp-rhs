@@ -11,6 +11,10 @@ Class RHSApi  {
         add_filter( 'template_include', array( &$this, 'rewrite_rule_template_include' ) );
         
         add_action( 'rest_api_init', array( &$this, 'register_rest_route' ) );
+        
+        // Modifica endpoints nativos
+        add_filter( 'rest_prepare_post', array(&$this, 'prepare_post'), 10, 3 );
+        add_filter( 'rest_prepare_user', array(&$this, 'prepare_user'), 10, 3 );
      
     }
     
@@ -32,6 +36,32 @@ Class RHSApi  {
     }
     
     
+    
+    function prepare_post( $data, $post, $context ) {
+        global $RHSVote;
+        $total_votes = $RHSVote->get_total_votes($post->ID);
+        $data->data['total_votes'] = $total_votes ? $total_votes : 0;
+        return $data;
+    }
+    
+    function prepare_user( $data, $user, $context ) {
+        global $RHSVote, $RHSFollow;
+        
+        $data->data['followers'] = $RHSFollow->get_user_followers($user->ID);
+        $data->data['follows'] = $RHSFollow->get_user_follows($user->ID);
+        
+        $total_votes = $RHSVote->get_total_votes_by_author($user->ID);
+        $data->data['total_votes'] = $total_votes ? $total_votes : 0;
+        
+        $userObj = new RHSUser($user);
+        $data->data['formation'] = $userObj->get_formation();
+        $data->data['interst'] = $userObj->get_interest();
+        $data->data['state'] = $userObj->get_state();
+        $data->data['city'] = $userObj->get_city();
+        $data->data['links'] = $userObj->get_links();
+        
+        return $data;
+    }
     
     
     
