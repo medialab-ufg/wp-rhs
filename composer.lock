@@ -4,6 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+    "hash": "0d181b9d4c9084aaeec24178e6bc770a",
     "content-hash": "80828201723c408e8ad2a9ed051a1384",
     "packages": [
         {
@@ -279,7 +280,11 @@
                 "hover",
                 "twitter"
             ],
+<<<<<<< HEAD
             "time": "2015-12-01T23:35:57+00:00"
+=======
+            "time": "2015-12-01 23:35:57"
+>>>>>>> ebf5d85f9648e1971dfffde6ea8e8d39b94dbc26
         },
         {
             "name": "eternicode/bootstrap-datepicker",
