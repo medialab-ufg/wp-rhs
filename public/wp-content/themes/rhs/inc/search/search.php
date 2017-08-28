@@ -215,7 +215,7 @@ class RHSSearch {
      * @return Object WP_User_Query 
      */
     public function search_users($params = array()) {
-        $users_per_page = '10';
+        $users_per_page = '12';
         $meta_query = [];
         $has_meta_query = false;
         
