@@ -214,15 +214,24 @@ class RHSSearch {
      * @param  array  $params opcional, os filtros de busca
      * @return Object WP_User_Query 
      */
-    public function search_users($new_params = array(), $paged) {
+    public function search_users($params = array()) {
         $users_per_page = '10';
         $meta_query = [];
         $has_meta_query = false;
         
-        $keyword =      $this->get_param('keyword');
-        $uf =           $this->get_param('uf');
-        $municipio =    $this->get_param('municipio');
-        $rhs_order =    $this->get_param('rhs_order');
+        $_filters = array_merge([
+            'uf' => $this->get_param('uf'),
+            'keyword' => $this->get_param('keyword'),
+            'municipio' => $this->get_param('municipio'),
+            'rhs_order' => $this->get_param('rhs_order'),
+            'paged' => get_query_var('paged'),
+        ], $params);
+        
+        $keyword =      $_filters['keyword'];
+        $uf =           $_filters['uf'];
+        $municipio =    $_filters['municipio'];
+        $rhs_order =    $_filters['rhs_order'];
+        $paged =    $_filters['paged'] ? $_filters['paged'] : 1;
         
       
         if (!empty($uf) || !empty($municipio)) {
@@ -326,8 +335,9 @@ class RHSSearch {
      * 
      * @return mixed Return html with paginate links
      */
-    function show_users_pagination($paged) {
+    function show_users_pagination($paged = -1) {
         // TODO
+        if (-1 == $paged) $paged = get_query_var('paged');
         $users_per_page = '10';
         $query_objects = $this->search_users([],$paged);
         $total_pages = 1;
