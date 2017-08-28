@@ -2399,6 +2399,108 @@ form .comment-form-comment {
     }
 }
 
+.membros{
+    margin-top: 25px;    
+    .well {
+        &.profile_view {
+            margin-bottom: 20px;
+            display: inline-block;
+            width: 100%;
+            -webkit-box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 0px 8px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 0px 8px 0 rgba(0, 0, 0, 0.3);
+            padding: 0;
+            background: $whiteColor;
+            height: 100%;
+            position: relative;
+            &:hover {
+                -webkit-box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.17), 0 0px 9px 0 rgba(0, 0, 0, 0.3);
+                box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.17), 0 0px 9px 0 rgba(0, 0, 0, 0.3);
+            }
+            .divider {
+                border-top: 1px solid #e5e5e5;
+                padding-top: 5px;
+                margin-top: 5px;
+            }
+            .ratings {
+                margin-bottom: 0;
+            }
+            .bottom-mask {
+                height: 50px;
+            }
+            .bottom {
+                text-align: right;
+                background: #F2F5F7;
+                padding: 9px 10px;
+                border-top: 1px solid #E6E9ED;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 46px;
+                word-spacing: -3px;
+                .btn {
+                    padding: 3px 10px;
+                    font-weight: bold;
+                    margin-left: 4px;
+                }
+            }
+            .left {
+                margin-top: 7px;
+                width: 92px;
+                float: left;
+                margin-left: 12px;
+                p {
+                    margin-bottom: 3px;
+                }
+                img{
+                    object-fit: cover;
+                    border-radius: 60px;
+                    border: 1px solid #d2d2d2;
+                }
+            }
+            .right {
+                float: left;
+                margin-left: 16px;
+                position: relative;
+                height: 97px;
+                width: 59%;
+                .info {
+                    position: absolute;
+                    bottom: 5px;
+                    left: 0;
+                    p {
+                        font-size: 12px;
+                        margin: 0;
+                        color: #787878;
+                    }
+                }
+                h1 {
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: #787878;
+                    .comunity-moderate,  .comunity-request{
+                        position: absolute;
+                        right: 6px;
+                        top: 15px;
+                        font-size: 29px;
+                    }
+                    a{
+                        color: #787878;
+                        font-weight: 900;
+                    }
+                }
+            }
+            .membros {
+                .panel {
+                    display: none;
+                }
+            }
+            .img-circle {
+                border: 1px solid #E6E9ED;
+            }
+        }
+    }
+}
+
 /*
 * Pagina Tickets
 */
