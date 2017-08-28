@@ -30,6 +30,9 @@ $this->query('votes', $substitutions);
 $this->log('Atualizando totais...');
 $this->query('votes-totals', $substitutions);
 
+$this->log('Atualizando totais por usuários...');
+$this->query('votes-totals-users', $substitutions);
+
 $this->log('Importando informação de data do último voto...');
 $this->query('posts-meta-date', $substitutions);
 

@@ -109,7 +109,9 @@ class VoteTest extends RHS_UnitTestCase {
             $this->assertEquals( true, $RHSVote->add_vote($savedPost->getId(), self::$users['voter'][4]) );
 
             // ESTAMOS ASSUMINDO QUE O PADRÃO DE VOTOS É 5
-
+            
+            // verificar se o total de votos que esse usuário tem é 5
+            $this->assertEquals(5, $RHSVote->get_total_votes_by_author(self::$users['contributor'][1]));
 
             // O colaborador 2 agora é pra ter o role voter
             $this->assertEquals(true, user_can(self::$users['contributor'][1], 'voter'));

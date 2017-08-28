@@ -373,22 +373,23 @@ Class RHSVote {
 			$post_id ) );
 
 		update_post_meta( $post_id, $this->total_meta_key, $numVotes );
+        
+        // Atualiza total de votos do usuário
+        $author_id = get_post_field( 'post_author', $post_id );
+        
+        $total = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM $this->tablename WHERE post_id IN (SELECT ID FROM $wpdb->posts WHERE post_author = %d)",
+			$author_id ) );
+            
+        update_user_meta($author_id, $this->total_meta_key, $total);
 
 	}
 
 	function get_total_votes( $post_id ) {
 		return get_post_meta( $post_id, $this->total_meta_key, true );
-
 	}
 
 	function get_total_votes_by_author( $user_id ) {
-
-		global $wpdb;
-
-		$total = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM rhs_votes WHERE post_id IN (SELECT ID FROM rhs_posts WHERE post_author = %d)",
-			$user_id ) );
-
-		return $total;
+        return get_user_meta( $user_id, $this->total_meta_key, true );
 	}
 
 	function user_has_voted( $post_id, $user_id = null ) {

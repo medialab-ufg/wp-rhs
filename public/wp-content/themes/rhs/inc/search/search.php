@@ -310,19 +310,11 @@ class RHSSearch {
             'number'    => $users_per_page,
             'offset'    => $offset,
             'has_published_posts' => $q_has_publish_posts,
-            'meta_query' => array(
-                    array(
-                        'key'     => '_uf',
-                        'value'   => $cod_uf,
-                        'compare' => 'LIKE'
-                    ),
-                    array(
-                        'key'     => '_municipio',
-                        'value'   => $cod_municipio,
-                        'compare' => 'LIKE'
-                    )
-            )
-         );     
+         );
+         
+         if ($has_meta_query) {
+             $filters['meta_query'] = $meta_query;
+         }
         
         // Retorna o objeto com a lista de usuários encontrados
         return new WP_User_Query($filters);      
