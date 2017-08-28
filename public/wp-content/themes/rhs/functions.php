@@ -23,6 +23,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/ticket/ticket.php');
         require_once('inc/email/email.php');
         require_once('inc/network/network.php');
+        require_once('inc/stats/stats.php');
         require_once('inc/comunity/comunities.php');
         require_once('inc/comunity/comunity.php');
         
