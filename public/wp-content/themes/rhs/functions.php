@@ -40,6 +40,7 @@ if(!function_exists('rhs_setup')) :
 
         require_once('inc/vote/vote.php');
         require_once('inc/follow/follow.php');
+        require_once('inc/follow-post/follow-post.php');
         require_once('inc/vote/widget.php');
         require_once('inc/carrossel/carrossel.php');
         require_once('inc/api/rhs-api.php');
