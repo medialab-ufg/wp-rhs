@@ -351,7 +351,7 @@ class RHSSearch {
             'next_text'    => __('Próxima &raquo;'), 
             'total'        => $total_pages,
             'current'      => $paged,
-            'end_size'     => 1,
+            'end_size'     => 4,
             'type'         => 'array',
             'mid_size'     => 8,
             'prev_next'    => true,
