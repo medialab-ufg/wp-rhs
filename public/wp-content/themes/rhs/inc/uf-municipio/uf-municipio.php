@@ -458,3 +458,7 @@ function the_user_ufmun($user_id) {
 function has_post_ufmun( $post_id ) {
     return get_post_meta( $post_id, '_uf', true );
 }
+
+function has_user_ufmun( $user_id ) {
+    return get_user_meta( $user_id, '_uf', true );
+}
