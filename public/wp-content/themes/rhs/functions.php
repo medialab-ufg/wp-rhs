@@ -41,6 +41,7 @@ if(!function_exists('rhs_setup')) :
 
         require_once('inc/vote/vote.php');
         require_once('inc/follow/follow.php');
+        require_once('inc/follow-post/follow-post.php');
         require_once('inc/vote/widget.php');
         require_once('inc/carrossel/carrossel.php');
         require_once('inc/api/rhs-api.php');
@@ -667,7 +668,7 @@ function tempoDecorido($data) {
  * @param int $user_id The user id to check and add usermeta
  * @param int $meta_key The meta key to check and add usermeta
  * @param int $meta_value The meta value to check and add usermeta
- * @return int/bool If user dont follows author it returns true with primary key id (umeta_id), false if already follow
+ * @return int/bool meta id or false
  * @see add_user_meta on wordpress documentation
  */
 function rhs_add_user_meta_unique($user_id, $meta_key, $meta_value) {
@@ -684,6 +685,33 @@ function rhs_add_user_meta_unique($user_id, $meta_key, $meta_value) {
         return $umeta_id;
             
     return add_user_meta($user_id, $meta_key, $meta_value);
+        
+}
+
+/**
+ * Function to check if has unicity of usermeta entry, checking if post_id, meta_key and meta_value are unique
+ * This was created because we have to verify if this values are uniques and not if user_id is present in usermeta
+ * 
+ * @param int $post_id The post id to check and add usermeta
+ * @param int $meta_key The meta key to check and add usermeta
+ * @param int $meta_value The meta value to check and add usermeta
+ * @return int/bool meta id or false
+ * @see add_user_meta on wordpress documentation
+ */
+function rhs_add_post_meta_unique($post_id, $meta_key, $meta_value) {
+    
+    global $wpdb;
+    
+    $query = $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta
+            WHERE post_id = %d AND meta_key = %s
+            AND meta_value = %d", $post_id, $meta_key, $meta_value );
+    
+    $meta_id = $wpdb->get_var($query);
+    
+    if (is_numeric($meta_id))
+        return $meta_id;
+            
+    return add_post_meta($post_id, $meta_key, $meta_value);
         
 }
 

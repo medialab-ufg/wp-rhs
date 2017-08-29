@@ -148,6 +148,7 @@ class RHSFollow {
         $return = rhs_add_user_meta_unique($author_id, self::FOLLOWED_KEY, $user_id);
         if ($return)
             do_action('rhs_add_user_follow_author', ['user_id' => $user_id, 'author_id' => $author_id]);
+
         return $return;
         // muito difícil acontecer um erro só em um dos metadados, então parece seguro retornar só o retorno da segunda chamada
     }
