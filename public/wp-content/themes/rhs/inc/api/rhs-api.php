@@ -41,6 +41,7 @@ Class RHSApi  {
         global $RHSVote;
         $total_votes = $RHSVote->get_total_votes($post->ID);
         $data->data['total_votes'] = $total_votes ? $total_votes : 0;
+        $data->data['comment_count'] = $post->comment_count;
         return $data;
     }
     
