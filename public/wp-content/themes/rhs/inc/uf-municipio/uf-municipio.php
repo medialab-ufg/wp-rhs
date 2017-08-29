@@ -457,10 +457,10 @@ function the_user_ufmun($user_id) {
 
 function has_post_ufmun( $post_id ) {
     $check = get_post_ufmun( $post_id );
-    return $check ? true : false;
+    return isset($check['uf']) && isset($check['uf']['id']) && is_numeric($check['uf']['id']);
 }
 
 function has_user_ufmun( $user_id ) {
     $check = get_user_ufmun( $user_id );
-    return $check ? true : false;
+    return isset($check['uf']) && isset($check['uf']['id']) && is_numeric($check['uf']['id']);
 }
