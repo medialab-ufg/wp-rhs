@@ -2,6 +2,7 @@
 
 class RHSFollowPost {
     const FOLLOW_POST_KEY = '_rhs_follow_post';
+    const FOLLOWED_POST_KEY = '_rhs_followed_post';
 
     function __construct() {
         add_action('wp_enqueue_scripts', array(&$this, 'addJS'));
@@ -106,7 +107,8 @@ class RHSFollowPost {
      * @see rhs_add_user_meta_unique function declared on functions.php
      */
     function add_follow_post($post_id, $user_id) {
-        $return = rhs_add_user_meta_unique($user_id, self::FOLLOW_POST_KEY, $post_id);
+        rhs_add_user_meta_unique($user_id, self::FOLLOW_POST_KEY, $post_id);
+        $return = rhs_add_user_meta_unique($post_id, self::FOLLOWED_POST_KEY, $user_id);
         if ($return)
             do_action('rhs_add_user_follow_post', ['user_id' => $user_id, 'post_id' => $post_id]);
         return $return;
@@ -121,7 +123,8 @@ class RHSFollowPost {
      * @see delete_user_meta on wordpress documentation
      */
     function remove_follow_post($post_id, $user_id) {
-        $return = delete_user_meta($user_id, self::FOLLOW_POST_KEY, $post_id);
+        delete_user_meta($user_id, self::FOLLOW_POST_KEY, $post_id);
+        $return = delete_user_meta($post_id, self::FOLLOWED_POST_KEY, $user_id);
         if ($return)
             do_action('rhs_delete_user_follow_post', ['user_id' => $user_id, 'post_id' => $post_id]);
         return $return;
