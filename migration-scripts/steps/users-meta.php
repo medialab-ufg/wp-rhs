@@ -26,8 +26,8 @@ $this->query('users-meta-formation');
 $this->log('Importando informação de interesse dos usuarios...');
 $this->query('users-meta-interest');
 
-$this->log('Importando informação de links dos usuarios...');
-$this->query('users-meta-links');
+#$this->log('Importando informação de links dos usuarios...');
+#$this->query('users-meta-links');
 
 $this->log('Importando informação de avatar dos usuarios...');
 $this->query('users-meta-avatar');
