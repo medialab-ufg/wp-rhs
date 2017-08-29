@@ -45,8 +45,10 @@ class FollowPostTest extends RHS_UnitTestCase {
         global $RHSFollowPost;
         $post_id = $this->factory->post->create(['post_title' => 'With a Little Help from My Friends']);
 
+        $this->assertEquals(false, $RHSFollowPost->does_user_follow_post($post_id, self::$users['contributor'][1]));
         $this->assertInternalType("int", $RHSFollowPost->add_follow_post($post_id, self::$users['contributor'][1]));
         $this->assertEquals(true, $RHSFollowPost->does_user_follow_post($post_id, self::$users['contributor'][1]));
+        $this->assertContains(self::$users['contributor'][1], $RHSFollowPost->get_post_followers($post_id));
         $this->assertEquals(true, $RHSFollowPost->remove_follow_post($post_id, self::$users['contributor'][1]));   
         $this->assertEquals(false, $RHSFollowPost->does_user_follow_post($post_id, self::$users['contributor'][1]));
     }
