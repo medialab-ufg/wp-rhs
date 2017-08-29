@@ -10,6 +10,8 @@
 class RHSLogin extends RHSMenssage {
 
     private static $instance;
+    
+    const META_KEY_LAST_LOGIN = '_last_login';
 
     function __construct() {
 
@@ -17,6 +19,7 @@ class RHSLogin extends RHSMenssage {
             add_filter( "login_url", array( &$this, "login_url" ), 10, 3 );
             add_filter( "login_redirect", array( &$this, "login_redirect" ), 10, 3 );
             add_filter( 'wp_login_errors', array( &$this, 'check_errors' ), 10, 2 );
+            add_action( 'wp_login', array( &$this, 'save_last_login'));
         }
 
         self::$instance = true;
@@ -61,6 +64,13 @@ class RHSLogin extends RHSMenssage {
 
         return $errors;
     }
+    
+    function save_last_login($login) {
+        global $user_ID;
+        $user = get_user_by('login', $login);
+        update_user_meta($user->ID, self::META_KEY_LAST_LOGIN, current_time('mysql'));
+    }
+
 }
 
 global $RHSLogin;

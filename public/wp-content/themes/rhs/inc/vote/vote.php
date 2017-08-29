@@ -503,6 +503,7 @@ Class RHSVote {
         $this->votes_to_text_help = get_option('vq_text_post_promoted');
 
 		$this->update_user_role( $postID );
+
 	}
 
 	function update_user_role( $postID ) {
@@ -523,6 +524,7 @@ Class RHSVote {
 		);
 
 		wp_update_user( $user_new );
+        do_action('rhs_user_promoted', $user->ID);
 	}
 
 	static function rhs_admin_page_voting_queue() {

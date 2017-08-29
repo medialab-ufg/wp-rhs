@@ -1,12 +1,12 @@
-UPDATE {{posts}}
+UPDATE {{posts}} p
 
-SET `comment_count` = (
+SET comment_count = (
 
     SELECT COUNT(comment_ID)
 
-        FROM {{comments}}
+        FROM {{comments}} c
 
-        WHERE {{posts}}.ID = {{comments}}.comment_post_ID
+        WHERE p.ID = c.comment_post_ID
 
 )
 

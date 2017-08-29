@@ -393,6 +393,7 @@ class RHSComunities extends RHSMenssage {
      */
     static function add_user_comunity_follow( $term_id, $user_id ) {
         add_term_meta( $term_id, self::MEMBER_FOLLOW, $user_id );
+        do_action('rhs_add_user_comunity_follow', $term_id, $user_id);
     }
 
     /**
@@ -403,6 +404,7 @@ class RHSComunities extends RHSMenssage {
      */
     static function delete_user_comunity_follow( $term_id, $user_id ) {
         delete_term_meta( $term_id, self::MEMBER_FOLLOW, $user_id );
+        do_action('rhs_delete_user_comunity_follow', $term_id, $user_id);
     }
 
     /**
