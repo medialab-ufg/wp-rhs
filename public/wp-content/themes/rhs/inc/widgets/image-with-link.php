@@ -67,7 +67,7 @@ class Image_With_Link extends WP_Widget {
 		
 		if($image) {
 			$image_preview = "<label class='thumb-preview'>Imagem</label><br/>";
-			$image_preview .= "<img class='thumb-preview' src='". $image ."'><br/>";
+			$image_preview .= "<img class='thumb-preview' style='max-width: 100%;' src='". $image ."'><br/>";
 			$image_preview .= "<a class='remove-image button button-danger' data-id='". $this->get_field_id('image') ."'>Remover imagem</a>";
 
 		} else {
@@ -80,7 +80,6 @@ class Image_With_Link extends WP_Widget {
 			Não há imagem selecionada.
 		</div>
 
-		<!-- TODO: Aplicar máscara para http:// -->
 		<p>
 			<label for="<?php echo $this->get_field_id('link_image'); ?>"><?php _e('Link:'); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id('link_image'); ?>" name="<?php echo $this->get_field_name('link_image'); ?>" type="text" value="<?php echo esc_attr($link_image); ?>">
