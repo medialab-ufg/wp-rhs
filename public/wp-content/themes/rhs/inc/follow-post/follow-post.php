@@ -99,6 +99,16 @@ class RHSFollowPost {
     }
 
     /**
+     * Return meta user specific for user id to show follows of specific user
+     * 
+     * @param int $user_id 
+     * @return mixed Will be an array if user_id is not specified or if third param is false (is false in default). Will be value of meta_value field if third value is true. 
+     */
+    function get_posts_followed_by_user($user_id) {
+        return get_user_meta($user_id, self::FOLLOW_POST_KEY);
+    }
+
+    /**
      * Add meta_key to identify post followed by user
      *  
      * @param int $post_id The post id to check and add new usermeta
