@@ -26,9 +26,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/stats/stats.php');
         require_once('inc/comunity/comunities.php');
         require_once('inc/comunity/comunity.php');
-<<<<<<< HEAD
         require_once('inc/search/search.php');
-=======
         
         /**
          * Notificação
@@ -41,7 +39,6 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/notification/types/new_community_post.php');
         require_once('inc/notification/types/new_post_from_user.php');
         require_once('inc/notification/types/post_promoted.php');
->>>>>>> develop
 
         require_once('inc/vote/vote.php');
         require_once('inc/follow/follow.php');
