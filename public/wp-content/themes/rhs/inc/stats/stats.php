@@ -11,6 +11,7 @@ class RHSStats {
     const ACTION_UNFOLLOW_USER = 'user_unfollow';
     const ACTION_POST_PROMOTED = 'post_promoted';
     const ACTION_USER_PROMOTED = 'user_promoted';
+    const ACTION_SHARE = 'share';
     
     private $table;
 
@@ -32,6 +33,10 @@ class RHSStats {
         add_action( 'rhs_delete_user_follow_author', array( &$this, 'user_unfollow'));
         add_action( 'rhs_post_promoted', array( &$this, 'post_promoted'));
         add_action( 'rhs_user_promoted', array( &$this, 'user_promoted'));
+        add_action( 'rhs_add_network_data', array( &$this, 'network_data'), 10, 2);
+        
+        
+        
         
     }
     
@@ -58,6 +63,13 @@ class RHSStats {
     
     function post_promoted($post_id) {
         $this->add_event(self::ACTION_POST_PROMOTED, $post_id);
+    }
+    
+    function network_data($post_id, $type) {
+        if ($type == RHSNetwork::META_KEY_VIEW) // não queremos gerar eventos para views
+            return;
+        $this->add_event(self::ACTION_SHARE, $post_id);
+        $this->add_event(self::ACTION_SHARE . '_' . $type, $post_id);
     }
     
     /**

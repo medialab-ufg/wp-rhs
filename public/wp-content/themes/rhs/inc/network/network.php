@@ -1,5 +1,5 @@
 <?php
-
+// TODO Mudar o nome disso pra SocialStats
 class RHSNetwork {
 
     const META_KEY_FACEBOOK = 'rhs_data_facebook';
@@ -70,7 +70,9 @@ class RHSNetwork {
 
             update_post_meta( $post_id, $type, $post_meta );
         }
-
+        
+        do_action('rhs_add_network_data', $post_id, $type);
+        
         if(!empty($_REQUEST['json'])){
             echo json_encode( true );
             exit;
