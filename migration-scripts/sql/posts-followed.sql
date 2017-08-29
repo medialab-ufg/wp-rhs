@@ -1,13 +1,13 @@
 
-INSERT IGNORE INTO {{usermeta}}
+INSERT IGNORE INTO {{postmeta}}
 (
-    user_id,
+    post_id,
     meta_key,
     meta_value
 )
 SELECT
 
-    ff.entity_id as `user_id`,
+    ff.entity_id as `post_id`,
     '{{followed_post_meta}}' as `meta_key`,
     ff.uid as `meta_value`
 
