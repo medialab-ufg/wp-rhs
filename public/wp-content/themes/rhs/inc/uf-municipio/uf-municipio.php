@@ -456,9 +456,11 @@ function the_user_ufmun($user_id) {
 }
 
 function has_post_ufmun( $post_id ) {
-    return get_post_meta( $post_id, '_uf', true );
+    $check = get_post_ufmun( $post_id );
+    return $check ? true : false;
 }
 
 function has_user_ufmun( $user_id ) {
-    return get_user_meta( $user_id, '_uf', true );
+    $check = get_user_ufmun( $user_id );
+    return $check ? true : false;
 }
