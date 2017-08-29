@@ -83,7 +83,7 @@
                                             name: 'tags'
                                         });
 
-                                        <?php if($RHSPost->getTagsJson()){ ?>
+                                        <?php if($RHSPost->getTags()){ ?>
                                         var ms = jQuery('#input-tags').magicSuggest({});
                                         ms.setValue(<?php echo $RHSPost->getTagsJson(); ?>);
                                         <?php } ?>
@@ -132,9 +132,9 @@
                                             jQuery('#category_verify').val('');
                                         }
 
-                                    })
+                                    });
 
-                                    <?php if($RHSPost->getCategoriesIdJson()){ ?>
+                                    <?php if($RHSPost->getCategoriesId()){ ?>
                                     var ms = jQuery('#input-category').magicSuggest({});
                                     ms.setValue(<?php echo $RHSPost->getCategoriesIdJson(); ?>);
                                     <?php } ?>
