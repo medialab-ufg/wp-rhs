@@ -19,9 +19,13 @@ Vamos trabalhar com o conceito de canais. Cada notificação é publicada em um 
 Os canais são criados dinamicamente, de acordo com os acontecimentos. Esses são os canais que pensamos até agora:
 
 **everyone**: Canal geral, que todo mundo assina por padrão. Uma notificação aqui chega pra todo mundo
+
 **private_for_{$user_id}**: Cada usuário também assina por padrão um canal só seu, para notificações particulares. Por exemplo: "você foi promovido a votante"
+
 **comments_in_post_{$post_id}**: Canal para novos comentários em um post. O autor do post e pessoas que comentam nesse post assinam ele automaticamente.
+
 **user_{$user_id}**: Canal para quem segue um determinado usuário
+
 **community_{$community_id}**: Canal para quem segue uma determinada comunidade.
 
 Os canais que cada usuário assina ficam guardados como um user_meta múltiplo, ou seja, podem haver várias entradas com o mesmo meta_key e vários valores diferentes. Exemplo:
@@ -38,16 +42,21 @@ Além disso, também guardaríamos a data/hora em que ele verificou se havia not
 Agora nós criamos uma nova tabela para as notificações em si. Essa tabela teria as seguintes colunas:
 
 **ID**: auto increment
+
 **type**: o tipo de notificação. Com o tempo podemos adicionar mais tipos, isso que vai definir qual o texto da mensagem da notificação, o link, etc
+
 **channel**: em qual canal essa notificação está publicada
+
 **object_id**: A que se refere essa notificação? a um post? um usuário.. bota o ID aqui. Junto com o type, isso vai nos ajudar a montar o link para onde essa notificação nos leva
+
 **user_id**: O ID do usuário que foi o gerador da notificação. Por exemplo, para uma notificação de novo post em uma comunidade, seria o ID do autor do post. Em alguns casos, esse ID não se aplica, por exemplo quando um usuário é promovido, o `user_id` fica 0 (zero). Este ID é útil para evitar que usuários recebam notificações de coisas que eles mesmo fizeram. Por exemplo, se eu comento em um post, gera uma notificação no canal `comments_in_post_$id`. Se eu seguir esse post e não houvesse essa informação, eu receberia uma notificação avisando que eu mesmo fiz um comentário no post. Com essa coluna, conseguimos filtrar para não mostrar aos usuários notificações sobre coisas que eles mesmos fizeram.
+
 **data/hora**: data e hora da notificação
 
 Vamos ver um exemplo de como isso ficaria:
 
 | ID  | type | channel | object_id | user_id | datetime |
-| ------------- | ------------- | ------------ | --- | ---- |
+| ------------- | ------------- | ------------ | --- | ---- | --- |
 | 1 | new_post_from_user | user_55 | 567 | 2 | 12/12/12... |
 | 2 | post_promoted | private_for_12 | 33 | 0 | 12/12/12... |
 | 3 | new_community_post | community_66 | 78 | 3 | 12/12/12... |
