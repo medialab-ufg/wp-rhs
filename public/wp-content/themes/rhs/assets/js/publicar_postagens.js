@@ -46,9 +46,7 @@ jQuery(document).ready(function() {
     // ver https://github.com/nicolasbize/magicsuggest/issues/21
     jQuery(ms).on('load', function(){
         if(this._dataSet === undefined){
-            // we get here the first time the combo has loaded and gone through
-            // the first if case in tag-autocomplete-service.php: the combo has been
-            // populated with the default values only.
+            // Roda apenas da primeira vez e depois remove o parametro term_ids dos parametros da URL
             this._dataSet = true;
             ms.setValue(post_vars.selectedTags);
             ms.setDataUrlParams({action: 'get_tags'});

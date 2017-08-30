@@ -322,8 +322,10 @@ class RHSPosts extends RHSMenssage {
          * Salvar/edita tags
          */
         $saveTags = array();
-        foreach ($post->getTags() as $tag)
-            $saveTags[] = $tag->term_id;
+        if (is_array($post->getTags())) {
+            foreach ($post->getTags() as $tag)
+                $saveTags[] = $tag->term_id;
+        }
         wp_set_post_terms( $post->getId(), $saveTags );
 
         $comunities = $post->getComunities();
@@ -431,6 +433,12 @@ class RHSPosts extends RHSMenssage {
             exit;
             
         }
+        
+        if (isset($_POST['term_slugs'])) {
+            echo json_encode(get_tags( array( 'slug' => $_POST['term_slugs'], 'hide_empty' => false ) ));
+            exit;
+            
+        }
 
         if ( empty( $_POST['query'] ) ) {
             echo json_encode( $result_tags );
@@ -442,6 +450,7 @@ class RHSPosts extends RHSMenssage {
         foreach ( $tags as $tag ) {
             $result_tags[] = array(
                 'term_id'   => $tag->term_id,
+                'slug'   => $tag->slug,
                 'name' => $tag->name
             );
         }

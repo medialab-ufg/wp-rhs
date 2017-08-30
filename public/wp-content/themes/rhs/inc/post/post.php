@@ -213,6 +213,9 @@ class RHSPost {
      * @param array $term_ids
      */
     function setTagsByIds($term_ids) {
+        if (empty($term_ids))
+            return $this->setTags([]);
+            
         $tags = get_tags(['include' => $term_ids, 'hide_empty' => false]);
         $this->setTags($tags);
     }

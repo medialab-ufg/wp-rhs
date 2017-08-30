@@ -17,14 +17,27 @@ jQuery(function() {
         selectionPosition: 'bottom',
         selectionStacked: true,
         selectionRenderer: function(data){
-            return data.id;
+            return data.name;
         },
         data: search_vars.ajaxurl,
-        dataUrlParams: { action: 'get_tags' },
+        dataUrlParams: { 
+            action: 'get_tags',
+            term_slugs: search_vars.selectedTags
+        },
         minChars: 3,
         name: 'tag',
+        valueField: 'slug'
         //maxSelection: 1
     });
-    ms.setValue(search_vars.selectedTags);
+
+    // ver https://github.com/nicolasbize/magicsuggest/issues/21
+    jQuery(ms).on('load', function(){
+        if(this._dataSet === undefined){
+            // Roda apenas da primeira vez e depois remove o parametro term_slugs dos parametros da URL
+            this._dataSet = true;
+            ms.setValue(search_vars.selectedTags);
+            ms.setDataUrlParams({action: 'get_tags'});
+        }
+    });
     
 });
