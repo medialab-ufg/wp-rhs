@@ -2469,10 +2469,11 @@ form .comment-form-comment {
                 }
             }
             .left {
-                margin-top: 7px;
+                margin-top: 0px;
                 width: 92px;
                 float: left;
-                margin-left: 12px;
+                margin-left: 5px;
+                padding: 5px;
                 p {
                     margin-bottom: 3px;
                 }
@@ -2480,6 +2481,7 @@ form .comment-form-comment {
                     object-fit: cover;
                     border-radius: 60px;
                     border: 1px solid #d2d2d2;
+                    object-position: top;
                 }
             }
             .right {
@@ -2488,7 +2490,7 @@ form .comment-form-comment {
                 position: relative;
                 height: 97px;
                 width: 59%;
-                .info {
+                .info-membros {
                     position: absolute;
                     bottom: 5px;
                     left: 0;
@@ -2496,20 +2498,24 @@ form .comment-form-comment {
                         font-size: 12px;
                         margin: 0;
                         color: #787878;
+                        &.location{
+                            strong{
+                                color: $primeira_cor_fundo;
+                            }
+                            .membros-location{
+                                a{
+                                    color: $grayColor;
+                                }
+                            }
+                        }
                     }
                 }
                 h1 {
                     font-size: 16px;
                     font-weight: bold;
-                    color: #787878;
-                    .comunity-moderate,  .comunity-request{
-                        position: absolute;
-                        right: 6px;
-                        top: 15px;
-                        font-size: 29px;
-                    }
-                    a{
-                        color: #787878;
+                    padding: 15px;
+                    .membros{
+                        color: $primeira_cor_texto;
                         font-weight: 900;
                     }
                 }

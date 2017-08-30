@@ -62,11 +62,10 @@ echo "Total: " . $users->total_users; // deixando aqui só pra vc saber como peg
                                         <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="?rhs_order=date">Data</a></li>
-                                            <li><a href="?rhs_order=comments">Comentários</a></li>
-                                            <li><a href="?rhs_order=votes">Votos</a></li>
-                                            <li><a href="?rhs_order=views">Visualizações</a></li>
-                                            <li><a href="?rhs_order=shares">Compartilhamentos</a></li>
+                                            <li><a href="?rhs_order=name">Nome</a></li>
+                                            <li><a href="?rhs_order=register_date">Data de Cadastro</a></li>
+                                            <li><a href="?rhs_order=posts">Número de Posts</a></li>
+                                            <li><a href="?rhs_order=votes">Número de Votos</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -77,9 +76,8 @@ echo "Total: " . $users->total_users; // deixando aqui só pra vc saber como peg
                                 <?php foreach ($users->results as $user): ?>
                                     <div class="col-md-4 col-xs-12 well-disp" data-userid="<?php echo $user->ID; ?>" data-id="<?php echo $user->ID; ?>">
                                         <div class="well profile_view">
-                                        <?php //var_dump(UFMunicipio::get_user_meta($user->ID) == ''); die; ?>
                                             <div class="left">
-                                                <span class="comunity-avatar">
+                                                <span class="membros-avatar">
                                                     <a href="<?php echo get_author_posts_url($user->ID); ?>" class="membros">
                                                         <?php echo get_avatar($user->ID); ?>
                                                     </a>
@@ -88,12 +86,17 @@ echo "Total: " . $users->total_users; // deixando aqui só pra vc saber como peg
                                             <div class="right">
                                                 <h1>
                                                     <a href="<?php echo get_author_posts_url($user->ID); ?>" class="membros">
-                                                        <span class="comunity-name"><?php echo $user->display_name; ?></span>
+                                                        <span class="membros-name"><?php echo $user->display_name; ?></span>
                                                     </a>
                                                 </h1>
                                                 <?php if(has_user_ufmun($user->ID)) { ?>
-                                                    <div class="info">
-                                                        <p><strong>Localidade: </strong> <span class="comunity-location"><?php echo the_user_ufmun($user->ID); ?></span></p>
+                                                    <div class="info-membros">
+                                                        <p class="location">
+                                                            <strong>Localidade: </strong> 
+                                                            <span class="membros-location">
+                                                                <?php echo the_user_ufmun($user->ID); ?>
+                                                            </span>
+                                                        </p>
                                                     </div>
                                                 <?php } ?>
                                             </div>
