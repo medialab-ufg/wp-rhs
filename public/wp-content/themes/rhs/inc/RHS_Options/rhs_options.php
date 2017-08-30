@@ -1,5 +1,5 @@
 <?php
-    class RHSOptions extends RHSMenssage{
+    class RHSOptions extends RHSMessage{
   
         const BUTTON_HEADER_PUB = 'button_header_publica_post';
         const BUTTON_HEADER_VOTE = 'button_header_fila_vote';

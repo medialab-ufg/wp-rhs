@@ -1,6 +1,6 @@
 <?php
 
-class RHSPerfil extends RHSMenssage {
+class RHSPerfil extends RHSMessage {
 
     private static $instance;
     private $userID;

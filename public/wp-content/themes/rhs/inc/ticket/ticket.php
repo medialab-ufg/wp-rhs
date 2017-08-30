@@ -2,7 +2,7 @@
 if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
-class RHSTicket extends RHSMenssage {
+class RHSTicket extends RHSMessage {
     const POST_TYPE = 'tickets';
     const TAXONOMY = 'tickets-category';
     const NOT_RESPONSE = 'not_response';

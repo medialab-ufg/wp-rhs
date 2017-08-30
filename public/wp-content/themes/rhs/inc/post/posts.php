@@ -1,6 +1,6 @@
 <?php
 
-class RHSPosts extends RHSMenssage {
+class RHSPosts extends RHSMessage {
 
     private static $instance;
     const META_DATE_ORDER = 'rhs-post-date-order';

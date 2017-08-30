@@ -1,6 +1,6 @@
 <?php
 
-class RHSRegister extends RHSMenssage {
+class RHSRegister extends RHSMessage {
 
     private static $instance;
 

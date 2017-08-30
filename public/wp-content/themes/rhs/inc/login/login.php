@@ -7,7 +7,7 @@
 * Com a Função display_recuperar_captcha() mostra na tela o reCaptcha.
 *
 */
-class RHSLogin extends RHSMenssage {
+class RHSLogin extends RHSMessage {
 
     private static $instance;
     

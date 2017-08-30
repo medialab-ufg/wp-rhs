@@ -1,6 +1,6 @@
 <?php
 
-class RHSMenssage {
+class RHSMessage {
 
     protected $key;
 

@@ -1,6 +1,6 @@
 <?php
 
-class RHSComunities extends RHSMenssage {
+class RHSComunities extends RHSMessage {
 
     const TAXONOMY = 'comunity-category';
     const IMAGE = 'rhs-comunity-image';

@@ -1,6 +1,6 @@
 <?php
 
-class RHSLostPassword extends RHSMenssage {
+class RHSLostPassword extends RHSMessage {
 
     private static $instance;
 

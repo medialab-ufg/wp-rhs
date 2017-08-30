@@ -1,6 +1,6 @@
 <?php
 
-Class RHSUsers extends RHSMenssage {
+Class RHSUsers extends RHSMessage {
 
     static $instance;
     const SEPARATE = "&#44;";
