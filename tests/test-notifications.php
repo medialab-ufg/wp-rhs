@@ -168,5 +168,23 @@ class NotificationsTest extends RHS_UnitTestCase {
         
     }
 
+    function test_user_follow_author() {
+        global $RHSNotifications;
+        global $RHSFollow;
+
+        // usuário segue outro usuário
+        $RHSFollow->toggle_follow(self::$users['contributor'][0], self::$users['contributor'][1]);
+
+        // deve ser registrado no canal
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_PRIVATE, self::$users['contributor'][0]), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
+        
+        // usuário recebe notificação
+        $author = self::$users['contributor'][0];
+        $user = self::$users['contributor'][1];
+        $this->assertEquals(1, $RHSNotifications->get_news_number($author));
+        $this->assertEquals($author, $RHSNotifications->get_news($author)[0]->getObjectId());       
+        
+    }
+
 
 }
