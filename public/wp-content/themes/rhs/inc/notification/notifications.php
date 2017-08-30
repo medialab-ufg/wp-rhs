@@ -55,15 +55,6 @@ class RHSNotifications {
         }
     }
     
-    private function text_per_type() {
-
-        return array(
-            self::NEW_POST       => '<a href="%s"><strong>%s</strong></a> criou um novo post <a href="%s"><strong>%s</strong></a>',
-            self::POST_PROMOTED  => 'Seu post <a href="%s"><strong>%s</strong></a> foi promovido.',
-            self::COMMUNITY_POST => 'Foi criado um novo post <a href="%s"><strong>%s</strong></a>, na comunidade <a href="%s"><strong>%s</strong></a>',
-        );
-
-    }
     private function events_wordpress() {
         add_action( 'wp_ajax_rhs_clear_notification', array( &$this, 'ajax_clear_notification' ) );
     }
@@ -209,16 +200,16 @@ class RHSNotifications {
         }
     }
 
-    function add_user_to_channel( $type, $id_for_channel = 0, $user_id ) {
+    function add_user_to_channel( $channel, $channel_id = 0, $user_id ) {
 
-        $value = sprintf( $type, $id_for_channel );
+        $value = sprintf( $channel, $channel_id );
 
         return add_user_meta( $user_id, self::META, $value );
     }
 
-    function delete_user_from_channel( $channel, $id_for_channel = 0, $user_id ) {
+    function delete_user_from_channel( $channel, $channel_id = 0, $user_id ) {
 
-        $value = sprintf( $channel, $id_for_channel );
+        $value = sprintf( $channel, $channel_id );
 
         return delete_user_meta( $user_id, self::META, $value );
     }

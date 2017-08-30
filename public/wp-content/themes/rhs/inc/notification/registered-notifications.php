@@ -16,11 +16,12 @@
 
 return [
 
-    'rhs_post_promoted' => 'post_promoted',
-    'rhs_new_post_in_communities' => 'new_community_post',
-    'rhs_new_post_from_user' => 'new_post_from_user',
-    'comment_post' => 'comments_in_post',
-    'comment_unapproved_to_approved' => 'comments_in_post',
-    'comment_spam_to_approved' => 'comments_in_post',
+    'rhs_post_promoted'                         => 'post_promoted',
+    'rhs_add_user_follow_post'                  => 'post_followed',
+    'rhs_new_post_in_communities'               => 'new_community_post',
+    'rhs_new_post_from_user'                    => 'new_post_from_user',
+    'comment_post'                              => 'comments_in_post',
+    'comment_unapproved_to_approved'            => 'comments_in_post',
+    'comment_spam_to_approved'                  => 'comments_in_post',
 
 ];

@@ -7,7 +7,10 @@ Ele contem todo o projeto, incluindo a instalação de todas as dependências vi
 
 Abaixo estão as instruções de como montar o ambiente de desenvolvimento e fazer deploy do projeto.
 
-Para informações sobre o script de migração, veja [migration-scripts/docs.md](migration-scripts/docs.md).
+# Documentações
+
+* Script de migração: [migration-scripts/docs.md](migration-scripts/docs.md).
+* Notificações: [docs/notifications.md](docs/notifications.md).
 
 ## Criando a ambiente de desenvolvimento
 

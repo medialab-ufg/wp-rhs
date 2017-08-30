@@ -4,11 +4,12 @@
 			<div class="col-xs-9 col-sm-11 col-md-10">
                 <?php global $RHSNetwork;?>
                 <?php the_title( '<h1>', '</h1>' ); ?>
+				<?php do_action('rhs_follow_post_box', get_the_ID()); ?>
 			</div>
 			<div class="col-xs-3 col-sm-1 col-md-2 vdivide">
-                			<div class="votebox">
-								<?php do_action('rhs_votebox', get_the_ID()); ?>
-                			</div>
+				<div class="votebox">
+					<?php do_action('rhs_votebox', get_the_ID()); ?>
+				</div>
 			</div>
 			<div class="col-xs-12">
 				<div class="post-categories">

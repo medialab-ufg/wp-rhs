@@ -14,6 +14,7 @@ class RHSImporter {
         // nomeDoArquivo => Descrição do passo
         
         'posts' => 'Importação básica dos posts',
+        'posts-follow' => 'Importação das usuários que seguem posts',
         'users' => 'Importação básica dos usuários',
         'users-roles' => 'Importação dos papeis usuários',
         'users-meta' => 'Importação avançadas dos usuários',
