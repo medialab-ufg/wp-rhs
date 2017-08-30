@@ -4,8 +4,6 @@ get_header('full');
 // Resultado da busca
 $users = $RHSSearch->search_users();
 
-echo "Total: " . $users->total_users; // deixando aqui só pra vc saber como pega e poder montar o layout
-
 ?>
 <div class="row">
     <div class="col-xs-12">

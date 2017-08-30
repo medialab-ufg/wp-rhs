@@ -45,15 +45,13 @@ Class UFMunicipio {
 
         $cidades = self::get_cities($uf);
 
-        $output = '';
+        $output = "<option value=''>Selecione a cidade...</option>";
 
         if (is_array($cidades) && count($cidades) > 0) {
             foreach ($cidades as $cidade) {
                 $selected = selected($currentCity, $cidade->id, false);
                 $output .= "<option value='{$cidade->id}' $selected>{$cidade->nome}</option>";
             }
-        } else {
-            return "<option value=''>Selecione a cidade...</option>";
         }
 
         return $output;

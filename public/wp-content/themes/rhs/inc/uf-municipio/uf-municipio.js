@@ -17,11 +17,6 @@ jQuery( function( $ ) {
                         $('.style ' + $state_id).tooltip('hide');
                         $($city_id).html(data);
                         $('.style ' + $city_id).attr('title', 'Defina o municipio relacionado a este post aqui').tooltip({placement: "left"}).tooltip('show');
-                        $('.formulario ' + $city_id).append($('<option>', {
-                            value: '',
-                            text: 'Selecione a cidade...',
-                            selected
-                        }));
                     } 
                 });
             }

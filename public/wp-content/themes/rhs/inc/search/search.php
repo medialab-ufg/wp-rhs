@@ -7,6 +7,17 @@ class RHSSearch {
 
     function __construct() {
         add_action('pre_get_posts', array(&$this, 'pre_get_posts'), 2);
+        add_action('wp_enqueue_scripts', array(&$this, 'addJS'), 2);
+    }
+    
+    function addJS() {
+        if (get_query_var('rhs_busca')) {
+            wp_enqueue_script('rhs_search', get_template_directory_uri() . '/inc/search/search.js', array('bootstrap-datapicker', 'magicJS'));
+            wp_localize_script( 'rhs_search', 'search_vars', array( 
+                'ajaxurl' => admin_url( 'admin-ajax.php' ),
+                'selectedTags' => $this->get_param('tag')
+            ) );
+        }
     }
 
     function pre_get_posts(&$wp_query) {
@@ -180,10 +191,16 @@ class RHSSearch {
      * @param  string $param o nome do parâmetro
      * @return string        o valor do parâmetro
      */
-    public function get_param($param) {
+    static public function get_param($param) {
         if (isset($_GET[$param]))
             return $_GET[$param];
-        return get_query_var($param);
+            
+        $value = get_query_var($param);
+        
+        if (empty($value) && $param == 'keyword')
+            $value = get_query_var('s');
+        
+        return $value;
     }
     
 
