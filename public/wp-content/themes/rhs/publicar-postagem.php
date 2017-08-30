@@ -117,7 +117,7 @@
                                         allowFreeEntries: false,
                                         selectionPosition: 'bottom',
                                         selectionStacked: true,
-                                        <?php echo $RHSPost->getCategoriesJson(); ?>
+                                        <?php echo $RHSPost->getCategoriesObjArray(); ?>
                                         selectionRenderer: function(data){
                                             return data.name;
                                         },

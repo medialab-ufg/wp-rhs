@@ -8,7 +8,7 @@ class RHSPost {
     private $status;
     private $authorId;
     private $categories;
-    private $categoriesJson;
+    private $categoriesObjArray;
     private $categoriesId;
     private $categoriesIdJson;
     private $state;
@@ -52,6 +52,23 @@ class RHSPost {
         $this->setContent($post->post_content);
         $this->setStatus($post->post_status);
         $this->setAuthorId($post->post_author);
+
+        $this->setCategories(get_the_category($postId));
+        $this->setCategoriesId(wp_get_post_categories($postId));
+        $this->setCategoriesIdJson();
+        $this->setCategoriesObjArray();
+
+        $this->setTags(wp_get_post_tags($postId));
+        $this->setTagsJson();
+
+        $this->setStateCity();
+
+        $this->setFeaturedImageId(get_post_thumbnail_id($postId));
+
+        $this->setComunities(wp_get_post_terms( $postId , RHSComunities::TAXONOMY ));
+
+        $this->setComunitiesName();
+        $this->setComunitiesId();
     }
 
     /**
@@ -128,13 +145,6 @@ class RHSPost {
      * @return array
      */
     public function getCategories() {
-
-        if($this->categories){
-            return $this->categories;
-        }
-
-        $this->setCategories(get_the_category( $this->id ));
-
         return $this->categories;
     }
 
@@ -163,13 +173,6 @@ class RHSPost {
      * @return int
      */
     public function getCity() {
-
-        if($this->city){
-            return $this->city;
-        }
-
-        $this->setStateCity();
-
         return $this->city;
     }
 
@@ -181,7 +184,6 @@ class RHSPost {
     }
 
     private function setStateCity(){
-
         $cur_ufmun = get_post_ufmun( $this->id );
 
         if (!empty($cur_ufmun['uf']['id'])) {
@@ -197,13 +199,6 @@ class RHSPost {
      * @return array
      */
     public function getTags() {
-
-        if($this->tags){
-            return $this->tags;
-        }
-
-        $this->setTags(wp_get_post_tags( $this->id ));
-
         return $this->tags;
     }
 
@@ -222,7 +217,7 @@ class RHSPost {
     public function getFeaturedImage( $size = 'post-thumbnail' ) {
 
         if($this->featuredImage){
-            return $this->featuredImage;
+             return $this->featuredImage;
         }
 
         return get_the_post_thumbnail( $this->id, $size);
@@ -236,72 +231,46 @@ class RHSPost {
     /**
      * @return mixed
      */
-    public function getCategoriesJson() {
-
-        if ( $this->categoriesJson ) {
-            return $this->categoriesJson;
-        }
-
-        $string = 'data: [';
-
-        foreach ( get_categories() as $category ) :
-            $string .= "{id:" . $category->term_id . ", name:'" . $category->cat_name . "'},";
-        endforeach;
-
-        $string .= '],';
-
-        return $this->categoriesJson = $string;
+    public function getCategoriesObjArray() {
+        return $this->categoriesObjArray;
     }
 
-    /**
-     * @param mixed $categoriesJson
-     */
-    public function setCategoriesJson( $categoriesJson ) {
-        $this->categoriesJson = $categoriesJson;
+    public function setCategoriesObjArray() {
+        $string = 'data: [';
+        $categories = $this->getCategories();
+
+        foreach ($categories  as $category ) :
+            $string .= "{id:" . $category->term_id . ", name:'" . $category->cat_name . "'},";
+        endforeach;
+        
+        $string .= '],';
+
+        $this->categoriesObjArray = $string;
     }
 
     /**
      * @return mixed
      */
     public function getTagsJson() {
+        return $this->tags_json;
+    }
 
-        if ( $this->tags_json ) {
-            return $this->tags_json;
-        }
-
+    public function setTagsJson() {
         $tagsDataArr = array();
-
+        
         if ( $this->tags ) {
             foreach ( $this->tags as $tag ) {
                 $tagsDataArr[] = $tag->name;
             }
+                    
+            $this->tags_json = "['" . implode( "', '", $tagsDataArr ) . "']";
         }
-
-        if ( $tagsDataArr ) {
-            return $this->tags_json = "['" . implode( "', '", $tagsDataArr ) . "']";
-        }
-
-        return $this->tags_json;
-    }
-
-    /**
-     * @param mixed $tags_json
-     */
-    public function setTagsJson( $tags_json ) {
-        $this->tags_json = $tags_json;
     }
 
     /**
      * @return array|WP_Error
      */
     public function getCategoriesId() {
-
-        if($this->categoriesId){
-            return $this->categoriesId;
-        }
-
-        $this->setCategoriesId(wp_get_post_categories( $this->id ));
-
         return $this->categoriesId;
     }
 
@@ -316,36 +285,19 @@ class RHSPost {
      * @return mixed
      */
     public function getCategoriesIdJson() {
-
-        if ( $this->categoriesIdJson ) {
-            return $this->categoriesIdJson;
-        }
-
-        if ( $this->categoriesId ) {
-            $this->categoriesIdJson = "['" . implode( "', '", $this->categoriesId ) . "']";
-        }
-
         return $this->categoriesIdJson;
     }
 
-    /**
-     * @param mixed $categoriesIdJson
-     */
-    public function setCategoriesIdJson( $categoriesIdJson ) {
-        $this->categoriesIdJson = $categoriesIdJson;
+    public function setCategoriesIdJson() {
+        if ( $this->categoriesId ) {
+            $this->categoriesIdJson = "['" . implode( "', '", $this->categoriesId ) . "']";
+        }
     }
 
     /**
      * @return int|string
      */
     public function getFeaturedImageId() {
-
-        if($this->featuredImageId){
-            return $this->featuredImageId;
-        }
-
-        $this->setFeaturedImageId(get_post_thumbnail_id( $this->id ));
-
         return $this->featuredImageId;
     }
 
@@ -367,7 +319,6 @@ class RHSPost {
      * @param array $error
      */
     public function setError(WP_Error $error ) {
-
         $this->error = $error->get_error_messages();
     }
 
@@ -379,12 +330,6 @@ class RHSPost {
      * @return WP_Term[]
      */
     public function getComunities() {
-
-        if($this->comunities){
-            return $this->comunities;
-        }
-        $this->setComunities(wp_get_post_terms( $this->id , RHSComunities::TAXONOMY ));
-
         return $this->comunities;
     }
 
@@ -399,46 +344,32 @@ class RHSPost {
      * @return mixed
      */
     public function getComunitiesId() {
-
-        if($this->comunitiesId){
-            return $this->comunitiesId;
-        }
-
-        foreach ($this->getComunities() as $category){
-
-            if($category instanceof WP_Term){
-                $this->comunitiesId[] = $category->term_id;
-            }
-        }
-
         return $this->comunitiesId;
     }
 
     public function getComunitiesName() {
+        return $this->comunitiesName;
+    }
 
-        if($this->comunitiesName){
-            return $this->comunitiesName;
-        }
+    public function setComunitiesName(){
+        $comunities = $this->getComunities();
 
-        foreach ($this->getComunities() as $category){
-
+        foreach ($comunities as $category){
             if($category instanceof WP_Term){
                 $this->comunitiesName[] = $category->name;
             }
         }
-
-        return $this->comunitiesName;
     }
 
-    /**
-     * @param mixed $comunitiesId
-     */
-    public function setComunitiesId( $comunitiesId ) {
-        $this->comunitiesId = $comunitiesId;
+    public function setComunitiesId() {
+        $comunities = $this->getComunities();
+
+        foreach ($comunities as $category){
+            if($category instanceof WP_Term){
+                $this->comunitiesId[] = $category->term_id;
+            }
+        }
     }
-
-
-
 
 }
 
