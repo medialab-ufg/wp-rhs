@@ -146,7 +146,27 @@ class NotificationsTest extends RHS_UnitTestCase {
         
     }
 
+    function test_follow_post() {
+        
+        global $RHSNotifications;
+        global $RHSFollowPost;
+        global $RHSPosts;
+        // Cria um post como colaborador1
+        wp_set_current_user(self::$users['contributor'][1]);
+        $newpost = self::create_post_to_queue();
 
+        // usuario segue post
+        $RHSFollowPost->toggle_follow_post($newpost->getId(), self::$users['contributor'][0]);
+        
+        // deve ser registrado no canal
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMENTS, $newpost->getId()), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));      
+        
+        // deve ser registrado no canal
+        $this->assertEquals(1, $RHSNotifications->get_news_number(self::$users['contributor'][1]));
+        $this->assertEquals($newpost->getId(), $RHSNotifications->get_news(self::$users['contributor'][1])[0]->getObjectId());
+        $this->assertEquals(self::$users['contributor'][0], $RHSNotifications->get_news(self::$users['contributor'][1])[0]->getUserId());
+        
+    }
 
 
 }
