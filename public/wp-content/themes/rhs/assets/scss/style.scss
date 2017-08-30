@@ -3300,6 +3300,9 @@ form .comment-form-comment {
                     white-space: nowrap;
                     .form-group{
                         padding: 5px;
+                        .input-daterange{
+                            width: 90%;
+                        }
                     }
                     .tags{
                         max-width: 200px;
@@ -3323,7 +3326,7 @@ form .comment-form-comment {
                         margin-left: 10px;
                     }
                     #keyword{
-                        width: 318px;
+                        width: 100%;
                     }
                 }
             }
