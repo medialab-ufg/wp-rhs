@@ -1,10 +1,7 @@
 <?php get_header('full'); ?>
 <?php global $RHSPosts; ?>
 
-<?php $RHSPost = new RHSPost(get_query_var('rhs_edit_post'), null, true); ?>
-<?php if(!$RHSPost->getId()){
-    $RHSPost = $RHSPosts->set_by_post();
-} ?>
+<?php $RHSPost = $RHSPosts->get_current_post(); ?>
     <div class="row">
         <!-- Container -->
         <form autocomplete="off" method="post" class="form-horizontal" id="posting" role="form" action="">
@@ -68,27 +65,6 @@
                             <div class="panel-body sidebar-public">
                                 <div class="form-group">
                                     <input type="text" value="" class="form-control" id="input-tags" placeholder="Tags">
-                                    <script>
-                                        var ms = jQuery('#input-tags').magicSuggest({
-                                            placeholder: 'Select...',
-                                            allowFreeEntries: true,
-                                            selectionPosition: 'bottom',
-                                            selectionStacked: true,
-                                            selectionRenderer: function(data){
-                                                return data.name;
-                                            },
-                                            data: vars.ajaxurl,
-                                            dataUrlParams: { action: 'get_tags' },
-                                            minChars: 3,
-                                            name: 'tags'
-                                        });
-
-                                        <?php if($RHSPost->getTags()){ ?>
-                                        var ms = jQuery('#input-tags').magicSuggest({});
-                                        ms.setValue(<?php echo $RHSPost->getTagsJson(); ?>);
-                                        <?php } ?>
-
-                                    </script>
                                 </div>
                                 <div class="form-group style">
                                     <?php UFMunicipio::form( array(

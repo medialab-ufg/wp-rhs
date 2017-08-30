@@ -53,19 +53,19 @@ class RHSPost {
         $this->setStatus($post->post_status);
         $this->setAuthorId($post->post_author);
 
-        $this->setCategories(get_the_category($postId));
-        $this->setCategoriesId(wp_get_post_categories($postId));
+        $this->setCategories(get_the_category($this->getId()));
+        $this->setCategoriesId(wp_get_post_categories($this->getId()));
         $this->setCategoriesIdJson();
         $this->setCategoriesObjArray();
 
-        $this->setTags(wp_get_post_tags($postId));
+        $this->setTags(wp_get_post_tags($this->getId()));
         $this->setTagsJson();
 
         $this->setStateCity();
 
-        $this->setFeaturedImageId(get_post_thumbnail_id($postId));
+        $this->setFeaturedImageId(get_post_thumbnail_id($this->getId()));
 
-        $this->setComunities(wp_get_post_terms( $postId , RHSComunities::TAXONOMY ));
+        $this->setComunities(wp_get_post_terms( $this->getId() , RHSComunities::TAXONOMY ));
 
         $this->setComunitiesName();
         $this->setComunitiesId();
@@ -208,7 +208,15 @@ class RHSPost {
     public function setTags( $tags ) {
         $this->tags = $tags;
     }
-
+    
+    /**
+     * @param array $term_ids
+     */
+    function setTagsByIds($term_ids) {
+        $tags = get_tags(['include' => $term_ids, 'hide_empty' => false]);
+        $this->setTags($tags);
+    }
+    
     /**
      * @param string|array $size
      *
@@ -254,16 +262,30 @@ class RHSPost {
     public function getTagsJson() {
         return $this->tags_json;
     }
-
+    
+    public function getTagsIds() {
+        $tags = $this->getTags();
+        $return = [];
+        if (is_array($tags)) {
+            foreach ($tags as $tag) {
+                $return[] = $tag->term_id;
+            }
+        } 
+        return $return;
+    }
+    
     public function setTagsJson() {
         $tagsDataArr = array();
         
         if ( $this->tags ) {
             foreach ( $this->tags as $tag ) {
-                $tagsDataArr[] = $tag->name;
+                $tagsDataArr[] = [
+                    'id' => $tag->term_id,
+                    'name' => $tag->name
+                ];
             }
                     
-            $this->tags_json = "['" . implode( "', '", $tagsDataArr ) . "']";
+            $this->tags_json = json_encode($tagsDataArr);
         }
     }
 

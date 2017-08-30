@@ -186,11 +186,6 @@ function RHS_scripts() {
         wp_enqueue_script( 'comment-reply' );
     }
 
-    if (get_query_var('rhs_login_tpl') == RHSRewriteRules::POST_URL) {
-        wp_enqueue_media ();
-        wp_enqueue_script('PublicarPostagens', get_template_directory_uri() . '/assets/js/publicar_postagens.js','1.0', true);
-    }
-
     wp_enqueue_script('uniform', get_template_directory_uri() . '/assets/includes/uniform/dist/js/jquery.uniform.standalone.js', array('jquery'), '4.2.0', true);
 
 }
