@@ -29,7 +29,7 @@ class RHSNotification {
     function __construct($notification = null) {
         
         if (is_int($notification)) {
-            var_dump($notification); die;
+            
             global $wpdb, $RHSNotifications;
             $this->setNotificationId($notification);
             $query = "SELECT * FROM {$RHSNotifications->table} WHERE ID = $notification";
@@ -43,6 +43,7 @@ class RHSNotification {
             $this->setChannel( $notification->channel );
             $this->setObjectId( $notification->object_id );
             $this->setDatetime( $notification->datetime );
+            $this->setUserId( $notification->user_id );
         } 
         
     }
@@ -119,6 +120,20 @@ class RHSNotification {
      */
     public function setDatetime( $datetime ) {
         $this->datetime = $datetime;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserId() {
+        return $this->user_id;
+    }
+
+    /**
+     * @param mixed $datetime
+     */
+    public function setUserId( $user_id ) {
+        $this->user_id = $user_id;
     }
 
     /**

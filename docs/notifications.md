@@ -118,9 +118,13 @@ const CHANNEL_USER = 'user_%s';
 const CHANNEL_COMMUNITY = 'community_%s'; 
 ```
 **$channel_id** - o id do canal. Por exemplo, se quiser adicionar uma notificação ao canal privado de um usuário, **$channel** seria o `RHSNotifications::CHANNEL_PRIVATE` e o **$channel_id** seria o ID do usuário.
+
 **$type** - o tipo de notificação. Nome da classe que extende a classe `RHSNotification` e implementa um tipo de notificação. Os tipos de notificação ficam na pasta `inc/notifications/types`
+
 **$object_id** - o ID do objeto a que a notificação se refere. O ID do comentário, do post, do usuário, etc. Depende do tipo de notificação.
+
 **$user_id** - O ID do usuário que gerou a notificação. Quando não se aplica, deixar em branco. Útil para evitar que usuários recebam notificações de suas prórpias ações. (ex: um usuário que publica um post em uma comunidade não quer receber uma notificação que ele mesmo publicou o post, apesar de assinar o canal da comunidade)
+
 **datetime** - Datad a notificação, padrão é a data atual.
 
 ## add_user_to_channel( $channel, $channel_id = 0, $user_id ) 
@@ -136,6 +140,7 @@ const CHANNEL_USER = 'user_%s';
 const CHANNEL_COMMUNITY = 'community_%s'; 
 ```
 **$channel_id** - o id do canal. Por exemplo, se quiser adicionar uma notificação ao canal privado de um usuário, **$channel** seria o `RHSNotifications::CHANNEL_PRIVATE` e o **$channel_id** seria o ID do usuário.
+
 **$user_id** - ID do usuário
 
 ## delete_user_from_channel( $channel, $channel_id = 0, $user_id ) 
@@ -143,6 +148,7 @@ const CHANNEL_COMMUNITY = 'community_%s';
 Adiciona um usuário a um canal
 
 **$channel** - o canal onde vai ser inserida a notificação. Deve-se usar uma das constantes da classe, que trazem a string que representa o canal:
+
 ```
 const CHANNEL_EVERYONE = 'everyone';
 const CHANNEL_PRIVATE = 'private_for_%s';
@@ -150,7 +156,9 @@ const CHANNEL_COMMENTS = 'comments_in_post_%s';
 const CHANNEL_USER = 'user_%s';
 const CHANNEL_COMMUNITY = 'community_%s'; 
 ```
+
 **$channel_id** - o id do canal. Por exemplo, se quiser adicionar uma notificação ao canal privado de um usuário, **$channel** seria o `RHSNotifications::CHANNEL_PRIVATE` e o **$channel_id** seria o ID do usuário.
+
 **$user_id** - ID do usuário
 
 
@@ -196,7 +204,9 @@ Para cada tipo de notificação, existe uma classe que extende a classe `RHSNoti
 Cada classe destas, deve implementar três métodos.
 
 **static notify($param)** - método que recebe o que vem do hook que dispara a notificação e adiciona a notificação chamando `RHSNotifications::add_notification`.
-**text()** - método que retorna o texto HTML da notificação. Por exemplo: "O usupario X publicou um novo post na comunidade Y". Para isso ele tem o objeto da notificação em `$this` e pode fazer as consultas que quiser para montar esse HTML
+
+**text()** - método que retorna o texto HTML da notificação. Por exemplo: "O usupario X publicou um novo post na comunidade Y". Para isso ele tem o objeto da notificação em `$this` e pode fazer as consultas que quiser para montar esse HTML.
+
 **image()** - retorna o html (tag `img`) que representa a notificação. As vezes vai ser a imagem do post, as vezes o avatar do usuário, e outras opções podem vir a surgir.
 
 No arquivo `inc/notifications/registered-notifications.php` temos a relação dos hooks que geram as notificações. Esses hooks vão disparar o método `notify` do tipo de notificação correspondentes. Este arquivo descreve um `array` onde as chaves são o hook que vão disparar as notificações e os valores são os tipos de notificação que serão gerados.

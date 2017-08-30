@@ -38,6 +38,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/notification/types/new_community_post.php');
         require_once('inc/notification/types/new_post_from_user.php');
         require_once('inc/notification/types/post_promoted.php');
+        require_once('inc/notification/types/post_followed.php');
 
         require_once('inc/vote/vote.php');
         require_once('inc/follow/follow.php');
