@@ -19,7 +19,27 @@ class RHSSearch {
             ) );
         }
     }
-
+    
+    static function get_query_string_for_search_urls() {
+        $q = [];
+        if (self::get_param('keyword')) $q[] = 'keyword=' . self::get_param('keyword');
+        if (self::get_param('uf')) $q[] = 'uf=' . self::get_param('uf');
+        if (self::get_param('municipio')) $q[] = 'municipio=' . self::get_param('municipio');
+        return '?' . implode('&', $q);
+    }
+    
+    static function get_search_url() {
+        $querystring = self::get_query_string_for_search_urls();
+        return home_url(self::BASE_URL) . $querystring;
+    }
+    
+    static function get_users_search_url() {
+        $querystring = self::get_query_string_for_search_urls();
+        return home_url(self::BASE_USERS_URL) . $querystring;
+    }
+    
+    
+    
     function pre_get_posts(&$wp_query) {
 
         if ( $wp_query->is_main_query() && $wp_query->get( 'rhs_busca' ) == 'posts' ) {

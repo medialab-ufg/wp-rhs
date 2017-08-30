@@ -10,7 +10,7 @@ $users = $RHSSearch->search_users();
         <div class="panel panel-default busca-page" style="padding: 10px;">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation"><a href="<?php echo home_url('/'); ?>busca/">Posts</a></li>
+                <li role="presentation"><a href="<?php echo RHSSearch::get_search_url(); ?>">Posts</a></li>
                 <li role="presentation" class="active"><a href="#user" aria-controls="user" role="tab" data-toggle="tab">Usuários</a></li>
             </ul>
 
@@ -34,7 +34,9 @@ $users = $RHSSearch->search_users();
                                             'city_label' => 'Cidade &nbsp',
                                             'select_class' => 'form-control',
                                             'label_class' => 'control-label',
-                                            'show_label' => true
+                                            'show_label' => true,
+                                            'selected_state' => RHSSearch::get_param('uf'),
+                                            'selected_municipio' => RHSSearch::get_param('municipio'),
                                         ) ); ?>
                                     </div>
                                 </div>
@@ -42,7 +44,7 @@ $users = $RHSSearch->search_users();
                                     <div class="form-inline">
                                         <div class="form-group">
                                             <label for="keyword" class="control-label">Palavra Chave</label>
-                                            <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo $s; ?>">
+                                            <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo RHSSearch::get_param('keyword'); ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -60,10 +62,10 @@ $users = $RHSSearch->search_users();
                                         <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="?rhs_order=name">Nome</a></li>
-                                            <li><a href="?rhs_order=register_date">Data de Cadastro</a></li>
-                                            <li><a href="?rhs_order=posts">Número de Posts</a></li>
-                                            <li><a href="?rhs_order=votes">Número de Votos</a></li>
+                                            <li><a href="<?php echo add_query_arg('rhs_order', 'name'); ?>">Nome</a></li>
+                                            <li><a href="<?php echo add_query_arg('rhs_order', 'register_date'); ?>">Data de Cadastro</a></li>
+                                            <li><a href="<?php echo add_query_arg('rhs_order', 'posts'); ?>">Número de Posts</a></li>
+                                            <li><a href="<?php echo add_query_arg('rhs_order', 'votes'); ?>">Número de Votos</a></li>
                                         </ul>
                                     </div>
                                 </div>

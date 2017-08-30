@@ -1,27 +1,12 @@
 <?php get_header('full'); ?>
 
-<?php
-// Parametros de busca
-// echo $RHSSearch->get_param('keyword');
-// echo $RHSSearch->get_param('uf');
-// echo $RHSSearch->get_param('municipio');
-// echo $RHSSearch->get_param('date_from');
-// echo $RHSSearch->get_param('date_to');
-// echo $RHSSearch->get_param('rhs_order'); // comments, views, shares, votes ou date (padrão)
-// echo $RHSSearch->get_param('s');
-// echo get_query_var('cat');
-// echo get_query_var('tag');
-//var_dump($wp_query);
-
-?>
-
 <div class="row">
     <div class="col-xs-12">
         <div class="panel panel-default busca-page" style="padding: 10px;">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#posts" aria-controls="posts" role="tab" data-toggle="tab">Posts</a></li>
-                <li role="presentation"><a href="<?php echo home_url(RHSSearch::BASE_USERS_URL) . '?keyword=' . RHSSearch::get_param('keyword'); ?>">Usuários</a></li>
+                <li role="presentation"><a href="<?php echo RHSSearch::get_users_search_url(); ?>">Usuários</a></li>
             </ul>
 
             <!-- Tab panes -->
@@ -105,11 +90,11 @@
                                         <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="?rhs_order=date">Data</a></li>
-                                            <li><a href="?rhs_order=comments">Comentários</a></li>
-                                            <li><a href="?rhs_order=votes">Votos</a></li>
-                                            <li><a href="?rhs_order=views">Visualizações</a></li>
-                                            <li><a href="?rhs_order=shares">Compartilhamentos</a></li>
+                                            <li><a href="<?php echo add_query_arg('rhs_order', 'date'); ?>">Data</a></li>
+                                            <li><a href="<?php echo add_query_arg('rhs_order', 'comments'); ?>">Comentários</a></li>
+                                            <li><a href="<?php echo add_query_arg('rhs_order', 'votes'); ?>">Votos</a></li>
+                                            <li><a href="<?php echo add_query_arg('rhs_order', 'views'); ?>">Visualizações</a></li>
+                                            <li><a href="<?php echo add_query_arg('rhs_order', 'shares'); ?>">Compartilhamentos</a></li>
                                         </ul>
                                     </div>
                                 </div>
