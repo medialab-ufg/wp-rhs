@@ -327,42 +327,74 @@ class RHSUser {
         return $this->is_admin = ($this->get_role() == 'administrator' || $this->get_role() == 'editor');
     }
 
-    function get_links( $default = false ) {
+    /**
+     * Exibe links de usuário
+     *
+     * @param int $user_id
+     * @return void
+     */
+    function show_user_links_to_edit($user_id){
+        !($user_id) ? $user_id = $this->get_id() : '' ;
+        $links = get_user_meta($user_id, 'rhs_links', true);
+        $count = 1;
+        $link_to_delete = '<a title="Remover link" class="remove-link" href="javascript:;"><i class="fa fa-remove"></i></a>';
 
-        if($this->links){
-            return $this->links;
-        }
-
-        $links = get_the_author_meta( 'rhs_links', $this->id );
-        $data  = array();
-
-        if ( $default ) {
-            $data[] = array( 'title' => '', 'url' => '' );
-        }
-
-        if ( ! empty( $links ) ) {
-
-            $links = json_decode( $links, true );
-
-            if ( ! empty( $links['title'] ) ) {
-
-                $data = array();
-
-                $links['title'] = explode( RHSUsers::SEPARATE, $links['title'] );
-                $links['url']   = explode( RHSUsers::SEPARATE, $links['url'] );
-
-                foreach ( $links['title'] as $key => $link ) {
-
-                    $data[] = array(
-                        'title' => $links['title'][ $key ],
-                        'url'   => $links['url'][ $key ]
-                    );
-
-                }
+        !($user_id) ? $user_id = $this->get_id() : '' ;
+        $links = get_user_meta($user_id, 'rhs_links', true);
+        
+        if($links){
+            foreach ($links as $key=>$value){
+                if ($count%2 == 1) { echo "<div class='row links'>"; }
+                ?>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="edit-nome">
+                        <?php echo !($key % 2) ? "Título" : "URL"; ?>
+                        </label>
+                        <input class="form-control" type="text" name="links[]" size="60" maxlength="254" value="<?php echo $value ?>">
+                        <?php echo !($key % 2) ? '' : $link_to_delete; ?>
+                    </div>
+                </div>
+            
+                <?php
+                if ($count%2 == 0) { echo "</div>"; }
+                $count++;
             }
+            if ($count%2 != 1) echo "</div>";
+        } elseif(is_admin()) {
+            echo '
+                <div class="row links">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="edit-nome">
+                            Título
+                            </label>
+                            <input class="form-control" type="text" name="links[]" size="60" maxlength="254" value="">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="edit-nome">
+                            URL
+                            </label>
+                            <input class="form-control" type="text" name="links[]" size="60" maxlength="254" value="">
+                            '. $link_to_delete .'
+                        </div>
+                    </div>
+                </div>
+            ';
         }
-
-        return $this->links = $data;
+        echo '
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="help-block">
+                        <a title="Adicionar Link" href="javascript:;"
+                        class="btn btn-info js-add-link">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        ';
     }
-
 }

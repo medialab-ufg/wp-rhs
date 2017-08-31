@@ -28,13 +28,14 @@ jQuery(document).ready(function($) {
     $('form#your-profile tr.user-profile-picture').remove();
     $('form#your-profile table.field-add').insertAfter($('form#your-profile tr.user-description-wrap').closest('.form-table'));
 
+    $('.js-add-link').click(function() {
+        var links = $(this).closest('.panel-body').find('.links').last().clone();
+        $(links).find('input').attr('value','');
+        links.insertAfter($(this).closest('.panel-body').find('.links').last());
+    });
+    
+    $('.remove-link').live("click", function() {
+        $(this).closest('.links').remove();
+    });
 
 });
-
-
-function removerLinkUser(link) {
-
-    jQuery(link).closest('p').remove();
-
-
-}

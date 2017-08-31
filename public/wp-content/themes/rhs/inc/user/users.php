@@ -130,22 +130,8 @@ Class RHSUsers extends RHSMessage {
             <tr class="user-links">
                 <th><label for="links"><?php _e( 'Links' ) ?></label></th>
                 <td>
-                    <div class="input-group">
-                        <?php foreach ( $user->get_links( true ) as $key => $link ) { ?>
-                            <p>
-                                <input placeholder="Titulo" type="text" name="rhs_links[title][]" id="links"
-                                       value="<?php echo $link['title'] ?>" class="regular-text code">
-                                <input placeholder="Url" type="url" name="rhs_links[url][]" id="links"
-                                       value="<?php echo $link['url'] ?>" class="regular-text code">
-                                <i><a onclick="removerLinkUser(this)" title="Remover Link" class="remove" href="javascript:;">X</a></i>
-                            </p>
-                        <?php } ?>
-                    </div>
-                    <div class="help-block">
-                        <a class="js-add-user-link"
-                           style="outline: none !important; box-shadow: none !important; text-decoration: none;">
-                            + <?php _e( 'Adicionar' ); ?>
-                        </a>
+                    <div class="panel-body">
+                        <?php $user->show_user_links_to_edit($this->userID); ?>
                     </div>
                 </td>
             </tr>
@@ -210,30 +196,7 @@ Class RHSUsers extends RHSMessage {
     function enqueue_admin() {
         wp_enqueue_script( 'thickbox' );
         wp_enqueue_style( 'thickbox' );
-
         wp_enqueue_script( 'media-upload' );
-    }
-
-    static function save_links($links_post){
-
-        if ( ! empty( $links_post ) && is_array( $links_post ) ) {
-
-            if ( ! empty( $links_post['title'] ) ) {
-                $links_post['title'] = array_filter( $links_post['title'] );
-                $links_post['title'] = implode( self::SEPARATE, $links_post['title'] );
-            }
-
-            if ( ! empty( $links_post['url'] ) ) {
-                $links_post['url'] = array_filter( $links_post['url'] );
-                $links_post['url'] = implode( self::SEPARATE, $links_post['url'] );
-            }
-
-            return json_encode( $links_post );
-
-        }
-
-        return array();
-
     }
 
     function save_extra_profile_fields( $userID ) {
@@ -244,8 +207,6 @@ Class RHSUsers extends RHSMessage {
             return false;
         }
 
-        $_POST['rhs_links'] = self::save_links(! empty( $_POST['rhs_links'] ) ? $_POST['rhs_links'] : array());
-
         if ( ! empty( $_POST['rhs_avatar'] ) ) {
             $url                 = get_site_url();
             $url                 = str_replace( 'wp', '', $url );
@@ -253,7 +214,7 @@ Class RHSUsers extends RHSMessage {
         }
 
         add_user_ufmun_meta( $this->userID, $_POST['municipio'], $_POST['estado']);
-        update_user_meta( $this->userID, 'rhs_links', $_POST['rhs_links'] );
+        update_user_meta( $this->userID, 'rhs_links', $_POST['links'] );
         update_user_meta( $this->userID, 'rhs_formation', $_POST['rhs_formation'] );
         update_user_meta( $this->userID, 'rhs_interest', $_POST['rhs_interest'] );
         update_user_meta( $this->userID, 'rhs_avatar', $_POST['rhs_avatar'] );
@@ -282,38 +243,14 @@ Class RHSUsers extends RHSMessage {
         return esc_attr( get_the_author_meta( 'description', $this->userID ) );
     }
 
-    function getLinks( $default = false ) {
-
+    function show_author_links() {
         $links = get_the_author_meta( 'rhs_links', $this->userID );
-        $data  = array();
-
-        if ( $default ) {
-            $data[] = array( 'title' => '', 'url' => '' );
+        $count = 1;
+        foreach ($links as $key=>$value){            
+            if ($count%2 == 1) { echo "<span><a href='". $value ."' target='_blank'>"; } 
+            if ($count%2 == 0) { echo $value . "</a></span><br/>"; } 
+            $count++;
         }
-
-        if ( ! empty( $links ) ) {
-
-            $links = json_decode( $links, true );
-
-            if ( ! empty( $links['title'] ) ) {
-
-                $data = array();
-
-                $links['title'] = explode( self::SEPARATE, $links['title'] );
-                $links['url']   = explode( self::SEPARATE, $links['url'] );
-
-                foreach ( $links['title'] as $key => $link ) {
-
-                    $data[] = array(
-                        'title' => $links['title'][ $key ],
-                        'url'   => $links['url'][ $key ]
-                    );
-
-                }
-            }
-        }
-
-        return $data;
     }
 
 }

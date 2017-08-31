@@ -622,18 +622,11 @@ jQuery( function( $ ) {
         $('.js-add-link').click(function() {
             var links = $(this).closest('.panel-body').find('.links').last().clone();
             $(links).find('input').attr('value','');
-
-            console.log(links);
             links.insertAfter($(this).closest('.panel-body').find('.links').last());
-
         });
 
-        $('.remove-link').click(function() {
-           $(this).closest('.links').remove();
+        $('.remove-link').live("click", function() {
+            $(this).closest('.links').remove();
         });
     });
 });
-
-function removerLink(link) {
-    jQuery(link).closest('#Links').remove();
-}
