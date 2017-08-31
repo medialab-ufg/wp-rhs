@@ -36,13 +36,13 @@
                                     </div>
 
                                     <div class="form-inline">
-                                        <div class="col-xs-12 col-sm-6 tags-cats">
+                                        <div class="col-xs-12 col-sm-12 col-md-6">
                                             <div class="form-group">
                                                 <label for="tag" class="control-label">Tags</label>
                                                 <input type="text" value="" class="form-control" id="input-tag" placeholder="Tags" name="tag">
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-6 tags-cats">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 tags-cats">
                                             <div class="form-group">
                                                 <label for="categoria" class="control-label">Categoria</label>
                                                 <?php wp_dropdown_categories( [

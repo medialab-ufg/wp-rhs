@@ -3295,7 +3295,29 @@ form .comment-form-comment {
             label{
                 color: $primeira_cor_fundo;
             }
-            @media only screen and (min-width: 780px){
+            @media only screen and (width: 1024px) and (height: 1366px){
+                .form-inline{
+                    .form-group{
+                        #keyword{
+                            width: 89%;
+                        }
+                    }
+                }
+            }
+            @media only screen and (width: 768px){
+                .form-inline{
+                    .form-group{
+                        margin-top: 5px;
+                    }
+                    .tags-cats {
+                        display: inline-table;
+                    }
+                    #keyword{
+                        width: 100%;
+                    }
+                }
+            }
+            @media only screen and (min-width: 770px){
                 .form-inline{
                     white-space: nowrap;
                     .form-group{
@@ -3308,13 +3330,13 @@ form .comment-form-comment {
                         max-width: 200px;
                     }
                     select[name='uf']{
-                        margin-right: 122px;
+                        margin-right: 76px;
                     }
                     select[name='municipio'], #keyword{
                         width: 209px;
                     }
                     #input-tag, select[name='uf']{
-                        width: 154px;
+                        width: 200px;
                     }
                     label[for='tag']{
                         margin-right: 7px;
