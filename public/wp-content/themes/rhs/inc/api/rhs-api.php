@@ -59,10 +59,12 @@ Class RHSApi  {
     }
     
     function prepare_post( $data, $post, $context ) {
-        global $RHSVote;
+        global $RHSVote, $RHSNetwork;
         $total_votes = $RHSVote->get_total_votes($post->ID);
+        $total_shares = $RHSNetwork->get_post_total_shares($post->ID);
         $data->data['total_votes'] = $total_votes ? $total_votes : 0;
         $data->data['comment_count'] = $post->comment_count;
+        $data->data['total_shares'] = $total_shares;
         return $data;
     }
     

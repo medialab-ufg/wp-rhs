@@ -105,6 +105,10 @@ class RHSNetwork {
         update_post_meta( $post_id, self::META_KEY_TOTAL_SHARES, $total );
 
     }
+    
+    function get_post_total_shares($post_id) {
+        return get_post_meta( $post_id, self::META_KEY_TOTAL_SHARES, true );
+    }
 
 }
 
