@@ -10,11 +10,9 @@ class RHSPost {
     private $categories;
     private $categoriesObjArray;
     private $categoriesId;
-    private $categoriesIdJson;
     private $state;
     private $city;
     private $tags;
-    private $tags_json;
     private $featuredImage;
     private $featuredImageId;
     private $comunities;
@@ -54,12 +52,8 @@ class RHSPost {
         $this->setAuthorId($post->post_author);
 
         $this->setCategories(get_the_category($this->getId()));
-        $this->setCategoriesId(wp_get_post_categories($this->getId()));
-        $this->setCategoriesIdJson();
-        $this->setCategoriesObjArray();
 
         $this->setTags(wp_get_post_tags($this->getId()));
-        $this->setTagsJson();
 
         $this->setStateCity();
 
@@ -156,6 +150,31 @@ class RHSPost {
     }
 
     /**
+     * @param array $term_ids
+     */
+     function setCategoriesByIds($term_ids) {
+        if (empty($term_ids))
+            return $this->setCategories([]);
+            
+        $cats = get_categories(['include' => $term_ids, 'hide_empty' => false]);
+        $this->setCategories($cats);
+    }
+
+    /**
+     * @return array|WP_Error
+     */
+     public function getCategoriesIds() {
+        $tags = $this->getCategories();
+        $return = [];
+        if (is_array($tags)) {
+            foreach ($tags as $tag) {
+                $return[] = $tag->term_id;
+            }
+        } 
+        return $return;
+    }
+
+    /**
      * @return int
      */
     public function getState() {
@@ -202,6 +221,19 @@ class RHSPost {
         return $this->tags;
     }
 
+    
+    public function getTagsIds() {
+        $tags = $this->getTags();
+        $return = [];
+        if (is_array($tags)) {
+            foreach ($tags as $tag) {
+                $return[] = $tag->term_id;
+            }
+        } 
+        return $return;
+    }
+
+
     /**
      * @param array $tags
      */
@@ -237,86 +269,6 @@ class RHSPost {
 
     public function setFeaturedImage($featuredImage){
         return $this->featuredImage = $featuredImage;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCategoriesObjArray() {
-        return $this->categoriesObjArray;
-    }
-
-    public function setCategoriesObjArray() {
-        $string = 'data: [';
-        $categories = $this->getCategories();
-
-        foreach ($categories  as $category ) :
-            $string .= "{id:" . $category->term_id . ", name:'" . $category->cat_name . "'},";
-        endforeach;
-        
-        $string .= '],';
-
-        $this->categoriesObjArray = $string;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTagsJson() {
-        return $this->tags_json;
-    }
-    
-    public function getTagsIds() {
-        $tags = $this->getTags();
-        $return = [];
-        if (is_array($tags)) {
-            foreach ($tags as $tag) {
-                $return[] = $tag->term_id;
-            }
-        } 
-        return $return;
-    }
-    
-    public function setTagsJson() {
-        $tagsDataArr = array();
-        
-        if ( $this->tags ) {
-            foreach ( $this->tags as $tag ) {
-                $tagsDataArr[] = [
-                    'id' => $tag->term_id,
-                    'name' => $tag->name
-                ];
-            }
-                    
-            $this->tags_json = json_encode($tagsDataArr);
-        }
-    }
-
-    /**
-     * @return array|WP_Error
-     */
-    public function getCategoriesId() {
-        return $this->categoriesId;
-    }
-
-    /**
-     * @param array|WP_Error $categoriesId
-     */
-    public function setCategoriesId( $categoriesId ) {
-        $this->categoriesId = $categoriesId;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCategoriesIdJson() {
-        return $this->categoriesIdJson;
-    }
-
-    public function setCategoriesIdJson() {
-        if ( $this->categoriesId ) {
-            $this->categoriesIdJson = "['" . implode( "', '", $this->categoriesId ) . "']";
-        }
     }
 
     /**

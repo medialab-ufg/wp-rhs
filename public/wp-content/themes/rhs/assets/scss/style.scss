@@ -3516,12 +3516,21 @@ form .comment-form-comment {
                     color: #a94442;
                     margin-left: -14px;
                 }
-                .style{
+                .publish_post_sidebox_city_state{
                     padding: 13px 20px 0 21px;
                     border: 1px solid #F2F2F2;
                     margin-bottom: 10px;
                 }
-
+                .publish_post_sidebox{
+                    padding: 13px 20px 0 7px;
+                    border: 1px solid #F2F2F2;
+                    margin-bottom: 10px;
+                    .checkbox{
+                        label{
+                            padding-left: 0;
+                        }
+                    }
+                }
             }
         }
     }

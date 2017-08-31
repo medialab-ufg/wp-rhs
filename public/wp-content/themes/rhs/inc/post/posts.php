@@ -167,7 +167,7 @@ class RHSPosts extends RHSMenssage {
         $postObj->setTitle( ! empty( $_POST['title'] ) ? $_POST['title'] : '' );
         $postObj->setContent( ! empty( $_POST['public_post'] ) ? $_POST['public_post'] : '' );
         $postObj->setStatus( ! empty( $_POST['status'] ) ? $_POST['status'] : '' );
-        $postObj->setCategoriesId( ! empty( $_POST['category'] ) ? array( $_POST['category'] ) : '' );
+        $postObj->setCategoriesByIds( ! empty( $_POST['category'] ) ? $_POST['category'] : '' );
         $postObj->setState( ! empty( $_POST['estado'] ) ? $_POST['estado'] : '' );
         $postObj->setCity( ! empty( $_POST['municipio'] ) ? $_POST['municipio'] : '' );
         $postObj->setTagsByIds( ! empty( $_POST['tags'] ) ? $_POST['tags'] : '' );
@@ -194,7 +194,7 @@ class RHSPosts extends RHSMenssage {
             $postObj->setContent( $_POST['public_post'] );
             $postObj->setStatus( $_POST['status'] );
             $postObj->setAuthorId( get_current_user_id() );
-            $postObj->setCategoriesId( $_POST['category'] );
+            $postObj->setCategoriesByIds( $_POST['category'] );
             $postObj->setState( $_POST['estado'] );
             $postObj->setCity( $_POST['municipio'] );
             $postObj->setTagsByIds( $_POST['tags'] );
@@ -228,7 +228,7 @@ class RHSPosts extends RHSMenssage {
             'post_content'   => $post->getContent(),
             'post_status'    => $post->getStatus(),
             'post_author'    => $post->getAuthorId(),
-            'post_category'  => $post->getCategoriesId(),
+            'post_category'  => $post->getCategoriesIds(),
             'comment_status' => 'open'
         );
 

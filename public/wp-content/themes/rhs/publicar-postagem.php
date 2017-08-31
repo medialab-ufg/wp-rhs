@@ -66,7 +66,7 @@
                                 <div class="form-group">
                                     <input type="text" value="" class="form-control" id="input-tags" placeholder="Tags">
                                 </div>
-                                <div class="form-group style">
+                                <div class="form-group publish_post_sidebox_city_state">
                                     <?php UFMunicipio::form( array(
                                         'content_before' => '',
                                         'content_after' => '',
@@ -82,44 +82,27 @@
                                         'selected_municipio' => $RHSPost->getCity(),
                                     ) ); ?>
                                 </div>
-                                <div class="form-group">
-                                    <input type="text" value="" class="form-control" id="input-category" placeholder="Categoria">
-                                    <input type="hidden" value="" id="category_verify" name="category_verify" />
+                                <div class="form-group form-checkbox publish_post_sidebox">
+                                <label>Categorias</label>
+                                <?php 
+                                    $category = get_categories();
+                                    foreach($category as $cat){
+                                        $checked = in_array($cat->term_id, $RHSPost->getCategoriesIds()) ? 'checked' : '';
+                                        echo '<div class="checkbox">
+                                            <input type="checkbox" name="category[]" class="uniform" value="'. $cat->term_id .'" id="input-category" '.$checked.'>
+                                            <label for="category-'. $cat->term_id .'">' . $cat->name .'</label>
+                                        </div>';
+                                    }
+                                ?>
                                 </div>
-                                <script>
 
-                                    var ms = jQuery('#input-category').magicSuggest({
-                                        placeholder: 'Select...',
-                                        allowFreeEntries: false,
-                                        selectionPosition: 'bottom',
-                                        selectionStacked: true,
-                                        <?php echo $RHSPost->getCategoriesObjArray(); ?>
-                                        selectionRenderer: function(data){
-                                            return data.name;
-                                        },
-                                        name: 'category'
-                                    });
+                                <?php global $RHSComunities; ?>
+                                <?php $comunidades = $RHSComunities->get_comunities_by_user( get_current_user_id() );  ?>
+                                <?php if($RHSPost->getStatus() == 'private' || $comunidades) { ?>
 
-                                    jQuery(ms).on('selectionchange', function(e,m){
-
-                                        if(this.getValue().length){
-                                            jQuery('#category_verify').val(1);
-                                        } else {
-                                            jQuery('#category_verify').val('');
-                                        }
-
-                                    });
-
-                                    <?php if($RHSPost->getCategoriesId()){ ?>
-                                    var ms = jQuery('#input-category').magicSuggest({});
-                                    ms.setValue(<?php echo $RHSPost->getCategoriesIdJson(); ?>);
-                                    <?php } ?>
-
-                                </script>
-                                <div class="form-group form-checkbox">
-                                    <?php global $RHSComunities; ?>
-                                    <?php $comunidades = $RHSComunities->get_comunities_by_user( get_current_user_id() ) ?>
-                                    <?php if($RHSPost->getStatus() == 'private' || $comunidades){ ?>
+                                    <div class="form-group form-checkbox publish_post_sidebox">
+                                        <label>Publicar em</label>
+                                    
                                         <div>
                                             <input <?php echo (!$RHSPost->getComunities() || $RHSPost->getStatus() != 'private') ? 'checked' : ''; ?> type="checkbox" class="uniform" id="comunity-status" name="comunity-status[]" value="public">
                                             <label for="checkbox1">Público</label>
@@ -132,11 +115,11 @@
                                                 <input <?php echo $RHSPost->getComunitiesId() && in_array($comunidade->get_id(), $RHSPost->getComunitiesId()) ? 'checked' : ''; ?> type="checkbox" class="uniform" id="comunity-status-<?php echo $key; ?>" name="comunity-status[]" value="<?php echo $comunidade->get_name(); ?>">
                                                 <label for="comunity-status-<?php echo $key; ?>"><?php echo $comunidade->get_name() ?> <strong>(Comunidade)</strong></label>
                                             </div>
-                                        <?php } ?>
-                                    <?php } else { ?>
-                                        <input type="hidden" class="form-control" name="comunity-status[]" value="public" />
-                                    <?php } ?>
-                                </div>
+                                        <?php } //foreach ?>
+                                    </div>
+                                <?php } else { ?>
+                                    <input type="hidden" class="form-control" name="comunity-status[]" value="public" />
+                                <?php } // if communitties ?>
                                 <div class="form-group text-center">
                                     <input type="hidden" value="<?php echo $RHSPost->getFeaturedImageId(); ?>" id="img_destacada" name="img_destacada">
                                     <div id="img_destacada_preview">
