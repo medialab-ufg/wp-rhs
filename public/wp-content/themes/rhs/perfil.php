@@ -18,7 +18,7 @@ if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
         <div class="col-xs-12 col-md-12">
             <form autocomplete="off" role="form" id="perfil" method="post" action="" enctype="multipart/form-data">
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade in active" id="verDados">
+                    <div role="tabpanel" class="tab-pane active" id="verDados">
                         <div class="jumbotron perfil">
                             <h3 class="perfil-title">Editar Perfil</h3>
                             <?php foreach ( $RHSPerfil->messages() as $type => $messages ) { ?>

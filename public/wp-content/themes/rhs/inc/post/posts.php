@@ -3,23 +3,36 @@
 class RHSPosts extends RHSMessage {
 
     private static $instance;
+    
     const META_DATE_ORDER = 'rhs-post-date-order';
     const META_COMUNITY = 'rhs-comunity-status';
 
     function __construct( $postID = null ) {
 
         add_action( 'admin_menu', array( &$this, 'remove_meta_boxes' ) );
-        add_action( 'wp_ajax_get_tags', array( &$this, 'get_tags' ) );
+        add_action( 'wp_ajax_get_tags', array( &$this, 'ajax_get_tags' ) );
+        add_action( 'wp_ajax_nopriv_get_tags', array( &$this, 'ajax_get_tags' ) );
         add_filter( 'the_editor', array( &$this, 'add_placeholder_editor' ) );
         add_filter( 'mce_external_plugins', array( &$this, 'add_mce_placeholder_plugin' ) );
         add_filter( 'save_post', array( &$this, 'add_meta_date' ) );
-
+        add_action( 'wp_enqueue_scripts', array( &$this, 'addJS' ));
+        
         if ( empty ( self::$instance ) ) {
             add_filter( 'pre_get_posts', array( &$this, 'pre_get_posts' ) );
             add_action( 'wp_footer', array( &$this, 'add_message_script_footer'));
         }
 
         self::$instance = true;
+        
+    }
+    
+    function get_current_post() {
+        $current_post = new RHSPost(get_query_var('rhs_edit_post'), null, true);
+        if(!$current_post->getId()){
+            $current_post = $this->set_by_post();
+        } 
+        
+        return $current_post;
     }
 
     /*====================================================================================================
@@ -41,7 +54,24 @@ class RHSPosts extends RHSMessage {
     /*====================================================================================================
                                                 CLIENTE
     ======================================================================================================*/
-
+    
+    
+    function addJS() {
+        if (get_query_var('rhs_login_tpl') == RHSRewriteRules::POST_URL) {
+            wp_enqueue_media ();
+            wp_enqueue_script('PublicarPostagens', get_template_directory_uri() . '/assets/js/publicar_postagens.js','1.0', true);
+            
+            $cur_post = $this->get_current_post();
+            
+            $tags = $cur_post->getTagsIds();
+            
+            wp_localize_script( 'PublicarPostagens', 'post_vars', array( 
+                'ajaxurl' => admin_url( 'admin-ajax.php' ),
+                'selectedTags' => $tags
+            ) );
+        }
+    }
+    
     /**
      * Adiciona alerta de mensagens no footer
      */
@@ -137,10 +167,10 @@ class RHSPosts extends RHSMessage {
         $postObj->setTitle( ! empty( $_POST['title'] ) ? $_POST['title'] : '' );
         $postObj->setContent( ! empty( $_POST['public_post'] ) ? $_POST['public_post'] : '' );
         $postObj->setStatus( ! empty( $_POST['status'] ) ? $_POST['status'] : '' );
-        $postObj->setCategoriesId( ! empty( $_POST['category'] ) ? array( $_POST['category'] ) : '' );
+        $postObj->setCategoriesByIds( ! empty( $_POST['category'] ) ? $_POST['category'] : '' );
         $postObj->setState( ! empty( $_POST['estado'] ) ? $_POST['estado'] : '' );
         $postObj->setCity( ! empty( $_POST['municipio'] ) ? $_POST['municipio'] : '' );
-        $postObj->setTags( ! empty( $_POST['tags'] ) ? $_POST['tags'] : '' );
+        $postObj->setTagsByIds( ! empty( $_POST['tags'] ) ? $_POST['tags'] : '' );
         $postObj->setFeaturedImage( ! empty( $_POST['tags'] ) ? $_POST['img_destacada'] : '' );
 
         return $postObj;
@@ -164,10 +194,10 @@ class RHSPosts extends RHSMessage {
             $postObj->setContent( $_POST['public_post'] );
             $postObj->setStatus( $_POST['status'] );
             $postObj->setAuthorId( get_current_user_id() );
-            $postObj->setCategoriesId( $_POST['category'] );
+            $postObj->setCategoriesByIds( $_POST['category'] );
             $postObj->setState( $_POST['estado'] );
             $postObj->setCity( $_POST['municipio'] );
-            $postObj->setTags( $_POST['tags'] );
+            $postObj->setTagsByIds( $_POST['tags'] );
             $postObj->setFeaturedImageId( $_POST['img_destacada'] );
             $postObj->setComunities($_POST['comunity-status']);
 
@@ -198,7 +228,7 @@ class RHSPosts extends RHSMessage {
             'post_content'   => $post->getContent(),
             'post_status'    => $post->getStatus(),
             'post_author'    => $post->getAuthorId(),
-            'post_category'  => $post->getCategoriesId(),
+            'post_category'  => $post->getCategoriesIds(),
             'comment_status' => 'open'
         );
 
@@ -291,7 +321,12 @@ class RHSPosts extends RHSMessage {
         /**
          * Salvar/edita tags
          */
-        wp_set_post_terms( $post->getId(), $post->getTags() );
+        $saveTags = array();
+        if (is_array($post->getTags())) {
+            foreach ($post->getTags() as $tag)
+                $saveTags[] = $tag->term_id;
+        }
+        wp_set_post_terms( $post->getId(), $saveTags );
 
         $comunities = $post->getComunities();
 
@@ -389,20 +424,33 @@ class RHSPosts extends RHSMessage {
 
     }
 
-    function get_tags() {
+    function ajax_get_tags() {
 
         $result_tags = array();
+
+        if (isset($_POST['term_ids'])) {
+            echo json_encode(get_tags( array( 'include' => $_POST['term_ids'], 'hide_empty' => false ) ));
+            exit;
+            
+        }
+        
+        if (isset($_POST['term_slugs'])) {
+            echo json_encode(get_tags( array( 'slug' => $_POST['term_slugs'], 'hide_empty' => false ) ));
+            exit;
+            
+        }
 
         if ( empty( $_POST['query'] ) ) {
             echo json_encode( $result_tags );
             exit;
         }
 
-        $tags = get_tags( array( 'name__like' => $_POST['query'] ) );
+        $tags = get_tags( array( 'name__like' => $_POST['query'], 'hide_empty' => false ) );
 
         foreach ( $tags as $tag ) {
             $result_tags[] = array(
-                'id'   => $tag->name,
+                'term_id'   => $tag->term_id,
+                'slug'   => $tag->slug,
                 'name' => $tag->name
             );
         }

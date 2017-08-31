@@ -1,0 +1,43 @@
+jQuery(function() {
+    
+    jQuery.fn.datepicker.defaults.templates = {
+        leftArrow: "<i class='glyphicon glyphicon-chevron-left'></i>",
+        rightArrow: "<i class='glyphicon glyphicon-chevron-right'></i>"
+    };
+    jQuery.fn.datepicker.dates["pt-BR"]={days:["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"],daysShort:["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],daysMin:["Do","Se","Te","Qu","Qu","Se","Sa"],months:["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],monthsShort:["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],today:"Hoje",monthsTitle:"Meses",clear:"Limpar",format:"yyyy-mm-dd"};
+    jQuery.fn.datepicker.defaults.language = "pt-BR";
+    jQuery.fn.datepicker.defaults.orientation = "bottom";
+    jQuery('.input-daterange input').each(function() {
+        jQuery(this).datepicker();
+    });
+    
+    var ms = jQuery('#input-tag').magicSuggest({
+        placeholder: 'Select...',
+        //allowFreeEntries: true,
+        selectionPosition: 'bottom',
+        selectionStacked: true,
+        selectionRenderer: function(data){
+            return data.name;
+        },
+        data: search_vars.ajaxurl,
+        dataUrlParams: { 
+            action: 'get_tags',
+            term_slugs: search_vars.selectedTags
+        },
+        minChars: 3,
+        name: 'tag',
+        valueField: 'slug'
+        //maxSelection: 1
+    });
+
+    // ver https://github.com/nicolasbize/magicsuggest/issues/21
+    jQuery(ms).on('load', function(){
+        if(this._dataSet === undefined){
+            // Roda apenas da primeira vez e depois remove o parametro term_slugs dos parametros da URL
+            this._dataSet = true;
+            ms.setValue(search_vars.selectedTags);
+            ms.setDataUrlParams({action: 'get_tags'});
+        }
+    });
+    
+});

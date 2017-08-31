@@ -14,6 +14,7 @@ Class RHSVote {
 	const VOTING_EXPIRED = 'voting-expired';
 	const ROLE_VOTER = 'voter';
 	const META_PUBISH = 'rhs-promoted-publish';
+    const META_TOTAL_VOTES = '_total_votes';
 
 	static $instance;
 
@@ -21,11 +22,12 @@ Class RHSVote {
 
 	var $post_status = [];
 
-	var $total_meta_key = '_total_votes';
+	var $total_meta_key;
 
 	public $days_for_expired_default = 14;
     public $votes_to_approval_default = 5;
     public $votes_to_text_help;
+    public $votes_to_text_code;
 
 	function __construct() {
 
@@ -33,6 +35,7 @@ Class RHSVote {
 			global $wpdb;
 			$this->tablename   = $wpdb->prefix . 'votes';
 			$this->post_status = $this->get_custom_post_status();
+            $this->total_meta_key = self::META_TOTAL_VOTES;
 
 			// Hooks
 			add_action( 'init', array( &$this, 'init' ) );
@@ -285,21 +288,27 @@ Class RHSVote {
 
 				if ( strtotime( $post->post_date ) < strtotime( '-' . $this->days_for_expired . ' days' ) ) {
 					$caps[] = 'vote_old_posts';
-                    $this->votes_to_text_help = get_option('vq_text_vote_old_posts');
+                    $this->votes_to_text_code = 'vq_text_vote_old_posts';
+                    $this->votes_to_text_help = get_option($this->votes_to_text_code);
 					$this->check_votes_to_expire( $post );
 				} elseif ( $this->user_has_voted( $post->ID, $user_id ) ) {
-                    $this->votes_to_text_help = get_option('vq_text_vote_posts_again');
+                    $this->votes_to_text_code = 'vq_text_vote_posts_again';
+                    $this->votes_to_text_help = get_option($this->votes_to_text_code);
 					$caps[] = 'vote_posts_again';
 				} elseif ( $post->post_author == $user_id ) {
-                    $this->votes_to_text_help = get_option('vq_text_vote_own_posts');
+                    $this->votes_to_text_code = 'vq_text_vote_own_posts';
+                    $this->votes_to_text_help = get_option($this->votes_to_text_code);
 					$caps[] = 'vote_own_posts';
 				} else {
-                    $this->votes_to_text_help = sprintf(get_option('vq_text_vote_posts'), get_permalink(get_option('vq_page_explanation')));
+                    $this->votes_to_text_code = 'vq_text_vote_posts';
+                    $this->votes_to_text_help = sprintf(get_option($this->votes_to_text_code), get_permalink(get_option('vq_page_explanation')));
 					$caps[] = 'vote_posts';
 				}
-			}
+			} else {
+                $caps[] = '__no_privs';
+                
+            }
 		}
-
 		return $caps;
 	}
 
@@ -371,22 +380,23 @@ Class RHSVote {
 			$post_id ) );
 
 		update_post_meta( $post_id, $this->total_meta_key, $numVotes );
+        
+        // Atualiza total de votos do usuário
+        $author_id = get_post_field( 'post_author', $post_id );
+        
+        $total = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM $this->tablename WHERE post_id IN (SELECT ID FROM $wpdb->posts WHERE post_author = %d)",
+			$author_id ) );
+            
+        update_user_meta($author_id, $this->total_meta_key, $total);
 
 	}
 
 	function get_total_votes( $post_id ) {
 		return get_post_meta( $post_id, $this->total_meta_key, true );
-
 	}
 
 	function get_total_votes_by_author( $user_id ) {
-
-		global $wpdb;
-
-		$total = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM rhs_votes WHERE post_id IN (SELECT ID FROM rhs_posts WHERE post_author = %d)",
-			$user_id ) );
-
-		return $total;
+        return get_user_meta( $user_id, $this->total_meta_key, true );
 	}
 
 	function user_has_voted( $post_id, $user_id = null ) {

@@ -42,6 +42,23 @@ class RHSRewriteRules {
             self::POSTAGENS_URL . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POSTAGENS_URL,
             self::COMUNIDADES . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::COMUNIDADES,
             self::NOTIFICACOES . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::NOTIFICACOES,
+
+            /* Busca */
+            RHSSearch::BASE_URL . '/?$'                                          => "index.php?rhs_busca=posts&rhs_login_tpl=search",
+            RHSSearch::BASE_URL . '/page/([0-9]+)/?$'                            => 'index.php?rhs_busca=posts&rhs_login_tpl=search&paged=$matches[1]',
+            RHSSearch::BASE_URL . '/([A-Z]{2})/?$'                               => 'index.php?rhs_busca=posts&rhs_login_tpl=search&uf=$matches[1]',
+            RHSSearch::BASE_URL . '/([A-Z]{2})/page/([0-9]+)/?$'                 => 'index.php?rhs_busca=posts&rhs_login_tpl=search&uf=$matches[1]&paged=$matches[2]',
+            RHSSearch::BASE_URL . '/([A-Z]{2})/([^/]+)/?$'                       => 'index.php?rhs_busca=posts&rhs_login_tpl=search&uf=$matches[1]&municipio=$matches[2]',
+            RHSSearch::BASE_URL . '/([A-Z]{2})/([^/]+)/page/([0-9]+)/?$'         => 'index.php?rhs_busca=posts&rhs_login_tpl=search&uf=$matches[1]&municipio=$matches[2]&paged=$matches[3]',
+            RHSSearch::BASE_USERS_URL . '/?$'                                    => "index.php?rhs_busca=users&rhs_login_tpl=search-users",
+            RHSSearch::BASE_USERS_URL . '/page/([0-9]+)/?$'                      => 'index.php?rhs_busca=users&rhs_login_tpl=search-users&paged=$matches[1]',
+            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/?$'                         => 'index.php?rhs_busca=users&rhs_login_tpl=search-users&uf=$matches[1]',
+            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/page/([0-9]+)/?$'           => 'index.php?rhs_busca=users&rhs_login_tpl=search-users&uf=$matches[1]&paged=$matches[2]',
+            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/([^/]+)/?$'                 => 'index.php?rhs_busca=users&rhs_login_tpl=search-users&uf=$matches[1]&municipio=$matches[2]',
+            RHSSearch::BASE_USERS_URL . '/([A-Z]{2})/([^/]+)/page/([0-9]+)/?$'   => 'index.php?rhs_busca=users&rhs_login_tpl=search-users&uf=$matches[1]&municipio=$matches[2]&paged=$matches[3]',
+
+
+            /* Seguidores e seguidos */
             'usuario/([^/]+)/' . self::FOLLOWED_URL . '/?$'                         => 'index.php?author_name=$matches[1]&rhs_login_tpl=' . self::FOLLOWED_URL,
             'usuario/([^/]+)/'. self::FOLLOWED_URL . '/page/?([0-9]{1,})/?$' => 'index.php?author_name=$matches[1]&rhs_paged=$matches[2]&rhs_login_tpl=' . self::FOLLOWED_URL,
             'usuario/([^/]+)/' . self::FOLLOW_URL . '/?$'                         => 'index.php?author_name=$matches[1]&rhs_login_tpl=' . self::FOLLOW_URL,
@@ -68,6 +85,9 @@ class RHSRewriteRules {
         $public_query_vars[] = "rhs_login_tpl";
         $public_query_vars[] = "rhs_edit_post";
         $public_query_vars[] = "rhs_user";
+        $public_query_vars[] = "uf";
+        $public_query_vars[] = "municipio";
+        $public_query_vars[] = "rhs_busca";
         $public_query_vars[] = "rhs_paged";
 
         return $public_query_vars;

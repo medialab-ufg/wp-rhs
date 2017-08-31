@@ -63,12 +63,12 @@
 		<?php the_content(); ?>
 	</div><!-- .paine-body -->
 	<div class="panel-footer">
-		<div class="relacionado">
-			<?php if (has_post_ufmun(get_the_ID())) : ?>
+        <?php if (has_post_ufmun(get_the_ID())) : ?>
+            <div class="relacionado">
 				<span>Esse Post está relacionado à </span>
 				<?php echo the_ufmun(); ?>
-			<?php endif; ?>
-		</div>
+		    </div>
+        <?php endif; ?>
 		<?php if(has_tag()) : ?>
 			<div class="tags-content">
 				<span class="tags-list">

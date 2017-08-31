@@ -166,6 +166,13 @@ class NotificationsTest extends RHS_UnitTestCase {
         $this->assertEquals($newpost->getId(), $RHSNotifications->get_news(self::$users['contributor'][1])[0]->getObjectId());
         $this->assertEquals(self::$users['contributor'][0], $RHSNotifications->get_news(self::$users['contributor'][1])[0]->getUserId());
         
+        // alguém faz um comentário, o seguidor tem q receber notificação
+        wp_set_current_user(self::$users['editor'][0]);
+        $comment_id = self::add_comment($newpost->getId());
+        $this->assertEquals(1, $RHSNotifications->get_news_number(self::$users['contributor'][0]));
+        $this->assertEquals($comment_id, $RHSNotifications->get_news(self::$users['contributor'][0])[0]->getObjectId());
+        
+        
     }
 
     function test_user_follow_author() {
@@ -175,14 +182,12 @@ class NotificationsTest extends RHS_UnitTestCase {
         // usuário segue outro usuário
         $RHSFollow->toggle_follow(self::$users['contributor'][0], self::$users['contributor'][1]);
 
-        // deve ser registrado no canal
-        $this->assertContains(sprintf(RHSNotifications::CHANNEL_PRIVATE, self::$users['contributor'][0]), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
-        
         // usuário recebe notificação
         $author = self::$users['contributor'][0];
         $user = self::$users['contributor'][1];
         $this->assertEquals(1, $RHSNotifications->get_news_number($author));
         $this->assertEquals($author, $RHSNotifications->get_news($author)[0]->getObjectId());       
+        $this->assertEquals($user, $RHSNotifications->get_news($author)[0]->getUserId());       
         
     }
 

@@ -123,7 +123,7 @@ abstract class RHS_UnitTestCase extends WP_UnitTestCase {
         $postObj->setContent( 'teste1' );
         $postObj->setStatus( 'publish' ); // status que vem do formulário. A intenção é q nesse caso vá pra fila de votação
         $postObj->setAuthorId( get_current_user_id() );
-        $postObj->setCategoriesId( [self::$test_cat] );
+        $postObj->setCategoriesByIds( [self::$test_cat] );
         $postObj->setComunities(['public']);
 
         return $RHSPosts->insert($postObj);
@@ -140,7 +140,7 @@ abstract class RHS_UnitTestCase extends WP_UnitTestCase {
         $postObj->setContent( 'teste1' );
         $postObj->setStatus( 'draft' ); // status que vem do formulário. A intenção é q nesse caso vá pra fila de votação
         $postObj->setAuthorId( get_current_user_id() );
-        $postObj->setCategoriesId( [self::$test_cat] );
+        $postObj->setCategoriesByIds( [self::$test_cat] );
         $postObj->setComunities(['public']);
 
         return $RHSPosts->insert($postObj);
@@ -159,7 +159,7 @@ abstract class RHS_UnitTestCase extends WP_UnitTestCase {
         $postObj->setContent( 'teste1' );
         $postObj->setStatus( 'public' ); // status que vem do formulário. A intenção é q nesse caso vá pra fila de votação
         $postObj->setAuthorId( get_current_user_id() );
-        $postObj->setCategoriesId( [self::$test_cat] );
+        $postObj->setCategoriesByIds( [self::$test_cat] );
         $postObj->setComunities([$community->name]);
 
         return $RHSPosts->insert($postObj);

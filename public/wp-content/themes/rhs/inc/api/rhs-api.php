@@ -19,9 +19,9 @@ Class RHSApi  {
     }
     
     function register_rest_route() {
-        register_rest_route( $this->apinamespace, '/teste/(?P<id>\d+)', array(
-            'methods' => 'GET',
-            'callback' => array( &$this, 'get_teste' ),
+        register_rest_route( $this->apinamespace, '/votes/(?P<id>[\d]+)', array(
+            'methods' => 'POST',
+            'callback' => array( &$this, 'POST_vote' ),
             'args' => array(
                 'id' => array(
                     'validate_callback' => function($param, $request, $key) {
@@ -30,12 +30,33 @@ Class RHSApi  {
                 )
             ),
             'permission_callback' => function ( $request ) {
-                  return current_user_can( 'edit_others_posts' );
-                }
+                $user_can = current_user_can( 'vote_post', $request['id'] );
+                if ($user_can)
+                    return true;
+                
+                global $RHSVote;
+                return new WP_Error( $RHSVote->votes_to_text_code, $RHSVote->getTextHelp(), array( 'status' => rest_authorization_required_code() ) );
+
+            }
         ));
     }
     
-    
+    function POST_vote($request) {
+        // Já passamos pela autenticação e permission_callback
+        global $RHSVote;
+        $data = $RHSVote->add_vote( $request['id'], get_current_user_id() );
+        
+        $dataR = [
+            'response' => $data,
+            'post_id' => $request['id'],
+            'total_votes' => $RHSVote->get_total_votes($request['id'])
+        ];
+        
+        $response = new WP_REST_Response( $dataR );
+        $response->set_status( 200 );
+
+        return $response;
+    }
     
     function prepare_post( $data, $post, $context ) {
         global $RHSVote;
