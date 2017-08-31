@@ -307,8 +307,7 @@ class RHSSearch {
             case 'name':
                 $q_order = 'ASC';
                 $q_order_by = 'display_name';
-                echo "entrou em name";
-                    break;
+                break;
             
             case 'register_date':
                 $q_order = 'DESC';
