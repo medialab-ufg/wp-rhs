@@ -22,4 +22,35 @@ jQuery(document).ready(function() {
         id: jQuery('#post_ID').val(),
         featuredImageId: jQuery('#img_destacada').val()
     }
+    
+    
+    var ms = jQuery('#input-tags').magicSuggest({
+        placeholder: 'Select...',
+        allowFreeEntries: true,
+        selectionPosition: 'bottom',
+        selectionStacked: true,
+        selectionRenderer: function(data){
+            return data.name;
+        },
+        data: post_vars.ajaxurl,
+        dataUrlParams: { 
+            action: 'get_tags', 
+            term_ids: post_vars.selectedTags
+        },
+        minChars: 3,
+        name: 'tags',
+        valueField: 'term_id'
+        //value: [17497]
+    });
+    
+    // ver https://github.com/nicolasbize/magicsuggest/issues/21
+    jQuery(ms).on('load', function(){
+        if(this._dataSet === undefined){
+            // Roda apenas da primeira vez e depois remove o parametro term_ids dos parametros da URL
+            this._dataSet = true;
+            ms.setValue(post_vars.selectedTags);
+            ms.setDataUrlParams({action: 'get_tags'});
+        }
+    });
+
 });

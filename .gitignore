@@ -4,6 +4,7 @@ sites
 db/base.sql
 db/base_bkp_last_reset.sql
 dev_uploads
+components
 public/wp
 public/sites
 public/wp-config.php

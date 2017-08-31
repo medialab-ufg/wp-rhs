@@ -2424,6 +2424,114 @@ form .comment-form-comment {
     }
 }
 
+.membros{
+    margin-top: 25px;    
+    .well {
+        &.profile_view {
+            margin-bottom: 20px;
+            display: inline-block;
+            width: 100%;
+            -webkit-box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 0px 8px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 0px 8px 0 rgba(0, 0, 0, 0.3);
+            padding: 0;
+            background: $whiteColor;
+            height: 100%;
+            position: relative;
+            &:hover {
+                -webkit-box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.17), 0 0px 9px 0 rgba(0, 0, 0, 0.3);
+                box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.17), 0 0px 9px 0 rgba(0, 0, 0, 0.3);
+            }
+            .divider {
+                border-top: 1px solid #e5e5e5;
+                padding-top: 5px;
+                margin-top: 5px;
+            }
+            .ratings {
+                margin-bottom: 0;
+            }
+            .bottom-mask {
+                height: 50px;
+            }
+            .bottom {
+                text-align: right;
+                background: #F2F5F7;
+                padding: 9px 10px;
+                border-top: 1px solid #E6E9ED;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 46px;
+                word-spacing: -3px;
+                .btn {
+                    padding: 3px 10px;
+                    font-weight: bold;
+                    margin-left: 4px;
+                }
+            }
+            .left {
+                margin-top: 0px;
+                width: 92px;
+                float: left;
+                margin-left: 5px;
+                padding: 5px;
+                p {
+                    margin-bottom: 3px;
+                }
+                img{
+                    object-fit: cover;
+                    border-radius: 60px;
+                    border: 1px solid #d2d2d2;
+                    object-position: top;
+                }
+            }
+            .right {
+                float: left;
+                margin-left: 16px;
+                position: relative;
+                height: 97px;
+                width: 59%;
+                .info-membros {
+                    position: absolute;
+                    bottom: 5px;
+                    left: 0;
+                    p {
+                        font-size: 12px;
+                        margin: 0;
+                        color: #787878;
+                        &.location{
+                            strong{
+                                color: $primeira_cor_fundo;
+                            }
+                            .membros-location{
+                                a{
+                                    color: $grayColor;
+                                }
+                            }
+                        }
+                    }
+                }
+                h1 {
+                    font-size: 16px;
+                    font-weight: bold;
+                    padding: 15px;
+                    .membros{
+                        color: $primeira_cor_texto;
+                        font-weight: 900;
+                    }
+                }
+            }
+            .membros {
+                .panel {
+                    display: none;
+                }
+            }
+            .img-circle {
+                border: 1px solid #E6E9ED;
+            }
+        }
+    }
+}
+
 /*
 * Pagina Tickets
 */
@@ -3152,6 +3260,124 @@ form .comment-form-comment {
 
 /***********
 *
+* Busca
+*
+************/
+.busca-page{
+    .nav-tabs{
+        li{
+            a{
+                color: $primeira_cor_texto;
+                &:hover, &:focus{
+                    background: transparent;
+                    color: $primeira_cor_fundo;
+                }
+            }
+            &.active{
+                a{
+                    color: $primeira_cor_fundo;
+                    &:hover{
+                        background: transparent;
+                        color: $primeira_cor_texto;
+                        border-bottom-color: $whiteColor;
+                    }
+                }
+            }
+        }
+    }
+    #posts, #user {
+        .formulario{
+            padding: 15px 0;
+            margin: 15px 0;
+            margin-bottom: 0;
+            background: transparent;
+            border: 1px solid lightgray;
+            label{
+                color: $primeira_cor_fundo;
+            }
+            @media only screen and (min-width: 780px){
+                .form-inline{
+                    white-space: nowrap;
+                    .form-group{
+                        padding: 5px;
+                        .input-daterange{
+                            width: 90%;
+                        }
+                    }
+                    .tags{
+                        max-width: 200px;
+                    }
+                    select[name='uf']{
+                        margin-right: 122px;
+                    }
+                    select[name='municipio'], #keyword{
+                        width: 209px;
+                    }
+                    #input-tag, select[name='uf']{
+                        width: 154px;
+                    }
+                    label[for='tag']{
+                        margin-right: 7px;
+                    }
+                    label[for='date']{
+                        margin-right: 15px;
+                    }
+                    label[for='keyword']{
+                        margin-left: 10px;
+                    }
+                    #keyword{
+                        width: 100%;
+                    }
+                }
+            }
+            @media only screen and (max-width: 700px){
+                .tags-cats{
+                    padding: 0;
+                }
+                label[for='date']{
+                    margin-left: -15px;
+                }
+            }
+            .filtro{
+                float: right;
+                margin: 10px 13px 0 0;
+                color: $primeira_cor_fundo;
+                border-color: $primeira_cor_texto
+            }
+        }
+        .resultado{
+            padding: 15px;
+            padding-top: 0;
+            .dropdown{
+                top: 13px;
+            }
+        }
+    }
+    #user{
+       @media only screen and (min-width: 780px){
+            select[name='uf']{
+                margin-right: 28px !important;
+                width: 164px !important;
+            }
+            select[name='municipio']{
+                margin-right: 15px !important;
+                width: 164px !important;
+            }
+            .input-daterange{
+                input{
+                    margin-right: 15px !important;
+                    width: 110px;
+                }
+            }
+            #keyword{
+                width: 230px !important;
+            }
+       }
+    }
+}
+
+/***********
+*
 * Sidebar
 *
 ************/
@@ -3290,12 +3516,21 @@ form .comment-form-comment {
                     color: #a94442;
                     margin-left: -14px;
                 }
-                .style{
+                .publish_post_sidebox_city_state{
                     padding: 13px 20px 0 21px;
                     border: 1px solid #F2F2F2;
                     margin-bottom: 10px;
                 }
-
+                .publish_post_sidebox{
+                    padding: 13px 20px 0 7px;
+                    border: 1px solid #F2F2F2;
+                    margin-bottom: 10px;
+                    .checkbox{
+                        label{
+                            padding-left: 0;
+                        }
+                    }
+                }
             }
         }
     }

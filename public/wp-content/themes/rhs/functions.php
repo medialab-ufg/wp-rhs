@@ -26,6 +26,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/stats/stats.php');
         require_once('inc/comunity/comunities.php');
         require_once('inc/comunity/comunity.php');
+        require_once('inc/search/search.php');
         
         /**
          * Notificação
@@ -174,19 +175,17 @@ function RHS_scripts() {
 
     wp_enqueue_script('FuncoesForm', get_template_directory_uri() . '/assets/js/functions.js', array('JqueryValidate'),'1.0', true);
     wp_enqueue_script('magicJS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.js','0.8.0', true);
-    wp_enqueue_script('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js', array('bootstrap'), '1.5.0', true);
+
+    wp_enqueue_script('x-editable', get_template_directory_uri() . '/vendor/bootstrap3-editable/js/bootstrap-editable.min.js', array('bootstrap'), '1.5.1', true);
 
     //Masonry Wordpress
     wp_enqueue_script('masonry');
 
+    wp_enqueue_script('bootstrap-datapicker', get_template_directory_uri() . '/vendor/js/bootstrap-datepicker.min.js', array('bootstrap'),'1.7.1', true);
+
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
         // enqueue the javascript that performs in-link comment reply fanciness
         wp_enqueue_script( 'comment-reply' );
-    }
-
-    if (get_query_var('rhs_login_tpl') == RHSRewriteRules::POST_URL) {
-        wp_enqueue_media ();
-        wp_enqueue_script('PublicarPostagens', get_template_directory_uri() . '/assets/js/publicar_postagens.js','1.0', true);
     }
 
     wp_enqueue_script('uniform', get_template_directory_uri() . '/assets/includes/uniform/dist/js/jquery.uniform.standalone.js', array('jquery'), '4.2.0', true);
@@ -199,7 +198,6 @@ function load_admin_style(){
     wp_enqueue_script( 'media-editor', plugin_dir_url( __FILE__ ) . '/wp-includes/js/media-editor.min.js' );
     wp_enqueue_script( 'media-editor', plugin_dir_url( __FILE__ ) . '/wp-includes/js/media-views.min.js' );
 }
-
 add_action( 'admin_enqueue_scripts', 'load_admin_style' );
 
 
@@ -212,7 +210,8 @@ function RHS_styles() {
     wp_enqueue_style('magicCSS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.css');
     wp_enqueue_style('sweetalert', get_template_directory_uri() . '/assets/includes/bootstrap-sweetalert/dist/sweetalert.css');
     wp_enqueue_style('uniform', get_template_directory_uri() . '/assets/includes/uniform/dist/css/default.css');
-    wp_enqueue_style('x-editable', 'http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', array('bootstrap'));
+    wp_enqueue_style('x-editable', get_template_directory_uri() . '/vendor/bootstrap3-editable/css/bootstrap-editable.css', array('bootstrap'));
+    wp_enqueue_style('jquery-ui', get_template_directory_uri() . '/vendor/css/bootstrap-datepicker3.min.css',false,"1.7.1",false);
     wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
 }
 add_action('wp_enqueue_scripts', 'RHS_styles');
