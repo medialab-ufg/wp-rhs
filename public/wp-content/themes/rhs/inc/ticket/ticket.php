@@ -352,28 +352,9 @@ class RHSTicket extends RHSMessage {
         // o term_meta do usuário padrão da categoria serve apenas para esta setagem na hora que o ticket é criado
         $responsavel_padrao = get_term_meta($category, 'user', true);
         if ($responsavel_padrao) add_post_meta($post_ID, '_responsavel', $responsavel_padrao);
-
-        if($responsavel_padrao){
-            $user = get_userdata($responsavel_padrao);
-
-            $RHSEmail = new RHSEmail();
-
-            $args = array(
-                'site_nome' => get_bloginfo('name'),
-                'ticket_id' => $post_ID,
-                'mensagem' => $message,
-                'login' => $user->user_login,
-                'email' => $user->user_email,
-                'nome' => $user->display_name,
-                'link' => '<a href="'.get_permalink($post_ID).'">'. get_permalink($post_ID) . '</a>'
-            );
-
-            $subject = $RHSEmail->get_subject('new_ticket_message', $args);
-            $message = $RHSEmail->get_message('new_ticket_message', $args);
-
-            wp_mail($user->user_email, $subject, $message,'MIME-Version: 1.0' . "\r\n" . 'Content-type: text/html; charset=iso-8859-1' . "\r\n");
-        }
-
+        
+        do_action('rhs_new_ticket_posted', $post_ID, $message, $responsavel_padrao, $defaultAuthor, $author);
+        
         $this->set_alert(   '<i class="fa fa-check "></i> Contato enviado com sucesso!');
         
         wp_redirect(home_url('contato'));
