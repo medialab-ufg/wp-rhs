@@ -12,13 +12,6 @@ jQuery(function() {
     });
     
     var ms = jQuery('#input-tag').magicSuggest({
-        placeholder: 'Select...',
-        //allowFreeEntries: true,
-        selectionPosition: 'bottom',
-        selectionStacked: true,
-        selectionRenderer: function(data){
-            return data.name;
-        },
         data: search_vars.ajaxurl,
         dataUrlParams: { 
             action: 'get_tags',
