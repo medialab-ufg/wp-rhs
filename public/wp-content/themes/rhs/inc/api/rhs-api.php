@@ -69,7 +69,13 @@ Class RHSApi  {
     }
     
     function prepare_user( $data, $user, $context ) {
-        global $RHSVote, $RHSFollow;
+        global $RHSVote, $RHSFollow, $RHSFollowPost;
+        
+        // Se é uma requisição no endpoint /me ou estamos retornando user logado
+        // Vamos trazer informações privadas e mais detalhadas
+        if (get_current_user_id() == $user->ID) {
+            $data->data['posts_followed'] = $RHSFollowPost->get_posts_followed_by_user($user->ID);
+        } 
         
         $data->data['followers'] = $RHSFollow->get_user_followers($user->ID);
         $data->data['follows'] = $RHSFollow->get_user_follows($user->ID);
