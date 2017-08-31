@@ -64,7 +64,7 @@ Class RHSApi  {
         $total_shares = $RHSNetwork->get_post_total_shares($post->ID);
         $data->data['total_votes'] = $total_votes ? $total_votes : 0;
         $data->data['comment_count'] = $post->comment_count;
-        $data->data['total_shares'] = $total_shares;
+        $data->data['total_shares'] = $total_shares ? $total_shares : 0;
         return $data;
     }
     
