@@ -347,7 +347,7 @@ class RHSSearch {
         $cod_municipio = ($municipio) ? $municipio : '' ;
         
         $filters = array(
-            'role'       => 'contributor',
+            //'role'       => 'contributor',
             'order'      => $q_order,
             'orderby'    => $q_order_by,
             'search'     => '*' . esc_attr($this->get_param('keyword')) . '*',
