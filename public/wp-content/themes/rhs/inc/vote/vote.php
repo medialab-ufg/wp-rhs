@@ -26,6 +26,7 @@ Class RHSVote {
 	public $days_for_expired_default = 14;
     public $votes_to_approval_default = 5;
     public $votes_to_text_help;
+    public $votes_to_text_code;
 
 	function __construct() {
 
@@ -285,21 +286,27 @@ Class RHSVote {
 
 				if ( strtotime( $post->post_date ) < strtotime( '-' . $this->days_for_expired . ' days' ) ) {
 					$caps[] = 'vote_old_posts';
-                    $this->votes_to_text_help = get_option('vq_text_vote_old_posts');
+                    $this->votes_to_text_code = 'vq_text_vote_old_posts';
+                    $this->votes_to_text_help = get_option($this->votes_to_text_code);
 					$this->check_votes_to_expire( $post );
 				} elseif ( $this->user_has_voted( $post->ID, $user_id ) ) {
-                    $this->votes_to_text_help = get_option('vq_text_vote_posts_again');
+                    $this->votes_to_text_code = 'vq_text_vote_posts_again';
+                    $this->votes_to_text_help = get_option($this->votes_to_text_code);
 					$caps[] = 'vote_posts_again';
 				} elseif ( $post->post_author == $user_id ) {
-                    $this->votes_to_text_help = get_option('vq_text_vote_own_posts');
+                    $this->votes_to_text_code = 'vq_text_vote_own_posts';
+                    $this->votes_to_text_help = get_option($this->votes_to_text_code);
 					$caps[] = 'vote_own_posts';
 				} else {
-                    $this->votes_to_text_help = sprintf(get_option('vq_text_vote_posts'), get_permalink(get_option('vq_page_explanation')));
+                    $this->votes_to_text_code = 'vq_text_vote_posts';
+                    $this->votes_to_text_help = sprintf(get_option($this->votes_to_text_code), get_permalink(get_option('vq_page_explanation')));
 					$caps[] = 'vote_posts';
 				}
-			}
+			} else {
+                $caps[] = '__no_privs';
+                
+            }
 		}
-
 		return $caps;
 	}
 
