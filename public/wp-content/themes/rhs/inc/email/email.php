@@ -8,12 +8,14 @@ class RHSEmail {
     function __construct() {
 
         add_action('admin_menu', array( &$this, 'gerate_admin_menu' ) );
-        add_filter("retrieve_password_title", array( &$this, 'filter_reset_password_request_email_title'));
-        add_filter('retrieve_password_message',  array( &$this, 'filter_reset_password_request_email_body'), 10, 4 );
+        add_filter("retrieve_password_title", array( &$this, 'filter_retrieve_password_request_email_title'));
+        add_filter('retrieve_password_message',  array( &$this, 'filter_retrieve_password_request_email_body'), 10, 4 );
         add_action('rhs_post_promoted', array( &$this,'post_promoted'), 10, 1);
+        
+        add_action('rhs_new_ticket_posted', array( &$this,'new_ticket'), 10, 5);
 
         $this->messages = array(
-            /*'new_user_message' => array(
+            'new_user_message' => array(
                 'name'=> 'Email de Boas Vindas',
                 'var' => array(
                     'site_nome',
@@ -54,6 +56,7 @@ class RHSEmail {
                     <p>Equipe Rede HumanizaSUS</p>
                     <p>http://rhs.dev.medialab.ufg.br</p>'
             ),
+            /*
             'alter_password_message' => array(
                 'name'=> 'Email de Edição de Senha',
                 'var' => array(
@@ -71,7 +74,8 @@ class RHSEmail {
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
                     <p>http://rhs.dev.medialab.ufg.br</p>'
-            ),*/
+            ),
+            */
             'new_ticket_message' => array(
                 'name'=> 'Email de Novo Contato',
                 'var' => array(
@@ -116,7 +120,7 @@ class RHSEmail {
         );
     }
 
-    function filter_reset_password_request_email_body($message, $key, $user_login, $user_data) {
+    function filter_retrieve_password_request_email_body($message, $key, $user_login, $user_data) {
 
         $data = get_user_by('login', $user_login);
 
@@ -137,7 +141,7 @@ class RHSEmail {
         return $this->get_message('retrieve_password_message', $args);
     }
 
-    function filter_reset_password_request_email_title() {
+    function filter_retrieve_password_request_email_title() {
 
         $args = array(
             'site_nome' => get_bloginfo('name')
@@ -147,7 +151,6 @@ class RHSEmail {
 
         return $message;
     }
-
     private function get_option($label, $type){
 
         $option = get_option( 'rhs-'.$type.'-'.$label );
@@ -216,6 +219,27 @@ class RHSEmail {
         $message = $this->get_message('post_promoted', $args);
 
         wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, 'MIME-Version: 1.0' . "\r\n" . 'Content-type: text/html; charset=iso-8859-1' . "\r\n");
+    }
+    
+    function new_ticket($post_ID, $content, $responsavel_padrao, $defaultAuthor, $author) {
+        if($responsavel_padrao){
+            $user = get_userdata($responsavel_padrao);
+
+            $args = array(
+                'site_nome' => get_bloginfo('name'),
+                'ticket_id' => $post_ID,
+                'mensagem' => $content,
+                'login' => $user->user_login,
+                'email' => $user->user_email,
+                'nome' => $user->display_name,
+                'link' => '<a href="'.get_permalink($post_ID).'">'. get_permalink($post_ID) . '</a>'
+            );
+
+            $subject = $this->get_subject('new_ticket_message', $args);
+            $message = $this->get_message('new_ticket_message', $args);
+
+            wp_mail($user->user_email, $subject, $message,'MIME-Version: 1.0' . "\r\n" . 'Content-type: text/html; charset=iso-8859-1' . "\r\n");
+        }
     }
 
     function rhs_admin_page_voting_queue() {
