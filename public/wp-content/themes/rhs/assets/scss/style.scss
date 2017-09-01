@@ -2253,9 +2253,8 @@ form .comment-form-comment {
         .form {
             .form-group {
                 position: relative;
+                margin-bottom: 10px;
                 .typeahead {
-                    border-radius: 0;
-                    padding: 18px 15px;
                     &.dropdown-menu {
                         &.typeahead {
                             padding: 0;
@@ -2424,7 +2423,7 @@ form .comment-form-comment {
 }
 
 .membros{
-    margin-top: 25px;    
+    margin-top: 25px;
     .well {
         &.profile_view {
             margin-bottom: 20px;
