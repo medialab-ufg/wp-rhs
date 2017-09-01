@@ -2890,59 +2890,6 @@ form .comment-form-comment {
         }
 
     }
-    // @media (max-width: 992px) {
-    //     .forum-container{
-    //         .forum-title{
-    //             .forum-desc {
-    //                 float: none !important;
-    //             }
-    //         }
-    //         .forum-item{
-    //             .forum-info {
-    //                 margin: 15px 0 10px 0;
-    //                 /* Comment this is you want to show forum info in small devices */
-    //                 display: none;
-    //             }
-    //         }
-    //     }
-    // }
-    // .ibox-content {
-    //     background-color: $whiteColor;
-    //     color: inherit;
-    //     padding: 15px 20px 20px 20px;
-    //     border-color: #e7eaec;
-    //     border-image: none;
-    //     border-style: solid solid none;
-    //     border-width: 1px 0;
-    //     .mid-icon {
-    //         font-size: 66px;
-    //     }
-    //     &.forum-container {
-    //         padding: 30px !important;
-
-    //         .forum-title {
-    //             margin: 15px 0 15px 0;
-
-    //             .forum-desc {
-    //                 color: #999;
-    //             }
-    //         }
-
-    //         .forum-item {
-    //             margin: 10px 0;
-    //             padding: 10px 0 20px;                
-    //         }
-    //     }
-    //     .text-navy {
-    //         color: #1ab394;
-    //         &.mid-icon {
-    //             font-size: 66px !important;
-    //         }
-    //     }
-    //     &.m-b-sm {
-    //         margin-bottom: 10px;
-    //     }
-    // }
 }
 
 .comunidades {
@@ -4035,14 +3982,32 @@ article {
 *
 *****************/
 @media only screen and (min-width: 2500px) {
-    .navbar-default .navbar-brand > img {
-        margin-left: 734px;
+    .navbar-default {
+        .navbar-brand {
+            > img {
+                margin-left: 734px;
+            }
+        }
     }
 }
 
 @media only screen and (min-width: 1920px) {
-    .navbar-default .navbar-brand > img {
-        margin-left: 414px;
+    .navbar-default {
+        .navbar-brand {
+            > img {
+                margin-left: 414px;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 1360px) and (max-width: 1400px){
+    .navbar-default {
+        .navbar-brand {
+            > img {
+                margin-left: 114px;
+            }
+        }
     }
 }
 
@@ -4310,6 +4275,12 @@ article {
         }
     }
 }
+@media only screen and (min-width: 1360px) and (max-width: 1400px){
+    .navbar-default .navbar-brand > img{
+        margin-left: 114px;
+    }
+}
+
 @media only screen and (width: 1024px){
     .navbar-default .navbar-brand > img{
        margin-left: 48px; 
