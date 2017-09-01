@@ -76,6 +76,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div id="custom-ctn"></div>
+                                    </div>
+                                </div>
                                 <button type="submit" class="btn btn-default filtro">Filtrar</button>
                             </form>
                         </div>

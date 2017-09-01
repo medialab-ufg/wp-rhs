@@ -19,8 +19,14 @@ jQuery(function() {
         },
         minChars: 3,
         name: 'tag',
-        valueField: 'slug'
+        valueField: 'slug',
         //maxSelection: 1
+        selectionPosition: 'bottom',
+        selectionStacked: true,
+        selectionRenderer: function(data){
+            return data.name;
+        },
+        selectionContainer: jQuery('#custom-ctn'),
     });
 
     // ver https://github.com/nicolasbize/magicsuggest/issues/21
