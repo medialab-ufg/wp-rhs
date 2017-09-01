@@ -44,7 +44,7 @@ class RHSTicket extends RHSMessage {
 
 
         add_action('admin_footer', array(&$this, 'remove_column_span_comments'));
-        add_filter('option_comment_moderation', array(&$this, 'check_moderable_post_types'));
+        //add_filter('option_comment_moderation', array(&$this, 'check_moderable_post_types'));
         /*$option_name = 'roles_edited_ticket';
         if ( ! get_option( $option_name ) ) {
             // só queremos que isso rode uma vez
