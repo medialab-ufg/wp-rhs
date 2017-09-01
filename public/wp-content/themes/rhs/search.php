@@ -85,11 +85,25 @@
                             <div class="col-xs-12">
                                 <div class="pull-right">
                                     <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Classificar por
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        Ordenar por
+                                        <?php
+                                            if(RHSSearch::get_param('rhs_order') == 'date')
+                                                echo 'Data';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'comments')
+                                                echo 'Comentários';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'votes')
+                                                echo 'Votos';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'views')
+                                                echo 'Visualizações';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'shares')
+                                                echo 'Compartilhamentos';
+                                            else
+                                                echo 'Cassificar por';
+                                        ?>
                                         <span class="caret"></span>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="busca_filtrar_por">
                                             <li><a href="<?php echo add_query_arg('rhs_order', 'date'); ?>">Data</a></li>
                                             <li><a href="<?php echo add_query_arg('rhs_order', 'comments'); ?>">Comentários</a></li>
                                             <li><a href="<?php echo add_query_arg('rhs_order', 'votes'); ?>">Votos</a></li>

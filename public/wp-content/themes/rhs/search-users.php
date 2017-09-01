@@ -58,7 +58,19 @@ $users = $RHSSearch->search_users();
                                 <div class="pull-right">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Classificar por
+                                        Ordenar por
+                                        <?php
+                                            if(RHSSearch::get_param('rhs_order') == 'name')
+                                                echo 'Nome';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'register_date')
+                                                echo 'Data de Cadastro';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'posts')
+                                                echo 'Número de Posts';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'votes')
+                                                echo 'Número de Votos';
+                                            else
+                                                echo 'Cassificar por';
+                                        ?>
                                         <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
