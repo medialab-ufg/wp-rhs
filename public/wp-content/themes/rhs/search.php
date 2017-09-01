@@ -103,12 +103,12 @@
                                         ?>
                                         <span class="caret"></span>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="busca_filtrar_por">
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'date'); ?>">Data</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'comments'); ?>">Comentários</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'votes'); ?>">Votos</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'views'); ?>">Visualizações</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'shares'); ?>">Compartilhamentos</a></li>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('date'); ?>">Data</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('comments'); ?>">Comentários</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('votes'); ?>">Votos</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('views'); ?>">Visualizações</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('shares'); ?>">Compartilhamentos</a></li>
                                         </ul>
                                     </div>
                                 </div>

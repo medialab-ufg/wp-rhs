@@ -347,7 +347,6 @@ function paginacao_personalizada() {
         'current' => max(1, get_query_var('paged')),
         'total' => $wp_query->max_num_pages,
         'mid_size' => 8,
-        'prev_next' => false,
         'type' => 'array',
         'prev_next' => TRUE,
         'prev_text' => '&larr; Anterior',
@@ -357,15 +356,7 @@ function paginacao_personalizada() {
         $current_page = ( get_query_var('paged') == 0 ) ? 1 : get_query_var('paged');
         echo '<ul class="pagination">';
         foreach ($pages as $i => $page) {
-            if ($current_page == 1 && $i == 0) {
-                echo "<li class='active'>$page</li>";
-            } else {
-                if ($current_page != 1 && $current_page == $i) {
-                    echo "<li class='active'>$page</li>";
-                } else {
-                    echo "<li>$page</li>";
-                }
-            }
+            echo "<li>$page</li>";
         }
         echo '</ul>';
     }

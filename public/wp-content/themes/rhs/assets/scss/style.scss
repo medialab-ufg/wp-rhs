@@ -1717,25 +1717,24 @@ Primeiro e Segundo DropDown Menu
     > li {
         a, span {
             color: $blackColor;
+        }
+        a {
             &:hover {
                 color: $primeira_cor_texto;
             }
         }
-
-    }
-    > .active {
-        &:focus, &:hover {
-            background-color: $primeira_cor_texto;
-            border-color: $primeira_cor_texto;
-        }
+        
         span {
-            background: $primeira_cor_texto;
-            border-color: $primeira_cor_texto;
-            &:focus, &:hover {
+            &.current {
                 background-color: $primeira_cor_texto;
                 border-color: $primeira_cor_texto;
+                color: $whiteColor;
+            }
+            &:hover {
+                background-color: $whiteColor;
             }
         }
+
     }
 }
 
