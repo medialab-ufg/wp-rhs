@@ -307,8 +307,7 @@ class RHSSearch {
             case 'name':
                 $q_order = 'ASC';
                 $q_order_by = 'display_name';
-                echo "entrou em name";
-                    break;
+                break;
             
             case 'register_date':
                 $q_order = 'DESC';
@@ -348,7 +347,7 @@ class RHSSearch {
         $cod_municipio = ($municipio) ? $municipio : '' ;
         
         $filters = array(
-            'role'       => 'contributor',
+            //'role'       => 'contributor',
             'order'      => $q_order,
             'orderby'    => $q_order_by,
             'search'     => '*' . esc_attr($this->get_param('keyword')) . '*',

@@ -52,6 +52,26 @@ class StatisticsTest extends RHS_UnitTestCase {
         
         
     }
+    
+    function test_follow_post() {
+        
+        global $RHSStats;
+        global $RHSFollowPost;
+        
+        wp_set_current_user(self::$users['editor'][0]);
+        $newpost = self::create_post_to_queue();
+        
+        // usuario 1 o post
+        $RHSFollowPost->toggle_follow_post($newpost->getId(), self::$users['contributor'][1]);
+        
+        // deve ter gerado registro
+        $this->assertEquals(1, $RHSStats->get_total_events_by_action(RHSStats::ACTION_FOLLOW_POST));
+        
+        $RHSFollowPost->toggle_follow_post($newpost->getId(), self::$users['contributor'][1]);
+        $this->assertEquals(1, $RHSStats->get_total_events_by_action(RHSStats::ACTION_UNFOLLOW_POST));
+        
+        
+    }
     /*
     function test_communities() {
         
