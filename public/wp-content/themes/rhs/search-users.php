@@ -61,10 +61,10 @@ $users = $RHSSearch->search_users();
                                         <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'name'); ?>">Nome</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'register_date'); ?>">Data de Cadastro</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'posts'); ?>">Número de Posts</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'votes'); ?>">Número de Votos</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('name'); ?>">Nome</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('register_date'); ?>">Data de Cadastro</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('posts'); ?>">Número de Posts</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('votes'); ?>">Número de Votos</a></li>
                                         </ul>
                                     </div>
                                 </div>

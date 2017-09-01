@@ -29,6 +29,32 @@ class RHSSearch {
         return '?' . implode('&', $q);
     }
     
+    /**
+     * Monta nova URL de busca, mantendo os parametros de busca atuais, mas removendo a paginação e acrescentando o paramentro de ordenação
+     * @param  string $neworder tipo de rodenação
+     * @return string           Nova URL
+     */
+    static function get_search_neworder_urls($neworder) {
+        
+        
+        $base = get_query_var('rhs_busca') == 'users' ? self::BASE_USERS_URL : self::BASE_URL;
+        $busca_atual = $_GET;
+        
+        // Nos certificamos de adicionar estado e cidade a busca, pq eles podem ter vindo
+        // na URL (ex: /CE/1234567-fortaleza) e não estar no GET
+        $busca_atual['uf'] = self::get_param('uf');
+        $busca_atual['municipio'] = self::get_param('municipio');
+        
+        // Adicionamos a ordenação
+        $busca_atual['rhs_order'] = $neworder;
+        
+        // isso não deve existir, mas não custa excluir
+        // apenas de retornar a URL nova, sem o /page/X já resolve
+        unset($busca_atual['paged']);
+        
+        return add_query_arg( $busca_atual, home_url($base) ); 
+    }
+    
     static function get_search_url() {
         $querystring = self::get_query_string_for_search_urls();
         return home_url(self::BASE_URL) . $querystring;
@@ -95,14 +121,10 @@ class RHSSearch {
 
                 if (!empty($municipio)) {
 
-                    // podemos passar só o ID do município, ex: 2900702
-                    // ou o formato da URL, com {id}-{slug}, ex: 2900702-alagoinhas
-                    preg_match('/^([0-9]{7})(-.+)?$/', $municipio, $cod_municipio);
-
-                    if (is_numeric($cod_municipio[1])) {
+                    if (is_numeric($municipio)) {
                         $meta_query['municipio_clause'] = [
                             'key' => UFMunicipio::MUN_META,
-                            'value' => $cod_municipio[1],
+                            'value' => $municipio,
                             'compare' => '='
                         ];
                         $has_meta_query = true;
@@ -220,6 +242,17 @@ class RHSSearch {
         
         if (empty($value) && $param == 'keyword')
             $value = get_query_var('s');
+        
+        if ($param == 'municipio') {
+            // podemos passar só o ID do município, ex: 2900702
+            // ou o formato da URL, com {id}-{slug}, ex: 2900702-alagoinhas
+            preg_match('/^([0-9]{7})(-.+)?$/', $value, $cod_municipio);
+            if (is_array($cod_municipio) && isset($cod_municipio[1]) && is_numeric($cod_municipio[1]))
+                $value = $cod_municipio[1];
+        }
+        
+        if ($param == 'uf' && !is_numeric($value))
+            $value = UFMunicipio::get_uf_id_from_sigla($value);
         
         return $value;
     }
