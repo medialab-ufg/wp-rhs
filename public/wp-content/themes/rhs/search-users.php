@@ -3,7 +3,6 @@ get_header('full');
 
 // Resultado da busca
 $users = $RHSSearch->search_users();
-
 ?>
 <div class="row">
     <div class="col-xs-12">
@@ -105,7 +104,7 @@ $users = $RHSSearch->search_users();
                                     </div>
                                 <?php endforeach; ?>
                                 <div class="col-xs-12 text-center">
-                                    <?php $RHSSearch->show_users_pagination(); ?>
+                                    <?php $RHSSearch->show_users_pagination($users); ?>
                                 </div>
                             <?php else : ?>
                                 <h3 class="text-center"><?php echo __('Nenhum usuário encontrado, tente outro nome.'); ?></h3>

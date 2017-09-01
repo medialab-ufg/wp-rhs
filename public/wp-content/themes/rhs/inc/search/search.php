@@ -4,6 +4,7 @@ class RHSSearch {
 
     const BASE_URL = 'busca';
     const BASE_USERS_URL = 'busca/usuarios';
+    const USERS_PER_PAGE = 12;
 
     function __construct() {
         add_action('pre_get_posts', array(&$this, 'pre_get_posts'), 2);
@@ -252,7 +253,7 @@ class RHSSearch {
      * @return Object WP_User_Query 
      */
     public function search_users($params = array()) {
-        $users_per_page = '12';
+        $users_per_page = self::USERS_PER_PAGE;
         $meta_query = [];
         $has_meta_query = false;
         
@@ -371,14 +372,11 @@ class RHSSearch {
      * 
      * @return mixed Return html with paginate links
      */
-    function show_users_pagination($paged = -1) {
-        // TODO
-        if (-1 == $paged) $paged = get_query_var('paged');
-        $users_per_page = '10';
-        $query_objects = $this->search_users([],$paged);
+    function show_users_pagination($users) {
+        $paged = $users->query_vars['paged'];
+        $users_per_page = self::USERS_PER_PAGE;
         $total_pages = 1;
-        $total_pages = ceil($query_objects->total_users / $users_per_page);
-        
+        $total_pages = ceil($users->total_users / $users_per_page);
         $big = 999999999;
         $content = paginate_links( array(
             'base'         => str_replace($big, '%#%', get_pagenum_link($big)),
@@ -394,18 +392,10 @@ class RHSSearch {
         ));
         
         if (is_array($content)) {
-            $current_page = ($this->get_param('paged') == 0) ? 1 : $this->get_param('paged');
+            $current_page = $paged;
             echo '<ul class="pagination">';
             foreach ($content as $i => $page) {
-                if ($current_page == 1 && $i == 0) {
-                    echo "<li class='active'>$page</li>";
-                } else {
-                    if ($current_page != 1 && $current_page == $i) {
-                        echo "<li class='active'>$page</li>";
-                    } else {
-                        echo "<li>$page</li>";
-                    }
-                }
+                echo "<li>$page</li>";
             }
             echo '</ul>';
         }
