@@ -91,7 +91,7 @@
                                 <div class="pull-right">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Ordenar por
+                                        Cassificar por
                                         <?php
                                             if(RHSSearch::get_param('rhs_order') == 'date')
                                                 echo 'Data';
@@ -104,7 +104,7 @@
                                             elseif(RHSSearch::get_param('rhs_order') == 'shares')
                                                 echo 'Compartilhamentos';
                                             else
-                                                echo 'Cassificar por';
+                                                echo '';
                                         ?>
                                         <span class="caret"></span>
                                         </button>
