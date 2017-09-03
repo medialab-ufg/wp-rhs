@@ -40,7 +40,6 @@ jQuery(document).ready(function() {
         minChars: 3,
         name: 'tags',
         valueField: 'term_id'
-        //value: [17497]
     });
     
     // ver https://github.com/nicolasbize/magicsuggest/issues/21
