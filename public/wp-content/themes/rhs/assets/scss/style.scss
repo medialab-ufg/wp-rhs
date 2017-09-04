@@ -2069,6 +2069,11 @@ form .comment-form-comment {
     .panel-body {
         margin-top: -6px;
         padding-top: 6px;
+        a{
+            &.link_comunidade{
+                color: black;
+            }
+        }
     }
     p {
         color: $primeira_cor_texto;
