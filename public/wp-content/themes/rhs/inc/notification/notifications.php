@@ -15,6 +15,7 @@ class RHSNotifications {
     const CHANNEL_COMMUNITY = 'community_%s'; // se alterar esse valor, alterar no script de importação add-users-to-channels.php a linha onde são limpadas as notificações
     
     const NOTIFICATION_CLASS_PREFIX = 'RHSNotification_';
+    const RESULTS_PER_PAGE = 10;
     /**
      * Tipos
      */
@@ -113,13 +114,27 @@ class RHSNotifications {
         
         $channels   = self::get_user_channels($user_id);
         $channels   = implode( "', '", $channels );
+        $results_per_page = self::RESULTS_PER_PAGE;
+        
+        $count_results = "SELECT count(*) FROM {$this->table} WHERE channel IN ('$channels') AND `user_id` <> $user_id";
+        $row = $wpdb->get_var($count_results);
+        
+        if( isset($_GET{'page'} ) ) {
+            $page = $_GET{'page'} + 1;
+            $offset = $results_per_page * $page ;
+         }else {
+            $page = 0;
+            $offset = 0;
+         }
+
         
         $query = "SELECT * FROM {$this->table} WHERE channel IN ('$channels') AND `user_id` <> $user_id";
         
         if (!is_null($from_datetime))
-            $query .= " AND datetime >= '$from_datetime'";
+            $query .= " AND datetime >= '$from_datetime'";       
         
         $query .= " ORDER BY datetime DESC";
+        $query .= " LIMIT $offset, $results_per_page";
         
         $notifications = array();
 
@@ -134,6 +149,47 @@ class RHSNotifications {
         }
 
         return $notifications;
+
+    }
+
+    function show_notification_pagination($user_id, $paged) {
+        global $wpdb;
+
+        $results_per_page = self::RESULTS_PER_PAGE;
+        $author = get_queried_object();
+        $author_query = $this->get_notifications($user_id, $paged);
+        
+        $channels   = self::get_user_channels($user_id);
+        $channels   = implode( "', '", $channels );
+        
+        $count_results = "SELECT count(*) FROM {$this->table} WHERE channel IN ('$channels') AND `user_id` <> $user_id";
+        $row = $wpdb->get_var($count_results);
+        
+        $total_pages = 1;
+        $total_pages = ceil($row / $results_per_page);
+
+        $big = 999999999;
+        $content = paginate_links( array(
+            'base'         => str_replace($big, '%#%', get_pagenum_link($big)),
+            'format'       => 'page/%#%',
+            'prev_text'    => __('&laquo; Anterior'),
+            'next_text'    => __('Próxima &raquo;'), 
+            'total'        => $total_pages,
+            'current'      => $paged,
+            'end_size'     => 1,
+            'type'         => 'array',
+            'mid_size'     => 8,
+            'prev_next'    => true,
+        ));
+        
+        if (is_array($content)) {
+            $current_page = (get_query_var('rhs_paged') == 0) ? 1 : get_query_var('rhs_paged');
+            echo '<ul class="pagination">';
+            foreach ($content as $i => $page) {
+                echo "<li>$page</li>";
+            }
+            echo '</ul>';
+        }
     }
 
     public function get_news_number($user_id) {

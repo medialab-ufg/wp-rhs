@@ -1,3 +1,7 @@
+<?php 
+$current_user = wp_get_current_user();
+$paged = !empty(get_query_var('rhs_paged')) ? get_query_var('rhs_paged') : 1;
+?>
 <?php get_header(); ?>
             <div class="row">
                 <div class="col-xs-12 notificacoes">
@@ -16,6 +20,7 @@
                             </div>
                         <?php } ?>
                         <!-- Fim do Loop -->
+                        <?php $RHSNotifications->show_notification_pagination($current_user->ID, $paged); ?>
                     </div>
                 </div>
             </div>
