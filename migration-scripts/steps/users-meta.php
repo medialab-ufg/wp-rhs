@@ -27,9 +27,9 @@ $this->log('Importando informação de interesse dos usuarios...');
 $this->query('users-meta-interest');
 
 $this->log('Importando informação de links dos usuarios...');
-$q = "SELECT * FROM `rhs_drupal`.`field_data_field_profile_links` ORDER BY entity_id";
+$q = "SELECT * FROM ".RHS_DRUPALDB.".`field_data_field_profile_links` ORDER BY entity_id";
 
-$user_count = $wpdb->get_var( "SELECT COUNT(*) FROM `rhs_drupal`.`field_data_field_profile_links`" );
+$user_count = $wpdb->get_var( "SELECT COUNT(*) FROM ".RHS_DRUPALDB.".`field_data_field_profile_links`" );
 $this->log("🍕 $user_count registros afetados\n");
 
 $links = $wpdb->get_results($q);
