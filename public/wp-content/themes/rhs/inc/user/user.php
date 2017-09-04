@@ -335,7 +335,7 @@ class RHSUser {
      */
     function show_user_links_to_edit($user_id){
         !($user_id) ? $user_id = $this->get_id() : '' ;
-        $links = get_user_meta($user_id, '_rhs_links', true);
+        $links = get_user_meta($user_id, RHSUsers::LINKS_USERMETA, true);
         $link_to_delete = '<a title="Remover link" class="remove-link" href="javascript:;"><i class="fa fa-remove"></i></a>';
 
         if($links){
@@ -352,14 +352,31 @@ class RHSUser {
                         <div class="form-group">
                             <label for="edit-nome">URL</label>
                             <input class="form-control" type="text" name="links[<?php echo $key ?>][url]" size="60" maxlength="254" value="<?php echo $value['url'] ?>">
-                            <?php echo  $link_to_delete; ?>
+                            <?php echo $link_to_delete ?>
                         </div>
                     </div>
                 </div>
-            
                 <?php
             }
             
+        } else {
+        ?>
+        <div class='row links'>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="edit-nome">Título</label>
+                    <input class="form-control" type="text" name="links[0][titulo]" size="60" maxlength="254" value="">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="edit-nome">URL</label>
+                    <input class="form-control" type="text" name="links[0][url]" size="60" maxlength="254" value="">
+                    <?php echo $link_to_delete ?>
+                </div>
+            </div>
+        </div>
+        <?php
         }
         echo '
             <div class="row">

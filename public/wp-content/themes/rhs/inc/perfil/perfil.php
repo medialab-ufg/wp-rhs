@@ -44,7 +44,7 @@ class RHSPerfil extends RHSMessage {
         }
     }
 
-    function update($user_id, $first_name, $last_name, $pass = '', $description = '', $formation = '', $interest = '', $state = '', $city = '', $links = [], $avatar_file){
+    function update($user_id, $first_name, $last_name, $pass = '', $description = '', $formation = '', $interest = '', $state = '', $city = '', $links = '', $avatar_file){
 
         $data = array('ID' => $user_id);
         $data['first_name'] = $first_name;
@@ -61,7 +61,7 @@ class RHSPerfil extends RHSMessage {
         update_user_meta( $user_id, 'rhs_interest', $interest);
         add_user_ufmun_meta( $user_id, $city, $state);
         update_user_meta( $user_id, 'rhs_city', $city);
-        update_user_meta( $user_id, '_rhs_links', $links);
+        update_user_meta( $user_id, RHSUsers::LINKS_USERMETA, $links);
 
         if ($avatar_file) {
             $arquivo_tmp = $avatar_file[ 'tmp_name' ];

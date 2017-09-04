@@ -580,7 +580,6 @@ jQuery( function( $ ) {
             },
             submitHandler: function(form) {
                 $(form).find('[type="submit"]').html('<i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>');
-                console.log('foi');
                 form.submit();
             }
         });

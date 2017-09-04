@@ -3,7 +3,7 @@
 Class RHSUsers extends RHSMessage {
 
     static $instance;
-    const SEPARATE = "&#44;";
+    const LINKS_USERMETA = '_rhs_links' ;
     private $userID;
 
     function __construct( $userID ) {
@@ -214,7 +214,7 @@ Class RHSUsers extends RHSMessage {
         }
 
         add_user_ufmun_meta( $this->userID, $_POST['municipio'], $_POST['estado']);
-        update_user_meta( $this->userID, '_rhs_links', $_POST['links'] );
+        update_user_meta( $this->userID, RHSUsers::LINKS_USERMETA, $_POST['links'] );
         update_user_meta( $this->userID, 'rhs_formation', $_POST['rhs_formation'] );
         update_user_meta( $this->userID, 'rhs_interest', $_POST['rhs_interest'] );
         update_user_meta( $this->userID, 'rhs_avatar', $_POST['rhs_avatar'] );
@@ -244,7 +244,7 @@ Class RHSUsers extends RHSMessage {
     }
 
     function show_author_links() {
-        $links = get_the_author_meta( '_rhs_links', $this->userID );
+        $links = get_the_author_meta( RHSUsers::LINKS_USERMETA, $this->userID );
         $count = 1;
         
         foreach ($links as $value){
