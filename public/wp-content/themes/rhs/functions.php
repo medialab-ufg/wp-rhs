@@ -228,7 +228,7 @@ if (!function_exists('RHS_Comentarios')) :
         <article>
 
             <figure class="comment-avatar">
-              <?php echo get_avatar($comment, 50,'', '' ); ?>
+            <a href="<?php echo get_author_posts_url($comment->user_id); ?>"><?php echo get_avatar($comment, 50,'', '' ); ?></a>
             </figure>
 
             <header class="comment-box">
