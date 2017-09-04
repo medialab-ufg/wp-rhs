@@ -3504,6 +3504,11 @@ form .comment-form-comment {
                 }
             }
         }
+        &.widget_text{
+            p{
+                margin-top: 15px;
+            }
+        }
     }
     .image-with-link {
         margin-bottom: 20px;
