@@ -20,7 +20,7 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                                             Informações Pessoais</a>
                                     </h4>
                                 </div>
-                                <?php global $RHSComunities; ?>
+                                
                                 <div id="info_pessoais" class="panel-collapse collapse" role="tabpanel"
                                      aria-labelledby="InfoPessoais">
                                     <div class="panel-body">
@@ -28,8 +28,8 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                                         $is_author = is_author( get_current_user_id() );
                                         $has_link = get_the_author_meta($RHSUsers::LINKS_USERMETA, $curauth->ID);
 
-                                        if( ($is_author || $has_link) || ($is_author && $has_link) ) {
-                                            
+                                        if( $is_author || $has_link ) {
+                                            global $RHSComunities;
                                             if( $RHSComunities->get_communities_by_member( $curauth->ID ) && $is_author ) { ?>
                                                 <p>Grupos: </p>
                                                 
