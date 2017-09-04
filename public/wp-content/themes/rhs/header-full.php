@@ -26,9 +26,23 @@
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.10&appId=1018555378249909";
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=1018555378249909";
   fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+}(document, 'script', 'facebook-jssdk'));
+
+jQuery(document).ready(function($) {
+    $(window).bind("load resize", function(){  
+        setTimeout(function() {
+            var container_width = $('#sidebar .widget_text').width();    
+            $('.textwidget').html('<div class="fb-page" ' + 
+            'data-href="http://www.facebook.com/RedeHumanizasus/"' +
+            ' data-width="' + container_width + '" data-tabs="" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="http://www.facebook.com/RedeHumanizasus"><a href="http://www.facebook.com/RedeHumanizasus">Rede HumanizaSUS</a></blockquote></div></div>');
+            FB.XFBML.parse( );    
+        }, 100);  
+    }); 
+});
+
+</script>
 <!-- Fim SDK Facebook -->
 
 <!-- Tag header para o Primeiro Menu -->
