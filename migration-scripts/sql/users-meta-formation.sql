@@ -1,7 +1,4 @@
 
-/**
- Formação
- */
 INSERT IGNORE INTO {{usermeta}}
 (
     user_id,

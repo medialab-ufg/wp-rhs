@@ -1,6 +1,4 @@
-/**
- Apelido
- */
+
 INSERT IGNORE INTO {{usermeta}}
 (
     user_id,
