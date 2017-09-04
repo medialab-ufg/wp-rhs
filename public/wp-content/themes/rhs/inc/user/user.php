@@ -326,6 +326,10 @@ class RHSUser {
 
         return $this->is_admin = ($this->get_role() == 'administrator' || $this->get_role() == 'editor');
     }
+    
+    function get_links() {
+        return get_the_author_meta(RHSUsers::LINKS_USERMETA, $this->id);
+    }
 
     /**
      * Exibe links de usuário
@@ -335,7 +339,7 @@ class RHSUser {
      */
     function show_user_links_to_edit($user_id){
         !($user_id) ? $user_id = $this->get_id() : '' ;
-        $links = get_user_meta($user_id, RHSUsers::LINKS_USERMETA, true);
+        $links = $this->get_links($user_id);
         $link_to_delete = '<a title="Remover link" class="remove-link" href="javascript:;"><i class="fa fa-remove"></i></a>';
 
         if($links){
