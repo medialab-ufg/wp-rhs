@@ -34,8 +34,7 @@ class RHSCaptcha {
     }
 
     function no_captcha_recaptcha_menu() {
-        add_menu_page( "Opções reCaptcha", "Opções reCaptcha", "manage_options", "recaptcha-options",
-            array( &$this, "recaptcha_options_page" ), "", 100 );
+            add_submenu_page( 'rhs_options', 'Opções reCaptcha', 'Opções reCaptcha', 'manage_options', 'recaptcha-options', array( &$this, 'recaptcha_options_page' ) );
     }
 
     function recaptcha_options_page() { ?>

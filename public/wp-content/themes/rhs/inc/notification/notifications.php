@@ -12,7 +12,7 @@ class RHSNotifications {
     const CHANNEL_PRIVATE = 'private_for_%s';
     const CHANNEL_COMMENTS = 'comments_in_post_%s';
     const CHANNEL_USER = 'user_%s';
-    const CHANNEL_COMMUNITY = 'community_%s';
+    const CHANNEL_COMMUNITY = 'community_%s'; // se alterar esse valor, alterar no script de importação add-users-to-channels.php a linha onde são limpadas as notificações
     
     const NOTIFICATION_CLASS_PREFIX = 'RHSNotification_';
     /**

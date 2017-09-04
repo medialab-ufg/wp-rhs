@@ -44,25 +44,8 @@ class RHSTicket extends RHSMessage {
 
 
         add_action('admin_footer', array(&$this, 'remove_column_span_comments'));
-        add_filter('option_comment_moderation', array(&$this, 'check_moderable_post_types'));
-        /*$option_name = 'roles_edited_ticket';
-        if ( ! get_option( $option_name ) ) {
-            // só queremos que isso rode uma vez
-            add_option( $option_name, true );
-            $editor = $wp_roles->get_role( 'editor' );
-            $editor->add_cap( self::CAPABILITIES );
-            $administrator = $wp_roles->get_role( 'administrator' );
-            $administrator->add_cap( self::CAPABILITIES );
-        }*/
 
     }
-
-    function check_moderable_post_types($value) {
-        exit;
-        if (get_post_type() == 'species') return 1;
-        return $value;
-    }
-
 
     function remove_column_span_comments() {
 

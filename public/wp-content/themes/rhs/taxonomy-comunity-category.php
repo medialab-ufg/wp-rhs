@@ -94,18 +94,6 @@
             <div class="tab-content">
                 <div class="tab-pane fade in <?php echo (!$comunity->is_to_see_members()) ? 'active' : '';  ?>" id="tab1">
                 <?php if($comunity->can_see()){ ?>
-                        <?php $args = array(
-                            'post_status' => array('publish', 'private', RHSVote::VOTING_QUEUE),
-                            'tax_query' => array(
-                                array(
-                                    'taxonomy' => RHSComunities::TAXONOMY,
-                                    'field' => 'term_id',
-                                    'terms' => $comunity->get_id()
-                                )
-                            )
-                        );
-
-                        query_posts($args); ?>
                         <?php include(locate_template( 'partes-templates/loop-posts.php')); ?>
                     <?php } else { ?>
                         <h4 class="text-center">Você não tem permissão para ver os posts desta comunidade</h4>

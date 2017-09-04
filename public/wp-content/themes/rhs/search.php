@@ -76,6 +76,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div id="custom-ctn"></div>
+                                    </div>
+                                </div>
                                 <button type="submit" class="btn btn-default filtro">Filtrar</button>
                             </form>
                         </div>
@@ -85,16 +90,30 @@
                             <div class="col-xs-12">
                                 <div class="pull-right">
                                     <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Classificar por
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        Cassificar por
+                                        <?php
+                                            if(RHSSearch::get_param('rhs_order') == 'date')
+                                                echo 'Data';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'comments')
+                                                echo 'Comentários';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'votes')
+                                                echo 'Votos';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'views')
+                                                echo 'Visualizações';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'shares')
+                                                echo 'Compartilhamentos';
+                                            else
+                                                echo '';
+                                        ?>
                                         <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'date'); ?>">Data</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'comments'); ?>">Comentários</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'votes'); ?>">Votos</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'views'); ?>">Visualizações</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'shares'); ?>">Compartilhamentos</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('date'); ?>">Data</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('comments'); ?>">Comentários</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('votes'); ?>">Votos</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('views'); ?>">Visualizações</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('shares'); ?>">Compartilhamentos</a></li>
                                         </ul>
                                     </div>
                                 </div>

@@ -47,7 +47,7 @@ foreach ( $comunities as $key => $comunity ) {
     foreach ( $members as $member ) {
         RHSComunities::add_user_comunity($term->term_id, $member->user_id);
         RHSComunities::add_user_comunity_follow($term->term_id, $member->user_id);
-
+        // Há um hook nessa função que já adiciona o usuário ao canal de notificações da comunidade
 
         if($member->moderate){
             RHSComunities::add_user_comunity_moderate($term->term_id, $member->user_id);

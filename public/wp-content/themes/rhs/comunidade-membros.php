@@ -3,10 +3,11 @@
     <div class="wrapper-content">
         <?php if($comunity->is_moderate()){ ?>
         <div class="row">
-            <div class="col-md-4">
-                <form class="form">
+            <div class="col-xs-12">
+                <form class="form form-inline">
                     <div class="form-group">
-                        <input id="input-add-member" name="add-member" placeholder="Adicionar membro..." class="form-control typeahead" value="" />
+                        <label for="input-add-member">Adicionar membro</label>
+                        <input id="input-add-member" name="add-member" placeholder="Nome" class="form-control typeahead" value="" />
                     </div>
                 </form>
             </div>
