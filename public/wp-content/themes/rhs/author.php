@@ -25,12 +25,9 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                                     <div class="panel-body">
                                         <p class="hide">Grupos: </p>
                                         <span class="hide">-Privado-</span>
-                                        <?php if ( $RHSUsers->getLinks() ) { ?>
+                                        <?php if (get_the_author_meta($RHSUsers::LINKS_USERMETA, $curauth->ID)) { ?>
                                             <p>Links: </p>
-                                            <?php foreach ( $RHSUsers->getLinks() as $key => $link ) { ?>
-                                                <span><a href="<?php echo $link['url'] ?>"><?php echo $link['title'] ?></a></span>
-                                                <?php echo ( count( $RHSUsers->getLinks() ) != ( $key + 1 ) ) ? ',' : ''; ?>
-                                            <?php } ?>
+                                            <?php $RHSUsers->show_author_links($curauth->ID); ?>
                                         <?php } else { ?>
                                             Sem Informação.
                                         <?php } ?>

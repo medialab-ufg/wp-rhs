@@ -1,7 +1,6 @@
 jQuery(document).ready(function() {
 
     wp.media.featuredImage.select = function() {
-        console.log(this.get('selection').single().id);
         wp.media.view.settings.post.featuredImageId = this.get('selection').single().id;
         var imgurl = this.get('selection').single().attributes.sizes.thumbnail.url;
 

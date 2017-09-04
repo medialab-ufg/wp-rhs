@@ -155,40 +155,7 @@ if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
                                     <h4 class="perfil-title">Links</h4>
                                 </div>
                                 <div class="panel-body">
-                                    <?php foreach ( $RHSUser->get_links( true ) as $key => $link ) { ?>
-                                        <div class="row links">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="edit-nome">Titulo</label>
-                                                    <input class="form-control" type="text"
-                                                           id="links-title-<?php echo $key ?>" name="links[title][]"
-                                                           size="60" maxlength="254"
-                                                           value="<?php echo $link['title'] ?>">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="edit-nome">URL</label>
-                                                    <input class="form-control" type="text"
-                                                           id="links-url-<?php echo $key ?>" name="links[url][]"
-                                                           size="60" maxlength="254" value="<?php echo $link['url'] ?>">
-                                                    <a title="Remover link" class="remove-link" href="javascript:;">
-                                                        <i class="fa fa-remove"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="help-block">
-                                                <a title="Adicionar Link" href="javascript:;"
-                                                   class="btn btn-info js-add-link">
-                                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <?php echo $RHSUser->show_user_links_to_edit($RHSUser->get_id());?>
                                 </div>
                             </div>
                             <div class="panel panel-info" style="border: none">
