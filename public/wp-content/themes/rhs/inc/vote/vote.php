@@ -58,7 +58,6 @@ Class RHSVote {
 
 			self::$instance = true;
             
-            $this->votes_to_approval = get_option('vq_votes_to_approval');
 		}
 
 	}
@@ -147,7 +146,7 @@ Class RHSVote {
         }
 
         if(!get_option( 'vq_text_vote_posts' )){
-            add_option('vq_text_vote_posts',  'Infelizmente você não pode votar em um post, para saber como se tornar um votante <a href="%s">leia aqui</a>.');
+            add_option('vq_text_vote_posts',  'Infelizmente você ainda não pode votar em um post.');
         }
 
         if(!get_option( 'vq_text_vote_update' )){
