@@ -59,15 +59,23 @@ Class RHSApi  {
     }
     
     function prepare_post( $data, $post, $context ) {
-        global $RHSVote;
+        global $RHSVote, $RHSNetwork;
         $total_votes = $RHSVote->get_total_votes($post->ID);
+        $total_shares = $RHSNetwork->get_post_total_shares($post->ID);
         $data->data['total_votes'] = $total_votes ? $total_votes : 0;
         $data->data['comment_count'] = $post->comment_count;
+        $data->data['total_shares'] = $total_shares ? $total_shares : 0;
         return $data;
     }
     
     function prepare_user( $data, $user, $context ) {
-        global $RHSVote, $RHSFollow;
+        global $RHSVote, $RHSFollow, $RHSFollowPost;
+        
+        // Se é uma requisição no endpoint /me ou estamos retornando user logado
+        // Vamos trazer informações privadas e mais detalhadas
+        if (get_current_user_id() == $user->ID) {
+            $data->data['posts_followed'] = $RHSFollowPost->get_posts_followed_by_user($user->ID);
+        } 
         
         $data->data['followers'] = $RHSFollow->get_user_followers($user->ID);
         $data->data['follows'] = $RHSFollow->get_user_follows($user->ID);

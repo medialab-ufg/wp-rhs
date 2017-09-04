@@ -10,7 +10,7 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             <?php
             global $RHSUsers;
             $RHSUsers = new RHSUsers($curauth->ID);
-            $votos = new RHSVote();
+            global $RHSVote;
             ?>
         <div class="avatar-user">
             <?php echo get_avatar($RHSUsers->getUserId()); ?>
@@ -28,7 +28,7 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                 <span class="contagem-desc-author">POSTS</span>
             </div>
             <div class="contagem">
-                <span class="contagem-valor-author"><?php echo $votos->get_total_votes_by_author( $curauth->ID ); ?></span>
+                <span class="contagem-valor-author"><?php echo $RHSVote->get_total_votes_by_author( $curauth->ID ); ?></span>
                 <span class="contagem-desc-author">VOTOS</span>
             </div>
             

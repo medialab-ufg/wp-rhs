@@ -229,15 +229,7 @@ class RHSFollow {
             $current_page = (get_query_var('rhs_paged') == 0) ? 1 : get_query_var('rhs_paged');
             echo '<ul class="pagination">';
             foreach ($content as $i => $page) {
-                if ($current_page == 1 && $i == 0) {
-                    echo "<li class='active'>$page</li>";
-                } else {
-                    if ($current_page != 1 && $current_page == $i) {
-                        echo "<li class='active'>$page</li>";
-                    } else {
-                        echo "<li>$page</li>";
-                    }
-                }
+                echo "<li>$page</li>";
             }
             echo '</ul>';
         }

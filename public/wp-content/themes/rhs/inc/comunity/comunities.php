@@ -39,6 +39,8 @@ class RHSComunities extends RHSMessage {
 
         add_action( 'add_meta_boxes', array( &$this, "add_meta_box" ) );
         add_filter( 'wp_insert_post_data', array( &$this, 'filter_post_data' ), '99', 2 );
+        
+        add_filter( 'map_meta_cap', array( &$this, 'read_post_cap' ), 10, 4 );
 
     }
 
@@ -65,6 +67,33 @@ class RHSComunities extends RHSMessage {
         }
 
         return get_categories( $filter_default );
+    }
+    
+    function read_post_cap( $caps, $cap, $user_id, $args ) {
+        if ( $cap == 'read_post' ) {
+            $post = get_post( $args[0] );
+    		
+            // se o post for privado, checamos, se não deiaxmos passar  retornamos o padrão do WP
+            if ( $post && $post->post_status == 'private' ) {
+                $post_type = get_post_type_object( $post->post_type );
+                global $RHSComunities;
+                $post_communities = $RHSComunities->get_comunities_by_post($post->ID);
+                
+                // se o post estiver dentro de uma comunidade, checamos, se não deixamos passar
+                if (sizeof($post_communities) > 0) {
+                    $user_communities = $RHSComunities->get_communities_by_member($user_id);
+                }
+                
+                // Se o usuário está dentro de alguma das comunidades do post
+                // retornamos uma permissão que todo mundo term
+                // se não estiver dentro da comunidade, vai passar para o padrão do WP
+                // que é 'read_private_posts', e aí se for editor ou admin vai retornar true
+                if (sizeof(array_intersect($user_communities, $post_communities)) > 0) {
+                    $caps = [$post_type->cap->read];
+                }
+            }
+        }
+        return $caps;
     }
 
     /*====================================================================================================
@@ -246,7 +275,7 @@ class RHSComunities extends RHSMessage {
      *
      * @param int $post_id
      *
-     * @return array|WP_Error|WP_Term
+     * @return array|WP_Error Array com os Ids das comunidades
      */
     static function get_comunities_by_post( $post_id ) {
         $comunities = wp_get_post_terms( $post_id, self::TAXONOMY );
@@ -335,7 +364,7 @@ class RHSComunities extends RHSMessage {
      *
      * @return RHSComunity[]
      */
-    function get_comunities_by_user( $user_id ) {
+    function get_comunities_objects_by_user( $user_id ) {
 
         // Singleton para usar em verificação e não fazer a consulta novamente
         if ( $user_id ) {
@@ -359,6 +388,11 @@ class RHSComunities extends RHSMessage {
 
         return self::$comunity[ $user_id ] = $return;
 
+    }
+    
+    function get_communities_by_member($user_id) {
+        global $wpdb;
+        return $wpdb->get_col( $wpdb->prepare("SELECT term_id FROM $wpdb->termmeta WHERE meta_key = %s AND meta_value = %d", self::MEMBER, $user_id) );
     }
 
     /**

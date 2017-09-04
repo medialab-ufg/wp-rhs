@@ -3,7 +3,6 @@ get_header('full');
 
 // Resultado da busca
 $users = $RHSSearch->search_users();
-
 ?>
 <div class="row">
     <div class="col-xs-12">
@@ -58,14 +57,26 @@ $users = $RHSSearch->search_users();
                                 <div class="pull-right">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Classificar por
+                                        Cassificar por
+                                        <?php
+                                            if(RHSSearch::get_param('rhs_order') == 'name')
+                                                echo 'Nome';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'register_date')
+                                                echo 'Data de Cadastro';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'posts')
+                                                echo 'Número de Posts';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'votes')
+                                                echo 'Número de Votos';
+                                            else
+                                                echo '';
+                                        ?>
                                         <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'name'); ?>">Nome</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'register_date'); ?>">Data de Cadastro</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'posts'); ?>">Número de Posts</a></li>
-                                            <li><a href="<?php echo add_query_arg('rhs_order', 'votes'); ?>">Número de Votos</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('name'); ?>">Nome</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('register_date'); ?>">Data de Cadastro</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('posts'); ?>">Número de Posts</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('votes'); ?>">Número de Votos</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -105,7 +116,7 @@ $users = $RHSSearch->search_users();
                                     </div>
                                 <?php endforeach; ?>
                                 <div class="col-xs-12 text-center">
-                                    <?php $RHSSearch->show_users_pagination(); ?>
+                                    <?php $RHSSearch->show_users_pagination($users); ?>
                                 </div>
                             <?php else : ?>
                                 <h3 class="text-center"><?php echo __('Nenhum usuário encontrado, tente outro nome.'); ?></h3>

@@ -1,7 +1,6 @@
 jQuery(document).ready(function() {
 
     wp.media.featuredImage.select = function() {
-        console.log(this.get('selection').single().id);
         wp.media.view.settings.post.featuredImageId = this.get('selection').single().id;
         var imgurl = this.get('selection').single().attributes.sizes.thumbnail.url;
 
@@ -16,7 +15,7 @@ jQuery(document).ready(function() {
     
     });
     
-    jQuery('.style #estado').attr('title', 'Se este post está relacionado a um Estado, indique aqui').tooltip({placement: "left"}).tooltip('show');
+    jQuery('.publish_post_sidebox_city_state #estado').attr('title', 'Se este post está relacionado a um Estado, indique aqui').tooltip({placement: "left"}).tooltip('show');
 
     wp.media.view.settings.post = {
         id: jQuery('#post_ID').val(),
@@ -40,7 +39,6 @@ jQuery(document).ready(function() {
         minChars: 3,
         name: 'tags',
         valueField: 'term_id'
-        //value: [17497]
     });
     
     // ver https://github.com/nicolasbize/magicsuggest/issues/21

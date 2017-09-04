@@ -9,6 +9,8 @@ class RHSStats {
     const ACTION_REGISTER = 'user_register';
     const ACTION_FOLLOW_USER = 'user_follow';
     const ACTION_UNFOLLOW_USER = 'user_unfollow';
+    const ACTION_FOLLOW_POST = 'post_follow';
+    const ACTION_UNFOLLOW_POST = 'post_unfollow';
     const ACTION_POST_PROMOTED = 'post_promoted';
     const ACTION_USER_PROMOTED = 'user_promoted';
     const ACTION_SHARE = 'share';
@@ -34,6 +36,8 @@ class RHSStats {
         add_action( 'rhs_post_promoted', array( &$this, 'post_promoted'));
         add_action( 'rhs_user_promoted', array( &$this, 'user_promoted'));
         add_action( 'rhs_add_network_data', array( &$this, 'network_data'), 10, 2);
+        add_action( 'rhs_add_user_follow_post', array( &$this, 'post_follow'));
+        add_action( 'rhs_delete_user_follow_post', array( &$this, 'post_unfollow'));
         
         
         
@@ -55,6 +59,14 @@ class RHSStats {
     
     function user_unfollow($args) {
         $this->add_event(self::ACTION_UNFOLLOW_USER, $args['author_id'], $args['user_id']);
+    }
+    
+    function post_follow($args) {
+        $this->add_event(self::ACTION_FOLLOW_POST, $args['post_id'], $args['user_id']);
+    }
+    
+    function post_unfollow($args) {
+        $this->add_event(self::ACTION_UNFOLLOW_POST, $args['post_id'], $args['user_id']);
     }
     
     function user_promoted($user_id) {

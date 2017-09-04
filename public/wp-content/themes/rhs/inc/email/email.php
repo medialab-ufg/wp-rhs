@@ -198,7 +198,7 @@ class RHSEmail {
     }
 
     function gerate_admin_menu() {
-        add_options_page( 'Mensagens de Emails', 'Mensagem de Emails', 'manage_options', 'rhs/rhs-message-email.php', array( &$this, 'rhs_admin_page_voting_queue' ) );
+        add_submenu_page( 'rhs_options', 'Mensagens de Emails', 'Mensagens de Emails', 'manage_options', 'rhs/rhs-message-email.php', array( &$this, 'rhs_admin_page_email_queue' ) );
     }
 
     function post_promoted($post_ID){
@@ -242,7 +242,7 @@ class RHSEmail {
         }
     }
 
-    function rhs_admin_page_voting_queue() {
+    function rhs_admin_page_email_queue() {
 
         $this->validade_form();
 

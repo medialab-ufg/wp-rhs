@@ -21,7 +21,7 @@
                     </thead>
                     <tbody>
                     <?php if ( $RHSComunities->can_see_comunities() ) { ?>
-                        <?php foreach ( $RHSComunities->get_comunities_by_user( get_current_user_id() ) as $comunidade ) { ?>
+                        <?php foreach ( $RHSComunities->get_comunities_objects_by_user( get_current_user_id() ) as $comunidade ) { ?>
                             <tr data-id="<?php echo $comunidade->get_id(); ?>"
                                 data-userid="<?php echo get_current_user_id(); ?>">
                                 <td>

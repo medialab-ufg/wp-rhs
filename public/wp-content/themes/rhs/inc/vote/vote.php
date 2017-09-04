@@ -534,7 +534,7 @@ Class RHSVote {
         do_action('rhs_user_promoted', $user->ID);
 	}
 
-	static function rhs_admin_page_voting_queue() {
+	function rhs_admin_page_voting_queue() {
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
