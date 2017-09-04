@@ -55,13 +55,13 @@ class RHSPerfil extends RHSMessage {
         }
 
         wp_update_user($data);
-
+        
         update_user_meta( $user_id, 'description', $description);
         update_user_meta( $user_id, 'rhs_formation', $formation);
         update_user_meta( $user_id, 'rhs_interest', $interest);
         add_user_ufmun_meta( $user_id, $city, $state);
         update_user_meta( $user_id, 'rhs_city', $city);
-        update_user_meta( $user_id, 'rhs_links', $links);
+        update_user_meta( $user_id, '_rhs_links', $links);
 
         if ($avatar_file) {
             $arquivo_tmp = $avatar_file[ 'tmp_name' ];

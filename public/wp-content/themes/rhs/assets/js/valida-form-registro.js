@@ -621,7 +621,9 @@ jQuery( function( $ ) {
 
         $('.js-add-link').click(function() {
             var links = $(this).closest('.panel-body').find('.links').last().clone();
-            $(links).find('input').attr('value','');
+            links.find('input').attr('value','').each(function(){
+                this.name = this.name.replace(/\[(\d+)\]/, function(string,n1){return '[' + (parseInt(n1,10)+1) + ']'});
+            });
             links.insertAfter($(this).closest('.panel-body').find('.links').last());
         });
 

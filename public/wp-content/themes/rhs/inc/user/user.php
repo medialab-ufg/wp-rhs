@@ -335,54 +335,31 @@ class RHSUser {
      */
     function show_user_links_to_edit($user_id){
         !($user_id) ? $user_id = $this->get_id() : '' ;
-        $links = get_user_meta($user_id, 'rhs_links', true);
-        $count = 1;
+        $links = get_user_meta($user_id, '_rhs_links', true);
         $link_to_delete = '<a title="Remover link" class="remove-link" href="javascript:;"><i class="fa fa-remove"></i></a>';
 
-        !($user_id) ? $user_id = $this->get_id() : '' ;
-        $links = get_user_meta($user_id, 'rhs_links', true);
-        
         if($links){
             foreach ($links as $key=>$value){
-                if ($count%2 == 1) { echo "<div class='row links'>"; }
                 ?>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="edit-nome">
-                        <?php echo !($key % 2) ? "Título" : "URL"; ?>
-                        </label>
-                        <input class="form-control" type="text" name="links[]" size="60" maxlength="254" value="<?php echo $value ?>">
-                        <?php echo !($key % 2) ? '' : $link_to_delete; ?>
+                <div class='row links'>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="edit-nome">Título</label>
+                            <input class="form-control" type="text" name="links[<?php echo $key ?>][titulo]" size="60" maxlength="254" value="<?php echo $value['titulo'] ?>">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="edit-nome">URL</label>
+                            <input class="form-control" type="text" name="links[<?php echo $key ?>][url]" size="60" maxlength="254" value="<?php echo $value['url'] ?>">
+                            <?php echo  $link_to_delete; ?>
+                        </div>
                     </div>
                 </div>
             
                 <?php
-                if ($count%2 == 0) { echo "</div>"; }
-                $count++;
             }
-            if ($count%2 != 1) echo "</div>";
-        } elseif(is_admin()) {
-            echo '
-                <div class="row links">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="edit-nome">
-                            Título
-                            </label>
-                            <input class="form-control" type="text" name="links[]" size="60" maxlength="254" value="">
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="edit-nome">
-                            URL
-                            </label>
-                            <input class="form-control" type="text" name="links[]" size="60" maxlength="254" value="">
-                            '. $link_to_delete .'
-                        </div>
-                    </div>
-                </div>
-            ';
+            
         }
         echo '
             <div class="row">
