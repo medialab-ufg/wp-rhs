@@ -328,7 +328,7 @@ class RHSUser {
     }
     
     function get_links() {
-        return get_the_author_meta(RHSUsers::LINKS_USERMETA, $this->id);
+        return get_user_meta($this->get_id(), RHSUsers::LINKS_USERMETA, true);
     }
 
     /**

@@ -101,11 +101,12 @@ jQuery( function( $ ) {
         }
     });
 
+    //SDK Facebook
     (function(d, s, id){
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) {return;}
         js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9";
+        js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.10";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
@@ -156,4 +157,18 @@ jQuery( function( $ ) {
             }
         });
     })
+
 });
+
+//Facebook Widget
+jQuery(document).ready(function($) {
+    $(window).bind("load resize", function(){  
+        setTimeout(function() {
+            var container_width = $('#sidebar .widget_text .textwidget').width();    
+            $('.textwidget .facebook').html('<div class="fb-page" ' +  'data-href="http://www.facebook.com/RedeHumanizasus/"' + 
+            'data-width="' + container_width + '" data-small-header="true" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/RedeHumanizasus/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/RedeHumanizasus/">Rede HumanizaSUS</a></blockquote></div>');
+            FB.XFBML.parse(); 
+        $('.textwidget .twitter').html('<a href="https://twitter.com/redehumanizasus" class="twitter-follow-button" data-show-count="false">Follow @redehumanizasus</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>');
+    }, 100); 
+    }); 
+}); //Fim Facebook Widget

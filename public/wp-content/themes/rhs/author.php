@@ -20,17 +20,39 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                                             Informações Pessoais</a>
                                     </h4>
                                 </div>
+                                
                                 <div id="info_pessoais" class="panel-collapse collapse" role="tabpanel"
                                      aria-labelledby="InfoPessoais">
                                     <div class="panel-body">
-                                        <p class="hide">Grupos: </p>
-                                        <span class="hide">-Privado-</span>
-                                        <?php if (get_the_author_meta($RHSUsers::LINKS_USERMETA, $curauth->ID)) { ?>
-                                            <p>Links: </p>
-                                            <?php $RHSUsers->show_author_links($curauth->ID); ?>
-                                        <?php } else { ?>
-                                            Sem Informação.
-                                        <?php } ?>
+                                        <?php 
+                                        $is_author = is_author( get_current_user_id() );
+                                        $has_link = get_the_author_meta($RHSUsers::LINKS_USERMETA, $curauth->ID);
+
+                                        if( $is_author || $has_link ) {
+                                            global $RHSComunities;
+                                            if( $RHSComunities->get_communities_by_member( $curauth->ID ) && $is_author ) { ?>
+                                                <p>Grupos: </p>
+                                                
+                                                <?php foreach ( $RHSComunities->get_comunities_objects_by_user( $curauth->ID ) as $key => $comunidade ) :
+                                                    if( !$comunidade->is_member() ) {
+                                                        continue;
+                                                    } ?>
+                                                    <div>
+                                                        <?php echo '<a href="'. $comunidade->get_url() . '" class="link_comunidade">' . $comunidade->get_name() . '</a>'; ?>
+                                                    </div>
+                                                <?php endforeach; //end foreach
+
+                                            } //end grupos
+
+                                            if ($has_link) { ?>
+                                                <p>Links: </p>
+                                                <?php $RHSUsers->show_author_links($curauth->ID); ?>
+                                            <?php } //end links
+
+                                        } else {
+                                            echo 'Sem Informações';
+                                        } //end is author and has link 
+                                        ?>
                                     </div>
                                 </div>
                             </div>

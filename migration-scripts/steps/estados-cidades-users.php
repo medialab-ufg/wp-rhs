@@ -33,6 +33,11 @@ $wpdb->query(
 $this->log('Importando lista de cidades associadas a usuários');
 $this->query('cidades-posts-get', ['{{table}}' => $table, '{{source}}' => 'taxonomy_vocabulary_5', '{{bundle}}' => 'user']);
 
+
+// Substituindo cidades que sabemos que não existem na base do IBGE
+include('estados-cidades-de-para.php');
+
+
 $this->log('Identificando ID IBGE dos estados');
 $this->query('cidades-set-state-ibge', ['{{table}}' => $table]);
 

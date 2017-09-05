@@ -20,6 +20,11 @@
     <?php wp_head(); ?>
 </head>
 <body>
+
+<!-- SDK Facebook -->
+<div id="fb-root"></div>
+<!-- Fim SDK Facebook -->
+
 <!-- Tag header para o Primeiro Menu -->
 <header id="navBar-top">
     <nav class="navbar navbar-default">

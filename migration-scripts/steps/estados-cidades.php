@@ -42,6 +42,10 @@ $wpdb->query(
 $this->log('Importando lista de cidades associadas a posts');
 $this->query('cidades-posts-get', ['{{table}}' => $table, '{{source}}' => 'field_estado_cidade', '{{bundle}}' => 'blog']);
 
+// Substituindo cidades que sabemos que não existem na base do IBGE
+include('estados-cidades-de-para.php');
+
+
 $this->log('Identificando ID IBGE dos estados');
 $this->query('cidades-set-state-ibge', ['{{table}}' => $table]);
 

@@ -2069,6 +2069,11 @@ form .comment-form-comment {
     .panel-body {
         margin-top: -6px;
         padding-top: 6px;
+        a{
+            &.link_comunidade{
+                color: black;
+            }
+        }
     }
     p {
         color: $primeira_cor_texto;
@@ -3496,6 +3501,16 @@ form .comment-form-comment {
                             padding-left: 0;
                         }
                     }
+                }
+            }
+        }
+        &.widget_text{
+            padding: 0;
+            p{
+                padding-left: 3px;
+                top: 150px;
+                &.facebook{
+                    padding-left: 0;
                 }
             }
         }
