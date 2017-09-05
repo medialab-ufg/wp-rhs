@@ -3,6 +3,8 @@
 class RHSEmail {
 
     private $messages;
+    
+    const EMAIL_HEADERS = "MIME-Version: 1.0 \r\n Content-type: text/html; charset=UTF-8 \r\n";
 
 
     function __construct() {
@@ -147,14 +149,13 @@ class RHSEmail {
             'site_nome' => get_bloginfo('name')
         );
 
-        $message = $this->get_message('retrieve_password_title', $args);
+        $title = $this->get_subject('retrieve_password_message', $args);
 
-        return $message;
+        return $title;
     }
     private function get_option($label, $type){
 
         $option = get_option( 'rhs-'.$type.'-'.$label );
-
 
         if(!$option){
             $option = $this->messages[$label]['default-'.$type];
@@ -174,7 +175,8 @@ class RHSEmail {
         $vars = $this->messages[$messages]['var'];
 
         foreach ($vars as $var){
-            $subject = str_replace('%'.$var.'%', $args[$var], $subject);
+            if (isset($args[$var]))
+                $subject = str_replace('%'.$var.'%', $args[$var], $subject);
         }
 
         return $subject;
@@ -191,7 +193,8 @@ class RHSEmail {
         $vars = $this->messages[$messages]['var'];
 
         foreach ($vars as $var){
-            $subject = str_replace('%'.$var.'%', $args[$var], $subject);
+            if (isset($args[$var]))
+                $subject = str_replace('%'.$var.'%', $args[$var], $subject);
         }
 
         return $subject;
@@ -218,7 +221,7 @@ class RHSEmail {
         $subject = $this->get_subject('post_promoted', $args);
         $message = $this->get_message('post_promoted', $args);
 
-        wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, 'MIME-Version: 1.0' . "\r\n" . 'Content-type: text/html; charset=iso-8859-1' . "\r\n");
+        wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
     }
     
     function new_ticket($post_ID, $content, $responsavel_padrao, $defaultAuthor, $author) {
@@ -238,7 +241,7 @@ class RHSEmail {
             $subject = $this->get_subject('new_ticket_message', $args);
             $message = $this->get_message('new_ticket_message', $args);
 
-            wp_mail($user->user_email, $subject, $message,'MIME-Version: 1.0' . "\r\n" . 'Content-type: text/html; charset=iso-8859-1' . "\r\n");
+            wp_mail($user->user_email, $subject, $message, self::EMAIL_HEADERS);
         }
     }
 
@@ -379,13 +382,10 @@ $RHSEmail = new RHSEmail();
         $subject = $RHSEmail->get_subject('new_user_message', $args);
         $message = $RHSEmail->get_message('new_user_message', $args);
 
-        $user_login = stripslashes(get_option('rhs-subject-new_user_message'));
-        $user_email = stripslashes(get_option('rhs-message-new_user_message'));
-
         if ( empty($plaintext_pass) )
             return;
 
-        wp_mail($user_email, $subject, $message);
+        wp_mail($user->user_email, $subject, $message, RHSEmail::EMAIL_HEADERS);
 
     }
 //}
