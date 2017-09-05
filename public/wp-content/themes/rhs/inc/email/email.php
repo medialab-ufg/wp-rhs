@@ -4,7 +4,7 @@ class RHSEmail {
 
     private $messages;
     
-    const EMAIL_HEADERS = "MIME-Version: 1.0 \r\n Content-type: text/html; charset=UTF-8 \r\n";
+    const EMAIL_HEADERS = ['Content-Type: text/html; charset=UTF-8'];
 
 
     function __construct() {
@@ -13,6 +13,8 @@ class RHSEmail {
         add_filter("retrieve_password_title", array( &$this, 'filter_retrieve_password_request_email_title'));
         add_filter('retrieve_password_message',  array( &$this, 'filter_retrieve_password_request_email_body'), 10, 4 );
         add_action('rhs_post_promoted', array( &$this,'post_promoted'), 10, 1);
+        
+        add_filter( 'wp_mail_content_type', array( &$this,'filter_content_type') );
         
         add_action('rhs_new_ticket_posted', array( &$this,'new_ticket'), 10, 5);
 
@@ -50,8 +52,7 @@ class RHSEmail {
                     'link'
                 ),
                 'default-subject' => '[%site_nome%] Recuperação de Senha',
-                'default-email' => '
-                    <p>Você solicitou a recuperação de senha do %login%.</p>
+                'default-email' => '<p>Você solicitou a recuperação de senha do %login%.</p>
                     <p>Acesse o link: %link%</p>
                     <b />  <b />
                     <p>Atenciosamente,</p>
@@ -121,7 +122,11 @@ class RHSEmail {
             )
         );
     }
-
+    
+    function filter_content_type($contetType) {
+        return 'text/html';
+    }
+    
     function filter_retrieve_password_request_email_body($message, $key, $user_login, $user_data) {
 
         $data = get_user_by('login', $user_login);
