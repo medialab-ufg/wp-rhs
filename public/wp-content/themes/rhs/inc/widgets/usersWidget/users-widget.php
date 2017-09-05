@@ -1,15 +1,15 @@
 <?php
-function user_last_login() {
-    register_widget('User_Last_Login');
+function users_widget() {
+    register_widget('UsersWidget');
 }
 
-add_action('widgets_init', 'user_last_login');
+add_action('widgets_init', 'users_widget');
 
-class User_Last_Login extends WP_Widget {
+class UsersWidget extends WP_Widget {
 
 	function __construct() {
 		parent::__construct(
-			'user_last_login', 
+			'users_widget', 
 			__('Lista de Participantes', 'text_domain'),
 			array( 'description' => __('Lista de Participantes', 'text_domain' ), )
 		);

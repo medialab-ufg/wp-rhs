@@ -46,11 +46,9 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/follow/follow.php');
         require_once('inc/follow-post/follow-post.php');
         require_once('inc/widgets/imgWithLink/image-with-link.php');
-<<<<<<< HEAD
         require_once('inc/widgets/usersLastLogin/user-last-login.php');
-=======
         require_once('inc/widgets/Facebook_Twitter/facebook_twiter.php');
->>>>>>> e7d3c643a79d8a4998e99f15993b139d838c1292
+        require_once('inc/widgets/usersWidget/users-widget.php');
         require_once('inc/vote/widget.php');
         require_once('inc/carrossel/carrossel.php');
         require_once('inc/api/rhs-api.php');
