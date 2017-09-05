@@ -53,11 +53,14 @@ body {
     -ms-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
-    .navbar-brand {
-        padding: 0px 5px;
-        > img {
-            margin-left: 229px; //19px
-            margin-top: 3px;
+    &.rhs_menu {
+        .navbar-header{
+            .navbar-brand{ 
+                background: url(assets/images/logo.png) center / contain no-repeat;
+                display: block;
+                margin: 8px 0;
+                width: 284px;
+            }
         }
     }
     .navbar-collapse {
@@ -395,7 +398,6 @@ Primeiro e Segundo DropDown Menu
                     text-decoration: none;
                 }
                 > i {
-                    margin-right: 6px;
                     &:hover {
                         color: #00b4b4 !important;
                     }
@@ -733,13 +735,21 @@ Primeiro e Segundo DropDown Menu
 
 /* Categoria Page */
 .categoria{
-    .titulo-page{
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    background: #fff none repeat scroll 0 0;
+    .titulo{
         margin-bottom: 0px;
+        color: #00b4b4;
+        font-size: 1.6em;
+        font-weight: normal;
+        margin-top: 0;
+        padding: 13px 20px;
     }
     .descricao{
         p{
             background: $whiteColor;
-            padding: 6px 0;
+            padding: 6px 5px;
+            font-size: 0.9em;
         }
     }
 }
@@ -3504,16 +3514,6 @@ form .comment-form-comment {
                 }
             }
         }
-        &.widget_text{
-            padding: 0;
-            p{
-                padding-left: 3px;
-                top: 150px;
-                &.facebook{
-                    padding-left: 0;
-                }
-            }
-        }
     }
     .image-with-link {
         margin-bottom: 20px;
@@ -3529,6 +3529,12 @@ form .comment-form-comment {
         zoom: 1;
         img {
             width: 100%;
+        }
+    }
+
+    .facebook_twitter{
+        p{
+            padding-left: 0;
         }
     }
 }
@@ -3996,70 +4002,26 @@ article {
 * Media Querys
 *
 *****************/
-@media only screen and (min-width: 2500px) {
-    .navbar-default {
-        .navbar-brand {
-            > img {
-                margin-left: 734px;
-            }
-        }
-    }
-}
-
-@media only screen and (min-width: 1920px) {
-    .navbar-default {
-        .navbar-brand {
-            > img {
-                margin-left: 414px;
-            }
-        }
-    }
-}
-
-@media only screen and (min-width: 1360px) and (max-width: 1400px){
-    .navbar-default {
-        .navbar-brand {
-            > img {
-                margin-left: 114px;
-            }
-        }
-    }
-}
-
-@media only screen and (width: 1024px){
-    .navbar-default {
-        .navbar-brand {
-            > img {
-                margin-left: 40px;
-            }
-        }
-    }
-}
 
 @media only screen and (min-width: 768px) {
     .navbar-right {
         margin-right: 0;
     }
+    .navbar-brand{
+        margin-left: 8px !important;
+    }
 }
 
 @media only screen and (max-width: 768px) {
-    .navbar-default {
-        .navbar-brand {
-            > img {
-                margin-left: 7px;
+    .rhs_menu {
+        .navbar-header{
+            .navbar-brand{
+                margin-left: 3px !important;
             }
         }
     }
     .navbar-nav {
         margin: 1.5px -15px;
-    }
-    /*Menus*/
-    li.dropdown.user-dropdown {
-        position: inherit;
-        /*float: left;*/
-        margin-top: -9px;
-        margin-bottom: 6px;
-        margin-right: 16px;
     }
     .primeiro-menu {
         .navbar-nav > .no-mobile {
@@ -4290,11 +4252,6 @@ article {
         }
     }
 }
-@media only screen and (min-width: 1360px) and (max-width: 1400px){
-    .navbar-default .navbar-brand > img{
-        margin-left: 114px;
-    }
-}
 
 @media only screen and (width: 1024px){
     .navbar-default .navbar-brand > img{
@@ -4362,7 +4319,7 @@ article {
 }
 
 @media only screen and (max-width: 360px) {
-    .navbar-brand > img {
+    .navbar-header .navbar-brand {
         margin-left: 7px;
         margin-top: 3px;
     }
@@ -4382,7 +4339,7 @@ article {
     .navbar-nav {
         margin: 0.5px -15px;
     }
-    .navbar-brand > img {
+    .navbar-header .navbar-brand {
         margin-left: 0 !important;
         margin-top: -49px !important;
         width: 89%;

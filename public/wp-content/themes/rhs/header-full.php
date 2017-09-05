@@ -27,26 +27,26 @@
 
 <!-- Tag header para o Primeiro Menu -->
 <header id="navBar-top">
-    <nav class="navbar navbar-default">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-example-navbar-collapse">
+    <nav class="navbar navbar-default navbar-static-top rhs_menu">
+        <div class="container">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar6">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand navbar-btn pull-left" href="<?php bloginfo('url'); ?>"><img src="<?php bloginfo('template_directory'); ?>/assets/images/logo.png" class="img-responsive"></a>
-        </div>
-        <div class="collapse navbar-collapse bs-example-navbar-collapse primeiro-menu">
-            <div class="container">
+            <a class="navbar-brand text-hide" href="<?php bloginfo('url'); ?>">RHS
+            </a>
+            </div>
+            <div id="navbar6" class="navbar-collapse collapse primeiro-menu">
                 <?php
-                global $RHSUsers;
-                global $RHSNotifications;
-                $notifications_number = $RHSNotifications->get_news_number(get_current_user_id());
-                if(my_wp_is_mobile()){
-                    get_search_form();
-                }
+                    global $RHSUsers;
+                    global $RHSNotifications;
+                    $notifications_number = $RHSNotifications->get_news_number(get_current_user_id());
+                    if(my_wp_is_mobile()){
+                        get_search_form();
+                    }
                 ?>
                 <ul class="nav navbar-nav <?php if(!my_wp_is_mobile()):?>navbar-right dropdown-menu-right no-mobile<?php else:?>mobile-nav<?php endif;?>">
                     <?php if(!is_user_logged_in()): ?>
@@ -100,7 +100,7 @@
                         <?php else : ?>
                         <li class="menu-item">
                         <?php endif; ?>
-                                <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="drop_perfil">
                                     <?php echo $RHSUsers->get_user_data('display_name'); ?>
                                     <?php echo get_avatar($RHSUsers->getUserId()); ?>
                                     <?php if(!my_wp_is_mobile()): ?>
@@ -110,7 +110,7 @@
                     <?php if(my_wp_is_mobile()): ?>
                         </li>
                     <?php else : ?>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" aria-labelledby="drop_perfil">
                     <?php endif; ?>
                             <li class="menu-item pub">
                                 <a href="<?php echo home_url(RHSRewriteRules::POST_URL); ?>">
@@ -152,7 +152,7 @@
                 </ul>
             </div>
         </div>
-        <div class="collapse navbar-collapse bs-example-navbar-collapse segundo-menu">
+        <div class="collapse navbar-collapse segundo-menu"> 
             <div class="container">
                 <?php
                 if(!my_wp_is_mobile()){
@@ -185,6 +185,8 @@
                 <?php endif; ?>
             </div>
         </div>
+        <!--/.nav-collapse -->
+        <!--/.container-fluid -->
     </nav>
 </header> <!-- /.header -->
 
