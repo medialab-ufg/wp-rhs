@@ -1,4 +1,13 @@
 <?php
+/**
+ * ARQUIVO NÂO UTILZADO
+ *
+ * Estamos mantendo aqui em quarentena para avaliar
+ *
+ * mas voltamos o funcionamento do esquema de recuperar senha para o padrão do WP
+ * 
+ */
+
 
 class RHSLostPassword extends RHSMessage {
 

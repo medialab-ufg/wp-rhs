@@ -20,8 +20,8 @@ class RHSCaptcha {
             add_action( 'wp_enqueue_scripts', array( &$this, 'API_reCAPTCHA' ) );
             add_action( "admin_menu", array( &$this, "no_captcha_recaptcha_menu" ) );
             add_action( "admin_init", array( &$this, "display_recaptcha_options" ) );
-            add_action( "recuperar-senha_form", array( &$this, "display_recuperar_captcha" ) );
-            add_filter( "lostpassword_url", array( &$this, "verify_recuperar_captcha" ), 10, 2 );
+            #add_action( "recuperar-senha_form", array( &$this, "display_recuperar_captcha" ) );
+            #add_filter( "lostpassword_url", array( &$this, "verify_recuperar_captcha" ), 10, 2 );
 
         }
 

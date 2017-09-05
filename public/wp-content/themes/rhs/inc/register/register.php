@@ -44,6 +44,8 @@ class RHSRegister extends RHSMessage {
 
         $user_id = wp_insert_user( $userdata );
         
+        rhs_new_user_notification($user_id, $pass);
+        
         do_action('rhs_register', $user_id);
 
         add_user_ufmun_meta( $user_id, $city, $state );

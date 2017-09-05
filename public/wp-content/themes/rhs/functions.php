@@ -15,7 +15,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/RHS_Options/rhs_options.php');
         require_once('inc/captcha/captcha.php');
         require_once('inc/login/login.php');
-        require_once('inc/lostpassword/lostpassword.php');
+        //require_once('inc/lostpassword/lostpassword.php'); // EM QUARENTENA. Voltamos para o esquema padrão do WP. Se estiver tudo bem, vamos remover isso daqui
         require_once('inc/user/user.php');
         require_once('inc/user/users.php');
         require_once('inc/perfil/perfil.php');

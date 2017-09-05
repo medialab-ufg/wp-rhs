@@ -124,7 +124,7 @@ class RHSEmail {
 
         $data = get_user_by('login', $user_login);
 
-        if($data){
+        if(!$data){
             return;
         }
 
@@ -133,7 +133,7 @@ class RHSEmail {
             'login' => $data->user_login,
             'email' => $data->user_email,
             'nome' => $data->display_name,
-            'link' => home_url( "resetar-senha/?key=$key&login=" . rawurlencode( $user_login ))
+            'link' => network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ))
         );
 
         $message = $this->get_message('retrieve_password_message', $args);
@@ -141,7 +141,7 @@ class RHSEmail {
         return $this->get_message('retrieve_password_message', $args);
     }
 
-    function filter_retrieve_password_request_email_title() {
+    function filter_retrieve_password_request_email_title($title) {
 
         $args = array(
             'site_nome' => get_bloginfo('name')
@@ -356,9 +356,8 @@ class RHSEmail {
 
 global $RHSEmail;
 $RHSEmail = new RHSEmail();
-
-if ( !function_exists('wp_new_user_notification') ) {
-    function wp_new_user_notification( $user_id, $plaintext_pass = '' ) {
+//if ( !function_exists('wp_new_user_notification') ) {
+    function rhs_new_user_notification( $user_id, $plaintext_pass = '' ) {
         $user = new WP_User($user_id);
 
         $user_login = stripslashes($user->user_login);
@@ -389,4 +388,4 @@ if ( !function_exists('wp_new_user_notification') ) {
         wp_mail($user_email, $subject, $message);
 
     }
-}
+//}
