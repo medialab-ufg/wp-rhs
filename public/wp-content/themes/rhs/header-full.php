@@ -20,30 +20,9 @@
     <?php wp_head(); ?>
 </head>
 <body>
+
 <!-- SDK Facebook -->
-<script></script>
-
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.10&appId=1018555378249909";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
-jQuery(document).ready(function($) {
-    $(window).bind("load resize", function(){  
-        setTimeout(function() {
-            var container_width = $('#sidebar .widget_text').width();    
-            $('.textwidget').html('<div class="fb-page" ' +  'data-href="http://www.facebook.com/RedeHumanizasus/"' + 
-            'data-width="' + container_width + '" data-small-header="true" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/RedeHumanizasus/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/RedeHumanizasus/">Rede HumanizaSUS</a></blockquote></div>');
-            FB.XFBML.parse();
-        }, 100);  
-    }); 
-});
-
-</script>
 <!-- Fim SDK Facebook -->
 
 <!-- Tag header para o Primeiro Menu -->
