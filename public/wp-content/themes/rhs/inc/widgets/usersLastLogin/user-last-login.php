@@ -18,7 +18,7 @@ class User_Last_Login extends WP_Widget {
 	public function get_user_list($number_of_users) {
 		$args = array(
             'meta_key'  => '_last_login',
-            'order'     => 'ASC',
+            'order'     => 'DESC',
             'number'    => $number_of_users,
         );
         $user_query = new WP_User_Query($args);
@@ -35,24 +35,31 @@ class User_Last_Login extends WP_Widget {
 	 */
 	public function widget($args, $instance) {
 		$number_of_users = !empty($instance['number_of_users']) ? $instance['number_of_users'] : '';
+		$title = !empty($instance['title']) ? $instance['title'] : '';
 		?> 
 		<?php if($number_of_users): ?>
 		
 		<aside class="widget widget_meta">
-			<h2 class="widget-title">Participantes</h2>
+			<?php if($title) { ?>
+				<h2 class="widget-title"><?php echo $title; ?></h2>
+			<?php } ?>
+
 			<?php 
 				$user_query = self::get_user_list($number_of_users);
 				if (!empty($user_query->results)) {	
 					foreach ($user_query->results as $user) {
 			?>
 				<div class="user-last-login-widget">
-					<a href="<?php echo get_author_posts_url($user->ID); ?>"><?php echo get_avatar($user->ID, '50'); ?></a>
+					<a href="<?php echo get_author_posts_url($user->ID); ?>"><?php echo get_avatar($user->ID, '50', '', $user->display_name); ?></a>
 				</div>
 			
 			<?php 
 					}
 				}
 			?>
+			<div class="text-center">
+				<a href="<?php echo RHSSearch::BASE_USERS_URL; ?>" class="btn">Ver Todos</a>
+			</div>
 		</aside>
 		<?php endif; ?>
 		<?php
@@ -68,7 +75,12 @@ class User_Last_Login extends WP_Widget {
 	 */
 	public function form($instance) {
 		$number_of_users = !empty($instance['number_of_users']) ? $instance['number_of_users'] : __('10', 'text_domain');
+		$title = !empty($instance['title']) ? $instance['title'] : __('', 'text_domain');
 		?>
+		<p>
+			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Título'); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>">
+		</p>
 
 		<p>
 			<label for="<?php echo $this->get_field_id('number_of_users'); ?>"><?php _e('Número de participantes para exibir:'); ?></label>
@@ -91,6 +103,7 @@ class User_Last_Login extends WP_Widget {
 	public function update($new_instance, $old_instance) {
 		$instance = array();
 		$instance['number_of_users'] = (!empty($new_instance['number_of_users'])) ? strip_tags($new_instance['number_of_users']) : '';
+		$instance['title'] = (!empty($new_instance['title'])) ? strip_tags($new_instance['title']) : '';
 		return $instance;
 	}
 }
