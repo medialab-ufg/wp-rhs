@@ -47,6 +47,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/follow-post/follow-post.php');
         require_once('inc/widgets/imgWithLink/image-with-link.php');
         require_once('inc/widgets/Facebook_Twitter/facebook_twiter.php');
+        require_once('inc/widgets/usersWidget/users-widget.php');
         require_once('inc/vote/widget.php');
         require_once('inc/carrossel/carrossel.php');
         require_once('inc/api/rhs-api.php');
@@ -709,3 +710,14 @@ function rhs_add_post_meta_unique($post_id, $meta_key, $meta_value) {
         
 }
 
+/**
+ * Adiciona 'title' à imagens
+ */
+add_filter('get_avatar', 'add_avatar_attributes', 10, 5);
+function add_avatar_attributes($avatar, $id_or_email, $size, $default, $alt){
+    $doc= new DOMDocument();
+    $doc->loadHTML($avatar);
+    $img = $doc->getElementsByTagName('img')->item(0);
+    $img->setAttribute("title", $alt);
+    return $doc->saveHTML();
+}
