@@ -18,8 +18,8 @@
         "wpackagist-plugin/google-analytics-for-wordpress":"6.2.2",
         "eternicode/bootstrap-datepicker" : "1.7.1",
         "vitalets/x-editable" : "dev-master",
-        "wpackagist-plugin/wp-mail-smtp" : "0.10.1"
-        
+        "wpackagist-plugin/wp-mail-smtp" : "0.10.1",
+        "wpackagist-plugin/jetpack": "^5.3"
 
     },
     "require-dev": {
