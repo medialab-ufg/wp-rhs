@@ -735,13 +735,21 @@ Primeiro e Segundo DropDown Menu
 
 /* Categoria Page */
 .categoria{
-    .titulo-page{
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    background: #fff none repeat scroll 0 0;
+    .titulo{
         margin-bottom: 0px;
+        color: #00b4b4;
+        font-size: 1.6em;
+        font-weight: normal;
+        margin-top: 0;
+        padding: 13px 20px;
     }
     .descricao{
         p{
             background: $whiteColor;
-            padding: 6px 0;
+            padding: 6px 5px;
+            font-size: 0.9em;
         }
     }
 }
