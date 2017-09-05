@@ -3504,16 +3504,6 @@ form .comment-form-comment {
                 }
             }
         }
-        &.widget_text{
-            padding: 0;
-            p{
-                padding-left: 3px;
-                top: 150px;
-                &.facebook{
-                    padding-left: 0;
-                }
-            }
-        }
     }
     .image-with-link {
         margin-bottom: 20px;
@@ -3529,6 +3519,12 @@ form .comment-form-comment {
         zoom: 1;
         img {
             width: 100%;
+        }
+    }
+
+    .facebook_twitter{
+        p{
+            padding-left: 0;
         }
     }
 }

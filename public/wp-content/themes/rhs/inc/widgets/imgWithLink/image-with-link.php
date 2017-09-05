@@ -20,7 +20,7 @@ class Image_With_Link extends WP_Widget {
 		global $pagenow;
 		if($pagenow == 'widgets.php') {
 			wp_enqueue_script('media-upload');
-			wp_enqueue_script('image_with_link', get_template_directory_uri() . '/inc/widgets/image-with-link.js', array('jquery'));
+			wp_enqueue_script('image_with_link', get_template_directory_uri() . '/inc/widgets/imgWithLink/image-with-link.js', array('jquery'));
 		}
 	}
 	/**
