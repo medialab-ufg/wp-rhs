@@ -3635,9 +3635,11 @@ article {
     .comment-date {
         font-size: 0.8em;
     }
-    .comment-avatar img {
-        margin: 0px 0 -86px 24px;
-        border-radius: 25px;
+    .comment-avatar {
+        img {
+            margin: 0px 0 -86px 24px;
+            border-radius: 25px;
+        }
     }
     .comment-box {
         margin: 0px 0 0px 82px;
@@ -3711,83 +3713,6 @@ article {
             img{
                 float: none !important;
             }
-        }
-    }
-}
-
-.comment-box .comment-head {
-    background: #FCFCFC;
-    padding: 10px 12px;
-    border-bottom: 1px solid #E5E5E5;
-    overflow: hidden;
-    -webkit-border-radius: 4px 4px 0 0;
-    -moz-border-radius: 4px 4px 0 0;
-    border-radius: 4px 4px 0 0;
-}
-
-.comment-box .comment-head i {
-    float: right;
-    margin-left: 14px;
-    position: relative;
-    top: 2px;
-    color: #A6A6A6;
-    cursor: pointer;
-    -webkit-transition: color 0.3s ease;
-    -o-transition: color 0.3s ease;
-    transition: color 0.3s ease;
-}
-
-.comment-box .comment-head i:hover {
-    color: #03658c;
-}
-
-.comment-box .comment-name {
-    color: #283035;
-    font-size: 0.9em;
-    font-weight: 700;
-    float: left;
-    margin-right: 10px;
-}
-
-.comment-box .comment-name a {
-    color: #283035;
-}
-
-.comment-box .comment-head span {
-    float: left;
-    color: #999;
-    font-size: 0.9em;
-    position: relative;
-    top: 1px;
-}
-
-.comment-box .comment-content {
-    background: #FCFCFC;
-    padding: 12px;
-    font-size: 1em;
-    color: #595959;
-    -webkit-border-radius: 0 0 4px 4px;
-    -moz-border-radius: 0 0 4px 4px;
-    border-radius: 0 0 4px 4px;
-}
-
-.comment-box .comment-name {
-    .by-author {
-        &:after {
-            color: $whiteColor;
-            font-size: 0.8em;
-            padding: 3px 5px;
-            font-weight: 700;
-            margin-left: 10px;
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            border-radius: 3px;
-        }
-    }
-    .is-author {
-        &:after {
-            content: 'author';
-            background: #03658c;
         }
     }
 }

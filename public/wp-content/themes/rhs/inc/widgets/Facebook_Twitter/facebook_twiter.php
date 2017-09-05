@@ -15,7 +15,9 @@ class Facebook_Twitter extends WP_Widget {
 	}
 
     public function js_widget() {
-		wp_enqueue_script('facebook_twitter', get_template_directory_uri() . '/inc/widgets/Facebook_Twitter/facebook_twitter.js', array('jquery'));
+		if ( is_active_widget( false, false, $this->id_base, true ) ) {
+			wp_enqueue_script('facebook_twitter', get_template_directory_uri() . '/inc/widgets/Facebook_Twitter/facebook_twitter.js', array('jquery'));
+		}
 	}
 
 	/**
