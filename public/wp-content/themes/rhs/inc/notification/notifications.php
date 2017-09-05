@@ -108,25 +108,18 @@ class RHSNotifications {
         
     }
     
-    public function get_notifications($user_id, $from_datetime = null) {
-        
+    public function get_notifications($user_id, $from_datetime = null, $paged = null) {
         global $wpdb;
         
         $channels   = self::get_user_channels($user_id);
         $channels   = implode( "', '", $channels );
         $results_per_page = self::RESULTS_PER_PAGE;
         
-        $count_results = "SELECT count(*) FROM {$this->table} WHERE channel IN ('$channels') AND `user_id` <> $user_id";
-        $row = $wpdb->get_var($count_results);
-        
-        if( isset($_GET{'page'} ) ) {
-            $page = $_GET{'page'} + 1;
-            $offset = $results_per_page * $page ;
-         }else {
-            $page = 0;
-            $offset = 0;
+        if($paged > 1) {
+            $offset = ($paged - 1) * $results_per_page;
+         } else {
+            $offset = 0 ;
          }
-
         
         $query = "SELECT * FROM {$this->table} WHERE channel IN ('$channels') AND `user_id` <> $user_id";
         
@@ -152,21 +145,20 @@ class RHSNotifications {
 
     }
 
-    function show_notification_pagination($user_id, $paged) {
+    function get_total_results($user_id) {
         global $wpdb;
-
-        $results_per_page = self::RESULTS_PER_PAGE;
-        $author = get_queried_object();
-        $author_query = $this->get_notifications($user_id, $paged);
-        
         $channels   = self::get_user_channels($user_id);
         $channels   = implode( "', '", $channels );
-        
         $count_results = "SELECT count(*) FROM {$this->table} WHERE channel IN ('$channels') AND `user_id` <> $user_id";
-        $row = $wpdb->get_var($count_results);
-        
+        $total_results= $wpdb->get_var($count_results);
+        return $total_results;
+    }
+
+    function show_notification_pagination($user_id, $paged, $total_results) {
+        $results_per_page = self::RESULTS_PER_PAGE;
+    
         $total_pages = 1;
-        $total_pages = ceil($row / $results_per_page);
+        $total_pages = ceil($total_results / $results_per_page);
 
         $big = 999999999;
         $content = paginate_links( array(
