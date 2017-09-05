@@ -15,6 +15,7 @@ class RHSNotifications {
     const CHANNEL_COMMUNITY = 'community_%s'; // se alterar esse valor, alterar no script de importação add-users-to-channels.php a linha onde são limpadas as notificações
     
     const NOTIFICATION_CLASS_PREFIX = 'RHSNotification_';
+    const RESULTS_PER_PAGE = 50;
     /**
      * Tipos
      */
@@ -107,19 +108,33 @@ class RHSNotifications {
         
     }
     
-    public function get_notifications($user_id, $from_datetime = null) {
-        
+    public function get_notifications($user_id, $from_datetime = null, $paged = null, $onlyCount = false) {
         global $wpdb;
         
         $channels   = self::get_user_channels($user_id);
         $channels   = implode( "', '", $channels );
+        $results_per_page = self::RESULTS_PER_PAGE;
         
-        $query = "SELECT * FROM {$this->table} WHERE channel IN ('$channels') AND `user_id` <> $user_id";
+        if($paged > 1) {
+            $offset = ($paged - 1) * $results_per_page;
+         } else {
+            $offset = 0 ;
+         }
+        
+        $query = "FROM {$this->table} WHERE channel IN ('$channels') AND `user_id` <> $user_id";
         
         if (!is_null($from_datetime))
-            $query .= " AND datetime >= '$from_datetime'";
+            $query .= " AND datetime >= '$from_datetime'";       
+        
+        if (true === $onlyCount) {
+            $query = "SELECT COUNT(*) " . $query;
+            return $wpdb->get_var($query);
+        }
+        
+        $query = "SELECT * " . $query;
         
         $query .= " ORDER BY datetime DESC";
+        $query .= " LIMIT $offset, $results_per_page";
         
         $notifications = array();
 
@@ -134,6 +149,39 @@ class RHSNotifications {
         }
 
         return $notifications;
+
+    }
+
+    function show_notification_pagination($user_id, $paged) {
+        $results_per_page = self::RESULTS_PER_PAGE;
+        
+        $total_results = $this->get_notifications($user_id, null, null, true);
+        
+        $total_pages = 1;
+        $total_pages = ceil($total_results / $results_per_page);
+
+        $big = 999999999;
+        $content = paginate_links( array(
+            'base'         => str_replace($big, '%#%', get_pagenum_link($big)),
+            'format'       => 'page/%#%',
+            'prev_text'    => __('&laquo; Anterior'),
+            'next_text'    => __('Próxima &raquo;'), 
+            'total'        => $total_pages,
+            'current'      => $paged,
+            'end_size'     => 1,
+            'type'         => 'array',
+            'mid_size'     => 8,
+            'prev_next'    => true,
+        ));
+        
+        if (is_array($content)) {
+            $current_page = (get_query_var('rhs_paged') == 0) ? 1 : get_query_var('rhs_paged');
+            echo '<ul class="pagination">';
+            foreach ($content as $i => $page) {
+                echo "<li>$page</li>";
+            }
+            echo '</ul>';
+        }
     }
 
     public function get_news_number($user_id) {
@@ -141,13 +189,9 @@ class RHSNotifications {
         global $wpdb;
 
         $last_check = self::get_last_check($user_id);
-        $channels   = self::get_user_channels($user_id);
-        $channels   = implode( "', '", $channels );
-
-        $query = "SELECT COUNT(*) AS num FROM {$this->table} WHERE `datetime` >= '$last_check' AND `channel` IN ('$channels') AND `user_id` <> $user_id";
-
-        return current( $wpdb->get_results( $query ) )->num;
-
+        
+        return $this->get_notifications($user_id, $last_check, null, true);
+        
     }
 
     /**

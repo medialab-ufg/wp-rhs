@@ -204,12 +204,11 @@ class RHSFollow {
      * @return mixed Return html with paginate links
      */
     function show_follow_pagination($meta, $paged) {
-        $users_per_page = self::USERS_PER_PAGES;
         $author = get_queried_object();
         $author_query = $this->get_follows_list($author->ID, $meta, $paged);
         
         $total_pages = 1;
-        $total_pages = ceil($author_query->total_users / $users_per_page);
+        $total_pages = ceil($author_query->total_users / self::USERS_PER_PAGES);
 
         $big = 999999999;
         $content = paginate_links( array(

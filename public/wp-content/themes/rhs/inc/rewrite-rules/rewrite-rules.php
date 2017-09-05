@@ -42,6 +42,7 @@ class RHSRewriteRules {
             self::POSTAGENS_URL . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POSTAGENS_URL,
             self::COMUNIDADES . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::COMUNIDADES,
             self::NOTIFICACOES . "/?$"           => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::NOTIFICACOES,
+            self::NOTIFICACOES . "/page/([0-9]+)/?$"           => 'index.php?rhs_custom_login=1&rhs_login_tpl='. self::NOTIFICACOES . '&rhs_paged=$matches[1]',
 
             /* Busca */
             RHSSearch::BASE_URL . '/?$'                                          => "index.php?rhs_busca=posts&rhs_login_tpl=search",
