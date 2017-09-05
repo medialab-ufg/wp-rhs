@@ -3509,6 +3509,9 @@ form .comment-form-comment {
             p{
                 padding-left: 3px;
                 top: 150px;
+                &.facebook{
+                    padding-left: 0;
+                }
             }
         }
     }
