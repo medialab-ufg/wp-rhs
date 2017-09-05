@@ -15,7 +15,7 @@ class RHSNotifications {
     const CHANNEL_COMMUNITY = 'community_%s'; // se alterar esse valor, alterar no script de importação add-users-to-channels.php a linha onde são limpadas as notificações
     
     const NOTIFICATION_CLASS_PREFIX = 'RHSNotification_';
-    const RESULTS_PER_PAGE = 10;
+    const RESULTS_PER_PAGE = 50;
     /**
      * Tipos
      */
@@ -108,7 +108,7 @@ class RHSNotifications {
         
     }
     
-    public function get_notifications($user_id, $from_datetime = null, $paged = null) {
+    public function get_notifications($user_id, $from_datetime = null, $paged = null, $onlyCount = false) {
         global $wpdb;
         
         $channels   = self::get_user_channels($user_id);
@@ -121,10 +121,17 @@ class RHSNotifications {
             $offset = 0 ;
          }
         
-        $query = "SELECT * FROM {$this->table} WHERE channel IN ('$channels') AND `user_id` <> $user_id";
+        $query = "FROM {$this->table} WHERE channel IN ('$channels') AND `user_id` <> $user_id";
         
         if (!is_null($from_datetime))
             $query .= " AND datetime >= '$from_datetime'";       
+        
+        if (true === $onlyCount) {
+            $query = "SELECT COUNT(*) " . $query;
+            return $wpdb->get_var($query);
+        }
+        
+        $query = "SELECT * " . $query;
         
         $query .= " ORDER BY datetime DESC";
         $query .= " LIMIT $offset, $results_per_page";
@@ -145,18 +152,11 @@ class RHSNotifications {
 
     }
 
-    function get_total_results($user_id) {
-        global $wpdb;
-        $channels   = self::get_user_channels($user_id);
-        $channels   = implode( "', '", $channels );
-        $count_results = "SELECT count(*) FROM {$this->table} WHERE channel IN ('$channels') AND `user_id` <> $user_id";
-        $total_results= $wpdb->get_var($count_results);
-        return $total_results;
-    }
-
-    function show_notification_pagination($user_id, $paged, $total_results) {
+    function show_notification_pagination($user_id, $paged) {
         $results_per_page = self::RESULTS_PER_PAGE;
-    
+        
+        $total_results = $this->get_notifications($user_id, null, null, true);
+        
         $total_pages = 1;
         $total_pages = ceil($total_results / $results_per_page);
 
@@ -189,13 +189,9 @@ class RHSNotifications {
         global $wpdb;
 
         $last_check = self::get_last_check($user_id);
-        $channels   = self::get_user_channels($user_id);
-        $channels   = implode( "', '", $channels );
-
-        $query = "SELECT COUNT(*) AS num FROM {$this->table} WHERE `datetime` >= '$last_check' AND `channel` IN ('$channels') AND `user_id` <> $user_id";
-
-        return current( $wpdb->get_results( $query ) )->num;
-
+        
+        return $this->get_notifications($user_id, $last_check, null, true);
+        
     }
 
     /**

@@ -20,7 +20,7 @@ $paged = !empty(get_query_var('rhs_paged')) ? get_query_var('rhs_paged') : 1;
                             </div>
                         <?php } ?>
                         <!-- Fim do Loop -->
-                        <?php $RHSNotifications->show_notification_pagination($current_user->ID, $paged, $RHSNotifications->get_total_results(get_current_user_id())); ?>
+                        <?php $RHSNotifications->show_notification_pagination($current_user->ID, $paged); ?>
                     </div>
                 </div>
             </div>
