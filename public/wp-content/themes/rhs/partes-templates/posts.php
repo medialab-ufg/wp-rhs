@@ -1,4 +1,3 @@
-<?php $url_name = add_query_arg(array(),$wp->request); ?>
     <div class="panel panel-default">
         <div class="panel-heading">
             <?php if ( has_post_thumbnail() ) : ?>
@@ -37,8 +36,8 @@
             </div>
             <div class="row">
                 <div class="col-xs-6">
-                    <?php
-                    if ( comments_open() && $url_name != 'fila-de-votacao') :
+                    <?php 
+                    if ( comments_open() && get_post_status(get_the_ID()) != RHSVote::VOTING_QUEUE) :
                         comments_popup_link( '0 COMENTÁRIOS',
                             '<i class="fa fa-commenting-o" aria-hidden="true"></i> 1 COMENTÁRIO',
                             '<i class="fa fa-commenting-o" aria-hidden="true"></i> % COMENTÁRIOS', 'footer-link',

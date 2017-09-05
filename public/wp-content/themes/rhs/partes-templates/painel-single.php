@@ -78,7 +78,7 @@
 		<?php endif; ?>
 	</div>
 </div><!-- .panel .panel-default -->
-<?php if ( comments_open() || get_comments_number() ) { ?>
+<?php if ( get_post_status(get_the_ID()) != RHSVote::VOTING_QUEUE && ( comments_open() || get_comments_number() ) ) { ?>
 	<div class="panel panel-default hidden-print">
 		<div class="panel-footer panel-comentarios">
 			<?php comments_template(); ?>
