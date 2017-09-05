@@ -18,7 +18,7 @@ class UsersWidget extends WP_Widget {
 	public function get_user_list($number_of_users) {
 		$args = array(
             'meta_key'  => '_last_login',
-            'order'     => 'ASC',
+            'order'     => 'DESC',
             'number'    => $number_of_users,
         );
         $user_query = new WP_User_Query($args);
