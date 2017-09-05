@@ -18,14 +18,6 @@ class Facebook_Twitter extends WP_Widget {
 		wp_enqueue_script('facebook_twitter', get_template_directory_uri() . '/inc/widgets/Facebook_Twitter/facebook_twitter.js', array('jquery'));
 	}
 
-    /**
-	 * Back-end widget form.
-	 *
-	 * @see WP_Widget::form()
-	 *
-	 * @param array $instance Previously saved values from database.
-	 */
-
 	/**
 	 * Outputs the content of the widget
 	 *
