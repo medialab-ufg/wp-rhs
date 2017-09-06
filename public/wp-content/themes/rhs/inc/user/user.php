@@ -202,8 +202,8 @@ class RHSUser {
         if(!$this->id){
             return $this->date_registered;
         }
-
-        return date($format, strtotime($this->user_object->date_registered));
+        $userDate = get_userdata($this->id);
+        return date($format, strtotime($userDate->user_registered));
 
     }
 
