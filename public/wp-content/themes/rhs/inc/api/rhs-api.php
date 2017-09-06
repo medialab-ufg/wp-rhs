@@ -83,6 +83,9 @@ Class RHSApi  {
         $total_votes = $RHSVote->get_total_votes_by_author($user->ID);
         $data->data['total_votes'] = $total_votes ? $total_votes : 0;
         
+        $total_posts = count_user_posts($user->ID);
+        $data->data['total_posts'] = $total_posts ? $total_posts : 0;
+
         $userObj = new RHSUser($user);
         $data->data['formation'] = $userObj->get_formation();
         $data->data['interst'] = $userObj->get_interest();
