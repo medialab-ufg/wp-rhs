@@ -364,6 +364,54 @@ function paginacao_personalizada() {
     }
 }
 
+/*
+* Lost Password
+*/
+function rhs_enqueue_lost() { ?>
+
+    <style type="text/css">
+        body{
+            background: #003c46 !important;
+        }
+        #login h1 a {
+            background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/assets/images/logo.png);
+            height:65px;
+            width:320px;
+            background-size: 320px 65px;
+            background-repeat: no-repeat;
+        }
+        #login .submit .button-primary {
+            background: #00b4b9;
+            border-color: #00b4b9;
+            -webkit-box-shadow: 0 1px 0 #00b4b9; 
+            box-shadow: 0 1px 0 #00b4b9; 
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            text-shadow: 0 -1px 1px #00b4b9, 1px 0 1px #00b4b9, 0 1px 1px #00b4b9, -1px 0 1px #00b4b9; 
+        }
+        #login .submit .button-primary:hover{
+            background: #003c46;
+            border-color: #003c46;
+            -webkit-box-shadow: 0 1px 0 #003c46; 
+            box-shadow: 0 1px 0 #003c46; 
+            text-shadow: 0 -1px 1px #003c46, 1px 0 1px #003c46, 0 1px 1px #003c46, -1px 0 1px #003c46; 
+        }
+        #login #nav a, #login #backtoblog a {
+            text-decoration: none;
+            color: #fff;
+        }
+        #login #nav a:hover, #login #backtoblog a:hover{
+            text-decoration: underline;
+        }
+    </style>
+<?php }
+add_action( 'login_enqueue_scripts', 'rhs_enqueue_lost' );
+
+function rhs_logo_url() {
+    return home_url();
+}
+add_filter( 'login_headerurl', 'rhs_logo_url' );
 
 /*
 * cadastrando Widgets SideBar
