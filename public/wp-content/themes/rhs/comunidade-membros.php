@@ -39,7 +39,7 @@
                                             <?php if ( $member->get_state_uf() ) { ?>
                                                 / <?php echo $member->get_state_uf(); ?>
                                             <?php } ?> </span></p>
-                                        <p><strong>Membro desde: </strong> <span class="comunity-date"><?php echo $member->get_date_registered( 'Y' ) ?></span> </p>
+                                        <p><strong>Membro da RHS desde: </strong> <span class="comunity-date"><?php echo $member->get_date_registered( 'Y' ) ?></span> </p>
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
