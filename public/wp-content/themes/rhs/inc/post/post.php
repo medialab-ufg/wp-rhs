@@ -241,7 +241,8 @@ class RHSPost {
     }
     
     /*
-    * Resolve problema de adição de tags novas 
+    * Seta tags do post a partir de um array de ids ou nomes (pode ser misturado)
+    * No caso de Ids, serão atribuídas tags existentes, no caso de nomes, serão criadas novas tags
     */
     function setTagsByIdsOrNames($terms){
         if(empty($terms)){
