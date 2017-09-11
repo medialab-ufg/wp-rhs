@@ -1,7 +1,7 @@
 <?php
 
 $substitutions = [
-    '{{META_KEY}}' =>               RHSNotifications::META,
+    '{{META_KEY}}' =>               RHSNotifications::CHANNELS_META,
     '{{CHANNEL_COMMENTS}}' =>       RHSNotifications::CHANNEL_COMMENTS,
     '{{CHANNEL_USER}}' =>           RHSNotifications::CHANNEL_USER,
     '{{CHANNEL_COMMUNITY}}' =>      RHSNotifications::CHANNEL_COMMUNITY,
@@ -10,7 +10,7 @@ $substitutions = [
 ];
 
 $this->log('Limpando canais de notificação dos usuários');
-$wpdb->query("DELETE FROM $wpdb->usermeta WHERE meta_key = '".RHSNotifications::META."' AND meta_value NOT LIKE 'community_%';");
+$wpdb->query("DELETE FROM $wpdb->usermeta WHERE meta_key = '".RHSNotifications::CHANNELS_META."' AND meta_value NOT LIKE 'community_%';");
 
 $this->log('Adicionando os autores dos posts aos canais de seus posts...');
 $this->query('channels-authors', $substitutions);
