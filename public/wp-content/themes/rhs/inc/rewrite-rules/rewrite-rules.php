@@ -71,7 +71,9 @@ class RHSRewriteRules {
             'user/login' . "/?$"    => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             'user/register' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::REGISTER_URL,
             'user/me/edit' . "/?$"  => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::PROFILE_URL,
-            'node/add/blog' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL  
+            'node/add/blog' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL,  
+            'tags/([^/]+)/?'        => 'index.php?tag=$matches[1]',
+            'category/tags/([^/]+)/?'        => 'index.php?tag=$matches[1]'
         );
         
 
