@@ -170,7 +170,7 @@ class RHSPosts extends RHSMessage {
         $postObj->setCategoriesByIds( ! empty( $_POST['category'] ) ? $_POST['category'] : '' );
         $postObj->setState( ! empty( $_POST['estado'] ) ? $_POST['estado'] : '' );
         $postObj->setCity( ! empty( $_POST['municipio'] ) ? $_POST['municipio'] : '' );
-        $postObj->setTagsByIds( ! empty( $_POST['tags'] ) ? $_POST['tags'] : '' );
+        $postObj->setTagsByIdsOrNames( ! empty( $_POST['tags'] ) ? $_POST['tags'] : '' );
         $postObj->setFeaturedImage( ! empty( $_POST['tags'] ) ? $_POST['img_destacada'] : '' );
 
         return $postObj;
@@ -197,7 +197,7 @@ class RHSPosts extends RHSMessage {
             $postObj->setCategoriesByIds( $_POST['category'] );
             $postObj->setState( $_POST['estado'] );
             $postObj->setCity( $_POST['municipio'] );
-            $postObj->setTagsByIds( $_POST['tags'] );
+            $postObj->setTagsByIdsOrNames( $_POST['tags'] );
             $postObj->setFeaturedImageId( $_POST['img_destacada'] );
             $postObj->setComunities($_POST['comunity-status']);
 

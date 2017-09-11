@@ -61,7 +61,6 @@ class RHSPost {
 
         $this->setComunities(wp_get_post_terms( $this->getId() , RHSComunities::TAXONOMY ));
 
-        $this->setComunitiesName();
         $this->setComunitiesId();
     }
 
@@ -241,17 +240,29 @@ class RHSPost {
         $this->tags = $tags;
     }
     
-    /**
-     * @param array $term_ids
-     */
-    function setTagsByIds($term_ids) {
-        if (empty($term_ids))
+    /*
+    * Resolve problema de adição de tags novas 
+    */
+    function setTagsByIdsOrNames($terms){
+        if(empty($terms)){
             return $this->setTags([]);
-            
-        $tags = get_tags(['include' => $term_ids, 'hide_empty' => false]);
+        }
+        
+        foreach($terms as $index => $term){
+            if(!(is_numeric($term))){
+                $term_id = wp_insert_term($term, 'post_tag');
+                $terms[$index] = $term_id['term_id'];
+            }
+            else if((is_numeric($term)) && !(has_tag((int) $term))){
+                $term_id = wp_insert_term($term, 'post_tag');
+                $terms[$index] = $term_id['term_id'];
+            }
+        }
+
+        $tags = get_tags(['include' => $terms, 'hide_empty' => false]);
         $this->setTags($tags);
     }
-    
+
     /**
      * @param string|array $size
      *
@@ -322,20 +333,6 @@ class RHSPost {
      */
     public function getComunitiesId() {
         return $this->comunitiesId;
-    }
-
-    public function getComunitiesName() {
-        return $this->comunitiesName;
-    }
-
-    public function setComunitiesName(){
-        $comunities = $this->getComunities();
-
-        foreach ($comunities as $category){
-            if($category instanceof WP_Term){
-                $this->comunitiesName[] = $category->name;
-            }
-        }
     }
 
     public function setComunitiesId() {
