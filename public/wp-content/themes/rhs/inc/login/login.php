@@ -10,7 +10,7 @@
 class RHSLogin extends RHSMessage {
 
     private static $instance;
-    
+
     const META_KEY_LAST_LOGIN = '_last_login';
 
     function __construct() {
@@ -66,7 +66,7 @@ class RHSLogin extends RHSMessage {
 
         return $errors;
     }
-    
+
     function save_last_login($login) {
         global $user_ID;
         $user = get_user_by('login', $login);
@@ -77,7 +77,7 @@ class RHSLogin extends RHSMessage {
     * Lost Password
     */
     function rhs_enqueue_lost() { ?>
-    
+
         <style type="text/css">
             body{
                 background: #003c46 !important;
@@ -86,25 +86,25 @@ class RHSLogin extends RHSMessage {
                 background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/assets/images/logo.png);
                 height:65px;
                 width:320px;
-                background-size: 320px 65px;
+                background-size: initial;
                 background-repeat: no-repeat;
             }
             #login .submit .button-primary {
                 background: #00b4b9;
                 border-color: #00b4b9;
-                -webkit-box-shadow: 0 1px 0 #00b4b9; 
-                box-shadow: 0 1px 0 #00b4b9; 
+                -webkit-box-shadow: 0 1px 0 #00b4b9;
+                box-shadow: 0 1px 0 #00b4b9;
                 color: #fff;
                 font-weight: bold;
                 text-decoration: none;
-                text-shadow: 0 -1px 1px #00b4b9, 1px 0 1px #00b4b9, 0 1px 1px #00b4b9, -1px 0 1px #00b4b9; 
+                text-shadow: 0 -1px 1px #00b4b9, 1px 0 1px #00b4b9, 0 1px 1px #00b4b9, -1px 0 1px #00b4b9;
             }
             #login .submit .button-primary:hover{
                 background: #003c46;
                 border-color: #003c46;
-                -webkit-box-shadow: 0 1px 0 #003c46; 
-                box-shadow: 0 1px 0 #003c46; 
-                text-shadow: 0 -1px 1px #003c46, 1px 0 1px #003c46, 0 1px 1px #003c46, -1px 0 1px #003c46; 
+                -webkit-box-shadow: 0 1px 0 #003c46;
+                box-shadow: 0 1px 0 #003c46;
+                text-shadow: 0 -1px 1px #003c46, 1px 0 1px #003c46, 0 1px 1px #003c46, -1px 0 1px #003c46;
             }
             #login #nav a, #login #backtoblog a {
                 text-decoration: none;
@@ -115,7 +115,7 @@ class RHSLogin extends RHSMessage {
             }
         </style>
     <?php }
-    
+
     function rhs_logo_url() {
         return home_url();
     }
