@@ -2,9 +2,9 @@
 
 class RHSNotifications {
 
-    const META = '_channels';
-    const LASTCHECK = '_notifications_lastcheck';
-
+    const LASTCHECK_META = '_notifications_LASTCHECK_META';
+    const CHANNELS_META = '_channels';
+    
     /**
      * Canais
      */
@@ -16,19 +16,13 @@ class RHSNotifications {
     
     const NOTIFICATION_CLASS_PREFIX = 'RHSNotification_';
     const RESULTS_PER_PAGE = 50;
-    /**
-     * Tipos
-     */
-    //const NEW_POST = 'new_post_from_user';
-    //const POST_PROMOTED = 'post_promoted';
-    //const COMMUNITY_POST = 'community_post';
 
     static $news;
     static $news_num;
 
     static $instance;
     
-    private $table;
+    public $table;
 
     /**
      * RHSNotifications constructor.
@@ -37,6 +31,7 @@ class RHSNotifications {
         
         global $wpdb;
         $this->table = $wpdb->prefix . 'notifications';
+        $this->table_notifications_users = $wpdb->prefix . 'notifications_users';
         
         $this->verify_database();
         $this->events_wordpress();
@@ -58,10 +53,15 @@ class RHSNotifications {
     
     private function events_wordpress() {
         add_action( 'wp_ajax_rhs_clear_notification', array( &$this, 'ajax_clear_notification' ) );
+        add_action( 'user_register', array( &$this, 'add_last_check_for_new_users' ) );
+    }
+    
+    function add_last_check_for_new_users($user_id) {
+        $this->set_last_check($user_id);
     }
 
     function ajax_clear_notification() {
-        $this->set_last_check();
+        $this->mark_all_read();
 
         echo json_encode( true );
         exit;
@@ -73,6 +73,7 @@ class RHSNotifications {
      * @param int $type
      * @param string $channel
      * @param string $object_id
+     * @param int $user_id
      * @param null $datetime
      */
     function add_notification( $channel, $channel_id = null, $type, $object_id, $user_id = 0, $datetime = null ) {
@@ -96,42 +97,82 @@ class RHSNotifications {
         $wpdb->query( $query );
 
     }
+    
+    private function update_user_notifications($user_id) {
+        
+        $channels = $this->get_user_channels($user_id);
+        $channels = implode("','", $channels);
+        
+        $last = $this->get_last_check($user_id);
+        
+        $query = "INSERT INTO $this->table_notifications_users (user_id, notf_id) 
+            SELECT '$user_id', ID FROM $this->table 
+            WHERE channel IN ('$channels')
+                AND `user_id` <> $user_id
+                AND ID > $last
+            ";
+            
+        global $wpdb;
+        $wpdb->query($query);
+        
+        $this->set_last_check($user_id);
+        
+        
+    }
 
     /**
      * @return RHSNotification[]
      */
     public function get_news($user_id) {
 
-        $last_check = self::get_last_check($user_id);
-        
-        return $this->get_notifications($user_id, $last_check);
+        return $this->get_notifications($user_id, ['onlyUnread' => true]);
         
     }
     
-    public function get_notifications($user_id, $from_datetime = null, $paged = null, $onlyCount = false) {
+    public function get_notifications($user_id, $args = []) {
         global $wpdb;
         
-        $channels   = self::get_user_channels($user_id);
-        $channels   = implode( "', '", $channels );
+        $args = wp_parse_args( $args );
+        $defaults = [
+            'from_datetime' => null,
+            'paged' => null,
+            'onlyCount' => false,
+            'onlyUnread' => false,
+            'onlyRead' => false
+        ];
+        $args = array_merge( $defaults, $args );
+        
+        $this->update_user_notifications($user_id);
+        
         $results_per_page = self::RESULTS_PER_PAGE;
         
-        if($paged > 1) {
-            $offset = ($paged - 1) * $results_per_page;
+        if($args['paged'] > 1) {
+            $offset = ($args['paged'] - 1) * $results_per_page;
          } else {
             $offset = 0 ;
          }
         
-        $query = "FROM {$this->table} WHERE channel IN ('$channels') AND `user_id` <> $user_id";
+        $query = "FROM {$this->table_notifications_users} u JOIN 
+            $this->table n ON n.ID = u.notf_id 
+            WHERE u.user_id = $user_id";
         
-        if (!is_null($from_datetime))
-            $query .= " AND datetime >= '$from_datetime'";       
+        if (true === $args['onlyUnread']) {
+            $query .= " AND u.read = false";     
+        }
         
-        if (true === $onlyCount) {
+        if (true === $args['onlyRead']) {
+            $query .= " AND u.read = true";     
+        }
+        
+        if (!is_null($args['from_datetime']))
+            $query .= " AND datetime >= '".$args['from_datetime']."'";       
+        
+        if (true === $args['onlyCount']) {
             $query = "SELECT COUNT(*) " . $query;
             return $wpdb->get_var($query);
         }
         
-        $query = "SELECT * " . $query;
+        $query = "SELECT n.* " . $query;
         
         $query .= " ORDER BY datetime DESC";
         $query .= " LIMIT $offset, $results_per_page";
@@ -155,7 +196,7 @@ class RHSNotifications {
     function show_notification_pagination($user_id, $paged) {
         $results_per_page = self::RESULTS_PER_PAGE;
         
-        $total_results = $this->get_notifications($user_id, null, null, true);
+        $total_results = $this->get_notifications($user_id, ['onlyCount' => true]);
         
         $total_pages = 1;
         $total_pages = ceil($total_results / $results_per_page);
@@ -187,20 +228,18 @@ class RHSNotifications {
     public function get_news_number($user_id) {
 
         global $wpdb;
-
-        $last_check = self::get_last_check($user_id);
         
-        return $this->get_notifications($user_id, $last_check, null, true);
+        return $this->get_notifications($user_id, ['onlyUnread' => true, 'onlyCount' => true]);
         
     }
 
     /**
      * @return array
      */
-    static function get_user_channels($user_id) {
+    public function get_user_channels($user_id) {
 
-        $channels_meta = get_user_meta( $user_id, self::META );
-        $channels      = [ self::CHANNEL_EVERYONE, sprintf( self::CHANNEL_PRIVATE, $user_id ) ];
+        $channels_meta = get_user_meta($user_id, self::CHANNELS_META);
+        $channels      = $this->get_user_default_channels($user_id);
 
         if ( $channels_meta ) {
             $channels = array_merge( $channels, $channels_meta );
@@ -208,8 +247,12 @@ class RHSNotifications {
 
         return $channels;
     }
+    
+    private function get_user_default_channels($user_id) {
+        return [ self::CHANNEL_EVERYONE, sprintf( self::CHANNEL_PRIVATE, $user_id ) ];
+    }
 
-    static function get_last_check($user_id = null) {
+    function get_last_check($user_id = null) {
 
         if (is_null($user_id)) {
             $u = wp_get_current_user();
@@ -220,10 +263,11 @@ class RHSNotifications {
         if (!$user_id)
             return false;
         
-        $last_check = get_user_meta( $user_id, self::LASTCHECK, true );
+        $last_check = get_user_meta( $user_id, self::LASTCHECK_META, true );
 
-        if ( ! $last_check ) {
-            return get_userdata( $user_id )->user_registered;
+        if ( empty($last_check) && $last_check !== "0" ) {
+            // se ainda não tem registro de last check. vamos pegar o valor atual da tab de notificações
+            return $this->get_last_notification_id();
         }
 
         return $last_check;
@@ -238,24 +282,50 @@ class RHSNotifications {
         
         if (!$user_id)
             return false;
-            
-        if ( ! add_user_meta( $user_id, self::LASTCHECK, current_time( 'mysql' ), true ) ) {
-            update_user_meta( $user_id, self::LASTCHECK, current_time( 'mysql' ) );
+        
+        $last = $this->get_last_notification_id();
+        
+        if ( ! add_user_meta( $user_id, self::LASTCHECK_META, $last, true ) ) {
+            update_user_meta( $user_id, self::LASTCHECK_META, $last );
         }
+    }
+    
+    function mark_all_read($user_id = null) {
+        if (is_null($user_id)) {
+            $u = wp_get_current_user();
+            if (is_object($u) && isset($u->ID))
+                $user_id = $u->ID;
+        }
+        
+        if (!$user_id)
+            return false;
+        
+        global $wpdb;
+        
+        return $wpdb->update($this->table_notifications_users, ['read' => true], ['user_id' => $user_id]);
+    }
+    
+    function get_last_notification_id() {
+        global $wpdb;
+        $lastID = $wpdb->get_var("SELECT MAX(ID) FROM $this->table");
+        return $lastID ? $lastID : 0;
     }
 
     function add_user_to_channel( $channel, $channel_id = 0, $user_id ) {
 
         $value = sprintf( $channel, $channel_id );
-
-        return add_user_meta( $user_id, self::META, $value );
+        $datetime = current_time( 'mysql' );
+        
+        global $wpdb;
+        
+        return add_user_meta($user_id, self::CHANNELS_META, $value);
+        
     }
 
     function delete_user_from_channel( $channel, $channel_id = 0, $user_id ) {
 
         $value = sprintf( $channel, $channel_id );
-
-        return delete_user_meta( $user_id, self::META, $value );
+        return delete_user_meta($user_id, self::CHANNELS_META, $value);
     }
 
     /**
@@ -278,6 +348,27 @@ class RHSNotifications {
             ";
             $wpdb->query( $createQ );
         }
+        
+        $option_name = 'rhs_databssssssase_2_' . get_class($this);
+        if ( ! get_option( $option_name ) ) {
+            add_option( $option_name, true );
+            global $wpdb;
+            $createQ = "
+                CREATE TABLE IF NOT EXISTS `{$this->table_notifications_users}` (
+                    `user_id` INT NOT NULL,
+                    `notf_id` INT NOT NULL,
+                    `read` BOOL NOT NULL DEFAULT false,
+                    PRIMARY KEY(user_id, notf_id)
+                );
+            ";
+            $wpdb->query( $createQ );
+            
+            // Adicionamos a info de last check para usuários existentes
+            
+            $wpdb->query("INSERT INTO $wpdb->usermeta (user_id, meta_key, meta_value) SELECT ID, '" . self::LASTCHECK_META . "', 0 FROM $wpdb->users");
+            
+        }
+        
     }
 
 }

@@ -87,8 +87,8 @@ class StatisticsTest extends RHS_UnitTestCase {
         RHSComunities::add_user_comunity_follow($c, self::$users['contributor'][1]);
         
         // membro e seguidor deve ter sido registrado no canal, mas o q é só membro não
-        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, $c), $RHSNotifications::get_user_channels(self::$users['contributor'][1]));
-        $this->assertNotContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, $c), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, $c), $RHSNotifications->get_user_channels(self::$users['contributor'][1]));
+        $this->assertNotContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, $c), $RHSNotifications->get_user_channels(self::$users['contributor'][0]));
         
         // coloca o outro pra seguir tb
         RHSComunities::add_user_comunity_follow($c, self::$users['contributor'][0]);

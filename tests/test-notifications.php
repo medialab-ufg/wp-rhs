@@ -15,8 +15,8 @@ class NotificationsTest extends RHS_UnitTestCase {
     
     function test_default_channels() {
         global $RHSNotifications;
-        $this->assertContains(sprintf(RHSNotifications::CHANNEL_PRIVATE, self::$users['contributor'][0]), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
-        $this->assertContains(RHSNotifications::CHANNEL_EVERYONE, $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_PRIVATE, self::$users['contributor'][0]), $RHSNotifications->get_user_channels(self::$users['contributor'][0]));
+        $this->assertContains(RHSNotifications::CHANNEL_EVERYONE, $RHSNotifications->get_user_channels(self::$users['contributor'][0]));
     }
     
     
@@ -39,13 +39,10 @@ class NotificationsTest extends RHS_UnitTestCase {
         $RHSVote->add_vote($newpost->getId(), self::$users['voter'][2]);
         $RHSVote->add_vote($newpost->getId(), self::$users['voter'][3]);
         $RHSVote->add_vote($newpost->getId(), self::$users['voter'][4]);
-        
+                
         // esperamos que tenha uma notificação
         $this->assertEquals(1, $RHSNotifications->get_news_number(self::$users['contributor'][0]));
         $this->assertEquals($newpost->getId(), $RHSNotifications->get_news(self::$users['contributor'][0])[0]->getObjectId());
-        
-        
-        
 
 	}
     
@@ -55,11 +52,11 @@ class NotificationsTest extends RHS_UnitTestCase {
         
         $RHSNotifications->add_user_to_channel(RHSNotifications::CHANNEL_COMMUNITY, 33, self::$users['contributor'][0]);
         
-        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, 33), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, 33), $RHSNotifications->get_user_channels(self::$users['contributor'][0]));
         
         $RHSNotifications->delete_user_from_channel(RHSNotifications::CHANNEL_COMMUNITY, 33, self::$users['contributor'][0]);
         
-        $this->assertNotContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, 33), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
+        $this->assertNotContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, 33), $RHSNotifications->get_user_channels(self::$users['contributor'][0]));
         
         
         
@@ -75,7 +72,7 @@ class NotificationsTest extends RHS_UnitTestCase {
         $RHSFollow->toggle_follow(self::$users['contributor'][0], self::$users['contributor'][1]);
         
         // deve ter sido registrado no canal
-        $this->assertContains(sprintf(RHSNotifications::CHANNEL_USER, self::$users['contributor'][0]), $RHSNotifications::get_user_channels(self::$users['contributor'][1]));
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_USER, self::$users['contributor'][0]), $RHSNotifications->get_user_channels(self::$users['contributor'][1]));
         
         // se o usuário criar um post ele tem q receber uma notificação
         wp_set_current_user(self::$users['contributor'][0]);
@@ -101,8 +98,8 @@ class NotificationsTest extends RHS_UnitTestCase {
         RHSComunities::add_user_comunity_follow($c, self::$users['contributor'][1]);
         
         // membro e seguidor deve ter sido registrado no canal, mas o q é só membro não
-        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, $c), $RHSNotifications::get_user_channels(self::$users['contributor'][1]));
-        $this->assertNotContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, $c), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, $c), $RHSNotifications->get_user_channels(self::$users['contributor'][1]));
+        $this->assertNotContains(sprintf(RHSNotifications::CHANNEL_COMMUNITY, $c), $RHSNotifications->get_user_channels(self::$users['contributor'][0]));
         
         // coloca o outro pra seguir tb
         RHSComunities::add_user_comunity_follow($c, self::$users['contributor'][0]);
@@ -128,12 +125,12 @@ class NotificationsTest extends RHS_UnitTestCase {
         $newpost = self::create_post_to_queue();
         
         // Por padrão o autor do post segue o proprio post, então deve estar nesse canal
-        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMENTS, $newpost->getId()), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMENTS, $newpost->getId()), $RHSNotifications->get_user_channels(self::$users['contributor'][0]));
         
         // outro usuário comenta, e tb deve ser adicionado ao canal
         wp_set_current_user(self::$users['editor'][0]);
         $comment_id = self::add_comment($newpost->getId());
-        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMENTS, $newpost->getId()), $RHSNotifications::get_user_channels(self::$users['editor'][0]));
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMENTS, $newpost->getId()), $RHSNotifications->get_user_channels(self::$users['editor'][0]));
         
         // Esse comentário tem q ter gerado uma notificação para o primiro usuário
         $this->assertEquals(1, $RHSNotifications->get_news_number(self::$users['contributor'][0]));
@@ -159,7 +156,7 @@ class NotificationsTest extends RHS_UnitTestCase {
         $RHSFollowPost->toggle_follow_post($newpost->getId(), self::$users['contributor'][0]);
         
         // deve ser registrado no canal
-        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMENTS, $newpost->getId()), $RHSNotifications::get_user_channels(self::$users['contributor'][0]));      
+        $this->assertContains(sprintf(RHSNotifications::CHANNEL_COMMENTS, $newpost->getId()), $RHSNotifications->get_user_channels(self::$users['contributor'][0]));      
         
         // deve ser registrado no canal
         $this->assertEquals(1, $RHSNotifications->get_news_number(self::$users['contributor'][1]));
@@ -178,16 +175,62 @@ class NotificationsTest extends RHS_UnitTestCase {
     function test_user_follow_author() {
         global $RHSNotifications;
         global $RHSFollow;
-
-        // usuário segue outro usuário
-        $RHSFollow->toggle_follow(self::$users['contributor'][0], self::$users['contributor'][1]);
-
-        // usuário recebe notificação
+        
         $author = self::$users['contributor'][0];
         $user = self::$users['contributor'][1];
+        
+        // usuário segue outro usuário
+        $RHSFollow->toggle_follow($author, $user);
+
+        // usuário recebe notificação
+        
         $this->assertEquals(1, $RHSNotifications->get_news_number($author));
         $this->assertEquals($author, $RHSNotifications->get_news($author)[0]->getObjectId());       
-        $this->assertEquals($user, $RHSNotifications->get_news($author)[0]->getUserId());       
+        $this->assertEquals($user, $RHSNotifications->get_news($author)[0]->getUserId());
+        
+        // usuário que é seguido cria um post e user deve receber notificação
+        wp_set_current_user($author);
+        $newpost = self::create_post_to_queue();
+        
+        $this->assertEquals(1, $RHSNotifications->get_news_number($user));
+        $this->assertEquals($newpost->getId(), $RHSNotifications->get_news($user)[0]->getObjectId());       
+        $this->assertEquals($author, $RHSNotifications->get_news($user)[0]->getUserId());     
+        
+    }
+    
+    function test_delete_from_channel_and_add_again_should_not_receive_notifications_in_between() {
+        global $RHSNotifications;
+        global $RHSFollow;
+        
+        $author = self::$users['contributor'][0];
+        $user = self::$users['contributor'][1];
+        
+        // usuário segue outro usuário
+        $RHSFollow->toggle_follow($author, $user);
+        
+        // usuário que é seguido cria um post e user deve receber notificação
+        wp_set_current_user($author);
+        $newpost = self::create_post_to_queue();
+        
+        $this->assertEquals(1, $RHSNotifications->get_news_number($user));
+        $this->assertEquals($newpost->getId(), $RHSNotifications->get_news($user)[0]->getObjectId());       
+        $this->assertEquals($author, $RHSNotifications->get_news($user)[0]->getUserId());
+        
+        // usuário deixa de seguir
+        $RHSFollow->toggle_follow($author, $user);
+        
+        # autor cria outro post
+        $newpost = self::create_post_to_queue();
+        
+        # usuário não deve mais receber notificação, mas ainda deve ter a primeira notificação
+        $this->assertEquals(1, $RHSNotifications->get_news_number($user));
+        
+        # usuário volta a seguir
+        $RHSFollow->toggle_follow($author, $user);
+        
+        // usuário deve continuar tendo apenas uma notificação
+        $this->assertEquals(1, $RHSNotifications->get_news_number($user));
+        
         
     }
 
