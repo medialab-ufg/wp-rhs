@@ -89,7 +89,7 @@
                                     foreach($category as $cat){
                                         $checked = in_array($cat->term_id, $RHSPost->getCategoriesIds()) ? 'checked' : '';
                                         echo '<div class="checkbox">
-                                            <input type="checkbox" name="category[]" class="uniform" value="'. $cat->term_id .'" id="input-category" '.$checked.'>
+                                            <input type="checkbox" name="category[]" class="uniform" value="'. $cat->term_id .'" id="category-'. $cat->term_id .'" '.$checked.'>
                                             <label for="category-'. $cat->term_id .'">' . $cat->name .'</label>
                                         </div>';
                                     }
