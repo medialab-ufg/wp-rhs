@@ -88,7 +88,7 @@
                                     $category = get_categories();
                                     foreach($category as $cat){
                                         $checked = in_array($cat->term_id, $RHSPost->getCategoriesIds()) ? 'checked' : '';
-                                        echo '<div class="checkbox">
+                                        echo '<div>
                                             <input type="checkbox" name="category[]" class="uniform" value="'. $cat->term_id .'" id="category-'. $cat->term_id .'" '.$checked.'>
                                             <label for="category-'. $cat->term_id .'">' . $cat->name .'</label>
                                         </div>';
@@ -105,7 +105,7 @@
                                     
                                         <div>
                                             <input <?php echo (!$RHSPost->getComunities() || $RHSPost->getStatus() != 'private') ? 'checked' : ''; ?> type="checkbox" class="uniform" id="comunity-status" name="comunity-status[]" value="public">
-                                            <label for="checkbox1">Público</label>
+                                            <label for="comunity-status">Público</label>
                                         </div>
                                         <?php foreach ( $RHSComunities->get_comunities_objects_by_user( get_current_user_id() ) as $key => $comunidade ) { ?>
                                             <?php if(!$comunidade->is_member()){
