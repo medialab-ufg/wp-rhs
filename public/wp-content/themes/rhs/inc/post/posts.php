@@ -542,7 +542,8 @@ class RHSPosts extends RHSMessage {
          * adiciona o metadado para ele não ficar vazio e não gerar inconsistencia
          * add_post_meta só adicinoa, se o metadado já exitir, não faz nada.
          */ 
-        add_post_meta( $postID, self::META_DATE_ORDER, $data->post_date, true );
+        if ( $data->post_type == 'post')
+            add_post_meta( $postID, self::META_DATE_ORDER, $data->post_date, true );
     }
 
     function update_date_order($postID){
