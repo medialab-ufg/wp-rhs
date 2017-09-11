@@ -43,7 +43,6 @@
                 <?php
                     global $RHSUsers;
                     global $RHSNotifications;
-                    $notifications_number = $RHSNotifications->get_news_number(get_current_user_id());
                     if(my_wp_is_mobile()){
                         get_search_form();
                     }
@@ -54,6 +53,7 @@
                         <span class="navbar-text">ou</span>
                         <li><a href="<?php echo wp_registration_url(); ?>" style="color: #00b4b4">Cadastre-se</a></li>
                     <?php else : ?>
+                        <?php $notifications_number = $RHSNotifications->get_news_number(get_current_user_id()); ?>
                         <li class="dropdown user-dropdown hidden-xs">
                             <a id="button-notifications" href="#notifications-panel" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i data-count="<?php echo $notifications_number; ?>" class="glyphicon glyphicon-bell <?php if($notifications_number){ ?>notification-count<?php } ?>"></i>

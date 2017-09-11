@@ -92,6 +92,23 @@ Class RHSVote {
             $administrator->add_cap( 'vote_posts' );
 
         }
+        
+        // atualizando permissões. agora podemos votar nos proprios posts
+        $option_name = '_roles_update1_'.get_class();
+        if ( ! get_option( $option_name ) ) {
+            global $wp_roles;
+            // só queremos que isso rode uma vez
+            add_option( $option_name, true );
+            
+            $voter = $wp_roles->get_role( self::ROLE_VOTER );
+            $voter->add_cap( 'vote_own_posts' );
+
+            $editor = $wp_roles->get_role( 'editor' );
+            $editor->add_cap( 'vote_own_posts' );
+
+            $administrator = $wp_roles->get_role( 'administrator' );
+            $administrator->add_cap( 'vote_own_posts' );
+        }
     }
 
     private function verify_database(){

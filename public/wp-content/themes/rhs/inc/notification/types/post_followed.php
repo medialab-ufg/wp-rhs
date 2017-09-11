@@ -37,6 +37,7 @@ class RHSNotification_post_followed extends RHSNotification {
     }
 
     function image(){
+        $user_ID = $this->getUserId();
         $user = new RHSUser(get_userdata($user_ID));
         return $user->get_avatar();
     }

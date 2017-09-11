@@ -8,7 +8,7 @@ $paged = !empty(get_query_var('rhs_paged')) ? get_query_var('rhs_paged') : 1;
                     <?php global $RHSNotifications;?>
                     <div class="wrapper-content">
                         <!-- Inicio do Loop -->
-                        <?php foreach ($RHSNotifications->get_notifications(get_current_user_id(), '', $paged) as $notification){ ?>
+                        <?php foreach ($RHSNotifications->get_notifications(get_current_user_id(), ['paged' => $paged]) as $notification){ ?>
                             <div class="panel panel-default panel-horizontal">
                                 <div class="panel-heading">
                                     <?php echo $notification->getImage(); ?>

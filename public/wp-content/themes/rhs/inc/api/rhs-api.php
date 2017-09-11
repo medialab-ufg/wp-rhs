@@ -39,8 +39,42 @@ Class RHSApi  {
 
             }
         ));
+
+        register_rest_route( $this->apinamespace, '/follow/(?P<id>[\d]+)', array(
+            'methods'  => 'POST',
+            'callback' => array(&$this, 'USER_follow'),
+            'args' => array(
+                'id' => array(
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+                )
+            ),
+            'permission_callback' => function ( $request ) {
+                $user_can = current_user_can( 'contributor', $request['id'] );
+                if ($user_can)
+                    return true;
+                
+            }
+        ) );
     }
     
+    function USER_follow($request) {
+        global $RHSFollow;
+        $data = $RHSFollow->toggle_follow(get_current_user_id(), $request['id']);
+
+        $dataR = [
+            'response' => $data,
+            'user_id' => get_current_user_id(),
+            'follow_id' => $request['id']
+        ];
+
+        $response = new WP_REST_Response( $dataR );
+        $response->set_status( 200 );
+
+        return $response;
+    }
+
     function POST_vote($request) {
         // Já passamos pela autenticação e permission_callback
         global $RHSVote;
