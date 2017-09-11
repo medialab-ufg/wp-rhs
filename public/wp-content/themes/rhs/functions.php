@@ -364,7 +364,6 @@ function paginacao_personalizada() {
     }
 }
 
-
 /*
 * cadastrando Widgets SideBar
 */
