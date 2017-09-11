@@ -253,10 +253,13 @@ class RHSPost {
                 $term_id = wp_insert_term($term, 'post_tag');
                 $terms[$index] = $term_id['term_id'];
             }
-            else if((is_numeric($term)) && !(has_tag((int) $term))){
-                $term_id = wp_insert_term($term, 'post_tag');
-                $terms[$index] = $term_id['term_id'];
-            }
+        
+        # TODO: Permitir tags com apenas números?!.
+        
+            // else if(!(has_tag((int) $term)) ){
+            //     $term_id = wp_insert_term($term, 'post_tag');
+            //     $terms[$index] = $term_id['term_id'];
+            // }
         }
 
         $tags = get_tags(['include' => $terms, 'hide_empty' => false]);
