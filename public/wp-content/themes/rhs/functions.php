@@ -529,7 +529,7 @@ function tempoDecorido($data) {
 
     $dataObj = new DateTime($data);
 
-    $timeNow = time();
+    $timeNow = current_time('timestamp');
     $timeRes = $timeNow - $dataObj->getTimestamp();
     $nar = 0;
 
