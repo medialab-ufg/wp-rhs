@@ -202,7 +202,7 @@ class RHSEmail {
                 $subject = str_replace('%'.$var.'%', $args[$var], $subject);
         }
 
-        return $subject;
+        return wpautop($subject);
     }
 
     function gerate_admin_menu() {
