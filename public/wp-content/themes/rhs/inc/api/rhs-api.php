@@ -134,7 +134,7 @@ Class RHSApi  {
 
         $userObj = new RHSUser($user);
         $data->data['formation'] = $userObj->get_formation();
-        $data->data['interst'] = $userObj->get_interest();
+        $data->data['interest'] = $userObj->get_interest();
         $data->data['state'] = $userObj->get_state();
         $data->data['city'] = $userObj->get_city();
         $data->data['links'] = $userObj->get_links();
