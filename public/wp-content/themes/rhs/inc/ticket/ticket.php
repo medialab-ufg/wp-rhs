@@ -748,7 +748,7 @@ class RHSTicket extends RHSMessage {
             'menu_position' => 5,
             'show_in_nav_menus' => false,
             'publicly_queryable' => true,
-            'exclude_from_search' => false,
+            'exclude_from_search' => true,
             'has_archive' => false,
             'query_var' => true,
             'can_export' => true,
