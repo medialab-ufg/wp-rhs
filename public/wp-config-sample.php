@@ -110,6 +110,15 @@ define('WP_DEBUG', false);
 if ( !defined('ABSPATH') )
 	define('ABSPATH', dirname(__FILE__) . '/');
 
+
+#define('RHS_MAINTENANCE_IPS', ['200.137.195.149', '127.0.0.1', '::1']);
+if (defined('RHS_MAINTENANCE_IPS') && !empty(RHS_MAINTENANCE_IPS) && !in_array($_SERVER['REMOTE_ADDR'], RHS_MAINTENANCE_IPS)) {
+    
+    include('maintenance/index.php');
+    exit;
+}
+
+
 /** Sets up WordPress vars and included files. */
 require_once(ABSPATH . '../wp-content/themes/rhs/inc/load-image.php');
 require_once(ABSPATH . 'wp-settings.php');
