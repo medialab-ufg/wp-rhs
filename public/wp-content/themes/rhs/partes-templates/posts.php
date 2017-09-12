@@ -46,7 +46,7 @@
                     ?>
                 </div>
                 <div class="col-xs-6">
-                    <span class="pull-right"><?php echo get_post_meta(get_the_ID(), 'socialcount_TOTAL', true); ?></span>
+                    <span class="pull-right"><!-- Aqui contagem de compartilhamento caso tenha --></span>
                 </div>
             </div>
         </div>
