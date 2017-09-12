@@ -20,7 +20,7 @@
                                 </script>
                             <?php } ?>
                         <?php } ?>
-                        <form autocomplete="off" id="login" class="form-horizontal" role="form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
+                        <form id="login" class="form-horizontal" role="form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
                             <div class="form-group float-label-control">
                                 <label for="user_login">Email</label>
                                 <input type="email" tabindex="1" name="log" id="log" class="form-control" value="" >
