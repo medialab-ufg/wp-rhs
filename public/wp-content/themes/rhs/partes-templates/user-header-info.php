@@ -11,6 +11,12 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             global $RHSUsers;
             $RHSUsers = new RHSUsers($curauth->ID);
             global $RHSVote;
+            global $RHSFollow;
+
+            $total_votos = $RHSVote->get_total_votes_by_author($curauth->ID);
+            $total_followed = $RHSFollow->get_total_follows($curauth->ID, RHSFollow::FOLLOWED_KEY);
+            $total_follow = $RHSFollow->get_total_follows($curauth->ID, RHSFollow::FOLLOW_KEY);
+            $total_posts = count_user_posts($curauth->ID);
             ?>
         <div class="avatar-user">
             <?php echo get_avatar($RHSUsers->getUserId()); ?>
@@ -23,27 +29,30 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                 <?php endif; ?>
             </p>
             <p class="localidade"><?php echo the_user_ufmun($RHSUsers->getUserId()); ?></p>
-            <div class="contagem">
-                <span class="contagem-valor-author"><?php echo count_user_posts( $curauth->ID ); ?></span>
-                <span class="contagem-desc-author">POSTS</span>
-            </div>
-            <div class="contagem">
-                <span class="contagem-valor-author"><?php echo $RHSVote->get_total_votes_by_author( $curauth->ID ); ?></span>
-                <span class="contagem-desc-author">VOTOS</span>
-            </div>
-            
+            <?php if(count_user_posts( $curauth->ID )) { ?>
+                <div class="contagem">
+                    <span class="contagem-valor-author"><?php echo $total_posts; ?></span>
+                    <span class="contagem-desc-author"><?php echo ($total_votos == 1 ? "POST" : "POSTS" );  ?></span>
+                </div>
+            <?php } ?>
+            <?php if($total_votos){ ?>
+                <div class="contagem">
+                    <span class="contagem-valor-author"><?php echo $total_votos; ?></span>
+                    <span class="contagem-desc-author"><?php echo ($total_votos == 1 ? "VOTO" : "VOTOS" );  ?></span>
+                </div>
+            <?php } ?>
             
             <div class="contagem">
                 <a class="btn-link" href="<?php echo get_author_posts_url($curauth->ID) . RHSRewriteRules::FOLLOW_URL; ?>">
-                    <span class="contagem-valor-author"><?php do_action('rhs_total_follows', $curauth->ID, RHSFollow::FOLLOW_KEY); ?></span>
+                    <span class="contagem-valor-author"><?php echo $total_follow ?></span>
                     <span class="contagem-desc-author">SEGUINDO</span>
                 </a>
             </div>
             
             <div class="contagem">
                 <a class="btn-link" href="<?php echo get_author_posts_url($curauth->ID) . RHSRewriteRules::FOLLOWED_URL; ?>">
-                    <span class="contagem-valor-author"><?php do_action('rhs_total_follows', $curauth->ID, RHSFollow::FOLLOWED_KEY); ?></span>
-                    <span class="contagem-desc-author">SEGUIDORES</span>
+                    <span class="contagem-valor-author"><?php echo $total_followed ?></span>
+                    <span class="contagem-desc-author"><?php echo ($total_followed == 1 ? "SEGUIDOR" : "SEGUIDORES" );  ?></span>
                 </a>
             </div>
             
