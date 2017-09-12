@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4df6472f3599ea2626d85ae9a9f2be06",
-    "content-hash": "c1d6cb41127f63fe7ebf7789e7657c4f",
+    "hash": "be710c69e156160765aab9ea350aa43f",
+    "content-hash": "87fce3754b8551f041497500d63b170d",
     "packages": [
         {
             "name": "components/bootstrap",
@@ -1026,6 +1026,26 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/rest-api-oauth1/"
+        },
+        {
+            "name": "wpackagist-plugin/social-metrics-tracker",
+            "version": "1.6.8",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/social-metrics-tracker/",
+                "reference": "tags/1.6.8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/social-metrics-tracker.1.6.8.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/social-metrics-tracker/"
         },
         {
             "name": "wpackagist-plugin/wp-mail-smtp",
