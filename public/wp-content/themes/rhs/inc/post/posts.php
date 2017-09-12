@@ -165,13 +165,13 @@ class RHSPosts extends RHSMessage {
 
         $postObj = new RHSPost();
         $postObj->setTitle( ! empty( $_POST['title'] ) ? $_POST['title'] : '' );
-        $postObj->setContent( ! empty( $_POST['public_post'] ) ? $_POST['public_post'] : '' );
+        $postObj->setContent( ! empty( $_POST['public_post'] ) ? stripcslashes($_POST['public_post']) : '' );
         $postObj->setStatus( ! empty( $_POST['status'] ) ? $_POST['status'] : '' );
         $postObj->setCategoriesByIds( ! empty( $_POST['category'] ) ? $_POST['category'] : '' );
         $postObj->setState( ! empty( $_POST['estado'] ) ? $_POST['estado'] : '' );
         $postObj->setCity( ! empty( $_POST['municipio'] ) ? $_POST['municipio'] : '' );
         $postObj->setTagsByIdsOrNames( ! empty( $_POST['tags'] ) ? $_POST['tags'] : '' );
-        $postObj->setFeaturedImage( ! empty( $_POST['tags'] ) ? $_POST['img_destacada'] : '' );
+        $postObj->setFeaturedImageId( ! empty( $_POST['img_destacada'] ) ? $_POST['img_destacada'] : '' );
 
         return $postObj;
 
