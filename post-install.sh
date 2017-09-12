@@ -55,6 +55,11 @@ if (file_exists("public/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-n
     copy("public/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php", "public/wp-content/themes/rhs/vendor/wp-bootstrap-navwalker.php"); 
 }
 
+echo "...Deletando Diretorio Bootstrap-navwalker não usado\n";
+if (file_exists("public/wp-content/plugins/wp-bootstrap-navwalker/wp-bootstrap-navwalker.php")) {
+    deleteDir("public/wp-content/plugins/wp-bootstrap-navwalker");
+}
+
 echo "...Bootstrap-hover-dropdown\n";
 if (file_exists("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js")) {
     copy("vendor/cwspear/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js", "public/wp-content/themes/rhs/vendor/js/bootstrap-hover-dropdown.min.js");
