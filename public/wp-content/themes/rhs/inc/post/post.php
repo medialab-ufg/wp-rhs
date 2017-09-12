@@ -250,19 +250,23 @@ class RHSPost {
         }
         
         foreach($terms as $index => $term){
-            if(!(is_numeric($term))){
-                $term_id = wp_insert_term($term, 'post_tag');
-                $terms[$index] = $term_id['term_id'];
+            if(!(is_numeric($term)) && !(is_integer($term))){
+                try{
+                    $term_id = wp_insert_term($term, 'post_tag');
+                    $terms[$index] = $term_id['term_id'];
+                } catch(Error $e){
+                    wp_delete_term($term_id['term_id'], 'post_tag');
+                }
             }
-        
-        # TODO: Permitir tags com apenas números?!.
-        
-            // else if(!(has_tag((int) $term)) ){
-            //     $term_id = wp_insert_term($term, 'post_tag');
-            //     $terms[$index] = $term_id['term_id'];
-            // }
+            else if((term_exists(((int) $term))) == 0 || NULL){
+                try{
+                    $term_id = wp_insert_term(((string)$term), 'post_tag');
+                    $terms[$index] = $term_id['term_id'];
+                } catch(Error $e){
+                    wp_delete_term($term_id['term_id'], 'post_tag');
+                }
+            }
         }
-
         $tags = get_tags(['include' => $terms, 'hide_empty' => false]);
         $this->setTags($tags);
     }
