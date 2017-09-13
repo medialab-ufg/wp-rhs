@@ -43,10 +43,10 @@ class RHSPosts extends RHSMessage {
      * Remove checkboxs padrões do wordpress que não será utilizado no sistema
      */
     function remove_meta_boxes() {
-        remove_meta_box( 'commentsdiv', 'post', 'normal' );
+        // remove_meta_box( 'commentsdiv', 'post', 'normal' );
         remove_meta_box( 'trackbacksdiv', 'post', 'normal' );
         remove_meta_box( 'postcustom', 'post', 'normal' );
-        remove_meta_box( 'commentstatusdiv', 'post', 'normal' );
+        // remove_meta_box( 'commentstatusdiv', 'post', 'normal' );
         remove_meta_box( 'authordiv', 'post', 'normal' );
         remove_meta_box( 'tagsdiv-comunity-category', 'post', 'normal' );
     }
