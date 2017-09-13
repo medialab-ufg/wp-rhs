@@ -26,7 +26,11 @@ class RHSNotification_new_community_post extends RHSNotification {
 
         $post_ID = $this->getObjectId();
         $user = new RHSUser(get_userdata(get_post_field( 'post_author', $post_ID )));
-        $community_id = str_replace(RHSNotifications::CHANNEL_COMMUNITY, '', $this->getChannel());
+        
+        $str_channel = str_replace('%s', '', RHSNotifications::CHANNEL_COMMUNITY);
+        
+        $community_id = str_replace($str_channel, '', $this->getChannel());
+
         $community = get_term_by('id', $community_id, RHSComunities::TAXONOMY);
 
         return sprintf(
