@@ -45,7 +45,7 @@ class RHSStats {
     }
     
     function login($user_login) {
-        global $user_ID;
+        $user_ID = get_current_user_id();
         $this->add_event(self::ACTION_LOGIN, $user_ID, $user_ID);
     }
     
