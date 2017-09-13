@@ -80,8 +80,9 @@ class RHSStats {
     function network_data($post_id, $type) {
         if ($type == RHSNetwork::META_KEY_VIEW) // não queremos gerar eventos para views
             return;
-        $this->add_event(self::ACTION_SHARE, $post_id);
-        $this->add_event(self::ACTION_SHARE . '_' . $type, $post_id);
+        $user_ID = get_current_user_id();
+        $this->add_event(self::ACTION_SHARE, $post_id, $user_ID);
+        $this->add_event(self::ACTION_SHARE . '_' . $type, $post_id, $user_ID);
     }
     
     /**
