@@ -108,7 +108,6 @@ jQuery( function( $ ) {
         js = d.createElement(s); js.id = id;
         js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.10";
         fjs.parentNode.insertBefore(js, fjs);
-        console.log('teste');
     }(document, 'script', 'facebook-jssdk'));
     
     //Facebook and Twitter Widget
@@ -124,7 +123,7 @@ jQuery( function( $ ) {
             }); 
         }); 
     //Fim Facebook and Twitter Widget
-    
+
     //Pagina Membros
     $('.roles').editable({
         value: 1,    
