@@ -8,7 +8,8 @@ class RHSPosts extends RHSMessage {
     const META_COMUNITY = 'rhs-comunity-status';
 
     function __construct( $postID = null ) {
-
+        add_action( 'add_meta_boxes', array( &$this,'city_and_state_meta_box') );
+        add_action( 'save_post', array( &$this,'save_city_state_meta_box_data' ) );
         add_action( 'admin_menu', array( &$this, 'remove_meta_boxes' ) );
         add_action( 'wp_ajax_get_tags', array( &$this, 'ajax_get_tags' ) );
         add_action( 'wp_ajax_nopriv_get_tags', array( &$this, 'ajax_get_tags' ) );
@@ -50,6 +51,77 @@ class RHSPosts extends RHSMessage {
         remove_meta_box( 'authordiv', 'post', 'normal' );
         remove_meta_box( 'tagsdiv-comunity-category', 'post', 'normal' );
     }
+
+    function city_and_state_meta_box() {
+        add_meta_box(
+            'city-state',
+            __( 'Estado Cidade do Post', 'city_state' ),
+            array($this, 'city_and_state_meta_box_callback'),
+            'post',
+            'side',
+            'low'
+        );
+    }
+
+    function city_and_state_meta_box_callback($post) {
+        wp_nonce_field('city_state_nonce', 'city_state_nonce');
+    
+        $state_id = get_post_meta($post->ID, '_uf', true);
+        $city_id = get_post_meta($post->ID, '_municipio', true);
+        
+        UFMunicipio::form( array(
+            'content_before' => '',
+            'content_after' => '',
+            'content_before_field' => '<div class="form-group">',
+            'content_after_field' => '</div>',
+            'select_before' => ' ',
+            'select_after' => ' ',
+            'state_label' => 'Estado &nbsp',
+            'city_label' => 'Cidade &nbsp',
+            'select_class' => 'form-control',
+            'show_label' => false,
+            'selected_state' => $state_id,
+            'selected_municipio' => $city_id,
+        ) ); 
+
+        
+    }
+
+    function save_city_state_meta_box_data($post_id) {
+
+        if (!isset($_POST['city_state_nonce'])) {
+            return;
+        }
+    
+        if (!wp_verify_nonce($_POST['city_state_nonce'], 'city_state_nonce')) {
+            return;
+        }
+    
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+    
+        if (isset($_POST['post_type']) && 'page' == $_POST['post_type']) {
+            if (!current_user_can('edit_page', $post_id)) {
+                return;
+            }
+        } else {
+            if (!current_user_can('edit_post', $post_id)) {
+                return;
+            }
+        }
+
+        if (!isset($_POST['estado']) && !isset($_POST['municipio'])) {
+            return;
+        }
+    
+        $state = sanitize_text_field($_POST['estado']);
+        update_post_meta($post_id, '_uf', $state);
+
+        $city = sanitize_text_field($_POST['municipio']);
+        update_post_meta($post_id, '_municipio', $city);
+    }
+    
 
     /*====================================================================================================
                                                 CLIENTE
