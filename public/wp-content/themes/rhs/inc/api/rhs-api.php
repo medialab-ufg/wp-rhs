@@ -54,8 +54,20 @@ Class RHSApi  {
                 return current_user_can( 'contributor', $request['id'] );   
             }
         ) );
+
+        register_rest_route( $this->apinamespace, '/user/(?P<id>[\d]+)', array(
+            'methods' => 'GET',
+            'callback' => array(&$this, 'USER_show'),
+			'args' => array(
+				'id' => array(
+					'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+				),
+			)
+		));
     }
-    
+
     function USER_follow($request) {
         global $RHSFollow;
         $data = $RHSFollow->toggle_follow(get_current_user_id(), $request['id']);
@@ -119,12 +131,25 @@ Class RHSApi  {
 
         $userObj = new RHSUser($user);
         $data->data['formation'] = $userObj->get_formation();
-        $data->data['interst'] = $userObj->get_interest();
+        $data->data['interest'] = $userObj->get_interest();
         $data->data['state'] = $userObj->get_state();
         $data->data['city'] = $userObj->get_city();
         $data->data['links'] = $userObj->get_links();
         
         return $data;
+    }
+    
+    function USER_show($request) {
+        $user = $request['id'];
+        if (is_wp_error($user)) {
+            return $user;
+        }
+
+        $user_obj = get_userdata($request['id']) ;
+        $userController = new \WP_REST_Users_Controller($user_obj->ID);
+        $response = $userController->prepare_item_for_response( $user_obj, $request );
+        return rest_ensure_response($response);
+    
     }
     
     
