@@ -51,10 +51,7 @@ Class RHSApi  {
                 )
             ),
             'permission_callback' => function ( $request ) {
-                $user_can = current_user_can( 'contributor', $request['id'] );
-                if ($user_can)
-                    return true;
-                
+                return current_user_can( 'contributor', $request['id'] );   
             }
         ) );
     }
