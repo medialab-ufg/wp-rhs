@@ -459,7 +459,7 @@ Class RHSVote {
         }  else if($this->user_has_voted( $post_id )) {
             $output .= '<span class="vButton"><a class="btn btn-danger" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
         } else {
-            $output .= '<span class="vButton"><a class="btn btn-danger js-vote-button" data-post_id="' . $post_id . '">VOTAR</a></span>';
+            $output .= '<span class="vButton"><a class="btn btn-danger js-vote-button hidden-print" data-post_id="' . $post_id . '">VOTAR</a></span>';
         }
 
 		$output .= '</div>';
