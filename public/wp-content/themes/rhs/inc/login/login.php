@@ -107,11 +107,7 @@ class RHSLogin extends RHSMessage {
                 text-shadow: 0 -1px 1px #003c46, 1px 0 1px #003c46, 0 1px 1px #003c46, -1px 0 1px #003c46;
             }
             #login #nav a, #login #backtoblog a {
-                text-decoration: none;
-                color: #fff;
-            }
-            #login #nav a:hover, #login #backtoblog a:hover{
-                text-decoration: underline;
+                display: none;
             }
         </style>
     <?php }
