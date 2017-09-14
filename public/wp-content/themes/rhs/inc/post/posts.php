@@ -48,7 +48,7 @@ class RHSPosts extends RHSMessage {
         remove_meta_box( 'trackbacksdiv', 'post', 'normal' );
         remove_meta_box( 'postcustom', 'post', 'normal' );
         // remove_meta_box( 'commentstatusdiv', 'post', 'normal' );
-        remove_meta_box( 'authordiv', 'post', 'normal' );
+        // remove_meta_box( 'authordiv', 'post', 'normal' );
         remove_meta_box( 'tagsdiv-comunity-category', 'post', 'normal' );
     }
 
