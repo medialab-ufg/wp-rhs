@@ -10,9 +10,7 @@ class RHSNotification_comments_in_post extends RHSNotification {
 
         $c = is_object($comment) ? $comment : get_comment($comment);
         
-        // apenas cometarios aprovados e q não são de algum tipo especial, tipo pingback
-        // e apenas comentários que foram feitos por algum usuário logado
-        if (1 == $c->comment_approved && empty($c->comment_type) && !empty($c->user_id)) { // apenas cometarios aprovados e q não são de algum tipo especial, tipo pingback
+        if (1 == $c->comment_approved) {
             global $RHSNotifications;
             $RHSNotifications->add_notification(RHSNotifications::CHANNEL_COMMENTS, $c->comment_post_ID, self::get_name(), $c->comment_ID, $c->user_id);
         }
