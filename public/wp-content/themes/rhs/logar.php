@@ -1,4 +1,5 @@
 <?php get_header('full'); ?>
+
 <?php global $RHSLogin; ?>
 <div class="row">
 	<!-- Container -->
@@ -43,12 +44,14 @@
                             <div class="clearfix"></div>
                             <input type="hidden" name="redirect_to" id="redirect_to" value="<?php echo esc_attr( isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : '' ); ?>" />
                         </form>
-                        <div class="panel-other" >
-                            Você não tem uma conta?
-                            <a href="<?php echo wp_registration_url(); ?>">
-                                Crie uma aqui!
-                            </a>
-                        </div>
+                        <?php if(!RHSLogin::is_login_via_app()) : ?>
+                            <div class="panel-other" >
+                                Você não tem uma conta?
+                                <a href="<?php echo wp_registration_url(); ?>">
+                                    Crie uma aqui!
+                                </a>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
