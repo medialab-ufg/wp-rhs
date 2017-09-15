@@ -22,7 +22,7 @@ class RHSNotifications_Channel_Hooks {
 
         add_action('rhs_add_user_follow_post', array(&$this, 'rhs_add_user_follow_post'));
         add_action('rhs_delete_user_follow_post', array(&$this, 'rhs_delete_user_follow_post'));
-
+        
     }
     
     /**

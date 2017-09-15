@@ -219,7 +219,7 @@ class RHSTicket extends RHSMessage {
     }
     
     /**
-     * É chamado quando o formulário de contato é enviado
+     * É chamdo quando o formulário de contato é enviado
      */
     public function trigger_by_post() {
         if ( ! empty( $_POST['ticket_user_wp'] ) && $_POST['ticket_user_wp'] == $this->getKey() ) {
@@ -258,7 +258,6 @@ class RHSTicket extends RHSMessage {
                 $_POST['message'],
                 $defaultAuthor);
         }
-        
 
         if ( ! empty( $_POST['add_comment_ticket_wp'] ) && $_POST['add_comment_ticket_wp'] == $this->getKey() ) {
 
@@ -271,9 +270,7 @@ class RHSTicket extends RHSMessage {
                     get_current_user_id(),
                     wp_get_current_user()->user_login,
                     wp_get_current_user()->user_email,
-                    wp_get_current_user()->user_url, $_POST['comment'],
-                    wp_get_current_user()->ID
-                    );
+                    wp_get_current_user()->user_url, $_POST['comment']);
 
             $this->set_alert('<i class="fa fa-check"></i> Comentário salvo');
             wp_redirect(get_permalink($_POST['comment_post_ID']));
@@ -338,7 +335,7 @@ class RHSTicket extends RHSMessage {
         // o term_meta do usuário padrão da categoria serve apenas para esta setagem na hora que o ticket é criado
         $responsavel_padrao = get_term_meta($category, 'user', true);
         if ($responsavel_padrao) add_post_meta($post_ID, '_responsavel', $responsavel_padrao);
-
+        
         do_action('rhs_new_ticket_posted', $post_ID, $message, $responsavel_padrao, $defaultAuthor, $author);
         
         $this->set_alert(   '<i class="fa fa-check "></i> Contato enviado com sucesso!');
@@ -393,7 +390,7 @@ class RHSTicket extends RHSMessage {
             'user_login' => $login,
             'user_nicename' => 'author-default-ticket',
             'user_url' => '',
-            'user_email' => 'rhsauthordefaultticket@gmail.com',
+            'user_email' => 'thsauthordefaultticket@gmail.com',
             'display_name' => 'Autor padrão de ticket',
             'nickname' => 'autor-default',
             'first_name' => 'Autor Ticket',
@@ -461,7 +458,7 @@ class RHSTicket extends RHSMessage {
         remove_meta_box('commentsdiv', self::POST_TYPE, 'normal');
     }
 
-    function insert_comment($postId, $author_id, $author_login, $author_email, $author_url, $content, $user_from_contact_id = false){
+    function insert_comment($postId, $author_id, $author_login, $author_email, $author_url, $content){
 
         $time = current_time('mysql');
 
@@ -481,9 +478,7 @@ class RHSTicket extends RHSMessage {
         );
 
         $comment_id = wp_insert_comment($data);
-        
-        do_action('rhs_ticket_replied', $user_from_contact_id, $postId);
-    
+
         global $wpdb;
         $wpdb->update( $wpdb->comments, array('comment_approved' => self::COMMENT_STATUS), array( 'comment_ID' => $comment_id ));
     }
@@ -493,10 +488,10 @@ class RHSTicket extends RHSMessage {
      */
     function save_wp_editor_fields(){
         global $post;
+
         if(!empty($_POST['editor_box_comments'])){
 
             $user = new RHSUser(get_userdata($_POST['user_ID']));
-            $user_from_contact = new RHSUser(get_userdata($_POST['post_author']));
 
             $this->insert_comment(
                 $post->ID,
@@ -504,11 +499,8 @@ class RHSTicket extends RHSMessage {
                 $user->get_login(),
                 $user->get_email(),
                 $user->get_url(),
-                wpautop($_POST['editor_box_comments']),
-                $user_from_contact->get_id()
+                wpautop($_POST['editor_box_comments'])
             );
-
-            
 
             global $wpdb;
 

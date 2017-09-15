@@ -17,8 +17,6 @@ class RHSEmail {
         add_filter( 'wp_mail_content_type', array( &$this,'filter_content_type') );
         
         add_action('rhs_new_ticket_posted', array( &$this,'new_ticket'), 10, 5);
-        
-        add_action('rhs_ticket_replied', array( &$this,'replied_ticket'), 10, 3);
 
         $this->messages = array(
             'new_user_message' => array(
@@ -38,10 +36,11 @@ class RHSEmail {
                     <p>Você pode acessar o site aqui: %site_link%</p>
                     <p>Edite seu perfil aqui: %site_perfil%</p>
                     <p>Postar um novo tópico: %site_novo_topico%</p>
-                    <p></p>
+                    <b /><b />
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p>http://rhs.dev.medialab.ufg.br</p>
+            '
             ),
             'retrieve_password_message' => array(
                 'name'=> 'Email de Recuperação Senha',
@@ -55,10 +54,10 @@ class RHSEmail {
                 'default-subject' => '[%site_nome%] Recuperação de Senha',
                 'default-email' => '<p>Você solicitou a recuperação de senha do %login%.</p>
                     <p>Acesse o link: %link%</p>
-                    <p></p>
+                    <b />  <b />
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p>http://rhs.dev.medialab.ufg.br</p>'
             ),
             /*
             'alter_password_message' => array(
@@ -74,10 +73,10 @@ class RHSEmail {
                 'default-email' => '
                     <p>Sua senha foi editada <strong>%login%</strong>.</p>
                     <p>Acesse o link: %link%</p>
-                    <p></p>
+                    <b />  <b />
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p>http://rhs.dev.medialab.ufg.br</p>'
             ),
             */
             'new_ticket_message' => array(
@@ -95,30 +94,10 @@ class RHSEmail {
                 'default-email' => '
                     <h4>Um novo ticket foi criado #%ticket_id%</h4>
                     <p>para acompanhar acesse o link: %link%</p>
-                    <p></p>
+                    <b /><b />
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
-            ),
-            'new_ticket_replied' => array(
-                'name'=> 'Email de Contato Respondido',
-                'var' => array(
-                    'site_nome',
-                    'ticket_id',
-                    'mensagem',
-                    'login',
-                    'email',
-                    'nome',
-                    'link'
-                ),
-                'default-subject' => '[%site_nome%] Nova resposta #%ticket_id%',
-                'default-email' => '
-                    <h4>Uma nova resposta foi feita no contato de número #%ticket_id%</h4>
-                    <p>para acompanhar acesse o link: %link%</p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p>http://rhs.dev.medialab.ufg.br</p>'
             ),
             'post_promoted' => array(
                 'name'=> 'Email de Post Promovido',
@@ -135,10 +114,11 @@ class RHSEmail {
                     <p>Seu post atingiu a quantidade de votos e foi publicado.</p>
                     <p>Você pode acessar aqui:</p>
                     <p>%link%</p>
-                    <p></p>
+                    <b />  <b />
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p>http://rhs.dev.medialab.ufg.br</p>
+                   </p>'
             )
         );
     }
@@ -270,28 +250,6 @@ class RHSEmail {
         }
     }
 
-    function replied_ticket($user_from_contact) {
-
-        $post_ID = $_POST['post_ID'];
-        $user = get_userdata($user_from_contact);
-
-        $args = array(
-            'site_nome' => get_bloginfo('name'),
-            'ticket_id' => $post_ID,
-            'mensagem' => $_POST['editor_box_comments'],
-            'login' => $user->user_login,
-            'email' => $user->user_email,
-            'nome' => $user->display_name,
-            'link' => '<a href="'.get_permalink($post_ID).'">'. get_permalink($post_ID) . '</a>'
-        );
-
-        $subject = $this->get_subject('new_ticket_replied', $args);
-        $message = $this->get_message('new_ticket_replied', $args);
-        $user_email = $user->user_email;
-        
-        wp_mail($user_email, $subject, $message, self::EMAIL_HEADERS);
-    }
-
     function rhs_admin_page_email_queue() {
 
         $this->validade_form();
@@ -317,6 +275,11 @@ class RHSEmail {
                         <tr class="">
                             <th style="vertical-align: top;">
                                 Assunto
+                                <?php if(!empty($var)){ ?>
+                                <div style="font-size: 10px; color: gray;">
+                                    <?php echo __( 'Variáveis: ' ) . implode(', ', array($var[0])); ?>
+                                </div>
+                                <?php } ?>
                             </th>
                             <td style="">
                                 <input value="<?php echo $this->get_option($label, 'subject'); ?>" name="<?php echo 'rhs-subject-'.$label ?>" type="text" placeholder="Assunto" class="regular-text" />
@@ -326,6 +289,11 @@ class RHSEmail {
                         <tr class="">
                             <th style="vertical-align: top;">
                                 Mensagem
+                                <?php if(!empty($var)){ ?>
+                                    <div style="font-size: 10px; color: gray;">
+                                        <?php echo __( 'Variáveis: ' ) . implode(', ', $var); ?>
+                                    </div>
+                                <?php } ?>
                             </th>
                             <td style="">
                                 <?php
@@ -334,18 +302,8 @@ class RHSEmail {
                                 wp_editor( $this->get_option($label, 'email'), 'rhs-email-'.$label, $settings );
 
                                 ?>
-                                
-                                <br/>
-                                <p>Variáveis: 
-                                <span style="color: #666666; font-size: 10px;">
-                                <?php if(!empty($var)){ ?>
-                                    <?php echo implode(', ', $var); ?>
-                                <?php } ?>
-                                </span>
-                                </p>
                             </td>
                         </tr>
-
                         <?php $i++ ?>
                     <?php } ?>
                     <tr class="">

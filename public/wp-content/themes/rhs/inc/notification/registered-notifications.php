@@ -5,7 +5,7 @@
  * 
  * As chaves do array são os hooks, que estão espalhados pelo código do sistema. Por exemplo, quando publica um novo post, ou quando umusuário é promovido.
  *
- * Os valores são o tipo de notificação que será gerado. 
+ * Os valores são o tipo de notificação que será gerado. Eles são informados por um array, onde o primeiro índice é o nome da classe, o segundo é a prioridade do hook e o terceiro é o número de argumentos q o hook vai receber (mesmo formato da função add_action())
  *
  * É preciso que exista uma subclasse de RHSNotification com o nome deste tipo. Estas subclasses ficam na pasta types (ou podem ser incuídas via plugin).
  *
@@ -24,5 +24,4 @@ return [
     'comment_unapproved_to_approved'            => ['comments_in_post'],
     'comment_spam_to_approved'                  => ['comments_in_post'],
     'rhs_add_user_follow_author'                => ['user_follow_author'],
-    'rhs_ticket_replied'                        => ['replied_ticket', 10, 2],
 ];

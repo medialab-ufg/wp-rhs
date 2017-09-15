@@ -148,17 +148,31 @@ class PostTest extends RHS_UnitTestCase {
         
         $newPost = self::create_post_to_queue();
 
-        // Nome de tag que não existe no banco de dados (está assim no momento, quando a tag é definido pelo usuário)
-        $newPost->setTagsByIdsOrNames(['tetenovatag']);
+        // Nome de tag que não existe no banco de dados (quando a tag é definida pelo usuário)
+        $newPost->setTagsByIdsOrNames(['Nova tag', '2018']);
         
         $tags = $newPost->getTags();
         $tag_id = $tags[0]->term_id;
+        $tag_id2 = $tags[1]->term_id;
         
         $this->assertContainsOnlyInstancesOf('WP_Term', $tags);
         
         $tagId = $newPost->getTagsIds();
         $this->assertEquals($tag_id, $tagId[0]);
+        $this->assertEquals($tag_id2, $tagId[1]);
+
+        // Tentantiva de inserir tag que já existe como se fosse tag nova        
+        $newPost->setTagsByIdsOrNames(['Nova tag', '2018']);
         
+        $tags = $newPost->getTags();
+        $tag_id = $tags[0]->term_id;
+        $tag_id2 = $tags[1]->term_id;
+        
+        $this->assertContainsOnlyInstancesOf('WP_Term', $tags);
+        
+        $tagId = $newPost->getTagsIds();
+        $this->assertEquals($tag_id, $tagId[0]);
+        $this->assertEquals($tag_id2, $tagId[1]);
     }
     
     // Verifica retorno do título do post
