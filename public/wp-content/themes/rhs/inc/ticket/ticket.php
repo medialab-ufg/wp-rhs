@@ -481,18 +481,10 @@ class RHSTicket extends RHSMessage {
 
         $comment_id = wp_insert_comment($data);
         
-        do_action('rhs_contact_reply', ['user_id' => $user_from_contact_id, 'post_id' => $postId]);
+        do_action('rhs_contact_reply', $user_from_contact_id, $postId);
         
         global $wpdb;
         $wpdb->update( $wpdb->comments, array('comment_approved' => self::COMMENT_STATUS), array( 'comment_ID' => $comment_id ));
-        
-        // Notificação para usuário logado
-        // do_action('rhs_contact_reply', $user_from_contact_id, $postId);
-        
-        // var_dump('entrou');
-        // var_dump($user_from_contact_id);
-        // var_dump('--');
-        // var_dump($postId);
     }
 
     /**

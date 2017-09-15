@@ -4,38 +4,23 @@
 class RHSNotification_contact_reply extends RHSNotification {
 
     /**
-     * @param $user_id ID do Usuário
      */
-    static function notify($args) {
-
-        // if(empty($args)){
-        //     return;
-        // }
-        
-        // $post = get_userdata($args['post_id']);
-        // $user = get_userdata($args['user_id']);
-        
-        // if (is_object($user)) {
-        //     global $RHSNotifications;
-        //     $RHSNotifications->add_notification(RHSNotifications::CHANNEL_PRIVATE, $user->ID, self::get_name(), $post->ID);
-        // }
-        
+    static function notify($user_id, $post_id) {
+        global $RHSNotifications;
+        $RHSNotifications->add_notification(RHSNotifications::CHANNEL_PRIVATE, $user_id, self::get_name(), $post_id);       
     }
 
     function text() {
-        // $user_ID = $this->getUserId();
-        // $user = new RHSUser(get_userdata($user_ID));
+        $post = get_post($post_id);
 
-        // return sprintf(
-        //     'Seu <a href="%s">contato</a> foi respondivo',
-        //     $user->get_link()
-        // );
+        return sprintf(
+            'Seu <a href="%s">contato</a> foi respondivo',
+            $post->get_permalink()
+        );
     }
 
     function image(){
-        // $user_ID = $this->getUserId();
-        // $user = new RHSUser(get_userdata($user_ID));
-        // return $user->get_avatar();
+        
     }
 
 }
