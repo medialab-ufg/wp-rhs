@@ -479,13 +479,9 @@ class RHSTicket extends RHSMessage {
         );
 
         $comment_id = wp_insert_comment($data);
-<<<<<<< HEAD
 
-=======
-        
         do_action('rhs_ticket_replied', $user_from_contact_id, $postId);
     
->>>>>>> 227a7e6... adicionando notificação quando houver uma resposta de formulário de contato (ref. #170 #169)
         global $wpdb;
         $wpdb->update( $wpdb->comments, array('comment_approved' => self::COMMENT_STATUS), array( 'comment_ID' => $comment_id ));
     }
@@ -507,12 +503,7 @@ class RHSTicket extends RHSMessage {
                 $user->get_login(),
                 $user->get_email(),
                 $user->get_url(),
-<<<<<<< HEAD
                 wpautop($_POST['editor_box_comments'])
-=======
-                wpautop($_POST['editor_box_comments']),
-                $user_from_contact->get_id()
->>>>>>> 227a7e6... adicionando notificação quando houver uma resposta de formulário de contato (ref. #170 #169)
             );
 
             
