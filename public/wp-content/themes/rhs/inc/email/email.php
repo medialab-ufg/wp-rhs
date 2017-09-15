@@ -270,24 +270,33 @@ class RHSEmail {
         }
     }
 
-    function replied_ticket($user_from_contact) {
+    function replied_ticket($user_from_contact_id, $post_ID, $content) {
 
-        $post_ID = $_POST['post_ID'];
-        $user = get_userdata($user_from_contact);
+        $user_not_logged = get_post_meta($post_ID, '_not_logged_user', true) === '1';
+
+        if ($user_not_logged) {
+            $user_login = '';
+            $user_email = get_post_meta($post_ID, '_author_email', true);
+            $user_name  = get_post_meta($post_ID, '_author_name', true);
+        } else {
+            $user = get_userdata($user_from_contact_id);
+            $user_login = $user->user_login;
+            $user_email = $user->user_email;
+            $user_name = $user->display_name;
+        }
 
         $args = array(
             'site_nome' => get_bloginfo('name'),
             'ticket_id' => $post_ID,
-            'mensagem' => $_POST['editor_box_comments'],
-            'login' => $user->user_login,
-            'email' => $user->user_email,
-            'nome' => $user->display_name,
+            'mensagem' => $content,
+            'login' => $user_login,
+            'email' => $user_email,
+            'nome' => $user_name,
             'link' => '<a href="'.get_permalink($post_ID).'">'. get_permalink($post_ID) . '</a>'
         );
 
         $subject = $this->get_subject('new_ticket_replied', $args);
         $message = $this->get_message('new_ticket_replied', $args);
-        $user_email = $user->user_email;
         
         wp_mail($user_email, $subject, $message, self::EMAIL_HEADERS);
     }

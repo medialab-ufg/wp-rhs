@@ -480,7 +480,7 @@ class RHSTicket extends RHSMessage {
 
         $comment_id = wp_insert_comment($data);
 
-        do_action('rhs_ticket_replied', $user_from_contact_id, $postId);
+        do_action('rhs_ticket_replied', $user_from_contact_id, $postId, $content);
     
         global $wpdb;
         $wpdb->update( $wpdb->comments, array('comment_approved' => self::COMMENT_STATUS), array( 'comment_ID' => $comment_id ));

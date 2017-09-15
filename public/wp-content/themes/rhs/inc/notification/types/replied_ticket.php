@@ -5,11 +5,9 @@ class RHSNotification_replied_ticket extends RHSNotification {
 
     /**
      */
-    static function notify($user_from_contact, $post_ID) {
-        $user = get_userdata($_POST['user_ID']);
-        
+    static function notify($user_from_contact, $post_ID, $content) {
         global $RHSNotifications;
-        $RHSNotifications->add_notification(RHSNotifications::CHANNEL_PRIVATE, $user_from_contact, self::get_name(), $post_ID, $user->ID);
+        $RHSNotifications->add_notification(RHSNotifications::CHANNEL_PRIVATE, $user_from_contact, self::get_name(), $post_ID);
     }
 
     function text() {
