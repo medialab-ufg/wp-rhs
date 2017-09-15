@@ -273,6 +273,11 @@ class RHSPost {
                     wp_delete_term($term_id['term_id'], 'post_tag');
                 }
             }
+            /*
+            * Quando uma TAG com apenas números nova é igual a ID de tag que já existe, essa tag nova nova não é criada e inserida no post
+            * #TODO: 1 - Verifica se é possível o magic suggest ter como valores ao mesmo tempo ID e Nome da tag existente; 
+            * Se 1 possível -> 2 - Implementar condição que verifica se existe TAG com mesmo ID e Nome, se verdade, faz nada, se falso ou 'Nome' vazio, cria nova tag.
+            */
             else if((term_exists(((int) $term))) == 0 || NULL){
                 try{
                     $term_id = wp_insert_term(((string)$term), 'post_tag');
