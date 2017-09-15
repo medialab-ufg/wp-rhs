@@ -1,14 +1,16 @@
 <div class="panel panel-default padding-bottom">
 	<div class="panel-heading" style="padding: 21px;">
 		<div class="row post-titulo">
-			<div class="col-xs-9 col-sm-11 col-md-10">
+			<div class="col-xs-12 col-sm-8 col-md-9">
                 <?php global $RHSNetwork;?>
                 <?php the_title( '<h1>', '</h1>' ); ?>
-				<?php do_action('rhs_follow_post_box', get_the_ID()); ?>
 			</div>
-			<div class="col-xs-3 col-sm-1 col-md-2 vdivide">
-				<div class="votebox">
-					<?php do_action('rhs_votebox', get_the_ID()); ?>
+			<div class="col-xs-8 col-sm-4 col-md-3 buttons">
+				<?php do_action('rhs_follow_post_box', get_the_ID()); ?>
+				<div class="vdivide">
+					<div class="votebox">
+						<?php do_action('rhs_votebox', get_the_ID()); ?>
+					</div>
 				</div>
 			</div>
 			<div class="col-xs-12">
