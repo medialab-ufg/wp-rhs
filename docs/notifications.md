@@ -211,13 +211,10 @@ Cada classe destas, deve implementar três métodos.
 
 No arquivo `inc/notifications/registered-notifications.php` temos a relação dos hooks que geram as notificações. Esses hooks vão disparar o método `notify` do tipo de notificação correspondentes. Este arquivo descreve um `array` onde as chaves são o hook que vão disparar as notificações e os valores são os tipos de notificação que serão gerados.
 
-Eles são informados por um array, onde o primeiro índice é o nome da classe, o segundo é a prioridade do hook e o terceiro é o número de argumentos q o hook vai receber (mesmo formato da função add_action()
-
 por exemplo:
 
 ```
-'comment_post' => ['comments_in_post'],
-'rhs_contact_replied' => ['contact_replied', 10, 3],
+'comment_post' => 'comments_in_post',
 ```
 
 Essa linha indica que o hook `comment_post`, que faz parte do core do WP e é disparado quando um novo comentário é publicado, irá disparar uma notificação do tipo `comments_in_post`. Nesse caso, iria disparar o método `notify` da classe `comments_in_post` que está declarada dentro da pasta `inc/notifications/types`.

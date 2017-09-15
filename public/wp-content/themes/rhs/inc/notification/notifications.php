@@ -47,10 +47,7 @@ class RHSNotifications {
     private function register_notifications() {
         $notifications = apply_filters('rhs_registered_notifications', include('registered-notifications.php'));
         foreach ($notifications as $hook => $type) {
-            $classname = $type[0];
-            $prority = isset($type[1]) ? $type[1] : 10;
-            $number_of_arguments = isset($type[2]) ? $type[2] : 1;
-            add_action($hook, array(self::NOTIFICATION_CLASS_PREFIX . $classname, 'notify'), $prority, $number_of_arguments);
+            add_action($hook, array(self::NOTIFICATION_CLASS_PREFIX . $type, 'notify'));
         }
     }
     
