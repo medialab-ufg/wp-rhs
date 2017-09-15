@@ -120,6 +120,25 @@ class RHSEmail {
                     <p>Equipe Rede HumanizaSUS</p>
                     <p>http://redehumanizasus.net</p>'
             ),
+            'new_ticket_replied_not_logged' => array(
+                'name'=> 'Email de Contato Respondido (para usuários não logados)',
+                'var' => array(
+                    'site_nome',
+                    'ticket_id',
+                    'mensagem',
+                    'login',
+                    'email',
+                    'nome'
+                ),
+                'default-subject' => '[%site_nome%] #%ticket_id% Resposta do seu contato',
+                'default-email' => '
+                    <h4>Você recebeu uma resposta do seu Contato</h4>
+                    <p>%mensagem%</p>
+                    <p></p>
+                    <p>Atenciosamente,</p>
+                    <p>Equipe Rede HumanizaSUS</p>
+                    <p>http://redehumanizasus.net</p>'
+            ),
             'post_promoted' => array(
                 'name'=> 'Email de Post Promovido',
                 'var' => array(
@@ -294,9 +313,15 @@ class RHSEmail {
             'nome' => $user_name,
             'link' => '<a href="'.get_permalink($post_ID).'">'. get_permalink($post_ID) . '</a>'
         );
-
-        $subject = $this->get_subject('new_ticket_replied', $args);
-        $message = $this->get_message('new_ticket_replied', $args);
+        
+        if ($user_not_logged) {
+            $subject = $this->get_subject('new_ticket_replied_not_logged', $args);
+            $message = $this->get_message('new_ticket_replied_not_logged', $args);
+        } else {
+            $subject = $this->get_subject('new_ticket_replied', $args);
+            $message = $this->get_message('new_ticket_replied', $args);
+        }
+        
         
         wp_mail($user_email, $subject, $message, self::EMAIL_HEADERS);
     }
