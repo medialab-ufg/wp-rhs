@@ -258,6 +258,7 @@ class RHSTicket extends RHSMessage {
                 $_POST['message'],
                 $defaultAuthor);
         }
+        
 
         if ( ! empty( $_POST['add_comment_ticket_wp'] ) && $_POST['add_comment_ticket_wp'] == $this->getKey() ) {
 
@@ -270,7 +271,8 @@ class RHSTicket extends RHSMessage {
                     get_current_user_id(),
                     wp_get_current_user()->user_login,
                     wp_get_current_user()->user_email,
-                    wp_get_current_user()->user_url, $_POST['comment']);
+                    wp_get_current_user()->user_url, 
+                    $_POST['comment']);
 
             $this->set_alert('<i class="fa fa-check"></i> Comentário salvo');
             wp_redirect(get_permalink($_POST['comment_post_ID']));
@@ -460,6 +462,8 @@ class RHSTicket extends RHSMessage {
 
     function insert_comment($postId, $author_id, $author_login, $author_email, $author_url, $content){
 
+        $post = get_post($postId);
+        
         $time = current_time('mysql');
 
         $data = array(
@@ -479,6 +483,8 @@ class RHSTicket extends RHSMessage {
 
         $comment_id = wp_insert_comment($data);
 
+        do_action('rhs_ticket_replied', $post->post_author, $postId, $content);
+    
         global $wpdb;
         $wpdb->update( $wpdb->comments, array('comment_approved' => self::COMMENT_STATUS), array( 'comment_ID' => $comment_id ));
     }
@@ -492,6 +498,7 @@ class RHSTicket extends RHSMessage {
         if(!empty($_POST['editor_box_comments'])){
 
             $user = new RHSUser(get_userdata($_POST['user_ID']));
+            $user_from_contact = new RHSUser(get_userdata($_POST['post_author']));
 
             $this->insert_comment(
                 $post->ID,
@@ -501,6 +508,8 @@ class RHSTicket extends RHSMessage {
                 $user->get_url(),
                 wpautop($_POST['editor_box_comments'])
             );
+
+            
 
             global $wpdb;
 
