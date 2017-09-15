@@ -258,6 +258,7 @@ class RHSTicket extends RHSMessage {
                 $_POST['message'],
                 $defaultAuthor);
         }
+        
 
         if ( ! empty( $_POST['add_comment_ticket_wp'] ) && $_POST['add_comment_ticket_wp'] == $this->getKey() ) {
 
@@ -481,8 +482,8 @@ class RHSTicket extends RHSMessage {
 
         $comment_id = wp_insert_comment($data);
         
-        do_action('rhs_contact_reply', $user_from_contact_id, $postId);
-        
+        do_action('rhs_ticket_replied', $user_from_contact_id, $postId);
+    
         global $wpdb;
         $wpdb->update( $wpdb->comments, array('comment_approved' => self::COMMENT_STATUS), array( 'comment_ID' => $comment_id ));
     }
@@ -495,6 +496,7 @@ class RHSTicket extends RHSMessage {
         if(!empty($_POST['editor_box_comments'])){
 
             $user = new RHSUser(get_userdata($_POST['user_ID']));
+            $user_from_contact = new RHSUser(get_userdata($_POST['post_author']));
 
             $this->insert_comment(
                 $post->ID,
@@ -503,8 +505,10 @@ class RHSTicket extends RHSMessage {
                 $user->get_email(),
                 $user->get_url(),
                 wpautop($_POST['editor_box_comments']),
-                $_POST['post_author']
+                $user_from_contact->get_id()
             );
+
+            
 
             global $wpdb;
 

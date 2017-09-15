@@ -24,5 +24,5 @@ return [
     'comment_unapproved_to_approved'            => ['comments_in_post'],
     'comment_spam_to_approved'                  => ['comments_in_post'],
     'rhs_add_user_follow_author'                => ['user_follow_author'],
-    'rhs_contact_reply'                         => ['contact_reply', 10, 2],
+    'rhs_ticket_replied'                        => ['replied_ticket', 10, 2],
 ];
