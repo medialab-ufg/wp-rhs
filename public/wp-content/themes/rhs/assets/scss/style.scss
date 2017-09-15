@@ -1004,12 +1004,6 @@ Primeiro e Segundo DropDown Menu
                     }
                 }
             }
-            .buttons{
-                display: flex;
-                button{
-                    margin: auto;
-                }
-            }
             .votebox, .vdivide {
                 float: right;
                 text-align: center;
@@ -1076,7 +1070,9 @@ Primeiro e Segundo DropDown Menu
             }
             .vdivide {
                 border-left: 1px solid #eee;
-                padding-left: 3px;
+                text-align: center;
+                margin-bottom: 5px;
+                padding-left: 42px;
                 @media screen and (max-width: 768px) {
                     padding-left: 5px;
                 }
