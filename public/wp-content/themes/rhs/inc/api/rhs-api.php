@@ -65,7 +65,19 @@ Class RHSApi  {
                         }
 				),
 			)
-		));
+        ));
+
+        register_rest_route( $this->apinamespace, '/user-device/device_push_id=(?P<device_push_id>[a-zA-Z0-9-]+)', array(
+            'methods' => 'POST',
+            'callback' => array(&$this, 'add_device_push_id'),
+            'args' => array(
+                'id' => array(
+					'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                    }
+                ),     
+            ),
+        ));
     }
 
     function USER_follow($request) {
@@ -209,6 +221,23 @@ Class RHSApi  {
 
     }
 
+    function add_device_push_id($request){
+        $current_user = wp_get_current_user();
+        $device_push_id = $request['device_push_id'];
+
+        update_user_meta($current_user->ID, 'device_push_id', $device_push_id, $user_meta_value);
+        
+        $message = [
+            'info' => 'Device ID registered', 
+            'user' => $current_user, 
+            'device_id' => $device_push_id
+        ];
+
+        $response = new WP_REST_Response($message);
+        $response->set_status(200);
+
+        return $response;
+    }
 
 }
 
