@@ -78,7 +78,7 @@ Class RHSApi  {
 				),
             ),
             'permission_callback' => function ( $request ) {
-                return is_user_logged_in();
+                return current_user_can('edit_user', $request['id']);
             }
 		));
     }
