@@ -65,6 +65,21 @@ Class RHSApi  {
                         }
 				),
 			)
+        ));
+        
+        register_rest_route( $this->apinamespace, '/user_notify_count/(?P<id>[\d]+)', array(
+            'methods' => 'GET',
+            'callback' => array(&$this, 'USER_notify_count'),
+			'args' => array(
+				'id' => array(
+					'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+				),
+            ),
+            'permission_callback' => function ( $request ) {
+                return is_user_logged_in();
+            }
 		));
     }
 
@@ -150,6 +165,17 @@ Class RHSApi  {
         $response = $userController->prepare_item_for_response( $user_obj, $request );
         return rest_ensure_response($response);
     
+    }
+
+    function USER_notify_count($request) {
+        $user = $request['id'];
+        if (is_wp_error($user)) {
+            return $user;
+        }
+
+        global $RHSNotifications;
+        $news_count = $RHSNotifications->get_news_number(get_current_user_id());
+        return $news_count;
     }
     
     
