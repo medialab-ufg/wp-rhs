@@ -1785,6 +1785,9 @@ form .comment-form-comment {
         background-color: $whiteColor;
         margin-top: 20px;
         padding: 20px;
+        @media only screen and (max-width: 375px){
+            padding-right: 0;
+        }
         .user-unknown {
             text-align: center;
             font-style: italic;
@@ -1816,6 +1819,9 @@ form .comment-form-comment {
             float: left;
             width: calc(100% - 90px);
             padding-left: 25px;
+            @media only screen and (max-width: 360px){
+                padding-left: 2px;
+            }
             .btn-editar-user {
                 float: right;
                 a {
@@ -1845,10 +1851,22 @@ form .comment-form-comment {
                 font-size: 13px;
                 margin-top: 0px;
             }
+            .desde {
+                color: $grayColor;
+                font-size: 13px;
+                margin-top: -13px;
+                font-weight: 300;
+                span{
+                    font-weight: 500;
+                }
+            }
             .contagem {
                 float: left;
                 text-align: center;
                 margin-right: 10px;
+                @media only screen and (max-width: 320px){
+                    margin-right: 2px;
+                }
                 .contagem-valor-author {
                     line-height: 80%;
                     display: block;
