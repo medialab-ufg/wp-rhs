@@ -240,6 +240,20 @@ class RHSPost {
         $this->tags = $tags;
     }
     
+    /* Verifica se erro é term exist e retorna o array modificado com o id do termo existente */
+    function verifyErrorTermExist($term_id, $terms, $index){
+        if(is_wp_error($term_id)){
+            if($term_id->get_error_code() == 'term_exists'){
+                $terms[$index] = $term_id->get_error_data();
+            }
+        }
+        else{
+            $terms[$index] = $term_id['term_id'];
+        }
+
+        return $terms;
+    }
+
     /*
     * Seta tags do post a partir de um array de ids ou nomes (pode ser misturado)
     * No caso de Ids, serão atribuídas tags existentes, no caso de nomes, serão criadas novas tags
@@ -248,25 +262,33 @@ class RHSPost {
         if(empty($terms)){
             return $this->setTags([]);
         }
-        
+
         foreach($terms as $index => $term){
             if(!(is_numeric($term)) && !(is_integer($term))){
                 try{
                     $term_id = wp_insert_term($term, 'post_tag');
-                    $terms[$index] = $term_id['term_id'];
-                } catch(Error $e){
+                    $terms = $this->verifyErrorTermExist($term_id, $terms, $index);
+                } 
+                catch(Error $e){
                     wp_delete_term($term_id['term_id'], 'post_tag');
                 }
             }
+            /*
+            * Quando uma TAG com apenas números nova é igual a ID de tag que já existe, essa tag nova nova não é criada e inserida no post
+            * #TODO: 1 - Verifica se é possível o magic suggest ter como valores ao mesmo tempo ID e Nome da tag existente; 
+            * Se 1 possível -> 2 - Implementar condição que verifica se existe TAG com mesmo ID e Nome, se verdade, faz nada, se falso ou 'Nome' vazio, cria nova tag.
+            */
             else if((term_exists(((int) $term))) == 0 || NULL){
                 try{
                     $term_id = wp_insert_term(((string)$term), 'post_tag');
-                    $terms[$index] = $term_id['term_id'];
+                    $terms = $this->verifyErrorTermExist($term_id, $terms, $index);
+
                 } catch(Error $e){
                     wp_delete_term($term_id['term_id'], 'post_tag');
                 }
             }
         }
+
         $tags = get_tags(['include' => $terms, 'hide_empty' => false]);
         $this->setTags($tags);
     }

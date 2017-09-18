@@ -28,7 +28,12 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                     <span class="btn-editar-user"><a class="btn btn-default" href="<?php echo home_url(RHSRewriteRules::PROFILE_URL ); ?>">EDITAR</a></span>
                 <?php endif; ?>
             </p>
-            <p class="localidade"><?php echo the_user_ufmun($RHSUsers->getUserId()); ?></p>
+            <p class="localidade">
+                <?php echo the_user_ufmun($RHSUsers->getUserId()); ?>
+            </p>
+            <p class="desde">
+                <?php echo ' <span>Membro desde:</span> ' . date("d/m/Y", strtotime(get_the_author_meta('user_registered', $curauth->ID))); ?>
+            </p>
             <?php if(count_user_posts( $curauth->ID )) { ?>
                 <div class="contagem">
                     <span class="contagem-valor-author"><?php echo $total_posts; ?></span>

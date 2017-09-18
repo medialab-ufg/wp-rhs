@@ -119,6 +119,9 @@ class RHSLogin extends RHSMessage {
                     display: none;
                 }
             }
+            .login #login #backtoblog{
+                display: none;
+            }
         </style>
     <?php }
 
