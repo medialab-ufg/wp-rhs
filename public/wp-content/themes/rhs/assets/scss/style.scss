@@ -1820,7 +1820,10 @@ form .comment-form-comment {
             width: calc(100% - 90px);
             padding-left: 25px;
             @media only screen and (max-width: 360px){
-                padding-left: 2px;
+                padding-left: 12px;
+            }
+            @media only screen and (max-width: 320px){
+                padding-left: 4px;
             }
             .btn-editar-user {
                 float: right;
