@@ -1,6 +1,6 @@
 <?php
 
-class RHSRegister extends RHSMenssage {
+class RHSRegister extends RHSMessage {
 
     private static $instance;
 
@@ -8,11 +8,9 @@ class RHSRegister extends RHSMenssage {
 
         add_action('wp_ajax_nopriv_check_email_exist', array( &$this, 'check_email_exist' ) );
         add_filter( "register_url", array( &$this, "register_url" ) );
-
-        $this->trigger_by_post();
     }
 
-    private function trigger_by_post() {
+    public function trigger_by_post() {
         if ( ! empty( $_POST['register_user_wp'] ) && $_POST['register_user_wp'] == $this->getKey() ) {
 
             if ( ! $this->validate_by_post() ) {
@@ -45,6 +43,10 @@ class RHSRegister extends RHSMenssage {
         );
 
         $user_id = wp_insert_user( $userdata );
+        
+        rhs_new_user_notification($user_id, $pass);
+        
+        do_action('rhs_register', $user_id);
 
         add_user_ufmun_meta( $user_id, $city, $state );
 

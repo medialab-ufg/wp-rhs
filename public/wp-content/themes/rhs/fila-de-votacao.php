@@ -1,4 +1,5 @@
 <?php $title_box = 'Fila de Votação'; ?>
+<?php if(is_user_logged_in()) { ?>
 <?php get_header(); ?>
             <div class="row">
                 <div class="col-xs-12">
@@ -13,6 +14,11 @@
                     </p>
                 </div>
             </div>
-            <?php } ?>
-            <?php get_template_part( 'partes-templates/loop-posts'); ?>
+            <?php }
+                get_template_part( 'partes-templates/loop-posts'); }            
+                else {
+                    wp_redirect(home_url());
+                }
+            ?>
+            
 <?php get_footer();

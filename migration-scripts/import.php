@@ -14,9 +14,11 @@ class RHSImporter {
         // nomeDoArquivo => Descrição do passo
         
         'posts' => 'Importação básica dos posts',
+        'posts-follow' => 'Importação das usuários que seguem posts',
         'users' => 'Importação básica dos usuários',
         'users-roles' => 'Importação dos papeis usuários',
         'users-meta' => 'Importação avançadas dos usuários',
+        'users-follow' => 'Importação de info sobre quem segue quem',
         'users-change-emails' => 'Modifica emails dos usuários comuns caso seja ambiente de teste/dev',
         'votes' => 'Importação dos votos em posts',
         'comments' => 'Importação dos comentários de posts',
@@ -28,8 +30,8 @@ class RHSImporter {
         'estados-cidades' => 'Importação das informações de estado e cidade para posts',
         'estados-cidades-users' => 'Importação das informações de estado e cidade para usuários',
         'categories-new' => 'Cria Novas Categorias',
-        
-        'initial-settings' => 'Cria as configurações básicas para a RHS',
+        'add-users-to-channels' => 'Adicionar usuários a canais de notificações',
+        'comunities' => 'Importação das comunidades'
     );
     
     
@@ -149,6 +151,10 @@ class RHSImporter {
         
         $start = $partial = microtime(true);
         
+        // Avoid warnings
+        $_SERVER['SERVER_PROTOCOL'] = "HTTP/1.1";
+        $_SERVER['REQUEST_METHOD'] = "GET";
+        
         define( 'WP_USE_THEMES', false );
         define( 'SHORTINIT', false );
         require( '../public/wp/wp-blog-header.php' );
@@ -233,6 +239,17 @@ class RHSImporter {
         
         return $replaced;
     
+    }
+    
+    function query($sqlname, $substitutions = array()) {
+        $query = $this->get_sql($sqlname, $substitutions);
+        if ($query === false)
+            return false;
+
+        global $wpdb;
+        $c = $wpdb->query($query);
+
+        $this->log("🍕 $c registros afetados\n");
     }
     
     function wpcli($command) {

@@ -1,6 +1,6 @@
 <?php
 
-class RHSMenssage {
+class RHSMessage {
 
     protected $key;
 
@@ -11,6 +11,25 @@ class RHSMenssage {
         }
 
         return $this->key = sha1($_SERVER['REMOTE_ADDR']);
+    }
+
+    function set_alert($alert){
+
+        $_SESSION["alert_{$this->getKey()}"] = $alert;
+    }
+
+    function get_alert(){
+
+        if(!empty($_SESSION["alert_{$this->getKey()}"])){
+            return $_SESSION["alert_{$this->getKey()}"];
+        }
+
+        return '';
+    }
+
+    function clear_alert(){
+
+        unset($_SESSION["alert_{$this->getKey()}"]);
     }
 
     function set_messages($messages, $clear = false, $type = ''){
@@ -55,5 +74,6 @@ class RHSMenssage {
 
         unset($_SESSION["messages_{$class_name}_{$this->getKey()}"]);
     }
+
 
 }

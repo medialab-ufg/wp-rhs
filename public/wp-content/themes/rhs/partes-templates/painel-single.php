@@ -1,16 +1,19 @@
 <div class="panel panel-default padding-bottom">
 	<div class="panel-heading" style="padding: 21px;">
 		<div class="row post-titulo">
-		<?php $userOBJ = new RHSUser(get_the_author_meta( 'ID' )); ?>
-			<div class="col-xs-9 col-sm-11 col-md-10">
-				<?php the_title( '<h1>', '</h1>' ); ?>
+			<div class="col-xs-12 col-sm-8 col-md-9">
+                <?php global $RHSNetwork;?>
+                <?php the_title( '<h1>', '</h1>' ); ?>
 			</div>
-			<div class="col-xs-3 col-sm-1 col-md-2 vdivide">
-                			<div class="votebox">
-					<?php do_action('rhs_votebox', get_the_ID()); ?>
-                			</div>
+			<div class="col-xs-8 col-sm-4 col-md-3 buttons">
+				<?php do_action('rhs_follow_post_box', get_the_ID()); ?>
+				<div class="vdivide">
+					<div class="votebox">
+						<?php do_action('rhs_votebox', get_the_ID()); ?>
+					</div>
+				</div>
 			</div>
-			<div class="col-xs-9 col-sm-11 col-md-10">
+			<div class="col-xs-12">
 				<div class="post-categories">
 					<?php if(has_category()) : ?>
 							<?php the_category(', '); ?>
@@ -21,7 +24,7 @@
 				<div class="post-meta">
 					<span class="post-user-date">
 						<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
-						    <?php echo get_avatar($userOBJ->getUserId(),33); ?>
+						    <?php echo get_avatar(get_the_author_meta( 'ID' ),33); ?>
 						</a>
 						<span class="usuario">
 							<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
@@ -31,6 +34,9 @@
 					</span>
 					<span class="post-date text-uppercase">
 						<i class="fa fa-calendar" aria-hidden="true"></i> <?php the_time('d/m/Y'); ?>
+					</span>
+					<span class="post-user-edit">
+						<?php edit_post_link( __( 'Editar Post', 'rhs' ), '<span class="divisor text-uppercase">', '</span>', null, 'btn' ); ?>
 					</span>
 					<div class="pull-right share share-wrap">
 						<span class="hidden-print" style="">
@@ -59,21 +65,25 @@
 		<?php the_content(); ?>
 	</div><!-- .paine-body -->
 	<div class="panel-footer">
-		<div class="tags-content">
-			<?php if(has_tag()) : ?>
+        <?php if (has_post_ufmun(get_the_ID())) : ?>
+            <div class="relacionado">
+				<span>Esse Post está relacionado à </span>
+				<?php echo the_ufmun(); ?>
+		    </div>
+        <?php endif; ?>
+		<?php if(has_tag()) : ?>
+			<div class="tags-content">
 				<span class="tags-list">
 					<?php the_tags('', '', ''); ?>
 				</span>
-			<?php endif; ?>
-		</div>
+			</div>
+		<?php endif; ?>
 	</div>
 </div><!-- .panel .panel-default -->
-<div class="panel panel-default hidden-print">
-	<div class="panel-footer panel-comentarios">
-		<?php
-			if ( comments_open() || get_comments_number() ) {
-				comments_template();
-			}
-		?>
+<?php if ( get_post_status(get_the_ID()) != RHSVote::VOTING_QUEUE && ( comments_open() || get_comments_number() ) ) { ?>
+	<div class="panel panel-default hidden-print">
+		<div class="panel-footer panel-comentarios">
+			<?php comments_template(); ?>
+		</div>
 	</div>
-</div>
+<?php } ?>

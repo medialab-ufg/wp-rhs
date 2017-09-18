@@ -4,6 +4,7 @@ sites
 db/base.sql
 db/base_bkp_last_reset.sql
 dev_uploads
+components
 public/wp
 public/sites
 public/wp-config.php
@@ -23,3 +24,5 @@ public/wp-content/themes/rhs/assets/scss/style.html
 public/wp-content/themes/rhs/page-fila-de-votacao.html
 public/wp-content/themes/rhs/vendor
 public/wp-content/themes/rhs/inc/comunity/comunity.php
+tests/wordpress-tests-lib/wp-tests-config.php
+

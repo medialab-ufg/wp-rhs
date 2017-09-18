@@ -1,5 +1,8 @@
 jQuery( function( $ ) {
 
+    $('[data-toggle="tooltip"]').tooltip();
+    $('.uniform').uniform();
+    
     $('.list-members li .member').popover({html : true, container: 'body'});
 
     function readURL(input) {
@@ -10,6 +13,9 @@ jQuery( function( $ ) {
             reader.onload = function (e) {
                 $('.form-image').removeClass('hide');
                 $('.form-image img').attr('src', e.target.result);
+                $('.form-image .save').removeClass('hide');
+                $('.form-image .button-end .btn').addClass('hide');
+
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -17,6 +23,10 @@ jQuery( function( $ ) {
     }
 
     $("#edit-avatar").change(function () {
+        readURL(this);
+    });
+
+    $('#file-avatar_comunity').change(function () {
         readURL(this);
     });
     
@@ -91,11 +101,12 @@ jQuery( function( $ ) {
         }
     });
 
+    //SDK Facebook
     (function(d, s, id){
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) {return;}
         js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9";
+        js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.10";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
@@ -115,5 +126,37 @@ jQuery( function( $ ) {
             // $(".tab").addClass("active"); // instead of this do the below 
             $(this).removeClass("btn-default").addClass("btn-primary");   
         });
+
+
+        $('.masonry').masonry({
+            percentPosition: true,
+            itemSelector: '.grid-item',
+            columnWidth: '.grid-sizer',
+            gutter: '.gutter-sizer',
+            horizontalOrder: true
+        });
     });
+
+    $('#button-notifications').click(function () {
+
+        var button = $(this);
+
+        $.ajax({
+            async: false,
+            type: "POST",
+            dataType: "json",
+            url: vars.ajaxurl,
+            data: {action: 'rhs_clear_notification'},
+            success: function (data) {
+                if (data) {
+                    $(button).find('i').removeClass('notification-count');
+                }
+            },
+            error: function (data) {
+
+            }
+        });
+    })
+
 });
+

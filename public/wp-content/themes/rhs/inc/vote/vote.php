@@ -12,8 +12,9 @@ Class RHSVote {
 
 	const VOTING_QUEUE = 'voting-queue';
 	const VOTING_EXPIRED = 'voting-expired';
-	const PUBLISH = 'publish';
 	const ROLE_VOTER = 'voter';
+	const META_PUBISH = 'rhs-promoted-publish';
+    const META_TOTAL_VOTES = '_total_votes';
 
 	static $instance;
 
@@ -21,14 +22,12 @@ Class RHSVote {
 
 	var $post_status = [];
 
-	var $total_meta_key = '_total_votes';
+	var $total_meta_key;
 
-	var $days_for_expired;
-	var $days_for_expired_default = 14;
-
-	private $votes_to_approval;
-    private $votes_to_approval_default = 5;
-    private $votes_to_text_help = 'Você não tem permissão para votar';
+	public $days_for_expired_default = 14;
+    public $votes_to_approval_default = 5;
+    public $votes_to_text_help;
+    public $votes_to_text_code;
 
 	function __construct() {
 
@@ -36,12 +35,7 @@ Class RHSVote {
 			global $wpdb;
 			$this->tablename   = $wpdb->prefix . 'votes';
 			$this->post_status = $this->get_custom_post_status();
-
-			$days_for_expired  = get_option( 'vq_days_for_expired' );
-			$votes_to_approval = get_option( 'vq_votes_to_approval' );
-
-			$this->days_for_expired  = $days_for_expired ? $days_for_expired : $this->days_for_expired_default;
-			$this->votes_to_approval = $votes_to_approval ? $votes_to_approval : $this->votes_to_approval_default;
+            $this->total_meta_key = self::META_TOTAL_VOTES;
 
 			// Hooks
 			add_action( 'init', array( &$this, 'init' ) );
@@ -55,74 +49,140 @@ Class RHSVote {
 
 			add_action( 'pre_get_posts', array( &$this, 'fila_query' ) );
 
-			add_action( 'admin_menu', array( &$this, 'gerate_admin_menu' ) );
-			/**
-			 * ROLES
-			 */
-			$option_name = 'roles_edited3';
-			if ( ! get_option( $option_name ) ) {
+            $this->verify_role();
+            $this->verify_database();
+            $this->verify_params();
 
-				// só queremos que isso rode uma vez
-				add_option( $option_name, true );
-
-				global $wp_roles;
-
-				$contributor = $wp_roles->get_role( 'contributor' );
-                $contributor->add_cap( 'upload_files' );
-
-				// Criamos o role voter copiando as capabilites de author
-				$wp_roles->remove_role(self::ROLE_VOTER);
-                $voter = $wp_roles->add_role( self::ROLE_VOTER, 'Votante', $contributor->capabilities );
-                $voter = $wp_roles->get_role( self::ROLE_VOTER );
-
-				// Adicionamos a capability de votar a todos os roles que devem
-				$voter->add_cap( 'vote_posts' );
-
-				$editor = $wp_roles->get_role( 'editor' );
-				$editor->add_cap( 'vote_posts' );
-
-				$administrator = $wp_roles->get_role( 'administrator' );
-				$administrator->add_cap( 'vote_posts' );
-
-			}
-
-			/**
-			 * DATABASE TABLE
-			 */
-			$option_name = 'database';
-			if ( ! get_option( $option_name ) ) {
-
-				// só queremos que isso rode uma vez
-				add_option( $option_name, true );
-
-				$createQ = "
-                CREATE TABLE IF NOT EXISTS `$this->tablename` (
-                    ID bigint(20) unsigned NOT NULL auto_increment PRIMARY KEY,
-                    post_id bigint(20) unsigned NOT NULL default '0',
-                    user_id tinytext NOT NULL,
-                    vote_date datetime NOT NULL default CURRENT_TIMESTAMP,
-                    vote_source varchar(20) NOT NULL default '0.0.0.0'
-                )
-            ";
-
-				$wpdb->query( $createQ );
-
-			}
+            $this->votes_to_approval = get_option('vq_votes_to_approval');
+            $this->days_for_expired = get_option('vq_days_for_expired');
 
 			self::$instance = true;
+            
 		}
 
 	}
 
-	public function getTextHelp(){
+	private function verify_role(){
+        /**
+         * ROLES
+         */
+        $option_name = 'roles_edited_'.get_class();
+        if ( ! get_option( $option_name ) ) {
 
-	    $option = get_option('vq_text_explanation');
+            // só queremos que isso rode uma vez
+            add_option( $option_name, true );
 
-	    if($option){
-	        return $option;
+            global $wp_roles;
+
+            $contributor = $wp_roles->get_role( 'contributor' );
+            $contributor->add_cap( 'upload_files' );
+
+            // Criamos o role voter copiando as capabilites de author
+            $wp_roles->remove_role(self::ROLE_VOTER);
+            $voter = $wp_roles->add_role( self::ROLE_VOTER, 'Votante', $contributor->capabilities );
+            $voter = $wp_roles->get_role( self::ROLE_VOTER );
+
+            // Adicionamos a capability de votar a todos os roles que devem
+            $voter->add_cap( 'vote_posts' );
+
+            $editor = $wp_roles->get_role( 'editor' );
+            $editor->add_cap( 'vote_posts' );
+
+            $administrator = $wp_roles->get_role( 'administrator' );
+            $administrator->add_cap( 'vote_posts' );
+
+        }
+        
+        // atualizando permissões. agora podemos votar nos proprios posts
+        $option_name = '_roles_update1_'.get_class();
+        if ( ! get_option( $option_name ) ) {
+            global $wp_roles;
+            // só queremos que isso rode uma vez
+            add_option( $option_name, true );
+            
+            $voter = $wp_roles->get_role( self::ROLE_VOTER );
+            $voter->add_cap( 'vote_own_posts' );
+
+            $editor = $wp_roles->get_role( 'editor' );
+            $editor->add_cap( 'vote_own_posts' );
+
+            $administrator = $wp_roles->get_role( 'administrator' );
+            $administrator->add_cap( 'vote_own_posts' );
+        }
+    }
+
+    private function verify_database(){
+        /**
+         * DATABASE TABLE
+         */
+        $option_name = 'database_'.get_class();
+        if ( ! get_option( $option_name ) ) {
+
+            // só queremos que isso rode uma vez
+            add_option( $option_name, true );
+
+            $createQ = "
+                CREATE TABLE IF NOT EXISTS `$this->tablename` (
+                    ID bigint(20) unsigned NOT NULL auto_increment PRIMARY KEY,
+                    post_id bigint(20) unsigned NOT NULL default '0',
+                    user_id tinytext NOT NULL,
+                    vote_date datetime NOT NULL default '0000-00-00 00:00:00',
+                    vote_source varchar(20) NOT NULL default '0.0.0.0'
+                )
+            ";
+            global $wpdb;
+            $wpdb->query( $createQ );
+
+        }
+    }
+
+    private function verify_params(){
+
+        if(!get_option( 'vq_days_for_expired' )){
+            add_option('vq_days_for_expired', $this->days_for_expired_default);
         }
 
-	    return $this->votes_to_text_help;
+        if(!get_option( 'vq_votes_to_approval' )){
+            add_option('vq_votes_to_approval', $this->votes_to_approval_default);
+        }
+
+        if(!get_option( 'vq_text_explanation' )){
+            add_option('vq_text_explanation', 'Você não tem permissão para votar');
+        }
+
+        if(!get_option( 'vq_text_vote_old_posts' )){
+            add_option('vq_text_vote_old_posts',  'Infelizmente esse post não pode ser mais votado, sua data de votação já passou.');
+        }
+
+        if(!get_option( 'vq_text_vote_posts_again' )){
+            add_option('vq_text_vote_posts_again',  'Infelizmente você não pode votar em um post mais de uma vez.');
+        }
+
+        if(!get_option( 'vq_text_vote_own_posts' )){
+            add_option('vq_text_vote_own_posts',  'Infelizmente você não pode votar no seu proprio post.');
+        }
+
+        if(!get_option( 'vq_text_vote_posts' )){
+            add_option('vq_text_vote_posts',  'Infelizmente você ainda não pode votar em um post.');
+        }
+
+        if(!get_option( 'vq_text_vote_update' )){
+            add_option('vq_text_vote_update',  'Parabéns, seu voto foi contabilizado!');
+        }
+
+        if(!get_option( 'vq_text_post_promoted' )){
+            add_option('vq_text_post_promoted',  'Parabens, seu voto foi contabilizado e o post foi promovido a página inicial!');
+        }
+
+    }
+
+	public function getTextHelp(){
+
+	    if($this->votes_to_text_help){
+	        return $this->votes_to_text_help;
+        }
+
+	    return get_option('vq_text_explanation');
     }
 
 	function get_custom_post_status() {
@@ -181,17 +241,17 @@ Class RHSVote {
 			}
 
         } elseif ($wp_query->is_main_query() && $wp_query->get('post_type') == '' && ( $wp_query->is_author() || $wp_query->is_single() ) ) {
-        
+
             // No perfil do usuário, exibir posts de todos os status
             // Permite que pessoas vejam a single dos posts com status Fila de Votação ou expirados
             // A checagem pelo post type vazio é para ser aplicado apenas no post týpe padrão (post) e não em outros, como o ticket, por exmeplo
-            
+
             $statuses = ['publish', self::VOTING_QUEUE, self::VOTING_EXPIRED];
             if (is_user_logged_in())
                 $statuses[] = 'private';
-            
+
             $wp_query->set('post_status', $statuses);
-        
+
         }
 
 
@@ -246,18 +306,27 @@ Class RHSVote {
 
 				if ( strtotime( $post->post_date ) < strtotime( '-' . $this->days_for_expired . ' days' ) ) {
 					$caps[] = 'vote_old_posts';
+                    $this->votes_to_text_code = 'vq_text_vote_old_posts';
+                    $this->votes_to_text_help = get_option($this->votes_to_text_code);
 					$this->check_votes_to_expire( $post );
 				} elseif ( $this->user_has_voted( $post->ID, $user_id ) ) {
+                    $this->votes_to_text_code = 'vq_text_vote_posts_again';
+                    $this->votes_to_text_help = get_option($this->votes_to_text_code);
 					$caps[] = 'vote_posts_again';
 				} elseif ( $post->post_author == $user_id ) {
+                    $this->votes_to_text_code = 'vq_text_vote_own_posts';
+                    $this->votes_to_text_help = get_option($this->votes_to_text_code);
 					$caps[] = 'vote_own_posts';
 				} else {
+                    $this->votes_to_text_code = 'vq_text_vote_posts';
+                    $this->votes_to_text_help = sprintf(get_option($this->votes_to_text_code), get_permalink(get_option('vq_page_explanation')));
 					$caps[] = 'vote_posts';
 				}
-
-			}
+			} else {
+                $caps[] = '__no_privs';
+                
+            }
 		}
-
 		return $caps;
 	}
 
@@ -266,23 +335,24 @@ Class RHSVote {
         $json = array();
 
         if ( empty( $_POST['post_id'] ) || !is_numeric( $_POST['post_id'] ) ) {
-            $json = array('error' => 'Não foi encontrado o usuário.');
+            $json = array('error' => array('text'=>'Não foi encontrado o usuário.'));
 
             echo json_encode($json);
             exit;
         }
 
         if ( !current_user_can( 'vote_post', $_POST['post_id'] ) ) {
-            $json = array('error' => $this->getTextHelp().', veja mais <a href="'.get_permalink(get_option('vq_page_explanation')).'" target="_blank">aqui</a>.');
+            $json = array('error' => array('text'=>$this->getTextHelp()));
 
             echo json_encode($json);
             exit;
         }
 
+
         $this->add_vote( $_POST['post_id'], get_current_user_id() );
         $box = $this->get_vote_box( $_POST['post_id'], false);
 
-        $json = array('success' => $box);
+        $json = array('success' => array('html' =>$box, 'text' => $this->getTextHelp()));
         echo json_encode($json);
         exit;
 
@@ -291,6 +361,7 @@ Class RHSVote {
 	function add_vote( $post_id, $user_id = null ) {
 
 		global $wpdb;
+		global $RHSPosts;
 
 		if ( is_null( $user_id ) ) {
 			$current_user = wp_get_current_user();
@@ -298,16 +369,24 @@ Class RHSVote {
 		}
 
 		// Adiciona voto na table se ainda não houver
-		if ( ! $this->user_has_voted( $post_id, $user_id ) ) {
+		if ( user_can($user_id, 'vote_post', $post_id) ) {
 			$wpdb->insert( $this->tablename, array(
 				'user_id'     => $user_id,
                 'vote_source' => $_SERVER['REMOTE_ADDR'],
-				'post_id'     => $post_id
+				'post_id'     => $post_id,
+				'vote_date'   => current_time('mysql')
 			) );
+
+            $this->update_vote_count( $post_id );
+            $this->votes_to_text_help = get_option('vq_text_vote_update');
+            $RHSPosts->update_date_order($post_id);
+    		$this->check_votes_to_upgrade( $post_id );
+
+            return true;
+
 		}
 
-		$this->update_vote_count( $post_id );
-		$this->check_votes_to_upgrade( $post_id );
+		return false;
 
 	}
 
@@ -319,22 +398,23 @@ Class RHSVote {
 			$post_id ) );
 
 		update_post_meta( $post_id, $this->total_meta_key, $numVotes );
+        
+        // Atualiza total de votos do usuário
+        $author_id = get_post_field( 'post_author', $post_id );
+        
+        $total = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM $this->tablename WHERE post_id IN (SELECT ID FROM $wpdb->posts WHERE post_author = %d)",
+			$author_id ) );
+            
+        update_user_meta($author_id, $this->total_meta_key, $total);
 
 	}
 
 	function get_total_votes( $post_id ) {
 		return get_post_meta( $post_id, $this->total_meta_key, true );
-
 	}
 
 	function get_total_votes_by_author( $user_id ) {
-
-		global $wpdb;
-
-		$total = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM rhs_votes WHERE post_id IN (SELECT ID FROM rhs_posts WHERE post_author = %d)",
-			$user_id ) );
-
-		return $total;
+        return get_user_meta( $user_id, $this->total_meta_key, true );
 	}
 
 	function user_has_voted( $post_id, $user_id = null ) {
@@ -379,7 +459,7 @@ Class RHSVote {
         }  else if($this->user_has_voted( $post_id )) {
             $output .= '<span class="vButton"><a class="btn btn-danger" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
         } else {
-            $output .= '<span class="vButton"><a class="btn btn-danger js-vote-button" data-post_id="' . $post_id . '">VOTAR</a></span>';
+            $output .= '<span class="vButton"><a class="btn btn-danger js-vote-button hidden-print" data-post_id="' . $post_id . '">VOTAR</a></span>';
         }
 
 		$output .= '</div>';
@@ -425,7 +505,7 @@ Class RHSVote {
 
 	function check_votes_to_upgrade( $postID ) {
 
-		if ( $this->get_total_votes( $postID ) < $this->votes_to_approval ) {
+        if ( $this->get_total_votes( $postID ) < $this->votes_to_approval ) {
 			return;
 		}
 
@@ -437,13 +517,18 @@ Class RHSVote {
 
 		$new_post = array(
 			'ID'          => $postID,
-			'post_status' => self::PUBLISH
+			'post_status' => 'publish'
 		);
+
+		add_post_meta($postID, self::META_PUBISH, '1', true);
 
 		wp_update_post( $new_post );
         do_action('rhs_post_promoted', $postID);
 
+        $this->votes_to_text_help = get_option('vq_text_post_promoted');
+
 		$this->update_user_role( $postID );
+
 	}
 
 	function update_user_role( $postID ) {
@@ -464,15 +549,7 @@ Class RHSVote {
 		);
 
 		wp_update_user( $user_new );
-	}
-
-	function gerate_admin_menu() {
-		/*/add_menu_page( 'RHS Menu', 'RHS Menu', 'manage_options', 'rhs/rhs-admin-page.php', 'rhs_admin_page',
-			'dashicons-lock', 30 );
-		add_submenu_page( 'rhs/rhs-admin-page.php', 'RHS Menu', 'RHS Menu', 'manage_options', 'rhs/rhs-admin-page.php',
-			'rhs_admin_page' );*/
-		add_options_page( 'Fila de votação', 'Fila de votação', 'manage_options',
-			'rhs/rhs-fila-de-votacao.php', array( &$this, 'rhs_admin_page_voting_queue' ) );
+        do_action('rhs_user_promoted', $user->ID);
 	}
 
 	function rhs_admin_page_voting_queue() {
@@ -509,9 +586,47 @@ Class RHSVote {
             'vq_text_explanation'       => array(
                 'name'    => __( "Texto de informação:" ),
                 'type'    => 'text',
-                'help' => 'Texto que aparecerá quando o usuário não tiver permissão.',
+                'help' => 'Texto generico de erro ao votar, caso não caia em nenhuma das outras condições.',
                 'default' => $this->votes_to_text_help
             ),
+            
+            'vq_text_vote_old_posts'       => array(
+                'name'    => __( "Alerta de post antigo:" ),
+                'type'    => 'text',
+                'help' => 'Texto que aparecerá quando o usuário tentar votar em um post mais antigo do que o configurado para receber votos.',
+                'default' => $this->votes_to_text_help
+            ),
+            'vq_text_vote_posts_again'       => array(
+                'name'    => __( "Alerta ao tentar votar de novo:" ),
+                'type'    => 'text',
+                'help' => 'Texto que aparecerá quando o usuário tentar votar em um mesmo post mais de uma vez.',
+                'default' => $this->votes_to_text_help
+            ),
+            'vq_text_vote_own_posts'       => array(
+                'name'    => __( "Alerta ao votar no próprio post:" ),
+                'type'    => 'text',
+                'help' => 'Texto que aparecerá quando o usuário tentar votar no próprio post (e não tiver permissão pra isso).',
+                'default' => $this->votes_to_text_help
+            ),
+            'vq_text_vote_posts'       => array(
+                'name'    => __( "Texto de informação:" ),
+                'type'    => 'text',
+                'help' => 'Texto que aparecerá quando o usuário não tiver permissão para votar - ainda não for um votante.',
+                'default' => $this->votes_to_text_help
+            ),
+            'vq_text_vote_update'       => array(
+                'name'    => __( "Texto de informação:" ),
+                'type'    => 'text',
+                'help' => 'Texto que aparecerá quando o voto for registrado com sucesso.',
+                'default' => $this->votes_to_text_help
+            ),
+            'vq_text_post_promoted'       => array(
+                'name'    => __( "Texto de informação:" ),
+                'type'    => 'text',
+                'help' => 'Texto que aparecerá quando o voto for registrado com sucesso e o post for promovido.',
+                'default' => $this->votes_to_text_help
+            ),
+            
             'vq_page_explanation'       => array(
                 'name'    => __( "Página de informação:" ),
                 'type'    => 'select',
@@ -557,7 +672,7 @@ Class RHSVote {
 						$default = !empty($attr['default']) ? $attr['default'] : '';
                         $help = !empty($attr['help']) ? $attr['help'] : '';
 						$value   = get_option( $label );
-                        
+
 						?>
                         <tr>
                             <th scope="row">

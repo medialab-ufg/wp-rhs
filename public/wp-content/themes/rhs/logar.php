@@ -1,4 +1,5 @@
 <?php get_header('full'); ?>
+
 <?php global $RHSLogin; ?>
 <div class="row">
 	<!-- Container -->
@@ -12,13 +13,15 @@
                     </div>
                     <div class="panel-body">
                         <?php foreach ($RHSLogin->messages() as $type => $messages){ ?>
-                        <div class="alert alert-<?php echo $type == 'error' ? 'danger' : 'success' ; ?>">
                             <?php foreach ($messages as $message){ ?>
-                                <p><?php echo $message ?></p>
+                                <script>
+                                    jQuery( function( $ ) {
+                                        swal({title: '<?php echo $message ?>', html: true});
+                                    });
+                                </script>
                             <?php } ?>
-                        </div>
                         <?php } ?>
-                        <form autocomplete="off" id="login" class="form-horizontal" role="form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
+                        <form id="login" class="form-horizontal" role="form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
                             <div class="form-group float-label-control">
                                 <label for="user_login">Email</label>
                                 <input type="email" tabindex="1" name="log" id="log" class="form-control" value="" >
@@ -41,12 +44,14 @@
                             <div class="clearfix"></div>
                             <input type="hidden" name="redirect_to" id="redirect_to" value="<?php echo esc_attr( isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : '' ); ?>" />
                         </form>
-                        <div class="panel-other" >
-                            Você não tem uma conta?
-                            <a href="<?php echo wp_registration_url(); ?>">
-                                Crie uma aqui!
-                            </a>
-                        </div>
+                        <?php if(!RHSLogin::is_login_via_app()) : ?>
+                            <div class="panel-other" >
+                                Você não tem uma conta?
+                                <a href="<?php echo wp_registration_url(); ?>">
+                                    Crie uma aqui!
+                                </a>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

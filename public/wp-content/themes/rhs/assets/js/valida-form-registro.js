@@ -416,6 +416,9 @@ jQuery( function( $ ) {
             }
         });
 
+        $('#input-tags').find('input').attr('name','tags');
+        $('#input-category').find('input').attr('name','category');
+
         $('#posting').validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
@@ -427,7 +430,10 @@ jQuery( function( $ ) {
                 title: {
                     required: true
                 },
-                category: {
+                'category[]': {
+                    required: true
+                },
+                'comunity-status[]': {
                     required: true
                 }
             },
@@ -435,13 +441,18 @@ jQuery( function( $ ) {
                 title: {
                     required: 'Preencha o titulo.'
                 },
-                category: {
-                    required: 'Selecione a categoria'
+                'category[]': {
+                    required: 'Selecione uma categoria.'
+                },
+                'comunity-status[]': {
+                    required: 'Selecione onde será publicado.'
                 }
             },
             invalidHandler: function (event, validator) {},
             errorPlacement: function (error, element) {
-                if (element.parents(".ms-ctn").size() > 0) {
+                if (element.parents(".form-checkbox").size() > 0) {
+                    error.appendTo(element.parents(".form-checkbox"));
+                }else if (element.parents(".ms-ctn").size() > 0) {
                     error.insertAfter(element.parents(".ms-ctn"));
                 } else if (element.parent(".input-group").size() > 0) {
                     error.insertAfter(element.parent(".input-group"));
@@ -481,7 +492,7 @@ jQuery( function( $ ) {
             focusInvalid: true,
             focusCleanup: false,
             onkeyup: false,
-            ignore: '',
+            ignore: ':hidden:not(.validate)',
             rules: {
                 name: {
                     maxlength: 128,
@@ -569,7 +580,6 @@ jQuery( function( $ ) {
             },
             submitHandler: function(form) {
                 $(form).find('[type="submit"]').html('<i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>');
-                console.log('foi');
                 form.submit();
             }
         });
@@ -610,19 +620,14 @@ jQuery( function( $ ) {
 
         $('.js-add-link').click(function() {
             var links = $(this).closest('.panel-body').find('.links').last().clone();
-            $(links).find('input').attr('value','');
-
-            console.log(links);
+            links.find('input').attr('value','').each(function(){
+                this.name = this.name.replace(/\[(\d+)\]/, function(string,n1){return '[' + (parseInt(n1,10)+1) + ']'});
+            });
             links.insertAfter($(this).closest('.panel-body').find('.links').last());
-
         });
 
-        $('.remove-link').click(function() {
-           $(this).closest('.links').remove();
+        $('.remove-link').live("click", function() {
+            $(this).closest('.links').remove();
         });
     });
 });
-
-function removerLink(link) {
-    jQuery(link).closest('#Links').remove();
-}

@@ -1,13 +1,16 @@
 [![Stories in Ready](https://badge.waffle.io/medialab-ufg/wp-rhs.png?label=ready&title=Ready)](https://waffle.io/medialab-ufg/wp-rhs)
 # Rede Humaniza SUS - WordPress
 
-Este é o repositório do projeto Rede Humaniza SUS em WordPress. 
+Este é o repositório do projeto Rede Humaniza SUS em WordPress.
 
 Ele contém todo o projeto, incluindo a instalação de todas as dependências via Composer (incluindo o próprio WordPress), o tema da RHS para WP e os Scripts para a migração dos dados do Drupal para o WP.
 
 Abaixo estão as instruções de como montar o ambiente de desenvolvimento e fazer deploy do projeto.
 
-Para informações sobre o script de migração, veja [migration-scripts/docs.md](migration-scripts/docs.md).
+# Documentações
+
+* Script de migração: [migration-scripts/docs.md](migration-scripts/docs.md).
+* Notificações: [docs/notifications.md](docs/notifications.md).
 
 ## Criando o ambiente de desenvolvimento
 
@@ -84,7 +87,7 @@ Importe os dados da Drupal. Veja [migration-scripts/docs.md](migration-scripts/d
 
 ### Compile o SASS
 
-De dentro da pasta themes/rhs/assets/scss execute o comando para compilar 
+De dentro da pasta themes/rhs/assets/scss execute o comando para compilar
 
 ```
 cd public/wp-content/themes/rhs/assets/scss
@@ -121,13 +124,26 @@ nano post-merge
 Cole as seguintes linhas dentro do arquivo criado:
 ```
 #!/bin/sh
- 
+
 # Generate CSS from SASS
 bash compile-sass.sh
 ```
 
 
-bash compile-sass.sh -> Arquivo onde se encontra o diretório do projeto (wp-rhs) e execulta os comandos para compilar o sass.
+bash compile-sass.sh -> Arquivo que se encontra no diretório do projeto (wp-rhs) e execulta os comandos para compilar o sass.
+
+
+### Testes
+
+Abra o arquivo `tests/wordpress-tests-lib/wp-tests-config-sample.php`, edite as informações de conexão com banco de dados e salve o arquivo com o nome `wp-tests-config-sample.php`.
+
+**Atenção**: Crie uma base de dados separada exclusivamente para os testes. Ela será apagada e recriada cada vez que você rodar os testes.
+
+Para rodar os testes, basta rodar o script na raíz do repositório:
+
+```
+./run-tests.sh
+```
 
 ### Administrando fixtures
 
@@ -165,6 +181,4 @@ Este comando:
 * cria dump do banco (base.sql)
 * commita as alterações de arquivos e o dump do banco
 
-*Atenção*: Quando quiser enviar novas features para o repositorio, dê um RESET antes, adicione as features, e, em seguida, dê o commit. Isso evita que você passe por cima de alterações de outras pessoas e de incluir coisas desnecessárias ao repositório.
-
-
+*Atenção*: Quando quiser enviar novas features para o repositorio, dê um RESET antes, adicione as features, e, em seguida, dê o commit. Isso evita que você passe por cima de alerações de outras pessoas e de incluir coisas desnecessárias ao repositorio.

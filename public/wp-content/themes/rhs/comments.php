@@ -33,9 +33,6 @@ if (post_password_required()) {
 					</div>         
 					<button id="submit" class="btn btn-info btn-comentar" type="submit" name="submit">Comentar</button>
 					<?php cancel_comment_reply_link('Cancelar'); ?>
-			        <?php if(get_option("comment_moderation") == "1") : ?>
-			        	<?php _e('Todos os comentarios precisam ser aprovados.', 'rhs'); ?>
-			        <?php endif; ?>
 			        <?php do_action('comment_form', $post->ID); ?>
 			    </form>
 			    <?php endif; ?>

@@ -8,23 +8,30 @@ class RHSPost {
     private $status;
     private $authorId;
     private $categories;
-    private $categoriesJson;
+    private $categoriesObjArray;
     private $categoriesId;
-    private $categoriesIdJson;
     private $state;
     private $city;
     private $tags;
-    private $tags_json;
     private $featuredImage;
     private $featuredImageId;
+    private $comunities;
+    private $comunitiesId;
+    private $comunitiesName;
     private $error;
 
+    /**
+     * RHSPost constructor.
+     *
+     * @param int $postId
+     * @param WP_Post|null $post
+     * @param bool $only_current apenas author pode ser esse post
+     */
     function __construct($postId = 0, WP_Post $post = null, $only_current = false) {
 
         if(!$postId && !$post){
             return;
         }
-
 
         $post = !$post ? get_post( $postId ) : $post;
 
@@ -43,25 +50,18 @@ class RHSPost {
         $this->setContent($post->post_content);
         $this->setStatus($post->post_status);
         $this->setAuthorId($post->post_author);
-        $this->setCategories(get_the_category( $post->ID ));
-        $this->setCategoriesId(wp_get_post_categories( $post->ID ));
 
-        $cur_ufmun = get_post_ufmun( $post->ID );
+        $this->setCategories(get_the_category($this->getId()));
 
-        if (!empty($cur_ufmun['uf']['id'])) {
-            $this->setState($cur_ufmun['uf']['id']);
-        }
+        $this->setTags(wp_get_post_tags($this->getId()));
 
-        if (!empty($cur_ufmun['mun']['id'])) {
-            $this->setState($cur_ufmun['mun']['id']);
-        }
+        $this->setStateCity();
 
-        $this->setTags(wp_get_post_tags( $post->ID ));
+        $this->setFeaturedImageId(get_post_thumbnail_id($this->getId()));
 
-        $thumbnail_id = get_post_thumbnail_id( $post->ID );
+        $this->setComunities(wp_get_post_terms( $this->getId() , RHSComunities::TAXONOMY ));
 
-        $this->setFeaturedImageId(get_post_thumbnail_id( $post->ID ));
-        $this->setFeaturedImage(get_the_post_thumbnail( $post->ID, 'post-thumbnail' ));
+        $this->setComunitiesId();
     }
 
     /**
@@ -149,6 +149,31 @@ class RHSPost {
     }
 
     /**
+     * @param array $term_ids
+     */
+     function setCategoriesByIds($term_ids) {
+        if (empty($term_ids))
+            return $this->setCategories([]);
+            
+        $cats = get_categories(['include' => $term_ids, 'hide_empty' => false]);
+        $this->setCategories($cats);
+    }
+
+    /**
+     * @return array|WP_Error
+     */
+     public function getCategoriesIds() {
+        $tags = $this->getCategories();
+        $return = [];
+        if (is_array($tags)) {
+            foreach ($tags as $tag) {
+                $return[] = $tag->term_id;
+            }
+        } 
+        return $return;
+    }
+
+    /**
      * @return int
      */
     public function getState() {
@@ -176,6 +201,18 @@ class RHSPost {
         $this->city = $city;
     }
 
+    private function setStateCity(){
+        $cur_ufmun = get_post_ufmun( $this->id );
+
+        if (!empty($cur_ufmun['uf']['id'])) {
+            $this->setState($cur_ufmun['uf']['id']);
+        }
+
+        if (!empty($cur_ufmun['mun']['id'])) {
+            $this->setCity($cur_ufmun['mun']['id']);
+        }
+    }
+
     /**
      * @return array
      */
@@ -183,129 +220,104 @@ class RHSPost {
         return $this->tags;
     }
 
+    
+    public function getTagsIds() {
+        $tags = $this->getTags();
+        $return = [];
+        if (is_array($tags)) {
+            foreach ($tags as $tag) {
+                $return[] = $tag->term_id;
+            }
+        } 
+        return $return;
+    }
+
+
     /**
      * @param array $tags
      */
     public function setTags( $tags ) {
         $this->tags = $tags;
     }
+    
+    /* Verifica se erro é term exist e retorna o array modificado com o id do termo existente */
+    function verifyErrorTermExist($term_id, $terms, $index){
+        if(is_wp_error($term_id)){
+            if($term_id->get_error_code() == 'term_exists'){
+                $terms[$index] = $term_id->get_error_data();
+            }
+        }
+        else{
+            $terms[$index] = $term_id['term_id'];
+        }
+
+        return $terms;
+    }
+
+    /*
+    * Seta tags do post a partir de um array de ids ou nomes (pode ser misturado)
+    * No caso de Ids, serão atribuídas tags existentes, no caso de nomes, serão criadas novas tags
+    */
+    function setTagsByIdsOrNames($terms){
+        if(empty($terms)){
+            return $this->setTags([]);
+        }
+
+        foreach($terms as $index => $term){
+            if(!(is_numeric($term)) && !(is_integer($term))){
+                try{
+                    $term_id = wp_insert_term($term, 'post_tag');
+                    $terms = $this->verifyErrorTermExist($term_id, $terms, $index);
+                } 
+                catch(Error $e){
+                    wp_delete_term($term_id['term_id'], 'post_tag');
+                }
+            }
+            /*
+            * Quando uma TAG com apenas números nova é igual a ID de tag que já existe, essa tag nova nova não é criada e inserida no post
+            * #TODO: 1 - Verifica se é possível o magic suggest ter como valores ao mesmo tempo ID e Nome da tag existente; 
+            * Se 1 possível -> 2 - Implementar condição que verifica se existe TAG com mesmo ID e Nome, se verdade, faz nada, se falso ou 'Nome' vazio, cria nova tag.
+            */
+            else if((term_exists(((int) $term))) == 0 || NULL){
+                try{
+                    $term_id = wp_insert_term(((string)$term), 'post_tag');
+                    $terms = $this->verifyErrorTermExist($term_id, $terms, $index);
+
+                } catch(Error $e){
+                    wp_delete_term($term_id['term_id'], 'post_tag');
+                }
+            }
+        }
+
+        $tags = get_tags(['include' => $terms, 'hide_empty' => false]);
+        $this->setTags($tags);
+    }
 
     /**
-     * @param string $size
+     * @param string|array $size
      *
      * @return string
      */
     public function getFeaturedImage( $size = 'post-thumbnail' ) {
 
-        if ( is_string( $size ) && $size == 'post-thumbnail' ){
-            return $this->featuredImage;
+        if($this->featuredImage){
+             return $this->featuredImage;
         }
 
-        return get_the_post_thumbnail( $this->id, $size );
-
-    }
-
-    /**
-     * @param $featured_image
-     * @param string $size
-     */
-    public function setFeaturedImage( $featuredImage ) {
-        $this->featuredImage = $featuredImage;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCategoriesJson() {
-
-        if ( $this->categoriesJson ) {
-            return $this->categoriesJson;
+        $try = get_the_post_thumbnail( $this->id, $size);
+        
+        if ( !empty($try))
+            return $try; // existe uma imagem destacada no banco
+        
+        if (!empty($this->getFeaturedImageId())) {
+            // a informação não está salva no banco mas o id foi setado.
+            return wp_get_attachment_image($this->getFeaturedImageId(), $size);
         }
-
-        $string = 'data: [';
-
-        foreach ( get_categories() as $category ) :
-            $string .= "{id:" . $category->term_id . ", name:'" . $category->cat_name . "'},";
-        endforeach;
-
-        $string .= '],';
-
-        return $this->categoriesJson = $string;
+        
     }
 
-    /**
-     * @param mixed $categoriesJson
-     */
-    public function setCategoriesJson( $categoriesJson ) {
-        $this->categoriesJson = $categoriesJson;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTagsJson() {
-
-        if ( $this->tags_json ) {
-            return $this->tags_json;
-        }
-
-        $tagsDataArr = array();
-
-        if ( $this->tags ) {
-            foreach ( $this->tags as $tag ) {
-                $tagsDataArr[] = $tag->name;
-            }
-        }
-
-        if ( $tagsDataArr ) {
-            return $this->tags_json = "['" . implode( "', '", $tagsDataArr ) . "']";
-        }
-
-        return $this->tags_json;
-    }
-
-    /**
-     * @param mixed $tags_json
-     */
-    public function setTagsJson( $tags_json ) {
-        $this->tags_json = $tags_json;
-    }
-
-    /**
-     * @return array|WP_Error
-     */
-    public function getCategoriesId() {
-        return $this->categoriesId;
-    }
-
-    /**
-     * @param array|WP_Error $categoriesId
-     */
-    public function setCategoriesId( $categoriesId ) {
-        $this->categoriesId = $categoriesId;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCategoriesIdJson() {
-
-        if ( $this->categoriesIdJson ) {
-            return $this->categoriesIdJson;
-        }
-
-        if ( $this->categoriesId ) {
-            $this->categoriesIdJson = "['" . implode( "', '", $this->categoriesId ) . "']";
-        }
-
-        return $this->categoriesIdJson;
-    }
-
-    /**
-     * @param mixed $categoriesIdJson
-     */
-    public function setCategoriesIdJson( $categoriesIdJson ) {
-        $this->categoriesIdJson = $categoriesIdJson;
+    public function setFeaturedImage($featuredImage){
+        return $this->featuredImage = $featuredImage;
     }
 
     /**
@@ -333,7 +345,6 @@ class RHSPost {
      * @param array $error
      */
     public function setError(WP_Error $error ) {
-
         $this->error = $error->get_error_messages();
     }
 
@@ -341,6 +352,36 @@ class RHSPost {
         return current_user_can('edit_post', $this->id);
     }
 
+    /**
+     * @return WP_Term[]
+     */
+    public function getComunities() {
+        return $this->comunities;
+    }
+
+    /**
+     * @param mixed $comunities
+     */
+    public function setComunities( $comunities ) {
+        $this->comunities = $comunities;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComunitiesId() {
+        return $this->comunitiesId;
+    }
+
+    public function setComunitiesId() {
+        $comunities = $this->getComunities();
+
+        foreach ($comunities as $category){
+            if($category instanceof WP_Term){
+                $this->comunitiesId[] = $category->term_id;
+            }
+        }
+    }
 
 }
 

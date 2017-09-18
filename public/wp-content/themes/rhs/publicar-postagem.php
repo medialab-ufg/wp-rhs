@@ -1,11 +1,7 @@
 <?php get_header('full'); ?>
 <?php global $RHSPosts; ?>
-<?php ; ?>
 
-<?php $RHSPost = new RHSPost(get_query_var('rhs_edit_post'), null, true); ?>
-<?php if(!$RHSPost->getId()){
-    $RHSPost = $RHSPosts->set_by_post();
-} ?>
+<?php $RHSPost = $RHSPosts->get_current_post(); ?>
     <div class="row">
         <!-- Container -->
         <form autocomplete="off" method="post" class="form-horizontal" id="posting" role="form" action="">
@@ -15,7 +11,7 @@
             <div class="col-xs-12 col-md-9">
                 <h1 class="titulo-page"><?php echo $RHSPost->getId() ? 'Editar' : 'Criar'; ?> Post</h1>
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade in active" id="verDados">
+                    <div id="verDados">
                         <div class="jumbotron perfil">
                             <div class="row">
                                 <div class="col-xs-12">
@@ -69,65 +65,61 @@
                             <div class="panel-body sidebar-public">
                                 <div class="form-group">
                                     <input type="text" value="" class="form-control" id="input-tags" placeholder="Tags">
-                                    <script>
-                                        var ms = jQuery('#input-tags').magicSuggest({
-                                            placeholder: 'Select...',
-                                            allowFreeEntries: false,
-                                            selectionPosition: 'bottom',
-                                            selectionStacked: true,
-                                            selectionRenderer: function(data){
-                                                return data.name;
-                                            },
-                                            data: vars.ajaxurl,
-                                            dataUrlParams: { action: 'get_tags' },
-                                            minChars: 3,
-                                            name: 'tags'
-                                        });
-
-                                        <?php if($RHSPost->getTagsJson()){ ?>
-                                        var ms = jQuery('#input-tags').magicSuggest({});
-                                        ms.setValue(<?php echo $RHSPost->getTagsJson(); ?>);
-                                        <?php } ?>
-
-                                    </script>
                                 </div>
-                                <?php UFMunicipio::form( array(
-                                    'content_before' => '',
-                                    'content_after' => '',
-                                    'content_before_field' => '<div class="form-group">',
-                                    'content_after_field' => '</div>',
-                                    'select_before' => ' ',
-                                    'select_after' => ' ',
-                                    'state_label' => 'Estado &nbsp',
-                                    'city_label' => 'Cidade &nbsp',
-                                    'select_class' => 'form-control',
-                                    'show_label' => false,
-                                    'selected_state' => $RHSPost->getState(),
-                                    'selected_municipio' => $RHSPost->getCity(),
-                                ) ); ?>
-                                <div class="form-group">
-                                    <input type="text" value="" class="form-control" id="input-category" placeholder="Categoria">
+                                <div class="form-group publish_post_sidebox_city_state">
+                                    <?php UFMunicipio::form( array(
+                                        'content_before' => '',
+                                        'content_after' => '',
+                                        'content_before_field' => '<div class="form-group">',
+                                        'content_after_field' => '</div>',
+                                        'select_before' => ' ',
+                                        'select_after' => ' ',
+                                        'state_label' => 'Estado &nbsp',
+                                        'city_label' => 'Cidade &nbsp',
+                                        'select_class' => 'form-control',
+                                        'show_label' => false,
+                                        'selected_state' => $RHSPost->getState(),
+                                        'selected_municipio' => $RHSPost->getCity(),
+                                    ) ); ?>
                                 </div>
-                                <script>
+                                <div class="form-group form-checkbox publish_post_sidebox">
+                                <label>Categorias</label>
+                                <?php 
+                                    $category = get_categories();
+                                    foreach($category as $cat){
+                                        $checked = in_array($cat->term_id, $RHSPost->getCategoriesIds()) ? 'checked' : '';
+                                        echo '<div>
+                                            <input type="checkbox" name="category[]" class="uniform" value="'. $cat->term_id .'" id="category-'. $cat->term_id .'" '.$checked.'>
+                                            <label for="category-'. $cat->term_id .'">' . $cat->name .'</label>
+                                        </div>';
+                                    }
+                                ?>
+                                </div>
 
-                                    var ms = jQuery('#input-category').magicSuggest({
-                                        placeholder: 'Select...',
-                                        allowFreeEntries: false,
-                                        selectionPosition: 'bottom',
-                                        selectionStacked: true,
-                                        <?php echo $RHSPost->getCategoriesJson(); ?>
-                                        selectionRenderer: function(data){
-                                            return data.name;
-                                        },
-                                        name: 'category'
-                                    });
+                                <?php global $RHSComunities; ?>
+                                <?php $comunidades = $RHSComunities->get_comunities_objects_by_user( get_current_user_id() );  ?>
+                                <?php if($RHSPost->getStatus() == 'private' || $comunidades) { ?>
 
-                                    <?php if($RHSPost->getCategoriesIdJson()){ ?>
-                                    var ms = jQuery('#input-category').magicSuggest({});
-                                    ms.setValue(<?php echo $RHSPost->getCategoriesIdJson(); ?>);
-                                    <?php } ?>
-
-                                </script>
+                                    <div class="form-group form-checkbox publish_post_sidebox">
+                                        <label>Publicar em</label>
+                                    
+                                        <div>
+                                            <input <?php echo (!$RHSPost->getComunities() || $RHSPost->getStatus() != 'private') ? 'checked' : ''; ?> type="checkbox" class="uniform" id="comunity-status" name="comunity-status[]" value="public">
+                                            <label for="comunity-status">Público</label>
+                                        </div>
+                                        <?php foreach ( $RHSComunities->get_comunities_objects_by_user( get_current_user_id() ) as $key => $comunidade ) { ?>
+                                            <?php if(!$comunidade->is_member()){
+                                                continue;
+                                            } ?>
+                                            <div>
+                                                <input <?php echo $RHSPost->getComunitiesId() && in_array($comunidade->get_id(), $RHSPost->getComunitiesId()) ? 'checked' : ''; ?> type="checkbox" class="uniform" id="comunity-status-<?php echo $key; ?>" name="comunity-status[]" value="<?php echo $comunidade->get_name(); ?>">
+                                                <label for="comunity-status-<?php echo $key; ?>"><?php echo $comunidade->get_name() ?> <strong>(Comunidade)</strong></label>
+                                            </div>
+                                        <?php } //foreach ?>
+                                    </div>
+                                <?php } else { ?>
+                                    <input type="hidden" class="form-control" name="comunity-status[]" value="public" />
+                                <?php } // if communitties ?>
                                 <div class="form-group text-center">
                                     <input type="hidden" value="<?php echo $RHSPost->getFeaturedImageId(); ?>" id="img_destacada" name="img_destacada">
                                     <div id="img_destacada_preview">
@@ -140,7 +132,7 @@
                                     <button type="button" class="btn btn-default form-submit rasc_visu" id="pre-visualizar">PRÉ-VISUALIZAR
                                     </button>
                                     <button type="submit" name="status" value="publish" class="btn btn-danger form-submit publicar">
-                                        <?php echo (!$RHSPost->getId() || $RHSPost->getStatus() == 'draft') ? 'PUBLICAR' : 'EDITAR'; ?>  POST
+                                        <?php echo (!$RHSPost->getId() || $RHSPost->getStatus() == 'draft') ? 'PUBLICAR' : 'SALVAR'; ?>  POST
                                     </button>
                                 </div>
                             </div>

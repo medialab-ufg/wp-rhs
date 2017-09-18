@@ -20,8 +20,8 @@ class RHSCaptcha {
             add_action( 'wp_enqueue_scripts', array( &$this, 'API_reCAPTCHA' ) );
             add_action( "admin_menu", array( &$this, "no_captcha_recaptcha_menu" ) );
             add_action( "admin_init", array( &$this, "display_recaptcha_options" ) );
-            add_action( "recuperar-senha_form", array( &$this, "display_recuperar_captcha" ) );
-            add_filter( "lostpassword_url", array( &$this, "verify_recuperar_captcha" ), 10, 2 );
+            #add_action( "recuperar-senha_form", array( &$this, "display_recuperar_captcha" ) );
+            #add_filter( "lostpassword_url", array( &$this, "verify_recuperar_captcha" ), 10, 2 );
 
         }
 
@@ -34,8 +34,7 @@ class RHSCaptcha {
     }
 
     function no_captcha_recaptcha_menu() {
-        add_menu_page( "Opções reCaptcha", "Opções reCaptcha", "manage_options", "recaptcha-options",
-            array( &$this, "recaptcha_options_page" ), "", 100 );
+            add_submenu_page( 'rhs_options', 'Opções reCaptcha', 'Opções reCaptcha', 'manage_options', 'recaptcha-options', array( &$this, 'recaptcha_options_page' ) );
     }
 
     function recaptcha_options_page() { ?>
@@ -43,7 +42,7 @@ class RHSCaptcha {
             <h1>reCaptcha Options</h1>
             <form autocomplete="off" method="post" action="options.php">
                 <?php
-                settings_fields( "header_section" );
+                settings_fields( "captcha_header_section" );
                 do_settings_sections( "recaptcha-options" );
                 submit_button();
                 ?>
@@ -52,14 +51,14 @@ class RHSCaptcha {
     <?php }
 
     function display_recaptcha_options() {
-        add_settings_section( "header_section", "Keys", array( &$this, "display_recaptcha_content" ),
+        add_settings_section( "captcha_header_section", "Keys", array( &$this, "display_recaptcha_content" ),
             "recaptcha-options" );
         add_settings_field( 'captcha_site_key', __( "Site Key" ), array( &$this, "display_captcha_site_key_element" ),
-            "recaptcha-options", "header_section" );
+            "recaptcha-options", "captcha_header_section" );
         add_settings_field( "captcha_secret_key", __( "Secret Key" ),
-            array( &$this, "display_captcha_secret_key_element" ), "recaptcha-options", "header_section" );
-        register_setting( "header_section", self::SITE_KEY );
-        register_setting( "header_section", self::SECRET_KEY );
+            array( &$this, "display_captcha_secret_key_element" ), "recaptcha-options", "captcha_header_section" );
+        register_setting( "captcha_header_section", self::SITE_KEY );
+        register_setting( "captcha_header_section", self::SECRET_KEY );
     }
 
     function display_recaptcha_content() {

@@ -1,0 +1,66 @@
+//  Tags
+
+// _body_
+$font_padrao: 'Solitas-NorReg';
+$grayColor: #787878;
+$backgroundColor: #f2f3f5;
+
+//outros
+$whiteColor: #fff;
+
+//pagination
+$blackColor: #000;
+
+//Primeira cor de Fundo
+$primeira_cor_fundo: #003c46;
+$primeira_cor_texto: #00b4b4;
+
+//Segunda cor Fundo
+$segunda_cor_fundo: $primeira_cor_texto;
+$cor_fundo_formulario_nav: #009b9b;
+
+// _footer_
+$cor_fundo_corporation: #00343d;
+
+// Author
+$seguir_mensagem_desktop: inline;
+$seguir_mensagem_mobile: inline-grid;
+
+// End Tags
+
+/*Fontes*/
+@font-face {
+    font-family: 'Solitas-NorReg';
+    font-weight: 300;
+    src: url('assets/webfonts/2F2567_0_0.eot');
+    src: url('assets/webfonts/2F2567_0_0.eot?#iefix') format('embedded-opentype'), url('assets/webfonts/2F2567_0_0.woff2') format('woff2'), url('assets/webfonts/2F2567_0_0.woff') format('woff'), url('assets/webfonts/2F2567_0_0.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Solitas-NorReg';
+    font-weight: 600;
+    font-style: italic;
+    src: url('assets/webfonts/2F2567_1_0.eot');
+    src: url('assets/webfonts/2F2567_1_0.eot?#iefix') format('embedded-opentype'), url('assets/webfonts/2F2567_1_0.woff2') format('woff2'), url('assets/webfonts/2F2567_1_0.woff') format('woff'), url('assets/webfonts/2F2567_1_0.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Solitas-NorReg';
+    font-weight: 100;
+    src: url('assets/webfonts/2F2567_2_0.eot');
+    src: url('assets/webfonts/2F2567_2_0.eot?#iefix') format('embedded-opentype'), url('assets/webfonts/2F2567_2_0.woff2') format('woff2'), url('assets/webfonts/2F2567_2_0.woff') format('woff'), url('assets/webfonts/2F2567_2_0.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Solitas-NorReg';
+    font-weight: 600;
+    src: url('assets/webfonts/2F2567_3_0.eot');
+    src: url('assets/webfonts/2F2567_3_0.eot?#iefix') format('embedded-opentype'), url('assets/webfonts/2F2567_3_0.woff2') format('woff2'), url('assets/webfonts/2F2567_3_0.woff') format('woff'), url('assets/webfonts/2F2567_3_0.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Solitas-NorReg';
+    font-weight: 400;
+    src: url('assets/webfonts/2F2567_4_0.eot');
+    src: url('assets/webfonts/2F2567_4_0.eot?#iefix') format('embedded-opentype'), url('assets/webfonts/2F2567_4_0.woff2') format('woff2'), url('assets/webfonts/2F2567_4_0.woff') format('woff'), url('assets/webfonts/2F2567_4_0.ttf') format('truetype');
+}
