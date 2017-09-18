@@ -15,7 +15,7 @@ class RHSNotifications {
     const CHANNEL_COMMUNITY = 'community_%s'; // se alterar esse valor, alterar no script de importação add-users-to-channels.php a linha onde são limpadas as notificações
     
     const NOTIFICATION_CLASS_PREFIX = 'RHSNotification_';
-    const RESULTS_PER_PAGE = 50;
+    const RESULTS_PER_PAGE = 2;
 
     static $news;
     static $news_num;
@@ -132,6 +132,12 @@ class RHSNotifications {
         
     }
     
+    /**
+     * Retorna as notificações de um determinado usuário
+     *
+     * @param int $user_id
+     * @param array $args
+     */
     public function get_notifications($user_id, $args = []) {
         global $wpdb;
         
