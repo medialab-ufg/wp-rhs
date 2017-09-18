@@ -304,8 +304,16 @@ class RHSPost {
              return $this->featuredImage;
         }
 
-        return get_the_post_thumbnail( $this->id, $size);
-
+        $try = get_the_post_thumbnail( $this->id, $size);
+        
+        if ( !empty($try))
+            return $try; // existe uma imagem destacada no banco
+        
+        if (!empty($this->getFeaturedImageId())) {
+            // a informação não está salva no banco mas o id foi setado.
+            return wp_get_attachment_image($this->getFeaturedImageId(), $size);
+        }
+        
     }
 
     public function setFeaturedImage($featuredImage){

@@ -19,7 +19,7 @@
 
     <?php wp_head(); ?>
 </head>
-<body>
+<body style="<?php if(RHSLogin::is_login_via_app()) : ?>background: #003c46;<?php endif; ?>">
 
 <!-- SDK Facebook -->
 <div id="fb-root"></div>
@@ -30,14 +30,15 @@
     <nav class="navbar navbar-default navbar-static-top rhs_menu">
         <div class="container">
             <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar6">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand text-hide" href="<?php bloginfo('url'); ?>">RHS
-            </a>
+                <?php if(!RHSLogin::is_login_via_app()) : ?>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar6">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                <?php endif; ?>
+                <a class="navbar-brand text-hide" href="<?php if(!RHSLogin::is_login_via_app()) { bloginfo('url'); } else { echo '#'; } ?>" style="<?php if(RHSLogin::is_login_via_app()) : ?>width: 355px; margin-top: 22px; margin-bottom: -17px;<?php endif; ?>">RHS</a>
             </div>
             <div id="navbar6" class="navbar-collapse collapse primeiro-menu">
                 <?php
