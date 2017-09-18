@@ -30,9 +30,15 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             </p>
             <p class="localidade">
                 <?php echo the_user_ufmun($RHSUsers->getUserId()); ?>
+<<<<<<< HEAD
             </p>
             <p class="desde">
                 <?php echo ' <span>Membro desde:</span> ' . date("d/m/Y", strtotime(get_the_author_meta('user_registered', $curauth->ID))); ?>
+=======
+                <!--
+                <?php echo ' <span style="color: black">Membro desde: ' . date("d/m/Y", strtotime(get_the_author_meta('registered'))) . '</span>'; ?>
+                -->
+>>>>>>> b209be5d6c9954cdf7f5fcd6e8e6f65485370c18
             </p>
             <?php if(count_user_posts( $curauth->ID )) { ?>
                 <div class="contagem">
