@@ -36,6 +36,26 @@ jQuery( function( $ ) {
                 $(button).html(button_value);
             };
         });
+
+        /* 
+        //Propor a Mari para exibir quando o usuario abrir o post, o mesmo pode ser usado com um localStorage para ser exibido apenas uma vez.
+
+        $('.share-wrap').attr('title', 'Use estes botões para Seguir o post, compartilhar e imprimir').addClass('focus').tooltip({placement: "auto"}).tooltip('show');
+        $('.share-wrap .follow-post-btn .follow-post').attr('title', 'Clique aqui para seguir este post e receber notificações relacionadas a ele.');
+        $('.share-wrap .facebook_share').attr('title', 'Clique aqui para Compartilhar no Facebook este Post.');
+        $('.share-wrap .twitter_share').attr('title', 'Clique aqui para Compartilhar no Twitter este Post.');
+        $('.share-wrap .share_print').attr('title', 'Clique aqui para Imprimir este Post.');
+
+            setTimeout(function(){ $('.share-wrap').tooltip('hide').removeClass('focus'); }, 4000);
+            setTimeout(function(){ $('.share-wrap .follow-post-btn .follow-post').tooltip('show'); }, 16001);
+            setTimeout(function(){ $('.share-wrap .facebook_share').tooltip('show'); }, 12001);
+            setTimeout(function(){ $('.share-wrap .facebook_share').tooltip('hide'); }, 16000);
+            setTimeout(function(){ $('.share-wrap .twitter_share').tooltip('show'); }, 8001);
+            setTimeout(function(){ $('.share-wrap .twitter_share').tooltip('hide'); }, 12000);
+            setTimeout(function(){ $('.share-wrap .share_print').tooltip('show'); }, 4001);
+            setTimeout(function(){ $('.share-wrap .share_print').tooltip('hide'); }, 8000);
+
+        */
     
     
     });

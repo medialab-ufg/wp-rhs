@@ -878,6 +878,7 @@ Primeiro e Segundo DropDown Menu
                     box-shadow: none;
                     border-radius: 100%;
                     padding: 3px;
+                    margin: 0 4px;
                     .fa-stack{
                         color: white;
                         margin: 0;
@@ -887,6 +888,10 @@ Primeiro e Segundo DropDown Menu
                     }
                     .fa-remove{
                         color: #a94442;
+                        margin-top: 0;
+                        &:before{
+                            margin-left: -7px;
+                        }
                     }
                 }
                 @media only screen and (min-width: 769px) {
@@ -894,6 +899,16 @@ Primeiro e Segundo DropDown Menu
                         display: none;
                     }
                 }
+                /*
+                //Será usado para se a mari concordar com os tooltips nos posts.
+                &.focus {
+                    text-align: center;
+                    margin-left:auto;
+                    margin-right:auto;
+                    font-weight: bold;
+                    border: 1px solid #00b9b9;
+                    box-shadow: 0 0 5px #00b9b9;
+                }*/
             }
         }
         .content {
@@ -1019,12 +1034,6 @@ Primeiro e Segundo DropDown Menu
                     }
                 }
             }
-            .buttons{
-                display: flex;
-                button{
-                    margin: auto;
-                }
-            }
             .votebox, .vdivide {
                 float: right;
                 text-align: center;
@@ -1090,7 +1099,9 @@ Primeiro e Segundo DropDown Menu
                 color: #777;
             }
             .vdivide {
-                padding-left: 3px;
+                text-align: center;
+                margin-bottom: 5px;
+                padding-left: 42px;
                 @media screen and (max-width: 768px) {
                     padding-left: 5px;
                 }
@@ -3985,7 +3996,7 @@ article {
         }
     }
     .navbar-nav {
-        margin: 1.5px -15px;
+        margin: 1.5px 0;
     }
     .primeiro-menu {
         .navbar-nav > .no-mobile {
@@ -4300,9 +4311,6 @@ article {
 }
 
 @media only screen and (max-width: 320px) {
-    .navbar-nav {
-        margin: 0.5px -15px;
-    }
     .navbar-header .navbar-brand {
         margin-left: 0 !important;
         margin-top: -49px !important;
