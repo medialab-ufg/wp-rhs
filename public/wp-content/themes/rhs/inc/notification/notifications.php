@@ -15,7 +15,7 @@ class RHSNotifications {
     const CHANNEL_COMMUNITY = 'community_%s'; // se alterar esse valor, alterar no script de importação add-users-to-channels.php a linha onde são limpadas as notificações
     
     const NOTIFICATION_CLASS_PREFIX = 'RHSNotification_';
-    const RESULTS_PER_PAGE = 2;
+    const RESULTS_PER_PAGE = 50;
 
     static $news;
     static $news_num;

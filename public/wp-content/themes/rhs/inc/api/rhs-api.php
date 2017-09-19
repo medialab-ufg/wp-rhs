@@ -185,15 +185,7 @@ Class RHSApi  {
             return $user;
         }
 
-        // Se algo der errado, uma nova contagem é feita
-        if ($total_notifications < 1) {
-            unset($request['page']);
-            $count_query = new WP_Query();
-            $count_query->query($request);
-            $total_notifications = $count_query->found_notifications;
-        }
-
-        $max_pages = ceil($total_notifications / $RHSNotifications::RESULTS_PER_PAGE);
+        $max_pages = ceil($total_notifications / RHSNotifications::RESULTS_PER_PAGE);
         
         // Construção de header
         $response = rest_ensure_response($notifications);
