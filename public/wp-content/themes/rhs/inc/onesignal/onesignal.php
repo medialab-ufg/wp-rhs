@@ -107,6 +107,26 @@ class RHSOneSignal {
             
     }
     
+    function add_user_profile_tags($user_id) {
+        $device_id = $this->get_user_device_id($user_id);
+        
+        if (!$device_id)
+            return false;
+        
+        // Montamos e enviamos o request
+        $endpoint = 'players/' . $device_id;
+        $method = 'PUT';
+        $request = [
+            'tags' => [
+                'name' => $display_name,
+                'uf' => $uf,
+            ]
+        ];
+
+        return $this->send_request($request, $endpoint, $method);
+        
+    }
+    
     
     function add_user_to_channel($channel, $user_id) {
         return $this->add_remove_user_channel($channel, $user_id);
