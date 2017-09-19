@@ -9,7 +9,7 @@ class RHSOneSignal {
     const CHANNEL_TAG_PREFIX = 'ch_';
     
     function __construct() {
-        
+        add_action('rhs_add_notification', array(&$this, 'create_push_notification'));
     }
     
     private function get_app_id() {
@@ -36,6 +36,34 @@ class RHSOneSignal {
         return delete_user_meta($user_id, self::DEVICE_ID_META, $device_id);
     }
     
+    
+    function create_push_notification($notification){
+        
+        $endpoint = 'notifications';
+        $method = 'POST';
+        
+        $channel = $notification->getChannel();
+        $text = $notification->getTextPush();
+        
+        
+        $request = [
+            'included_segments' => ['All'],
+            'filters' => [
+                [
+                    'field' => 'tag',
+                    'key' => self::CHANNEL_TAG_PREFIX . $channel,
+                    'relation' => 'exists'
+                ]
+            ],
+            'contents' => [
+                'en' => $text,
+                'pt' => $text
+            ]
+        ];
+        
+        return $this->send_request($request, $endpoint, $method);
+        
+    }
     
     /**
      * sync channels with tags

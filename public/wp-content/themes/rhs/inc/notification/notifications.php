@@ -93,12 +93,22 @@ class RHSNotifications {
 
         global $wpdb;
 
-        $query = "
-            INSERT INTO {$this->table} (`type`, `channel`, `object_id`, `user_id`, `datetime`)
-            VALUES ('$type', '$channel', '$object_id', $user_id, '$datetime')";
-
-        $wpdb->query( $query );
-
+        $wpdb->insert($this->table, 
+            [
+                'type' => $type,
+                'channel' => $channel,
+                'object_id' => $object_id,
+                'user_id' => $user_id,
+                'datetime' => $datetime
+            ]
+        );
+        
+        $className = self::NOTIFICATION_CLASS_PREFIX . $type;
+        if (class_exists($className)) {
+            $notificationObj = new $className($wpdb->insert_id);
+            do_action('rhs_add_notification', $notificationObj);
+        }
+        
     }
     
     private function update_user_notifications($user_id) {

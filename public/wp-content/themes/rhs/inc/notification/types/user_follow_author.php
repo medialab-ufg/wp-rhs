@@ -27,7 +27,7 @@ class RHSNotification_user_follow_author extends RHSNotification {
         $user = new RHSUser(get_userdata($user_ID));
 
         return sprintf(
-            'O usuário <a href="%s"><strong>%s</strong></a> passou a te seguir',
+            'O usuário <a href="%s"><strong>%s</strong></a> começou a te seguir',
             $user->get_link(),
             $user->get_name()
         );
@@ -37,6 +37,16 @@ class RHSNotification_user_follow_author extends RHSNotification {
         $user_ID = $this->getUserId();
         $user = new RHSUser(get_userdata($user_ID));
         return $user->get_avatar();
+    }
+    
+    function textPush() {
+        $user_ID = $this->getUserId();
+        $user = new RHSUser(get_userdata($user_ID));
+
+        return sprintf(
+            'O usuário %s começou a te seguir',
+            $user->get_name()
+        );
     }
 
 }
