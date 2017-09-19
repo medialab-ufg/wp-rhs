@@ -887,7 +887,7 @@ Primeiro e Segundo DropDown Menu
                         outline: none;
                     }
                     .fa-remove{
-                        color: #a94442;
+                        color: red;
                         margin-top: 0;
                         &:before{
                             margin-left: -7px;
@@ -2761,6 +2761,13 @@ form .comment-form-comment {
                 z-index: 1;
                 &.left {
                     left: 6px;
+                    .btn-rhs{
+                        .fa-remove{
+                            &:before{
+                                color: red;
+                            }
+                        }
+                    }
                 }
                 &.right {
                     right: 10px;
@@ -4479,7 +4486,7 @@ article {
                 font-size: 12px;
                 margin-left: 10px;
                 margin-top: 3px;
-                color: #fff;
+                color: red;
             }
             &.fa-rss{
                 font-size: 15px;

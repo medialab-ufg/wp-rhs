@@ -34,7 +34,7 @@ class RHSFollowPost {
             $isFollowing = $this->does_user_follow_post($post_id);
 
             $button_html = "<button class='btn-rhs follow-post-btn' data-post_id='". $post_id ."'>";
-            $button_html .= ($isFollowing) ? "<span class='fa-stack'><i class='fa fa-rss fa-stack-1x text-danger'></i><i class='fa fa-remove fa-stack-2x'></i></span>" : "<span class='fa-stack follow-post'><i class='fa fa-rss'></i></span>";
+            $button_html .= ($isFollowing) ? "<span class='fa-stack' title='Deixar de Seguir'><i class='fa fa-rss fa-stack-1x'></i><i class='fa fa-remove fa-stack-2x'></i></span>" : "<span class='fa-stack follow-post'><i class='fa fa-rss'></i></span>";
             $button_html .= "</button>";
             echo $button_html;
         }
