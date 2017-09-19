@@ -252,6 +252,8 @@ Class RHSApi  {
         global $RHSOneSignal;
         
         $success = $RHSOneSignal->add_user_device_id($current_user->ID, $device_push_id);
+        $RHSOneSignal->sync_user_channels($current_user->ID);
+        $RHSOneSignal->add_user_profile_tags($current_user->ID);
         
         if($success){
             $message = [
@@ -303,6 +305,8 @@ Class RHSApi  {
         global $RHSOneSignal;
 
         $success = $RHSOneSignal->delete_user_device_id($user_id, '');
+        $RHSOneSignal->sync_user_channels($current_user->ID);
+        $RHSOneSignal->add_user_profile_tags($current_user->ID);
 
         if($success){
             $message = [

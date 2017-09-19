@@ -140,6 +140,18 @@ class RHSOneSignal {
     function add_user_profile_tags($user_id) {
         $device_id = $this->get_user_device_id($user_id);
         
+        $user = new RHSUser($user_id);
+
+        $id = $user->get_id();
+        $first_name = $user->get_first_name();
+        $display_name = $user->get_name();
+        $uf_id = $user->get_state_id();
+        $uf_name = $user->get_state();
+        $city_id = $user->get_city_id();
+        $city_name = $user->get_city();
+        $user_registered = $user->get_date_registered();
+
+        
         if (!$device_id)
             return false;
         
@@ -148,9 +160,15 @@ class RHSOneSignal {
         $method = 'PUT';
         $request = [
             'tags' => [
+                'id' => $id,
+                'first_name' => $first_name,
                 'name' => $display_name,
-                'uf' => $uf,
-                'municipio' => $municipio,
+                'uf_id' => $uf_id,
+                'uf_name' => $uf_name,
+                'city_id' => $city_id,
+                'city_name' => $city_name,
+                'member_since' => $user_registered
+
             ]
         ];
 
