@@ -22,6 +22,7 @@ class RHSLogin extends RHSMessage {
             add_action( 'wp_login', array( &$this, 'save_last_login'));
             add_action( 'login_enqueue_scripts', array( &$this, 'rhs_enqueue_lost' ));
             add_filter( 'login_headerurl', array( &$this, 'rhs_logo_url' ));
+            add_filter( 'login_headertitle', array( &$this, 'rhs_logo_title' ));
         }
 
         self::$instance = true;
@@ -113,6 +114,11 @@ class RHSLogin extends RHSMessage {
             #login #nav a:hover, #login #backtoblog a:hover{
                 text-decoration: underline;
             }
+            @media only screen and (max-width: 768px){
+                #login #nav a, #login #backtoblog a {
+                    display: none;
+                }
+            }
             .login #login #backtoblog{
                 display: none;
             }
@@ -120,7 +126,22 @@ class RHSLogin extends RHSMessage {
     <?php }
 
     function rhs_logo_url() {
-        return home_url();
+        return '#';
+    }
+
+    function rhs_logo_title() {
+        return 'Rede HumanizaSUS';
+    }
+
+
+    static function is_login_via_app() {
+        if(!empty($_GET['redirect_to'])){
+            $redirect = $_GET['redirect_to'];
+        }else{
+            $redirect = '';
+        }
+        $a = wp_parse_args( $redirect );
+        return is_array($a) && isset($a['device']) && $a['device'] == 'mobile-app' ;
     }
 }
 

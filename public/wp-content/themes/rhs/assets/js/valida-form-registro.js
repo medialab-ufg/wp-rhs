@@ -430,7 +430,7 @@ jQuery( function( $ ) {
                 title: {
                     required: true
                 },
-                category_verify: {
+                'category[]': {
                     required: true
                 },
                 'comunity-status[]': {
@@ -441,7 +441,7 @@ jQuery( function( $ ) {
                 title: {
                     required: 'Preencha o titulo.'
                 },
-                category_verify: {
+                'category[]': {
                     required: 'Selecione uma categoria.'
                 },
                 'comunity-status[]': {

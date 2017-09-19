@@ -9,4 +9,5 @@ jQuery(document).ready(function($) {
             $('.facebook_twitter .twitter').html('<a href="https://twitter.com/redehumanizasus" class="twitter-follow-button" data-show-count="false">Follow @redehumanizasus</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>');
         }, 100); 
     }); 
-}); //Fim Facebook and Twitter Widget
+}); 
+//Fim Facebook and Twitter Widget

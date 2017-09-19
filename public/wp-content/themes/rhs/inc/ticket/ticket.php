@@ -590,15 +590,26 @@ class RHSTicket extends RHSMessage {
             $tax_obj = get_taxonomy(self::TAXONOMY);
             $tax_name = $tax_obj->name;
             $terms = get_terms($tax_name, array('hide_empty' => false));
-            echo "<select name='",self::TAXONOMY,"' id='",self::TAXONOMY,"' class='postform'>";
-            echo "<option value=''>Categorias</option>";
-            $options = array();
-            foreach ($terms as $term) {
-                $label = (isset($_GET[$tax_slug])) ? $_GET[$tax_slug] : ''; // Fix
-                echo '<option value='. $term->slug, $label == $term->slug ? ' selected="selected"' : '','>' . $term->name .' (' . $term->count .')</option>';
-            }
-            echo "</select>";
             
+            $dropDownArgs = array(
+            	'show_option_all'    => 'Categorias',
+            	'orderby'            => 'ID',
+            	'order'              => 'ASC',
+            	'show_count'         => 1,
+            	'hide_empty'         => 0,
+            	'selected'           => (isset($_GET[$tax_name])) ? $_GET[$tax_name] : '',
+            	'hierarchical'       => 1,
+            	'name'               => self::TAXONOMY,
+            	'id'                 => self::TAXONOMY,
+            	'class'              => 'postform',
+            	'depth'              => 0,
+            	'tab_index'          => 0,
+            	'taxonomy'           => self::TAXONOMY,
+            	'hide_if_empty'      => false,
+            	'value_field'	     => 'slug',
+            );
+            
+            wp_dropdown_categories($dropDownArgs);
             
             $current = isset($_GET['responsavel']) ? $_GET['responsavel'] : null; 
         
