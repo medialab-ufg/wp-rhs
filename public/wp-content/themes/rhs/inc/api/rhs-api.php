@@ -78,6 +78,21 @@ Class RHSApi  {
                 ),     
             ),
         ));
+
+        register_rest_route( $this->apinamespace, '/mark-notifications-as-read/(?P<id>[\d]+)', array(
+            'methods'  => 'POST',
+            'callback' => array(&$this, 'USER_read_all_notifications'),
+            'args' => array(
+                'id' => array(
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+                )
+            ),
+            'permission_callback' => function ( $request ) {
+                return current_user_can( 'edit_user', $request['id'] );
+            }
+        ) );
         
         register_rest_route( $this->apinamespace, '/user_notify_count/(?P<id>[\d]+)', array(
             'methods' => 'GET',
@@ -110,9 +125,9 @@ Class RHSApi  {
                         }
                 ),
             ),
-            // 'permission_callback' => function ( $request ) {
-            //     return is_user_logged_in();
-            // }
+            'permission_callback' => function ( $request ) {
+                return current_user_can('edit_user', $request['id']);
+            }
         ));
 
     }
@@ -201,6 +216,18 @@ Class RHSApi  {
     
     }
 
+
+    function USER_read_all_notifications($request) {
+        global $RHSNotifications;
+        $user = $request['id'];
+        if (is_wp_error($user)) {
+            return $user;
+        }
+        
+        return $RHSNotifications->mark_all_read($user);
+
+    }
+
     function USER_notify_count($request) {
         $user = $request['id'];
         if (is_wp_error($user)) {
@@ -224,7 +251,7 @@ Class RHSApi  {
         if (is_wp_error($user)) {
             return $user;
         }
-        
+
         $max_pages = ceil($total_notifications / RHSNotifications::RESULTS_PER_PAGE);
         
         // Construção de header
