@@ -328,17 +328,26 @@ class RHSNotifications {
 
         $value = sprintf( $channel, $channel_id );
         $datetime = current_time( 'mysql' );
+               
+        $add_user = add_user_meta($user_id, self::CHANNELS_META, $value);
         
-        global $wpdb;
-        
-        return add_user_meta($user_id, self::CHANNELS_META, $value);
+        if($add_user) {
+            do_action('rhs_add_user_to_channel', $value, $user_id);
+        }
+        return $add_user;
         
     }
 
     function delete_user_from_channel( $channel, $channel_id = 0, $user_id ) {
 
         $value = sprintf( $channel, $channel_id );
-        return delete_user_meta($user_id, self::CHANNELS_META, $value);
+
+        $delete_var = delete_user_meta($user_id, self::CHANNELS_META, $value);
+
+        if ($delete_var)
+            do_action('rhs_delete_user_from_channel', $value, $user_id);
+            
+        return $delete_var;
     }
 
     /**

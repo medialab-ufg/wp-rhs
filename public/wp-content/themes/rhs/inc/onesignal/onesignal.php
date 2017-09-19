@@ -10,6 +10,8 @@ class RHSOneSignal {
     
     function __construct() {
         add_action('rhs_add_notification', array(&$this, 'create_push_notification'));
+        add_action('rhs_add_user_to_channel', array(&$this, 'add_user_to_channel'), 10, 2);
+        add_action('rhs_delete_user_from_channel', array(&$this, 'delete_user_from_channel'), 10, 2);
     }
     
     private function get_app_id() {
@@ -148,6 +150,7 @@ class RHSOneSignal {
             'tags' => [
                 'name' => $display_name,
                 'uf' => $uf,
+                'municipio' => $municipio,
             ]
         ];
 
