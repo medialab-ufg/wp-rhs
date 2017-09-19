@@ -224,12 +224,13 @@ Class RHSApi  {
     function add_device_push_id($request){
         $current_user = wp_get_current_user();
         $device_push_id = $request['device_push_id'];
-
-        update_user_meta($current_user->ID, 'device_push_id', $device_push_id, $user_meta_value);
+        
+        global $RHSOneSignal;
+        
+        $RHSOneSignal->add_user_device_id($current_user->ID, $device_push_id);
         
         $message = [
             'info' => 'Device ID registered', 
-            'user' => $current_user, 
             'device_id' => $device_push_id
         ];
 
