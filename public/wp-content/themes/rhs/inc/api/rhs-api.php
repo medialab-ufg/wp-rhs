@@ -78,6 +78,21 @@ Class RHSApi  {
                 ),     
             ),
         ));
+
+        register_rest_route( $this->apinamespace, '/mark-notifications-as-read/(?P<id>[\d]+)', array(
+            'methods'  => 'POST',
+            'callback' => array(&$this, 'USER_read_all_notifications'),
+            'args' => array(
+                'id' => array(
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+                )
+            ),
+            'permission_callback' => function ( $request ) {
+                return current_user_can( 'edit_user', $request['id'] );
+            }
+        ) );
     }
 
     function USER_follow($request) {
@@ -162,6 +177,16 @@ Class RHSApi  {
         $response = $userController->prepare_item_for_response( $user_obj, $request );
         return rest_ensure_response($response);
     
+    }
+
+    function USER_read_all_notifications($request) {
+        global $RHSNotifications;
+        $user = $request['id'];
+        if (is_wp_error($user)) {
+            return $user;
+        }
+        
+        return $RHSNotifications->mark_all_read($user);
     }
     
     
