@@ -82,17 +82,39 @@ Class RHSApi  {
         register_rest_route( $this->apinamespace, '/user_notify_count/(?P<id>[\d]+)', array(
             'methods' => 'GET',
             'callback' => array(&$this, 'USER_notify_count'),
-			'args' => array(
+            'args' => array(
 				'id' => array(
 					'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
                         }
-				),
-            ),
+                    ),
+                ),
             'permission_callback' => function ( $request ) {
                 return current_user_can('edit_user', $request['id']);
             }
-		));
+        ));
+
+        
+        register_rest_route( $this->apinamespace, '/notification_list/(?P<id>[\d]+)/page=(?P<page>[0-9]+)/', array(
+            'methods' => 'GET',
+            'callback' => array(&$this, 'USER_notification_list'),
+            'args' => array(
+				'id' => array(
+					'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+                    ),
+                'page' => array(
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+                ),
+            ),
+            // 'permission_callback' => function ( $request ) {
+            //     return is_user_logged_in();
+            // }
+        ));
+
     }
 
     function USER_follow($request) {
@@ -184,10 +206,61 @@ Class RHSApi  {
         if (is_wp_error($user)) {
             return $user;
         }
-
+        
         global $RHSNotifications;
         $news_count = $RHSNotifications->get_news_number($user);
         return $news_count;
+    }
+
+    function USER_notification_list($request) {
+        global $RHSNotifications;
+        
+        $user = $request['id'];
+        $page = $request['page'];
+        
+        $notifications = $RHSNotifications->get_notifications($user, ['paged' => $page]);
+        $total_notifications = $RHSNotifications->get_notifications($user, ['onlyCount' => true]);;
+
+        if (is_wp_error($user)) {
+            return $user;
+        }
+        
+        $max_pages = ceil($total_notifications / RHSNotifications::RESULTS_PER_PAGE);
+        
+        // Construção de header
+        $response = rest_ensure_response($notifications);
+        $response->header('X-WP-Total', (int) $total_notifications);
+        $response->header('X-WP-TotalPages', (int) $max_pages);
+
+        // Cria url base para paginação
+        $request_params = $request->get_query_params();
+        if (!empty($request_params['filter'])) {
+            unset($request_params['filter']['page']);
+        }
+        
+        $rest_base = 'notification-list';
+
+        $base = add_query_arg($request_params, rest_url(sprintf('/%s/%s', $this->apinamespace, $rest_base)));
+ 
+        // Link para página anterior
+        if ($page > 1) {
+            $prev_page = $page - 1;
+            if ($prev_page > $max_pages) {
+                $prev_page = $max_pages;
+            }
+            $prev_link = add_query_arg('page', $prev_page, $base);
+            $response->link_header('prev', $prev_link);
+        }
+
+        // Cria link para nova página
+        if ($max_pages > $page) {
+            $next_page = $page + 1;
+            $next_link = add_query_arg('page', $next_page, $base);
+            $response->link_header('next', $next_link);
+        }
+        
+        return $response;
+
     }
     
     
