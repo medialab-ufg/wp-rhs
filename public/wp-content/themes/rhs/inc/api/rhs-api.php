@@ -174,7 +174,7 @@ Class RHSApi  {
         }
 
         global $RHSNotifications;
-        $news_count = $RHSNotifications->get_news_number(get_current_user_id());
+        $news_count = $RHSNotifications->get_news_number($user);
         return $news_count;
     }
     
