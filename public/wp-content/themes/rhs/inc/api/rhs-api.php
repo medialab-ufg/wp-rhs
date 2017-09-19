@@ -67,15 +67,39 @@ Class RHSApi  {
 			)
         ));
 
-        register_rest_route( $this->apinamespace, '/user-device/(?P<device_push_id>[a-zA-Z0-9-]+)', array(
+        register_rest_route( $this->apinamespace, '/add-user-device/(?P<device_push_id>[a-zA-Z0-9-]+)', array(
             'methods' => 'POST',
-            'callback' => array(&$this, 'add_device_push_id'),
+            'callback' => array(&$this, 'USER_DEVICE_add'),
             'args' => array(
                 'id' => array(
 					'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
                     }
                 ),     
+            ),
+        ));
+
+        register_rest_route($this->apinamespace, '/delete-user-device/(?P<id>[\d]+)', array(
+            'methods' => 'DELETE',
+            'callback' => array(&$this, 'USER_DEVICE_delete'),
+            'args' => array(
+                'id' => array(
+                    'validate_callback' => function($param, $request, $key){
+                        return is_numeric($param);
+                    }
+                ),
+            ),
+        ));
+
+        register_rest_route($this->apinamespace, '/get-user-device/(?P<id>[\d]+)', array(
+            'methods' => 'GET',
+            'callback' => array(&$this, 'USER_DEVICE_get'),
+            'args' => array(
+                'id' => array(
+                    'validate_callback' => function($param, $request, $key){
+                        return is_numeric($param);
+                    }
+                ),
             ),
         ));
     }
@@ -221,18 +245,77 @@ Class RHSApi  {
 
     }
 
-    function add_device_push_id($request){
+    function USER_DEVICE_add($request){
         $current_user = wp_get_current_user();
         $device_push_id = $request['device_push_id'];
         
         global $RHSOneSignal;
         
-        $RHSOneSignal->add_user_device_id($current_user->ID, $device_push_id);
+        $success = $RHSOneSignal->add_user_device_id($current_user->ID, $device_push_id);
         
-        $message = [
-            'info' => 'Device ID registered', 
-            'device_id' => $device_push_id
-        ];
+        if($success){
+            $message = [
+                'info' => 'Device ID adicionado com sucesso!', 
+                'device_id' => $device_push_id,
+                'status' => $success
+            ];
+        }
+        else{
+            $message = [
+                'info' => 'Ooops! Erro ao adicionar Device ID! É possível que esse Device ID já exista para esse usuário.',
+                'device_id' => $device_push_id,
+                'status' => $success
+            ];
+        }
+
+        $response = new WP_REST_Response($message);
+        $response->set_status(200);
+
+        return $response;
+    }
+
+    function USER_DEVICE_get($request){
+        $user_id = $request['id'];
+
+        global $RHSOneSignal;
+
+        $device_id = $RHSOneSignal->get_user_device_id($user_id);
+
+        if(empty($device_id)){
+           $message = [
+               'info' => 'Device ID não existe para esse usuário!',
+               'status' => false
+            ];
+        }
+        else{
+            $message = $device_id;
+        }
+
+        $response = new WP_REST_Response($message);
+        $response->set_status(200);
+
+        return $response;
+    }
+
+    function USER_DEVICE_delete($request){
+        $user_id = $request['id'];
+
+        global $RHSOneSignal;
+
+        $success = $RHSOneSignal->delete_user_device_id($user_id, '');
+
+        if($success){
+            $message = [
+                'info' => 'Device ID excluído com sucesso!',
+                'status' => $success
+            ];
+        }
+        else{
+            $message = [
+                'info' => 'Ooops! Erro ao excluir Device ID!',
+                'status' => $success
+            ];
+        }
 
         $response = new WP_REST_Response($message);
         $response->set_status(200);
