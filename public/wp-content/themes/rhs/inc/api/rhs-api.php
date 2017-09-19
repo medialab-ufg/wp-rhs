@@ -67,7 +67,7 @@ Class RHSApi  {
 			)
         ));
 
-        register_rest_route( $this->apinamespace, '/user-device/device_push_id=(?P<device_push_id>[a-zA-Z0-9-]+)', array(
+        register_rest_route( $this->apinamespace, '/user-device/(?P<device_push_id>[a-zA-Z0-9-]+)', array(
             'methods' => 'POST',
             'callback' => array(&$this, 'add_device_push_id'),
             'args' => array(
