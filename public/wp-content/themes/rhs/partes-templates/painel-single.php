@@ -5,8 +5,7 @@
                 <?php global $RHSNetwork;?>
                 <?php the_title( '<h1>', '</h1>' ); ?>
 			</div>
-			<div class="col-xs-8 col-sm-4 col-md-3 buttons">
-				<?php do_action('rhs_follow_post_box', get_the_ID()); ?>
+			<div class="col-xs-8 col-sm-4 col-md-3">
 				<div class="vdivide">
 					<div class="votebox">
 						<?php do_action('rhs_votebox', get_the_ID()); ?>
@@ -41,7 +40,7 @@
 					<div class="pull-right share share-wrap">
 						<span class="hidden-print" style="">
 							<?php //echo do_shortcode('[ssba]'); ?>
-
+							<?php do_action('rhs_follow_post_box', get_the_ID()); ?>
 							<a data-site="" class="facebook_share" href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>" target="_blank">
 								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/facebook.png" title="Facebook" alt="Compartilhar no Facebook">
 							</a>

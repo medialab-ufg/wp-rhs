@@ -874,6 +874,21 @@ Primeiro e Segundo DropDown Menu
                     box-shadow: none !important;
                     vertical-align: middle;
                 }
+                .btn-rhs{
+                    box-shadow: none;
+                    border-radius: 100%;
+                    padding: 3px;
+                    .fa-stack{
+                        color: white;
+                        margin: 0;
+                    }
+                    &:focus{
+                        outline: none;
+                    }
+                    .fa-remove{
+                        color: #a94442;
+                    }
+                }
                 @media only screen and (min-width: 769px) {
                     .whatsapp_share {
                         display: none;
@@ -1075,7 +1090,6 @@ Primeiro e Segundo DropDown Menu
                 color: #777;
             }
             .vdivide {
-                border-left: 1px solid #eee;
                 padding-left: 3px;
                 @media screen and (max-width: 768px) {
                     padding-left: 5px;
