@@ -28,7 +28,7 @@ class RHSNotification_post_followed extends RHSNotification {
         $user = new RHSUser(get_userdata($user_ID));
         
         return sprintf(
-            'O usuário <a id="%d" href="%s" class="rhs-links-to-user"><strong>%s</strong></a> está seguindo seu post <a id="%d" href="%s" class="rhs-links-to-post"><strong>%s</strong></a>',
+            'O usuário <a id="rhs-link-to-user-%d" href="%s" class="rhs-links-to-user"><strong>%s</strong></a> está seguindo seu post <a id="rhs-link-to-post-%d" href="%s" class="rhs-links-to-post"><strong>%s</strong></a>',
             $user_ID,
             $user->get_link(),
             $user->get_name(),

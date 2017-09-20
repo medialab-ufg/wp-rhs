@@ -34,14 +34,14 @@ class RHSNotification_new_community_post extends RHSNotification {
         $community = get_term_by('id', $community_id, RHSComunities::TAXONOMY);
 
         return sprintf(
-            '<a id="%d" href="%s" class="rhs-links-to-user"><strong>%s</strong></a> criou um novo post <a id="%s" href="%s" class="rhs-links-to-post"><strong>%s</strong></a> na comunidade <a id="%d" href="%s" class="rhs-links-to-community"><strong>%s</strong></a>',
+            '<a id="rhs-link-to-user-%d" href="%s" class="rhs-links-to-user"><strong>%s</strong></a> criou um novo post <a id="rhs-link-to-post-%d" href="%s" class="rhs-links-to-post"><strong>%s</strong></a> na comunidade <a id="rhs-link-to-community-%d" href="%s" class="rhs-links-to-community"><strong>%s</strong></a>',
             $user->get_id(),
-            $post_ID,
-            $community_id,
             $user->get_link(),
             $user->get_name(),
+            $post_ID,
             get_permalink($post_ID),
             get_post_field( 'post_title', $post_ID ),
+            $community_id,
             get_term_link( $community ),
             $community->name
         );

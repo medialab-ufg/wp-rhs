@@ -28,9 +28,11 @@ class RHSNotification_comments_in_post extends RHSNotification {
         $user = new RHSUser(get_userdata($c->user_id));
         
         return sprintf(
-            '<a href="%s"><strong>%s</strong></a> comentou no post <a href="%s"><strong>%s</strong></a>',
+            '<a id="rhs-link-to-user-%d" href="%s" class="rhs-links-to-user"><strong>%s</strong></a> comentou no post <a id="rhs-link-to-post-%d" href="%s" class="rhs-link-to-post"><strong>%s</strong></a>',
+            $user->get_id(),
             $user->get_link(),
             $user->get_name(),
+            $post_ID,
             get_permalink($post_ID),
             get_post_field( 'post_title', $post_ID )
         );

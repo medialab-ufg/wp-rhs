@@ -28,7 +28,7 @@ class RHSNotification_new_post_from_user extends RHSNotification {
             $user = new RHSUser($user_data);
 
             return sprintf(
-                '<a id="%d" href="%s" class="rhs-links-to-user"><strong>%s</strong></a> criou um novo post <a id="%d" href="%s" class="rhs-links-to-post"><strong>%s</strong></a>',
+                '<a id="rhs-link-to-user-%d" href="%s" class="rhs-links-to-user"><strong>%s</strong></a> criou um novo post <a id="rhs-link-to-post-%d" href="%s" class="rhs-links-to-post"><strong>%s</strong></a>',
                 $user->get_id(),
                 $user->get_link(),
                 $user->get_name(),
