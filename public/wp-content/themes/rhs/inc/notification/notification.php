@@ -202,7 +202,7 @@ class RHSNotification {
     }
     
     /**
-     * Métodos padrão que devem ser sobrescritos pelas classes filhas de tipos de notificação
+     * Métodos padrões que devem ser sobrescritos pelas classes filhas de tipos de notificação
      */
 
      public function textPush() {

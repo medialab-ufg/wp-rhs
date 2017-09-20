@@ -26,7 +26,7 @@ Class RHSApi  {
                 'id' => array(
                     'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
-                        }
+                    }
                 )
             ),
             'permission_callback' => function ( $request ) {
@@ -47,7 +47,7 @@ Class RHSApi  {
                 'id' => array(
                     'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
-                        }
+                    }
                 )
             ),
             'permission_callback' => function ( $request ) {
@@ -62,7 +62,7 @@ Class RHSApi  {
 				'id' => array(
 					'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
-                        }
+                    }
 				),
 			)
         ));
@@ -86,7 +86,7 @@ Class RHSApi  {
                 'id' => array(
                     'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
-                        }
+                    }
                 )
             ),
             'permission_callback' => function ( $request ) {
@@ -117,12 +117,12 @@ Class RHSApi  {
 				'id' => array(
 					'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
-                        }
-                    ),
+                    }
+                ),
                 'page' => array(
                     'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
-                        }
+                    }
                 ),
             ),
             'permission_callback' => function ( $request ) {
@@ -380,7 +380,7 @@ Class RHSApi  {
             $message = [
                 'info' => 'Device ID adicionado com sucesso!', 
                 'device_id' => $device_push_id,
-                'status' => $success
+                'usermeta_id' => $success
             ];
         }
         else{
@@ -421,13 +421,12 @@ Class RHSApi  {
     }
 
     function USER_DEVICE_delete($request){
-        $user_id = $request->get_params()['device_or_user_id'];
+        $device_id = $request->get_params()['device_or_user_id'];
+        $user_id = wp_get_current_user()->ID;
 
         global $RHSOneSignal;
 
-        $success = $RHSOneSignal->delete_user_device_id($user_id, '');
-        $RHSOneSignal->sync_user_channels($current_user->ID);
-        $RHSOneSignal->add_user_profile_tags($current_user->ID);
+        $success = $RHSOneSignal->delete_user_device_id($user_id, $device_id);
 
         if($success){
             $message = [

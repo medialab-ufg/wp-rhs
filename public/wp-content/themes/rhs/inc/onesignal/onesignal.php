@@ -14,6 +14,7 @@ class RHSOneSignal {
         add_action('rhs_add_user_to_channel', array(&$this, 'add_user_to_channel'), 10, 2);
         add_action('rhs_delete_user_from_channel', array(&$this, 'delete_user_from_channel'), 10, 2);
         add_filter('rhs_notifications_types', array(&$this, 'rhs_notifications_types'), 10, 2);
+        add_action('profile_update', array(&$this,'add_user_profile_tags'), 10, 1);
     }
     
     private function get_app_id() {
@@ -36,11 +37,11 @@ class RHSOneSignal {
     }
     
     public function get_user_device_id($user_id) {
-        return get_user_meta($user_id, self::DEVICE_ID_META, true);
+        return get_user_meta($user_id, self::DEVICE_ID_META, false);
     }
     
     public function add_user_device_id($user_id, $device_id) {
-        return update_user_meta($user_id, self::DEVICE_ID_META, $device_id);
+        return add_user_meta($user_id, self::DEVICE_ID_META, $device_id);
     }
     
     public function delete_user_device_id($user_id, $device_id) {
