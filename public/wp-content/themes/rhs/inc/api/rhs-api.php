@@ -375,7 +375,7 @@ Class RHSApi  {
             $message = [
                 'info' => 'Device ID adicionado com sucesso!', 
                 'device_id' => $device_push_id,
-                'status' => $success
+                'usermeta_id' => $success
             ];
         }
         else{
