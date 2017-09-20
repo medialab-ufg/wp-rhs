@@ -29,11 +29,11 @@ class RHSOneSignal {
     }
     
     public function get_user_device_id($user_id) {
-        return get_user_meta($user_id, self::DEVICE_ID_META, true);
+        return get_user_meta($user_id, self::DEVICE_ID_META, false);
     }
     
     public function add_user_device_id($user_id, $device_id) {
-        return add_user_meta($user_id, self::DEVICE_ID_META, $device_id);
+        return add_user_meta($user_id, self::DEVICE_ID_META, $device_id, true);
     }
     
     public function delete_user_device_id($user_id, $device_id) {
