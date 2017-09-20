@@ -11,6 +11,7 @@ Abaixo estão as instruções de como montar o ambiente de desenvolvimento e faz
 
 * Script de migração: [migration-scripts/docs.md](migration-scripts/docs.md).
 * Notificações: [docs/notifications.md](docs/notifications.md).
+* RHS-API: [docs/rhs-api.md](docs/rhs-api.md).
 
 ## Criando o ambiente de desenvolvimento
 

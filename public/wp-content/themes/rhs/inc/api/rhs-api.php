@@ -41,7 +41,7 @@ Class RHSApi  {
         ));
 
         register_rest_route( $this->apinamespace, '/follow/(?P<id>[\d]+)', array(
-            'methods'  => 'POST',
+            'methods'  => 'POST, DELETE',
             'callback' => array(&$this, 'USER_follow'),
             'args' => array(
                 'id' => array(
@@ -51,7 +51,7 @@ Class RHSApi  {
                 )
             ),
             'permission_callback' => function ( $request ) {
-                return current_user_can( 'contributor', $request['id'] );   
+                return is_user_logged_in();   
             }
         ) );
 
@@ -67,9 +67,9 @@ Class RHSApi  {
 			)
         ));
 
-        register_rest_route( $this->apinamespace, '/add-user-device/(?P<device_push_id>[a-zA-Z0-9-]+)', array(
-            'methods' => 'POST',
-            'callback' => array(&$this, 'USER_DEVICE_add'),
+        register_rest_route( $this->apinamespace, '/user-device/(?P<device_or_user_id>[a-zA-Z0-9-]+)', array(
+            'methods' => 'POST, GET, DELETE',
+            'callback' => array(&$this, 'USER_DEVICE_manipulate'),
             'args' => array(
                 'id' => array(
 					'validate_callback' => function($param, $request, $key) {
@@ -79,39 +79,72 @@ Class RHSApi  {
             ),
         ));
 
-        register_rest_route($this->apinamespace, '/delete-user-device/(?P<id>[\d]+)', array(
-            'methods' => 'DELETE',
-            'callback' => array(&$this, 'USER_DEVICE_delete'),
+        register_rest_route( $this->apinamespace, '/notifications/mark-all-read/(?P<id>[\d]+)', array(
+            'methods'  => 'POST',
+            'callback' => array(&$this, 'USER_read_all_notifications'),
             'args' => array(
                 'id' => array(
-                    'validate_callback' => function($param, $request, $key){
-                        return is_numeric($param);
-                    }
-                ),
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+                )
             ),
+            'permission_callback' => function ( $request ) {
+                return current_user_can( 'edit_user', $request['id'] );
+            }
+        ) );
+        
+        register_rest_route( $this->apinamespace, '/notifications/unread-number/(?P<id>[\d]+)', array(
+            'methods' => 'GET',
+            'callback' => array(&$this, 'USER_notify_count'),
+            'args' => array(
+				'id' => array(
+					'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+                    ),
+                ),
+            'permission_callback' => function ( $request ) {
+                return current_user_can('edit_user', $request['id']);
+            }
         ));
 
-        register_rest_route($this->apinamespace, '/get-user-device/(?P<id>[\d]+)', array(
+        
+        register_rest_route( $this->apinamespace, '/notifications/(?P<id>[\d]+)/page=(?P<page>[0-9]+)/', array(
             'methods' => 'GET',
-            'callback' => array(&$this, 'USER_DEVICE_get'),
+            'callback' => array(&$this, 'USER_notification_list'),
             'args' => array(
-                'id' => array(
-                    'validate_callback' => function($param, $request, $key){
-                        return is_numeric($param);
-                    }
+				'id' => array(
+					'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+                    ),
+                'page' => array(
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
                 ),
             ),
+            'permission_callback' => function ( $request ) {
+                return current_user_can('edit_user', $request['id']);
+            }
         ));
+
     }
 
     function USER_follow($request) {
         global $RHSFollow;
-        $data = $RHSFollow->toggle_follow(get_current_user_id(), $request['id']);
+        
+        if ($request->get_method() == 'POST') {
+            $data = $RHSFollow->add_follow($request->get_params()['id'], get_current_user_id());
+        } elseif ($request->get_method() == 'DELETE') {
+            $data = $RHSFollow->remove_follow($request->get_params()['id'], get_current_user_id());
+        }
 
         $dataR = [
             'response' => $data,
             'user_id' => get_current_user_id(),
-            'follow_id' => $request['id']
+            'follow_id' => $request->get_params()['id']
         ];
 
         $response = new WP_REST_Response( $dataR );
@@ -187,8 +220,80 @@ Class RHSApi  {
         return rest_ensure_response($response);
     
     }
-    
-    
+
+
+    function USER_read_all_notifications($request) {
+        global $RHSNotifications;
+        $user = $request['id'];
+        if (is_wp_error($user)) {
+            return $user;
+        }
+        
+        return $RHSNotifications->mark_all_read($user);
+
+    }
+
+    function USER_notify_count($request) {
+        $user = $request['id'];
+        if (is_wp_error($user)) {
+            return $user;
+        }
+        
+        global $RHSNotifications;
+        $news_count = $RHSNotifications->get_news_number($user);
+        return $news_count;
+    }
+
+    function USER_notification_list($request) {
+        global $RHSNotifications;
+        
+        $user = $request['id'];
+        $page = $request['page'];
+        
+        $notifications = $RHSNotifications->get_notifications($user, ['paged' => $page]);
+        $total_notifications = $RHSNotifications->get_notifications($user, ['onlyCount' => true]);;
+
+        if (is_wp_error($user)) {
+            return $user;
+        }
+
+        $max_pages = ceil($total_notifications / RHSNotifications::RESULTS_PER_PAGE);
+        
+        // Construção de header
+        $response = rest_ensure_response($notifications);
+        $response->header('X-WP-Total', (int) $total_notifications);
+        $response->header('X-WP-TotalPages', (int) $max_pages);
+
+        // Cria url base para paginação
+        $request_params = $request->get_query_params();
+        if (!empty($request_params['filter'])) {
+            unset($request_params['filter']['page']);
+        }
+        
+        $rest_base = 'notification-list';
+
+        $base = add_query_arg($request_params, rest_url(sprintf('/%s/%s', $this->apinamespace, $rest_base)));
+ 
+        // Link para página anterior
+        if ($page > 1) {
+            $prev_page = $page - 1;
+            if ($prev_page > $max_pages) {
+                $prev_page = $max_pages;
+            }
+            $prev_link = add_query_arg('page', $prev_page, $base);
+            $response->link_header('prev', $prev_link);
+        }
+
+        // Cria link para nova página
+        if ($max_pages > $page) {
+            $next_page = $page + 1;
+            $next_link = add_query_arg('page', $next_page, $base);
+            $response->link_header('next', $next_link);
+        }
+        
+        return $response;
+
+    }
     
     ////// Endpoints
     
@@ -202,11 +307,6 @@ Class RHSApi  {
             'notification' => 'Você é demais!'
         );
     }
-    
-    
-    
-    
-    
     
     ////// Callback de login
     
@@ -245,9 +345,25 @@ Class RHSApi  {
 
     }
 
+    // USER DEVICE Callbacks
+
+    function USER_DEVICE_manipulate($request){
+        switch($request->get_method()){
+            case 'POST':
+                return $this->USER_DEVICE_add($request);
+            break;
+            case 'GET':
+                return $this->USER_DEVICE_get($request);
+            break;
+            case 'DELETE':
+                return $this->USER_DEVICE_delete($request);
+            break;
+        }
+    }
+
     function USER_DEVICE_add($request){
         $current_user = wp_get_current_user();
-        $device_push_id = $request['device_push_id'];
+        $device_push_id = $request->get_params()['device_or_user_id'];
         
         global $RHSOneSignal;
         
@@ -271,13 +387,13 @@ Class RHSApi  {
         }
 
         $response = new WP_REST_Response($message);
-        $response->set_status(200);
+        $response->set_status(201);
 
         return $response;
     }
 
-    function USER_DEVICE_get($request){
-        $user_id = $request['id'];
+    function USER_DEVICE_get($request){        
+        $user_id = $request->get_params()['device_or_user_id'];
 
         global $RHSOneSignal;
 
@@ -300,7 +416,7 @@ Class RHSApi  {
     }
 
     function USER_DEVICE_delete($request){
-        $user_id = $request['id'];
+        $user_id = $request->get_params()['device_or_user_id'];
 
         global $RHSOneSignal;
 

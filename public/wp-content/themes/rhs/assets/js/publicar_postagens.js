@@ -16,6 +16,13 @@ jQuery(document).ready(function() {
     });
     
     jQuery('.publish_post_sidebox_city_state #estado').attr('title', 'Se este post está relacionado a um Estado, indique aqui').tooltip({placement: "left"}).tooltip('show');
+        
+    jQuery('.publish_post_sidebox_city_state #estado').change(function(){
+        if (jQuery(this).val() != '') {
+            jQuery(this).tooltip('hide');
+            jQuery('.publish_post_sidebox_city_state #municipio').attr('title', 'Se este post está relacionado a uma Cidade, indique aqui').tooltip({placement: "left"}).tooltip('show');
+        }
+    });
 
     wp.media.view.settings.post = {
         id: jQuery('#post_ID').val(),

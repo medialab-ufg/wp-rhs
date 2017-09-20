@@ -142,6 +142,12 @@ class RHSNotifications {
         
     }
     
+    /**
+     * Retorna as notificações de um determinado usuário
+     *
+     * @param int $user_id
+     * @param array $args
+     */
     public function get_notifications($user_id, $args = []) {
         global $wpdb;
         

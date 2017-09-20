@@ -141,7 +141,12 @@ class RHSOneSignal {
     function add_user_profile_tags($user_id) {
         $device_id = $this->get_user_device_id($user_id);
         
-        $user = new RHSUser($user_id);
+        $wp_user = get_userdata($user_id);
+        
+        if (!$wp_user)
+            return false;
+        
+        $user = new RHSUser($wp_user);
 
         $id = $user->get_id();
         $first_name = $user->get_first_name();
@@ -230,6 +235,5 @@ class RHSOneSignal {
 
 global $RHSOneSignal;
 $RHSOneSignal = new RHSOneSignal();
-
 
 

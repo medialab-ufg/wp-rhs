@@ -1,16 +1,13 @@
 <div class="panel panel-default padding-bottom">
 	<div class="panel-heading" style="padding: 21px;">
 		<div class="row post-titulo">
-			<div class="col-xs-12 col-sm-8 col-md-9">
+			<div class="col-xs-9 col-sm-11 col-md-10">
                 <?php global $RHSNetwork;?>
                 <?php the_title( '<h1>', '</h1>' ); ?>
 			</div>
-			<div class="col-xs-8 col-sm-4 col-md-3 buttons">
-				<?php do_action('rhs_follow_post_box', get_the_ID()); ?>
-				<div class="vdivide">
-					<div class="votebox">
-						<?php do_action('rhs_votebox', get_the_ID()); ?>
-					</div>
+			<div class="col-xs-3 col-sm-1 col-md-2 vdivide">
+				<div class="votebox">
+					<?php do_action('rhs_votebox', get_the_ID()); ?>
 				</div>
 			</div>
 			<div class="col-xs-12">
@@ -41,7 +38,7 @@
 					<div class="pull-right share share-wrap">
 						<span class="hidden-print" style="">
 							<?php //echo do_shortcode('[ssba]'); ?>
-
+							<?php do_action('rhs_follow_post_box', get_the_ID()); ?>
 							<a data-site="" class="facebook_share" href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>" target="_blank">
 								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/facebook.png" title="Facebook" alt="Compartilhar no Facebook">
 							</a>
