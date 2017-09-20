@@ -34,5 +34,6 @@
     "scripts": {
         "post-install-cmd": "bash post-install.sh",
         "post-update-cmd": "bash post-install.sh"
+        ]
     }
 }

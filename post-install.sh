@@ -7,9 +7,6 @@ if (!file_exists("public/wp-content/themes/rhs/vendor")) {
 if (!file_exists("public/wp-content/themes/rhs/vendor/bootstrap")) { 
     mkdir("public/wp-content/themes/rhs/vendor/bootstrap", 0777, true);  
 }
-if (!file_exists("public/wp-content/themes/rhs/vendor/bootstrap3-editable")) { 
-    mkdir("public/wp-content/themes/rhs/vendor/bootstrap3-editable", 0777, true);  
-}
 if (!file_exists("public/wp-content/themes/rhs/vendor/js")) {  
     mkdir("public/wp-content/themes/rhs/vendor/js", 0777, true); 
 }
@@ -32,9 +29,6 @@ echo "Copiando arquivos...\n";
 
 echo "...Bootstrap\n";
 recurse_copy("vendor/twbs/bootstrap/dist/", "public/wp-content/themes/rhs/vendor/bootstrap");
-
-echo "...Bootstrap x-Editable\n";
-recurse_copy("vendor/vitalets/x-editable/dist/bootstrap3-editable", "public/wp-content/themes/rhs/vendor/bootstrap3-editable");
 
 echo "...Font-awesome\n";
 recurse_copy("vendor/fortawesome/font-awesome/css/", "public/wp-content/themes/rhs/vendor/font-awesome/css");
