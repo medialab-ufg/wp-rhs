@@ -26,7 +26,8 @@ class RHSNotification_post_promoted extends RHSNotification {
         $post_ID = $this->getObjectId();
         
         return sprintf(
-            'Seu post <a href="%s"><strong>%s</strong></a> foi promovido.',
+            'Seu post <a id="%d" href="%s" class="rhs-links-to-post"><strong>%s</strong></a> foi promovido.',
+            $post_ID,
             get_permalink($post_ID),
             get_post_field( 'post_title', $post_ID )
         );

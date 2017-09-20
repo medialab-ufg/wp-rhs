@@ -27,7 +27,8 @@ class RHSNotification_user_follow_author extends RHSNotification {
         $user = new RHSUser(get_userdata($user_ID));
 
         return sprintf(
-            'O usuário <a href="%s"><strong>%s</strong></a> passou a te seguir',
+            'O usuário <a id="%d" href="%s" class="rhs-link-to-user"><strong>%s</strong></a> passou a te seguir',
+            $user_ID,
             $user->get_link(),
             $user->get_name()
         );
