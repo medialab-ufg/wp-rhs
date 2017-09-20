@@ -79,7 +79,7 @@ Class RHSApi  {
             ),
         ));
 
-        register_rest_route( $this->apinamespace, '/mark-notifications-as-read/(?P<id>[\d]+)', array(
+        register_rest_route( $this->apinamespace, '/notifications/mark-all-read/(?P<id>[\d]+)', array(
             'methods'  => 'POST',
             'callback' => array(&$this, 'USER_read_all_notifications'),
             'args' => array(
@@ -94,7 +94,7 @@ Class RHSApi  {
             }
         ) );
         
-        register_rest_route( $this->apinamespace, '/user_notify_count/(?P<id>[\d]+)', array(
+        register_rest_route( $this->apinamespace, '/notifications/unread-number/(?P<id>[\d]+)', array(
             'methods' => 'GET',
             'callback' => array(&$this, 'USER_notify_count'),
             'args' => array(
@@ -110,7 +110,7 @@ Class RHSApi  {
         ));
 
         
-        register_rest_route( $this->apinamespace, '/notification_list/(?P<id>[\d]+)/page=(?P<page>[0-9]+)/', array(
+        register_rest_route( $this->apinamespace, '/notifications/(?P<id>[\d]+)/page=(?P<page>[0-9]+)/', array(
             'methods' => 'GET',
             'callback' => array(&$this, 'USER_notification_list'),
             'args' => array(
