@@ -63,10 +63,27 @@ Class RHSApi  {
 					'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
                         }
-				),
+                ),
 			)
         ));
 
+        register_rest_route( $this->apinamespace, '/user/include=(?P<include>[a-z0-9 ,\-]+)/page=(?P<page>[0-9]+)/number_per_page=(?P<number_per_page>[0-9]+)/', array(
+            'methods' => 'GET',
+            'callback' => array(&$this, 'USER_show_specific_users'),
+			'args' => array(
+                'page' => array(
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+                ),
+                'number_per_page' => array(
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+                ),
+			)
+        ));
+        
         register_rest_route( $this->apinamespace, '/user-device/(?P<device_push_id>[a-zA-Z0-9-]+)', array(
             'methods' => 'POST',
             'callback' => array(&$this, 'add_device_push_id'),
@@ -214,6 +231,27 @@ Class RHSApi  {
         $response = $userController->prepare_item_for_response( $user_obj, $request );
         return rest_ensure_response($response);
     
+    }
+
+    function USER_show_specific_users($request) {
+        global $RHSUsers;
+        $user = $request['include'];
+        $page = $request['page'];
+        $number_per_page = $request['number_per_page'];
+        
+        if (is_wp_error($user)) {
+            return $user;
+        }
+        $user = preg_replace('/\.$/', '', $user);
+        $array = explode(',', $user);
+        $users = get_users(
+            array( 
+                'include' => $array, 
+                'number' => $number_per_page, 
+                'paged' => $page
+            ));
+
+        return $users;
     }
 
 
