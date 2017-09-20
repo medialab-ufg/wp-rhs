@@ -278,7 +278,7 @@ class RHSPost {
             * #TODO: 1 - Verifica se é possível o magic suggest ter como valores ao mesmo tempo ID e Nome da tag existente; 
             * Se 1 possível -> 2 - Implementar condição que verifica se existe TAG com mesmo ID e Nome, se verdade, faz nada, se falso ou 'Nome' vazio, cria nova tag.
             */
-            else if((term_exists(((int) $term))) == 0 || (term_exists(((int) $term))) == NULL){
+            else if((term_exists(((int) $term))) == 0){
                 try{
                     $term_id = wp_insert_term(((string)$term), 'post_tag');
                     $terms = $this->verifyErrorTermExist($term_id, $terms, $index);
