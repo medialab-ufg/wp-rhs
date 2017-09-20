@@ -8,7 +8,7 @@ API REST da Rede Humaniza SUS.
 
 #### 1. User Device
 
-```http
+```
 /wp-json/rhs/v1/user-device/(?P<device_or_user_id>[a-zA-Z0-9-]+)
 ```
 * Métodos:  **`POST, GET, DELETE`**
@@ -24,7 +24,7 @@ API REST da Rede Humaniza SUS.
 #
 Retorno do POST:
 
-> _<p style="color: green;'"> Sucesso: <p>_
+> _Sucesso:_
 ```javascript
 {
   'info': 'Device ID adicionado com sucesso!',
@@ -32,11 +32,10 @@ Retorno do POST:
   'usermeta_id': usermeta_id
 }
 ```
-> _<p style="color: red;"> Erro: </p>_
+> _Erro:_
 ```javascript
 {
-  'info': 'Ooops! Erro ao adicionar Device ID! 
-  É possível que esse Device ID já exista para esse usuário',
+  'info': 'Ooops! Erro ao adicionar Device ID! É possível que esse Device ID já exista para esse usuário',
   'device_id': device_push_id,
   'status': false
 }
@@ -44,7 +43,7 @@ Retorno do POST:
 #
 Retorno do GET:
 
-> _<p style="color: green;'"> Sucesso: <p>_
+> _Sucesso:_
 ```javascript
 [
   device1_id,
@@ -52,7 +51,7 @@ Retorno do GET:
   ...
 ]
 ```
-> _<p style="color: red;"> Erro: </p>_
+> _Erro:_
 ```javascript
 {
   'info': 'Device ID não existe para esse usuário!',
@@ -62,7 +61,7 @@ Retorno do GET:
 #
 Retorno do DELETE:
 
-> _<p style="color: green;'"> Sucesso: <p>_
+> _Sucesso:_
 ```javascript
 {
   'info': 'Device ID excluído com sucesso!',
@@ -70,7 +69,7 @@ Retorno do DELETE:
 }
 ```
 
-> _<p style="color: red;"> Erro: </p>_
+> _Erro:_
 ```javascript
 {
   'info': 'Ooops! Erro ao excluir Device ID!',
@@ -80,7 +79,7 @@ Retorno do DELETE:
 
 #### 2. User
 
-```http
+```
 /wp-json/rhs/v1/user/(?P<id>[\d]+)
 ```
 Recebe como parâmetro o ID do usuário e, retorna suas informações.
@@ -94,7 +93,7 @@ Retorna Objeto WP_User em JSON.
 
 #### 3. Follow
 
-```http
+```
 /wp-json/rhs/v1/follow/(?P<id>[\d]+)
 ```
 * Métodos: **`POST, DELETE`**
@@ -121,7 +120,7 @@ Retorno do `DELETE`: reponse é `true` se deixou de seguir, `false` se não.
 
 #### 4. Vote
 
-```http
+```
 /wp-json/rhs/v1/votes/(?P<id>[\d]+)
 ```
 Recebe como parâmetro o ID do post que receberá o voto e, registra esse voto caso o usuário possa votar no post, caso não, um erro é retornado.
@@ -145,7 +144,7 @@ Retorna JSON (data é `true` se usuário pode votar e votou, `false` se não):
 
 Recebe como parâmetro o ID do usuário e o número da página e, retorna as notificações associadas ao usuário.
 
-```http
+```
 /wp-json/rhs/v1/notifications/(?P<id>[\d]+)/page=(?P<page>[0-9]+)/
 ```
 
@@ -182,7 +181,7 @@ Retorno JSON (Objeto de Objetos):
 
 Recebe como parâmetro o ID do usuário.
 
-```http
+```
 wp-json/rhs/v1/notifications/mark-all-read/(?P<id>[\d]+)
 ```
 
@@ -197,7 +196,7 @@ Retorna a quantidade de notificações marcadas como lida.
 
 Recebe como parâmetro o ID do usuário.
 
-```http
+```
 wp-json/rhs/v1/notifications/unread-number/(?P<id>[\d]+)
 ```
 
