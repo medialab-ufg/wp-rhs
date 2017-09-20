@@ -41,7 +41,7 @@ Class RHSApi  {
         ));
 
         register_rest_route( $this->apinamespace, '/follow/(?P<id>[\d]+)', array(
-            'methods'  => 'POST',
+            'methods'  => 'POST, DELETE',
             'callback' => array(&$this, 'USER_follow'),
             'args' => array(
                 'id' => array(
@@ -51,7 +51,7 @@ Class RHSApi  {
                 )
             ),
             'permission_callback' => function ( $request ) {
-                return current_user_can( 'contributor', $request['id'] );   
+                return is_user_logged_in();   
             }
         ) );
 
@@ -82,12 +82,17 @@ Class RHSApi  {
 
     function USER_follow($request) {
         global $RHSFollow;
-        $data = $RHSFollow->toggle_follow(get_current_user_id(), $request['id']);
+        
+        if ($request->get_method() == 'POST') {
+            $data = $RHSFollow->add_follow($request->get_params()['id'], get_current_user_id());
+        } elseif ($request->get_method() == 'DELETE') {
+            $data = $RHSFollow->remove_follow($request->get_params()['id'], get_current_user_id());
+        }
 
         $dataR = [
             'response' => $data,
             'user_id' => get_current_user_id(),
-            'follow_id' => $request['id']
+            'follow_id' => $request->get_params()['id']
         ];
 
         $response = new WP_REST_Response( $dataR );
