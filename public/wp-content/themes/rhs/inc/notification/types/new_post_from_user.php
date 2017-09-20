@@ -41,6 +41,23 @@ class RHSNotification_new_post_from_user extends RHSNotification {
         }
     }
 
+    function textPush() {
+        $post_ID = $this->getObjectId();
+        $user_data = get_userdata(get_post_field( 'post_author', $post_ID ));
+
+        if (is_object($user_data)) {
+            $user = new RHSUser($user_data);
+
+            return sprintf(
+                '%s criou um novo post %s',
+                $user->get_name(),
+                get_post_field( 'post_title', $post_ID )
+            );
+        } else {
+            return '';
+        }
+    }
+
     function image(){
 
         $post_ID = $this->getObjectId();

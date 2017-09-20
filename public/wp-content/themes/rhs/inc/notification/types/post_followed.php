@@ -38,6 +38,16 @@ class RHSNotification_post_followed extends RHSNotification {
         );
     }
 
+    function textPush() {
+        $post_ID = $this->getObjectId();
+        
+        return sprintf(
+            'O usuário %s está seguindo seu post %s',
+            $user->get_name(),
+            get_post_field('post_title', $post_ID)
+        );
+    }
+
     function image(){
         $user_ID = $this->getUserId();
         $user = new RHSUser(get_userdata($user_ID));

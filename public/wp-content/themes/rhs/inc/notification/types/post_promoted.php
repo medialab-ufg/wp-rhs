@@ -33,6 +33,15 @@ class RHSNotification_post_promoted extends RHSNotification {
         );
     }
 
+    function textPush() {
+        $post_ID = $this->getObjectId();
+        
+        return sprintf(
+            'Seu post %s foi promovido.',
+            get_post_field( 'post_title', $post_ID )
+        );
+    }
+
     function image(){
         $post_ID = $this->getObjectId();
         return get_the_post_thumbnail( $post_ID, 'thumbnail');

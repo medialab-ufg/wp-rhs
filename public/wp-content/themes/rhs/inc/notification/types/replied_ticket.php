@@ -20,6 +20,10 @@ class RHSNotification_replied_ticket extends RHSNotification {
         );
     }
 
+    function textPush() {
+        return 'Seu contato foi respondido';
+    }
+
     function image(){
         
         return "<img src='". get_template_directory_uri() ."/inc/notification/assets/default_icon.png'>";

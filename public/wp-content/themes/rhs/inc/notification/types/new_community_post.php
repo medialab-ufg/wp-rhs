@@ -47,6 +47,24 @@ class RHSNotification_new_community_post extends RHSNotification {
         );
     }
 
+    function textPush() {
+        $post_ID = $this->getObjectId();
+        $user = new RHSUser(get_userdata(get_post_field( 'post_author', $post_ID )));
+        
+        $str_channel = str_replace('%s', '', RHSNotifications::CHANNEL_COMMUNITY);
+        
+        $community_id = str_replace($str_channel, '', $this->getChannel());
+
+        $community = get_term_by('id', $community_id, RHSComunities::TAXONOMY);
+
+        return sprintf(
+            '%s criou um novo post: %s, na comunidade %s',
+            $user->get_name(),
+            get_post_field( 'post_title', $post_ID ),
+            $community->name
+        );
+    }
+
     function image(){
 
         $post_ID = $this->getObjectId();
