@@ -67,39 +67,15 @@ Class RHSApi  {
 			)
         ));
 
-        register_rest_route( $this->apinamespace, '/add-user-device/(?P<device_push_id>[a-zA-Z0-9-]+)', array(
-            'methods' => 'POST',
-            'callback' => array(&$this, 'USER_DEVICE_add'),
+        register_rest_route( $this->apinamespace, '/user-device/(?P<device_or_user_id>[a-zA-Z0-9-]+)', array(
+            'methods' => 'POST, GET, DELETE',
+            'callback' => array(&$this, 'USER_DEVICE_manipulate'),
             'args' => array(
                 'id' => array(
 					'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
                     }
                 ),     
-            ),
-        ));
-
-        register_rest_route($this->apinamespace, '/delete-user-device/(?P<id>[\d]+)', array(
-            'methods' => 'DELETE',
-            'callback' => array(&$this, 'USER_DEVICE_delete'),
-            'args' => array(
-                'id' => array(
-                    'validate_callback' => function($param, $request, $key){
-                        return is_numeric($param);
-                    }
-                ),
-            ),
-        ));
-
-        register_rest_route($this->apinamespace, '/get-user-device/(?P<id>[\d]+)', array(
-            'methods' => 'GET',
-            'callback' => array(&$this, 'USER_DEVICE_get'),
-            'args' => array(
-                'id' => array(
-                    'validate_callback' => function($param, $request, $key){
-                        return is_numeric($param);
-                    }
-                ),
             ),
         ));
     }
@@ -188,8 +164,6 @@ Class RHSApi  {
     
     }
     
-    
-    
     ////// Endpoints
     
     function get_teste(WP_REST_Request $request) {
@@ -202,11 +176,6 @@ Class RHSApi  {
             'notification' => 'Você é demais!'
         );
     }
-    
-    
-    
-    
-    
     
     ////// Callback de login
     
@@ -245,9 +214,25 @@ Class RHSApi  {
 
     }
 
+    // USER DEVICE Callbacks
+
+    function USER_DEVICE_manipulate($request){
+        switch($request->get_method()){
+            case 'POST':
+                return $this->USER_DEVICE_add($request);
+            break;
+            case 'GET':
+                return $this->USER_DEVICE_get($request);
+            break;
+            case 'DELETE':
+                return $this->USER_DEVICE_delete($request);
+            break;
+        }
+    }
+
     function USER_DEVICE_add($request){
         $current_user = wp_get_current_user();
-        $device_push_id = $request['device_push_id'];
+        $device_push_id = $request->get_params()['device_or_user_id'];
         
         global $RHSOneSignal;
         
@@ -271,13 +256,13 @@ Class RHSApi  {
         }
 
         $response = new WP_REST_Response($message);
-        $response->set_status(200);
+        $response->set_status(201);
 
         return $response;
     }
 
-    function USER_DEVICE_get($request){
-        $user_id = $request['id'];
+    function USER_DEVICE_get($request){        
+        $user_id = $request->get_params()['device_or_user_id'];
 
         global $RHSOneSignal;
 
@@ -300,7 +285,7 @@ Class RHSApi  {
     }
 
     function USER_DEVICE_delete($request){
-        $user_id = $request['id'];
+        $user_id = $request->get_params()['device_or_user_id'];
 
         global $RHSOneSignal;
 
