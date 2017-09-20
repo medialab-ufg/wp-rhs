@@ -32,7 +32,7 @@ class RHSOneSignal {
     }
     
     public function add_user_device_id($user_id, $device_id) {
-        return update_user_meta($user_id, self::DEVICE_ID_META, $device_id);
+        return add_user_meta($user_id, self::DEVICE_ID_META, $device_id);
     }
     
     public function delete_user_device_id($user_id, $device_id) {
