@@ -43,6 +43,8 @@ class RHSNotification_post_followed extends RHSNotification {
 
     function textPush() {
         $post_ID = $this->getObjectId();
+        $user_ID = $this->getUserId();
+        $user = new RHSUser(get_userdata($user_ID));
         
         return sprintf(
             'O usuário %s está seguindo seu post %s',
