@@ -1,5 +1,8 @@
 <?php
-
+/**
+Description: Notificação de novos posts de um usuário
+Short description: Novos posts de usuários seguidos
+ */
 
 class RHSNotification_new_post_from_user extends RHSNotification {
 

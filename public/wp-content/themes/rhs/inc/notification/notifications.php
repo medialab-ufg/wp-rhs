@@ -44,6 +44,32 @@ class RHSNotifications {
         }
     }
     
+    static function get_notification_types() {
+        
+        $types_dir = dirname(__FILE__) . '/types/';
+        
+        $types = [];
+        
+        $dir = new DirectoryIterator($types_dir);
+        foreach ($dir as $fileinfo) {
+            if (!$fileinfo->isDot()) {
+                $info = get_file_data($types_dir . $fileinfo->getFilename(), ['description' => 'Description', 'short_description' => 'Short description']);
+                
+                
+                $slug = str_replace('.php', '', $fileinfo->getFilename());
+                
+                $types[$slug] = [
+                    'className' => self::NOTIFICATION_CLASS_PREFIX . $slug,
+                    'description' => $info['description'],
+                    'short_description' => $info['short_description']
+                ];
+            }
+        }
+        
+        return apply_filters('rhs_notifications_types', $types);
+        
+    }
+    
     private function register_notifications() {
         $notifications = apply_filters('rhs_registered_notifications', include('registered-notifications.php'));
         foreach ($notifications as $hook => $type) {

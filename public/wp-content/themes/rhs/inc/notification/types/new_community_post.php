@@ -1,5 +1,8 @@
 <?php
-
+/**
+Description: Notificação de novos posts em uma comunidade
+Short description: Novos posts em comunidades
+ */
 
 class RHSNotification_new_community_post extends RHSNotification {
 

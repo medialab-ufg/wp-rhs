@@ -7,11 +7,13 @@ class RHSOneSignal {
     
     const DEVICE_ID_META = '_device_id';
     const CHANNEL_TAG_PREFIX = 'ch_';
+    const NOTF_TYPE_TAG_PREFIX = 'notf_type_';
     
     function __construct() {
         add_action('rhs_add_notification', array(&$this, 'create_push_notification'));
         add_action('rhs_add_user_to_channel', array(&$this, 'add_user_to_channel'), 10, 2);
         add_action('rhs_delete_user_from_channel', array(&$this, 'delete_user_from_channel'), 10, 2);
+        add_filter('rhs_notifications_types', array(&$this, 'rhs_notifications_types'), 10, 2);
     }
     
     private function get_app_id() {
@@ -24,6 +26,13 @@ class RHSOneSignal {
         if (defined('ONESIGNAL_AUTH_KEY') && !empty(ONESIGNAL_AUTH_KEY))
             return ONESIGNAL_AUTH_KEY;
         return null;
+    }
+    
+    function rhs_notifications_types($types) {
+        foreach ($types as $slug => $type) {
+            $types[$slug]['onesginal_tag'] = self::NOTF_TYPE_TAG_PREFIX . $slug;
+        }
+        return $types;
     }
     
     public function get_user_device_id($user_id) {

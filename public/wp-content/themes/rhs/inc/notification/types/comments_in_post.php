@@ -1,5 +1,8 @@
 <?php
-
+/**
+Description: Notificação de novos comentários em um post
+Short description: Novos comentarios em posts seguidos
+ */
 
 class RHSNotification_comments_in_post extends RHSNotification {
 

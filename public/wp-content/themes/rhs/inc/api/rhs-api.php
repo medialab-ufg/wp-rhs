@@ -129,6 +129,11 @@ Class RHSApi  {
                 return current_user_can('edit_user', $request['id']);
             }
         ));
+        
+        register_rest_route( $this->apinamespace, '/notifications/types/', array(
+            'methods' => 'GET',
+            'callback' => array(&$this, 'NOTIFICATIONS_types')
+        ));
 
     }
 
@@ -441,6 +446,20 @@ Class RHSApi  {
         $response->set_status(200);
 
         return $response;
+    }
+    
+    function NOTIFICATIONS_types($request) {
+        
+        $types = RHSNotifications::get_notification_types();
+        
+        $message = ['types' => $types];
+        
+        $response = new WP_REST_Response($message);
+        $response->set_status(200);
+
+        return $response;
+        
+        
     }
 
 }
