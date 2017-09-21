@@ -71,12 +71,15 @@ Class RHSApi  {
             'methods' => 'POST, GET, DELETE',
             'callback' => array(&$this, 'USER_DEVICE_manipulate'),
             'args' => array(
-                'id' => array(
+                'device_or_user_id' => array(
 					'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
+                        return is_string($param);
                     }
                 ),     
             ),
+            'permission_callback' => function ( $request ) {
+                return is_user_logged_in();   
+            }
         ));
 
         register_rest_route( $this->apinamespace, '/notifications/mark-all-read/(?P<id>[\d]+)', array(
@@ -101,14 +104,13 @@ Class RHSApi  {
 				'id' => array(
 					'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
-                        }
-                    ),
+                    }
                 ),
+            ),
             'permission_callback' => function ( $request ) {
                 return current_user_can('edit_user', $request['id']);
             }
         ));
-
         
         register_rest_route( $this->apinamespace, '/notifications/(?P<id>[\d]+)/page=(?P<page>[0-9]+)/', array(
             'methods' => 'GET',
@@ -376,7 +378,7 @@ Class RHSApi  {
         $RHSOneSignal->sync_user_channels($current_user->ID, $device_push_id);
         $RHSOneSignal->add_user_profile_tags($current_user->ID, $device_push_id);
         
-        if($success){
+        if($success === true){
             $message = [
                 'info' => 'Device ID adicionado com sucesso!', 
                 'device_id' => $device_push_id,

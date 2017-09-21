@@ -48,7 +48,6 @@ class RHSOneSignal {
         return delete_user_meta($user_id, self::DEVICE_ID_META, $device_id);
     }
     
-    
     function create_push_notification($notification){
         
         $endpoint = 'notifications';
@@ -74,7 +73,6 @@ class RHSOneSignal {
         ];
         
         return $this->send_request($request, $endpoint, $method);
-        
     }
     
     /**
@@ -125,7 +123,6 @@ class RHSOneSignal {
                         }
                     }
                 }
-                
             }
             
             // tags que estão no One Signal mas não estão nos canais locais e precisam ser excluídas:
@@ -149,9 +146,7 @@ class RHSOneSignal {
             ];
 
             $this->send_request($request, $endpoint, $method);
-        
         }
-        
     }
     
     function add_user_profile_tags($user_id, $device_push_id = false) {
@@ -201,8 +196,6 @@ class RHSOneSignal {
 
             $this->send_request($request, $endpoint, $method);
         }
-        
-        
     }
     
     
@@ -233,10 +226,7 @@ class RHSOneSignal {
             $this->send_request($request, $endpoint, $method);
         }
         
-        return true;
-        
-        
-        
+        return true; 
     }
     
     
@@ -257,9 +247,7 @@ class RHSOneSignal {
             'body' => json_encode($request)
             
         ]);
-        
     }
-    
 } 
 
 global $RHSOneSignal;
