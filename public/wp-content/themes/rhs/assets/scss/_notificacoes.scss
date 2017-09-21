@@ -1,0 +1,48 @@
+/***********
+*
+* Notificações
+*
+************/
+.notificacoes{
+    .wrapper-content {
+        padding: 30px;
+        background-color: $whiteColor;
+        margin-bottom: 15px;
+        .panel{
+            &.panel-horizontal {
+                display:table;
+                width:100%;
+                > .panel-heading{
+                    padding: 5px;
+                    border: {
+                        right: 1px solid #ddd;
+                        top-right-radius: 0;
+                        bottom-left-radius: 4px;
+                    }
+                    @media only screen and (min-width: 768px){
+                        width: 10%;
+                    }
+                }
+                > .panel-body{
+                    display: inline-grid;
+                    @media only screen and (max-width: 768px){
+                        font-size: 14px;
+                    }
+                }
+                > .panel-heading,
+                > .panel-footer {
+                    display:table-cell;
+                    border:0;
+                    vertical-align: middle;
+                }
+                > .panel-footer {
+                    border: {
+                        left: 0px solid #ddd;
+                        top-left-radius: 0;
+                        bottom-right-radius: 4px;
+                    }
+                }
+            }
+        }
+    }
+}

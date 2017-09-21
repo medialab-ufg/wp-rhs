@@ -1,0 +1,53 @@
+/******************
+*
+* Pagina Postagens
+*
+*******************/
+.postagens {
+    .wrapper-content {
+        padding: 20px;
+        border-radius: 3px;
+        background-color: $whiteColor;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        margin: 0;
+        clear: both;
+        table {
+            background: $whiteColor;
+            thead, tbody {
+                tr {
+                    th, td {
+                        border: 1px solid #fff;
+                        color: rgba(0, 0, 0, 0.66);
+                        text-align: center;
+                        font-size: 13px;
+                        a {
+                            color: $primeira_cor_texto;
+                        }
+                    }
+                    th {
+                        background: $primeira_cor_texto;
+                        color: $whiteColor;
+                    }
+                }
+            }
+        }
+        h4 {
+            &.titulo-page {
+                margin: 0;
+                margin-bottom: -10px;
+                color: #00b4b4;
+                font-size: 20px;
+                text-align: center;
+            }
+        }
+        p {
+            &.postnone {
+                text-align: center;
+            }
+        }
+        @media screen and (max-width: 768px) {
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+    }
+}
