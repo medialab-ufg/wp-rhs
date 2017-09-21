@@ -15,6 +15,7 @@ class RHSOneSignal {
         add_action('rhs_delete_user_from_channel', array(&$this, 'delete_user_from_channel'), 10, 2);
         add_filter('rhs_notifications_types', array(&$this, 'rhs_notifications_types'), 10, 2);
         add_action('profile_update', array(&$this,'add_user_profile_tags'), 10, 1);
+        
     }
     
     private function get_app_id() {
@@ -54,6 +55,7 @@ class RHSOneSignal {
         $method = 'POST';
         
         $channel = $notification->getChannel();
+        $type = $notification->getType();
         $text = $notification->getTextPush();
         
         
@@ -64,6 +66,25 @@ class RHSOneSignal {
                     'field' => 'tag',
                     'key' => self::CHANNEL_TAG_PREFIX . $channel,
                     'relation' => 'exists'
+                ],
+                [
+                    'field' => 'tag',
+                    'key' => self::NOTF_TYPE_TAG_PREFIX . $type,
+                    'relation' => 'not_exists'
+                ],
+                [
+                    'operator' => 'OR'
+                ],
+                [
+                    'field' => 'tag',
+                    'key' => self::CHANNEL_TAG_PREFIX . $channel,
+                    'relation' => 'exists'
+                ],
+                [
+                    'field' => 'tag',
+                    'key' => self::NOTF_TYPE_TAG_PREFIX . $type,
+                    'relation' => '=',
+                    'value' => '1'
                 ]
             ],
             'contents' => [
