@@ -29,7 +29,7 @@ class RHSStats {
         
         
         // Hooks que geram eventos
-        add_action( 'wp_login', array( &$this, 'login'));
+        add_action( 'wp_login', array( &$this, 'login'), 10, 2);
         add_action( 'rhs_register', array( &$this, 'register'));
         add_action( 'rhs_add_user_follow_author', array( &$this, 'user_follow'));
         add_action( 'rhs_delete_user_follow_author', array( &$this, 'user_unfollow'));
@@ -44,9 +44,8 @@ class RHSStats {
         
     }
     
-    function login($user_login) {
-        $user_ID = get_current_user_id();
-        $this->add_event(self::ACTION_LOGIN, $user_ID, $user_ID);
+    function login($user_login, $user) {
+        $this->add_event(self::ACTION_LOGIN, $user->ID, $user->ID);
     }
     
     function register($user_id) {
