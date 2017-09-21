@@ -429,6 +429,7 @@ Class RHSApi  {
         global $RHSOneSignal;
 
         $success = $RHSOneSignal->delete_user_device_id($user_id, $device_id);
+        $RHSOneSignal->delete_user_channels($user_id, $device_id);
 
         if($success){
             $message = [

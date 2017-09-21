@@ -149,6 +149,67 @@ class RHSOneSignal {
         }
     }
     
+    /**
+     * delete channels from device
+     *
+     * Deleta todos os canais associados a um device no One Signal
+     * 
+     * @param  int $user_id  ID do usuário
+     * @return array retorno da API
+     */
+    function delete_user_channels($user_id, $device_push_id = false) {
+        
+        if (false !== $device_push_id) {
+            $device_ids = [$device_push_id];
+        } else {
+            $device_ids = $this->get_user_device_id($user_id);
+            
+            if (!$device_ids || empty($device_ids))
+                return false;
+        }
+            
+        foreach ($device_ids as $device_id) {
+            // Primeiro pegamos as tags todas que o device já tem cadastradas no OneSignal
+            $endpoint = 'players/' . $device_id;
+            $method = 'GET';
+            $device = $this->send_request([], $endpoint, $method);
+            $remote_tags = [];
+            
+            // Checamos se a resposta veio com sucesso e se existem tags
+            if (is_array($device) && isset($device['body'])) {
+                $body = json_decode($device['body']);
+                
+                if (is_object($body) && isset($body->tags)) {
+                    if (is_object($body->tags)) {
+                        // Pegamos as tags que começam com o prefixo que usamos e colocamos em um Array
+                        // que vamos usar para comparar com os canais que eles tem aqui no site
+                        foreach ($body->tags as $tag => $v) {
+                            if (0 === strpos($tag, self::CHANNEL_TAG_PREFIX))
+                                array_push($remote_tags, $tag);
+                        }
+                    }
+                }
+                
+            }
+            
+            // Montamos o array que vamos enviar no request
+            $tagsToEdit = [];
+            foreach ($remote_tags as $tag)
+                $tagsToEdit[$tag] = '';
+                
+            // Montamos e enviamos o request
+            $endpoint = 'players/' . $device_id;
+            $method = 'PUT';
+            $request = [
+                'tags' => $tagsToEdit
+            ];
+
+            $this->send_request($request, $endpoint, $method);
+        
+        }
+        
+    }
+    
     function add_user_profile_tags($user_id, $device_push_id = false) {
         
         if (false !== $device_push_id) {
