@@ -373,8 +373,8 @@ Class RHSApi  {
         global $RHSOneSignal;
         
         $success = $RHSOneSignal->add_user_device_id($current_user->ID, $device_push_id);
-        $RHSOneSignal->sync_user_channels($current_user->ID);
-        $RHSOneSignal->add_user_profile_tags($current_user->ID);
+        $RHSOneSignal->sync_user_channels($current_user->ID, $device_push_id);
+        $RHSOneSignal->add_user_profile_tags($current_user->ID, $device_push_id);
         
         if($success){
             $message = [
