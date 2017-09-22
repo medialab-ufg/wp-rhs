@@ -67,7 +67,7 @@ Class RHSApi  {
 			)
         ));
 
-        register_rest_route( $this->apinamespace, '/user/include=(?P<include>[a-z0-9 ,\-]+)/page=(?P<page>[0-9]+)/number_per_page=(?P<number_per_page>[0-9]+)/', array(
+        register_rest_route( $this->apinamespace, '/user/include=(?P<include>[a-z0-9 ,\-]+)&page=(?P<page>[0-9]+)&per_page=(?P<per_page>[0-9]+)/', array(
             'methods' => 'GET',
             'callback' => array(&$this, 'USER_show_specific_users'),
 			'args' => array(
@@ -76,7 +76,7 @@ Class RHSApi  {
                         return is_numeric( $param );
                         }
                 ),
-                'number_per_page' => array(
+                'per_page' => array(
                     'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
                         }
@@ -237,7 +237,7 @@ Class RHSApi  {
         global $RHSUsers;
         $user = $request['include'];
         $page = $request['page'];
-        $number_per_page = $request['number_per_page'];
+        $per_page = $request['per_page'];
         
         if (is_wp_error($user)) {
             return $user;
@@ -247,7 +247,7 @@ Class RHSApi  {
         $users = get_users(
             array( 
                 'include' => $array, 
-                'number' => $number_per_page, 
+                'number' => $per_page, 
                 'paged' => $page
             ));
 
