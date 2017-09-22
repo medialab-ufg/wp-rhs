@@ -1,5 +1,8 @@
 <?php
-
+/**
+Description: Notificação ao autor de um formulário de contato quando sua pergunta é respondida
+Short description: Nova resposta ao formulário de contato
+ */
 
 class RHSNotification_replied_ticket extends RHSNotification {
 
@@ -14,10 +17,14 @@ class RHSNotification_replied_ticket extends RHSNotification {
         $post = $this->getObjectId();
                 
         return sprintf(
-            'Seu <a id="%d" href="%s" class="rhs-links-to-post">contato</a> foi respondido',
+            'Seu <a id="rhs-link-to-post-%d" href="%s" class="rhs-links-to-post">contato</a> foi respondido',
             $post,
             get_permalink($post)
         );
+    }
+
+    function textPush() {
+        return 'Seu contato foi respondido';
     }
 
     function image(){

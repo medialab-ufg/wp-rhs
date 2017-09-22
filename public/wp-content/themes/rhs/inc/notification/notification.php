@@ -192,5 +192,21 @@ class RHSNotification {
     public function setImage( $image ) {
         $this->image = $image;
     }
+    
+    public function getTextPush() {
+        if($this->text){
+            return $this->text;
+        }
+
+        return $this->text = $this->textPush(); // método da classe filha do tipo de notificação
+    }
+    
+    /**
+     * Métodos padrões que devem ser sobrescritos pelas classes filhas de tipos de notificação
+     */
+
+     public function textPush() {
+         return 'Novidades para você na RHS';
+     }
 
 }

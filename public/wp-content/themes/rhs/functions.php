@@ -34,6 +34,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/notification/notifications.php');
         require_once('inc/notification/notification.php');
         require_once('inc/notification/channels-hooks.php');
+        require_once('inc/onesignal/onesignal.php');
         
         require_once('inc/notification/types/comments_in_post.php');
         require_once('inc/notification/types/new_community_post.php');

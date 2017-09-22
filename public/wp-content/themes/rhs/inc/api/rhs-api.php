@@ -26,7 +26,7 @@ Class RHSApi  {
                 'id' => array(
                     'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
-                        }
+                    }
                 )
             ),
             'permission_callback' => function ( $request ) {
@@ -41,17 +41,17 @@ Class RHSApi  {
         ));
 
         register_rest_route( $this->apinamespace, '/follow/(?P<id>[\d]+)', array(
-            'methods'  => 'POST',
+            'methods'  => 'POST, DELETE',
             'callback' => array(&$this, 'USER_follow'),
             'args' => array(
                 'id' => array(
                     'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
-                        }
+                    }
                 )
             ),
             'permission_callback' => function ( $request ) {
-                return current_user_can( 'contributor', $request['id'] );   
+                return is_user_logged_in();   
             }
         ) );
 
@@ -62,6 +62,7 @@ Class RHSApi  {
 				'id' => array(
 					'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
+
                         }
                 ),
 			)
@@ -84,26 +85,30 @@ Class RHSApi  {
 			)
         ));
         
-        register_rest_route( $this->apinamespace, '/user-device/(?P<device_push_id>[a-zA-Z0-9-]+)', array(
-            'methods' => 'POST',
-            'callback' => array(&$this, 'add_device_push_id'),
+
+        register_rest_route( $this->apinamespace, '/user-device/(?P<device_or_user_id>[a-zA-Z0-9-]+)', array(
+            'methods' => 'POST, GET, DELETE',
+            'callback' => array(&$this, 'USER_DEVICE_manipulate'),
             'args' => array(
-                'id' => array(
+                'device_or_user_id' => array(
 					'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
+                        return is_string($param);
                     }
                 ),     
             ),
+            'permission_callback' => function ( $request ) {
+                return is_user_logged_in();   
+            }
         ));
 
-        register_rest_route( $this->apinamespace, '/mark-notifications-as-read/(?P<id>[\d]+)', array(
+        register_rest_route( $this->apinamespace, '/notifications/mark-all-read/(?P<id>[\d]+)', array(
             'methods'  => 'POST',
             'callback' => array(&$this, 'USER_read_all_notifications'),
             'args' => array(
                 'id' => array(
                     'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
-                        }
+                    }
                 )
             ),
             'permission_callback' => function ( $request ) {
@@ -111,52 +116,61 @@ Class RHSApi  {
             }
         ) );
         
-        register_rest_route( $this->apinamespace, '/user_notify_count/(?P<id>[\d]+)', array(
+        register_rest_route( $this->apinamespace, '/notifications/unread-number/(?P<id>[\d]+)', array(
             'methods' => 'GET',
             'callback' => array(&$this, 'USER_notify_count'),
             'args' => array(
 				'id' => array(
 					'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
-                        }
-                    ),
-                ),
-            'permission_callback' => function ( $request ) {
-                return current_user_can('edit_user', $request['id']);
-            }
-        ));
-
-        
-        register_rest_route( $this->apinamespace, '/notification_list/(?P<id>[\d]+)/page=(?P<page>[0-9]+)/', array(
-            'methods' => 'GET',
-            'callback' => array(&$this, 'USER_notification_list'),
-            'args' => array(
-				'id' => array(
-					'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
-                        }
-                    ),
-                'page' => array(
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
-                        }
+                    }
                 ),
             ),
             'permission_callback' => function ( $request ) {
                 return current_user_can('edit_user', $request['id']);
             }
         ));
+        
+        register_rest_route( $this->apinamespace, '/notifications/(?P<id>[\d]+)/page=(?P<page>[0-9]+)/', array(
+            'methods' => 'GET',
+            'callback' => array(&$this, 'USER_notification_list'),
+            'args' => array(
+				'id' => array(
+					'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                    }
+                ),
+                'page' => array(
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                    }
+                ),
+            ),
+            'permission_callback' => function ( $request ) {
+                return current_user_can('edit_user', $request['id']);
+            }
+        ));
+        
+        register_rest_route( $this->apinamespace, '/notifications/types/', array(
+            'methods' => 'GET',
+            'callback' => array(&$this, 'NOTIFICATIONS_types')
+        ));
 
     }
 
     function USER_follow($request) {
         global $RHSFollow;
-        $data = $RHSFollow->toggle_follow(get_current_user_id(), $request['id']);
+        
+        if ($request->get_method() == 'POST') {
+            $data = $RHSFollow->add_follow($request->get_params()['id'], get_current_user_id());
+        } elseif ($request->get_method() == 'DELETE') {
+            $data = $RHSFollow->remove_follow($request->get_params()['id'], get_current_user_id());
+        }
 
         $dataR = [
             'response' => $data,
             'user_id' => get_current_user_id(),
-            'follow_id' => $request['id']
+            'follow_id' => $request->get_params()['id']
         ];
 
         $response = new WP_REST_Response( $dataR );
@@ -347,8 +361,6 @@ Class RHSApi  {
 
     }
     
-    
-    
     ////// Endpoints
     
     function get_teste(WP_REST_Request $request) {
@@ -361,11 +373,6 @@ Class RHSApi  {
             'notification' => 'Você é demais!'
         );
     }
-    
-    
-    
-    
-    
     
     ////// Callback de login
     
@@ -404,22 +411,116 @@ Class RHSApi  {
 
     }
 
-    function add_device_push_id($request){
-        $current_user = wp_get_current_user();
-        $device_push_id = $request['device_push_id'];
+    // USER DEVICE Callbacks
 
-        update_user_meta($current_user->ID, 'device_push_id', $device_push_id, $user_meta_value);
+    function USER_DEVICE_manipulate($request){
+        switch($request->get_method()){
+            case 'POST':
+                return $this->USER_DEVICE_add($request);
+            break;
+            case 'GET':
+                return $this->USER_DEVICE_get($request);
+            break;
+            case 'DELETE':
+                return $this->USER_DEVICE_delete($request);
+            break;
+        }
+    }
+
+    function USER_DEVICE_add($request){
+        $current_user = wp_get_current_user();
+        $device_push_id = $request->get_params()['device_or_user_id'];
         
-        $message = [
-            'info' => 'Device ID registered', 
-            'user' => $current_user, 
-            'device_id' => $device_push_id
-        ];
+        global $RHSOneSignal;
+        
+        $success = $RHSOneSignal->add_user_device_id($current_user->ID, $device_push_id);
+        $RHSOneSignal->sync_user_channels($current_user->ID, $device_push_id);
+        $RHSOneSignal->add_user_profile_tags($current_user->ID, $device_push_id);
+        
+        if($success === true){
+            $message = [
+                'info' => 'Device ID adicionado com sucesso!', 
+                'device_id' => $device_push_id,
+                'usermeta_id' => $success
+            ];
+        }
+        else{
+            $message = [
+                'info' => 'Ooops! Erro ao adicionar Device ID! É possível que esse Device ID já exista para esse usuário.',
+                'device_id' => $device_push_id,
+                'status' => $success
+            ];
+        }
+
+        $response = new WP_REST_Response($message);
+        $response->set_status(201);
+
+        return $response;
+    }
+
+    function USER_DEVICE_get($request){        
+        $user_id = $request->get_params()['device_or_user_id'];
+
+        global $RHSOneSignal;
+
+        $device_id = $RHSOneSignal->get_user_device_id($user_id);
+
+        if(empty($device_id)){
+           $message = [
+               'info' => 'Device ID não existe para esse usuário!',
+               'status' => false
+            ];
+        }
+        else{
+            $message = $device_id;
+        }
 
         $response = new WP_REST_Response($message);
         $response->set_status(200);
 
         return $response;
+    }
+
+    function USER_DEVICE_delete($request){
+        $device_id = $request->get_params()['device_or_user_id'];
+        $user_id = wp_get_current_user()->ID;
+
+        global $RHSOneSignal;
+
+        $success = $RHSOneSignal->delete_user_device_id($user_id, $device_id);
+        $RHSOneSignal->delete_user_channels($user_id, $device_id);
+
+        if($success){
+            $message = [
+                'info' => 'Device ID excluído com sucesso!',
+                'status' => $success
+            ];
+        }
+        else{
+            $message = [
+                'info' => 'Ooops! Erro ao excluir Device ID!',
+                'status' => $success
+            ];
+        }
+
+        $response = new WP_REST_Response($message);
+        $response->set_status(200);
+
+        return $response;
+    }
+    
+    function NOTIFICATIONS_types($request) {
+        
+        $types = RHSNotifications::get_notification_types();
+        
+        $message = ['types' => $types];
+        
+        $response = new WP_REST_Response($message);
+        $response->set_status(200);
+
+        return $response;
+        
+        
     }
 
 }
