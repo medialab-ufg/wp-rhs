@@ -63,10 +63,27 @@ Class RHSApi  {
 					'validate_callback' => function($param, $request, $key) {
                         return is_numeric( $param );
                         }
-				),
+                ),
 			)
         ));
 
+        register_rest_route( $this->apinamespace, '/user/include=(?P<include>[a-z0-9 ,\-]+)&page=(?P<page>[0-9]+)&per_page=(?P<per_page>[0-9]+)/', array(
+            'methods' => 'GET',
+            'callback' => array(&$this, 'USER_show_specific_users'),
+			'args' => array(
+                'page' => array(
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+                ),
+                'per_page' => array(
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
+                ),
+			)
+        ));
+        
         register_rest_route( $this->apinamespace, '/user-device/(?P<device_push_id>[a-zA-Z0-9-]+)', array(
             'methods' => 'POST',
             'callback' => array(&$this, 'add_device_push_id'),
@@ -214,6 +231,46 @@ Class RHSApi  {
         $response = $userController->prepare_item_for_response( $user_obj, $request );
         return rest_ensure_response($response);
     
+    }
+
+    function USER_show_specific_users($request) {
+        global $RHSUsers;
+        $user = $request['include'];
+        $page = $request['page'];
+        $per_page = $request['per_page'];
+        
+        if (is_wp_error($user)) {
+            return $user;
+        }
+
+        // tratando array
+        $user = preg_replace('/\.$/', '', $user);
+        $array = explode(',', $user);
+        $size = count($array);
+        
+        // paginação
+        $totalPages = ceil($size/$per_page);
+        $page = max($page, 1);
+        $page = min($page, $totalPages);
+        $offset = ($page - 1) * $per_page;
+        if ($offset < 0) $offset = 0;
+     
+        // coleção de resultados
+        foreach ($array as $key => $user_id) {
+            $user_obj = get_userdata($user_id);
+
+            if ($user_obj !== false) {
+                $userController = new WP_REST_Users_Controller($user_id);
+                $response[$key] = $userController->prepare_item_for_response($user_obj, $request);
+            } else {
+                $response[$key] = '';
+            }
+        }
+
+        $response = array_filter(array_slice($response, $offset, $per_page));
+
+        return rest_ensure_response($response);
+
     }
 
 
