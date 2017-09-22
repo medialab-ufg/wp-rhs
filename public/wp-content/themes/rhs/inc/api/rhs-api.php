@@ -242,16 +242,35 @@ Class RHSApi  {
         if (is_wp_error($user)) {
             return $user;
         }
+
+        // tratando array
         $user = preg_replace('/\.$/', '', $user);
         $array = explode(',', $user);
-        $users = get_users(
-            array( 
-                'include' => $array, 
-                'number' => $per_page, 
-                'paged' => $page
-            ));
+        $size = count($array);
+        
+        // paginação
+        $totalPages = ceil($size/$per_page);
+        $page = max($page, 1);
+        $page = min($page, $totalPages);
+        $offset = ($page - 1) * $per_page;
+        if ($offset < 0) $offset = 0;
+     
+        // coleção de resultados
+        foreach ($array as $key => $user_id) {
+            $user_obj = get_userdata($user_id);
 
-        return $users;
+            if ($user_obj !== false) {
+                $userController = new WP_REST_Users_Controller($user_id);
+                $response[$key] = $userController->prepare_item_for_response($user_obj, $request);
+            } else {
+                $response[$key] = '';
+            }
+        }
+
+        $response = array_filter(array_slice($response, $offset, $per_page));
+
+        return rest_ensure_response($response);
+
     }
 
 
