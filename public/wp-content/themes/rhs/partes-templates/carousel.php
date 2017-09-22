@@ -18,9 +18,11 @@ $carrossel_posts = $Carrossel::get_posts();
         <div class="carousel-inner" role="listbox">
             <?php
             $first = true;
+            $i = 0;
             while ( $carrossel_posts->have_posts() ):
+                $i++;
                 $carrossel_posts->the_post(); ?>
-                <div class="item <?php if ( $first ) {
+                <div data-carousel-item="<?php echo $i; ?>" class="item <?php if ( $first ) {
                     echo 'active';
                 } ?>">
                     <div class="row">
@@ -35,7 +37,7 @@ $carrossel_posts = $Carrossel::get_posts();
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <div class="carousel-caption">
-                                <a href="<?php the_permalink(); ?>"><?php the_title( '<h3>', '</h3>' ); ?></a>
+                                <a href="<?php the_permalink(); ?>?from-carousel=<?php echo $i; ?>" class="js-carousel" id="js-carousel-title-<?php echo $i; ?>"><?php the_title( '<h3>', '</h3>' ); ?></a>
                                 <p>
                                     <?php the_excerpt(); ?>
                                 </p>
