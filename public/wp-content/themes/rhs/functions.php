@@ -177,6 +177,8 @@ function RHS_scripts() {
     wp_enqueue_script('Comunidades', get_template_directory_uri() . '/assets/js/comunity.js', array('jquery'),'1.0', true);
 
     wp_enqueue_script('FuncoesForm', get_template_directory_uri() . '/assets/js/functions.js', array('JqueryValidate'),'1.0', true);
+    wp_localize_script('FuncoesForm', 'FuncoesForm', array('ajaxurl' => admin_url('admin-ajax.php')));
+    
     wp_enqueue_script('magicJS', get_template_directory_uri() . '/vendor/magicsuggest/magicsuggest-min.js','0.8.0', true);
 
     //Masonry Wordpress
@@ -710,3 +712,33 @@ function add_avatar_attributes($avatar, $id_or_email, $size, $default, $alt){
     $img->setAttribute("title", $alt);
     return $doc->saveHTML();
 }
+
+
+
+add_action('wp_ajax_rhs_test_carousel', 'rhs_test_stats_carousel');
+add_action('wp_ajax_nopriv_rhs_test_carousel', 'rhs_test_stats_carousel');
+add_action('wp_footer', 'rhs_test_stats_carousel_links');
+
+function rhs_test_stats_carousel() {
+    $item = $_POST['item'];
+    $type = $_POST['type'];
+
+    if ($item && $type) {
+        global $RHSStats;
+        $RHSStats->add_event($type, $item);
+    }
+    
+    die;
+    
+}
+
+function rhs_test_stats_carousel_links() {
+    if (is_single() && isset($_GET['from-carousel']) && !empty($_GET['from-carousel'])) {
+        global $RHSStats;
+        $RHSStats->add_event('carousel-click', $_GET['from-carousel']);
+    }
+        
+}
+
+
+

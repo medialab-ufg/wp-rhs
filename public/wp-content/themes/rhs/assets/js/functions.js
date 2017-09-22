@@ -21,7 +21,29 @@ jQuery( function( $ ) {
             reader.readAsDataURL(input.files[0]);
         }
     }
+    
+    $('#carousel-example-generic').on('slid.bs.carousel', function(event) {
+        //console.log(event);
+        var item = $('#' + event.currentTarget.id).find('div.item.active');
+        if (item) {
+            var itemNumber = item.data('carousel-item');
+            $.ajax({
+                async: false,
+                type: "POST",
+                dataType: "json",
+                url: FuncoesForm.ajaxurl,
+                data: {action: 'rhs_test_carousel', item: itemNumber, 'json' : true, type: 'carousel-view'},
+                success: function (data) {
 
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+        
+    });
+    
     $("#edit-avatar").change(function () {
         readURL(this);
     });
