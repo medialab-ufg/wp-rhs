@@ -24,11 +24,12 @@ class RHSRegister extends RHSMessage {
                 $_POST['pass'],
                 $_POST['description'],
                 $_POST['estado'],
-                $_POST['municipio'] );
+                $_POST['municipio'],
+                $_POST['rhs_spot'] );
         }
     }
 
-    function insert( $mail, $first_name, $last_name, $pass, $description, $state, $city ) {
+    function insert( $mail, $first_name, $last_name, $pass, $description, $state, $city, $spot ) {
 
         $userdata = array(
             'user_login'  => wp_strip_all_tags( trim( $mail ) ),
@@ -41,6 +42,11 @@ class RHSRegister extends RHSMessage {
             'user_nicename' => sanitize_title($first_name.' '.$last_name),
             'role' => 'contributor'
         );
+
+        if($spot != ''){
+            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Proíbido Spam!', false, 'error' );
+            return;
+        }
 
         $user_id = wp_insert_user( $userdata );
         

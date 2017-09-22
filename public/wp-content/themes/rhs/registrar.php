@@ -4,8 +4,8 @@ global $RHSCaptcha;
 ?>
     <div class="row">
         <!-- Container -->
-        <div class="login">
-            <header class="userpage">
+        <div class="register">
+            <header class="userpage userpage_register">
                 <div class="col-md-12 col-sm-12">
                     <form autocomplete="off" method="post" class="form-horizontal" role="form" id="register" action="">
                         <div class="panel panel-info">
@@ -71,6 +71,8 @@ global $RHSCaptcha;
                                                         <label for="first_name" class="col-sm-4 control-label">Primeiro Nome <span class="required">*</span></label>
                                                         <div class="col-sm-7">
                                                             <input class="form-control form-text" type="text" id="first_name" name="first_name" size="30" maxlength="30">
+                                                            <!-- Honey -->
+                                                            <input class="form-control form-text" type="text" id="rhs_spot" name="rhs_spot" value="">
                                                         </div>
                                                         <div class="col-md-5">
                                                             <div class="help-block text-center">

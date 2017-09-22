@@ -3,9 +3,19 @@
 * LoginPanel
 *
 */
-.login {
+.login, .register {
     margin-bottom: 50px;
-    .userpage {
-        margin-top: 50px;
+    header{
+        &.userpage {
+            margin-top: 50px;
+            &.userpage_register{
+                margin-top: 0;
+            }
+            #register{
+                #rhs_spot{
+                    display: none;
+                }
+            }
+        }
     }
 }
