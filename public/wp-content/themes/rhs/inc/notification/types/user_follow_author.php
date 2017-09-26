@@ -24,19 +24,23 @@ class RHSNotification_user_follow_author extends RHSNotification {
 
     function text() {
         $user_ID = $this->getUserId();
-        $user = new RHSUser(get_userdata($user_ID));
+        if($this->is_valid_user($user_ID)) {
+            $user = new RHSUser(get_userdata($user_ID));
 
-        return sprintf(
-            'O usuário <a href="%s"><strong>%s</strong></a> passou a te seguir',
-            $user->get_link(),
-            $user->get_name()
-        );
+            return sprintf(
+                'O usuário <a href="%s"><strong>%s</strong></a> passou a te seguir',
+                $user->get_link(),
+                $user->get_name()
+            );
+        }
     }
 
     function image(){
         $user_ID = $this->getUserId();
-        $user = new RHSUser(get_userdata($user_ID));
-        return $user->get_avatar();
+        if($this->is_valid_user($user_ID)) {
+            $user = new RHSUser(get_userdata($user_ID));
+            return $user->get_avatar();
+        }
     }
 
 }
