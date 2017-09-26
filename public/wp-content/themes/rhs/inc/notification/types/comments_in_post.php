@@ -28,7 +28,8 @@ class RHSNotification_comments_in_post extends RHSNotification {
         $post_ID = $c->comment_post_ID;
         $user_id = $c->user_id;
 
-        if( ctype_digit($user_id ) && isset($user_id) && get_userdata($user_id) ) {
+        
+        if($this->is_valid_user()) {
             $user = new RHSUser(get_userdata($user_id));
 
             return sprintf(
@@ -38,8 +39,6 @@ class RHSNotification_comments_in_post extends RHSNotification {
                 get_permalink($post_ID),
                 get_post_field( 'post_title', $post_ID )
             );
-        } else {
-            return "";
         }
         
     }
@@ -50,11 +49,9 @@ class RHSNotification_comments_in_post extends RHSNotification {
         $post_ID = $c->comment_post_ID;
 
         $user_id = $c->user_id;
-        if( ctype_digit($user_id ) && isset($user_id) && get_userdata($user_id)) {
+        if($this->is_valid_user()) {
             $user = new RHSUser(get_userdata($user_id));
             return $user->get_avatar();
-        } else {
-            return "";
         }
 
         

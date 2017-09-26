@@ -193,4 +193,14 @@ class RHSNotification {
         $this->image = $image;
     }
 
+    /**
+     * Verificação se o usuário existe
+     */
+    public function is_valid_user($user_id = '') {
+        if ($user_id instanceof WP_User) {
+            $user_id = $user_id->ID;
+        }
+        return (bool) get_user_by('id', $user_id); 
+    }
+
 }
