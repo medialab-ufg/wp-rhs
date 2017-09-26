@@ -29,7 +29,7 @@ class RHSNotification_comments_in_post extends RHSNotification {
         $user_id = $c->user_id;
 
         
-        if($this->is_valid_user()) {
+        if($this->is_valid_user($user_id)) {
             $user = new RHSUser(get_userdata($user_id));
 
             return sprintf(
@@ -49,7 +49,7 @@ class RHSNotification_comments_in_post extends RHSNotification {
         $post_ID = $c->comment_post_ID;
 
         $user_id = $c->user_id;
-        if($this->is_valid_user()) {
+        if($this->is_valid_user($user_id)) {
             $user = new RHSUser(get_userdata($user_id));
             return $user->get_avatar();
         }
