@@ -203,4 +203,16 @@ class RHSNotification {
         return (bool) get_user_by('id', $user_id); 
     }
 
+    /**
+     * Verificação status de post
+     */
+    public function is_valid_post($post_id = '') {
+        if ($post_id instanceof WP_Post) {
+            $post_id = $post_id->ID;
+        }
+
+        if(get_post_status($post_id) !== 'trash') {
+            return (bool) get_post($post_id); 
+        }
+    }
 }
