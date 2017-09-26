@@ -260,6 +260,31 @@ if (!function_exists('RHS_Comentarios')) :
 
 endif;
 
+/*
+* Permite adicionar comentários a post em fila de votação
+*
+* Modifica por um momento o status do post de "voting-queue" para "publish", tornando possível a adição de comentários. 
+* Após comentário adicionado o seu status volta ao normal e há redirecionamento, mantento comentário novo em destaque.
+*/
+if(!function_exists('RHS_PermitirComentarioPostFila')){
+    function RHS_PermitirComentarioPostFila(){
+        function modificarRetornoGetPostStatus(){
+            return 'publish';
+        }
+        add_filter('get_post_status', 'modificarRetornoGetPostStatus', 1);
+        $comment = wp_handle_comment_submission( wp_unslash( $_POST ) );
+        remove_filter('get_post_status', 'modificarRetornoGetPostStatus');
+        
+        $location = empty( $_POST['redirect_to'] ) ? get_comment_link( $comment ) : $_POST['redirect_to'] . '#comment-' . $comment->comment_ID;
+        $location = apply_filters( 'comment_post_redirect', $location, $comment );
+        
+        wp_safe_redirect( $location );
+        exit;
+    }
+}
+add_action('comment_on_draft', 'RHS_PermitirComentarioPostFila');
+
+
 /**
 *
 * Menu que fica no segundo nav da página.
