@@ -745,5 +745,43 @@ function rhs_test_stats_carousel_links() {
         
 }
 
+/*
+* Adiciona novas colunas à tabela da página de administração de usuários
+*
+*/
+if(!function_exists('RHS_adicionarNovasColunasAdminUsers')){
+    function RHS_adicionarNovasColunasAdminUsers($columns){
+        $novasColunas = [
+            ['data-de-cadastro', 'Data de cadastro'], 
+            ['ultimo-login', 'Último login']
+        ];
 
+        foreach($novasColunas as $novaColuna){
+            $columns[$novaColuna[0]] = $novaColuna[1];
+        }
+
+        return $columns;
+    }
+}
+add_filter('manage_users_columns', 'RHS_adicionarNovasColunasAdminUsers', 10, 1);
+
+/*
+* Adiciona valores às novas colunas da tabela da página de administração de usuário
+*/
+if(!function_exists('RHS_adicionarDadosNovasColunasAdminUsers')){
+    function RHS_adicionarDadosNovasColunasAdminUsers($output, $column_name, $user_id){
+        $user = get_userdata($user_id);
+        
+        switch($column_name){
+            case 'data-de-cadastro':
+                return $user->user_registered;
+            case 'ultimo-login':
+                return get_user_meta($user->ID, RHSLogin::META_KEY_LAST_LOGIN, true);
+            break;
+        }
+
+        return $output;
+    }
+}
+add_action('manage_users_custom_column', 'RHS_adicionarDadosNovasColunasAdminUsers', 10, 3);
 
