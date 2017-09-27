@@ -730,7 +730,7 @@ function rhs_test_stats_carousel() {
 
     if ($item && $type) {
         global $RHSStats;
-        $RHSStats->add_event($type, $item);
+        $RHSStats->add_event($type, $item, get_current_user_id());
     }
     
     die;
@@ -740,7 +740,7 @@ function rhs_test_stats_carousel() {
 function rhs_test_stats_carousel_links() {
     if (is_single() && isset($_GET['from-carousel']) && !empty($_GET['from-carousel'])) {
         global $RHSStats;
-        $RHSStats->add_event('carousel-click', $_GET['from-carousel']);
+        $RHSStats->add_event('carousel-click', $_GET['from-carousel'], get_current_user_id());
     }
         
 }
