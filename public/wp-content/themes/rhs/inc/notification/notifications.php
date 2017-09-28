@@ -44,6 +44,32 @@ class RHSNotifications {
         }
     }
     
+    static function get_notification_types() {
+        
+        $types_dir = dirname(__FILE__) . '/types/';
+        
+        $types = [];
+        
+        $dir = new DirectoryIterator($types_dir);
+        foreach ($dir as $fileinfo) {
+            if (!$fileinfo->isDot()) {
+                $info = get_file_data($types_dir . $fileinfo->getFilename(), ['description' => 'Description', 'short_description' => 'Short description']);
+                
+                
+                $slug = str_replace('.php', '', $fileinfo->getFilename());
+                
+                $types[$slug] = [
+                    'className' => self::NOTIFICATION_CLASS_PREFIX . $slug,
+                    'description' => $info['description'],
+                    'short_description' => $info['short_description']
+                ];
+            }
+        }
+        
+        return apply_filters('rhs_notifications_types', $types);
+        
+    }
+    
     private function register_notifications() {
         $notifications = apply_filters('rhs_registered_notifications', include('registered-notifications.php'));
         foreach ($notifications as $hook => $type) {
@@ -93,12 +119,22 @@ class RHSNotifications {
 
         global $wpdb;
 
-        $query = "
-            INSERT INTO {$this->table} (`type`, `channel`, `object_id`, `user_id`, `datetime`)
-            VALUES ('$type', '$channel', '$object_id', $user_id, '$datetime')";
-
-        $wpdb->query( $query );
-
+        $wpdb->insert($this->table, 
+            [
+                'type' => $type,
+                'channel' => $channel,
+                'object_id' => $object_id,
+                'user_id' => $user_id,
+                'datetime' => $datetime
+            ]
+        );
+        
+        $className = self::NOTIFICATION_CLASS_PREFIX . $type;
+        if (class_exists($className)) {
+            $notificationObj = new $className($wpdb->insert_id);
+            do_action('rhs_add_notification', $notificationObj);
+        }
+        
     }
     
     private function update_user_notifications($user_id) {
@@ -132,6 +168,12 @@ class RHSNotifications {
         
     }
     
+    /**
+     * Retorna as notificações de um determinado usuário
+     *
+     * @param int $user_id
+     * @param array $args
+     */
     public function get_notifications($user_id, $args = []) {
         global $wpdb;
         
@@ -189,11 +231,11 @@ class RHSNotifications {
                 $notificationsObj = new $className($result);
             }
 
-            $notifications[] = $notificationsObj;
+            $notifications[] = $notificationsObj;   
         }
-
+        
         return $notifications;
-
+        
     }
 
     function show_notification_pagination($user_id, $paged) {
@@ -318,17 +360,26 @@ class RHSNotifications {
 
         $value = sprintf( $channel, $channel_id );
         $datetime = current_time( 'mysql' );
+               
+        $add_user = add_user_meta($user_id, self::CHANNELS_META, $value);
         
-        global $wpdb;
-        
-        return add_user_meta($user_id, self::CHANNELS_META, $value);
+        if($add_user) {
+            do_action('rhs_add_user_to_channel', $value, $user_id);
+        }
+        return $add_user;
         
     }
 
     function delete_user_from_channel( $channel, $channel_id = 0, $user_id ) {
 
         $value = sprintf( $channel, $channel_id );
-        return delete_user_meta($user_id, self::CHANNELS_META, $value);
+
+        $delete_var = delete_user_meta($user_id, self::CHANNELS_META, $value);
+
+        if ($delete_var)
+            do_action('rhs_delete_user_from_channel', $value, $user_id);
+            
+        return $delete_var;
     }
 
     /**

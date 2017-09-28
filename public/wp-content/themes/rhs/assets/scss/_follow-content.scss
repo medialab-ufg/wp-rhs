@@ -1,0 +1,24 @@
+/***********
+*
+* followContent
+*
+***********/
+#followContent {
+    .list-group-item:nth-child(odd) {
+        background-color: $backgroundColor;
+        padding: 10px 0px;
+    }
+
+    .follow-user-thumb {
+        display: inline-block;
+        padding-right: 10px;
+        img { 
+            border-radius: 100%; 
+        }
+    }
+
+    .user-name {
+        display: inline-block;
+    }
+
+}

@@ -22,6 +22,9 @@ Class RHSUsers extends RHSMessage {
             add_action('pre_get_posts',array( &$this, 'ml_restrict_media_library'));
             add_filter( 'get_avatar' , array( &$this, 'custom_avatar') , 1 , 5 );
             //add_filter( 'get_edit_user_link' , array( &$this, 'custom_edit_user_link') , 5 , 2 );
+            add_filter('manage_users_columns', array( &$this, 'admin_new_columns'));
+            add_action('manage_users_custom_column', array( &$this, 'admin_new_columns_content'), 10, 3);
+            add_action('manage_users_sortable_columns', array( &$this, 'admin_new_sortable_columns'), 10, 3);
         }
 
         self::$instance = true;
@@ -111,6 +114,45 @@ Class RHSUsers extends RHSMessage {
 
         return esc_attr( get_the_author_meta( $field, $this->userID ) );
 
+    }
+    
+    /*
+    * Adiciona novas colunas à tabela da página de administração de usuários
+    *
+    */
+    function admin_new_columns($columns){
+        $novasColunas = [
+            ['registered', 'Data de cadastro'], 
+            ['ultimo-login', 'Último login']
+        ];
+
+        foreach($novasColunas as $novaColuna){
+            $columns[$novaColuna[0]] = $novaColuna[1];
+        }
+
+        return $columns;
+    }
+    
+    /*
+    * Adiciona valores às novas colunas da tabela da página de administração de usuário
+    */
+    function admin_new_columns_content($output, $column_name, $user_id){
+        $user = get_userdata($user_id);
+        
+        switch($column_name){
+            case 'registered':
+                return $user->user_registered;
+            case 'ultimo-login':
+                return RHSLogin::get_user_last_login($user_id);
+            break;
+        }
+
+        return $output;
+    }
+    
+    function admin_new_sortable_columns($columns) {
+        $columns['registered'] = 'registered';
+        return $columns;
     }
 
     function extra_profile_fields() {

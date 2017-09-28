@@ -1,0 +1,41 @@
+/*Titulo das Paginas*/
+.titulo-page {
+    background: $whiteColor none repeat scroll 0 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    color: $primeira_cor_texto;
+    font: {
+        size: 1.6em;
+        weight: normal;
+    }
+    margin: {
+        bottom: 1px;
+        top: 0;
+    }
+    padding: 13px 20px;
+}
+
+.edit-page{
+    margin: {
+        right: 5px;
+        top: -46px;
+    }
+    a{
+        color: $primeira_cor_texto;
+        &:hover{
+            color: $primeira_cor_fundo;
+            border-color: $primeira_cor_fundo;
+            background: $whiteColor;
+        }
+    }
+}
+
+.box-descricao-page {
+    background: $whiteColor none repeat scroll 0 0;
+    border: 2px solid $primeira_cor_texto;
+    font: {
+        size: 0.8em;
+        weight: normal;
+    }
+    padding: 13px 20px;
+    margin: 20px 10px;
+}

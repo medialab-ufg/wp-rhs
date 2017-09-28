@@ -131,16 +131,6 @@ jQuery( function( $ ) {
         js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.10";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
-
-    //Pagina Membros
-    $('.roles').editable({
-        value: 1,    
-        source: [
-            {value: 1, text: 'Selecione'},
-            {value: 1, text: 'Gerenciador'},
-            {value: 2, text: 'Super Gerenciador'}
-           ]
-    });
     
     $(document).ready(function() {
         $(".btn-pref .btn").click(function () {

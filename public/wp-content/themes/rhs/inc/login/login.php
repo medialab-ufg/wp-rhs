@@ -73,6 +73,16 @@ class RHSLogin extends RHSMessage {
         $user = get_user_by('login', $login);
         update_user_meta($user->ID, self::META_KEY_LAST_LOGIN, current_time('mysql'));
     }
+    
+    /**
+     * get user last login
+     * 
+     * @param  int $user_id ID do usuário
+     * @return false|string  string com a data de utilmo login no formato YYYY-MM-DD HH:ii:ss ou false se não tiver
+     */
+    static function get_user_last_login($user_id) {
+        return get_user_meta($user_id, self::META_KEY_LAST_LOGIN, true);
+    }
 
     /*
     * Lost Password

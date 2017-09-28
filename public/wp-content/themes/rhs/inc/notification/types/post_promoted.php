@@ -1,5 +1,8 @@
 <?php
-
+/**
+Description: Notificação ao autor de post promovido a home page
+Short description: Posts seus promovidos
+ */
 
 class RHSNotification_post_promoted extends RHSNotification {
 
@@ -23,12 +26,28 @@ class RHSNotification_post_promoted extends RHSNotification {
 
     function text() {
 
-        $post_ID = $this->getObjectId();
+        $post = $this->getObjectAsPost();
+        
+        if (!$post)
+            return;
         
         return sprintf(
-            'Seu post <a href="%s"><strong>%s</strong></a> foi promovido.',
-            get_permalink($post_ID),
-            get_post_field( 'post_title', $post_ID )
+            'Seu post <a id="rhs-link-to-post-%d" href="%s" class="rhs-links-to-post"><strong>%s</strong></a> foi promovido.',
+            $post->ID,
+            get_permalink($post->ID),
+            $post->post_title
+        );
+    }
+
+    function textPush() {
+        $post = $this->getObjectAsPost();
+        
+        if (!$post)
+            return;
+        
+        return sprintf(
+            'Seu post %s foi promovido.',
+            $post->post_title
         );
     }
 

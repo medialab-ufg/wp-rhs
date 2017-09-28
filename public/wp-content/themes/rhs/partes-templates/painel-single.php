@@ -1,16 +1,13 @@
 <div class="panel panel-default padding-bottom">
 	<div class="panel-heading" style="padding: 21px;">
 		<div class="row post-titulo">
-			<div class="col-xs-12 col-sm-8 col-md-9">
+			<div class="col-xs-9 col-sm-11 col-md-10">
                 <?php global $RHSNetwork;?>
                 <?php the_title( '<h1>', '</h1>' ); ?>
 			</div>
-			<div class="col-xs-8 col-sm-4 col-md-3 buttons">
-				<?php do_action('rhs_follow_post_box', get_the_ID()); ?>
-				<div class="vdivide">
-					<div class="votebox">
-						<?php do_action('rhs_votebox', get_the_ID()); ?>
-					</div>
+			<div class="col-xs-3 col-sm-1 col-md-2 vdivide">
+				<div class="votebox">
+					<?php do_action('rhs_votebox', get_the_ID()); ?>
 				</div>
 			</div>
 			<div class="col-xs-12">
@@ -41,16 +38,18 @@
 					<div class="pull-right share share-wrap">
 						<span class="hidden-print" style="">
 							<?php //echo do_shortcode('[ssba]'); ?>
-
-							<a data-site="" class="facebook_share" href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>" target="_blank">
-								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/facebook.png" title="Facebook" alt="Compartilhar no Facebook">
-							</a>
-							<a data-site="" class="twitter_share" href="http://twitter.com/share?url=<?php the_permalink(); ?>&amp;text=<?php the_title_attribute(); ?>&amp;via=RedeHumanizaSUS" target="_blank">
-								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/twitter.png" title="Twitter" alt="Compartilhar no Twitter">
-							</a>
-							<a href="whatsapp://send?text=<?php the_title_attribute( 'after= ' ); ?><?php the_permalink(); ?>" data-text="<?php the_title_attribute(); ?>" data-href="<?php the_permalink(); ?>" target="_top" onclick="window.parent.null" class="hidden-md hidden-lg whatsapp_share">
-								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/whatsapp.png" title="Whatsapp" alt="Compartilhar no Whatsapp">
-							</a>
+							<?php do_action('rhs_follow_post_box', get_the_ID()); ?>
+							<?php if(get_post_status( get_the_ID() ) == 'publish') : ?>
+								<a data-site="" class="facebook_share" href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>" target="_blank">
+									<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/facebook.png" title="Facebook" alt="Compartilhar no Facebook">
+								</a>
+								<a data-site="" class="twitter_share" href="http://twitter.com/share?url=<?php the_permalink(); ?>&amp;text=<?php the_title_attribute(); ?>&amp;via=RedeHumanizaSUS" target="_blank">
+									<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/twitter.png" title="Twitter" alt="Compartilhar no Twitter">
+								</a>
+								<a href="whatsapp://send?text=<?php the_title_attribute( 'after= ' ); ?><?php the_permalink(); ?>" data-text="<?php the_title_attribute(); ?>" data-href="<?php the_permalink(); ?>" target="_top" onclick="window.parent.null" class="hidden-md hidden-lg whatsapp_share">
+									<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/whatsapp.png" title="Whatsapp" alt="Compartilhar no Whatsapp">
+								</a>
+							<?php endif;?>
 							<a data-site="print" class="share_print share_link" href="#" onclick="window.print()">
 								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/print.png" title="Print" alt="Imprimir está página">
 							</a>
@@ -80,7 +79,9 @@
 		<?php endif; ?>
 	</div>
 </div><!-- .panel .panel-default -->
-<?php if ( get_post_status(get_the_ID()) != RHSVote::VOTING_QUEUE && ( comments_open() || get_comments_number() ) ) { ?>
+<?php 
+$post_status = get_post_status(get_the_ID());
+if (  $post_status != 'draft' && $post_status != 'voting-expired' && ( comments_open() || get_comments_number() ) ) { ?>
 	<div class="panel panel-default hidden-print">
 		<div class="panel-footer panel-comentarios">
 			<?php comments_template(); ?>

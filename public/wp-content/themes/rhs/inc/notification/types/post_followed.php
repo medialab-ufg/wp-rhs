@@ -1,5 +1,8 @@
 <?php
-
+/**
+Description: Notificação ao autor de novo usuário que segue um post
+Short description: Novos usuários seguindo seu post
+ */
 
 class RHSNotification_post_followed extends RHSNotification {
 
@@ -23,23 +26,44 @@ class RHSNotification_post_followed extends RHSNotification {
 
     function text() {
 
-        $post_ID = $this->getObjectId();
-        $user_ID = $this->getUserId();
-        $user = new RHSUser(get_userdata($user_ID));
+        $post = $this->getObjectAsPost();
         
-        return sprintf(
-            'O usuário <a href="%s"><strong>%s</strong></a> está seguindo seu post <a href="%s"><strong>%s</strong></a>',
-            $user->get_link(),
-            $user->get_name(),
-            get_permalink($post_ID),
-            get_post_field('post_title', $post_ID)
-        );
+        if (!$post)
+            return;
+        
+        if($user = $this->getUser()) { 
+            return sprintf(
+                'O usuário <a id="rhs-link-to-user-%d" href="%s" class="rhs-links-to-user"><strong>%s</strong></a> está seguindo seu post <a id="rhs-link-to-post-%d" href="%s" class="rhs-links-to-post"><strong>%s</strong></a>',
+                $user->get_id(),
+                $user->get_link(),
+                $user->get_name(),
+                $post->ID,
+                get_permalink($post->ID),
+                $post->post_title
+            );
+        }
+    }
+
+    function textPush() {
+        $post = $this->getObjectAsPost();
+        
+        if (!$post)
+            return;
+        
+        if($user = $this->getUser()) {
+        
+            return sprintf(
+                'O usuário %s está seguindo seu post %s',
+                $user->get_name(),
+                $post->post_title
+            );
+        }
     }
 
     function image(){
-        $user_ID = $this->getUserId();
-        $user = new RHSUser(get_userdata($user_ID));
-        return $user->get_avatar();
+        if($user = $this->getUser()) {
+            return $user->get_avatar();
+        }
     }
 
 }

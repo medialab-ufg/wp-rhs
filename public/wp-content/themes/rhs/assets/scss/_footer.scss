@@ -1,0 +1,57 @@
+/************
+*
+* Footer
+*
+*************/
+footer {
+    .footerDescricao {
+        background-color: $cor_fundo_corporation;
+        color: $whiteColor;
+        font: {
+            size: 1em;
+            weight: bold;
+        }
+        padding: 6px;
+        text-align: center;
+        p {
+            margin: 10px 0 10px;
+        }
+    }
+    .bordar {
+        border-bottom: 1px solid $cor_fundo_formulario_nav;
+        margin: -9px 9px 7px 0;
+    }
+    .footerMenu {
+        background-color: $primeira_cor_fundo;
+        color: $primeira_cor_texto;
+        margin-bottom: -20px;
+        font-size: 0.75em;
+        .navbar-default {
+            a {
+                background-color: $primeira_cor_fundo;
+                color: $primeira_cor_texto;
+                float: left;
+                padding: 18px;
+                margin-left: 40px;
+                text-transform: uppercase;
+                font-weight: 900;
+                &:hover, &:visited {
+                    color: $primeira_cor_texto !important;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+    .corporation {
+        background-color: $primeira_cor_fundo;
+        text-align: center;
+        padding: 9px;
+        a {
+            color: $primeira_cor_texto;
+            &:hover {
+                color: $primeira_cor_texto;
+                text-decoration: underline;
+            }
+        }
+    }
+}

@@ -1,0 +1,197 @@
+/***********
+*
+* Sidebar
+*
+************/
+#sidebar {
+    //margin-right: -15px;
+    aside {
+        border-top: 1px solid $primeira_cor_texto;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        background-color: $whiteColor;
+        margin-bottom: 20px;
+        padding: 20px 15px;
+        min-height: 101px;
+        h2 {
+            &.widget-title {
+                margin-left: -15px;
+                margin-right: -15px;
+                padding: 15px;
+                margin-top: -21px;
+                margin-bottom: 0;
+            }
+        }
+        .widget-title {
+            text-align: center;
+            margin: {
+                top: 0;
+                bottom: 20px;
+            }
+            font-size: 21px;
+            color: $primeira_cor_texto;
+            a {
+                margin: {
+                    top: 10px;
+                    bottom: 10px;
+                }
+                color: $primeira_cor_texto;
+                font-weight: normal;
+                text-decoration: none;
+            }
+        }
+        .fila-votacao {
+            border-top: 1px solid #eee;
+            padding: 10px 15px;
+            margin: {
+                left: -15px;
+                right: -15px;
+            }
+            a {
+                color: rgba(0, 0, 0, 0.66);
+                font: {
+                    weight: bold;
+                    size: 13.6px;
+                }
+                outline: none;
+                &:hover {
+                    color: $primeira_cor_texto;
+                    text-decoration: none;
+                }
+            }
+        }
+        ul {
+            -webkit-padding-start: 0;
+            li {
+                border-top: 1px solid #eee;
+                display: block;
+                margin: {
+                    left: -15px;
+                    right: -15px;
+                }
+                padding: 10px 15px;
+                a {
+                    color: rgba(0, 0, 0, 0.66);
+                    font: {
+                        size: 0.8em;
+                        weight: bold;
+                    }
+                    outline: none;
+                    &:hover {
+                        color: $primeira_cor_texto;
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+        form {
+            margin-top: 6px;
+        }
+        &:hover {
+            h2 {
+                &.widget-title {
+                    color: #fff !important;
+                    background: #009b9b !important;
+                    box-shadow: 2px 2px 1px 1px #b9b9b9;
+                    -webkit-transition: all 0.3s ease;
+                    -moz-transition: all 0.3s ease;
+                    -ms-transition: all 0.3s ease;
+                    -o-transition: all 0.3s ease;
+                    transition: all 0.3s ease;
+                    a {
+                        color: #fff !important;
+                    }
+                }
+            }
+        }
+        .panel {
+            margin-top: 10px;
+            .sidebar-public {
+                padding: 25px;
+                button {
+                    &.form-submit {
+                        width: 100%;
+                        margin-bottom: 10px;
+                    }
+                    &.rasc_visu {
+                        border: 2px solid $primeira_cor_texto;
+                        color: $primeira_cor_texto;
+                    }
+                }
+                #img_destacada_preview {
+                    margin-bottom: 15px;
+                    img {
+                        width: 200px;
+                    }
+                }
+                .has-error {
+                    .help-block {
+                        font-size: 13px;
+                    }
+                }
+                .form-checkbox{
+                    margin: 0 -15px;
+                    label{
+                        font: {
+                            size: 14px;
+                            weight: 500;
+                        }
+                    }
+                    &.has-error{
+                        label{
+                            color: #a94442;
+                        }
+                        .help-block-error{
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+                > .help-block-error{
+                    margin: {
+                        top: 2px;
+                        left: -14px;
+                    }
+                    font-size: 13px;
+                    line-height: 16px;
+                    color: #a94442;
+                }
+                .publish_post_sidebox_city_state{
+                    padding: 13px 20px 0 21px;
+                    border: 1px solid #F2F2F2;
+                    margin-bottom: 10px;
+                }
+                .publish_post_sidebox{
+                    padding: 13px 20px 0 7px;
+                    border: 1px solid #F2F2F2;
+                    margin-bottom: 10px;
+                    .checkbox{
+                        label{
+                            padding-left: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .image-with-link {
+        background: #fff;
+        border-radius: 4px;
+        box-shadow: 0 1px 4px rgba(0,0,0,.2);
+        margin-bottom: 20px;
+        zoom: 1;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        -o-border-radius: 4px;
+        -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.2);
+        -moz-box-shadow: 0 1px 4px rgba(0,0,0,.2);
+        -o-box-shadow: 0 1px 4px rgba(0,0,0,.2);
+        img {
+            width: 100%;
+        }
+    }
+
+    .facebook_twitter{
+        p{
+            padding-left: 0;
+        }
+    }
+}

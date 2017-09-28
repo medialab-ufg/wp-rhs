@@ -1,5 +1,8 @@
 <?php
-
+/**
+Description: Notificação ao autor de um novo usuário que o segue
+Short description: Novos usuários te seguindo
+ */
 
 class RHSNotification_user_follow_author extends RHSNotification {
 
@@ -23,20 +26,31 @@ class RHSNotification_user_follow_author extends RHSNotification {
     }
 
     function text() {
-        $user_ID = $this->getUserId();
-        $user = new RHSUser(get_userdata($user_ID));
+        
+        if($user = $this->getUser()) {
 
-        return sprintf(
-            'O usuário <a href="%s"><strong>%s</strong></a> passou a te seguir',
-            $user->get_link(),
-            $user->get_name()
-        );
+            return sprintf(
+                'O usuário <a id="rhs-link-to-user-%d" href="%s" class="rhs-link-to-user"><strong>%s</strong></a> começou a te seguir',
+                $user->get_id(),
+                $user->get_link(),
+                $user->get_name()
+            );
+        }
     }
 
     function image(){
-        $user_ID = $this->getUserId();
-        $user = new RHSUser(get_userdata($user_ID));
-        return $user->get_avatar();
+        if($user = $this->getUser()) {
+            return $user->get_avatar();
+        }
+    }
+    
+    function textPush() {
+        if($user = $this->getUser()) {
+            return sprintf(
+                'O usuário %s começou a te seguir',
+                $user->get_name()
+            );
+        }
     }
 
 }
