@@ -143,7 +143,7 @@ Class RHSUsers extends RHSMessage {
             case 'registered':
                 return $user->user_registered;
             case 'ultimo-login':
-                return get_user_meta($user->ID, RHSLogin::META_KEY_LAST_LOGIN, true);
+                return RHSLogin::get_user_last_login($user_id);
             break;
         }
 
