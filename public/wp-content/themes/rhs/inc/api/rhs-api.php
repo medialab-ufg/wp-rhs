@@ -146,9 +146,9 @@ Class RHSApi  {
                     }
                 ),
             ),
-            'permission_callback' => function ( $request ) {
-                return current_user_can('edit_user', $request['id']);
-            }
+            // 'permission_callback' => function ( $request ) {
+            //     return current_user_can('edit_user', $request['id']);
+            // }
         ));
         
         register_rest_route( $this->apinamespace, '/notifications/types/', array(
@@ -325,8 +325,24 @@ Class RHSApi  {
 
         $max_pages = ceil($total_notifications / RHSNotifications::RESULTS_PER_PAGE);
         
+        $response_notifications = [];
+
         // Construção de header
-        $response = rest_ensure_response($notifications);
+        foreach ($notifications as $notification) {
+            $response_notifications[] = [
+                'id'=> $notification->getNotificationId(),
+                'type' => $notification->getType(),
+                'channel' => $notification->getChannel(),
+                'object_id' => $notification->getObjectId(),
+                'user_id' => $notification->getUserId(),
+                'datetime' => $notification->getDatetime(),
+                'textdate' =>  $notification->getTextdate(),
+                'text' =>  $notification->getText(),
+                'image' =>  $notification->getImage(),
+            ];
+        }
+
+        $response = rest_ensure_response($response_notifications);
         $response->header('X-WP-Total', (int) $total_notifications);
         $response->header('X-WP-TotalPages', (int) $max_pages);
 
@@ -356,7 +372,7 @@ Class RHSApi  {
             $next_link = add_query_arg('page', $next_page, $base);
             $response->link_header('next', $next_link);
         }
-        
+                
         return $response;
 
     }

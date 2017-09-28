@@ -193,7 +193,7 @@ class RHSNotification {
         $this->image = $image;
     }
     
-    public function getTextPush() {
+    public function getTextPush() {        
         if($this->text){
             return $this->text;
         }
