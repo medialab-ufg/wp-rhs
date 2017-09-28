@@ -23,23 +23,31 @@ class RHSNotification_comments_in_post extends RHSNotification {
         
     }
 
+
+
     function text() {
         $comment_ID = $this->getObjectId();
         $c = get_comment($comment_ID);
-        $post_ID = $c->comment_post_ID;
-        
-        $user = new RHSUser(get_userdata($c->user_id));
-        
-        return sprintf(
-            '<a id="rhs-link-to-user-%d" href="%s" class="rhs-links-to-user"><strong>%s</strong></a> comentou no post <a id="rhs-link-to-post-%d" href="%s" class="rhs-link-to-post"><strong>%s</strong></a>',
-            $user->get_id(),
-            $user->get_link(),
-            $user->get_name(),
-            $post_ID,
-            get_permalink($post_ID),
-            get_post_field( 'post_title', $post_ID )
-        );
-    }
+
+        if($this->is_valid_post() && isset($c)) {
+            $post_ID = $c->comment_post_ID;
+            $user_id = $c->user_id;
+
+            if($this->is_valid_user($user_id)) {
+                $user = new RHSUser(get_userdata($user_id));
+
+                return sprintf(
+                    '<a id="rhs-link-to-user-%d" href="%s" class="rhs-links-to-user"><strong>%s</strong></a> comentou no post <a id="rhs-link-to-post-%d" href="%s" class="rhs-link-to-post"><strong>%s</strong></a>',
+                    $user->get_id(),
+                    $user->get_link(),
+                    $user->get_name(),
+                    $post_ID,
+                    get_permalink($post_ID),
+                    get_post_field( 'post_title', $post_ID )
+                );
+            }
+        }
+   }
 
     function textPush() {
         $comment_ID = $this->getObjectId();
@@ -57,11 +65,19 @@ class RHSNotification_comments_in_post extends RHSNotification {
 
     function image() {
         $comment_ID = $this->getObjectId();
-        $c = get_comment($comment_ID);
-        $post_ID = $c->comment_post_ID;
+        $c = get_comment($comment_ID);        
+       
+        if($this->is_valid_post() && isset($c)) {
+            $post_ID = $c->comment_post_ID;
+            $user_id = $c->user_id;
 
-        $user = new RHSUser(get_userdata($c->user_id));
-        return $user->get_avatar();
+            if($this->is_valid_user($user_id)) {
+                $user = new RHSUser(get_userdata($user_id));
+                return $user->get_avatar();
+            }
+        }
+
+        
     }
 
 }
