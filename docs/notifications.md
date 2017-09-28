@@ -16,7 +16,7 @@ Não precisamos ter um controle de se o usuário leu ou não cada notificação 
 
 Vamos trabalhar com o conceito de canais. Cada notificação é publicada em um canal específico. Quando formos checar se tem alguma notificação para um usuário X, verificamos quais canais ele acompanha, e aí verificamos se tem notificações nesses canais.
 
-Os canais são criados dinamicamente, de acordo com os acontecimentos. Esses são os canais que pensamos até agora:
+Os canais são criados dinamicamente, de acordo com os acontecimentos. Esses são os canais que temos até agora:
 
 **everyone**: Canal geral, que todo mundo assina por padrão. Uma notificação aqui chega pra todo mundo
 
@@ -37,9 +37,9 @@ Os canais que cada usuário assina ficam guardados como um user_meta múltiplo, 
 
 (Nota: os canais padrão everyone e private não precisam ficar no banco)
 
-Além disso, também guardaríamos a data/hora em que ele verificou se havia notificações pela última vez. Dessa maneira a gente pode verificar se há novas notificações, e quantas notificações há para esse usuário. Essa checagem só seria feita na hora em que esse usuário se conectasse e fôssemos imprimir o ícone de notificações, portanto não pesa para a aplicação ter que calcular isso pra todo mundo nunca.
+Além disso, também guardaríamos o ID da última notificação que o usuário viu. Dessa maneira a gente pode verificar se há novas notificações, e quantas notificações há para esse usuário. Essa checagem só é feita na hora em que esse usuário se conecta e imprimimos o ícone de notificações, portanto não pesa para a aplicação ter que calcular isso pra todo mundo nunca.
 
-Agora nós criamos uma nova tabela para as notificações em si. Essa tabela teria as seguintes colunas:
+Agora nós criamos uma nova tabela para as notificações em si, relacionadas aos canais. Essa tabela teria as seguintes colunas:
 
 **ID**: auto increment
 
@@ -62,6 +62,25 @@ Vamos ver um exemplo de como isso ficaria:
 | 3 | new_community_post | community_66 | 78 | 3 | 12/12/12... |
 
 
+E, fechando a arquitetura, criamos uma tabela para relacionar as notificações aos usuários. Esta tabela tem apenas 3 colunas:
+
+**notf_id**: O id da notificação
+
+**user_id**: O id do usuário
+
+**read**: booleano que indica se ela o usuário já viu esta notificação
+
+Exemplo:
+
+| notf_id  | user_id | read | 
+| ------------- | ------------- | ------------ |
+| 1 | 50 | true | 
+| 1 | 51 | false |
+| 2 | 51 | true | 
+
+Esta tabela é alimentada no momento em que vamos checar se h notificações para um determinado usuário. Isso garante que temos uma relação direta entre as notificações e os usuários, que podemos ter um controle das notificações vistas, e que o histórico de notificações é mantido. Por exemplo, se um usuário deixar de acompanhar um canal, ele ainda terá em seu histórico as notificações recebidas naquele canal.
+
+
 # Principais métodos
 
 Abaixo os principais métodos da classe `RHSNotifications`.
@@ -75,9 +94,21 @@ global $RHSNotifications;
 $news = $RHSNotifications->get_news($user_id);
 ```
 
-## get_notifications($user_id[, $from_datetime])
+## get_notifications($user_id[, $args])
 
-Retorna as notificações para um usuário. Opcionalmente pode-se passar uma data de início para checar notificações mais novas do que essa data.
+Retorna as notificações para um usuário. Opcionalmente pode-se passar argumentos para filtrar os resultados.
+
+Os argumentos e seus valores padrão são:
+
+```
+ [
+'from_datetime' => null, // rertorna notificacoes a partir de uma data
+'paged' => null, // numero da pagina. a funcao retorna 50 itens por pagina
+'onlyCount' => false, // se true, retorna apenas o numero de notificaoes encontrado, e nao as notificacoes
+'onlyUnread' => false, // se true, retorna apenas as notificacoes nao lidas
+'onlyRead' => false // se true, retorna apenas as notificacoes lidas
+]
+```
 
 ```
 global $RHSNotifications;
@@ -201,13 +232,26 @@ function rhs_delete_user_follow_author($args) {
 
 Para cada tipo de notificação, existe uma classe que extende a classe `RHSNotification`. Essas classes ficam dentro da pasta `inc/notifications/types`.
 
-Cada classe destas, deve implementar três métodos.
+Cada classe destas, deve implementar esses métodos.
 
 **static notify($param)** - método que recebe o que vem do hook que dispara a notificação e adiciona a notificação chamando `RHSNotifications::add_notification`.
 
 **text()** - método que retorna o texto HTML da notificação. Por exemplo: "O usupario X publicou um novo post na comunidade Y". Para isso ele tem o objeto da notificação em `$this` e pode fazer as consultas que quiser para montar esse HTML.
 
 **image()** - retorna o html (tag `img`) que representa a notificação. As vezes vai ser a imagem do post, as vezes o avatar do usuário, e outras opções podem vir a surgir.
+
+**textPush()** - retorna o texto que será exibido na push notification (notificação para o App de celular). É apenas um texto plano, sem HTML ou links.
+
+No cabeçalho do arquivo há duas linhas de comentários sobre o tipo de notificação que essa classe implementa. Esses comentários atualmente são utilizados para montar a interface de configuração de notificações no aplicativo de celular
+
+exemplo:
+```
+/**
+Description: Notificação ao autor de novo usuário que segue um post
+Short description: Novos usuários seguindo seu post
+*/
+```
+
 
 No arquivo `inc/notifications/registered-notifications.php` temos a relação dos hooks que geram as notificações. Esses hooks vão disparar o método `notify` do tipo de notificação correspondentes. Este arquivo descreve um `array` onde as chaves são o hook que vão disparar as notificações e os valores são os tipos de notificação que serão gerados.
 
