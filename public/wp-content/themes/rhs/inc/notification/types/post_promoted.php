@@ -1,7 +1,7 @@
 <?php
 /**
 Description: Notificação ao autor de post promovido a home page
-Short description: Post promovido
+Short description: Posts seus promovidos
  */
 
 class RHSNotification_post_promoted extends RHSNotification {

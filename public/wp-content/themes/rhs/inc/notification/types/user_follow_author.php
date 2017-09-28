@@ -1,7 +1,7 @@
 <?php
 /**
 Description: Notificação ao autor de um novo usuário que o segue
-Short description: Novos usuário seguindo
+Short description: Novos usuários te seguindo
  */
 
 class RHSNotification_user_follow_author extends RHSNotification {

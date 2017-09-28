@@ -1,7 +1,7 @@
 <?php
 /**
 Description: Notificação ao autor de um formulário de contato quando sua pergunta é respondida
-Short description: Nova resposta ao formulário de contato
+Short description: Respostas em formulário de contato
  */
 
 class RHSNotification_replied_ticket extends RHSNotification {
