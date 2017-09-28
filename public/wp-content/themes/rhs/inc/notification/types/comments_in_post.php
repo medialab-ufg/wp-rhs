@@ -24,7 +24,7 @@ class RHSNotification_comments_in_post extends RHSNotification {
         $comment_ID = $this->getObjectId();
         $c = get_comment($comment_ID);
         $post_ID = $c->comment_post_ID;
-        
+
         $user = new RHSUser(get_userdata($c->user_id));
         
         return sprintf(
