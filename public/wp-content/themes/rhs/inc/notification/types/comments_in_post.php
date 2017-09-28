@@ -47,7 +47,9 @@ class RHSNotification_comments_in_post extends RHSNotification {
                 );
             }
         }
-   }
+        
+    }
+   
 
     function textPush() {
         $comment_ID = $this->getObjectId();

@@ -134,7 +134,7 @@ jQuery( function( $ ) {
 
         function recaptchaCallback() {
           $('#hiddenRecaptcha').valid();
-        };
+        }
 
         $('#login').validate({
             errorElement: 'span',
