@@ -17,6 +17,14 @@ class RHSRegister extends RHSMessage {
                 return;
             }
 
+            // HoneyPot fields
+            if( ( isset($_POST['phone']) && !empty($_POST['phone']) ) ||
+                ( isset($_POST['user_login']) && !empty($_POST['user_login']) ) ||
+                ( isset($_POST['confirm_mail']) && !empty($_POST['confirm_mail'])) ) {
+
+                return;
+            }
+
             $this->insert(
                 $_POST['mail'],
                 $_POST['first_name'],
@@ -24,7 +32,8 @@ class RHSRegister extends RHSMessage {
                 $_POST['pass'],
                 $_POST['description'],
                 $_POST['estado'],
-                $_POST['municipio'] );
+                $_POST['municipio']
+            );
         }
     }
 
