@@ -271,7 +271,7 @@ class PostTest extends RHS_UnitTestCase {
 
         ####### Teste com post novo #######
         ###################################
-
+        wp_set_current_user(self::$users['contributor'][0]);
         $comunitId = self::create_community('private');
         $newPost = self::create_post_to_private_community($comunitId);
 
