@@ -48,6 +48,9 @@ Class RHSVote {
 			add_filter( 'map_meta_cap', array( &$this, 'vote_post_cap' ), 10, 4 );
 
 			add_action( 'pre_get_posts', array( &$this, 'fila_query' ) );
+			
+            // habilita comentarios para posts na fila de votação
+            add_action( 'comment_on_draft', array( &$this, 'allow_comments_in_queue' ) );
 
             $this->verify_role();
             $this->verify_database();
@@ -713,6 +716,34 @@ Class RHSVote {
 
 		<?php
 	}
+    
+    
+    /*
+    * Permite adicionar comentários a post em fila de votação
+    *
+    * Modifica por um momento o status do post de "voting-queue" para "publish", tornando possível a adição de comentários. 
+    * Após comentário adicionado o seu status volta ao normal e há redirecionamento, mantento comentário novo em destaque.
+    */
+    function allow_comments_in_queue($post_id){
+        
+        $post_status = get_post_status($post_id);
+        
+        if ($post_status != self::VOTING_QUEUE)
+            return;
+        
+        function modificarRetornoGetPostStatus(){
+            return 'publish';
+        }
+        add_filter('get_post_status', 'modificarRetornoGetPostStatus', 1);
+        $comment = wp_handle_comment_submission( wp_unslash( $_POST ) );
+        remove_filter('get_post_status', 'modificarRetornoGetPostStatus');
+        
+        $location = empty( $_POST['redirect_to'] ) ? get_comment_link( $comment ) : $_POST['redirect_to'] . '#comment-' . $comment->comment_ID;
+        $location = apply_filters( 'comment_post_redirect', $location, $comment );
+        
+        wp_safe_redirect( $location );
+        exit;
+    }
 }
 
 global $RHSVote;
