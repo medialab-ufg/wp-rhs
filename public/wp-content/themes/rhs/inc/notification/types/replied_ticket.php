@@ -14,12 +14,15 @@ class RHSNotification_replied_ticket extends RHSNotification {
     }
 
     function text() {
-        $post = $this->getObjectId();
+        $post = $this->getObjectAsPost();
+        
+        if (!$post)
+            return;
                 
         return sprintf(
             'Seu <a id="rhs-link-to-post-%d" href="%s" class="rhs-links-to-post">contato</a> foi respondido',
-            $post,
-            get_permalink($post)
+            $post->ID,
+            get_permalink($post->ID)
         );
     }
 

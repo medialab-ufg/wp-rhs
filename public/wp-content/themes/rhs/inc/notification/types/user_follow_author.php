@@ -26,14 +26,12 @@ class RHSNotification_user_follow_author extends RHSNotification {
     }
 
     function text() {
-        $user_ID = $this->getUserId();
-
-        if($this->is_valid_user($user_ID)) {
-            $user = new RHSUser(get_userdata($user_ID));
+        
+        if($user = $this->getUser()) {
 
             return sprintf(
                 'O usuário <a id="rhs-link-to-user-%d" href="%s" class="rhs-link-to-user"><strong>%s</strong></a> começou a te seguir',
-                $user_ID,
+                $user->get_id(),
                 $user->get_link(),
                 $user->get_name()
             );
@@ -41,21 +39,18 @@ class RHSNotification_user_follow_author extends RHSNotification {
     }
 
     function image(){
-        $user_ID = $this->getUserId();
-        if($this->is_valid_user($user_ID)) {
-            $user = new RHSUser(get_userdata($user_ID));
+        if($user = $this->getUser()) {
             return $user->get_avatar();
         }
     }
     
     function textPush() {
-        $user_ID = $this->getUserId();
-        $user = new RHSUser(get_userdata($user_ID));
-
-        return sprintf(
-            'O usuário %s começou a te seguir',
-            $user->get_name()
-        );
+        if($user = $this->getUser()) {
+            return sprintf(
+                'O usuário %s começou a te seguir',
+                $user->get_name()
+            );
+        }
     }
 
 }

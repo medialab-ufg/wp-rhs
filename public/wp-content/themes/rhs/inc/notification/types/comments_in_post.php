@@ -29,12 +29,10 @@ class RHSNotification_comments_in_post extends RHSNotification {
         $comment_ID = $this->getObjectId();
         $c = get_comment($comment_ID);
 
-        if($this->is_valid_post() && isset($c)) {
+        if($c) {
             $post_ID = $c->comment_post_ID;
-            $user_id = $c->user_id;
 
-            if($this->is_valid_user($user_id)) {
-                $user = new RHSUser(get_userdata($user_id));
+            if($user = $this->getUser()) {
 
                 return sprintf(
                     '<a id="rhs-link-to-user-%d" href="%s" class="rhs-links-to-user"><strong>%s</strong></a> comentou no post <a id="rhs-link-to-post-%d" href="%s" class="rhs-link-to-post"><strong>%s</strong></a>',
@@ -54,9 +52,13 @@ class RHSNotification_comments_in_post extends RHSNotification {
     function textPush() {
         $comment_ID = $this->getObjectId();
         $c = get_comment($comment_ID);
+        
+        if (!$c)
+            return;
+        
         $post_ID = $c->comment_post_ID;
         
-        $user = new RHSUser(get_userdata($c->user_id));
+        $user = $this->getUser();
         
         return sprintf(
             '%s comentou no post %s</a>',
@@ -69,12 +71,10 @@ class RHSNotification_comments_in_post extends RHSNotification {
         $comment_ID = $this->getObjectId();
         $c = get_comment($comment_ID);        
        
-        if($this->is_valid_post() && isset($c)) {
+        if($c) {
             $post_ID = $c->comment_post_ID;
-            $user_id = $c->user_id;
 
-            if($this->is_valid_user($user_id)) {
-                $user = new RHSUser(get_userdata($user_id));
+            if($user = $this->getUser()) {
                 return $user->get_avatar();
             }
         }

@@ -100,6 +100,14 @@ class RHSNotification {
     public function getObjectId() {
         return $this->object_id;
     }
+    
+    function getObjectAsPost() {
+        $post_id = $this->getObjectId();
+        $post = get_post($post_id);
+        if ($post instanceof WP_Post)
+            return $post;
+        return false;
+    }
 
     /**
      * @param mixed $object_id
@@ -127,6 +135,19 @@ class RHSNotification {
      */
     public function getUserId() {
         return $this->user_id;
+    }
+    
+    public function getUser() {
+        $user_id = $this->getUserId();
+        if (is_numeric($user_id)) {
+            $user = get_userdata($user_id);
+            if ($user instanceof WP_User) {
+                return new RHSUser($user);
+            }
+        }
+        
+        return false;
+        
     }
 
     /**
@@ -209,26 +230,4 @@ class RHSNotification {
          return 'Novidades para você na RHS';
      }
 
-    /**
-     * Verificação se o usuário existe
-     */
-    public function is_valid_user($user_id = '') {
-        if ($user_id instanceof WP_User) {
-            $user_id = $user_id->ID;
-        }
-        return (bool) get_user_by('id', $user_id); 
-    }
-
-    /**
-     * Verificação status de post
-     */
-    public function is_valid_post($post_id = '') {
-        if ($post_id instanceof WP_Post) {
-            $post_id = $post_id->ID;
-        }
-
-        if(get_post_status($post_id) !== 'trash') {
-            return (bool) get_post($post_id); 
-        }
-    }
 }
