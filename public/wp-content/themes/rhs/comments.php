@@ -29,8 +29,8 @@ if (post_password_required()) {
 			    <form autocomplete="off" action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="form-comentario" class="clearfix">
 			        <div class="form-group">
 			        <?php comment_id_fields(); ?>
- 					<textarea name="comment" id="comment" tabindex="1" onfocus="if (this.value == '<?php _e('Digite seu comentário aqui.', 'rhs'); ?>') this.value = '';" onblur="if (this.value == '') {this.value = '<?php _e('Digite seu comentário aqui.', 'rhs'); ?>';}" class="form-control" rows="4"><?php _e('Digite seu comentário aqui.', 'rhs'); ?></textarea>
-					</div>         
+ 					<textarea name="comment" id="comment" tabindex="1" required class="form-control" rows="4" placeholder="<?php _e('Digite seu comentário aqui.', 'rhs'); ?>"></textarea>
+					</div>
 					<button id="submit" class="btn btn-info btn-comentar" type="submit" name="submit">Comentar</button>
 					<?php cancel_comment_reply_link('Cancelar'); ?>
 			        <?php do_action('comment_form', $post->ID); ?>

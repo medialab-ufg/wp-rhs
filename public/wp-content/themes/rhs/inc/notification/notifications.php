@@ -231,11 +231,11 @@ class RHSNotifications {
                 $notificationsObj = new $className($result);
             }
 
-            $notifications[] = $notificationsObj;
+            $notifications[] = $notificationsObj;   
         }
-
+        
         return $notifications;
-
+        
     }
 
     function show_notification_pagination($user_id, $paged) {

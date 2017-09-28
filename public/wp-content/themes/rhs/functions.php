@@ -225,6 +225,9 @@ add_action('wp_enqueue_scripts', 'RHS_styles');
 if (!function_exists('RHS_Comentarios')) :
     function RHS_Comentarios($comment, $args, $depth) {
     $GLOBALS['comment'] = $comment;
+    
+    $user_id = $comment->user_id;
+
     ?>
     <section id="comment-<?php comment_ID(); ?>">
     <!-- First Comment -->
@@ -238,9 +241,10 @@ if (!function_exists('RHS_Comentarios')) :
                 <div class="comment-head">
                     <h6 class="comment-name by-author">Por
                         <?php
-                            if ($comment->user_id) {
-                                $user=get_userdata($comment->user_id);
-                                echo '<a href="'.get_author_posts_url($comment->user_id).'">'.$user->display_name.'</a>';
+                            $get_user = get_userdata($user_id);
+                            if ($get_user && $user_id) {
+                                $user=get_userdata($user_id);
+                                echo '<a href="'.get_author_posts_url($user_id).'">'.$user->display_name.'</a>';
                             } else {
                                 comment_author_link();
                             }

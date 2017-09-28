@@ -193,7 +193,7 @@ class RHSNotification {
         $this->image = $image;
     }
     
-    public function getTextPush() {
+    public function getTextPush() {        
         if($this->text){
             return $this->text;
         }
@@ -209,4 +209,26 @@ class RHSNotification {
          return 'Novidades para você na RHS';
      }
 
+    /**
+     * Verificação se o usuário existe
+     */
+    public function is_valid_user($user_id = '') {
+        if ($user_id instanceof WP_User) {
+            $user_id = $user_id->ID;
+        }
+        return (bool) get_user_by('id', $user_id); 
+    }
+
+    /**
+     * Verificação status de post
+     */
+    public function is_valid_post($post_id = '') {
+        if ($post_id instanceof WP_Post) {
+            $post_id = $post_id->ID;
+        }
+
+        if(get_post_status($post_id) !== 'trash') {
+            return (bool) get_post($post_id); 
+        }
+    }
 }

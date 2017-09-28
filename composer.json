@@ -19,7 +19,8 @@
         "wpackagist-plugin/google-analytics-for-wordpress":"6.2.2",
         "wpackagist-plugin/wp-mail-smtp" : "0.10.1",
         "wpackagist-plugin/jetpack": "^5.3",
-        "wpackagist-plugin/social-metrics-tracker": "1.6.*"
+        "wpackagist-plugin/social-metrics-tracker": "1.6.*",
+        "wpackagist-plugin/akismet": "4.0"
         
     },
     "require-dev": {
