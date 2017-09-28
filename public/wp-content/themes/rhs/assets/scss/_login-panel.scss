@@ -15,6 +15,11 @@
                 #rhs_spot{
                     display: none;
                 }
+
+                #u_login, #confirm_email, #phone {
+                    position: absolute;
+                    left: -999em;
+                }
             }
         }
     }

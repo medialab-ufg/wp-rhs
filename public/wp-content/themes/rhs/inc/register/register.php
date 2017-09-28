@@ -17,6 +17,14 @@ class RHSRegister extends RHSMessage {
                 return;
             }
 
+            // HoneyPot fields
+            if( ( isset($_POST['phone']) && !empty($_POST['phone']) ) ||
+                ( isset($_POST['user_login']) && !empty($_POST['user_login']) ) ||
+                ( isset($_POST['confirm_mail']) && !empty($_POST['confirm_mail'])) ) {
+
+                return;
+            }
+
             $this->insert(
                 $_POST['mail'],
                 $_POST['first_name'],
@@ -24,12 +32,12 @@ class RHSRegister extends RHSMessage {
                 $_POST['pass'],
                 $_POST['description'],
                 $_POST['estado'],
-                $_POST['municipio'],
-                $_POST['rhs_spot'] );
+                $_POST['municipio']
+            );
         }
     }
 
-    function insert( $mail, $first_name, $last_name, $pass, $description, $state, $city, $spot ) {
+    function insert( $mail, $first_name, $last_name, $pass, $description, $state, $city ) {
 
         $userdata = array(
             'user_login'  => wp_strip_all_tags( trim( $mail ) ),
@@ -42,11 +50,6 @@ class RHSRegister extends RHSMessage {
             'user_nicename' => sanitize_title($first_name.' '.$last_name),
             'role' => 'contributor'
         );
-
-        if($spot != ''){
-            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Proíbido Spam!', false, 'error' );
-            return;
-        }
 
         $user_id = wp_insert_user( $userdata );
         
