@@ -268,21 +268,21 @@ Class RHSApi  {
         $page = min($page, $totalPages);
         $offset = ($page - 1) * $per_page;
         if ($offset < 0) $offset = 0;
-     
+
+        $response = array_slice($array, $offset, $per_page);
+
         // coleção de resultados
-        foreach ($array as $key => $user_id) {
+        foreach ($response as $key => $user_id) {
             $user_obj = get_userdata($user_id);
 
             if ($user_obj !== false) {
                 $userController = new WP_REST_Users_Controller($user_id);
                 $response[$key] = $userController->prepare_item_for_response($user_obj, $request);
             } else {
-                $response[$key] = '';
+                unset($response[$key]);
             }
         }
-
-        $response = array_filter(array_slice($response, $offset, $per_page));
-
+        
         return rest_ensure_response($response);
 
     }
