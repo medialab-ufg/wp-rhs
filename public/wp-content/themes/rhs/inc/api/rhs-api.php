@@ -337,7 +337,7 @@ Class RHSApi  {
                 'user_id' => $notification->getUserId(),
                 'datetime' => $notification->getDatetime(),
                 'textdate' =>  $notification->getTextdate(),
-                'text' =>  $notification->getText(),
+                'text' =>  strip_tags($notification->getText(), '<strong>'),
                 'image' =>  $notification->getImage(),
             ];
         }
