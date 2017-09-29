@@ -88,9 +88,16 @@
                     <div class="row resultado">
                         <div class="row">
                             <div class="col-xs-12">
-                                <div class="pull-left">
-                                    <h4><?php echo "Quantidade de Resultados: " . $wp_query->found_posts; ?></h4>
-                                </div>
+                                <?php if(count($_GET)) {?>
+                                    <div class="pull-left">
+                                        <div class="label-rhs">Resultado da Pesquisa: 
+                                        <?php 
+                                            $total = $wp_query->found_posts;
+                                            echo ($total > 1 ) ? $total . ' itens' : $total . ' item' ; 
+                                        ?>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                                 <div class="pull-right">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
