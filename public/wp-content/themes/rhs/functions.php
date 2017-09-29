@@ -34,6 +34,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/notification/notifications.php');
         require_once('inc/notification/notification.php');
         require_once('inc/notification/channels-hooks.php');
+        require_once('inc/onesignal/onesignal.php');
         
         require_once('inc/notification/types/comments_in_post.php');
         require_once('inc/notification/types/new_community_post.php');
@@ -224,6 +225,9 @@ add_action('wp_enqueue_scripts', 'RHS_styles');
 if (!function_exists('RHS_Comentarios')) :
     function RHS_Comentarios($comment, $args, $depth) {
     $GLOBALS['comment'] = $comment;
+    
+    $user_id = $comment->user_id;
+
     ?>
     <section id="comment-<?php comment_ID(); ?>">
     <!-- First Comment -->
@@ -237,9 +241,10 @@ if (!function_exists('RHS_Comentarios')) :
                 <div class="comment-head">
                     <h6 class="comment-name by-author">Por
                         <?php
-                            if ($comment->user_id) {
-                                $user=get_userdata($comment->user_id);
-                                echo '<a href="'.get_author_posts_url($comment->user_id).'">'.$user->display_name.'</a>';
+                            $get_user = get_userdata($user_id);
+                            if ($get_user && $user_id) {
+                                $user=get_userdata($user_id);
+                                echo '<a href="'.get_author_posts_url($user_id).'">'.$user->display_name.'</a>';
                             } else {
                                 comment_author_link();
                             }
@@ -725,7 +730,7 @@ function rhs_test_stats_carousel() {
 
     if ($item && $type) {
         global $RHSStats;
-        $RHSStats->add_event($type, $item);
+        $RHSStats->add_event($type, $item, get_current_user_id());
     }
     
     die;
@@ -735,10 +740,8 @@ function rhs_test_stats_carousel() {
 function rhs_test_stats_carousel_links() {
     if (is_single() && isset($_GET['from-carousel']) && !empty($_GET['from-carousel'])) {
         global $RHSStats;
-        $RHSStats->add_event('carousel-click', $_GET['from-carousel']);
+        $RHSStats->add_event('carousel-click', $_GET['from-carousel'], get_current_user_id());
     }
         
 }
-
-
 

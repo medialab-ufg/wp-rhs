@@ -17,7 +17,7 @@ class UsersWidget extends WP_Widget {
 	
 	public function get_user_list($number_of_users) {
 		$args = array(
-            'meta_key'  => '_last_login',
+            'meta_key'  => RHSLogin::META_KEY_LAST_LOGIN,
             'order'     => 'DESC',
             'number'    => $number_of_users,
         );
