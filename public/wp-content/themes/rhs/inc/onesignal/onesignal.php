@@ -90,6 +90,13 @@ class RHSOneSignal {
             'contents' => [
                 'en' => $text,
                 'pt' => $text
+            ],
+            'data' => [
+                'object_id' => $notification->getObjectId(),
+                'user_id' => $notification->getUserId(),
+                'type' => $notification->getType(),
+                'channel' => $notification->getChannel(),
+                'datetime' => $notification->getDatetime()
             ]
         ];
         
