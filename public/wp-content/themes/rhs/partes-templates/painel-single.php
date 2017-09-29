@@ -39,15 +39,17 @@
 						<span class="hidden-print" style="">
 							<?php //echo do_shortcode('[ssba]'); ?>
 							<?php do_action('rhs_follow_post_box', get_the_ID()); ?>
-							<a data-site="" class="facebook_share" href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>" target="_blank">
-								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/facebook.png" title="Facebook" alt="Compartilhar no Facebook">
-							</a>
-							<a data-site="" class="twitter_share" href="http://twitter.com/share?url=<?php the_permalink(); ?>&amp;text=<?php the_title_attribute(); ?>&amp;via=RedeHumanizaSUS" target="_blank">
-								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/twitter.png" title="Twitter" alt="Compartilhar no Twitter">
-							</a>
-							<a href="whatsapp://send?text=<?php the_title_attribute( 'after= ' ); ?><?php the_permalink(); ?>" data-text="<?php the_title_attribute(); ?>" data-href="<?php the_permalink(); ?>" target="_top" onclick="window.parent.null" class="hidden-md hidden-lg whatsapp_share">
-								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/whatsapp.png" title="Whatsapp" alt="Compartilhar no Whatsapp">
-							</a>
+							<?php if(get_post_status( get_the_ID() ) == 'publish') : ?>
+								<a data-site="" class="facebook_share" href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>" target="_blank">
+									<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/facebook.png" title="Facebook" alt="Compartilhar no Facebook">
+								</a>
+								<a data-site="" class="twitter_share" href="http://twitter.com/share?url=<?php the_permalink(); ?>&amp;text=<?php the_title_attribute(); ?>&amp;via=RedeHumanizaSUS" target="_blank">
+									<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/twitter.png" title="Twitter" alt="Compartilhar no Twitter">
+								</a>
+								<a href="whatsapp://send?text=<?php the_title_attribute( 'after= ' ); ?><?php the_permalink(); ?>" data-text="<?php the_title_attribute(); ?>" data-href="<?php the_permalink(); ?>" target="_top" onclick="window.parent.null" class="hidden-md hidden-lg whatsapp_share">
+									<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/whatsapp.png" title="Whatsapp" alt="Compartilhar no Whatsapp">
+								</a>
+							<?php endif;?>
 							<a data-site="print" class="share_print share_link" href="#" onclick="window.print()">
 								<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/print.png" title="Print" alt="Imprimir está página">
 							</a>
@@ -77,7 +79,9 @@
 		<?php endif; ?>
 	</div>
 </div><!-- .panel .panel-default -->
-<?php if ( get_post_status(get_the_ID()) != RHSVote::VOTING_QUEUE && ( comments_open() || get_comments_number() ) ) { ?>
+<?php 
+$post_status = get_post_status(get_the_ID());
+if (  $post_status != 'draft' && $post_status != 'voting-expired' && ( comments_open() || get_comments_number() ) ) { ?>
 	<div class="panel panel-default hidden-print">
 		<div class="panel-footer panel-comentarios">
 			<?php comments_template(); ?>

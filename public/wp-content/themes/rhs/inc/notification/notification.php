@@ -100,6 +100,14 @@ class RHSNotification {
     public function getObjectId() {
         return $this->object_id;
     }
+    
+    function getObjectAsPost() {
+        $post_id = $this->getObjectId();
+        $post = get_post($post_id);
+        if ($post instanceof WP_Post)
+            return $post;
+        return false;
+    }
 
     /**
      * @param mixed $object_id
@@ -127,6 +135,19 @@ class RHSNotification {
      */
     public function getUserId() {
         return $this->user_id;
+    }
+    
+    public function getUser() {
+        $user_id = $this->getUserId();
+        if (is_numeric($user_id)) {
+            $user = get_userdata($user_id);
+            if ($user instanceof WP_User) {
+                return new RHSUser($user);
+            }
+        }
+        
+        return false;
+        
     }
 
     /**
@@ -192,5 +213,21 @@ class RHSNotification {
     public function setImage( $image ) {
         $this->image = $image;
     }
+    
+    public function getTextPush() {        
+        if($this->text){
+            return $this->text;
+        }
+
+        return $this->text = $this->textPush(); // método da classe filha do tipo de notificação
+    }
+    
+    /**
+     * Métodos padrões que devem ser sobrescritos pelas classes filhas de tipos de notificação
+     */
+
+     public function textPush() {
+         return 'Novidades para você na RHS';
+     }
 
 }
