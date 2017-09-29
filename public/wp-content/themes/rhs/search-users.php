@@ -57,7 +57,7 @@ $users = $RHSSearch->search_users();
                                 <div class="pull-right">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Cassificar por
+                                        Classificar por
                                         <?php
                                             if(RHSSearch::get_param('rhs_order') == 'name')
                                                 echo 'Nome';
