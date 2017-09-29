@@ -279,7 +279,8 @@ class RHSEmail {
                 'login' => $user->user_login,
                 'email' => $user->user_email,
                 'nome' => $user->display_name,
-                'link' => '<a href="'.get_permalink($post_ID).'">'. get_permalink($post_ID) . '</a>'
+                // 'link' => '<a href="'. get_edit_post_link($post_ID) .'" >Clique aqui para responder</a>' // FORMA CORRETA
+                'link' => '<a href="'. admin_url('post.php?post='. $post_ID .'&action=edit') .'" >Clique aqui para responder</a>'
             );
 
             $subject = $this->get_subject('new_ticket_message', $args);
