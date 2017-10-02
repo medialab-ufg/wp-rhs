@@ -131,7 +131,7 @@
                                     <?php } ?>
                                     <button type="button" class="btn btn-default form-submit rasc_visu" id="pre-visualizar">PRÉ-VISUALIZAR
                                     </button>
-                                    <button type="submit" name="status" value="publish" class="btn btn-danger form-submit publicar">
+                                    <button type="submit" name="status" value="publish" class="btn btn-success form-submit publicar">
                                         <?php echo (!$RHSPost->getId() || $RHSPost->getStatus() == 'draft') ? 'PUBLICAR' : 'SALVAR'; ?>  POST
                                     </button>
                                 </div>
