@@ -100,7 +100,6 @@ endif;
 add_action( 'after_setup_theme', 'rhs_setup' );
 
 function trigger_functions(){
-
     global $RHSPosts;
     global $RHSPerfil;
     global $RHSRegister;

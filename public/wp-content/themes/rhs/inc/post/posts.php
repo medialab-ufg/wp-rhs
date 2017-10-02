@@ -142,6 +142,9 @@ class RHSPosts extends RHSMessage {
                 'selectedTags' => $tags
             ) );
         }
+        else if(get_query_var('rhs_login_tpl') == RHSRewriteRules::POSTAGENS_URL){
+            wp_enqueue_script('ApagarPost', get_template_directory_uri() . '/assets/js/apagar-post.js','1.0', true);
+        }
     }
     
     /**
@@ -253,9 +256,7 @@ class RHSPosts extends RHSMessage {
      * Quando enviado o formulário para salvar ou editor um postagem
      */
     public function trigger_by_post() {
-
         if ( ! empty( $_POST['post_user_wp'] ) && $_POST['post_user_wp'] == $this->getKey() ) {
-
             if ( ! $this->validate_by_post() ) {
                 return;
             }
@@ -282,6 +283,9 @@ class RHSPosts extends RHSMessage {
             }
 
             exit;
+        }
+        else if(!empty($_POST['is_delete_post'])){
+            $this->apagar_post_toggle($_POST['id']);
         }
     }
 
@@ -531,6 +535,42 @@ class RHSPosts extends RHSMessage {
         exit;
     }
 
+    /*
+    * Move post para lixeira
+    */
+    function apagar_post_toggle($post_id){
+         $post_status = get_post_status($post_id);
+
+         if($post_status != 'trash'){
+            $post = wp_trash_post($post_id);
+         }
+         else{
+            $post = wp_untrash_post($post_id);
+         }
+
+         switch($post['post_status']){
+             case RHSVote::VOTING_QUEUE:
+                $post_status = 'Fila de votação';
+             break;
+             case 'trash':
+                $post_status = 'Lixeira';
+             break;
+             case 'publish':
+                $post_status = 'Publicado';
+             break;
+             case 'draft':
+                $post_status = 'Rascunho';
+             break;
+             case 'private':
+                $post_status = 'Privado';
+             break;
+         }
+
+         $response =  json_encode(['post_status' => $post_status]);
+         
+         echo $response;
+         exit;
+    }
 
     /*
     * Function que lista as postagens na página minhas-postagens
@@ -542,7 +582,7 @@ class RHSPosts extends RHSMessage {
         $author_query = array(
             'posts_per_page' => '-1',
             'author'         => $current_user->ID,
-            'post_status'    => array( 'draft', 'publish', RHSVote::VOTING_QUEUE, 'private' )
+            'post_status'    => array( 'draft', 'publish', RHSVote::VOTING_QUEUE, 'private', 'trash' )
         );
         $author_posts = new WP_Query( $author_query );
         global $RHSVote;
@@ -556,6 +596,8 @@ class RHSPosts extends RHSMessage {
                 $status_label = 'Rascunho';
             } else if ( $post_status == 'private' ) {
                 $status_label = 'Privado';
+            } else if($post_status == 'trash'){
+                $status_label = 'Lixeira';
             } elseif ( array_key_exists( $post_status, $RHSVote->get_custom_post_status() ) ) {
                 $status_label = $RHSVote->get_custom_post_status()[ $post_status ]['label'];
             } else {
@@ -593,10 +635,18 @@ class RHSPosts extends RHSMessage {
                     ?>
                 </td>
                 <td>
-                    <?php echo $status_label; ?>
+                    <label id="post-status-label-<?php echo get_the_ID(); ?>"> <?php echo $status_label; ?> </label>
                     <?php if ( current_user_can( 'edit_post', get_the_ID() ) ): ?>
-                        <a href="<?php echo get_home_url() . '/' . RHSRewriteRules::POST_URL . '/' . get_the_ID(); ?>">
+                        <a id="editar-meu-post-<?php echo get_the_ID(); ?>" href="<?php echo get_home_url() . '/' . RHSRewriteRules::POST_URL . '/' . get_the_ID(); ?> " <?php echo $post_status == 'trash'? 'style="display: none;"':'' ?> >
                             (Editar)
+                        </a>
+                        <a id="apagar-meu-post-<?php echo get_the_ID(); ?>" class="apagar-post" href="#">
+                            <?php if($post_status == 'trash') { 
+                                echo '(Tirar da Lixeira)';
+                            }
+                            else {
+                                echo '(Apagar)';
+                            }?>
                         </a>
                     <?php endif; ?>
                 </td>
