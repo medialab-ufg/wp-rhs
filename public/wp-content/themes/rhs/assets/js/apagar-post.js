@@ -36,9 +36,9 @@ jQuery(document).ready(function(){
         'id': id
       },
     }).done(function(response){
-      showRefreshAnimation(acoesMeuPost, false);
-
       setTimeout(function(){
+        showRefreshAnimation(acoesMeuPost, false);
+        
         var post_status = response.post_status;
        
         buttonDelete.text(text);
@@ -52,7 +52,7 @@ jQuery(document).ready(function(){
           buttonEdit.show();
         }
 
-      }, 100);
+      }, 350);
     });
   }
 
