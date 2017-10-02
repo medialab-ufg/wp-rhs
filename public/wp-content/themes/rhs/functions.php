@@ -744,3 +744,20 @@ function rhs_test_stats_carousel_links() {
         
 }
 
+/*
+ * Cria Perfil 'Spam', sem permissões, para facilitar sua marcação no painel admin do WP
+ */
+$spam_user = array(
+    'read' => false,
+    'edit_posts' => false,
+    'edit_pages' => false,
+    'edit_others_posts' => false,
+    'create_posts' => false,
+    'manage_categories' => false,
+    'publish_posts' => false,
+    'edit_themes' => false,
+    'install_plugins' => false,
+    'update_plugin' => false,
+    'update_core' => false
+);
+add_role('spam', __('Spam'), $spam_user);

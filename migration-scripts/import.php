@@ -23,15 +23,14 @@ class RHSImporter {
         'votes' => 'Importação dos votos em posts',
         'comments' => 'Importação dos comentários de posts',
         'taxonomy' => 'Importação das tags e categorias',
-        
-        
         'taxonomy-slugs' => 'Cria slugs para tags q nao tem e trata slugs repetidos',
         'post-thumbnails' => 'Importação as imagens destacadas dos posts',
         'estados-cidades' => 'Importação das informações de estado e cidade para posts',
         'estados-cidades-users' => 'Importação das informações de estado e cidade para usuários',
         'categories-new' => 'Cria Novas Categorias',
         'add-users-to-channels' => 'Adicionar usuários a canais de notificações',
-        'comunities' => 'Importação das comunidades'
+        'comunities' => 'Importação das comunidades',
+        'users-clean-spam' => 'Identifica usuários SPAM cadastrados'
     );
     
     
@@ -161,7 +160,7 @@ class RHSImporter {
 
 
         if (!defined('RHS_DRUPALDB') || empty(RHS_DRUPALDB))
-            $this->stop('É preciso definir a constante RHS_DRUPALDB no seu wo-config informando o nome da base de dados do Drupal');
+            $this->stop('É preciso definir a constante RHS_DRUPALDB no seu wp-config informando o nome da base de dados do Drupal');
 
 
         
