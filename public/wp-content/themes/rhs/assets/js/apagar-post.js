@@ -9,6 +9,10 @@ jQuery(document).ready(function(){
     var id = +buttonDelete.attr('id').match(/\d+/);
 
     var postStatusLabel = jQuery('#post-status-label-'+id);
+    var buttonEdit = jQuery('#editar-meu-post-'+id);
+    
+    var acoesMeuPost = jQuery('#acoes-meu-post-'+id);
+    acoesMeuPost.children().hide();
 
     if(text.includes('(Tirar da Lixeira)')){
       text = '(Apagar)';
@@ -17,19 +21,23 @@ jQuery(document).ready(function(){
       text = '(Tirar da Lixeira)';
     }
 
-    apagarPostToggle(id, postStatusLabel, buttonDelete, text);
+    apagarPostToggle(id, postStatusLabel, buttonDelete, text, acoesMeuPost);
   });
 
-  function apagarPostToggle(id, postStatusLabel, buttonDelete, text){
+  function apagarPostToggle(id, postStatusLabel, buttonDelete, text, acoesMeuPost){
+    showRefreshAnimation(acoesMeuPost, true);
+
     jQuery.ajax({
-      url: '',
+      url: post_vars.ajaxurl,
       method: 'POST',
       dataType: 'json',
       data: {
-        'is_delete_post': true,
+        'action': 'apagar_post_toggle',
         'id': id
       },
     }).done(function(response){
+      showRefreshAnimation(acoesMeuPost, false);
+
       setTimeout(function(){
         var post_status = response.post_status;
        
@@ -38,13 +46,23 @@ jQuery(document).ready(function(){
         buttonEdit = jQuery('#editar-meu-post-'+id);
 
         if(post_status == 'Lixeira'){
-          buttonEdit.hide('fast', 'linear');
+          buttonEdit.hide();
         }
         else{
-          buttonEdit.show('fast', 'linear');
+          buttonEdit.show();
         }
+
       }, 100);
     });
   }
 
+  function showRefreshAnimation(acoesMeuPost, show){
+    if(show){
+      acoesMeuPost.find('#apagar-refresh').show();
+    }
+    else{
+      acoesMeuPost.children().show();
+      acoesMeuPost.find('#apagar-refresh').hide();
+    }
+  }
 });

@@ -17,6 +17,7 @@ class RHSPosts extends RHSMessage {
         add_filter( 'mce_external_plugins', array( &$this, 'add_mce_placeholder_plugin' ) );
         add_filter( 'save_post', array( &$this, 'add_meta_date' ) );
         add_action( 'wp_enqueue_scripts', array( &$this, 'addJS' ));
+        add_action( 'wp_ajax_apagar_post_toggle', array(&$this, 'apagar_post_toggle'));
         
         if ( empty ( self::$instance ) ) {
             add_filter( 'pre_get_posts', array( &$this, 'pre_get_posts' ) );
@@ -144,6 +145,10 @@ class RHSPosts extends RHSMessage {
         }
         else if(get_query_var('rhs_login_tpl') == RHSRewriteRules::POSTAGENS_URL){
             wp_enqueue_script('ApagarPost', get_template_directory_uri() . '/assets/js/apagar-post.js','1.0', true);
+
+            wp_localize_script( 'ApagarPost', 'post_vars', array( 
+                'ajaxurl' => admin_url( 'admin-ajax.php' ),
+            ) );
         }
     }
     
@@ -283,9 +288,6 @@ class RHSPosts extends RHSMessage {
             }
 
             exit;
-        }
-        else if(!empty($_POST['is_delete_post'])){
-            $this->apagar_post_toggle($_POST['id']);
         }
     }
 
@@ -538,38 +540,40 @@ class RHSPosts extends RHSMessage {
     /*
     * Move post para lixeira
     */
-    function apagar_post_toggle($post_id){
-         $post_status = get_post_status($post_id);
+    function apagar_post_toggle(){
+        $post_id = $_POST['id'];
 
-         if($post_status != 'trash'){
-            $post = wp_trash_post($post_id);
-         }
-         else{
-            $post = wp_untrash_post($post_id);
-         }
+        $post_status = get_post_status($post_id);
 
-         switch($post['post_status']){
-             case RHSVote::VOTING_QUEUE:
-                $post_status = 'Fila de votação';
-             break;
-             case 'trash':
-                $post_status = 'Lixeira';
-             break;
-             case 'publish':
-                $post_status = 'Publicado';
-             break;
-             case 'draft':
-                $post_status = 'Rascunho';
-             break;
-             case 'private':
-                $post_status = 'Privado';
-             break;
-         }
+        if($post_status != 'trash'){
+           $post = wp_trash_post($post_id);
+        }
+        else{
+           $post = wp_untrash_post($post_id);
+        }
 
-         $response =  json_encode(['post_status' => $post_status]);
+        switch($post['post_status']){
+            case RHSVote::VOTING_QUEUE:
+               $post_status = 'Fila de votação';
+            break;
+            case 'trash':
+               $post_status = 'Lixeira';
+            break;
+            case 'publish':
+               $post_status = 'Publicado';
+            break;
+            case 'draft':
+               $post_status = 'Rascunho';
+            break;
+            case 'private':
+               $post_status = 'Privado';
+            break;
+        }
+
+        $response =  json_encode(['post_status' => $post_status]);
          
-         echo $response;
-         exit;
+        echo $response;
+        die;
     }
 
     /*
@@ -634,7 +638,7 @@ class RHSPosts extends RHSMessage {
                     }
                     ?>
                 </td>
-                <td>
+                <td id="acoes-meu-post-<?php echo get_the_ID(); ?>">
                     <label id="post-status-label-<?php echo get_the_ID(); ?>"> <?php echo $status_label; ?> </label>
                     <?php if ( current_user_can( 'edit_post', get_the_ID() ) ): ?>
                         <a id="editar-meu-post-<?php echo get_the_ID(); ?>" href="<?php echo get_home_url() . '/' . RHSRewriteRules::POST_URL . '/' . get_the_ID(); ?> " <?php echo $post_status == 'trash'? 'style="display: none;"':'' ?> >
@@ -648,6 +652,7 @@ class RHSPosts extends RHSMessage {
                                 echo '(Apagar)';
                             }?>
                         </a>
+                        <a id="apagar-refresh" style="display: none;"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></a>
                     <?php endif; ?>
                 </td>
             </tr>
