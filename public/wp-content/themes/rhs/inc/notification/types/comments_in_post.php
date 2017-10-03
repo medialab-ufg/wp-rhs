@@ -77,9 +77,15 @@ class RHSNotification_comments_in_post extends RHSNotification {
             if($user = $this->getUser()) {
                 return $user->get_avatar();
             }
-        }
+        }        
+    }
 
+    public function getButtons() {
+        $type = $this->getType();
+        $buttons[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver Comentário');
+        $buttons[] = (object) array('id' => 'open_user' . $type, 'text' => 'Ver Usuário');
         
+        return $buttons;
     }
 
 }

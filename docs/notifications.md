@@ -242,6 +242,8 @@ Cada classe destas, deve implementar esses métodos.
 
 **textPush()** - retorna o texto que será exibido na push notification (notificação para o App de celular). É apenas um texto plano, sem HTML ou links.
 
+**getButtons()** - retorna os botões que serão exibidos para cada notificação, sendo composto por `id` e `text`. Deve retornar um ArrayObject. [Tipos de Botões](#botoes-em-notificacoes)
+
 No cabeçalho do arquivo há duas linhas de comentários sobre o tipo de notificação que essa classe implementa. Esses comentários atualmente são utilizados para montar a interface de configuração de notificações no aplicativo de celular
 
 exemplo:
@@ -276,13 +278,26 @@ Para enviar informações complementares ao app, que podem ser utilizadas, por e
 
 ## Agrupamentos de notificações
 
-O agrupamento é feito através do parâmetro `android_group`, onde é passada uma key indicando o grupo. Podemos ter, por exemplo, agrupamentos pra qualquer notificação da RHS (`android_group = 'rhs'`) ou pra cada tipo de notificações (`android_group = 'new_comment_on_post'`). Também é possível customizar a mensagem de agrupamento pelo parâmetro `android_group_message`, por exemplo: `android_group_message = 'Você tem $[notif_count] novos usuários na RHS.'`. 
+O agrupamento é feito através do parâmetro `android_group`, onde é passada uma key indicando o grupo. Podemos ter, por exemplo, agrupamentos pra qualquer notificação da RHS (`android_group = 'rhs'`) ou pra cada tipo de notificações (`android_group = 'rhs_comments_in_post'`). Também é possível customizar a mensagem de agrupamento pelo parâmetro `android_group_message`, por exemplo: `android_group_message = 'Você tem $[notif_count] novos usuários na RHS.'`. 
 
 *Aparentemente não é possível customizar este recurso no iOS.*
+
+**Tags**
+
+Ação | android_group
+----- | --------------- 
+Comentário no post | rhs_comments_in_post
+Novo Post na Comunidade | rhs_new_community_post
+Novo Post de Usuário | rhs_new_post_from_user
+Novo Post sendo Seguido | rhs_post_followed
+Contato respondido | rhs_replied_ticket
+Usuário sendo Seguido| rhs_user_follow_author
+
 
 ## Colapso de notificações
 
 Caso queiramos garantir que uma notificação substitua uma que foi enviada e o usuário ainda não abriu, podemos passar o parâmetro `collapse_id`. Isso pode ser útil, por exemplo, se uma mensagem de nova versão app foi anunciada, e logo em seguida outra atualização foi oferecida, já que não nos interessa que o usuário veja a antiga. Pode tornar possível tbm a correção de mensagens enviadas equivocadas. Ex.: `collapse_id = 'rhs_new_update'`.
+
 
 ## Botões em notificações
 
@@ -310,7 +325,20 @@ buttons = [
     {"id": "open_post", "text": "Ver post"}
 ]
 ```
-Os dados serão passados no campo `additionalData` para o lado do App, que tratará o evento de clique apropriadamente. Neste caso, o id da página destino deve ser passado também, como campos extras.
+Os dados serão passados no campo `Action Buttons` para o lado do App, que tratará o evento de clique apropriadamente. Neste caso, o id da página destino deve ser passado também, como campos extras.
+
+**Botões**
+
+Ação | id | text
+----- | -- | ----
+Comentário no post | open_comments_in_post | Ver Comentário
+Comentário no post | open_user_comments_in_post | Ver Usuário
+Novo Post de Usuário | open_new_post_from_user | Ver Post
+Novo Post de Usuário | open_user_new_post_from_user | Ver Usuário
+Novo Post sendo Seguido | open_post_followed | Ver Post
+Novo Post sendo Seguido | open_user_post_followed | Ver Usuário
+Contato respondido | open_replied_ticket | Ver Resposta
+Usuário sendo Seguido | open_user_follow_author | Ver Usuário Post Promovido | open_post_promoted | Ver Post
 
 ## Prioridades
 

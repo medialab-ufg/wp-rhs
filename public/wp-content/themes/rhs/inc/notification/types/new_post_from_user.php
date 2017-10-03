@@ -73,4 +73,12 @@ class RHSNotification_new_post_from_user extends RHSNotification {
         
     }
 
+    public function getButtons() {
+        $type = $this->getType();
+        $buttons[] = (object) array('id' => 'open_post_' . $type, 'text' => 'Ver Post');
+        $buttons[] = (object) array('id' => 'open_user_' . $type, 'text' => 'Ver Usuário');
+        
+        return $buttons;
+    }
+
 }

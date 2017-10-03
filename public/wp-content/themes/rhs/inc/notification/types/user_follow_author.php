@@ -53,4 +53,10 @@ class RHSNotification_user_follow_author extends RHSNotification {
         }
     }
 
+    public function getButtons() {
+        $type = $this->getType();
+        $button[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver Usuário');
+        
+        return $button;
+    }
 }
