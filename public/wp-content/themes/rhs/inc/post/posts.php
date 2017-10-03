@@ -591,8 +591,9 @@ class RHSPosts extends RHSMessage {
         $author_posts = new WP_Query( $author_query );
         global $RHSVote;
         while ( $author_posts->have_posts() ) : $author_posts->the_post();
-
-            $post_status = get_post_status( get_the_ID() );
+            $current_post_id = get_the_ID();
+            
+            $post_status = get_post_status( $current_post_id );
 
             if ( $post_status == 'publish' ) {
                 $status_label = 'Publicado';
@@ -611,7 +612,7 @@ class RHSPosts extends RHSMessage {
             ?>
             <tr>
                 <td>
-                    <a href="<?php echo get_permalink( get_the_ID() ) ?>">
+                    <a href="<?php echo get_permalink( $current_post_id ) ?>">
                         <?php the_title(); ?>
                     </a>
                 </td>
@@ -619,7 +620,7 @@ class RHSPosts extends RHSMessage {
                     <?php the_time( 'D, d/m/Y - H:i' ); ?>
                 </td>
                 <td>
-                    <?php echo $RHSNetwork->get_data( get_the_ID(), RHSNetwork::META_KEY_VIEW ); ?>
+                    <?php echo $RHSNetwork->get_data( $current_post_id, RHSNetwork::META_KEY_VIEW ); ?>
                 </td>
                 <td>
                     <?php
@@ -630,7 +631,7 @@ class RHSPosts extends RHSMessage {
                 </td>
                 <td>
                     <?php
-                    $votos = $RHSVote->get_total_votes( get_the_ID() );
+                    $votos = $RHSVote->get_total_votes( $current_post_id );
                     if ( $votos <= 0 ) {
                         echo '0';
                     } else {
@@ -638,13 +639,13 @@ class RHSPosts extends RHSMessage {
                     }
                     ?>
                 </td>
-                <td id="acoes-meu-post-<?php echo get_the_ID(); ?>">
-                    <label id="post-status-label-<?php echo get_the_ID(); ?>"> <?php echo $status_label; ?> </label>
-                    <?php if ( current_user_can( 'edit_post', get_the_ID() ) ): ?>
-                        <a id="editar-meu-post-<?php echo get_the_ID(); ?>" href="<?php echo get_home_url() . '/' . RHSRewriteRules::POST_URL . '/' . get_the_ID(); ?> " <?php echo $post_status == 'trash'? 'style="display: none;"':'' ?> >
+                <td id="acoes-meu-post-<?php echo $current_post_id; ?>">
+                    <label id="post-status-label-<?php echo $current_post_id; ?>"> <?php echo $status_label; ?> </label>
+                    <?php if ( current_user_can( 'edit_post', $current_post_id ) ): ?>
+                        <a id="editar-meu-post-<?php echo $current_post_id; ?>" href="<?php echo get_home_url() . '/' . RHSRewriteRules::POST_URL . '/' . $current_post_id; ?> " <?php echo $post_status == 'trash'? 'style="display: none;"':'' ?> >
                             (Editar)
                         </a>
-                        <a id="apagar-meu-post-<?php echo get_the_ID(); ?>" class="apagar-post" href="#">
+                        <a id="apagar-meu-post-<?php echo $current_post_id; ?>" class="apagar-post" href="#">
                             <?php if($post_status == 'trash') { 
                                 echo '(Tirar da Lixeira)';
                             }
