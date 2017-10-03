@@ -9,7 +9,7 @@ if(is_array($all_users)) {
             if( !filter_var($curr_email, FILTER_VALIDATE_EMAIL) && $spam_role_exists ) {
                 $user_set_as_spam = update_user_meta($usr->ID , 'is_spam', true);
                 if($user_set_as_spam) {
-                    echo $usr->user_nicename . " was flagged as SPAM: \t" . $curr_email . "\n";
+                    echo $usr->user_nicename . " foi marcado como SPAM: \t" . $curr_email . "\n";
                     wp_update_user(array( 'ID' => $usr->ID, 'role' => 'spam' ));
                 }
             }
