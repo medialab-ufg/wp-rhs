@@ -57,8 +57,8 @@ class RHSOneSignal {
         $channel = $notification->getChannel();
         $type = $notification->getType();
         $text = $notification->getTextPush();
-        
-        
+        $buttons = $notification->getButtons();
+
         $request = [
             'included_segments' => ['All'],
             'filters' => [
@@ -97,7 +97,13 @@ class RHSOneSignal {
                 'type' => $notification->getType(),
                 'channel' => $notification->getChannel(),
                 'datetime' => $notification->getDatetime()
-            ]
+            ],
+            'android_group' => 'rhs_' . $type,
+            'android_group_message' => [
+                'en' => 'You have $[notif_count] new notifications',
+                'pt' => 'Você tem $[notif_count] notificações na RHS.'
+            ],
+            'buttons' => $buttons
         ];
         
         return $this->send_request($request, $endpoint, $method);
@@ -122,7 +128,7 @@ class RHSOneSignal {
             if (!$device_ids || empty($device_ids))
                 return false;
         }
-            var_dump($device_ids);
+
         global $RHSNotifications;
         $user_channels = $RHSNotifications->get_user_channels($user_id);
         // Antes de comparar o array de user_channels com o de remote_tags,
@@ -172,8 +178,8 @@ class RHSOneSignal {
             $request = [
                 'tags' => $tagsToEdit
             ];
-var_dump($request);
-            var_dump($this->send_request($request, $endpoint, $method));
+
+            $this->send_request($request, $endpoint, $method);
         }
     }
     
@@ -329,12 +335,11 @@ var_dump($request);
             return false;
         
         $request = array_merge($request, ['app_id' => $app_id]);
-        
+
         return wp_remote_post('https://onesignal.com/api/v1/' . $endpoint, [
             'method' => $method,
             'headers' => ['Content-Type' => 'application/json; charset=utf-8', 'Authorization' => 'Basic ' . $auth_key],
             'body' => json_encode($request)
-            
         ]);
     }
 } 

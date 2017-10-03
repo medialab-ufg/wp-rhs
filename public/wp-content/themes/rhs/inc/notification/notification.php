@@ -66,6 +66,37 @@ class RHSNotification {
         $this->notificationId = $notificationId;
     }
 
+    public function getButtons() {
+        $type = $this->type;
+
+        switch ($type){
+            case 'comments_in_post':
+                $buttons[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver Comentário');
+                break;
+            case 'new_community_post':
+                $buttons[] = (object) array('id' => 'open' . $type, 'text' => 'Ver Post');
+                break;
+            case 'new_post_from_user':
+                $buttons[] = (object) array('id' => 'open_post_' . $type, 'text' => 'Ver Post');
+                $buttons[] = (object) array('id' => 'open_user_' . $type, 'text' => 'Ver Usuário');
+                break;
+            case 'post_followed':
+                $buttons[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver Post');
+                break;
+            case 'replied_ticket':
+                $buttons[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver Resposta');
+                break;
+            case 'user_follow_author':
+                $buttons[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver Usuário');
+                break;
+            default:
+                $buttons[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver');
+                break;
+        }
+        
+        return $buttons;
+    }
+
     /**
      * @return mixed
      */
