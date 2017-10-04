@@ -288,7 +288,7 @@ Ação | android_group
 ----- | --------------- 
 Comentário no post | rhs_comments_in_post
 Novo Post na Comunidade | rhs_new_community_post
-Novo Post de Usuário | rhs_new_post_from_user
+Novo Post de Usuário | open_post_new_post_from_user
 Novo Post sendo Seguido | rhs_post_followed
 Contato respondido | rhs_replied_ticket
 Usuário sendo Seguido| rhs_user_follow_author
