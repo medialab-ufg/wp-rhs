@@ -66,7 +66,13 @@ class RHSNotification_post_followed extends RHSNotification {
         }
     }
 
-    public function getButtons() {
+    function imageSrc(){
+        if($user = $this->getUser()) {
+            return get_avatar_url($user->get_id());
+        }
+    }
+
+    public function buttons() {
         $type = $this->getType();
         $buttons[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver Post');
         $buttons[] = (object) array('id' => 'open_user_' . $type, 'text' => 'Ver Usuário');

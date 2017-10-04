@@ -80,7 +80,20 @@ class RHSNotification_comments_in_post extends RHSNotification {
         }        
     }
 
-    public function getButtons() {
+    function imageSrc(){
+        $comment_ID = $this->getObjectId();
+        $c = get_comment($comment_ID);        
+       
+        if($c) {
+            $post_ID = $c->comment_post_ID;
+
+            if($user = $this->getUser()) {
+                return get_avatar_url($user->get_id());
+            }
+        }
+    }
+
+    public function buttons() {
         $type = $this->getType();
         $buttons[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver Comentário');
         $buttons[] = (object) array('id' => 'open_user' . $type, 'text' => 'Ver Usuário');

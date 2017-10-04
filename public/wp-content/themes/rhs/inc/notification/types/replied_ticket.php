@@ -35,7 +35,11 @@ class RHSNotification_replied_ticket extends RHSNotification {
         return "<img src='". get_template_directory_uri() ."/inc/notification/assets/default_icon.png'>";
     }
 
-    public function getButtons() {
+    function imageSrc(){
+        return get_template_directory_uri() ."/inc/notification/assets/default_icon.png'>";
+    }
+
+    public function buttons() {
         $type = $this->getType();
         $button[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver Resposta');
         

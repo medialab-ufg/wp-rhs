@@ -240,9 +240,12 @@ Cada classe destas, deve implementar esses métodos.
 
 **image()** - retorna o html (tag `img`) que representa a notificação. As vezes vai ser a imagem do post, as vezes o avatar do usuário, e outras opções podem vir a surgir.
 
+**imageSrc()** - retorna o endereço da imagem, há casos que retorna a imagem do avatar do usuário e em outros o thumbnail do post.
+
 **textPush()** - retorna o texto que será exibido na push notification (notificação para o App de celular). É apenas um texto plano, sem HTML ou links.
 
-**getButtons()** - retorna os botões que serão exibidos para cada notificação, sendo composto por `id` e `text`. Deve retornar um ArrayObject. [Tipos de Botões](#botoes-em-notificacoes)
+**buttons()** - retorna os botões que serão exibidos para cada notificação, sendo composto por `id` e `text`. Deve retornar um ArrayObject. [Tipos de Botões](#botoes-em-notificacoes)
+
 
 No cabeçalho do arquivo há duas linhas de comentários sobre o tipo de notificação que essa classe implementa. Esses comentários atualmente são utilizados para montar a interface de configuração de notificações no aplicativo de celular
 
@@ -317,7 +320,7 @@ Até 3 botões podem ser exibidos em notificações. Isso pode ser útil para ca
   </tr>
 </table>
 
-Neste caso deve ser passad um array de buttons do tipo:
+Neste caso deve ser passar um array de buttons do tipo:
 ```
 buttons = [
     {"id": "open_comment", "text": "Ver comentário"}, 

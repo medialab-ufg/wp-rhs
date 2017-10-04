@@ -83,7 +83,13 @@ class RHSNotification_new_community_post extends RHSNotification {
             return $user->get_avatar();
     }
 
-    public function getButtons() {
+    function imageSrc(){
+        if($user = $this->getUser()) {
+            return get_avatar_url($user->get_id());
+        }
+    }
+
+    public function buttons() {
         $type = $this->getType();
         $button[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver Post');
         

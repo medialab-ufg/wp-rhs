@@ -43,6 +43,12 @@ class RHSNotification_user_follow_author extends RHSNotification {
             return $user->get_avatar();
         }
     }
+
+    function imageSrc(){
+        if($user = $this->getUser()) {
+            return get_avatar_url($user->get_id());
+        }
+    }
     
     function textPush() {
         if($user = $this->getUser()) {
@@ -53,7 +59,7 @@ class RHSNotification_user_follow_author extends RHSNotification {
         }
     }
 
-    public function getButtons() {
+    public function buttons() {
         $type = $this->getType();
         $button[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver Usuário');
         

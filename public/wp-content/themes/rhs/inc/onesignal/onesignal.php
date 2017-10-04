@@ -57,7 +57,8 @@ class RHSOneSignal {
         $channel = $notification->getChannel();
         $type = $notification->getType();
         $text = $notification->getTextPush();
-        $buttons = $notification->getButtons();
+        $buttons = $notification->buttons();
+        $large_icon = $notification->imageSrc();
 
         $request = [
             'included_segments' => ['All'],
@@ -103,7 +104,8 @@ class RHSOneSignal {
                 'en' => 'You have $[notif_count] new notifications',
                 'pt' => 'Você tem $[notif_count] notificações na RHS.'
             ],
-            'buttons' => $buttons
+            'buttons' => $buttons,
+            'large_icon' => $large_icon
         ];
         
         return $this->send_request($request, $endpoint, $method);

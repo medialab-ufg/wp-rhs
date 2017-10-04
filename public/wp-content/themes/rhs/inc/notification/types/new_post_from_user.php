@@ -64,7 +64,6 @@ class RHSNotification_new_post_from_user extends RHSNotification {
     }
 
     function image(){
-
         if($user = $this->getUser()) {
             return $user->get_avatar();
         } else {
@@ -73,7 +72,13 @@ class RHSNotification_new_post_from_user extends RHSNotification {
         
     }
 
-    public function getButtons() {
+    function imageSrc(){
+        if($user = $this->getUser()) {
+            return get_avatar_url($user->get_id());
+        }
+    }
+
+    public function buttons() {
         $type = $this->getType();
         $buttons[] = (object) array('id' => 'open_post_' . $type, 'text' => 'Ver Post');
         $buttons[] = (object) array('id' => 'open_user_' . $type, 'text' => 'Ver Usuário');
