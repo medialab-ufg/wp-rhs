@@ -110,8 +110,18 @@
         .resultado{
             padding: 15px;
             padding-top: 0;
-            .dropdown{
-                top: 13px;
+            .retorno{
+                background: aliceblue;
+                padding: 22px;
+                margin: 0 -15px 0 15px;
+                border-top-left-radius: 8px;
+                font-weight: 500;
+            }
+            .classificar{
+                background: aliceblue;
+                margin: 0 15px 0 -15px;
+                padding: 14px;
+                border-top-right-radius: 8px;
             }
         }
     }
