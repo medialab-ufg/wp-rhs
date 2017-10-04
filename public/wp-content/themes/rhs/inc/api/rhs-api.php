@@ -146,9 +146,9 @@ Class RHSApi  {
                     }
                 ),
             ),
-            // 'permission_callback' => function ( $request ) {
-            //     return current_user_can('edit_user', $request['id']);
-            // }
+            'permission_callback' => function ( $request ) {
+                return current_user_can('edit_user', $request['id']);
+            }
         ));
         
         register_rest_route( $this->apinamespace, '/notifications/types/', array(
@@ -283,7 +283,7 @@ Class RHSApi  {
             }
         }
         
-        return rest_ensure_response($array_users);
+        return rest_ensure_response($array_user);
 
     }
 
