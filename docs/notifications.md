@@ -338,7 +338,8 @@ Novo Post de Usuário | open_user_new_post_from_user | Ver Usuário
 Novo Post sendo Seguido | open_post_followed | Ver Post
 Novo Post sendo Seguido | open_user_post_followed | Ver Usuário
 Contato respondido | open_replied_ticket | Ver Resposta
-Usuário sendo Seguido | open_user_follow_author | Ver Usuário Post Promovido | open_post_promoted | Ver Post
+Usuário sendo Seguido | open_user_follow_author | Ver Usuário
+Post Promovido | open_post_promoted | Ver Post
 
 ## Prioridades
 
