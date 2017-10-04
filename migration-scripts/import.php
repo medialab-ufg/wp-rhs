@@ -29,8 +29,7 @@ class RHSImporter {
         'estados-cidades-users' => 'Importação das informações de estado e cidade para usuários',
         'categories-new' => 'Cria Novas Categorias',
         'add-users-to-channels' => 'Adicionar usuários a canais de notificações',
-        'comunities' => 'Importação das comunidades',
-        'users-clean-spam' => 'Identifica usuários SPAM cadastrados'
+        'comunities' => 'Importação das comunidades'
     );
     
     

@@ -1,5 +1,5 @@
 <?php
-$this->log('Fetching RHS\' registered users ..');
+$this->log('Buscando os usuarios registrados na RHS ...');
 $all_users = $wpdb->get_results("SELECT * FROM $wpdb->users  WHERE ID > 1;");
 if(is_array($all_users)) {
     foreach ($all_users as $usr) {
