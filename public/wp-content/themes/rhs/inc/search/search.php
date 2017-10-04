@@ -383,7 +383,6 @@ class RHSSearch {
         
         $filters = array(
             //'role'       => 'contributor',
-            'role__not_in' => 'spam',
             'order'      => $q_order,
             'orderby'    => $q_order_by,
             'search'     => '*' . esc_attr($this->get_param('keyword')) . '*',
