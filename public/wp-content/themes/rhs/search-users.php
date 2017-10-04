@@ -54,6 +54,16 @@ $users = $RHSSearch->search_users();
                     <div class="row resultado">
                         <div class="row">
                             <div class="col-xs-12">
+                                <div class="pull-left">
+                                <?php if(count($_GET)) {?>
+                                    <div class="label-rhs">Resultado da Pesquisa: 
+                                    <?php
+                                        $total = $users->total_users;
+                                        echo ($total > 1 ) ? $total . ' itens' : $total . ' item' ; 
+                                    ?>
+                                    </div>
+                                <?php }?>
+                                </div>
                                 <div class="pull-right">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

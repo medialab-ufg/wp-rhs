@@ -87,7 +87,23 @@
                     </div>
                     <div class="row resultado">
                         <div class="row">
-                            <div class="col-xs-12">
+                            <div class="col-xs-6 retorno">
+                                <?php if(count($_GET)) {?>
+                                    <?php 
+                                        $result = $wp_query;
+                                        $total_result = $result->found_posts;
+                                        $total_pages = $result->max_num_pages;
+                                        $current_page = ( get_query_var('paged') == 0 ) ? 1 : get_query_var('paged');
+                                    ?>
+                                    <div class="label-rhs">Exibindo  
+                                        <?php
+                                            echo $current_page .' - '. $total_pages .' de ';
+                                            echo ($total_result > 1 ) ? '<strong>' . $total_result . '</strong> resultados' : '<strong>' . $total_result . '</strong> resultado';
+                                        ?>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                            <div class="col-xs-6 classificar">
                                 <div class="pull-right">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
