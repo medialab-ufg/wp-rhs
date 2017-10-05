@@ -105,7 +105,8 @@ class RHSOneSignal {
                 'pt' => 'Você tem $[notif_count] notificações na RHS.'
             ],
             'buttons' => $buttons,
-            'large_icon' => $large_icon
+            'large_icon' => $large_icon,
+            'android_accent_color' => 'FF00b4b4'
         ];
         
         return $this->send_request($request, $endpoint, $method);

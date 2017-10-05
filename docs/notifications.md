@@ -273,6 +273,12 @@ Essa linha indica que o hook `comment_post`, que faz parte do core do WP e é di
 
 A seguir alguns fatores de customização que o OneSignal oferece que podemos investigar. A maioria dos recursos estão descritos na documentação da API, [nesta página](https://documentation.onesignal.com/reference).
 
+## Cor ##
+O cor do ícone da notificação é setado em ``android_accent_color``, deve ser uma string sem o ``#``, no formato ARGB, exemplo: ``FF00b4b4``
+
+## Imagem da Notificação ## 
+O endereço da imagem em string, seja do post ou do usuário, é inserida em ``large_icon``.
+
 ## Passando dados extras
 
 Para enviar informações complementares ao app, que podem ser utilizadas, por exemplo, para o redirecionamento de páginas, basta passar pares "chaves-valor" para o parâmtro `additionalData`.
