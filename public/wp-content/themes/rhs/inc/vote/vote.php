@@ -46,6 +46,7 @@ Class RHSVote {
 			add_action( 'wp_enqueue_scripts', array( &$this, 'addJS' ) );
 
 			add_filter( 'map_meta_cap', array( &$this, 'vote_post_cap' ), 10, 4 );
+			add_filter( 'map_meta_cap', array( &$this, 'read_post_cap' ), 10, 4 );
 
 			add_action( 'pre_get_posts', array( &$this, 'fila_query' ) );
 			
@@ -324,6 +325,27 @@ Class RHSVote {
                     $this->votes_to_text_code = 'vq_text_vote_posts';
                     $this->votes_to_text_help = sprintf(get_option($this->votes_to_text_code), get_permalink(get_option('vq_page_explanation')));
 					$caps[] = 'vote_posts';
+				}
+			} else {
+                $caps[] = '__no_privs';
+                
+            }
+		}
+		return $caps;
+	}
+    
+    function read_post_cap( $caps, $cap, $user_id, $args ) {
+
+		if ( $cap == 'read_post' ) {
+
+			$caps = array();
+
+			$post = get_post( $args[0] );
+
+			if ( $post ) {
+
+				if (is_user_logged_in() && $post->post_status == self::VOTING_QUEUE) {
+                    $caps[] = 'read';
 				}
 			} else {
                 $caps[] = '__no_privs';
