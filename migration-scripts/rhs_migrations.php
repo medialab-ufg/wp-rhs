@@ -1,11 +1,11 @@
 <?php
 /**
- * Script de setup inicial da RHS, feitos para executarem uma única vez
+ * Script para migração de dados
  *
- * veja documentação em setup.md nesta mesma pasta
+ * veja documentação em migrations.md nesta mesma pasta
  *
  */
-class RHSSetup {
+class RHSMigrations {
 
     public $steps = array(
         // nome-do-arquivo => Descrição do passo
@@ -114,7 +114,7 @@ class RHSSetup {
             if ($s > $this->to)
                 break;
             
-            $filename = "setup_steps/$f.php";
+            $filename = "migrations_steps/$f.php";
             $this->log("==========================================================");
             $this->log("== Iniciando passo $s: $step");
             
@@ -122,7 +122,7 @@ class RHSSetup {
                 $this->stop("Arquivo $filename não encontrado");
             }
 
-            $set_step = "set_" . str_replace("-", "_", $f);
+            $set_step = "rhs_migrations_" . str_replace("-", "_", $f);
             $step_already_run = get_option($set_step);
 
             echo "Verificando '$f' ...\n";
@@ -187,22 +187,22 @@ class RHSSetup {
     function print_help() {
         $steps = $this->get_steps_list();
         echo <<<EOF
-        Modo de usar: php rhs_setup.php [help|all|list|\$from] [\$to]
+        Modo de usar: php rhs_migrations.php [help|all|list|\$from] [\$to]
         
         help > Imprime esta mensagem de ajuda.
         list > Lista os passos disponíveis do script
         
         all  > Roda toda ou uma parte da importação. "all" irá rodar toda a importação. 
         Exemplos:
-         \$php rhs_setup.php all ## Roda toda a importação
-         \$php rhs_setup.php help ## Imprime esta mensagem de ajuda
+         \$php rhs_migrations.php all ## Roda toda a importação
+         \$php rhs_migrations.php help ## Imprime esta mensagem de ajuda
         
         from > Roda a importação a partir deste passo. Se for um número negativo, roda do começo até este número. Se --to não for especificado, roda até o final
         to   > Roda a importação até este ponto.
         Exemplos
-         \$php rhs_setup.php 3 ## Roda a importação do passo 3 em diante, até o fim
-         \$php rhs_setup.php 3 5 ## Roda a importação do passo 3 ao 5 (incluindo os passos 3 e 5)
-         \$php rhs_setup.php -5 ## Roda a importação início até o passo 5 (incluindo o 5)
+         \$php rhs_migrations.php 3 ## Roda a importação do passo 3 em diante, até o fim
+         \$php rhs_migrations.php 3 5 ## Roda a importação do passo 3 ao 5 (incluindo os passos 3 e 5)
+         \$php rhs_migrations.php -5 ## Roda a importação início até o passo 5 (incluindo o 5)
         
         Lista dos passos da importação:
 EOF;
@@ -212,4 +212,4 @@ EOF;
 
 }
 
-$setup = new RHSSetup($argv);
+new RHSMigrations($argv);

@@ -1,6 +1,10 @@
-# Scripts de setup inicial
+# Scripts de migração de dados
 
-Os scripts aqui documentados foram feitos para rodar uma única vez - geralmente no setup inicial de uma instalação do RHS. 
+Script para migração de dados.
+
+Esses scripts servem para aplicar alteração na estrutura do banco de dados, ou rodar rotinas que devem ser aplicadas apenas uma vez.
+
+Cada passo do script foi feito para rodar uma única vez
 
 ## Visão geral
 
@@ -15,49 +19,49 @@ Ele pressupõe que você tenha configurado corretamente as credenciais utilizada
 Rode o script pela linha de comando usando o comando php. Exemplo:
 
 ```
-php rhs_setup.php
+php rhs_migrations.php
 ```
 
 Rode ele sem nenhum parâmetro (ou com o parâmero "help") para ver todas as opções. Aqui estão as básicas:
 
 Rodar tudo
 ```
-php rhs_setup.php all
+php rhs_migrations.php all
 ```
 
 Listar os passos
 ```
-php rhs_setup.php list
+php rhs_migrations.php list
 ```
 
 Rodar a partir do passo 3
 ```
-php rhs_setup.php 3
+php rhs_migrations.php 3
 ```
 
 Rodar do passo 3 ao 5
 ```
-php rhs_setup.php 3 5
+php rhs_migrations.php 3 5
 ```
 
 Rodar apenas o passo 4
 ```
-php rhs_setup.php 4 4
+php rhs_migrations.php 4 4
 ```
 
 Rodar do início até o passo 3
 ```
-php rhs_setup.php -3
+php rhs_migrations.php -3
 ```
 
 ## Desenvolvendo o script
 
-Cada passo do script é um arquivo PHP independente dentro da pasta "setup_steps".
+Cada passo do script é um arquivo PHP independente dentro da pasta "migrations_steps".
 
 Para criar um novo passo:
 
 * Crie um novo arquivo PHP na pasta setup_steps com seu script
-* Registre este novo passo no arquivo rhs_setup.php
+* Registre este novo passo no arquivo rhs_migrations.php
 
 
 ### Criando um novo passo
@@ -89,11 +93,11 @@ Também está disponível o método `$this->wpcli($command)` para rodar comandos
 
 ### Registrando um novo passo
 
-1. Abra o arquivo rhs_setup.php
+1. Abra o arquivo rhs_migrations.php
 
 2. Edite o array $steps e adicione o novo passo
 
-Logo no início do arquivo há a declaração do atributo `$steps` da classe `RHSSetup`.
+Logo no início do arquivo há a declaração do atributo `$steps` da classe `RHSMigrations`.
 
 Adicione uma entrada neste array, na posição adequada (o script é rodado na ordem deste array).
 
@@ -112,7 +116,7 @@ Exemplo:
  *
  */
 
-class RHSSetup {
+class RHSMigrations {
 
     public $steps = array(
         // nome-do-arquivo => Descrição do passo
