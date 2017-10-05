@@ -55,13 +55,10 @@ $users = $RHSSearch->search_users();
                         <div class="row">
                             <div class="col-xs-6 retorno">
                                 <?php if(count($_GET)) {?>
-                                    <div class="label-rhs">Exibindo 
+                                    <div class="label-rhs"> 
                                     <?php
-                                        $total = $users->total_users; 
-                                        $total_pages = ceil($users->total_users / $RHSSearch::USERS_PER_PAGE);
-                                        $current_page = ( get_query_var('paged') == 0 ) ? 1 : get_query_var('paged');
-                                        echo $current_page .' - '. $total_pages .' de ';
-                                        echo ($total > 1 ) ? '<strong>' . $total . '</strong> resultados' : '<strong>' . $total . '</strong> resultado' ;
+                                        //Mostra o resultado da busca dos usuarios
+                                        exibir_resultado_user();
                                     ?>
                                     </div>
                                 <?php }?>

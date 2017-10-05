@@ -89,16 +89,10 @@
                         <div class="row">
                             <div class="col-xs-6 retorno">
                                 <?php if(count($_GET)) {?>
-                                    <?php 
-                                        $result = $wp_query;
-                                        $total_result = $result->found_posts;
-                                        $total_pages = $result->max_num_pages;
-                                        $current_page = ( get_query_var('paged') == 0 ) ? 1 : get_query_var('paged');
-                                    ?>
-                                    <div class="label-rhs">Exibindo  
+                                    <div class="label-rhs"> 
                                         <?php
-                                            echo $current_page .' - '. $total_pages .' de ';
-                                            echo ($total_result > 1 ) ? '<strong>' . $total_result . '</strong> resultados' : '<strong>' . $total_result . '</strong> resultado';
+                                            //Mostra o resultado da busca dos posts
+                                            exibir_resultado_post();
                                         ?>
                                     </div>
                                 <?php } ?>
