@@ -57,8 +57,8 @@ class RHSOneSignal {
         $channel = $notification->getChannel();
         $type = $notification->getType();
         $text = $notification->getTextPush();
-        $buttons = $notification->buttons();
-        $large_icon = $notification->imageSrc();
+        $buttons = $notification->getButtons();
+        $large_icon = $notification->getImage();
 
         $request = [
             'included_segments' => ['All'],

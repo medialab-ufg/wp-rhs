@@ -238,9 +238,7 @@ Cada classe destas, deve implementar esses métodos.
 
 **text()** - método que retorna o texto HTML da notificação. Por exemplo: "O usupario X publicou um novo post na comunidade Y". Para isso ele tem o objeto da notificação em `$this` e pode fazer as consultas que quiser para montar esse HTML.
 
-**image()** - retorna o html (tag `img`) que representa a notificação. As vezes vai ser a imagem do post, as vezes o avatar do usuário, e outras opções podem vir a surgir.
-
-**imageSrc()** - retorna o endereço da imagem, há casos que retorna a imagem do avatar do usuário e em outros o thumbnail do post.
+**image()** - retorna o endereço da imagem, há casos que retorna a imagem do avatar do usuário e em outros o thumbnail do post e outras opções podem vir a surgir.
 
 **textPush()** - retorna o texto que será exibido na push notification (notificação para o App de celular). É apenas um texto plano, sem HTML ou links.
 

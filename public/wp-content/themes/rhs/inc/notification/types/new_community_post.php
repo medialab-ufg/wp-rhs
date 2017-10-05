@@ -77,14 +77,8 @@ class RHSNotification_new_community_post extends RHSNotification {
     }
 
     function image(){
-
         $user = $this->getUser();
-        if ($user)
-            return $user->get_avatar();
-    }
-
-    function imageSrc(){
-        if($user = $this->getUser()) {
+        if ($user){
             return get_avatar_url($user->get_id());
         }
     }

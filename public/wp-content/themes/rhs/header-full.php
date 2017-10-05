@@ -78,7 +78,7 @@
                                         <li>
                                             <div class="col-md-3 col-sm-3 col-xs-3">
                                                 <div class="notify-img">
-                                                    <?php echo $notification->getImage(); ?>
+                                                    <img src="<?php echo $notification->getImage(); ?>" class="avatar">
                                                 </div>
                                             </div>
                                             <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">

@@ -62,12 +62,6 @@ class RHSNotification_post_followed extends RHSNotification {
 
     function image(){
         if($user = $this->getUser()) {
-            return $user->get_avatar();
-        }
-    }
-
-    function imageSrc(){
-        if($user = $this->getUser()) {
             return get_avatar_url($user->get_id());
         }
     }

@@ -53,11 +53,6 @@ class RHSNotification_post_promoted extends RHSNotification {
 
     function image(){
         $post_ID = $this->getObjectId();
-        return get_the_post_thumbnail( $post_ID, 'thumbnail');
-    }
-    
-    function imageSrc(){
-        $post_ID = $this->getObjectId();
         return get_the_post_thumbnail_url($post_ID, 'thumbnail');
     }
     
