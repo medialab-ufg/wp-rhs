@@ -1,4 +1,10 @@
 <?php
+/**
+ * Script de setup inicial da RHS, feitos para executarem uma única vez
+ *
+ * veja documentação em setup.md nesta mesma pasta
+ *
+ */
 class RHSSetup {
 
     public $steps = array(

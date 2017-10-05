@@ -74,7 +74,7 @@ Para criar um novo passo:
 
 ### Criando um novo passo
 
-1. Crie um novo arquivo com a extenção php dentro da pasta steps
+1. Crie um novo arquivo com a extensão php dentro da pasta steps
 
 2. Neste arquivo, faça as rotinas que seu script irá tratar
 
@@ -132,7 +132,7 @@ $this->query('posts');
 
 Logo no início do arquivo há a declaração do atributo `$steps` da classe `RHSImporter`.
 
-Adiciona uma entrada neste array, na posição adequada (o script é rodado na ordem deste array).
+Adicione uma entrada neste array, na posição adequada (o script é rodado na ordem deste array).
 
 A chave do item do array é o nome do arquivo (sem a extensão php), e o valor é uma descrição que será exibida na listagem dos passos, para que seja possível identificá-lo.
 
