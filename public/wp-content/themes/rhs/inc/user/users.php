@@ -3,7 +3,9 @@
 Class RHSUsers extends RHSMessage {
 
     static $instance;
-    const LINKS_USERMETA = '_rhs_links' ;
+    const LINKS_USERMETA = '_rhs_links';
+    const SPAM_USERMETA = 'is_spam';
+    const ROLE_SPAM = 'spam';
     private $userID;
 
     function __construct( $userID ) {
@@ -301,7 +303,7 @@ Class RHSUsers extends RHSMessage {
     function filter_rhs_spam_users($user_query) {
         global $pagenow;
         if( !is_admin() && "users.php" != $pagenow ) {
-            $user_query->set('role__not_in', 'spam');
+            $user_query->set('role__not_in', self::ROLE_SPAM);
         }
     }
 }
