@@ -53,7 +53,20 @@ $users = $RHSSearch->search_users();
                     </div>
                     <div class="row resultado">
                         <div class="row">
-                            <div class="col-xs-12">
+                            <div class="col-xs-6 retorno">
+                                <?php if(count($_GET)) {?>
+                                    <div class="label-rhs">Exibindo 
+                                    <?php
+                                        $total = $users->total_users; 
+                                        $total_pages = ceil($users->total_users / $RHSSearch::USERS_PER_PAGE);
+                                        $current_page = ( get_query_var('paged') == 0 ) ? 1 : get_query_var('paged');
+                                        echo $current_page .' - '. $total_pages .' de ';
+                                        echo ($total > 1 ) ? '<strong>' . $total . '</strong> resultados' : '<strong>' . $total . '</strong> resultado' ;
+                                    ?>
+                                    </div>
+                                <?php }?>
+                            </div>
+                            <div class="col-xs-6 classificar">
                                 <div class="pull-right">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
