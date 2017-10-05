@@ -10,8 +10,8 @@ class UsersWidget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 			'users_widget', 
-			__('Lista de Participantes', 'text_domain'),
-			array( 'description' => __('Lista de Participantes', 'text_domain' ), )
+			__('Lista de Participantes', 'rhs'),
+			array( 'description' => __('Lista de Participantes', 'rhs' ) )
 		);
 	}
 	
@@ -19,9 +19,11 @@ class UsersWidget extends WP_Widget {
 		$args = array(
             'meta_key'  => RHSLogin::META_KEY_LAST_LOGIN,
             'order'     => 'DESC',
+            'orderby'   => 'meta_value',
             'number'    => $number_of_users,
         );
         $user_query = new WP_User_Query($args);
+
 		return $user_query;
 	}
     
@@ -74,8 +76,8 @@ class UsersWidget extends WP_Widget {
 	 * @param array $instance Previously saved values from database.
 	 */
 	public function form($instance) {
-		$number_of_users = !empty($instance['number_of_users']) ? $instance['number_of_users'] : __('10', 'text_domain');
-		$title = !empty($instance['title']) ? $instance['title'] : __('', 'text_domain');
+		$number_of_users = !empty($instance['number_of_users']) ? $instance['number_of_users'] : __('10', 'rhs');
+		$title = !empty($instance['title']) ? $instance['title'] : __('', 'rhs');
 		?>
 		<p>
 			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Título'); ?></label>
