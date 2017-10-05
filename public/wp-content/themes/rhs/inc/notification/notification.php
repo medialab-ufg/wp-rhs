@@ -211,13 +211,7 @@ class RHSNotification {
      * @return mixed
      */
     public function getButtons() {
-        if($this->buttons){
-            return $this->buttons;
-        }
-
-        $this->buttons = $this->buttons();
-        
-        return $this->buttons;
+        return $this->buttons();
     }
 
     /**
