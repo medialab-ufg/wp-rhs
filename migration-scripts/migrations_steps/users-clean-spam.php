@@ -1,4 +1,25 @@
 <?php
+/*
+ * Cria perfil 'Spam', sem permissões, para facilitar sua marcação no painel admin do WP.
+ * O step 1, executado a partir do migration-scripts/rhs_migrations.php, busca identificar usuários
+ * spam já cadastrados, e seta-os como spam, adicionando-os a este perfil.
+*/
+$spam_user_pemrissions = array(
+    'read' => false,
+    'edit_posts' => false,
+    'edit_pages' => false,
+    'edit_others_posts' => false,
+    'create_posts' => false,
+    'manage_categories' => false,
+    'publish_posts' => false,
+    'edit_themes' => false,
+    'install_plugins' => false,
+    'update_plugin' => false,
+    'update_core' => false
+);
+$this->log("Criando perfil de usuarios 'SPAM' ...");
+add_role(RHSUsers::ROLE_SPAM, __('Spam'), $spam_user_pemrissions);
+
 $this->log('Buscando os usuarios registrados na RHS ...');
 $all_users = $wpdb->get_results("SELECT * FROM $wpdb->users  WHERE ID > 1;");
 if(is_array($all_users)) {

@@ -93,8 +93,6 @@ if(!function_exists('rhs_setup')) :
         add_image_size( 'carrossel', 408, 320, true );
 
         add_editor_style();
-
-        setup_spam_role();
     }
 
 endif;
@@ -744,26 +742,4 @@ function rhs_test_stats_carousel_links() {
         $RHSStats->add_event('carousel-click', $_GET['from-carousel'], get_current_user_id());
     }
         
-}
-
-/*
- * Cria perfil 'Spam', sem permissões, para facilitar sua marcação no painel admin do WP.
- * O step 18, executado a partir do migration-scripts/import.php, busca identificar usuários
- * spam já cadastrados, e seta-os como spam, adicionando-os a este perfil.
-*/
-function setup_spam_role() {
-    $spam_user_pemrissions = array(
-        'read' => false,
-        'edit_posts' => false,
-        'edit_pages' => false,
-        'edit_others_posts' => false,
-        'create_posts' => false,
-        'manage_categories' => false,
-        'publish_posts' => false,
-        'edit_themes' => false,
-        'install_plugins' => false,
-        'update_plugin' => false,
-        'update_core' => false
-    );
-    add_role('spam', __('Spam'), $spam_user_pemrissions);
 }
