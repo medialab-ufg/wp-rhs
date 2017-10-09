@@ -798,3 +798,18 @@ function rhs_test_stats_carousel_links() {
     }
         
 }
+
+
+function rhs_embed_youtube_live($atts) {
+    $_attr_ = array( 'id' => '', 'height' => '450', 'width' => '49%' );
+    $atts = shortcode_atts( $_attr_, $atts, 'rhs_youtube_live' );
+    // $domain = str_replace( array( 'http://', 'https://' ), '', site_url() );
+    $domain = 'localhost';
+
+    $_embed_string  = '<iframe allowfullscreen="" frameborder="0" height="' . absint( $atts['height'] ) . '" src="https://www.youtube.com/embed/' . esc_attr( $atts['id'] ) . '" width="' . $atts['width'] . '"></iframe>';
+    $_embed_string .= '<iframe allowfullscreen="" frameborder="0" height="' . absint( $atts['height'] ) . '" src="https://www.youtube.com/live_chat?v=' . esc_attr( $atts['id'] ) . '&embed_domain=' . esc_attr( $domain ) . '" width="' . $atts['width'] . '"></iframe>' ;
+
+    return $_embed_string;
+}
+
+add_shortcode( 'rhs_youtube_live', 'rhs_embed_youtube_live');
