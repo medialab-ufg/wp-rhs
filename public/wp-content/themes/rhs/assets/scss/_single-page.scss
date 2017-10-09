@@ -134,21 +134,33 @@
                     box-shadow: none;
                     padding: 0px 5px;
                     margin: 0 4px;
+                    background: transparent;
+                    border: 1px solid #00b9b9;
                     .follow-post, .unfollow{
                         color: white;
                         font-weight: 900;
                         margin: 0;
+                        color: #00b9b9;
                     }
                     &:focus{
                         outline: none;
                     }
                     .fa-remove, .fa-rss{
-                        color: red;
+                        color: #00b9b9;
                         text-align: right;
                         font-size: 1.2em;
                     }
                     i {
                         margin-left: 3px;
+                    }
+                    &:hover{
+                        background: #00b9b9;
+                        .follow-post, .unfollow{
+                            color: white;
+                        }
+                        .fa-remove, .fa-rss{
+                            color: white;
+                        }
                     }
                 }
                 @media only screen and (min-width: 769px) {
