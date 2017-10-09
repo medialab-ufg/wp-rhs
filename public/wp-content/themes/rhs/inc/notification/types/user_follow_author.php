@@ -40,7 +40,7 @@ class RHSNotification_user_follow_author extends RHSNotification {
 
     function image(){
         if($user = $this->getUser()) {
-            return $user->get_avatar();
+            return get_avatar_url($user->get_id());
         }
     }
     
@@ -53,4 +53,10 @@ class RHSNotification_user_follow_author extends RHSNotification {
         }
     }
 
+    public function buttons() {
+        $type = $this->getType();
+        $button[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver Usuário');
+        
+        return $button;
+    }
 }
