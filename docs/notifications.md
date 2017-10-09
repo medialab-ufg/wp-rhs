@@ -244,6 +244,8 @@ Cada classe destas, deve implementar esses métodos.
 
 **buttons()** - retorna os botões que serão exibidos para cada notificação, sendo composto por `id` e `text`. Deve retornar um ArrayObject. [Tipos de Botões](#botoes-em-notificacoes)
 
+**getImageClass()** - (opcional) Retorna a calsse css que será adicionada a tag img. Por padrão é adicionada "avatar-notification"
+
 
 No cabeçalho do arquivo há duas linhas de comentários sobre o tipo de notificação que essa classe implementa. Esses comentários atualmente são utilizados para montar a interface de configuração de notificações no aplicativo de celular
 

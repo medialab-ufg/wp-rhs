@@ -197,7 +197,7 @@ class RHSNotification {
     /**
      * @return mixed
      */
-    public function getImage() {
+    public function getImageSrc() {
         if($this->image){
             return $this->image;
         }
@@ -205,6 +205,16 @@ class RHSNotification {
         $this->image = $this->image(); // método da classe filha do tipo de notificacao
         
         return $this->image;
+    }
+    
+    public function getImage() {
+        $image = $this->getImageSrc();
+        $class = $this->getImageClass();
+        return "<img src='$image' class='$class'/>";
+    }
+    
+    function getImageClass() {
+        return 'avatar-notification';
     }
 
     /**
