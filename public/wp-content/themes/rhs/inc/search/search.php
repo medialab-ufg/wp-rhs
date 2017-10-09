@@ -383,7 +383,6 @@ class RHSSearch {
         
         $filters = array(
             //'role'       => 'contributor',
-            'role__not_in' => 'spam',
             'order'      => $q_order,
             'orderby'    => $q_order_by,
             'search'     => '*' . esc_attr($this->get_param('keyword')) . '*',
@@ -401,7 +400,6 @@ class RHSSearch {
         return new WP_User_Query($filters);      
         
     }
-
     /**
      * Show pagination 
      * 
@@ -439,3 +437,46 @@ class RHSSearch {
 
 global $RHSSearch;
 $RHSSearch = new RHSSearch();
+
+
+
+    /**
+     * Show result posts
+     *
+     * @return o resultado dos posts.
+    */
+
+    function exibir_resultado_post(){
+        global $wp_query;
+        $result = $wp_query;
+        $total_result = $result->found_posts;
+        $total = $result->found_posts;
+        $paged = empty($result->query['paged']) ? 1 : $result->query['paged'];
+        $per_page = $result->query_vars['posts_per_page'];
+        $final = $per_page * $paged;
+        $initial = $final - ($per_page-1);
+        if ($final > $total) $final = $total;
+
+        echo "Exibindo $initial a $final de $total resultados";
+    }
+
+    /**
+     * Show result usuarios
+     *
+     * @return o resultado dos usuarios.
+    */
+
+    function exibir_resultado_user(){
+        $RHSSearch = new RHSSearch();
+        $users = $RHSSearch->search_users();
+        $total = $users->total_users;
+        $paged = empty($users->query_vars['paged']) ? 1 : $users->query_vars['paged'];
+        $per_page = $users->query_vars['number'];
+
+        $final = $per_page * $paged;
+
+        $initial = $final - ($per_page-1);
+        if ($final > $total) $final = $total;
+
+        echo "Exibindo $initial a $final de $total resultados";
+    }

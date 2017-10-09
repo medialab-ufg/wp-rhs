@@ -131,7 +131,6 @@ class RHSOneSignal {
             if (!$device_ids || empty($device_ids))
                 return false;
         }
-
         global $RHSNotifications;
         $user_channels = $RHSNotifications->get_user_channels($user_id);
         // Antes de comparar o array de user_channels com o de remote_tags,
@@ -181,7 +180,6 @@ class RHSOneSignal {
             $request = [
                 'tags' => $tagsToEdit
             ];
-
             $this->send_request($request, $endpoint, $method);
         }
     }

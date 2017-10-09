@@ -9,7 +9,8 @@ Abaixo estão as instruções de como montar o ambiente de desenvolvimento e faz
 
 # Documentações
 
-* Script de migração: [migration-scripts/docs.md](migration-scripts/docs.md).
+* Script de importação do Drupal: [migration-scripts/docs.md](migration-scripts/docs.md).
+* Script de migrações de dados: [migration-scripts/migrations.md](migration-scripts/migrations.md).
 * Notificações: [docs/notifications.md](docs/notifications.md).
 * RHS-API: [docs/rhs-api.md](docs/rhs-api.md).
 

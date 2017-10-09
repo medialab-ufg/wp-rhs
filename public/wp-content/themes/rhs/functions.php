@@ -93,8 +93,6 @@ if(!function_exists('rhs_setup')) :
         add_image_size( 'carrossel', 408, 320, true );
 
         add_editor_style();
-
-        setup_spam_role();
     }
 
 endif;
@@ -719,7 +717,62 @@ function add_avatar_attributes($avatar, $id_or_email, $size, $default, $alt){
     return $doc->saveHTML();
 }
 
+/**
+ * 
+ * Filtra a chamada por thumbnail
+ * Caso não haja imagem destacada configurada, pega a primeira imagem anexada ao post
+ *
+ * Não existe hook melhor pra isso, ver: https://core.trac.wordpress.org/ticket/23983
+ */
+add_filter('get_post_metadata', 'rhs_filter_post_thumbnail_id', 10, 4);
 
+function rhs_filter_post_thumbnail_id($r, $object_id, $meta_key, $single) {
+
+    if ($meta_key != '_thumbnail_id')
+        return null;
+
+    global $wpdb;
+
+    //$t = $wpdb->get_var("SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id = $object_id");
+    // if ($t)
+    //    return $t;
+    
+    /**
+     * Tentamos pegar o valor atual do thumbnail
+     * Não podemos usar get_post_meta ou has_post_thumbnail se não entraríamos nesse mesmo filtro infinitas vezes
+     * por isso replicamos a maneira de pegar o valor em cache
+     */
+    $meta_cache = wp_cache_get($object_id, 'post_meta');
+    if (!$meta_cache)
+        $meta_cache = update_meta_cache( 'post', array( $object_id ) );
+    
+    // se já existir o metadado, não fazemos nada e deixamos o retorno normal
+    if (isset($meta_cache[$meta_key]))
+        return null;
+
+    // se não pegamos o primeiro anexo
+    $args = array(
+            'post_type' => 'attachment',
+            'numberposts' => 1,
+            'post_status' => null,
+            'post_parent' => $object_id,
+            'post_mime_type' => 'image',
+            'orderby' => 'menu_order',
+            'order' => 'ASC'
+        );
+    $attachments = get_posts($args);
+    if ($attachments) {
+        $attachment = $attachments[0];
+        $id = $attachment->ID;
+    } else {
+        $id = null;
+    }
+
+    return $id;
+
+}
+
+////////////////////////////////////
 
 add_action('wp_ajax_rhs_test_carousel', 'rhs_test_stats_carousel');
 add_action('wp_ajax_nopriv_rhs_test_carousel', 'rhs_test_stats_carousel');
@@ -744,26 +797,4 @@ function rhs_test_stats_carousel_links() {
         $RHSStats->add_event('carousel-click', $_GET['from-carousel'], get_current_user_id());
     }
         
-}
-
-/*
- * Cria perfil 'Spam', sem permissões, para facilitar sua marcação no painel admin do WP.
- * O step 18, executado a partir do migration-scripts/import.php, busca identificar usuários
- * spam já cadastrados, e seta-os como spam, adicionando-os a este perfil.
-*/
-function setup_spam_role() {
-    $spam_user_pemrissions = array(
-        'read' => false,
-        'edit_posts' => false,
-        'edit_pages' => false,
-        'edit_others_posts' => false,
-        'create_posts' => false,
-        'manage_categories' => false,
-        'publish_posts' => false,
-        'edit_themes' => false,
-        'install_plugins' => false,
-        'update_plugin' => false,
-        'update_core' => false
-    );
-    add_role('spam', __('Spam'), $spam_user_pemrissions);
 }
