@@ -266,7 +266,9 @@ Primeiro e Segundo DropDown Menu
                         img{
                             width: 50px;
                             height: 50px;
-                            border-radius: 50%;
+                            &.avatar-notification {
+                                border-radius: 50%;
+                            }
                         }
                     }
                     a {

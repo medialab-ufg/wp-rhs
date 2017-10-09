@@ -30,9 +30,16 @@ class RHSNotification_replied_ticket extends RHSNotification {
         return 'Seu contato foi respondido';
     }
 
-    function image(){
+    function image(){        
+        return get_template_directory_uri() ."/inc/notification/assets/default_icon.png'>";
+    }
+
+
+    public function buttons() {
+        $type = $this->getType();
+        $button[] = (object) array('id' => 'open_' . $type, 'text' => 'Ver Resposta');
         
-        return "<img src='". get_template_directory_uri() ."/inc/notification/assets/default_icon.png'>";
+        return $button;
     }
 
 }

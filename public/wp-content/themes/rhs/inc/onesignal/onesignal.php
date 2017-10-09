@@ -57,8 +57,9 @@ class RHSOneSignal {
         $channel = $notification->getChannel();
         $type = $notification->getType();
         $text = $notification->getTextPush();
-        
-        
+        $buttons = $notification->getButtons();
+        $large_icon = $notification->getImage();
+
         $request = [
             'included_segments' => ['All'],
             'filters' => [
@@ -97,7 +98,15 @@ class RHSOneSignal {
                 'type' => $notification->getType(),
                 'channel' => $notification->getChannel(),
                 'datetime' => $notification->getDatetime()
-            ]
+            ],
+            'android_group' => 'rhs_' . $type,
+            'android_group_message' => [
+                'en' => 'You have $[notif_count] new notifications',
+                'pt' => 'Você tem $[notif_count] notificações na RHS.'
+            ],
+            'buttons' => $buttons,
+            'large_icon' => $large_icon,
+            'android_accent_color' => 'FF00b4b4'
         ];
         
         return $this->send_request($request, $endpoint, $method);
@@ -327,12 +336,11 @@ class RHSOneSignal {
             return false;
         
         $request = array_merge($request, ['app_id' => $app_id]);
-        
+
         return wp_remote_post('https://onesignal.com/api/v1/' . $endpoint, [
             'method' => $method,
             'headers' => ['Content-Type' => 'application/json; charset=utf-8', 'Authorization' => 'Basic ' . $auth_key],
             'body' => json_encode($request)
-            
         ]);
     }
 } 
