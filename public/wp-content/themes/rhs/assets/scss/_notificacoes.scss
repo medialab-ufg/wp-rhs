@@ -8,11 +8,11 @@
         padding: 30px;
         background-color: $whiteColor;
         margin-bottom: 15px;
-        .panel{
+        .panel {
             &.panel-horizontal {
                 display:table;
                 width:100%;
-                > .panel-heading{
+                .panel-heading{
                     padding: 5px;
                     border: {
                         right: 1px solid #ddd;
@@ -22,20 +22,29 @@
                     @media only screen and (min-width: 768px){
                         width: 10%;
                     }
+                    img {
+                        &.avatar-notification {
+                            border-radius: 100%;
+                        }
+                        &.post-notification {
+                            width: 96px;
+                            height: auto;
+                        }
+                    }
                 }
-                > .panel-body{
+                .panel-body{
                     display: inline-grid;
                     @media only screen and (max-width: 768px){
                         font-size: 14px;
                     }
                 }
-                > .panel-heading,
-                > .panel-footer {
+                .panel-heading,
+                .panel-footer {
                     display:table-cell;
                     border:0;
                     vertical-align: middle;
                 }
-                > .panel-footer {
+                .panel-footer {
                     border: {
                         left: 0px solid #ddd;
                         top-left-radius: 0;
