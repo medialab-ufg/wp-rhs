@@ -18,7 +18,9 @@ class RHSPosts extends RHSMessage {
         add_filter( 'save_post', array( &$this, 'add_meta_date' ) );
         add_action( 'wp_enqueue_scripts', array( &$this, 'addJS' ));
         add_action( 'wp_ajax_apagar_post_toggle', array(&$this, 'apagar_post_toggle'));
-        
+        add_action( 'restrict_manage_posts', array(&$this, 'admin_filter_area'));
+        add_filter( 'parse_query', array(&$this,'filter_post'));
+
         if ( empty ( self::$instance ) ) {
             add_filter( 'pre_get_posts', array( &$this, 'pre_get_posts' ) );
             add_action( 'wp_footer', array( &$this, 'add_message_script_footer'));
@@ -676,6 +678,30 @@ class RHSPosts extends RHSMessage {
 
     function update_date_order($postID){
         update_post_meta( $postID, self::META_DATE_ORDER, current_time('mysql') );
+    }
+
+    /**
+     * Criando Checkbox para filtros em listagem de posts
+     */
+    function admin_filter_area() {
+        $current_value = isset($_GET['filter-by']) ? $_GET['filter-by'] : '';
+        ?>
+        <label for="filter-by">
+            Posts no Carossel
+            <input type="checkbox" id="filter-by" name="filter-by" value="filter-by" <?php echo 'filter-by' == $current_value ? 'checked="checked"' : '' ?> >
+        </label>
+        <?php
+    }
+
+    /**
+     * Filtro de posts que estão no Carossel
+     */
+    function filter_post($query){
+        global $pagenow;
+        
+        if (is_admin() && $pagenow == 'edit.php' && isset($_GET['filter-by']) && $_GET['filter-by'] != '') {
+            $query->query_vars['meta_key'] = '_home';
+        }
     }
 }
 
