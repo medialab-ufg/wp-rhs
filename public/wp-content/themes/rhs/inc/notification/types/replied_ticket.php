@@ -31,7 +31,7 @@ class RHSNotification_replied_ticket extends RHSNotification {
     }
 
     function image(){        
-        return get_template_directory_uri() ."/inc/notification/assets/default_icon.png'>";
+        return get_template_directory_uri() ."/inc/notification/assets/default_icon.png";
     }
 
 
