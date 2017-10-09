@@ -42,7 +42,7 @@ $users = $RHSSearch->search_users();
                                 <div class="col-xs-12 col-sm-5">
                                     <div class="form-inline">
                                         <div class="form-group">
-                                            <label for="keyword" class="control-label">Palavra Chave</label>
+                                            <label for="keyword" class="control-label">Nome ou E-mail</label>
                                             <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo RHSSearch::get_param('keyword'); ?>">
                                         </div>
                                     </div>
