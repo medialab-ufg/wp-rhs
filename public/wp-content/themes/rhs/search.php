@@ -87,7 +87,17 @@
                     </div>
                     <div class="row resultado">
                         <div class="row">
-                            <div class="col-xs-12">
+                            <div class="col-xs-6 retorno">
+                                <?php if(count($_GET)) {?>
+                                    <div class="label-rhs"> 
+                                        <?php
+                                            //Mostra o resultado da busca dos posts
+                                            exibir_resultado_post();
+                                        ?>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                            <div class="col-xs-6 classificar">
                                 <div class="pull-right">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

@@ -3,7 +3,9 @@
 Class RHSUsers extends RHSMessage {
 
     static $instance;
-    const LINKS_USERMETA = '_rhs_links' ;
+    const LINKS_USERMETA = '_rhs_links';
+    const SPAM_USERMETA = 'is_spam';
+    const ROLE_SPAM = 'spam';
     private $userID;
 
     function __construct( $userID ) {
@@ -25,6 +27,7 @@ Class RHSUsers extends RHSMessage {
             add_filter('manage_users_columns', array( &$this, 'admin_new_columns'));
             add_action('manage_users_custom_column', array( &$this, 'admin_new_columns_content'), 10, 3);
             add_action('manage_users_sortable_columns', array( &$this, 'admin_new_sortable_columns'), 10, 3);
+            add_filter('pre_get_users', array(&$this, 'filter_rhs_spam_users') );
         }
 
         self::$instance = true;
@@ -291,6 +294,16 @@ Class RHSUsers extends RHSMessage {
         
         foreach ($links as $value){
             echo "<span><a href='". $value['url'] ."' target='_blank'>".  $value['titulo'] . "</a></span><br/>"; 
+        }
+    }
+
+    /*
+     * Exclui usuários com role 'spam' de todas as buscas
+     * */
+    function filter_rhs_spam_users($user_query) {
+        global $pagenow;
+        if( !is_admin() && "users.php" != $pagenow ) {
+            $user_query->set('role__not_in', self::ROLE_SPAM);
         }
     }
 }

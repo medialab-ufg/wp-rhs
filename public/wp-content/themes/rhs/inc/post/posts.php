@@ -17,7 +17,8 @@ class RHSPosts extends RHSMessage {
         add_filter( 'mce_external_plugins', array( &$this, 'add_mce_placeholder_plugin' ) );
         add_filter( 'save_post', array( &$this, 'add_meta_date' ) );
         add_action( 'wp_enqueue_scripts', array( &$this, 'addJS' ));
-        
+        add_action( 'wp_ajax_apagar_post_toggle', array(&$this, 'apagar_post_toggle'));
+
         if ( empty ( self::$instance ) ) {
             add_filter( 'pre_get_posts', array( &$this, 'pre_get_posts' ) );
             add_action( 'wp_footer', array( &$this, 'add_message_script_footer'));
@@ -142,6 +143,13 @@ class RHSPosts extends RHSMessage {
                 'selectedTags' => $tags
             ) );
         }
+        else if(get_query_var('rhs_login_tpl') == RHSRewriteRules::POSTAGENS_URL){
+            wp_enqueue_script('ApagarPost', get_template_directory_uri() . '/assets/js/apagar-post.js','1.0', true);
+
+            wp_localize_script( 'ApagarPost', 'post_vars', array( 
+                'ajaxurl' => admin_url( 'admin-ajax.php' ),
+            ) );
+        }
     }
     
     /**
@@ -253,9 +261,7 @@ class RHSPosts extends RHSMessage {
      * Quando enviado o formulário para salvar ou editor um postagem
      */
     public function trigger_by_post() {
-
         if ( ! empty( $_POST['post_user_wp'] ) && $_POST['post_user_wp'] == $this->getKey() ) {
-
             if ( ! $this->validate_by_post() ) {
                 return;
             }
@@ -531,6 +537,44 @@ class RHSPosts extends RHSMessage {
         exit;
     }
 
+    /*
+    * Move post para lixeira
+    */
+    function apagar_post_toggle(){
+        $post_id = $_POST['id'];
+
+        $post_status = get_post_status($post_id);
+
+        if($post_status != 'trash'){
+           $post = wp_trash_post($post_id);
+        }
+        else{
+           $post = wp_untrash_post($post_id);
+        }
+
+        switch($post['post_status']){
+            case RHSVote::VOTING_QUEUE:
+               $post_status = 'Fila de votação';
+            break;
+            case 'trash':
+               $post_status = 'Lixeira';
+            break;
+            case 'publish':
+               $post_status = 'Publicado';
+            break;
+            case 'draft':
+               $post_status = 'Rascunho';
+            break;
+            case 'private':
+               $post_status = 'Privado';
+            break;
+        }
+
+        $response =  json_encode(['post_status' => $post_status]);
+         
+        echo $response;
+        die;
+    }
 
     /*
     * Function que lista as postagens na página minhas-postagens
@@ -542,13 +586,14 @@ class RHSPosts extends RHSMessage {
         $author_query = array(
             'posts_per_page' => '-1',
             'author'         => $current_user->ID,
-            'post_status'    => array( 'draft', 'publish', RHSVote::VOTING_QUEUE, 'private' )
+            'post_status'    => array( 'draft', 'publish', RHSVote::VOTING_QUEUE, 'private', 'trash' )
         );
         $author_posts = new WP_Query( $author_query );
         global $RHSVote;
         while ( $author_posts->have_posts() ) : $author_posts->the_post();
-
-            $post_status = get_post_status( get_the_ID() );
+            $current_post_id = get_the_ID();
+            
+            $post_status = get_post_status( $current_post_id );
 
             if ( $post_status == 'publish' ) {
                 $status_label = 'Publicado';
@@ -556,6 +601,8 @@ class RHSPosts extends RHSMessage {
                 $status_label = 'Rascunho';
             } else if ( $post_status == 'private' ) {
                 $status_label = 'Privado';
+            } else if($post_status == 'trash'){
+                $status_label = 'Lixeira';
             } elseif ( array_key_exists( $post_status, $RHSVote->get_custom_post_status() ) ) {
                 $status_label = $RHSVote->get_custom_post_status()[ $post_status ]['label'];
             } else {
@@ -565,7 +612,7 @@ class RHSPosts extends RHSMessage {
             ?>
             <tr>
                 <td>
-                    <a href="<?php echo get_permalink( get_the_ID() ) ?>">
+                    <a href="<?php echo get_permalink( $current_post_id ) ?>">
                         <?php the_title(); ?>
                     </a>
                 </td>
@@ -573,7 +620,7 @@ class RHSPosts extends RHSMessage {
                     <?php the_time( 'D, d/m/Y - H:i' ); ?>
                 </td>
                 <td>
-                    <?php echo $RHSNetwork->get_data( get_the_ID(), RHSNetwork::META_KEY_VIEW ); ?>
+                    <?php echo $RHSNetwork->get_data( $current_post_id, RHSNetwork::META_KEY_VIEW ); ?>
                 </td>
                 <td>
                     <?php
@@ -584,7 +631,7 @@ class RHSPosts extends RHSMessage {
                 </td>
                 <td>
                     <?php
-                    $votos = $RHSVote->get_total_votes( get_the_ID() );
+                    $votos = $RHSVote->get_total_votes( $current_post_id );
                     if ( $votos <= 0 ) {
                         echo '0';
                     } else {
@@ -592,12 +639,21 @@ class RHSPosts extends RHSMessage {
                     }
                     ?>
                 </td>
-                <td>
-                    <?php echo $status_label; ?>
-                    <?php if ( current_user_can( 'edit_post', get_the_ID() ) ): ?>
-                        <a href="<?php echo get_home_url() . '/' . RHSRewriteRules::POST_URL . '/' . get_the_ID(); ?>">
+                <td id="acoes-meu-post-<?php echo $current_post_id; ?>">
+                    <label id="post-status-label-<?php echo $current_post_id; ?>"> <?php echo $status_label; ?> </label>
+                    <?php if ( current_user_can( 'edit_post', $current_post_id ) ): ?>
+                        <a id="editar-meu-post-<?php echo $current_post_id; ?>" href="<?php echo get_home_url() . '/' . RHSRewriteRules::POST_URL . '/' . $current_post_id; ?> " <?php echo $post_status == 'trash'? 'style="display: none;"':'' ?> >
                             (Editar)
                         </a>
+                        <a id="apagar-meu-post-<?php echo $current_post_id; ?>" class="apagar-post" href="#">
+                            <?php if($post_status == 'trash') { 
+                                echo '(Tirar da Lixeira)';
+                            }
+                            else {
+                                echo '(Apagar)';
+                            }?>
+                        </a>
+                        <a id="apagar-refresh" style="display: none;"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></a>
                     <?php endif; ?>
                 </td>
             </tr>
@@ -621,6 +677,7 @@ class RHSPosts extends RHSMessage {
     function update_date_order($postID){
         update_post_meta( $postID, self::META_DATE_ORDER, current_time('mysql') );
     }
+
 }
 
 global $RHSPosts;

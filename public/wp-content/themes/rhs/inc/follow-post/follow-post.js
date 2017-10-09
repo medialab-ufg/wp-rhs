@@ -26,7 +26,7 @@ jQuery( function( $ ) {
             });
     
             function changeButton(response){
-                $(button).html(response == 1 ? "<span class='fa-stack'  title='Deixar de Seguir'><i class='fa fa-rss'></i></span>" : "<span class='fa-stack'><i class='fa fa-rss fa-stack-1x'></i><i class='fa fa-remove fa-stack-2x'></i></span>");
+                $(button).html(response == 1 ? "<span class='follow-post'>Seguir Post <i class='fa fa-rss'></i></span>" : "<span class='unfollow' title='Deixar de Seguir'>Deixar de Seguir <i class='fa fa-remove'></i></span>");
                 $(button).removeClass('loading');
             };
             

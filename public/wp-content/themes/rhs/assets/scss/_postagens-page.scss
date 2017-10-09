@@ -20,7 +20,13 @@
                         color: rgba(0, 0, 0, 0.66);
                         text-align: center;
                         font-size: 13px;
+                        label{
+                            font-weight: normal;
+                        }
                         a {
+                            &.apagar-post{
+                                color: rgba(255, 0, 0, 0.5);
+                            }
                             color: $primeira_cor_texto;
                         }
                     }

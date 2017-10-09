@@ -13,3 +13,5 @@ sh compile-sass.sh
 cd public
 wp rewrite flush
 wp language core update
+cd ../migration-scripts
+php rhs_migrations.php all

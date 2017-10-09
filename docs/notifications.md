@@ -238,9 +238,14 @@ Cada classe destas, deve implementar esses métodos.
 
 **text()** - método que retorna o texto HTML da notificação. Por exemplo: "O usupario X publicou um novo post na comunidade Y". Para isso ele tem o objeto da notificação em `$this` e pode fazer as consultas que quiser para montar esse HTML.
 
-**image()** - retorna o html (tag `img`) que representa a notificação. As vezes vai ser a imagem do post, as vezes o avatar do usuário, e outras opções podem vir a surgir.
+**image()** - retorna o endereço da imagem, há casos que retorna a imagem do avatar do usuário e em outros o thumbnail do post e outras opções podem vir a surgir.
 
 **textPush()** - retorna o texto que será exibido na push notification (notificação para o App de celular). É apenas um texto plano, sem HTML ou links.
+
+**buttons()** - retorna os botões que serão exibidos para cada notificação, sendo composto por `id` e `text`. Deve retornar um ArrayObject. [Tipos de Botões](#botoes-em-notificacoes)
+
+**getImageClass()** - (opcional) Retorna a calsse css que será adicionada a tag img. Por padrão é adicionada "avatar-notification"
+
 
 No cabeçalho do arquivo há duas linhas de comentários sobre o tipo de notificação que essa classe implementa. Esses comentários atualmente são utilizados para montar a interface de configuração de notificações no aplicativo de celular
 
@@ -265,3 +270,85 @@ por exemplo:
 ```
 
 Essa linha indica que o hook `comment_post`, que faz parte do core do WP e é disparado quando um novo comentário é publicado, irá disparar uma notificação do tipo `comments_in_post`. Nesse caso, iria disparar o método `notify` da classe `comments_in_post` que está declarada dentro da pasta `inc/notifications/types`.
+
+# Customizações do OneSignal
+
+A seguir alguns fatores de customização que o OneSignal oferece que podemos investigar. A maioria dos recursos estão descritos na documentação da API, [nesta página](https://documentation.onesignal.com/reference).
+
+## Cor ##
+O cor do ícone da notificação é setado em ``android_accent_color``, deve ser uma string sem o ``#``, no formato ARGB, exemplo: ``FF00b4b4``
+
+## Imagem da Notificação ## 
+O endereço da imagem em string, seja do post ou do usuário, é inserida em ``large_icon``.
+
+## Passando dados extras
+
+Para enviar informações complementares ao app, que podem ser utilizadas, por exemplo, para o redirecionamento de páginas, basta passar pares "chaves-valor" para o parâmtro `additionalData`.
+
+## Agrupamentos de notificações
+
+O agrupamento é feito através do parâmetro `android_group`, onde é passada uma key indicando o grupo. Podemos ter, por exemplo, agrupamentos pra qualquer notificação da RHS (`android_group = 'rhs'`) ou pra cada tipo de notificações (`android_group = 'rhs_comments_in_post'`). Também é possível customizar a mensagem de agrupamento pelo parâmetro `android_group_message`, por exemplo: `android_group_message = 'Você tem $[notif_count] novos usuários na RHS.'`. 
+
+*Aparentemente não é possível customizar este recurso no iOS.*
+
+**Tags**
+
+Ação | android_group
+----- | --------------- 
+Comentário no post | rhs_comments_in_post
+Novo Post na Comunidade | rhs_new_community_post
+Novo Post de Usuário | open_post_new_post_from_user
+Novo Post sendo Seguido | rhs_post_followed
+Contato respondido | rhs_replied_ticket
+Usuário sendo Seguido| rhs_user_follow_author
+
+
+## Colapso de notificações
+
+Caso queiramos garantir que uma notificação substitua uma que foi enviada e o usuário ainda não abriu, podemos passar o parâmetro `collapse_id`. Isso pode ser útil, por exemplo, se uma mensagem de nova versão app foi anunciada, e logo em seguida outra atualização foi oferecida, já que não nos interessa que o usuário veja a antiga. Pode tornar possível tbm a correção de mensagens enviadas equivocadas. Ex.: `collapse_id = 'rhs_new_update'`.
+
+
+## Botões em notificações
+
+Até 3 botões podem ser exibidos em notificações. Isso pode ser útil para casos onde uma notificação está associada à mais de uma ação, por exemplo:
+
+<table>
+  <tr>
+    <td colspan="3">Novo comentário no seu Post</td>
+  </tr>
+  <tr>
+    <td colspan="3" >O usuário Fulano comentou no seu post *Uma nov..*</td>
+  </tr>
+  <tr>
+    <td>Ver comentário</td>
+    <td>Ver usuário</td>
+    <td>Ver post</td>
+  </tr>
+</table>
+
+Neste caso deve ser passar um array de buttons do tipo:
+```
+buttons = [
+    {"id": "open_comment", "text": "Ver comentário"}, 
+    {"id": "open_user", "text": "Ver usuário"}, 
+    {"id": "open_post", "text": "Ver post"}
+]
+```
+Os dados serão passados no campo `Action Buttons` para o lado do App, que tratará o evento de clique apropriadamente. Neste caso, o id da página destino deve ser passado também, como campos extras.
+
+**Botões**
+
+Ação | id | text
+----- | -- | ----
+Comentário no post | open_comments_in_post | Ver Comentário
+Comentário no post | open_user_comments_in_post | Ver Usuário
+Novo Post de Usuário | open_new_post_from_user | Ver Post
+Novo Post de Usuário | open_user_new_post_from_user | Ver Usuário
+Novo Post sendo Seguido | open_post_followed | Ver Post
+Novo Post sendo Seguido | open_user_post_followed | Ver Usuário
+Contato respondido | open_replied_ticket | Ver Resposta
+Usuário sendo Seguido | open_user_follow_author | Ver Usuário
+Post Promovido | open_post_promoted | Ver Post
+
+## Prioridades
+

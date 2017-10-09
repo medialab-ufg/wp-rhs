@@ -121,7 +121,6 @@
                 border: 0;
                 background: none;
                 font: {
-                    family: Indie Flower;
                     weight: bold;
                 }
                 img {
@@ -133,22 +132,23 @@
                 }
                 .btn-rhs{
                     box-shadow: none;
-                    border-radius: 100%;
-                    padding: 3px;
+                    padding: 0px 5px;
                     margin: 0 4px;
-                    .fa-stack{
+                    .follow-post, .unfollow{
                         color: white;
+                        font-weight: 900;
                         margin: 0;
                     }
                     &:focus{
                         outline: none;
                     }
-                    .fa-remove{
+                    .fa-remove, .fa-rss{
                         color: red;
-                        margin-top: 0;
-                        &:before{
-                            margin-left: -7px;
-                        }
+                        text-align: right;
+                        font-size: 1.2em;
+                    }
+                    i {
+                        margin-left: 3px;
                     }
                 }
                 @media only screen and (min-width: 769px) {
