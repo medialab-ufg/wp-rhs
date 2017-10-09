@@ -4,7 +4,7 @@
 
 Class Carrossel {
 
-
+    
     static function __init() {
     
     
@@ -18,10 +18,12 @@ Class Carrossel {
         add_action('wp_ajax_destaque_remove', array('Carrossel', 'remove'));
         
         add_action('pre_get_posts', array('Carrossel', 'pre_get_posts'));
+        add_action( 'restrict_manage_posts', array('Carrossel', 'admin_filter_area'));
+        add_filter( 'parse_query', array('Carrossel' ,'filter_post'));
     
     
     }
-    
+
     static function add_column($defaults){
         global $post_type;
         if ('post' == $post_type || 'noticias' == $post_type || 'imprensa' == $post_type)
@@ -117,9 +119,29 @@ Class Carrossel {
         return new WP_Query( 'posts_per_page=-1&meta_key=_home&orderby=meta_value_num&order=asc&ignore_sticky_posts=1' );
     }
     
-    
+    /**
+     * Criando Checkbox para filtros em listagem de posts
+     */
+    static function admin_filter_area() {
+        $current_value = isset($_GET['rhs-filter-carousel']) ? $_GET['rhs-filter-carousel'] : '';
+        ?>
+        <label for="rhs-filter-carousel">
+            Posts no Carossel
+            <input type="checkbox" id="rhs-filter-carousel" name="rhs-filter-carousel" value="rhs-filter-carousel" <?php echo 'rhs-filter-carousel' == $current_value ? 'checked="checked"' : '' ?> >
+        </label>
+        <?php
+    }
 
-
+    /**
+     * Filtro de posts que estão no Carossel
+     */
+    static function filter_post($query){
+        global $pagenow;
+        
+        if (is_admin() && $pagenow == 'edit.php' && isset($_GET['rhs-filter-carousel']) && $_GET['rhs-filter-carousel'] != '') {
+            $query->query_vars['meta_key'] = '_home';
+        }
+    }
 
 
 }
