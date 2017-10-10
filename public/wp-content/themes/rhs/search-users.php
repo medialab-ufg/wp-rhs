@@ -67,7 +67,7 @@ $users = $RHSSearch->search_users();
                                 <div class="pull-right">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Classificar por
+                                        Ordenar por
                                         <?php
                                             if(RHSSearch::get_param('rhs_order') == 'name')
                                                 echo 'Nome';
@@ -77,10 +77,8 @@ $users = $RHSSearch->search_users();
                                                 echo 'Número de Posts';
                                             elseif(RHSSearch::get_param('rhs_order') == 'votes')
                                                 echo 'Número de Votos';
-                                            elseif(RHSSearch::get_param('rhs_order') == 'last_login')
-                                                echo 'Último Login';
                                             else
-                                                echo '';
+                                                echo 'Último Login';
                                         ?>
                                         <span class="caret"></span>
                                         </button>

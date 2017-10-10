@@ -359,15 +359,10 @@ class RHSSearch {
                 $q_order_meta = RHSVote::META_TOTAL_VOTES;
                 break;
             
-            case 'last_login':
+            default:
                 $q_order_meta = RHSLogin::META_KEY_LAST_LOGIN;
                 $q_order_by = 'meta_value';
                 $q_order = 'DESC';
-                break;
-
-            default:
-                $q_order = 'ASC';
-                $q_order_by = 'post_date';
                 break;
         }
 
