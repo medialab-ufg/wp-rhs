@@ -36,6 +36,7 @@ after_success:
 - chmod 600 deploy_rsa
 - ssh-add deploy_rsa
 
+- eval "$(ssh-agent -s)"
 - chmod 600 deploy_rsa_prod
 - ssh-add deploy_rsa_prod
 
