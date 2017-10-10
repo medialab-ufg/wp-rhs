@@ -150,8 +150,13 @@ class RHSLogin extends RHSMessage {
         }else{
             $redirect = '';
         }
+        if(!empty($_GET['device'])){
+            $dev = $_GET['device'];
+        } else {
+            $dev = '';
+        }
         $a = wp_parse_args( $redirect );
-        return is_array($a) && isset($a['device']) && $a['device'] == 'mobile-app' ;
+        return is_array($a) && isset($a['device']) && $a['device'] == 'mobile-app' || $dev == 'mobile-app' ;
     }
 }
 

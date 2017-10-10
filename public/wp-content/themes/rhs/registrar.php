@@ -32,9 +32,7 @@ global $RHSCaptcha;
                                                     <input type="hidden" name="register_user_wp" value="<?php echo $RHSRegister->getKey(); ?>">
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <div class="help-block text-center">
-
-                                                    </div>
+                                                    <div class="help-block text-center"></div>
                                                 </div>
                                             </div>
 
@@ -64,9 +62,7 @@ global $RHSCaptcha;
                                                         </label>
                                                     </div>
                                                     <div class="col-md-5">
-                                                        <div class="help-block text-center">
-
-                                                        </div>
+                                                        <div class="help-block text-center"></div>
                                                     </div>
                                             </div>
 
@@ -79,9 +75,7 @@ global $RHSCaptcha;
                                                         </label>
                                                     </div>
                                                     <div class="col-md-5">
-                                                        <div class="help-block text-center">
-
-                                                        </div>
+                                                        <div class="help-block text-center"></div>
                                                     </div>
                                                 </div>
                                         </fieldset>
@@ -94,9 +88,7 @@ global $RHSCaptcha;
                                                     <input class="form-control form-text" type="text" id="first_name" name="first_name" size="30" maxlength="30">
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <div class="help-block text-center">
-
-                                                    </div>
+                                                    <div class="help-block text-center"></div>
                                                 </div>
                                             </div>
 
@@ -116,9 +108,7 @@ global $RHSCaptcha;
                                                     <input class="form-control form-text" type="text" id="last_name" name="last_name" size="30" maxlength="30">
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <div class="help-block text-center">
-
-                                                    </div>
+                                                    <div class="help-block text-center"></div>
                                                 </div>
                                             </div>
 
@@ -130,9 +120,7 @@ global $RHSCaptcha;
                                                         <textarea class="form-control form-textarea" id="description" name="description" cols="60" rows="5"></textarea>
                                                     </div>
                                                     <div class="col-md-5">
-                                                        <div class="help-block text-center">
-
-                                                        </div>
+                                                        <div class="help-block text-center"></div>
                                                     </div>
                                             </div>
                                                 <div class="form-group float-label-control">
@@ -150,9 +138,7 @@ global $RHSCaptcha;
                                                         ) ); ?>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <div class="help-block text-center">
-
-                                                            </div>
+                                                            <div class="help-block text-center"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -160,13 +146,11 @@ global $RHSCaptcha;
                                         <fieldset class="scheduler-border">
                                             <legend class="scheduler-border">Captcha</legend>
                                             <div class="form-group float-label-control capt">
-                                                <div class="col-sm-7">
+                                                <div class="col-xs-12 col-sm-7">
                                                     <?php $RHSCaptcha->display_recuperar_captcha(); ?>
                                                 </div>
-                                                <div class="col-md-5">
-                                                    <div class="help-block text-center">
-
-                                                    </div>
+                                                <div class="col-xs-12 col-md-5">
+                                                    <div class="help-block text-center"></div>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -177,13 +161,6 @@ global $RHSCaptcha;
                                 </div>
                             </div>
                         </div>
-
-                        <div class="panel block-info" style="background: #f2f3f5;">
-                            <div class="panel-body">
-                                <span class="block-email text-center"></span>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </header>
         </div>
