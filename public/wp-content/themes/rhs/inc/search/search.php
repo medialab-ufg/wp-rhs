@@ -355,9 +355,14 @@ class RHSSearch {
                 $q_has_publish_posts = true;
                 break;
                 
-            // TODO
             case 'votes':
                 $q_order_meta = RHSVote::META_TOTAL_VOTES;
+                break;
+            
+            case 'last_login':
+                $q_order_meta = RHSLogin::META_KEY_LAST_LOGIN;
+                $q_order_by = 'meta_value';
+                $q_order = 'DESC';
                 break;
 
             default:
@@ -367,14 +372,24 @@ class RHSSearch {
         }
 
         if (!empty($q_order_meta)) {
-            $meta_query['rhs_order'] = [
-                'key' => $q_order_meta,
-                'compare' => 'EXISTS',
-                'type' => 'numeric'
-            ];
-            $has_meta_query = true;
-            $q_order_by = ['rhs_order' => 'DESC'];
-            $q_order = 'DESC';
+            if($q_order_meta == RHSLogin::META_KEY_LAST_LOGIN) {
+                $meta_query['rhs_order'] = [
+                    'key' => $q_order_meta,
+                    'value' => date("Y-m-d H:i:s"),
+                    'compare' => '<',
+                    'type' => 'DATE'
+                ];
+            } else {
+                $meta_query['rhs_order'] = [
+                    'key' => $q_order_meta,
+                    'compare' => 'EXISTS',
+                    'type' => 'numeric'
+                ];
+
+                $q_order_by = ['rhs_order' => 'DESC'];
+                $q_order = 'DESC';
+            }
+            $has_meta_query = true;            
         }
 
         $offset = $users_per_page * ($paged - 1);

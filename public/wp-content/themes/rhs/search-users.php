@@ -77,6 +77,8 @@ $users = $RHSSearch->search_users();
                                                 echo 'Número de Posts';
                                             elseif(RHSSearch::get_param('rhs_order') == 'votes')
                                                 echo 'Número de Votos';
+                                            elseif(RHSSearch::get_param('rhs_order') == 'last_login')
+                                                echo 'Último Login';
                                             else
                                                 echo '';
                                         ?>
@@ -87,6 +89,7 @@ $users = $RHSSearch->search_users();
                                             <li><a href="<?php echo RHSSearch::get_search_neworder_urls('register_date'); ?>">Data de Cadastro</a></li>
                                             <li><a href="<?php echo RHSSearch::get_search_neworder_urls('posts'); ?>">Número de Posts</a></li>
                                             <li><a href="<?php echo RHSSearch::get_search_neworder_urls('votes'); ?>">Número de Votos</a></li>
+                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('last_login'); ?>">Último Login</a></li>
                                         </ul>
                                     </div>
                                 </div>
