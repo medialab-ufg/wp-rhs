@@ -42,7 +42,7 @@ after_success:
 
 deploy:
 - provider: script
-  script:  ssh rhs@$host_server_prod_rhs "ls"
+  script:  ssh $user_server_test_rhs@$host_server_prod_rhs "ls"
   skip_cleanup: true
   on:
     branch: develop
