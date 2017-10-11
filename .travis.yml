@@ -34,13 +34,13 @@ after_success:
 
 - eval "$(ssh-agent -s)"
 - chmod 600 deploy_rsa
-#- ssh-add deploy_rsa
+- ssh-add deploy_rsa
 - chmod 600 deploy_rsa_prod
 - ssh-add deploy_rsa_prod
 
-#- echo -e "Host  $host_server_test_rhs\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+- echo -e "Host  $host_server_test_rhs\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - echo -e "Host  $host_server_prod_rhs\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-- ssh $user_server_prod_rhs@$host_server_prod_rhs "ls"
+- ssh $user_server_test_rhs@$host_server_test_rhs "ls"
 
 
 
