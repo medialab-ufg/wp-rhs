@@ -17,8 +17,8 @@ addons:
 services:
 - mysql
 before_install:
-- openssl aes-256-cbc -K $encrypted_f26652362650_key -iv $encrypted_f26652362650_iv
-  -in deploy_rsa_prod.enc -out deploy_rsa_prod -d
+#- openssl aes-256-cbc -K $encrypted_f26652362650_key -iv $encrypted_f26652362650_iv
+#  -in deploy_rsa_prod.enc -out deploy_rsa_prod -d
 - openssl aes-256-cbc -K $encrypted_9d4b6ba88ed7_key -iv $encrypted_9d4b6ba88ed7_iv
   -in deploy_rsa.enc -out deploy_rsa -d
 - mysql -e 'CREATE DATABASE IF NOT EXISTS rhs_test;'
@@ -39,11 +39,11 @@ after_success:
 - ssh-add deploy_rsa_prod
 - echo -e "Host  $host_server_test_rhs\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - echo -e "Host  $host_server_prod_rhs\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-- ssh $user_server_test_rhs@$host_server_test_rhs "sh /home/www.redehumanizasus.net/integracao/wp-rhs/deploy.sh"
+- ssh $user_server_test_rhs@$host_server_test_rhs "ls" #"sh /home/www.redehumanizasus.net/integracao/wp-rhs/deploy.sh"
 
 deploy:
 - provider: script
-  script:  ssh $user_server_test_rhs@$host_server_prod_rhs "ls"
+  script:  echo "Branch continuousIntegration!"
   skip_cleanup: true
   on:
     branch: develop
