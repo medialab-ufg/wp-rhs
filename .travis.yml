@@ -46,7 +46,7 @@ deploy:
     branch: develop
     
  - provider: script
-   script:   ssh $user_server_test_rhs@$host_server_test_rhs "sh /home/$user_server_prod_rhs/teste_integracao/wp-rhs/deploy.sh"    #ssh $user_server_test_rhs@$host_server_test_rhs "sh /home/$user_server_test_rhs/wp-rhs/deploy.sh"
+   script:   ssh $user_server_test_rhs@$host_server_test_rhs "sh /home/$user_server_prod_rhs/wp-rhs/deploy.sh"    #ssh $user_server_test_rhs@$host_server_test_rhs "sh /home/$user_server_test_rhs/wp-rhs/deploy.sh"
    skip_cleanup: true
    on: 
     branch: master
