@@ -143,19 +143,15 @@ class RHSLogin extends RHSMessage {
         return 'Rede HumanizaSUS';
     }
 
-
+    //Para uso quando o usuario clica em logar ou registrar no app.
     static function is_login_via_app() {
-        if(!empty($_GET['redirect_to'])){
-            $redirect = $_GET['redirect_to'];
-        }else{
-            $redirect = '';
-        }
-        if(!empty($_GET['device'])){
-            $dev = $_GET['device'];
-        } else {
-            $dev = '';
-        }
+        //Pega o get do redirect_to caso tenha
+        $redirect = (!empty($_GET['redirect_to'])) ? $_GET['redirect_to'] : '';
+        //Pega o get do device caso tenha
+        $dev = (!empty($_GET['device'])) ? $_GET['device'] : '';
+
         $a = wp_parse_args( $redirect );
+        
         return is_array($a) && isset($a['device']) && $a['device'] == 'mobile-app' || $dev == 'mobile-app' ;
     }
 }
