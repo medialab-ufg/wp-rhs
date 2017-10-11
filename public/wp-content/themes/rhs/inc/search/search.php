@@ -210,13 +210,13 @@ class RHSSearch {
      */
     private function parse_date($str_date) {
 
-        preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/', $str_date, $matches);
+        preg_match('/^([0-9]{2})-([0-9]{2})-([0-9]{4})$/', $str_date, $matches);
 
         if (isset($matches[1]) && isset($matches[2]) && isset($matches[3])) {
             return [
-                'year' => $matches[1],
+                'day' => $matches[1],
                 'month' => $matches[2],
-                'day' => $matches[3]
+                'year' => $matches[3]
             ];
         }
 
