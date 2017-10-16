@@ -43,16 +43,11 @@ after_success:
 
 deploy:
 - provider: script
-  script:  echo "Branch continuousIntegration!"
+  script: ssh $user_server_test_rhs@$host_server_test_rhs "sh /home/$user_server_test_rhs/wp-rhs/deploy.sh"
   skip_cleanup: true
   on:
     branch: develop
-    
-- provider: script
-  script: echo "Branch continuousIntegration!"
-  skip_cleanup: true
-  on:
-    branch: continuousIntegration
+
 cache:
   directories:
   - vendor
