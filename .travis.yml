@@ -40,7 +40,7 @@ deploy:
     branch: develop
 cache:
   directories:
-  - vendor
+  - vendor 
   - composer
   - "$HOME/.cache/composer"
 notifications:
