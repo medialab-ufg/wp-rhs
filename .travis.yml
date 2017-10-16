@@ -13,7 +13,6 @@ matrix:
 addons:
 - ssh_know_hosts:
   - "$host_server_test_rhs"
-  - "$host_server_prod_rhs"
  apt:
    packages:
     - sshpass
@@ -34,9 +33,9 @@ install:
 - composer install
 script: "./run-tests.sh"
 after_success:
-- eval "$(ssh-agent -s)"
-- chmod 600 deploy_rsa
-- ssh-add deploy_rsa
+#- eval "$(ssh-agent -s)"
+#- chmod 600 deploy_rsa
+#- ssh-add deploy_rsa
 - echo -e "Host  $host_server_test_rhs\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 deploy:
 - provider: script
