@@ -26,7 +26,7 @@ before_install:
 - pwd
 - ls -la
 - cp tests/wordpress-tests-lib/wp-tests-config-sample.php tests/wordpress-tests-lib/wp-tests-config.php
-- apt-get install sshpass
+- sudo apt-get install sshpass
 
 before script: 
 install:
