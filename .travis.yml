@@ -21,7 +21,7 @@ before_install:
 #  -in deploy_rsa_prod.enc -out deploy_rsa_prod -d
 - openssl aes-256-cbc -K $encrypted_9d4b6ba88ed7_key -iv $encrypted_9d4b6ba88ed7_iv
   -in deploy_rsa.enc -out deploy_rsa -d
-- mysql -e 'CREATE DATABASE IF NOT EXISTS rhs_test;'
+- mysql -e 'CREATE DATABASE IF NOT EXISTS rhs_test;' 
 - pwd
 - ls -la
 - cp tests/wordpress-tests-lib/wp-tests-config-sample.php tests/wordpress-tests-lib/wp-tests-config.php
