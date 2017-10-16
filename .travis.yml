@@ -13,8 +13,8 @@ matrix:
 addons:
 - ssh_know_hosts:
   - "$host_server_prod_rhs"
-- apt:
-  - packages:
+apt:
+   packages:
     - sshpass
     
 services:
