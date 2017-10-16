@@ -37,7 +37,7 @@ after_success:
 - chmod 600 deploy_rsa
 - ssh-add deploy_rsa
 - echo -e "Host  $host_server_prod_rhs\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-- sshpass -p '$pass_user_server_prod_rhs'  ssh $user_server_prod_rhs@$host_server_prod_rhs "sh $path_deploy_server_prod_rhs/wp-rhs/deploy.sh"
+- sudo sshpass -p '$pass_user_server_prod_rhs'  ssh $user_server_prod_rhs@$host_server_prod_rhs "sh $path_deploy_server_prod_rhs/wp-rhs/deploy.sh"
 #deploy:
 #- provider: script
 #  script:   sshpass -p '$pass_user_server_prod_rhs'  ssh $user_server_prod_rhs@$host_server_prod_rhs "sh $path_deploy_server_prod_rhs/wp-rhs/deploy.sh"
