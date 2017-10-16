@@ -12,7 +12,6 @@ matrix:
   fast_finish: true
 addons:
 - ssh_know_hosts:
-  - "$host_server_test_rhs"
   - "$host_server_prod_rhs"
 services:
 - mysql
@@ -34,7 +33,7 @@ after_success:
 - echo -e "Host  $host_server_prod_rhs\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 deploy:
 - provider: script
-  script: ssh $user_server_prod_rhs@$host_server_prod_rhs "sh $home/$path_deploy_server_prod_rhs/wp-rhs/deploy.sh"
+  script: ssh $user_server_prod_rhs@$host_server_prod_rhs "sh $path_deploy_server_prod_rhs/wp-rhs/deploy.sh"
   skip_cleanup: true
   on:
     branch: master
