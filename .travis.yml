@@ -1,4 +1,4 @@
-sudo: false
+sudo: enabled
 language: php
 php:
 - 7.1
@@ -13,6 +13,9 @@ matrix:
 addons:
 - ssh_know_hosts:
   - "$host_server_test_rhs"
+apt:
+   packages:
+    - sshpass
 services:
 - mysql
 before_install:
