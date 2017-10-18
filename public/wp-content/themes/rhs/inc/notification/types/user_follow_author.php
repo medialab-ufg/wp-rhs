@@ -39,7 +39,6 @@ class RHSNotification_user_follow_author extends RHSNotification {
     }
 
     function image(){
-        $user = $this->getUser();
         if($user = $this->getUser()) {
             return get_avatar_url($user->get_id());
         }
