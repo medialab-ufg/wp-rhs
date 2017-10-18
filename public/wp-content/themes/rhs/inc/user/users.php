@@ -22,7 +22,8 @@ Class RHSUsers extends RHSMessage {
             add_action( 'edit_user_profile_update', array( &$this, 'save_extra_profile_fields' ) );
             add_action('admin_enqueue_scripts', array( &$this, 'admin_theme_style'));
             add_action('pre_get_posts',array( &$this, 'ml_restrict_media_library'));
-            add_filter( 'get_avatar' , array( &$this, 'custom_avatar') , 1 , 5 );
+            //add_filter( 'get_avatar' , array( &$this, 'custom_avatar') , 1 , 5 );
+            add_filter( 'pre_get_avatar_data' , array( &$this, 'custom_avatar_url') , 10 , 2 );
             //add_filter( 'get_edit_user_link' , array( &$this, 'custom_edit_user_link') , 5 , 2 );
             add_filter('manage_users_columns', array( &$this, 'admin_new_columns'));
             add_action('manage_users_custom_column', array( &$this, 'admin_new_columns_content'), 10, 3);
@@ -50,7 +51,7 @@ Class RHSUsers extends RHSMessage {
         return $avatar;
     }
 
-    function custom_avatar( $avatar, $id_or_email, $size, $default, $alt ) {
+    function custom_avatar_url( $args, $id_or_email ) {
         $user = false;
 
 
@@ -73,13 +74,49 @@ Class RHSUsers extends RHSMessage {
         if ( $user && is_object( $user )){
             $userObj = new RHSUser($user);
 
-            if($userObj->get_avatar_url()){
-                $avatar = "<img alt='{$alt}' src='{$userObj->get_avatar_url()}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+            $avatar = esc_attr( get_the_author_meta( 'rhs_avatar', $userObj->get_id() ));
+            
+            if ( ! empty( $avatar ) && strpos($avatar, 'http') === false ) {
+                $avatar = get_site_url() . '/../' . $avatar;
             }
+
+            if ($avatar) $args['url'] = $avatar;
+
         }
 
-        return $avatar;
+        return $args;
     }
+
+    // function custom_avatar( $avatar, $id_or_email, $size, $default, $alt ) {
+    //     $user = false;
+
+
+    //     if ( is_numeric( $id_or_email ) ) {
+
+    //         $id = (int) $id_or_email;
+    //         $user = get_user_by( 'id' , $id );
+
+    //     } elseif ( is_object( $id_or_email ) ) {
+
+    //         if ( ! empty( $id_or_email->user_id ) ) {
+    //             $id = (int) $id_or_email->user_id;
+    //             $user = get_user_by( 'id' , $id );
+    //         }
+
+    //     } else {
+    //         $user = get_user_by( 'email', $id_or_email );
+    //     }
+
+    //     if ( $user && is_object( $user )){
+    //         $userObj = new RHSUser($user);
+
+    //         if($userObj->get_avatar_url()){
+    //             $avatar = "<img alt='{$alt}' src='{$userObj->get_avatar_url()}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+    //         }
+    //     }
+
+    //     return $avatar;
+    // }
 
     function getUserId(){
         return $this->userID;
