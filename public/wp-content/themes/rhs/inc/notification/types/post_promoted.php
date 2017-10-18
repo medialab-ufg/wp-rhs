@@ -53,7 +53,11 @@ class RHSNotification_post_promoted extends RHSNotification {
 
     function image(){
         $post_ID = $this->getObjectId();
-        return get_the_post_thumbnail_url($post_ID, 'medium');
+        if (has_post_thumbnail($post_ID)){ 
+            return get_the_post_thumbnail_url($post_ID, 'medium');
+        } else {
+            return get_template_directory_uri() ."/inc/notification/assets/default_icon.png";
+        }        
     }
     
     function getImageClass() {
