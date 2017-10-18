@@ -52,6 +52,9 @@ Class RHSVote {
 			
             // habilita comentarios para posts na fila de votação
             add_action( 'comment_on_draft', array( &$this, 'allow_comments_in_queue' ) );
+            
+            // adiciona os posts na fila na contagem de posts de um usuáregister_rest_route
+            add_filter( 'get_usernumposts', array( &$this, 'count_user_posts' ), 10, 4);
 
             $this->verify_role();
             $this->verify_database();
@@ -765,6 +768,45 @@ Class RHSVote {
         
         wp_safe_redirect( $location );
         exit;
+    }
+    
+    /**
+     * Filtra a função que retorna o total de posts de um usuário e acrescenta o número de posts na fila de votação
+     *
+     * Isso corrige o resultado da API, que não permite trazer informações de usuários que não possuam um post publicado.
+     *
+     * Também afeta todos os lugares onde o total de posts de um usuário é exibido, como a página de perfil.
+     *
+     * A princípio pensamos em fazer essa função ser ativada apenas para usuários logados, já que só usuários logados vêem a fila. Mas, 
+     * na verdade, ao visitar o perfil de um usuário é possível ver os posts da fila, mesmo não estando logado. Por isso as duas primeiras linhas
+     * dessa função estão comentadas.
+     * 
+     */
+    function count_user_posts($count, $userid, $post_type, $public_only) {
+
+        #if (!is_user_logged_in())
+        #    return $count;
+        
+        if ( is_array( $post_type ) ) {
+            $post_types = $post_type;
+        } else {
+            $post_types = array( $post_type );
+        }
+
+        if (!is_numeric($userid) || !in_array('post',$post_types))
+            return $count;
+        
+        global $wpdb;
+        
+        $sql = $wpdb->prepare("SELECT COUNT(*) FROM $wpdb->posts WHERE post_status = %s AND post_author = %d", self::VOTING_QUEUE, $userid);
+        $posts_in_queue = $wpdb->get_var($sql);
+        
+        $new = is_numeric($count) ? (int) $count : 0;
+        
+        $new += (int) $posts_in_queue;
+
+        return (string) $new;
+        
     }
 }
 
