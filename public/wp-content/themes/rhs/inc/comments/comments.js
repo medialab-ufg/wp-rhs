@@ -57,15 +57,42 @@ function dialog_validate(){
 
 function validateEditableComments(url,comment_ID,comment_content){
 	var $ = jQuery;
+
 	$('#dialog #dialog_content #dialog_loader').show();
-	$("#comment-" + comment_ID).load(
-		url + " #comment-" + comment_ID, 
-		{ 'editable_comments_form': 1, 'comment_ID':comment_ID, 'comment':comment_content },
-		function(responseText,textStatus, XMLHttpRequest){
-			$('#dialog #dialog_content #dialog_loader').hide();
-			dialog_init('a.dialog');
-			jQuery('#dialog').dialog('close');
-		}
-	);
+	
+	var comment_ID = $('#dialog_comment_ID').val();
+	var comment_content = $('#dialog_comment').val();
+
+	$.ajax({
+		url: comment.ajaxurl,
+		method: 'POST',
+		data:  {
+			action: 'rhs_comment',
+			comment_ID: comment_ID,
+			comment_content: comment_content
+		},
+		
+		success: function(response){
+			$("#comment-" + comment_ID).load(
+				url + " #comment-" + comment_ID, 
+				{ 'editable_comments_form': 1, 'comment_ID':comment_ID, 'comment':comment_content },
+				function(responseText,textStatus, XMLHttpRequest){
+					$('#dialog #dialog_content #dialog_loader').hide();
+					dialog_init('a.dialog');
+					jQuery('#dialog').dialog('close');
+				}
+			);
+		},
+		
+		error: error_handler,
+	});
+
+	function changeButton(response){
+		console.log('entrou change button');
+	};
+	
+	var error_handler = function(xhr, textStatus, error){
+		swal({title: "Erro, tente novamente por favor.", html: true});
+	};
 	
 }
