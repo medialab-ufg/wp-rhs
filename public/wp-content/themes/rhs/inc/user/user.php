@@ -86,13 +86,9 @@ class RHSUser {
             return $this->avatar_url;
         }
 
-        $avatar = esc_attr( get_the_author_meta( 'rhs_avatar', $this->id ));
+        return get_avatar_url($this->id);
 
-        if ( ! empty( $avatar ) ) {
-            $avatar = get_site_url() . '/../' . $avatar;
-        }
-
-        return $this->avatar_url = $avatar;
+        
     }
 
     /**

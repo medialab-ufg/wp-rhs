@@ -75,7 +75,7 @@ class RHSNotification_comments_in_post extends RHSNotification {
             $post_ID = $c->comment_post_ID;
 
             if($user = $this->getUser()) {
-                return $user->get_avatar();
+                return $user->get_avatar_url($user->get_id());
             }
         }        
     }

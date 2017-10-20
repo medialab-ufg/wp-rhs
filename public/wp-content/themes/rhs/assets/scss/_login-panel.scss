@@ -20,6 +20,14 @@
                     position: absolute;
                     left: -999em;
                 }
+                .capt{
+                    .g-recaptcha{
+                        @media only screen and (max-width: 768px){
+                            position: absolute;
+                            left: -23px;
+                        }
+                    }
+                }
             }
         }
     }

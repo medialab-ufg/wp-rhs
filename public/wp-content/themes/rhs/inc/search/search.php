@@ -210,13 +210,13 @@ class RHSSearch {
      */
     private function parse_date($str_date) {
 
-        preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/', $str_date, $matches);
+        preg_match('/^([0-9]{2})-([0-9]{2})-([0-9]{4})$/', $str_date, $matches);
 
         if (isset($matches[1]) && isset($matches[2]) && isset($matches[3])) {
             return [
-                'year' => $matches[1],
+                'day' => $matches[1],
                 'month' => $matches[2],
-                'day' => $matches[3]
+                'year' => $matches[3]
             ];
         }
 
@@ -355,26 +355,36 @@ class RHSSearch {
                 $q_has_publish_posts = true;
                 break;
                 
-            // TODO
             case 'votes':
                 $q_order_meta = RHSVote::META_TOTAL_VOTES;
                 break;
-
+            
             default:
+                $q_order = 'ASC';;
+                $q_order_by = 'display_name';
                 $q_order = 'ASC';
-                $q_order_by = 'post_date';
                 break;
         }
 
         if (!empty($q_order_meta)) {
-            $meta_query['rhs_order'] = [
-                'key' => $q_order_meta,
-                'compare' => 'EXISTS',
-                'type' => 'numeric'
-            ];
-            $has_meta_query = true;
-            $q_order_by = ['rhs_order' => 'DESC'];
-            $q_order = 'DESC';
+            if($q_order_meta == RHSLogin::META_KEY_LAST_LOGIN) {
+                $meta_query['rhs_order'] = [
+                    'key' => $q_order_meta,
+                    'value' => date("Y-m-d H:i:s"),
+                    'compare' => '<',
+                    'type' => 'DATE'
+                ];
+            } else {
+                $meta_query['rhs_order'] = [
+                    'key' => $q_order_meta,
+                    'compare' => 'EXISTS',
+                    'type' => 'numeric'
+                ];
+
+                $q_order_by = ['rhs_order' => 'DESC'];
+                $q_order = 'DESC';
+            }
+            $has_meta_query = true;            
         }
 
         $offset = $users_per_page * ($paged - 1);

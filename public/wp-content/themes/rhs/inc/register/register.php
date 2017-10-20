@@ -73,11 +73,13 @@ class RHSRegister extends RHSMessage {
 
         $user = wp_signon( $creds, false );
 
-        wp_set_current_user( $user_id, $user_login );
-        wp_set_auth_cookie( $user_id, true, false );
-        do_action( 'wp_login', $user_login );
+        if ( !is_wp_error( $user ) ) {
 
-        if ( is_wp_error( $user ) ) {
+            wp_set_current_user( $user_id, $user_login );
+            wp_set_auth_cookie( $user_id, true, false );
+            do_action( 'wp_login', $user_login,  $user);
+
+        } else {
 
             $login = new RHSLogin();
             $login->clear_messages();

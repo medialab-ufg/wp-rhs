@@ -60,7 +60,7 @@ class UsersWidget extends WP_Widget {
 				}
 			?>
 			<div class="text-center">
-				<a href="<?php echo RHSSearch::BASE_USERS_URL; ?>" class="btn">Ver Todos</a>
+				<a href="<?php echo home_url(RHSSearch::BASE_USERS_URL); ?>" class="btn">Ver Todos</a>
 			</div>
 		</aside>
 		<?php endif; ?>
