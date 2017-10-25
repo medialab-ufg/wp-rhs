@@ -6,7 +6,6 @@ class RHSComments {
 		$wp->add_query_var('rhs-comments');
 		
         add_action('wp_enqueue_scripts', array(&$this, 'addJS'));
-		add_action('wp', array(&$this, 'wp'));
 		add_action('wp_ajax_rhs_comment', array(&$this, 'ajax_callback'));
 		add_filter('comment_text',array(&$this,'comment_notification'));
     }
@@ -38,24 +37,20 @@ class RHSComments {
                 $get = '?';
             }
 
-            echo '<a class="rhs-comment dialog" href="'.get_permalink().$get.'rhs-comments='.$comment->comment_ID.'" rel="nofollow"><i class="fa fa-pencil"></i></a>';
+			echo '<a class="rhs-comment dialog" href="'.get_permalink().$get.'rhs-comments='.$comment->comment_ID.'" rel="nofollow"><i class="fa fa-pencil"></i></a>';
+			
+			$this->show_comment_form_to_edit();
 		}
 	}
 
-	function wp(){
+	function show_comment_form_to_edit(){
 		global $wp,$post;
-		// Formulário
+		
 		if(isset($wp->query_vars['rhs-comments'])){
 			$editable_comment = get_comment($wp->query_vars['rhs-comments']);
 			if($editable_comment){
-				if($this->check_permissions($editable_comment,'edit')){
-					include('comment-form.php');
-					exit;
-				}
-                else{
-                    echo 'Erro'; 
-                    exit;
-                }
+				include('comment-form.php');
+				exit;
 			}
 		}		
 	}
