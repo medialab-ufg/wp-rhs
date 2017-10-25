@@ -3,7 +3,7 @@ jQuery(document).ready(function($){
 	$("body").append('<div id="dialog"><div id="dialog_content"></div></div>');
 	$('#dialog').dialog({
 		autoOpen: false,
-		modal:true,
+		modal:false,
 		width: 555
 	});	
 });
