@@ -2,8 +2,8 @@ div#dialog_content{	position:relative;}
 p#editable_comment_buttons{	text-align:right;	}
 a#editable_comment_ja{	position:absolute; left:0; bottom:12px; font-size:80%; text-decoration:underline}
 a#editable_comment_ja:hover{ text-decoration:none;	}
-textarea#dialog_comment{	width:95%}
-p#dialog_loader{	text-align:center;	display:none;	}
+/*textarea#dialog_comment{	width:95%}*/
+p#dialog_loader{ text-align: center; display:none; }
 input.button{	cursor:pointer;	}
 /*
 * jQuery UI CSS Framework
@@ -196,7 +196,8 @@ input.button{	cursor:pointer;	}
 .ui-icon-minus { background-position: -48px -128px; }
 .ui-icon-minusthick { background-position: -64px -128px; }
 .ui-icon-close { background-position: -80px -128px; }
-.ui-icon-closethick { background-position: -96px -128px; }
+/*.ui-icon-closethick { background-position: -96px -128px; }*/
+.ui-icon-closethick { background-position: -97px -129px; }
 .ui-icon-key { background-position: -112px -128px; }
 .ui-icon-lightbulb { background-position: -128px -128px; }
 .ui-icon-scissors { background-position: -144px -128px; }
@@ -358,7 +359,16 @@ input.button{	cursor:pointer;	}
 .ui-dialog .ui-dialog-buttonpane { text-align: left; border-width: 1px 0 0 0; background-image: none; margin: .5em 0 0 0; padding: .3em 1em .5em .4em; }
 .ui-dialog .ui-dialog-buttonpane button { float: right; margin: .5em .4em .5em 0; cursor: pointer; padding: .2em .6em .3em .6em; line-height: 1.4em; width:auto; overflow:visible; }
 .ui-dialog .ui-resizable-se { width: 14px; height: 14px; right: 3px; bottom: 3px; }
-.ui-draggable .ui-dialog-titlebar { cursor: move; }
+/*.ui-draggable .ui-dialog-titlebar { cursor: move; }*/
+.ui-draggable .ui-dialog-titlebar {
+    cursor: move;
+    background-color: #00b4b4;
+    margin-left: 13px;
+    border: 0;
+    width: 95%;
+    color: white;
+    margin-top: 2%;
+}
 /* Progressbar
 ----------------------------------*/
 .ui-progressbar { height:2em; text-align: left; }

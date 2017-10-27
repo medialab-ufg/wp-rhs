@@ -14,17 +14,18 @@
             <h1>Editar Comentário</h1>
 
             <form action="<?php echo get_permalink().'#comment-'.$editable_comment->comment_ID; ?>" method="post" id="dialog_commentform" onsubmit="return dialog_validate()">
-                
+
                 <input type="hidden" name="editable_comments_form" id="editable_comments_form" value="1" />
-                
+
                 <input type="hidden" name="comment_ID" id="dialog_comment_ID" value="<?php echo $editable_comment->comment_ID; ?>" />
-                
+
                 <p id="dialog_loader"><img src="<?php echo get_template_directory_uri() . '/inc/comments/images/loadingAnimation.gif'; ?>" alt="carregando..." /></p>
-                
-                <p><textarea name="comment" id="dialog_comment" cols="100%" rows="10" tabindex="1"><?php echo $editable_comment->comment_content; ?></textarea></p>
-                
+
+                <p> <textarea name="comment" id="dialog_comment" cols="100%"
+                              rows="10" tabindex="1" class="form-control"><?php echo $editable_comment->comment_content; ?></textarea></p>
+
                 <p id="editable_comment_buttons">
-                <input type="button" tabindex="3" value="Cancelar" onclick="jQuery('#dialog').dialog('close');" class="btn btn-default"/>
+                <input type="button" tabindex="3" value="Cancelar" onclick="jQuery('#dialog').dialog('close');" class="btn btn-default pull-left"/>
 
                     <input name="submit" type="submit" id="submit" tabindex="2" value="Atualizar" class="btn btn-primary"/>
                 </p>

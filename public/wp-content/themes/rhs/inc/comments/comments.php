@@ -73,7 +73,7 @@ class RHSComments {
 		global $comment;
 		if(isset($_POST['editable_comments_form'])){
 				if(in_array($comment->comment_ID, array($_POST['comment_ID'])) )
-					$comment_text .= '<div class="alert alert-success">Comentário atualizado</p>';
+					$comment_text .= '<div class="alert alert-success auto-hide-3-sec">Comentário atualizado</p>';
 		}
 		return $comment_text;
 	}
