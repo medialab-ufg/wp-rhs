@@ -78,7 +78,7 @@ $users = $RHSSearch->search_users();
                                             elseif(RHSSearch::get_param('rhs_order') == 'votes')
                                                 echo 'Número de Votos';
                                             else
-                                                echo 'Último Login';
+                                                echo '';
                                         ?>
                                         <span class="caret"></span>
                                         </button>

@@ -819,7 +819,7 @@ function rhs_embed_youtube_live($atts) {
     $domain = $_SERVER['SERVER_NAME'];
 
     $_embed_string  = '<iframe allowfullscreen="" frameborder="0" height="' . absint( $atts['height'] ) . '" src="https://www.youtube.com/embed/' . esc_attr( $atts['id'] ) . '" width="' . $atts['width'] . '"></iframe>';
-    $_embed_string .= '<div class="iflychat-embed" data-room-id="0" data-height="450px" data-width="48%" style="display: inline-block; float: right"></div>';
+    $_embed_string .= '<iframe allowfullscreen="" frameborder="0" height="' . absint( $atts['height'] ) . '" src="https://www.youtube.com/live_chat?v=' . esc_attr( $atts['id'] ) . '&embed_domain=' . esc_attr( $domain ) . '" width="' . $atts['width'] . '"></iframe>' ;
 
     return $_embed_string;
 }

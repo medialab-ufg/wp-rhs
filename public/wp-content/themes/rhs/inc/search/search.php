@@ -360,9 +360,9 @@ class RHSSearch {
                 break;
             
             default:
-                $q_order_meta = RHSLogin::META_KEY_LAST_LOGIN;
-                $q_order_by = 'meta_value';
-                $q_order = 'DESC';
+                $q_order = 'ASC';;
+                $q_order_by = 'display_name';
+                $q_order = 'ASC';
                 break;
         }
 
