@@ -116,6 +116,18 @@ Class RHSVote {
             $administrator = $wp_roles->get_role( 'administrator' );
             $administrator->add_cap( 'vote_own_posts' );
         }
+        // atualizando permissões. agora podemos editar os proprios posts publicados
+        $option_name = '_roles_update2_'.get_class();
+        if ( ! get_option( $option_name ) ) {
+            global $wp_roles;
+            // só queremos que isso rode uma vez
+            add_option( $option_name, true );
+            $voter = $wp_roles->get_role( self::ROLE_VOTER );
+            $voter->add_cap( 'edit_published_posts' );
+
+            $contributor = $wp_roles->get_role( 'contributor' );
+            $contributor->add_cap( 'edit_published_posts' );
+        }
     }
 
     private function verify_database(){
