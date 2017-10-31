@@ -330,7 +330,7 @@ class RHSPosts extends RHSMessage {
                 $setStatus = RHSVote::VOTING_QUEUE;
 
             } else if($data['post_status'] == 'publish'){
-                $setStatus == 'publish';
+                $setStatus = 'publish';
 
             } else {
                 /**
