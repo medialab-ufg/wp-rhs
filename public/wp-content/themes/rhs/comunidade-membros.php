@@ -4,10 +4,11 @@
         <?php if($comunity->is_moderate()){ ?>
         <div class="row">
             <div class="col-xs-12">
-                <form class="form form-inline">
+                <form class="form form-inline add-member-container">
                     <div class="form-group">
                         <label for="input-add-member">Adicionar membro</label>
-                        <input id="input-add-member" name="add-member" placeholder="Nome" class="form-control typeahead" value="" />
+                        <input id="input-add-member" name="add-member" placeholder="Busque por e-mail ou nome de usuário"
+                               class="form-control typeahead" value="" />
                     </div>
                 </form>
             </div>

@@ -120,11 +120,9 @@ class RHSComunities extends RHSMessage {
             self::TAXONOMY,
             array( 'post' ),
             array(
-                'hierarchical'      => true,
                 'labels'            => $labels,
                 'show_ui'           => true,
                 'query_var'         => true,
-                'rewrite'           => false,
                 'hierarchical'      => false,
                 'parent_item'       => null,
                 'parent_item_colon' => null,
@@ -801,10 +799,8 @@ class RHSComunities extends RHSMessage {
 
         $users = new WP_User_Query( array(
             'search'         => '*' . esc_attr( $_POST['string'] ) . '*',
-            'search_columns' => array(
-                'user_nicename'
-            ),
-            'number'         => 7,
+            'search_columns' => array( 'user_nicename', 'user_email' ),
+            'number'         => -1,
             'orderby'        => 'display_name',
         ) );
 

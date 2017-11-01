@@ -39,6 +39,16 @@ chmod +x wp-cli.phar
 sudo mv wp-cli.phar /usr/local/bin/wp
 ```
 
+##### macOS (Com [Homebrew](https://brew.sh/index_pt-br.html))
+```
+brew install composer ruby
+gem install sass
+
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+chmod +x wp-cli.phar
+mv wp-cli.phar /usr/local/bin/wp
+```
+
 ##### Windows
 
 Instaladores:
@@ -72,7 +82,7 @@ Agora você está com todas as bibliotecas e classes necessárias da RHS.
 
 ### Crie o diretório uploads
 
-Esse diretório deve ser criado em ``` public/wp-content/ ```
+Este diretório deve ser criado em ``` public/wp-content/ ```
 
 ### Crie e edite o wp-config.php e o .htaccess
 
