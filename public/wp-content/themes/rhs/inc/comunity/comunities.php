@@ -120,11 +120,9 @@ class RHSComunities extends RHSMessage {
             self::TAXONOMY,
             array( 'post' ),
             array(
-                'hierarchical'      => true,
                 'labels'            => $labels,
                 'show_ui'           => true,
                 'query_var'         => true,
-                'rewrite'           => false,
                 'hierarchical'      => false,
                 'parent_item'       => null,
                 'parent_item_colon' => null,
