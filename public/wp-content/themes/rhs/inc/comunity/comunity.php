@@ -513,7 +513,7 @@ class RHSComunity {
      * @return string
      */
     function get_button_leave($text = 'Sair da comunidade'){
-        return '<a class="btn btn-default btn-rhs" 
+        return '<a class="btn btn-default btn-rhs leave-community" 
                    data-type="leave"
                    title="'.__($text).'"
                    href="javascript:;" 
@@ -599,7 +599,7 @@ class RHSComunity {
      * @return string
      */
     function get_button_accept_request($text = 'Aceitar o pedido para entrar'){
-        return '<a class="btn btn-default btn-rhs" 
+        return '<a class="btn btn-default btn-rhs accept-request" 
                    data-type="accept_request"
                    title="'.__($text).'"
                    href="javascript:;" 
@@ -610,7 +610,7 @@ class RHSComunity {
     }
 
     function get_button_reject_request($text = 'Rejeitar o pedido para entrar'){
-        return '<a class="btn btn-default btn-rhs" 
+        return '<a class="btn btn-default btn-rhs reject-request" 
                    data-type="reject_request"
                    title="'.__($text).'"
                    href="javascript:;" 
