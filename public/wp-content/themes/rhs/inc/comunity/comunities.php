@@ -41,6 +41,8 @@ class RHSComunities extends RHSMessage {
         add_filter( 'wp_insert_post_data', array( &$this, 'filter_post_data' ), '99', 2 );
         
         add_filter( 'map_meta_cap', array( &$this, 'read_post_cap' ), 10, 4 );
+        
+        add_action( 'pre_get_posts', array( &$this, 'pre_get_posts' ) );
 
     }
 
@@ -94,6 +96,16 @@ class RHSComunities extends RHSMessage {
             }
         }
         return $caps;
+    }
+    
+    function pre_get_posts($wp_query) {
+        
+        if ($wp_query->is_main_query() && $wp_query->is_tax(self::TAXONOMY)) {
+            
+            $wp_query->set( 'post_status', ['publish', 'private'] );
+            
+        }
+        
     }
 
     /*====================================================================================================
