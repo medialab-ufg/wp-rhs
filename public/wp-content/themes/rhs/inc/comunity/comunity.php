@@ -565,9 +565,9 @@ class RHSComunity {
                    href="javascript:;"
                    '.(! $this->can_moderate() ? 'style="display: none;"' : '').'
                    data-toggle="tooltip" data-placement="top">
-                        <span class="fa-stack fa-near fa-lg">
-                          <i class="fa fa-user fa-stack-1x"></i>
-                          <i class="fa fa-long-arrow-up fa-stack-1x"></i>
+                        <span>
+                          <i class="fa fa-user"></i>
+                          <i class="fa fa-long-arrow-up"></i>
                         </span>
                 </a>';
     }
@@ -584,9 +584,9 @@ class RHSComunity {
                    href="javascript:;"
                    '.(! $this->can_not_moderate() ? 'style="display: none;"' : '').'
                    data-toggle="tooltip" data-placement="top">
-                        <span class="fa-stack fa-near fa-lg">
-                          <i class="fa fa-user fa-stack-1x"></i>
-                          <i class="fa fa-long-arrow-down fa-stack-1x"></i>
+                        <span>
+                          <i class="fa fa-user"></i>
+                          <i class="fa fa-long-arrow-down"></i>
                         </span>
                 </a>';
     }
