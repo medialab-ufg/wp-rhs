@@ -489,13 +489,16 @@ function facebook_meta() {
 
     if(is_single()) {
 
-        $img_info = (has_post_thumbnail($post->ID)) ? wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), "thumbnail") : '';
+        $logo = get_stylesheet_directory_uri().'/assets/images/logo_face.png';
 
+        $img_info = (has_post_thumbnail($post->ID)) ? wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), "thumbnail") : $logo;
+        
         $image = array(
-           'url' => (!empty($img_info[0])) ? $img_info[0] : '',
-           'width' => (!empty($img_info[1])) ? $img_info[1] : 0,
-           'height' => (!empty($img_info[2])) ? $img_info[2] : 0,
+           'url' => (!empty($img_info[0]) && $img_info[1] >= 200 && $img_info[2] >= 200) ? $img_info[0] : $logo,
+           'width' => (!empty($img_info[1]) && $img_info[1] >= 200 && $img_info[2] >= 200) ? $img_info[1] : 200,
+           'height' => (!empty($img_info[2]) && $img_info[1] >= 200 && $img_info[2] >= 200) ? $img_info[2] : 200,
         );
+        
         $content = limitatexto($post->post_content, '[...]', 150);
         if($excerpt = $content) {
             $excerpt = strip_tags($content);

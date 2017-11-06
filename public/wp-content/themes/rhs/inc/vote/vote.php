@@ -258,6 +258,8 @@ Class RHSVote {
 			foreach ( $args as $k => $v ) {
 				$wp_query->set( $k, $v );
 			}
+            
+            $wp_query->is_home = false;
 
         } elseif ($wp_query->is_main_query() && $wp_query->get('post_type') == '' && ( $wp_query->is_author() || $wp_query->is_single() ) ) {
 

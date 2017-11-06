@@ -192,11 +192,28 @@
                     font-size: 16px;
                     font-weight: bold;
                     color: #787878;
-                    .comunity-moderate,  .comunity-request{
+                    
+                    .comunity-name {
+                        width: 75%;
+                        display: inline-block;
+                        overflow: hidden;
+                        font-size: 80%;
+                        height: 30px;
+                    }
+
+                    .comunity-moderate, .comunity-request {
                         position: absolute;
                         right: 6px;
                         top: 15px;
                         font-size: 29px;
+
+                        i.fa-address-card-o {
+                            color: $attention-red;
+                        }
+
+                        i.fa-info-circle {
+                            color: goldenrod;
+                        }
                     }
                 }
             }
@@ -216,7 +233,7 @@
     margin-top: -15px;
     > span {
         &.help-block-error {
-            background: #a94442;
+            background: $attention-red;
             color: #fff;
             padding: 14px 20px;
             font-size: 14px;
