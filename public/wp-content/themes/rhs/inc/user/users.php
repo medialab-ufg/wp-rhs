@@ -29,6 +29,7 @@ Class RHSUsers extends RHSMessage {
             add_action('manage_users_custom_column', array( &$this, 'admin_new_columns_content'), 10, 3);
             add_action('manage_users_sortable_columns', array( &$this, 'admin_new_sortable_columns'), 10, 3);
             add_filter('pre_get_users', array(&$this, 'filter_rhs_spam_users') );
+            add_action('wp_login', array(&$this, 'disable_spam_login'), 50, 2 );
         }
 
         self::$instance = true;
@@ -343,6 +344,16 @@ Class RHSUsers extends RHSMessage {
             $user_query->set('role__not_in', self::ROLE_SPAM);
         }
     }
+
+    function disable_spam_login($user_login, $wp_user) {
+        if( in_array(self::ROLE_SPAM, $wp_user->roles) ) {
+            wp_clear_auth_cookie();
+            wp_destroy_current_session();
+             wp_redirect( home_url() );
+            exit;
+        }
+    }
+
 }
 
 global $RHSUsers;
