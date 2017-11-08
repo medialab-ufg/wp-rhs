@@ -324,8 +324,8 @@ Class RHSVote {
 			$post = get_post( $args[0] );
 
 			if ( $post ) {
-
-				if ( strtotime( $post->post_date ) < strtotime( '-' . $this->days_for_expired . ' days' ) ) {
+                
+				if ( $this->is_post_expired($post->ID) ) {
 					$caps[] = 'vote_old_posts';
                     $this->votes_to_text_code = 'vq_text_vote_old_posts';
                     $this->votes_to_text_help = get_option($this->votes_to_text_code);
@@ -496,9 +496,9 @@ Class RHSVote {
 		// Se o usuário ja votou neste post, não aparece o botão e aparece de alguma maneira que indique q ele já votou
 		// Se ele não estiver logado, aparece só o texto "Votos"
 
-        if(! is_user_logged_in()){
+        if( !is_user_logged_in() || $this->is_post_expired( $post_id ) ) {
             $output .= '<span class="vTexto">'.$textVotes.'</span>';
-        }  else if($this->user_has_voted( $post_id )) {
+        } else if($this->user_has_voted( $post_id )) {
             $output .= '<span class="vButton"><a class="btn btn-danger" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
         } else {
             $output .= '<span class="vButton"><a class="btn btn-danger js-vote-button hidden-print" data-post_id="' . $post_id . '">VOTAR</a></span>';
@@ -511,9 +511,14 @@ Class RHSVote {
 		}
 
 		return $output;
-
-
 	}
+
+	public function is_post_expired($post_id) {
+	    $post_date = strtotime( get_post($post_id)->post_date );
+	    $expire_date = strtotime( '-' . $this->days_for_expired . ' days' );
+
+        return $post_date < $expire_date;
+    }
 
 	function change_post_status( $data, $postarr ) {
 
