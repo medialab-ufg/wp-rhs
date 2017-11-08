@@ -7,14 +7,18 @@
 			</div>
 			<div class="col-xs-3 col-sm-1 col-md-2 vdivide">
 				<div class="votebox">
-					<?php do_action('rhs_votebox', get_the_ID()); ?>
+					<?php 
+						if(get_post_status( get_the_ID() ) != 'private')
+							do_action('rhs_votebox', get_the_ID()); 
+					?>
 				</div>
 			</div>
 			<div class="col-xs-12">
 				<div class="post-categories">
-					<?php if(has_category()) : ?>
-							<?php the_category(', '); ?>
-					<?php endif; ?>
+					<?php 
+						if(has_category())
+							the_category(', ');
+					?>
 				</div>
 			</div>
 			<div class="col-xs-12 col-md-12">
