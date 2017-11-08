@@ -325,11 +325,10 @@ Class RHSVote {
 
 			if ( $post ) {
                 
-				if ( $this->is_post_expired($post->ID) ) {
+				if ( $this->is_post_expired($post) ) {
 					$caps[] = 'vote_old_posts';
                     $this->votes_to_text_code = 'vq_text_vote_old_posts';
                     $this->votes_to_text_help = get_option($this->votes_to_text_code);
-					$this->check_votes_to_expire( $post );
 				} elseif ( $this->user_has_voted( $post->ID, $user_id ) ) {
                     $this->votes_to_text_code = 'vq_text_vote_posts_again';
                     $this->votes_to_text_help = get_option($this->votes_to_text_code);
@@ -513,11 +512,32 @@ Class RHSVote {
 		return $output;
 	}
 
-	public function is_post_expired($post_id) {
-	    $post_date = strtotime( get_post($post_id)->post_date );
+    /**
+    * Verifica se post está expirado e não deve mais receber votos
+    * 
+    * @param $post int|WP_Post ID ou objeto WP_Post
+    * 
+    * return bool
+    * 
+    */
+	public function is_post_expired($post) {
+	    
+        if (is_numeric($post))
+            $post = get_post($post);
+
+        if (!$post instanceof WP_Post) {
+            return new WP_Error( 'post_not_found', __( "Post não encontrado", "rhs" ) );
+        }
+
+        $post_date = strtotime( $post->post_date );
 	    $expire_date = strtotime( '-' . $this->days_for_expired . ' days' );
 
-        return $post_date < $expire_date;
+        $expired = $post_date < $expire_date;
+
+        if ($expired)
+            $this->mark_post_as_expired($post);
+
+        return $expired;
     }
 
 	function change_post_status( $data, $postarr ) {
@@ -532,7 +552,7 @@ Class RHSVote {
 		return $data;
 	}
 
-	function check_votes_to_expire( WP_Post $post ) {
+	function mark_post_as_expired( WP_Post $post ) {
 
 		if ( $post->post_status != self::VOTING_QUEUE ) {
 			return;
