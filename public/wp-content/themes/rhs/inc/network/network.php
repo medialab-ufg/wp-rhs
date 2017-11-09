@@ -110,6 +110,10 @@ class RHSNetwork {
         return get_post_meta( $post_id, self::META_KEY_TOTAL_SHARES, true );
     }
 
+    function get_post_total_views($post_id) {
+        return get_post_meta( $post_id, self::META_KEY_VIEW, true );
+    }
+
 }
 
 global $RHSNetwork;

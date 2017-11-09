@@ -83,10 +83,13 @@
                                 </div>
                                 <button type="submit" class="btn btn-default filtro">Filtrar</button>
                             </form>
+                            <?php RHSSearch::show_button_download_report(); ?>
                         </div>
                     </div>
+                    
                     <div class="row resultado">
                         <div class="row">
+
                             <div class="col-xs-6 retorno">
                                 <?php if(count($_GET)) {?>
                                     <div class="label-rhs"> 
@@ -98,6 +101,7 @@
                                 <?php } ?>
                             </div>
                             <div class="col-xs-6 classificar">
+
                                 <div class="pull-right">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

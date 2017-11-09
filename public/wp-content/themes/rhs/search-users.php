@@ -49,6 +49,7 @@ $users = $RHSSearch->search_users();
                                 </div>
                                 <button type="submit" class="btn btn-default filtro">Filtrar</button>
                             </form>
+                            <?php RHSSearch::show_button_download_report(); ?>
                         </div>
                     </div>
                     <div class="row resultado">
@@ -59,6 +60,7 @@ $users = $RHSSearch->search_users();
                                     <?php
                                         //Mostra o resultado da busca dos usuarios
                                         exibir_resultado_user();
+                                        
                                     ?>
                                     </div>
                                 <?php }?>
