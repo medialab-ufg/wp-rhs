@@ -265,16 +265,29 @@ Class RHSVote {
 
             // No perfil do usuário, exibir posts de todos os status
             // Permite que pessoas vejam a single dos posts com status Fila de Votação ou expirados
-            // A checagem pelo post type vazio é para ser aplicado apenas no post týpe padrão (post) e não em outros, como o ticket, por exmeplo
-
+            // A checagem pelo post type vazio é para ser aplicado apenas no post týpe padrão (post) e não em outros, como o ticket, por exemplo
             $statuses = ['publish', self::VOTING_QUEUE, self::VOTING_EXPIRED];
-            if (is_user_logged_in())
-                $statuses[] = 'private';
+
+            if (is_user_logged_in()) {
+                $statuses[] = "private";
+
+                /*
+                 * Quando post está como rascunho, pode ser visualizado apenas pelo autor do post,
+                 * ou usuários com perfil de capability mínima de 'edit_others_posts'
+                 * */
+                global $wp_query;
+                $_pre_post_id = $wp_query->get('p');
+                $_pre_post_author_id = (int) get_post($_pre_post_id)->post_author;
+
+                if( is_numeric($_pre_post_id) && ($_pre_post_id > 0) && is_numeric($_pre_post_author_id) ) {
+                    if( ( $_pre_post_author_id === get_current_user_id() ) || current_user_can('edit_others_posts') ) {
+                        $statuses[] = 'draft';
+                    }
+                }
+            }
 
             $wp_query->set('post_status', $statuses);
-
         }
-
 
 	}
 
