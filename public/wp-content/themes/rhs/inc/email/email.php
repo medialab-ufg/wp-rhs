@@ -13,6 +13,8 @@ class RHSEmail {
         add_filter("retrieve_password_title", array( &$this, 'filter_retrieve_password_request_email_title'));
         add_filter('retrieve_password_message',  array( &$this, 'filter_retrieve_password_request_email_body'), 10, 4 );
         add_action('rhs_post_promoted', array( &$this,'post_promoted'), 10, 1);
+
+        add_action('comment_post', array( &$this,'comment_post'), 10, 1);
         
         add_filter( 'wp_mail_content_type', array( &$this,'filter_content_type') );
         
@@ -158,6 +160,26 @@ class RHSEmail {
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
                     <p>http://redehumanizasus.net</p>'
+            ),
+            'comment_post' => array(
+                'name'=> 'Comentário no Post',
+                'var' => array(
+                    'site_nome',
+                    'login',
+                    'email',
+                    'nome',
+                    'link',
+                    'post_title'
+                ),
+                'default-subject' => '[%site_nome%] Parabéns seu post recebeu um comentário.',
+                'default-email' => '<h4>Parabéns %nome%.</h4>
+                    <p>Seu post recebeu um novo comentário.</p>
+                    <p>Você pode acessar aqui:</p>
+                    <p>%link%</p>
+                    <p></p>
+                    <p>Atenciosamente,</p>
+                    <p>Equipe Rede HumanizaSUS</p>
+                    <p>http://redehumanizasus.net</p>'
             )
         );
     }
@@ -264,6 +286,25 @@ class RHSEmail {
 
         $subject = $this->get_subject('post_promoted', $args);
         $message = $this->get_message('post_promoted', $args);
+
+        wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
+    }
+
+    function comment_post($comment){
+        $c = is_object($comment) ? $comment : get_comment($comment);
+        $post = get_post($c->comment_post_ID);
+        
+        $args = array(
+            'site_nome' => get_bloginfo('name'),
+            'login' => get_the_author_meta('user_login' , $post->post_author),
+            'email' => get_the_author_meta('user_email' , $post->post_author),
+            'nome' => get_the_author_meta('display_name' , $post->post_author),
+            'link' => get_permalink($post_ID),
+            'post_title' => $post->post_title
+        );
+
+        $subject = $this->get_subject('comment_post', $args);
+        $message = $this->get_message('comment_post', $args);
 
         wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
     }
