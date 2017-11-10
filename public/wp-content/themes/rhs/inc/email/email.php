@@ -15,6 +15,8 @@ class RHSEmail {
         add_action('rhs_post_promoted', array( &$this,'post_promoted'), 10, 1);
 
         add_action('comment_post', array( &$this,'comment_post'), 10, 1);
+
+        add_action('rhs_new_post_from_user', array( &$this,'new_post_from_user'), 10, 1);
         
         add_filter( 'wp_mail_content_type', array( &$this,'filter_content_type') );
         
@@ -37,9 +39,9 @@ class RHSEmail {
                 ),
                 'default-subject' => '[%site_nome%] Bem-vindo',
                 'default-email' => '<h3>Bem-vindo %nome%.</h3>
-                    <p>Você pode acessar o site aqui: %site_link%</p>
-                    <p>Edite seu perfil aqui: %site_perfil%</p>
-                    <p>Postar um novo tópico: %site_novo_topico%</p>
+                    <p>Você pode acessar o site aqui: <a href="[%site_link%]">[%site_link%]</a></p>
+                    <p>Edite seu perfil aqui: <a href="[%site_perfil%]">[%site_perfil%]</a></p>
+                    <p>Postar um novo tópico: <a href="[%site_novo_topico%]">[%site_novo_topico%]</a></p>
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
@@ -56,7 +58,7 @@ class RHSEmail {
                 ),
                 'default-subject' => '[%site_nome%] Recuperação de Senha',
                 'default-email' => '<p>Você solicitou a recuperação de senha do %login%.</p>
-                    <p>Acesse o link: %link%</p>
+                    <p>Acesse o link: <a href="[%link%]">[%link%]</a></p>
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
@@ -96,7 +98,7 @@ class RHSEmail {
                 'default-subject' => '[%site_nome%] Novo Contato #%ticket_id%',
                 'default-email' => '
                     <h4>Um novo ticket foi criado #%ticket_id%</h4>
-                    <p>para acompanhar acesse o link: %link%</p>
+                    <p>para acompanhar acesse o link: <a href="[%link%]">[%link%]</a></p>
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
@@ -116,7 +118,7 @@ class RHSEmail {
                 'default-subject' => '[%site_nome%] Nova resposta #%ticket_id%',
                 'default-email' => '
                     <h4>Uma nova resposta foi feita no contato de número #%ticket_id%</h4>
-                    <p>para acompanhar acesse o link: %link%</p>
+                    <p>para acompanhar acesse o link: <a href="[%link%]">[%link%]</a></p>
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
@@ -155,7 +157,7 @@ class RHSEmail {
                 'default-email' => '<h4>Parabéns %nome%.</h4>
                     <p>Seu post atingiu a quantidade de votos e foi publicado.</p>
                     <p>Você pode acessar aqui:</p>
-                    <p>%link%</p>
+                    <p><a href="[%link%]">[%link%]</a></p>
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
@@ -175,7 +177,27 @@ class RHSEmail {
                 'default-email' => '<h4>Parabéns %nome%.</h4>
                     <p>Seu post recebeu um novo comentário.</p>
                     <p>Você pode acessar aqui:</p>
-                    <p>%link%</p>
+                    <p><a href="[%link%]">[%link%]</a></p>
+                    <p></p>
+                    <p>Atenciosamente,</p>
+                    <p>Equipe Rede HumanizaSUS</p>
+                    <p>http://redehumanizasus.net</p>'
+            ),
+            'new_post_from_user' => array(
+                'name'=> 'Novo Post do Autor Seguido',
+                'var' => array(
+                    'site_nome',
+                    'login',
+                    'email',
+                    'nome',
+                    'link',
+                    'post_title'
+                ),
+                'default-subject' => '[%site_nome%] O Autor [%nome%] postou um novo post.',
+                'default-email' => '<h4>Um novo post foi criado pelo [%nome%].</h4>
+                    <p>O Autor [%nome%] que você segue postou um novo post [%post_title%].</p>
+                    <p>Você pode acessar aqui:</p>
+                    <p><a href="[%link%]">[%link%]</a></p>
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
@@ -290,6 +312,10 @@ class RHSEmail {
         wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
     }
 
+    /*
+    * Envia um email ao author do post por ter recebido um  novo comentario.
+    * @param $comment
+    */
     function comment_post($comment){
         $c = is_object($comment) ? $comment : get_comment($comment);
         $post = get_post($c->comment_post_ID);
@@ -299,7 +325,7 @@ class RHSEmail {
             'login' => get_the_author_meta('user_login' , $post->post_author),
             'email' => get_the_author_meta('user_email' , $post->post_author),
             'nome' => get_the_author_meta('display_name' , $post->post_author),
-            'link' => get_permalink($post_ID),
+            'link' => get_permalink($post->ID),
             'post_title' => $post->post_title
         );
 
@@ -307,6 +333,28 @@ class RHSEmail {
         $message = $this->get_message('comment_post', $args);
 
         wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
+    }
+
+    /*
+    * Envia um email para os usuarios que segue o author por ele ter criado um novo post.
+    * @param $args
+    */
+    function new_post_from_user($args){
+        $author_id = get_post_field( 'post_author', $args['post_id'] );
+        
+        $args = array(
+            'site_nome' => get_bloginfo('name'),
+            'login' => get_the_author_meta('user_login' , $author_id),
+            'email' => get_the_author_meta('user_email' , $author_id),
+            'nome' => get_the_author_meta('display_name' , $author_id),
+            'link' => get_permalink($args['post_id']),
+            'post_title' => get_the_title( $args['post_id'] )
+        );
+        
+        $subject = $this->get_subject('comment_post', $args);
+        $message = $this->get_message('comment_post', $args);
+
+        wp_mail(get_the_author_meta('user_email' , $author_id), $subject, $message, self::EMAIL_HEADERS);
     }
     
     function new_ticket($post_ID, $content, $responsavel_padrao, $defaultAuthor, $author) {
