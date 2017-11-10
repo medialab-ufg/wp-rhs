@@ -277,7 +277,11 @@ Class RHSVote {
                  * */
                 global $wp_query;
                 $_pre_post_id = $wp_query->get('p');
-                $_pre_post_author_id = (int) get_post($_pre_post_id)->post_author;
+
+                $post = get_post($_pre_post_id);
+                $_pre_post_author_id = -1;
+                if($post instanceof WP_Post)
+                    $_pre_post_author_id = (int) $post->post_author;
 
                 if( is_numeric($_pre_post_id) && ($_pre_post_id > 0) && is_numeric($_pre_post_author_id) ) {
                     if( ( $_pre_post_author_id === get_current_user_id() ) || current_user_can('edit_others_posts') ) {
