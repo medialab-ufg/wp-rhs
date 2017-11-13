@@ -808,7 +808,8 @@ function rhs_test_stats_carousel() {
 }
 
 function rhs_test_stats_carousel_links() {
-    if (is_single() && isset($_GET['from-carousel']) && !empty($_GET['from-carousel'])) {
+    
+    if (is_single() && isset($_GET['from-carousel']) && !empty($_GET['from-carousel']) && wp_get_referer() === home_url('/')) {
         global $RHSStats;
         $RHSStats->add_event('carousel-click', $_GET['from-carousel'], get_current_user_id());
     }
