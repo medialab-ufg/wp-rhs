@@ -16,6 +16,8 @@ class RHSEmail {
 
         add_action('comment_post', array( &$this,'comment_post'), 10, 1);
 
+        add_action('comment_post', array(&$this, 'comment_post_follow'));
+
         add_action('rhs_new_post_from_user', array( &$this,'new_post_from_user'), 10, 1);
         
         add_filter( 'wp_mail_content_type', array( &$this,'filter_content_type') );
@@ -183,6 +185,26 @@ class RHSEmail {
                     <p>Equipe Rede HumanizaSUS</p>
                     <p>http://redehumanizasus.net</p>'
             ),
+            'comment_post_follow' => array(
+                'name'=> 'Comentário no Post Seguido',
+                'var' => array(
+                    'site_nome',
+                    'login',
+                    'email',
+                    'nome',
+                    'link',
+                    'post_title'
+                ),
+                'default-subject' => '[%site_nome%] O post que você está seguindo recebeu um comentário.',
+                'default-email' => '<h4>olá %nome%.</h4>
+                    <p>O post que você está seguindo recebeu um novo comentário.</p>
+                    <p>Você pode acessar o post aqui:</p>
+                    <p><a href="[%link%]">[%link%]</a></p>
+                    <p></p>
+                    <p>Atenciosamente,</p>
+                    <p>Equipe Rede HumanizaSUS</p>
+                    <p>http://redehumanizasus.net</p>'
+            ),
             'new_post_from_user' => array(
                 'name'=> 'Novo Post do Autor Seguido',
                 'var' => array(
@@ -319,7 +341,7 @@ class RHSEmail {
     function comment_post($comment){
         $c = is_object($comment) ? $comment : get_comment($comment);
         $post = get_post($c->comment_post_ID);
-        
+
         $args = array(
             'site_nome' => get_bloginfo('name'),
             'login' => get_the_author_meta('user_login' , $post->post_author),
@@ -334,6 +356,33 @@ class RHSEmail {
 
         wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
     }
+    
+    /*
+    * Envia um email ao seguidor do post por ter recebido um  novo comentario.
+    */
+    function comment_post_follow($comment){
+        $follow = new RHSFollowPost();
+        $c = get_comment($comment);
+        $fl = $follow->get_post_followers($c->comment_post_ID);
+        $post = get_post($c->comment_post_ID);
+        if($c) {
+            $post_ID = $c->comment_post_ID;
+            foreach($fl as $fol){
+                $args = array(
+                    'site_nome' => get_bloginfo('name'),
+                    'login' => get_the_author_meta('user_login' , $fol),
+                    'email' => get_the_author_meta('user_email' , $fol),
+                    'nome' => get_the_author_meta('display_name', $fol),
+                    'link' => get_permalink($post->ID),
+                    'post_title' => $post->post_title
+                );
+                $subject = $this->get_subject('comment_post', $args);
+                $message = $this->get_message('comment_post', $args);
+        
+                wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
+            }
+        }
+    }
 
     /*
     * Envia um email para os usuarios que segue o author por ele ter criado um novo post.
@@ -342,7 +391,7 @@ class RHSEmail {
     function new_post_from_user($args){
         $author_id = get_post_field( 'post_author', $args['post_id'] );
         
-        $args = array(
+        $argms = array(
             'site_nome' => get_bloginfo('name'),
             'login' => get_the_author_meta('user_login' , $author_id),
             'email' => get_the_author_meta('user_email' , $author_id),
@@ -351,8 +400,8 @@ class RHSEmail {
             'post_title' => get_the_title( $args['post_id'] )
         );
         
-        $subject = $this->get_subject('comment_post', $args);
-        $message = $this->get_message('comment_post', $args);
+        $subject = $this->get_subject('comment_post', $argms);
+        $message = $this->get_message('comment_post', $argms);
 
         wp_mail(get_the_author_meta('user_email' , $author_id), $subject, $message, self::EMAIL_HEADERS);
     }
