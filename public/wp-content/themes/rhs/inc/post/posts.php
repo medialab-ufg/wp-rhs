@@ -674,8 +674,11 @@ class RHSPosts extends RHSMessage {
             add_post_meta( $postID, self::META_DATE_ORDER, $data->post_date, true );
 
         //Notificação ao publicar pelo Painel admin
-        if($data->post_status == RHSVote::VOTING_QUEUE || $data->post_status == 'publish')
+        if(($data->post_status == RHSVote::VOTING_QUEUE || $data->post_status == 'publish') && metadata_exists( 'post', $postID, 'rhs_new_post_notification_from_user' ) == FALSE){
             do_action( 'rhs_new_post_from_user', array('user_id'=>$data->post_author, 'post_id'=>$postID) );
+            //Só é para se enviado uma vez a notificação
+            add_metadata( 'post', $postID, 'rhs_new_post_notification_from_user', 1 );
+        }
     }
 
     function update_date_order($postID){
