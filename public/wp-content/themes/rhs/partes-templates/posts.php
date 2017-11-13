@@ -28,7 +28,8 @@
                             <span class="post-date text-uppercase"><?php the_time( 'd/m/Y' ); ?></span>
                         </div>
                         <div class="votebox">
-                            <?php do_action( 'rhs_votebox', get_the_ID() ); ?>
+                            <?php if(get_post_status( get_the_ID() ) != 'private') 
+                                    do_action( 'rhs_votebox', get_the_ID() ); ?>
                         </div>
                         <div class="clearfix"></div>
                     </div>

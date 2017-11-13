@@ -446,10 +446,10 @@ class RHSComunity {
      * @return string
      */
     function get_button_members($text = 'Ver membros'){
-        return '<a class="btn btn-default btn-rhs" 
-                   data-type="members" 
+        return '<a class="btn btn-default btn-rhs"
+                   data-type="members"
                    title="'.__($text).'"
-                   href="'.$this->get_url_members().'" 
+                   href="'.$this->get_url_members().'"
                    '.(! $this->can_members() ? 'style="display: none;"' : '').'
                    data-toggle="tooltip" data-placement="top">
                         <i class="fa fa-users"></i>
@@ -462,10 +462,10 @@ class RHSComunity {
      * @return string
      */
     function get_button_follow($text = 'Seguir a comunidade'){
-        return '<a class="btn btn-default btn-rhs" 
+        return '<a class="btn btn-default btn-rhs"
                    data-type="follow"
                    title="'.__($text).'"
-                   href="javascript:;" 
+                   href="javascript:;"
                    '.(! $this->can_follow() ? 'style="display: none;"' : '').'
                    data-toggle="tooltip" data-placement="top">
                     <i class="fa fa-rss"></i>
@@ -477,17 +477,15 @@ class RHSComunity {
      *
      * @return string
      */
-    function get_button_not_follow($text = 'Seguir a comunidade'){
-        return '<a class="btn btn-default btn-rhs" 
+    function get_button_not_follow($text = 'Deixar de Seguir a comunidade'){
+        return '<a class="btn btn-default btn-rhs"
                    data-type="not_follow"
                    title="'.__($text).'"
-                   href="javascript:;" 
+                   href="javascript:;"
                    '.(! $this->can_not_follow() ? 'style="display: none;"' : '').'
                    data-toggle="tooltip" data-placement="top">
-                        <span class="fa-stack fa-lg">
-                          <i class="fa fa-rss fa-stack-1x"></i>
-                          <i class="fa fa-remove fa-stack-2x text-danger"></i>
-                        </span>
+                          <i class="fa fa-rss"></i>
+                          <i class="fa fa-remove text-danger" style="margin-right: -9px;top: -6px;position: relative;"></i>
                 </a>';
     }
 
@@ -497,7 +495,7 @@ class RHSComunity {
      * @return string
      */
     function get_button_enter($text = 'Participar da comunidade'){
-        return '<a class="btn btn-default btn-rhs" 
+        return '<a class="btn btn-default btn-rhs"
                    data-type="enter"
                    title="'.__($text).'"
                    href="javascript:;"
@@ -513,10 +511,10 @@ class RHSComunity {
      * @return string
      */
     function get_button_leave($text = 'Sair da comunidade'){
-        return '<a class="btn btn-default btn-rhs leave-community" 
+        return '<a class="btn btn-default btn-rhs leave-community"
                    data-type="leave"
                    title="'.__($text).'"
-                   href="javascript:;" 
+                   href="javascript:;"
                    '.(! $this->can_leave() ? 'style="display: none;"' : '').'
                    data-toggle="tooltip" data-placement="top">
                         <i class="fa fa-remove"></i>
@@ -529,10 +527,10 @@ class RHSComunity {
      * @return string
      */
     function get_button_request($text = 'Pedir para fazer parte da comunidade'){
-        return '<a class="btn btn-default btn-rhs" 
+        return '<a class="btn btn-default btn-rhs"
                    data-type="request"
                    title="'.__($text).'"
-                   href="javascript:;" 
+                   href="javascript:;"
                    '.(! $this->can_request() ? 'style="display: none;"' : '').'
                    data-toggle="tooltip" data-placement="top">
                         <i class="fa fa-external-link"></i>
@@ -545,10 +543,10 @@ class RHSComunity {
      * @return string
      */
     function get_button_wait_request($text = 'Seu pedido está em analise, você será notificado da resposta!'){
-        return '<a class="btn btn-default btn-rhs" 
+        return '<a class="btn btn-default btn-rhs"
                    data-type="wait_request"
                    title="'.__($text).'"
-                   href="javascript:void(0);" 
+                   href="javascript:void(0);"
                    '.(! $this->can_wait_request() ? 'style="display: none;"' : '').'
                    data-toggle="tooltip" data-placement="top">
                         <i class="fa fa-send"></i>
@@ -561,15 +559,15 @@ class RHSComunity {
      * @return string
      */
     function get_button_moderate($text = 'Moderar'){
-        return '<a class="btn btn-default btn-rhs" 
+        return '<a class="btn btn-default btn-rhs"
                    data-type="moderate"
                    title="'.__($text).'"
-                   href="javascript:;" 
+                   href="javascript:;"
                    '.(! $this->can_moderate() ? 'style="display: none;"' : '').'
                    data-toggle="tooltip" data-placement="top">
-                        <span class="fa-stack fa-near fa-lg">
-                          <i class="fa fa-user fa-stack-1x"></i>
-                          <i class="fa fa-long-arrow-up fa-stack-1x"></i>
+                        <span>
+                          <i class="fa fa-user"></i>
+                          <i class="fa fa-long-arrow-up"></i>
                         </span>
                 </a>';
     }
@@ -580,15 +578,15 @@ class RHSComunity {
      * @return string
      */
     function get_button_not_moderate($text = 'Remover da moderação'){
-        return '<a class="btn btn-default btn-rhs" 
+        return '<a class="btn btn-default btn-rhs"
                    data-type="not_moderate"
                    title="'.__($text).'"
-                   href="javascript:;" 
+                   href="javascript:;"
                    '.(! $this->can_not_moderate() ? 'style="display: none;"' : '').'
                    data-toggle="tooltip" data-placement="top">
-                        <span class="fa-stack fa-near fa-lg">
-                          <i class="fa fa-user fa-stack-1x"></i>
-                          <i class="fa fa-long-arrow-down fa-stack-1x"></i>
+                        <span>
+                          <i class="fa fa-user"></i>
+                          <i class="fa fa-long-arrow-down"></i>
                         </span>
                 </a>';
     }
@@ -599,10 +597,10 @@ class RHSComunity {
      * @return string
      */
     function get_button_accept_request($text = 'Aceitar o pedido para entrar'){
-        return '<a class="btn btn-default btn-rhs accept-request" 
+        return '<a class="btn btn-default btn-rhs accept-request"
                    data-type="accept_request"
                    title="'.__($text).'"
-                   href="javascript:;" 
+                   href="javascript:;"
                    '.(! $this->can_accept_request() ? 'style="display: none;"' : '').'
                    data-toggle="tooltip" data-placement="top">
                         <i class="fa fa-check"></i>
@@ -610,10 +608,10 @@ class RHSComunity {
     }
 
     function get_button_reject_request($text = 'Rejeitar o pedido para entrar'){
-        return '<a class="btn btn-default btn-rhs reject-request" 
+        return '<a class="btn btn-default btn-rhs reject-request"
                    data-type="reject_request"
                    title="'.__($text).'"
-                   href="javascript:;" 
+                   href="javascript:;"
                    '.(! $this->can_reject_request() ? 'style="display: none;"' : '').'
                    data-toggle="tooltip" data-placement="top">
                         <i class="fa fa-remove"></i>

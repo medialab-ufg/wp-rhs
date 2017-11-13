@@ -126,6 +126,22 @@ class VoteTest extends RHS_UnitTestCase {
 
 	}
 
+    function test_expire_post() {
+
+        wp_set_current_user(self::$users['contributor'][0]);
+        $newpost = self::create_post_to_queue();
+        $postID = $newpost->getId();
+
+        global $RHSVote;
+        $RHSVote->mark_post_as_expired(get_post($postID));
+
+        $expiredPost = get_post($postID);
+
+        $this->assertEquals($expiredPost->post_status, $RHSVote::VOTING_EXPIRED);
+
+
+    }
+
 
 
 
