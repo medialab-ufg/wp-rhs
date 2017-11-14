@@ -266,10 +266,12 @@ Class RHSVote {
             // No perfil do usuário, exibir posts de todos os status
             // Permite que pessoas vejam a single dos posts com status Fila de Votação ou expirados
             // A checagem pelo post type vazio é para ser aplicado apenas no post týpe padrão (post) e não em outros, como o ticket, por exemplo
-            $statuses = ['publish', self::VOTING_QUEUE, self::VOTING_EXPIRED];
+            $statuses = ['publish', self::VOTING_EXPIRED];
+
 
             if (is_user_logged_in()) {
                 $statuses[] = "private";
+                $statuses[] = self::VOTING_QUEUE;
 
                 /*
                  * Quando post está como rascunho, pode ser visualizado apenas pelo autor do post,
@@ -369,22 +371,21 @@ Class RHSVote {
     
     function read_post_cap( $caps, $cap, $user_id, $args ) {
 
-		if ( $cap == 'read_post' ) {
-
-			$caps = array();
+	    if ( $cap == 'read_post' ) {
 
 			$post = get_post( $args[0] );
 
 			if ( $post ) {
 
 				if (is_user_logged_in() && $post->post_status == self::VOTING_QUEUE) {
-                    $caps[] = 'read';
+				    $caps = ['read'];
 				}
 			} else {
-                $caps[] = '__no_privs';
-                
+                $caps = ['__no_privs'];
+
             }
 		}
+
 		return $caps;
 	}
 
