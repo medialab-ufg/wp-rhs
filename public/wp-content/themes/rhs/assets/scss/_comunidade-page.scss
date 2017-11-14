@@ -559,3 +559,24 @@
         }
     }
 }
+
+form.add-member-container {
+    width: 100%;
+    margin-bottom: 2%;
+
+    div {
+        width: 100% !important;
+        input {
+            width: 30% !important;
+        }
+    }
+} // .add-member-container
+
+.bottom.comunity-buttons {
+    .accept-request {
+        background: goldenrod;
+    }
+    .reject-request, .leave-community {
+        background: $attention-red;
+    }
+}

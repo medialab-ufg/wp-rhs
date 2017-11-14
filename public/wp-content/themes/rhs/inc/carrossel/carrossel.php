@@ -123,13 +123,16 @@ Class Carrossel {
      * Criando Checkbox para filtros em listagem de posts
      */
     static function admin_filter_area() {
-        $current_value = isset($_GET['rhs-filter-carousel']) ? $_GET['rhs-filter-carousel'] : '';
-        ?>
-        <label for="rhs-filter-carousel">
-            Posts no Carossel
-            <input type="checkbox" id="rhs-filter-carousel" name="rhs-filter-carousel" value="rhs-filter-carousel" <?php echo 'rhs-filter-carousel' == $current_value ? 'checked="checked"' : '' ?> >
-        </label>
-        <?php
+        if( get_current_screen()->post_type === "post" ) {
+            $current_value = isset($_GET['rhs-filter-carousel']) ? $_GET['rhs-filter-carousel'] : '';
+            ?>
+            <label for="rhs-filter-carousel">
+                Posts no Carossel
+                <input type="checkbox" id="rhs-filter-carousel" name="rhs-filter-carousel"
+                       value="rhs-filter-carousel" <?php echo 'rhs-filter-carousel' == $current_value ? 'checked="checked"' : '' ?> >
+                </label>
+            <?php
+        }
     }
 
     /**
