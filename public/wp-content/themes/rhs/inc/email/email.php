@@ -368,7 +368,6 @@ class RHSEmail {
         if($c) {
             $post_ID = $c->comment_post_ID;
             foreach($fl as $fol){
-                $author_id = get_post_field( 'post_author', $fol );
                 $args = array(
                     'site_nome' => get_bloginfo('name'),
                     'login' => get_the_author_meta('user_login' , $fol),
@@ -380,7 +379,7 @@ class RHSEmail {
                 $subject = $this->get_subject('comment_post', $args);
                 $message = $this->get_message('comment_post', $args);
         
-                wp_mail(get_the_author_meta('user_email' , $author_id), $subject, $message, self::EMAIL_HEADERS);
+                wp_mail(get_the_author_meta('user_email' , $fol), $subject, $message, self::EMAIL_HEADERS);
             }
         }
     }
