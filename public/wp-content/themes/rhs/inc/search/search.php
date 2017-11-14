@@ -5,6 +5,7 @@ class RHSSearch {
     const BASE_URL = 'busca';
     const BASE_USERS_URL = 'busca/usuarios';
     const USERS_PER_PAGE = 12;
+    const EXPORT_TOTAL_PER_PAGE = 100;
     
     function __construct() {
         add_action('pre_get_posts', array(&$this, 'pre_get_posts'), 2);
@@ -289,7 +290,18 @@ class RHSSearch {
      * @return Object WP_User_Query 
      */
     public function search_users($params = array()) {
-        $users_per_page = self::USERS_PER_PAGE;
+        
+        $users_per_page = isset($params['users_per_page']);
+
+        if ($users_per_page) {
+            // TODO
+            // receber o valor
+            // 
+            $users_per_page = 100;
+        } else {
+            $users_per_page = self::USERS_PER_PAGE;
+        }
+    
         $meta_query = [];
         $has_meta_query = false;
         
@@ -455,19 +467,17 @@ class RHSSearch {
         global $RHSSearch;
         global $RHSVote;
 
-        if(get_query_var('rhs_busca') == 'posts') {
-            $data = $wp_query->posts;
-        }
+        $users = $RHSSearch->search_users();
+        $search_user_has_uf_mun = isset($users->query_vars['meta_query']);      
+        $search_user_has_keyword = strlen(utf8_decode($users->query_vars['search']));
+        
+        $search_post_has_cat = isset($wp_query->query['cat']);
+        $search_post_has_tag = isset($wp_query->query['tag']);
+        $search_post_has_date = $wp_query->date_query;
 
-        if(get_query_var('rhs_busca') == 'users') {
-            $data = $RHSSearch->search_users();
-            $data = $data->get_results();
+        if(get_search_query() || $search_user_has_keyword > 2 || $search_user_has_uf_mun || $search_post_has_cat || $search_post_has_tag || $search_post_has_date) {
+            echo "<button type='button' class='btn btn-default filtro' data-toggle='modal' data-target='#exportModal'>Exportar CSV</button>";
         }
-        
-        set_transient('page_name', get_query_var('rhs_busca'), 60*60);
-        set_transient('download_query', $data, 60*60);
-        
-        echo "<button type='submit' class='btn btn-default filtro export-csv'>Exportar CSV</button>";
     }
 
     /**
@@ -478,10 +488,22 @@ class RHSSearch {
         global $wp_query;
         global $RHSVote;
         global $RHSNetwork;
-
+        
+        
         $pagename = get_transient('page_name');
-        $content_file = get_transient('download_query');
+        $query_params = get_transient('download_query');
 
+        if ($pagename == 'posts') {
+            $query_params['paged'] = $_POST['paged'];
+            $content_file = get_posts($query_params);
+        }
+
+        if($pagename == 'users') {
+            // TODO
+            $query_params->query_vars['paged'] = $_POST['paged'];
+            $content_file = $query_params->results;
+        }
+        
         header('Content-Encoding: UTF-8');
         header("Content-type: text/csv; charset=UTF-8");
         header("Pragma: no-cache");
@@ -490,6 +512,7 @@ class RHSSearch {
        
         $file = fopen('php://output', 'w');
 
+        
 
         if($pagename == 'users') {
             fputcsv($file, array('Nome do Usuário', 'Data de Cadastro', 'Total de Postagens', 'Total de Votos Recebidos', 'Estado', 'Cidade'));
@@ -506,16 +529,16 @@ class RHSSearch {
                 $total_votes = return_value_or_zero($get_total_votes); 
 
                 $user_ufmun = get_user_ufmun($user->ID);
-                $uf = $user_ufmun['uf']['sigla'];
-                $mun = $user_ufmun['mun']['nome'];
+                $uf = return_value_or_dash($user_ufmun['uf']['sigla']);
+                $mun = return_value_or_dash($user_ufmun['mun']['nome']);
 
                 $row_data[] = [
                     'nome'=> $name,
                     'date' => date("d/m/Y H:i:s",strtotime($register_date)),
                     'total_posts' => $total_posts,
                     'total_votes' => $total_votes,
-                    'state' => return_value_or_dash($state),
-                    'city' => return_value_or_dash($uf)
+                    'state' => $uf,
+                    'city' => $mun
                 ];
             }
         }
@@ -627,4 +650,50 @@ function return_value_or_dash($value){
         return '-';
     else
         return $value;
+}
+
+function show_results_from_search() {
+    global $wp_query;
+    global $RHSSearch;
+    $per_page = $RHSSearch::EXPORT_TOTAL_PER_PAGE;
+
+    $wp_query->query($wp_query->query_vars);
+    $wp_query->set('posts_per_page', $per_page);
+    $result = $wp_query;
+    
+    if(get_query_var('rhs_busca') == 'posts') {
+        $total = $result->found_posts;
+        set_transient('download_query', $wp_query->query_vars, 60*60);
+    }
+
+    if(get_query_var('rhs_busca') == 'users') {
+        $get_users = $RHSSearch->search_users(['users_per_page' => '100']);
+        $total = $get_users->total_users;
+        set_transient('download_query', $get_users, 60*60);
+        // var_dump($get_users);
+        // var_dump($get_users);
+        // die;
+    }
+    
+    $total_pages = ceil($total / $per_page);
+    
+    set_transient('page_name', get_query_var('rhs_busca'), 60*60);
+    
+    $count = 1;
+    
+    if (empty($total_pages)) {
+        $total_pages = 0;
+    } elseif ($total_pages == 1){
+        $text_pages = 'página';
+    } else {
+        $text_pages = 'páginas';
+    }
+
+    echo "<p>Resultado disponível: <strong>" . $total_pages . " </strong> ". $text_pages .".</p>";
+    echo "<p>Selecione uma para iniciar exportação:</p>";
+    while($count < $total_pages+1) {
+        echo "<a class='btn btn-default export-csv' data-page='". $count . "'>Página ". $count ."</a> ";
+        $count++;
+    }
+
 }
