@@ -3,7 +3,6 @@ get_header('full');
 
 // Resultado da busca
 $users = $RHSSearch->search_users();
-set_transient('download_query', $users, 60*60);
 ?>
 <div class="row">
     <div class="col-xs-12">

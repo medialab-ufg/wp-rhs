@@ -45,8 +45,7 @@ jQuery(function() {
             var d = new Date();
             var filename = "RHS_pesquisa_" + d.getDate() + "" + (d.getMonth() + 1) + ""+ d.getFullYear() + ".csv";
             var paged = jQuery(this).attr('data-page');
-            $('.export-loader').removeClass('hide');
-
+            $(this).find('.export-loader').removeClass('hide');
             jQuery.ajax({
                 type: "POST",
                 url: search_vars.ajaxurl,

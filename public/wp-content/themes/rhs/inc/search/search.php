@@ -542,16 +542,17 @@ class RHSSearch {
         }
 
         if($pagename == 'posts') {
-            fputcsv($file, array('Data', 'Autor', 'Link', 'Visualizações', 'Compartilhamentos', 'Votos', 'Comentários', 'Estado', 'Cidade'));
+            fputcsv($file, array('Título', 'Data', 'Autor', 'Link', 'Visualizações', 'Compartilhamentos', 'Votos', 'Comentários', 'Estado', 'Cidade'));
                     
             foreach($content_file as $post) {
-                $post_date = get_the_date('d/m/Y H:i:s', $post->ID);
-                $autor = get_the_author_meta('display_name', $post->post_author);
-                $link = $post->guid;
                 
+                $get_title = get_the_title($post->ID);
+                $get_date = get_the_date('d/m/Y H:i:s', $post->ID);
+                $get_author = get_the_author_meta('display_name', $post->post_author);
+                $get_link = $post->guid;
                 $get_views = $RHSNetwork->get_post_total_views($post->ID);
-                $get_comments = wp_count_comments($post->ID);
                 $get_shares = $RHSNetwork->get_post_total_shares($post->ID);
+                $get_comments = wp_count_comments($post->ID);
                 $get_votes = $RHSVote->get_total_votes($post->ID);
 
                 $views = return_value_or_zero($get_views);
@@ -564,9 +565,10 @@ class RHSSearch {
                 $mun = $post_ufmun['mun']['nome'];
 
                 $row_data[] = [
-                    'data'=> $post_date,
-                    'autor' => $autor,
-                    'link' => $link,
+                    'titulo'=> $get_title,
+                    'data'=> $get_date,
+                    'autor' => $get_author,
+                    'link' => $get_link,
                     'visualizacoes' => $views,
                     'compartilhamentos' => $shares,
                     'votos' => $votes,
