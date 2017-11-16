@@ -376,9 +376,9 @@ class RHSEmail {
                     'link' => get_permalink($post->ID),
                     'post_title' => $post->post_title
                 );
-                $subject = $this->get_subject('comment_post', $args);
-                $message = $this->get_message('comment_post', $args);
-        
+                $subject = $this->get_subject('comment_post_follow', $args);
+                $message = $this->get_message('comment_post_follow', $args);
+
                 wp_mail(get_the_author_meta('user_email' , $fol), $subject, $message, self::EMAIL_HEADERS);
             }
         }
