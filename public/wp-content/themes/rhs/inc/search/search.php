@@ -291,13 +291,9 @@ class RHSSearch {
      */
     public function search_users($params = array()) {
         
-        $users_per_page = isset($params['users_per_page']);
-
+        $users_per_page = isset($params['export_number']);
         if ($users_per_page) {
-            // TODO
-            // receber o valor
-            // 
-            $users_per_page = 100;
+            $users_per_page = self::EXPORT_TOTAL_PER_PAGE;
         } else {
             $users_per_page = self::USERS_PER_PAGE;
         }
@@ -476,7 +472,7 @@ class RHSSearch {
         $search_post_has_date = $wp_query->date_query;
 
         if(get_search_query() || $search_user_has_keyword > 2 || $search_user_has_uf_mun || $search_post_has_cat || $search_post_has_tag || $search_post_has_date) {
-            echo "<button type='button' class='btn btn-default filtro' data-toggle='modal' data-target='#exportModal'>Exportar CSV</button>";
+            echo "<button type='button' class='btn btn-default filtro' data-toggle='modal' data-target='#exportModal'> Exportar CSV <i class='fa fa-save fa-fw'></i></button>";
         }
     }
 
@@ -488,6 +484,7 @@ class RHSSearch {
         global $wp_query;
         global $RHSVote;
         global $RHSNetwork;
+        global $RHSSearch;
         
         
         $pagename = get_transient('page_name');
@@ -499,9 +496,10 @@ class RHSSearch {
         }
 
         if($pagename == 'users') {
-            // TODO
-            $query_params->query_vars['paged'] = $_POST['paged'];
-            $content_file = $query_params->results;
+            $query_params['paged'] = $_POST['paged'];
+            $query_params['export_number'] = true;
+            $get_users = $RHSSearch->search_users($query_params);
+            $content_file = $get_users->results;
         }
         
         header('Content-Encoding: UTF-8');
@@ -667,12 +665,9 @@ function show_results_from_search() {
     }
 
     if(get_query_var('rhs_busca') == 'users') {
-        $get_users = $RHSSearch->search_users(['users_per_page' => '100']);
+        $get_users = $RHSSearch->search_users($wp_query->query_vars);
         $total = $get_users->total_users;
-        set_transient('download_query', $get_users, 60*60);
-        // var_dump($get_users);
-        // var_dump($get_users);
-        // die;
+        set_transient('download_query', $wp_query->query_vars, 60*60);
     }
     
     $total_pages = ceil($total / $per_page);
@@ -692,7 +687,7 @@ function show_results_from_search() {
     echo "<p>Resultado disponível: <strong>" . $total_pages . " </strong> ". $text_pages .".</p>";
     echo "<p>Selecione uma para iniciar exportação:</p>";
     while($count < $total_pages+1) {
-        echo "<a class='btn btn-default export-csv' data-page='". $count . "'>Página ". $count ."</a> ";
+        echo "<a class='btn btn-default export-csv' data-page='". $count . "'>Página ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
         $count++;
     }
 

@@ -3,6 +3,7 @@ get_header('full');
 
 // Resultado da busca
 $users = $RHSSearch->search_users();
+set_transient('download_query', $users, 60*60);
 ?>
 <div class="row">
     <div class="col-xs-12">
@@ -49,7 +50,6 @@ $users = $RHSSearch->search_users();
                                 </div>
                                 <button type="submit" class="btn btn-default filtro">Filtrar</button>
                             </form>
-                            <?php RHSSearch::show_button_download_report(); ?>
                         </div>
                     </div>
                     <div class="row resultado">
@@ -68,6 +68,7 @@ $users = $RHSSearch->search_users();
                             <div class="col-xs-6 classificar">
                                 <div class="pull-right">
                                     <div class="dropdown">
+                                        <?php RHSSearch::show_button_download_report(); ?>
                                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         Ordenar por
                                         <?php
