@@ -159,7 +159,7 @@ class RHSEmail {
                 'default-email' => '<h4>Parabéns %nome%.</h4>
                     <p>Seu post atingiu a quantidade de votos e foi publicado.</p>
                     <p>Você pode acessar aqui:</p>
-                    <p><a href="[%link%]">[%link%]</a></p>
+                    <p>[%link%]</p>
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
@@ -179,7 +179,7 @@ class RHSEmail {
                 'default-email' => '<h4>Parabéns %nome%.</h4>
                     <p>Seu post recebeu um novo comentário.</p>
                     <p>Você pode acessar aqui:</p>
-                    <p><a href="[%link%]">[%link%]</a></p>
+                    <p>[%link%]</p>
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
@@ -199,7 +199,7 @@ class RHSEmail {
                 'default-email' => '<h4>olá %nome%.</h4>
                     <p>O post que você está seguindo recebeu um novo comentário.</p>
                     <p>Você pode acessar o post aqui:</p>
-                    <p><a href="[%link%]">[%link%]</a></p>
+                    <p>[%link%]</p>
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
@@ -219,7 +219,7 @@ class RHSEmail {
                 'default-email' => '<h4>Um novo post foi criado pelo [%nome%].</h4>
                     <p>O Autor [%nome%] que você segue postou um novo post [%post_title%].</p>
                     <p>Você pode acessar aqui:</p>
-                    <p><a href="[%link%]">[%link%]</a></p>
+                    <p>[%link%]</p>
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
@@ -324,14 +324,16 @@ class RHSEmail {
             'login' => get_the_author_meta('user_login' , $post->post_author),
             'email' => get_the_author_meta('user_email' , $post->post_author),
             'nome' => get_the_author_meta('display_name' , $post->post_author),
-            'link' => get_permalink($post_ID),
+            'link' => '<a href="'.get_permalink($post->ID).'">' . get_permalink($post->ID) . '</a>',
             'post_title' => $post->post_title
         );
 
         $subject = $this->get_subject('post_promoted', $args);
         $message = $this->get_message('post_promoted', $args);
 
-        wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
+        if(empty(get_user_meta($post->post_author, 'rhs_email_promoted_post'))){
+            wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
+        }
     }
 
     /*
@@ -347,14 +349,16 @@ class RHSEmail {
             'login' => get_the_author_meta('user_login' , $post->post_author),
             'email' => get_the_author_meta('user_email' , $post->post_author),
             'nome' => get_the_author_meta('display_name' , $post->post_author),
-            'link' => get_permalink($post->ID),
+            'link' => '<a href="'.get_permalink($post->ID).'">' . get_permalink($post->ID) . '</a>',
             'post_title' => $post->post_title
         );
 
         $subject = $this->get_subject('comment_post', $args);
         $message = $this->get_message('comment_post', $args);
 
-        wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
+        if(empty(get_user_meta($post->post_author, 'rhs_email_comment_post'))){
+            wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
+        }
     }
     
     /*
@@ -373,13 +377,14 @@ class RHSEmail {
                     'login' => get_the_author_meta('user_login' , $fol),
                     'email' => get_the_author_meta('user_email' , $fol),
                     'nome' => get_the_author_meta('display_name', $fol),
-                    'link' => get_permalink($post->ID),
+                    'link' => '<a href="'.get_permalink($post->ID).'">' . get_permalink($post->ID) . '</a>',
                     'post_title' => $post->post_title
                 );
                 $subject = $this->get_subject('comment_post_follow', $args);
                 $message = $this->get_message('comment_post_follow', $args);
-
-                wp_mail(get_the_author_meta('user_email' , $fol), $subject, $message, self::EMAIL_HEADERS);
+                if(empty(get_user_meta($fol, 'rhs_email_comment_post_follow'))){
+                    wp_mail(get_the_author_meta('user_email' , $fol), $subject, $message, self::EMAIL_HEADERS);
+                }
             }
         }
     }
@@ -389,21 +394,26 @@ class RHSEmail {
     * @param $args
     */
     function new_post_from_user($args){
-        $author_id = get_post_field( 'post_author', $args['post_id'] );
-        
-        $argms = array(
-            'site_nome' => get_bloginfo('name'),
-            'login' => get_the_author_meta('user_login' , $author_id),
-            'email' => get_the_author_meta('user_email' , $author_id),
-            'nome' => get_the_author_meta('display_name' , $author_id),
-            'link' => get_permalink($args['post_id']),
-            'post_title' => get_the_title( $args['post_id'] )
-        );
-        
-        $subject = $this->get_subject('comment_post', $argms);
-        $message = $this->get_message('comment_post', $argms);
-
-        wp_mail(get_the_author_meta('user_email' , $author_id), $subject, $message, self::EMAIL_HEADERS);
+        $follow = new RHSFollow();
+        $fl = $follow->get_user_followers($args['user_id']);
+        if($fl) {
+            $post = get_post($args['post_id']);
+            foreach($fl as $fol){
+                $argms = array(
+                    'site_nome' => get_bloginfo('name'),
+                    'login' => get_the_author_meta('user_login' , $fol),
+                    'email' => get_the_author_meta('user_email' , $fol),
+                    'nome' => get_the_author_meta('display_name', $fol),
+                    'link' => '<a href="'.get_permalink($post->ID).'">' . get_permalink($post->ID) . '</a>',
+                    'post_title' => $post->post_title
+                );
+                $subject = $this->get_subject('new_post_from_user', $argms);
+                $message = $this->get_message('new_post_from_user', $argms);
+                if(empty(get_user_meta($fol, 'rhs_email_new_post_from_user'))){
+                    wp_mail(get_the_author_meta('user_email' , $fol), $subject, $message, self::EMAIL_HEADERS);
+                }
+            }
+        }
     }
     
     function new_ticket($post_ID, $content, $responsavel_padrao, $defaultAuthor, $author) {
