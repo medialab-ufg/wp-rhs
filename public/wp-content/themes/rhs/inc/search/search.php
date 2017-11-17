@@ -687,9 +687,9 @@ function show_results_from_search() {
     }
 
     echo "<p>Resultado disponível: <strong>" . $total_pages . " </strong> ". $text_pages .".</p>";
-    echo "<p>Selecione uma para iniciar exportação:</p>";
+    echo "<p>Selecione uma página para iniciar a exportação:</p>";
     while($count < $total_pages+1) {
-        echo "<a class='btn btn-default export-csv' data-page='". $count . "'>Página ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
+        echo "<a class='btn btn-rhs export-csv' data-page='". $count . "'>Página ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
         $count++;
     }
 
