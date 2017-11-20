@@ -5,7 +5,7 @@ class RHSSearch {
     const BASE_URL = 'busca';
     const BASE_USERS_URL = 'busca/usuarios';
     const USERS_PER_PAGE = 12;
-    const EXPORT_TOTAL_PER_PAGE = 100;
+    const EXPORT_TOTAL_PER_PAGE = 500;
     
     function __construct() {
         add_action('pre_get_posts', array(&$this, 'pre_get_posts'), 2);
@@ -660,13 +660,14 @@ function show_results_from_search() {
     $wp_query->query($wp_query->query_vars);
     $wp_query->set('posts_per_page', $per_page);
     $result = $wp_query;
-    
-    if(get_query_var('rhs_busca') == 'posts') {
+    $search_page = get_query_var('rhs_busca');
+
+    if($search_page == 'posts') {
         $total = $result->found_posts;
         set_transient('download_query', $wp_query->query_vars, 60*60);
     }
 
-    if(get_query_var('rhs_busca') == 'users') {
+    if($search_page == 'users') {
         $get_users = $RHSSearch->search_users($wp_query->query_vars);
         $total = $get_users->total_users;
         set_transient('download_query', $wp_query->query_vars, 60*60);
@@ -689,7 +690,7 @@ function show_results_from_search() {
     echo "<p>Resultado disponível: <strong>" . $total_pages . " </strong> ". $text_pages .".</p>";
     echo "<p>Selecione uma página para iniciar a exportação:</p>";
     while($count < $total_pages+1) {
-        echo "<a class='btn btn-rhs export-csv' data-page='". $count . "'>Página ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
+        echo "<a class='btn btn-rhs export-csv' data-page='". $count . "' data-page-title=". $search_page .">Página ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
         $count++;
     }
 
