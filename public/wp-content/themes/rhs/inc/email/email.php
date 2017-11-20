@@ -12,13 +12,13 @@ class RHSEmail {
         add_action('admin_menu', array( &$this, 'gerate_admin_menu' ) );
         add_filter("retrieve_password_title", array( &$this, 'filter_retrieve_password_request_email_title'));
         add_filter('retrieve_password_message',  array( &$this, 'filter_retrieve_password_request_email_body'), 10, 4 );
-        add_action('rhs_post_promoted', array( &$this,'post_promoted'), 10, 1);
+        add_action('rhs_post_promoted', array( &$this,'post_promoted'));
 
-        add_action('comment_post', array( &$this,'comment_post'), 10, 1);
+        add_action('comment_post', array( &$this,'comment_post'));
 
         add_action('comment_post', array(&$this, 'comment_post_follow'));
 
-        add_action('rhs_new_post_from_user', array( &$this,'new_post_from_user'), 10, 1);
+        add_action('rhs_new_post_from_user', array( &$this,'new_post_from_user_follow'));
         
         add_filter( 'wp_mail_content_type', array( &$this,'filter_content_type') );
         
@@ -163,7 +163,9 @@ class RHSEmail {
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p>http://redehumanizasus.net</p>
+                    <p></p><p></p>
+                    <p><em style="color: gray;">Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. Acesse <a href="http://www.redehumanizasus.net/perfil" target="_BLANK">Aqui</a></em></p>'
             ),
             'comment_post' => array(
                 'name'=> 'Comentário no Post',
@@ -183,7 +185,9 @@ class RHSEmail {
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p>http://redehumanizasus.net</p>
+                    <p></p><p></p>
+                    <p><em style="color: gray;">Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. Acesse <a href="http://www.redehumanizasus.net/perfil" target="_BLANK">Aqui</a></em></p>'
             ),
             'comment_post_follow' => array(
                 'name'=> 'Comentário no Post Seguido',
@@ -203,9 +207,11 @@ class RHSEmail {
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p>http://redehumanizasus.net</p>
+                    <p></p><p></p>
+                    <p><em style="color: gray;">Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. Acesse <a href="http://www.redehumanizasus.net/perfil" target="_BLANK">Aqui</a></em></p>'
             ),
-            'new_post_from_user' => array(
+            'new_post_from_user_follow' => array(
                 'name'=> 'Novo Post do Autor Seguido',
                 'var' => array(
                     'site_nome',
@@ -223,7 +229,9 @@ class RHSEmail {
                     <p></p>
                     <p>Atenciosamente,</p>
                     <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p>http://redehumanizasus.net</p>
+                    <p></p><p></p>
+                    <p><em style="color: gray;">Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. Acesse <a href="http://www.redehumanizasus.net/perfil" target="_BLANK">Aqui</a></em></p>'
             )
         );
     }
@@ -393,7 +401,7 @@ class RHSEmail {
     * Envia um email para os usuarios que segue o author por ele ter criado um novo post.
     * @param $args
     */
-    function new_post_from_user($args){
+    function new_post_from_user_follow($args){
         $follow = new RHSFollow();
         $fl = $follow->get_user_followers($args['user_id']);
         if($fl) {
@@ -407,9 +415,9 @@ class RHSEmail {
                     'link' => '<a href="'.get_permalink($post->ID).'">' . get_permalink($post->ID) . '</a>',
                     'post_title' => $post->post_title
                 );
-                $subject = $this->get_subject('new_post_from_user', $argms);
-                $message = $this->get_message('new_post_from_user', $argms);
-                if(empty(get_user_meta($fol, 'rhs_email_new_post_from_user'))){
+                $subject = $this->get_subject('new_post_from_user_follow', $argms);
+                $message = $this->get_message('new_post_from_user_follow', $argms);
+                if(empty(get_user_meta($fol, 'rhs_email_new_post_from_user_follow'))){
                     wp_mail(get_the_author_meta('user_email' , $fol), $subject, $message, self::EMAIL_HEADERS);
                 }
             }

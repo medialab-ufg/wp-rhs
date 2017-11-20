@@ -32,7 +32,7 @@ class RHSPerfil extends RHSMessage {
             if(isset($_POST['promoted_post'])){$promoted_post = $_POST['promoted_post'];}else{$promoted_post = "";}
             if(isset($_POST['comment_post'])){$comment_post = $_POST['comment_post'];}else{$comment_post = "";}
             if(isset($_POST['comment_post_follow'])){$comment_post_follow = $_POST['comment_post_follow'];}else{$comment_post_follow = "";}
-            if(isset($_POST['new_post_from_user'])){$new_post_from_user = $_POST['new_post_from_user'];}else{$new_post_from_user = "";}
+            if(isset($_POST['new_post_from_user_follow'])){$new_post_from_user_follow = $_POST['new_post_from_user_follow'];}else{$new_post_from_user_follow = "";}
 
             $this->update(
                 $user_id,
@@ -42,7 +42,7 @@ class RHSPerfil extends RHSMessage {
                 $promoted_post,
                 $comment_post,
                 $comment_post_follow,
-                $new_post_from_user,
+                $new_post_from_user_follow,
                 $_POST['description'],
                 $_POST['formation'],
                 $_POST['interest'],
@@ -53,7 +53,7 @@ class RHSPerfil extends RHSMessage {
         }
     }
 
-    function update($user_id, $first_name, $last_name, $pass = '', $promoted_post = '', $comment_post = '', $comment_post_follow = '', $new_post_from_user = '', $description, $formation = '', $interest = '', $state = '', $city = '', $links = '', $avatar_file){
+    function update($user_id, $first_name, $last_name, $pass = '', $promoted_post = '', $comment_post = '', $comment_post_follow = '', $new_post_from_user_follow = '', $description, $formation = '', $interest = '', $state = '', $city = '', $links = '', $avatar_file){
 
         $data = array('ID' => $user_id);
         $data['first_name'] = $first_name;
@@ -100,12 +100,12 @@ class RHSPerfil extends RHSMessage {
             }
         }
 
-        if($new_post_from_user == '') {
-            update_user_meta( $user_id, 'rhs_email_new_post_from_user', 1);
+        if($new_post_from_user_follow == '') {
+            update_user_meta( $user_id, 'rhs_email_new_post_from_user_follow', 1);
         }
-        elseif($new_post_from_user == 'true'){
-            if(get_user_meta($user_id, 'rhs_email_new_post_from_user')){
-                delete_user_meta( $user_id, 'rhs_email_new_post_from_user');
+        elseif($new_post_from_user_follow == 'true'){
+            if(get_user_meta($user_id, 'rhs_email_new_post_from_user_follow')){
+                delete_user_meta( $user_id, 'rhs_email_new_post_from_user_follow');
             }
         }
 
