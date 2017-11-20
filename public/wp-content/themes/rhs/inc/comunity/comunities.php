@@ -41,6 +41,8 @@ class RHSComunities extends RHSMessage {
         add_filter( 'wp_insert_post_data', array( &$this, 'filter_post_data' ), '99', 2 );
         
         add_filter( 'map_meta_cap', array( &$this, 'read_post_cap' ), 10, 4 );
+        
+        add_action( 'pre_get_posts', array( &$this, 'pre_get_posts' ) );
 
     }
 
@@ -85,7 +87,7 @@ class RHSComunities extends RHSMessage {
                 }
                 
                 // Se o usuário está dentro de alguma das comunidades do post
-                // retornamos uma permissão que todo mundo term
+                // retornamos uma permissão que todo mundo tem
                 // se não estiver dentro da comunidade, vai passar para o padrão do WP
                 // que é 'read_private_posts', e aí se for editor ou admin vai retornar true
                 if (sizeof(array_intersect($user_communities, $post_communities)) > 0) {
@@ -94,6 +96,16 @@ class RHSComunities extends RHSMessage {
             }
         }
         return $caps;
+    }
+    
+    function pre_get_posts($wp_query) {
+        
+        if ($wp_query->is_main_query() && $wp_query->is_tax(self::TAXONOMY)) {
+            
+            $wp_query->set( 'post_status', ['publish', 'private'] );
+            
+        }
+        
     }
 
     /*====================================================================================================
@@ -120,11 +132,9 @@ class RHSComunities extends RHSMessage {
             self::TAXONOMY,
             array( 'post' ),
             array(
-                'hierarchical'      => true,
                 'labels'            => $labels,
                 'show_ui'           => true,
                 'query_var'         => true,
-                'rewrite'           => false,
                 'hierarchical'      => false,
                 'parent_item'       => null,
                 'parent_item_colon' => null,
@@ -801,10 +811,8 @@ class RHSComunities extends RHSMessage {
 
         $users = new WP_User_Query( array(
             'search'         => '*' . esc_attr( $_POST['string'] ) . '*',
-            'search_columns' => array(
-                'user_nicename'
-            ),
-            'number'         => 7,
+            'search_columns' => array( 'user_nicename', 'user_email' ),
+            'number'         => -1,
             'orderby'        => 'display_name',
         ) );
 

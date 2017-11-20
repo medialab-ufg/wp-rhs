@@ -1,9 +1,8 @@
 #!/bin/bash
 
-cd ~/wp-rhs/
+cd ~/wp-rhs/ 
 
 git pull
-
 
 if [ $1 = 'dev' ]
 then

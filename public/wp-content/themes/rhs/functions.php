@@ -27,6 +27,7 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/comunity/comunities.php');
         require_once('inc/comunity/comunity.php');
         require_once('inc/search/search.php');
+        require_once('inc/comments/comments.php');
         
         /**
          * Notificação
@@ -223,9 +224,12 @@ add_action('wp_enqueue_scripts', 'RHS_styles');
  */
 if (!function_exists('RHS_Comentarios')) :
     function RHS_Comentarios($comment, $args, $depth) {
+    global $current_user;
     $GLOBALS['comment'] = $comment;
     
     $user_id = $comment->user_id;
+    $get_user = get_userdata($user_id);
+
 
     ?>
     <section id="comment-<?php comment_ID(); ?>">
@@ -240,7 +244,7 @@ if (!function_exists('RHS_Comentarios')) :
                 <div class="comment-head">
                     <h6 class="comment-name by-author">Por
                         <?php
-                            $get_user = get_userdata($user_id);
+                            
                             if ($get_user && $user_id) {
                                 $user=get_userdata($user_id);
                                 echo '<a href="'.get_author_posts_url($user_id).'">'.$user->display_name.'</a>';
@@ -251,6 +255,15 @@ if (!function_exists('RHS_Comentarios')) :
                     </h6>
                     <time class="comment-date"><?php printf('%s às %s.', get_comment_date(), get_comment_time()); ?></time>
                     <?php comment_reply_link(array('depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => '<i class="fa fa-reply"></i>', 'login_text' => '<i class="fa fa-block"></i>')); ?>
+                    <?php 
+                    global $RHSComments;
+                
+                    if(is_user_logged_in()) {
+                        if($current_user->display_name == get_comment_author()) {
+                            $RHSComments->show_button_edit_comment();
+                        }
+                    }
+                    ?>
                 </div>
                 <div class="comment-content">
                     <?php comment_text(); ?>
@@ -476,13 +489,16 @@ function facebook_meta() {
 
     if(is_single()) {
 
-        $img_info = (has_post_thumbnail($post->ID)) ? wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), "thumbnail") : '';
+        $logo = get_stylesheet_directory_uri().'/assets/images/logo_face.png';
 
+        $img_info = (has_post_thumbnail($post->ID)) ? wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), "thumbnail") : $logo;
+        
         $image = array(
-           'url' => (!empty($img_info[0])) ? $img_info[0] : '',
-           'width' => (!empty($img_info[1])) ? $img_info[1] : 0,
-           'height' => (!empty($img_info[2])) ? $img_info[2] : 0,
+           'url' => (!empty($img_info[0]) && $img_info[1] >= 200 && $img_info[2] >= 200) ? $img_info[0] : $logo,
+           'width' => (!empty($img_info[1]) && $img_info[1] >= 200 && $img_info[2] >= 200) ? $img_info[1] : 200,
+           'height' => (!empty($img_info[2]) && $img_info[1] >= 200 && $img_info[2] >= 200) ? $img_info[2] : 200,
         );
+        
         $content = limitatexto($post->post_content, '[...]', 150);
         if($excerpt = $content) {
             $excerpt = strip_tags($content);
@@ -792,7 +808,8 @@ function rhs_test_stats_carousel() {
 }
 
 function rhs_test_stats_carousel_links() {
-    if (is_single() && isset($_GET['from-carousel']) && !empty($_GET['from-carousel'])) {
+    
+    if (is_single() && isset($_GET['from-carousel']) && !empty($_GET['from-carousel']) && wp_get_referer() === home_url('/')) {
         global $RHSStats;
         $RHSStats->add_event('carousel-click', $_GET['from-carousel'], get_current_user_id());
     }

@@ -83,7 +83,6 @@
                                 </div>
                                 <button type="submit" class="btn btn-default filtro">Filtrar</button>
                             </form>
-                            <?php RHSSearch::show_button_download_report(); ?>
                         </div>
                     </div>
                     
@@ -104,6 +103,7 @@
 
                                 <div class="pull-right">
                                     <div class="dropdown">
+                                        <?php RHSSearch::show_button_download_report(); ?>
                                         <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         Classificar por
                                         <?php
@@ -140,5 +140,7 @@
         </div>
     </div>
 </div>
+
+<?php get_template_part('partes-templates/export-modal'); ?>
 
 <?php get_footer('full');

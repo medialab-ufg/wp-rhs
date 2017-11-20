@@ -15,7 +15,7 @@ class RHSPosts extends RHSMessage {
         add_action( 'wp_ajax_nopriv_get_tags', array( &$this, 'ajax_get_tags' ) );
         add_filter( 'the_editor', array( &$this, 'add_placeholder_editor' ) );
         add_filter( 'mce_external_plugins', array( &$this, 'add_mce_placeholder_plugin' ) );
-        add_filter( 'save_post', array( &$this, 'add_meta_date' ) );
+        add_filter( 'save_post', array( &$this, 'add_meta_date_and_notification' ) );
         add_action( 'wp_enqueue_scripts', array( &$this, 'addJS' ));
         add_action( 'wp_ajax_apagar_post_toggle', array(&$this, 'apagar_post_toggle'));
 
@@ -226,7 +226,7 @@ class RHSPosts extends RHSMessage {
         }
 
         if ( $wp_query->is_main_query() && $wp_query->is_home() ) {
-
+            $wp_query->set('post_status', 'publish');
             $wp_query->set('meta_key', self::META_DATE_ORDER);
             $wp_query->set('orderby', 'meta_value');
             $wp_query->set('order', 'DESC');
@@ -330,7 +330,7 @@ class RHSPosts extends RHSMessage {
                 $setStatus = RHSVote::VOTING_QUEUE;
 
             } else if($data['post_status'] == 'publish'){
-                $setStatus == 'publish';
+                $setStatus = 'publish';
 
             } else {
                 /**
@@ -374,12 +374,6 @@ class RHSPosts extends RHSMessage {
         if ( $return instanceof WP_Error ) {
             $post->setError( $return );
         } else {
-
-            // Notificação
-            if(!$post->getId() && $setStatus == RHSVote::VOTING_QUEUE){
-                do_action( 'rhs_new_post_from_user', array('user_id'=>$post->getAuthorId(), 'post_id'=>$return) );
-            }
-
             $post->setId( $return );
         }
 
@@ -661,7 +655,7 @@ class RHSPosts extends RHSMessage {
         endwhile;
     }
     
-    function add_meta_date( $postID ) {
+    function add_meta_date_and_notification( $postID ) {
 
         $data = get_post($postID);
         
@@ -672,6 +666,13 @@ class RHSPosts extends RHSMessage {
          */ 
         if ( $data->post_type == 'post')
             add_post_meta( $postID, self::META_DATE_ORDER, $data->post_date, true );
+
+        // Notificação ao publicar
+        if(($data->post_status == RHSVote::VOTING_QUEUE || $data->post_status == 'publish') && metadata_exists( 'post', $postID, 'rhs_new_post_notification_from_user' ) == FALSE){
+            do_action( 'rhs_new_post_from_user', array('user_id'=>$data->post_author, 'post_id'=>$postID) );
+            //Só é para se enviado uma vez a notificação
+            add_metadata( 'post', $postID, 'rhs_new_post_notification_from_user', 1 );
+        }
     }
 
     function update_date_order($postID){

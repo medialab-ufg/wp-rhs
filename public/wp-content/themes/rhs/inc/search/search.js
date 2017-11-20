@@ -39,29 +39,30 @@ jQuery(function() {
         }
     });
 
-    
+    var $ = jQuery;
     jQuery(document).ready(function() {
-       jQuery(".export-csv").click(function () {
-        var d = new Date();
-        var filename = "RHS_pesquisa_" + d.getDate() + "" + (d.getMonth() + 1) + ""+ d.getFullYear() + ".csv";
-        
-        jQuery.ajax({
-            type: "POST",
-            url: search_vars.ajaxurl,
-            cache: false,
-            data: {
-                action: 'generate_csv'
-            },
-            success: function(output) {
-                var blob=new Blob(["\ufeff", output]);
-                var link=document.createElement('a');
-                link.href=window.URL.createObjectURL(blob);
-                link.download=filename;
-                link.click();
-            }
+        jQuery(".export-csv").click(function () {
+            var d = new Date();
+            var filename = "RHS_pesquisa_" + d.getDate() + "" + (d.getMonth() + 1) + ""+ d.getFullYear() + ".csv";
+            var paged = jQuery(this).attr('data-page');
+            $(this).find('.export-loader').removeClass('hide');
+            jQuery.ajax({
+                type: "POST",
+                url: search_vars.ajaxurl,
+                cache: false,
+                data: {
+                    action: 'generate_csv',
+                    paged: paged,
+                },
+                success: function(output) {
+                    var blob = new Blob(["\ufeff", output]);
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = filename;
+                    link.click();
+                    $('.export-loader').addClass('hide');
+                }
+            });
         });
-    
-      });
     })
-    
 });

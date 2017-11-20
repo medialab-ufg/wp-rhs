@@ -5,6 +5,8 @@ $font_padrao: 'Solitas-NorReg';
 $grayColor: #787878;
 $backgroundColor: #f2f3f5;
 
+$attention-red: #a94442;
+
 //outros
 $whiteColor: #fff;
 
@@ -63,4 +65,36 @@ $seguir_mensagem_mobile: inline-grid;
     font-weight: 400;
     src: url('assets/webfonts/2F2567_4_0.eot');
     src: url('assets/webfonts/2F2567_4_0.eot?#iefix') format('embedded-opentype'), url('assets/webfonts/2F2567_4_0.woff2') format('woff2'), url('assets/webfonts/2F2567_4_0.woff') format('woff'), url('assets/webfonts/2F2567_4_0.ttf') format('truetype');
+}
+
+.auto-hide-3-sec {
+    /* Firefox */
+    -moz-animation: rhsAutoHide 0s ease-out 3s forwards;
+    /* Safari and Chrome */
+    -webkit-animation: rhsAutoHide 0s ease-out 3s forwards;
+    /* Opera */
+    -o-animation: rhsAutoHide 0s ease-out 3s forwards;
+    animation: rhsAutoHide 0s ease-out 3s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+@keyframes rhsAutoHide {
+    to {
+        width:0;
+        height:0;
+        overflow:hidden;
+        padding: 0;
+        margin: 0;
+        background: white;
+    }
+}
+@-webkit-keyframes rhsAutoHide {
+    to {
+        width:0;
+        height:0;
+        visibility:hidden;
+        padding: 0;
+        margin: 0;
+        background: white;
+    }
 }

@@ -86,9 +86,6 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                                             <p>Formação: </p>
                                             <span><?php echo change_p_for_br($RHSUsers->getFormacao()); ?></span>
                                         <?php } ?>
-                                        <?php if (!($RHSUsers->getSobre()) && $RHSUsers->getInteresses() && $RHSUsers->getFormacao()) { ?>
-                                            Sem informção.
-                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>

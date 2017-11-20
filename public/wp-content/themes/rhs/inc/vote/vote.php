@@ -116,6 +116,18 @@ Class RHSVote {
             $administrator = $wp_roles->get_role( 'administrator' );
             $administrator->add_cap( 'vote_own_posts' );
         }
+        // atualizando permissões. agora podemos editar os proprios posts publicados
+        $option_name = '_roles_update2_'.get_class();
+        if ( ! get_option( $option_name ) ) {
+            global $wp_roles;
+            // só queremos que isso rode uma vez
+            add_option( $option_name, true );
+            $voter = $wp_roles->get_role( self::ROLE_VOTER );
+            $voter->add_cap( 'edit_published_posts' );
+
+            $contributor = $wp_roles->get_role( 'contributor' );
+            $contributor->add_cap( 'edit_published_posts' );
+        }
     }
 
     private function verify_database(){
@@ -246,21 +258,42 @@ Class RHSVote {
 			foreach ( $args as $k => $v ) {
 				$wp_query->set( $k, $v );
 			}
+            
+            $wp_query->is_home = false;
 
         } elseif ($wp_query->is_main_query() && $wp_query->get('post_type') == '' && ( $wp_query->is_author() || $wp_query->is_single() ) ) {
 
             // No perfil do usuário, exibir posts de todos os status
             // Permite que pessoas vejam a single dos posts com status Fila de Votação ou expirados
-            // A checagem pelo post type vazio é para ser aplicado apenas no post týpe padrão (post) e não em outros, como o ticket, por exmeplo
+            // A checagem pelo post type vazio é para ser aplicado apenas no post týpe padrão (post) e não em outros, como o ticket, por exemplo
+            $statuses = ['publish', self::VOTING_EXPIRED];
 
-            $statuses = ['publish', self::VOTING_QUEUE, self::VOTING_EXPIRED];
-            if (is_user_logged_in())
-                $statuses[] = 'private';
+
+            if (is_user_logged_in()) {
+                $statuses[] = "private";
+                $statuses[] = self::VOTING_QUEUE;
+
+                /*
+                 * Quando post está como rascunho, pode ser visualizado apenas pelo autor do post,
+                 * ou usuários com perfil de capability mínima de 'edit_others_posts'
+                 * */
+                global $wp_query;
+                $_pre_post_id = $wp_query->get('p');
+
+                $post = get_post($_pre_post_id);
+                $_pre_post_author_id = -1;
+                if($post instanceof WP_Post)
+                    $_pre_post_author_id = (int) $post->post_author;
+
+                if( is_numeric($_pre_post_id) && ($_pre_post_id > 0) && is_numeric($_pre_post_author_id) ) {
+                    if( ( $_pre_post_author_id === get_current_user_id() ) || current_user_can('edit_others_posts') ) {
+                        $statuses[] = 'draft';
+                    }
+                }
+            }
 
             $wp_query->set('post_status', $statuses);
-
         }
-
 
 	}
 
@@ -310,12 +343,11 @@ Class RHSVote {
 			$post = get_post( $args[0] );
 
 			if ( $post ) {
-
-				if ( strtotime( $post->post_date ) < strtotime( '-' . $this->days_for_expired . ' days' ) ) {
+                
+				if ( $this->is_post_expired($post) ) {
 					$caps[] = 'vote_old_posts';
                     $this->votes_to_text_code = 'vq_text_vote_old_posts';
                     $this->votes_to_text_help = get_option($this->votes_to_text_code);
-					$this->check_votes_to_expire( $post );
 				} elseif ( $this->user_has_voted( $post->ID, $user_id ) ) {
                     $this->votes_to_text_code = 'vq_text_vote_posts_again';
                     $this->votes_to_text_help = get_option($this->votes_to_text_code);
@@ -339,22 +371,21 @@ Class RHSVote {
     
     function read_post_cap( $caps, $cap, $user_id, $args ) {
 
-		if ( $cap == 'read_post' ) {
-
-			$caps = array();
+	    if ( $cap == 'read_post' ) {
 
 			$post = get_post( $args[0] );
 
 			if ( $post ) {
 
 				if (is_user_logged_in() && $post->post_status == self::VOTING_QUEUE) {
-                    $caps[] = 'read';
+				    $caps = ['read'];
 				}
 			} else {
-                $caps[] = '__no_privs';
-                
+                $caps = ['__no_privs'];
+
             }
 		}
+
 		return $caps;
 	}
 
@@ -482,9 +513,9 @@ Class RHSVote {
 		// Se o usuário ja votou neste post, não aparece o botão e aparece de alguma maneira que indique q ele já votou
 		// Se ele não estiver logado, aparece só o texto "Votos"
 
-        if(! is_user_logged_in()){
+        if( !is_user_logged_in() || $this->is_post_expired( $post_id ) ) {
             $output .= '<span class="vTexto">'.$textVotes.'</span>';
-        }  else if($this->user_has_voted( $post_id )) {
+        } else if($this->user_has_voted( $post_id )) {
             $output .= '<span class="vButton"><a class="btn btn-danger" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
         } else {
             $output .= '<span class="vButton"><a class="btn btn-danger js-vote-button hidden-print" data-post_id="' . $post_id . '">VOTAR</a></span>';
@@ -497,9 +528,35 @@ Class RHSVote {
 		}
 
 		return $output;
-
-
 	}
+
+    /**
+    * Verifica se post está expirado e não deve mais receber votos
+    * 
+    * @param $post int|WP_Post ID ou objeto WP_Post
+    * 
+    * return bool
+    * 
+    */
+	public function is_post_expired($post) {
+	    
+        if (is_numeric($post))
+            $post = get_post($post);
+
+        if (!$post instanceof WP_Post) {
+            return new WP_Error( 'post_not_found', __( "Post não encontrado", "rhs" ) );
+        }
+
+        $post_date = strtotime( $post->post_date );
+	    $expire_date = strtotime( '-' . $this->days_for_expired . ' days' );
+
+        $expired = $post_date < $expire_date;
+
+        if ($expired)
+            $this->mark_post_as_expired($post);
+
+        return $expired;
+    }
 
 	function change_post_status( $data, $postarr ) {
 
@@ -513,7 +570,7 @@ Class RHSVote {
 		return $data;
 	}
 
-	function check_votes_to_expire( WP_Post $post ) {
+	function mark_post_as_expired( WP_Post $post ) {
 
 		if ( $post->post_status != self::VOTING_QUEUE ) {
 			return;
