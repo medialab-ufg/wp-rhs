@@ -66,6 +66,8 @@
                     margin-right: 8px;
                     display: inline-block;
                     border-radius: 25px;
+                    object-fit: cover;
+                    object-position: top;
                 }
                 .usuario{
                     &:after{
@@ -892,6 +894,8 @@
                     width: 45px;
                     height: 45px;
                     border-radius: 50px;
+                    object-fit: cover;
+                    object-position: top;
                 }
             }
             .box-title {
