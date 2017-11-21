@@ -3,13 +3,13 @@
 class RHSEmail {
 
     private $messages;
+    private $mail_footer = array();
     
     const EMAIL_HEADERS = ['Content-Type: text/html; charset=UTF-8'];
 
-
     function __construct() {
 
-        add_action('admin_menu', array( &$this, 'gerate_admin_menu' ) );
+        add_action('admin_menu', array( &$this, 'add_mail_admin_menu' ) );
         add_filter("retrieve_password_title", array( &$this, 'filter_retrieve_password_request_email_title'));
         add_filter('retrieve_password_message',  array( &$this, 'filter_retrieve_password_request_email_body'), 10, 4 );
         add_action('rhs_post_promoted', array( &$this,'post_promoted'));
@@ -25,6 +25,14 @@ class RHSEmail {
         add_action('rhs_new_ticket_posted', array( &$this,'new_ticket'), 10, 5);
         
         add_action('rhs_ticket_replied', array( &$this,'replied_ticket'), 10, 3);
+
+        $this->mail_footer["topo"] = "<p>Atenciosamente,</p> 
+                    <p>Equipe Rede HumanizaSUS</p>
+                    <p>" . home_url("/") . "</p>";
+
+        $this->mail_footer["base"] = "<p></p><p></p> BOLINHAS DE FEIJÃO
+                    <p><em style='color: gray;'>Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. 
+                      Acesse <a href='" . home_url("/perfil") . "' target='_BLANK'> Aqui </a></em></p>'";
 
         $this->messages = array(
             'new_user_message' => array(
@@ -44,10 +52,7 @@ class RHSEmail {
                     <p>Você pode acessar o site aqui: <a href="[%site_link%]">[%site_link%]</a></p>
                     <p>Edite seu perfil aqui: <a href="[%site_perfil%]">[%site_perfil%]</a></p>
                     <p>Postar um novo tópico: <a href="[%site_novo_topico%]">[%site_novo_topico%]</a></p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>'
             ),
             'retrieve_password_message' => array(
                 'name'=> 'Email de Recuperação Senha',
@@ -61,10 +66,7 @@ class RHSEmail {
                 'default-subject' => '[%site_nome%] Recuperação de Senha',
                 'default-email' => '<p>Você solicitou a recuperação de senha do %login%.</p>
                     <p>Acesse o link: <a href="[%link%]">[%link%]</a></p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>'
             ),
             /*
             'alter_password_message' => array(
@@ -79,11 +81,7 @@ class RHSEmail {
                 'default-subject' => '[%site_nome%] Recuperação de Senha',
                 'default-email' => '
                     <p>Sua senha foi editada <strong>%login%</strong>.</p>
-                    <p>Acesse o link: %link%</p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p>Acesse o link: %link%</p>'
             ),
             */
             'new_ticket_message' => array(
@@ -101,10 +99,7 @@ class RHSEmail {
                 'default-email' => '
                     <h4>Um novo ticket foi criado #%ticket_id%</h4>
                     <p>para acompanhar acesse o link: <a href="[%link%]">[%link%]</a></p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>'
             ),
             'new_ticket_replied' => array(
                 'name'=> 'Email de Contato Respondido',
@@ -121,10 +116,7 @@ class RHSEmail {
                 'default-email' => '
                     <h4>Uma nova resposta foi feita no contato de número #%ticket_id%</h4>
                     <p>para acompanhar acesse o link: <a href="[%link%]">[%link%]</a></p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>'
             ),
             'new_ticket_replied_not_logged' => array(
                 'name'=> 'Email de Contato Respondido (para usuários não logados)',
@@ -140,10 +132,7 @@ class RHSEmail {
                 'default-email' => '
                     <h4>Você recebeu uma resposta do seu Contato</h4>
                     <p>%mensagem%</p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>'
             ),
             'post_promoted' => array(
                 'name'=> 'Email de Post Promovido',
@@ -160,12 +149,8 @@ class RHSEmail {
                     <p>Seu post atingiu a quantidade de votos e foi publicado.</p>
                     <p>Você pode acessar aqui:</p>
                     <p>[%link%]</p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>
-                    <p></p><p></p>
-                    <p><em style="color: gray;">Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. Acesse <a href="http://www.redehumanizasus.net/perfil" target="_BLANK">Aqui</a></em></p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>
+                    <p> ' . $this->mail_footer["base"] . '</p>'
             ),
             'comment_post' => array(
                 'name'=> 'Comentário no Post',
@@ -182,12 +167,8 @@ class RHSEmail {
                     <p>Seu post recebeu um novo comentário.</p>
                     <p>Você pode acessar aqui:</p>
                     <p>[%link%]</p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>
-                    <p></p><p></p>
-                    <p><em style="color: gray;">Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. Acesse <a href="http://www.redehumanizasus.net/perfil" target="_BLANK">Aqui</a></em></p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>
+                    <p> ' . $this->mail_footer["base"] . '</p>'
             ),
             'comment_post_follow' => array(
                 'name'=> 'Comentário no Post Seguido',
@@ -204,12 +185,8 @@ class RHSEmail {
                     <p>O post que você está seguindo recebeu um novo comentário.</p>
                     <p>Você pode acessar o post aqui:</p>
                     <p>[%link%]</p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>
-                    <p></p><p></p>
-                    <p><em style="color: gray;">Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. Acesse <a href="http://www.redehumanizasus.net/perfil" target="_BLANK">Aqui</a></em></p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>
+                    <p> ' . $this->mail_footer["base"] . '</p>'
             ),
             'new_post_from_user_follow' => array(
                 'name'=> 'Novo Post do Autor Seguido',
@@ -226,12 +203,8 @@ class RHSEmail {
                     <p>O Autor [%nome%] que você segue postou um novo post [%post_title%].</p>
                     <p>Você pode acessar aqui:</p>
                     <p>[%link%]</p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>
-                    <p></p><p></p>
-                    <p><em style="color: gray;">Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. Acesse <a href="http://www.redehumanizasus.net/perfil" target="_BLANK">Aqui</a></em></p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>
+                    <p> ' . $this->mail_footer["base"] . '</p>'
             )
         );
     }
@@ -318,7 +291,7 @@ class RHSEmail {
         return wpautop($subject);
     }
 
-    function gerate_admin_menu() {
+    function add_mail_admin_menu() {
         add_submenu_page( 'rhs_options', 'Mensagens de Emails', 'Mensagens de Emails', 'manage_options', 'rhs/rhs-message-email.php', array( &$this, 'rhs_admin_page_email_queue' ) );
     }
 
