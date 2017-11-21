@@ -26,13 +26,7 @@ class RHSEmail {
         
         add_action('rhs_ticket_replied', array( &$this,'replied_ticket'), 10, 3);
 
-        $this->mail_footer["topo"] = "<p>Atenciosamente,</p> 
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>" . home_url("/") . "</p>";
-
-        $this->mail_footer["base"] = "<p></p><p></p> BOLINHAS DE FEIJÃO
-                    <p><em style='color: gray;'>Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. 
-                      Acesse <a href='" . home_url("/perfil") . "' target='_BLANK'> Aqui </a></em></p>'";
+        $this->setFooterMessages();
 
         $this->messages = array(
             'new_user_message' => array(
@@ -68,22 +62,6 @@ class RHSEmail {
                     <p>Acesse o link: <a href="[%link%]">[%link%]</a></p>
                     <p> ' . $this->mail_footer["topo"] . '</p>'
             ),
-            /*
-            'alter_password_message' => array(
-                'name'=> 'Email de Edição de Senha',
-                'var' => array(
-                    'site_nome',
-                    'login',
-                    'email',
-                    'nome',
-                    'link'
-                ),
-                'default-subject' => '[%site_nome%] Recuperação de Senha',
-                'default-email' => '
-                    <p>Sua senha foi editada <strong>%login%</strong>.</p>
-                    <p>Acesse o link: %link%</p>'
-            ),
-            */
             'new_ticket_message' => array(
                 'name'=> 'Email de Novo Contato',
                 'var' => array(
@@ -208,6 +186,16 @@ class RHSEmail {
             )
         );
     }
+
+    private function setFooterMessages() {
+        $this->mail_footer["topo"] = "<p>Atenciosamente,</p> 
+                    <p>Equipe Rede HumanizaSUS</p>
+                    <p>" . home_url("/") . "</p>";
+
+        $this->mail_footer["base"] = "<p></p><p></p>
+                    <p><em style='color: gray;'>Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. 
+                      Acesse <a href='" . home_url("/perfil") . "' target='_BLANK'> Aqui </a></em></p>'";
+    }
     
     function filter_content_type($contetType) {
         return 'text/html';
@@ -292,7 +280,7 @@ class RHSEmail {
     }
 
     function add_mail_admin_menu() {
-        add_submenu_page( 'rhs_options', 'Mensagens de Emails', 'Mensagens de Emails', 'manage_options', 'rhs/rhs-message-email.php', array( &$this, 'rhs_admin_page_email_queue' ) );
+        add_submenu_page( 'rhs_options', 'Mensagens de E-mails', 'Mensagens de E-mails', 'manage_options', 'rhs/rhs-message-email.php', array( &$this, 'rhs_admin_page_email_queue' ) );
     }
 
     function post_promoted($post_ID){
@@ -479,32 +467,23 @@ class RHSEmail {
                         </tr>
                         <?php if(!isset($menssage['subject']) || $menssage['subject'] == true){ ?>
                         <tr class="">
-                            <th style="vertical-align: top;">
-                                Assunto
-                            </th>
+                            <th style="vertical-align: top;"> Assunto </th>
                             <td style="">
                                 <input value="<?php echo $this->get_option($label, 'subject'); ?>" name="<?php echo 'rhs-subject-'.$label ?>" type="text" placeholder="Assunto" class="regular-text" />
                             </td>
                         </tr>
                         <?php } ?>
                         <tr class="">
-                            <th style="vertical-align: top;">
-                                Mensagem
-                            </th>
+                            <th style="vertical-align: top;"> Mensagem </th>
                             <td style="">
                                 <?php
-
-                                $settings = array('media_buttons' => false, 'textarea_rows' => 2);
+                                $settings = array('media_buttons' => false, 'textarea_rows' => 15);
                                 wp_editor( $this->get_option($label, 'email'), 'rhs-email-'.$label, $settings );
-
                                 ?>
-                                
+
                                 <br/>
-                                <p>Variáveis: 
-                                <span style="color: #666666; font-size: 10px;">
-                                <?php if(!empty($var)){ ?>
-                                    <?php echo implode(', ', $var); ?>
-                                <?php } ?>
+                                <p>Variáveis: <span style="color: #666666; font-size: 10px;">
+                                    <?php if(!empty($var)) echo implode(', ', $var); ?>
                                 </span>
                                 </p>
                             </td>
