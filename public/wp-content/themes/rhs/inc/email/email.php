@@ -194,7 +194,7 @@ class RHSEmail {
 
         $this->mail_footer["base"] = "<p></p><p></p>
                     <p><em style='color: gray;'>Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. 
-                      Acesse <a href='" . home_url("/perfil") . "' target='_BLANK'> Aqui </a></em></p>'";
+                      Acesse <a href='" . home_url("/perfil") . "' target='_BLANK'> Aqui </a></em></p>";
     }
     
     function filter_content_type($contetType) {
