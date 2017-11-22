@@ -87,7 +87,7 @@ class RHSComunities extends RHSMessage {
                 }
                 
                 // Se o usuário está dentro de alguma das comunidades do post
-                // retornamos uma permissão que todo mundo term
+                // retornamos uma permissão que todo mundo tem
                 // se não estiver dentro da comunidade, vai passar para o padrão do WP
                 // que é 'read_private_posts', e aí se for editor ou admin vai retornar true
                 if (sizeof(array_intersect($user_communities, $post_communities)) > 0) {

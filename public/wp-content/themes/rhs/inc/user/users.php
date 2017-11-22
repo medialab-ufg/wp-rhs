@@ -326,6 +326,53 @@ Class RHSUsers extends RHSMessage {
         return esc_attr( get_the_author_meta( 'description', $this->userID ) );
     }
 
+    //Notificações por Email
+
+    /*
+    * Return the metadata of Promoted_post
+    */
+    function getPromoted_post($userID = 0){
+        //var_dump($userID);
+        if(!$userID){
+            $userID = $this->userID;
+        }
+        return esc_attr( get_the_author_meta( 'rhs_email_promoted_post', $userID ) );
+    }
+
+    /*
+    * Return the metadata of Comment_post
+    */
+    function getComment_post($userID = 0){
+        if(!$userID){
+            $userID = $this->userID;
+        }
+
+        return esc_attr( get_the_author_meta( 'rhs_email_comment_post', $userID ) );
+    }
+    
+    /*
+    * Return the metadata of Comment_post_follow
+    */
+    function getComment_post_follow($userID = 0){
+        if(!$userID){
+            $userID = $this->userID;
+        }
+
+        return esc_attr( get_the_author_meta( 'rhs_email_comment_post_follow', $userID ) );
+    }
+    
+    /*
+    * Return the metadata of New_post_from_user
+    */
+    function getNew_post_from_user($userID = 0){
+        if(!$userID){
+            $userID = $this->userID;
+        }
+
+        return esc_attr( get_the_author_meta( 'rhs_email_new_post_from_user', $userID ) );
+    }
+    //End Notificações por Email
+
     function show_author_links() {
         $links = get_the_author_meta( RHSUsers::LINKS_USERMETA, $this->userID );
         $count = 1;

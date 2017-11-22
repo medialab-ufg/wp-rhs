@@ -74,6 +74,7 @@ class RHSRewriteRules {
             'user/me/edit' . "/?$"  => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::PROFILE_URL,
             'node/add/blog' . "/?$" => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::POST_URL,  
             'tags/([^/]+)/?'        => 'index.php?tag=$matches[1]',
+            'node/([0-9]+)/?'       => 'index.php?p=$matches[1]',
             'category/tags/([^/]+)/?'        => 'index.php?tag=$matches[1]',
             'grupos/([^/]+)/?'        => 'index.php?'.RHSComunities::TAXONOMY.'=$matches[1]'
         );

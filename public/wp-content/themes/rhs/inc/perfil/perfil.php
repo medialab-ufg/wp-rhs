@@ -29,11 +29,20 @@ class RHSPerfil extends RHSMessage {
                 $user_id = get_current_user_id();
             }
 
+            if(isset($_POST['promoted_post'])){$promoted_post = $_POST['promoted_post'];}else{$promoted_post = "";}
+            if(isset($_POST['comment_post'])){$comment_post = $_POST['comment_post'];}else{$comment_post = "";}
+            if(isset($_POST['comment_post_follow'])){$comment_post_follow = $_POST['comment_post_follow'];}else{$comment_post_follow = "";}
+            if(isset($_POST['new_post_from_user_follow'])){$new_post_from_user_follow = $_POST['new_post_from_user_follow'];}else{$new_post_from_user_follow = "";}
+
             $this->update(
                 $user_id,
                 $_POST['first_name'],
                 $_POST['last_name'],
                 $_POST['pass'],
+                $promoted_post,
+                $comment_post,
+                $comment_post_follow,
+                $new_post_from_user_follow,
                 $_POST['description'],
                 $_POST['formation'],
                 $_POST['interest'],
@@ -44,7 +53,7 @@ class RHSPerfil extends RHSMessage {
         }
     }
 
-    function update($user_id, $first_name, $last_name, $pass = '', $description = '', $formation = '', $interest = '', $state = '', $city = '', $links = '', $avatar_file){
+    function update($user_id, $first_name, $last_name, $pass = '', $promoted_post = '', $comment_post = '', $comment_post_follow = '', $new_post_from_user_follow = '', $description, $formation = '', $interest = '', $state = '', $city = '', $links = '', $avatar_file){
 
         $data = array('ID' => $user_id);
         $data['first_name'] = $first_name;
@@ -62,6 +71,43 @@ class RHSPerfil extends RHSMessage {
         add_user_ufmun_meta( $user_id, $city, $state);
         update_user_meta( $user_id, 'rhs_city', $city);
         update_user_meta( $user_id, RHSUsers::LINKS_USERMETA, $links);
+
+        //Email Notification
+        if($promoted_post == ''){
+            update_user_meta( $user_id, 'rhs_email_promoted_post', 1);
+        }
+        elseif($promoted_post == 'true') {
+            if(get_user_meta($user_id, 'rhs_email_promoted_post')){
+                delete_user_meta( $user_id, 'rhs_email_promoted_post');
+            }
+        }
+        
+        if($comment_post == ''){
+            update_user_meta( $user_id, 'rhs_email_comment_post', 1);
+        }
+        elseif($comment_post == 'true') {
+            if(get_user_meta($user_id, 'rhs_email_comment_post')){
+                delete_user_meta( $user_id, 'rhs_email_comment_post');
+            }
+        }
+
+        if($comment_post_follow == ''){
+            update_user_meta( $user_id, 'rhs_email_comment_post_follow', 1);
+        }
+        elseif($comment_post_follow == 'true') {
+            if(get_user_meta($user_id, 'rhs_email_comment_post_follow')){
+                delete_user_meta( $user_id, 'rhs_email_comment_post_follow');
+            }
+        }
+
+        if($new_post_from_user_follow == '') {
+            update_user_meta( $user_id, 'rhs_email_new_post_from_user_follow', 1);
+        }
+        elseif($new_post_from_user_follow == 'true'){
+            if(get_user_meta($user_id, 'rhs_email_new_post_from_user_follow')){
+                delete_user_meta( $user_id, 'rhs_email_new_post_from_user_follow');
+            }
+        }
 
         if ($avatar_file) {
             $arquivo_tmp = $avatar_file[ 'tmp_name' ];

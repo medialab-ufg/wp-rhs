@@ -3,26 +3,30 @@
 class RHSEmail {
 
     private $messages;
+    private $mail_footer = array();
     
     const EMAIL_HEADERS = ['Content-Type: text/html; charset=UTF-8'];
 
-
     function __construct() {
 
-        add_action('admin_menu', array( &$this, 'gerate_admin_menu' ) );
+        add_action('admin_menu', array( &$this, 'add_mail_admin_menu' ) );
         add_filter("retrieve_password_title", array( &$this, 'filter_retrieve_password_request_email_title'));
         add_filter('retrieve_password_message',  array( &$this, 'filter_retrieve_password_request_email_body'), 10, 4 );
-        add_action('rhs_post_promoted', array( &$this,'post_promoted'), 10, 1);
+        add_action('rhs_post_promoted', array( &$this,'post_promoted'));
 
-        add_action('comment_post', array( &$this,'comment_post'), 10, 1);
+        add_action('comment_post', array( &$this,'comment_post'));
 
-        add_action('rhs_new_post_from_user', array( &$this,'new_post_from_user'), 10, 1);
+        add_action('comment_post', array(&$this, 'comment_post_follow'));
+
+        add_action('rhs_new_post_from_user', array( &$this,'new_post_from_user_follow'));
         
         add_filter( 'wp_mail_content_type', array( &$this,'filter_content_type') );
         
         add_action('rhs_new_ticket_posted', array( &$this,'new_ticket'), 10, 5);
         
         add_action('rhs_ticket_replied', array( &$this,'replied_ticket'), 10, 3);
+
+        $this->setFooterMessages();
 
         $this->messages = array(
             'new_user_message' => array(
@@ -42,10 +46,7 @@ class RHSEmail {
                     <p>Você pode acessar o site aqui: <a href="[%site_link%]">[%site_link%]</a></p>
                     <p>Edite seu perfil aqui: <a href="[%site_perfil%]">[%site_perfil%]</a></p>
                     <p>Postar um novo tópico: <a href="[%site_novo_topico%]">[%site_novo_topico%]</a></p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>'
             ),
             'retrieve_password_message' => array(
                 'name'=> 'Email de Recuperação Senha',
@@ -59,31 +60,8 @@ class RHSEmail {
                 'default-subject' => '[%site_nome%] Recuperação de Senha',
                 'default-email' => '<p>Você solicitou a recuperação de senha do %login%.</p>
                     <p>Acesse o link: <a href="[%link%]">[%link%]</a></p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>'
             ),
-            /*
-            'alter_password_message' => array(
-                'name'=> 'Email de Edição de Senha',
-                'var' => array(
-                    'site_nome',
-                    'login',
-                    'email',
-                    'nome',
-                    'link'
-                ),
-                'default-subject' => '[%site_nome%] Recuperação de Senha',
-                'default-email' => '
-                    <p>Sua senha foi editada <strong>%login%</strong>.</p>
-                    <p>Acesse o link: %link%</p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
-            ),
-            */
             'new_ticket_message' => array(
                 'name'=> 'Email de Novo Contato',
                 'var' => array(
@@ -99,10 +77,7 @@ class RHSEmail {
                 'default-email' => '
                     <h4>Um novo ticket foi criado #%ticket_id%</h4>
                     <p>para acompanhar acesse o link: <a href="[%link%]">[%link%]</a></p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>'
             ),
             'new_ticket_replied' => array(
                 'name'=> 'Email de Contato Respondido',
@@ -119,10 +94,7 @@ class RHSEmail {
                 'default-email' => '
                     <h4>Uma nova resposta foi feita no contato de número #%ticket_id%</h4>
                     <p>para acompanhar acesse o link: <a href="[%link%]">[%link%]</a></p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>'
             ),
             'new_ticket_replied_not_logged' => array(
                 'name'=> 'Email de Contato Respondido (para usuários não logados)',
@@ -138,10 +110,7 @@ class RHSEmail {
                 'default-email' => '
                     <h4>Você recebeu uma resposta do seu Contato</h4>
                     <p>%mensagem%</p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p> ' . $this->mail_footer["topo"] . '</p>'
             ),
             'post_promoted' => array(
                 'name'=> 'Email de Post Promovido',
@@ -157,11 +126,9 @@ class RHSEmail {
                 'default-email' => '<h4>Parabéns %nome%.</h4>
                     <p>Seu post atingiu a quantidade de votos e foi publicado.</p>
                     <p>Você pode acessar aqui:</p>
-                    <p><a href="[%link%]">[%link%]</a></p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p>[%link%]</p>
+                    <p> ' . $this->mail_footer["topo"] . '</p>
+                    <p> ' . $this->mail_footer["base"] . '</p>'
             ),
             'comment_post' => array(
                 'name'=> 'Comentário no Post',
@@ -177,13 +144,29 @@ class RHSEmail {
                 'default-email' => '<h4>Parabéns %nome%.</h4>
                     <p>Seu post recebeu um novo comentário.</p>
                     <p>Você pode acessar aqui:</p>
-                    <p><a href="[%link%]">[%link%]</a></p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p>[%link%]</p>
+                    <p> ' . $this->mail_footer["topo"] . '</p>
+                    <p> ' . $this->mail_footer["base"] . '</p>'
             ),
-            'new_post_from_user' => array(
+            'comment_post_follow' => array(
+                'name'=> 'Comentário no Post Seguido',
+                'var' => array(
+                    'site_nome',
+                    'login',
+                    'email',
+                    'nome',
+                    'link',
+                    'post_title'
+                ),
+                'default-subject' => '[%site_nome%] O post que você está seguindo recebeu um comentário.',
+                'default-email' => '<h4>olá %nome%.</h4>
+                    <p>O post que você está seguindo recebeu um novo comentário.</p>
+                    <p>Você pode acessar o post aqui:</p>
+                    <p>[%link%]</p>
+                    <p> ' . $this->mail_footer["topo"] . '</p>
+                    <p> ' . $this->mail_footer["base"] . '</p>'
+            ),
+            'new_post_from_user_follow' => array(
                 'name'=> 'Novo Post do Autor Seguido',
                 'var' => array(
                     'site_nome',
@@ -197,13 +180,21 @@ class RHSEmail {
                 'default-email' => '<h4>Um novo post foi criado pelo [%nome%].</h4>
                     <p>O Autor [%nome%] que você segue postou um novo post [%post_title%].</p>
                     <p>Você pode acessar aqui:</p>
-                    <p><a href="[%link%]">[%link%]</a></p>
-                    <p></p>
-                    <p>Atenciosamente,</p>
-                    <p>Equipe Rede HumanizaSUS</p>
-                    <p>http://redehumanizasus.net</p>'
+                    <p>[%link%]</p>
+                    <p> ' . $this->mail_footer["topo"] . '</p>
+                    <p> ' . $this->mail_footer["base"] . '</p>'
             )
         );
+    }
+
+    private function setFooterMessages() {
+        $this->mail_footer["topo"] = "<p>Atenciosamente,</p> 
+                    <p>Equipe Rede HumanizaSUS</p>
+                    <p>" . home_url("/") . "</p>";
+
+        $this->mail_footer["base"] = "<p></p><p></p>
+                    <p><em style='color: gray;'>Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. 
+                      Acesse <a href='" . home_url("/perfil") . "' target='_BLANK'> Aqui </a></em></p>";
     }
     
     function filter_content_type($contetType) {
@@ -288,8 +279,8 @@ class RHSEmail {
         return wpautop($subject);
     }
 
-    function gerate_admin_menu() {
-        add_submenu_page( 'rhs_options', 'Mensagens de Emails', 'Mensagens de Emails', 'manage_options', 'rhs/rhs-message-email.php', array( &$this, 'rhs_admin_page_email_queue' ) );
+    function add_mail_admin_menu() {
+        add_submenu_page( 'rhs_options', 'Mensagens de E-mails', 'Mensagens de E-mails', 'manage_options', 'rhs/rhs-message-email.php', array( &$this, 'rhs_admin_page_email_queue' ) );
     }
 
     function post_promoted($post_ID){
@@ -302,14 +293,16 @@ class RHSEmail {
             'login' => get_the_author_meta('user_login' , $post->post_author),
             'email' => get_the_author_meta('user_email' , $post->post_author),
             'nome' => get_the_author_meta('display_name' , $post->post_author),
-            'link' => get_permalink($post_ID),
+            'link' => '<a href="'.get_permalink($post->ID).'">' . get_permalink($post->ID) . '</a>',
             'post_title' => $post->post_title
         );
 
         $subject = $this->get_subject('post_promoted', $args);
         $message = $this->get_message('post_promoted', $args);
 
-        wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
+        if(empty(get_user_meta($post->post_author, 'rhs_email_promoted_post'))){
+            wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
+        }
     }
 
     /*
@@ -319,42 +312,77 @@ class RHSEmail {
     function comment_post($comment){
         $c = is_object($comment) ? $comment : get_comment($comment);
         $post = get_post($c->comment_post_ID);
-        
+
         $args = array(
             'site_nome' => get_bloginfo('name'),
             'login' => get_the_author_meta('user_login' , $post->post_author),
             'email' => get_the_author_meta('user_email' , $post->post_author),
             'nome' => get_the_author_meta('display_name' , $post->post_author),
-            'link' => get_permalink($post->ID),
+            'link' => '<a href="'.get_permalink($post->ID).'">' . get_permalink($post->ID) . '</a>',
             'post_title' => $post->post_title
         );
 
         $subject = $this->get_subject('comment_post', $args);
         $message = $this->get_message('comment_post', $args);
 
-        wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
+        if(empty(get_user_meta($post->post_author, 'rhs_email_comment_post'))){
+            wp_mail(get_the_author_meta('user_email' , $post->post_author), $subject, $message, self::EMAIL_HEADERS);
+        }
+    }
+    
+    /*
+    * Envia um email ao seguidor do post por ter recebido um  novo comentario.
+    */
+    function comment_post_follow($comment){
+        $follow = new RHSFollowPost();
+        $c = get_comment($comment);
+        $fl = $follow->get_post_followers($c->comment_post_ID);
+        $post = get_post($c->comment_post_ID);
+        if($c) {
+            $post_ID = $c->comment_post_ID;
+            foreach($fl as $fol){
+                $args = array(
+                    'site_nome' => get_bloginfo('name'),
+                    'login' => get_the_author_meta('user_login' , $fol),
+                    'email' => get_the_author_meta('user_email' , $fol),
+                    'nome' => get_the_author_meta('display_name', $fol),
+                    'link' => '<a href="'.get_permalink($post->ID).'">' . get_permalink($post->ID) . '</a>',
+                    'post_title' => $post->post_title
+                );
+                $subject = $this->get_subject('comment_post_follow', $args);
+                $message = $this->get_message('comment_post_follow', $args);
+                if(empty(get_user_meta($fol, 'rhs_email_comment_post_follow'))){
+                    wp_mail(get_the_author_meta('user_email' , $fol), $subject, $message, self::EMAIL_HEADERS);
+                }
+            }
+        }
     }
 
     /*
     * Envia um email para os usuarios que segue o author por ele ter criado um novo post.
     * @param $args
     */
-    function new_post_from_user($args){
-        $author_id = get_post_field( 'post_author', $args['post_id'] );
-        
-        $args = array(
-            'site_nome' => get_bloginfo('name'),
-            'login' => get_the_author_meta('user_login' , $author_id),
-            'email' => get_the_author_meta('user_email' , $author_id),
-            'nome' => get_the_author_meta('display_name' , $author_id),
-            'link' => get_permalink($args['post_id']),
-            'post_title' => get_the_title( $args['post_id'] )
-        );
-        
-        $subject = $this->get_subject('comment_post', $args);
-        $message = $this->get_message('comment_post', $args);
-
-        wp_mail(get_the_author_meta('user_email' , $author_id), $subject, $message, self::EMAIL_HEADERS);
+    function new_post_from_user_follow($args){
+        $follow = new RHSFollow();
+        $fl = $follow->get_user_followers($args['user_id']);
+        if($fl) {
+            $post = get_post($args['post_id']);
+            foreach($fl as $fol){
+                $argms = array(
+                    'site_nome' => get_bloginfo('name'),
+                    'login' => get_the_author_meta('user_login' , $fol),
+                    'email' => get_the_author_meta('user_email' , $fol),
+                    'nome' => get_the_author_meta('display_name', $fol),
+                    'link' => '<a href="'.get_permalink($post->ID).'">' . get_permalink($post->ID) . '</a>',
+                    'post_title' => $post->post_title
+                );
+                $subject = $this->get_subject('new_post_from_user_follow', $argms);
+                $message = $this->get_message('new_post_from_user_follow', $argms);
+                if(empty(get_user_meta($fol, 'rhs_email_new_post_from_user_follow'))){
+                    wp_mail(get_the_author_meta('user_email' , $fol), $subject, $message, self::EMAIL_HEADERS);
+                }
+            }
+        }
     }
     
     function new_ticket($post_ID, $content, $responsavel_padrao, $defaultAuthor, $author) {
@@ -439,32 +467,23 @@ class RHSEmail {
                         </tr>
                         <?php if(!isset($menssage['subject']) || $menssage['subject'] == true){ ?>
                         <tr class="">
-                            <th style="vertical-align: top;">
-                                Assunto
-                            </th>
+                            <th style="vertical-align: top;"> Assunto </th>
                             <td style="">
                                 <input value="<?php echo $this->get_option($label, 'subject'); ?>" name="<?php echo 'rhs-subject-'.$label ?>" type="text" placeholder="Assunto" class="regular-text" />
                             </td>
                         </tr>
                         <?php } ?>
                         <tr class="">
-                            <th style="vertical-align: top;">
-                                Mensagem
-                            </th>
+                            <th style="vertical-align: top;"> Mensagem </th>
                             <td style="">
                                 <?php
-
-                                $settings = array('media_buttons' => false, 'textarea_rows' => 2);
+                                $settings = array('media_buttons' => false, 'textarea_rows' => 15);
                                 wp_editor( $this->get_option($label, 'email'), 'rhs-email-'.$label, $settings );
-
                                 ?>
-                                
+
                                 <br/>
-                                <p>Variáveis: 
-                                <span style="color: #666666; font-size: 10px;">
-                                <?php if(!empty($var)){ ?>
-                                    <?php echo implode(', ', $var); ?>
-                                <?php } ?>
+                                <p>Variáveis: <span style="color: #666666; font-size: 10px;">
+                                    <?php if(!empty($var)) echo implode(', ', $var); ?>
                                 </span>
                                 </p>
                             </td>
