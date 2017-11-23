@@ -316,19 +316,20 @@ class RHSPosts extends RHSMessage {
         if ( $post->getId() ) {
 
             /**
-             * Obejtco com Informações antigas da postagem
+             * Objeto com Informações antigas da postagem
              */
             $oldPost = new RHSPost( $post->getId() );
-
+            global $RHSVote;
+            
             if($data['post_status'] == 'draft'){
                 $setStatus = 'draft';
 
             } else if (!in_array('public',$post->getComunities())){
                 $setStatus = 'private';
 
-            } else if ($data['post_status'] == 'publish' && !get_post_meta($post->getId(), RHSVote::META_PUBISH) ) {
+            } else if ( $data['post_status'] == 'publish' && !get_post_meta($post->getId(), RHSVote::META_PUBLISH) && $RHSVote->is_post_expired($post->getId()) == false) {
                 $setStatus = RHSVote::VOTING_QUEUE;
-
+            
             } else if($data['post_status'] == 'publish'){
                 $setStatus = 'publish';
 
