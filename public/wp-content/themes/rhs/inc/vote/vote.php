@@ -13,7 +13,7 @@ Class RHSVote {
 	const VOTING_QUEUE = 'voting-queue';
 	const VOTING_EXPIRED = 'voting-expired';
 	const ROLE_VOTER = 'voter';
-	const META_PUBISH = 'rhs-promoted-publish';
+	const META_PUBLISH = 'rhs-promoted-publish';
     const META_TOTAL_VOTES = '_total_votes';
 
 	static $instance;
@@ -24,7 +24,7 @@ Class RHSVote {
 
 	var $total_meta_key;
 
-	public $days_for_expired_default = 14;
+    public $days_for_expired_default = 14;
     public $votes_to_approval_default = 5;
     public $votes_to_text_help;
     public $votes_to_text_code;
@@ -605,7 +605,7 @@ Class RHSVote {
 			'post_status' => 'publish'
 		);
 
-		add_post_meta($postID, self::META_PUBISH, '1', true);
+		add_post_meta($postID, self::META_PUBLISH, '1', true);
 
 		wp_update_post( $new_post );
         do_action('rhs_post_promoted', $postID);
