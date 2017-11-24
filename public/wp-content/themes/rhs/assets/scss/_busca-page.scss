@@ -35,6 +35,14 @@
             label{
                 color: $primeira_cor_fundo;
             }
+            @media only screen and (min-width: 1200px){
+                .col2{
+                    text-align: center;
+                }
+                #municipio{
+                    width: 194px !important;
+                }
+            }
             @media only screen and (width: 1024px) and (height: 1366px){
                 .form-inline{
                     .form-group{
@@ -54,14 +62,13 @@
                     }
                     #keyword{
                         width: 100%;
-                    }
+                    }     
                 }
             }
             @media only screen and (min-width: 770px){
                 .form-inline{
-                    white-space: nowrap;
                     .form-group{
-                        padding: 5px;
+                        padding: 3px;
                         .input-daterange{
                             width: 90%;
                         }
@@ -69,35 +76,14 @@
                     .tags{
                         max-width: 200px;
                     }
-                    select[name='uf']{
-                        margin-right: 76px;
-                    }
-                    select[name='municipio'], #keyword{
-                        width: 209px;
-                    }
-                    #input-tag, select[name='uf']{
-                        width: 200px;
-                    }
-                    label[for='tag']{
-                        margin-right: 7px;
-                    }
-                    label[for='date']{
-                        margin-right: 15px;
-                    }
-                    label[for='keyword']{
-                        margin-left: 10px;
-                    }
                     #keyword{
-                        width: 100%;
+                        width: 312px;
                     }
                 }
             }
             @media only screen and (max-width: 700px){
                 .tags-cats{
                     padding: 0;
-                }
-                label[for='date']{
-                    margin-left: -15px;
                 }
             }
             .filtro{
@@ -127,14 +113,6 @@
     }
     #user{
        @media only screen and (min-width: 780px){
-            select[name='uf']{
-                margin-right: 28px !important;
-                width: 164px !important;
-            }
-            select[name='municipio']{
-                margin-right: 15px !important;
-                width: 164px !important;
-            }
             .input-daterange{
                 input{
                     margin-right: 15px !important;
