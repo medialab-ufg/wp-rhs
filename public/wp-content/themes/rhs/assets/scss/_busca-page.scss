@@ -26,14 +26,28 @@
         }
     }
     #posts, #user {
-        .formulario{
+        .formulario {
             padding: 15px 0;
             margin: 15px 0;
             margin-bottom: 0;
             background: transparent;
             border: 1px solid lightgray;
-            label{
-                color: $primeira_cor_fundo;
+
+            label { color: $primeira_cor_fundo;  }
+
+            .ms-sel-ctn {
+                .ms-sel-item {
+                    margin: 5px 0 10px 10px;
+                }
+            }
+
+            @media only screen and (min-width: 1200px){
+                .col2{
+                    text-align: center;
+                }
+                #municipio{
+                    width: 194px !important;
+                }
             }
             @media only screen and (width: 1024px) and (height: 1366px){
                 .form-inline{
@@ -54,14 +68,13 @@
                     }
                     #keyword{
                         width: 100%;
-                    }
+                    }     
                 }
             }
             @media only screen and (min-width: 770px){
                 .form-inline{
-                    white-space: nowrap;
                     .form-group{
-                        padding: 5px;
+                        padding: 3px;
                         .input-daterange{
                             width: 90%;
                         }
@@ -69,25 +82,8 @@
                     .tags{
                         max-width: 200px;
                     }
-                    select[name='uf']{
-                        margin-right: 76px;
-                    }
-                    select[name='municipio'], #keyword{
-                        width: 209px;
-                    }
-                    #input-tag, select[name='uf']{
-                        width: 200px;
-                    }
-                    label[for='tag']{
-                        margin-right: 7px;
-                    }
-                    label[for='date']{
-                        margin-right: 15px;
-                    }
-                    label[for='keyword']{
-                        margin-left: 10px;
-                    }
                     #keyword{
+                        //width: 312px;
                         width: 100%;
                     }
                 }
@@ -96,13 +92,10 @@
                 .tags-cats{
                     padding: 0;
                 }
-                label[for='date']{
-                    margin-left: -15px;
-                }
             }
             .filtro{
                 float: right;
-                margin: 10px 13px 0 0;
+                margin: 10px 30px 0 0;
                 color: $primeira_cor_fundo;
                 border-color: $primeira_cor_texto
             }
@@ -127,14 +120,6 @@
     }
     #user{
        @media only screen and (min-width: 780px){
-            select[name='uf']{
-                margin-right: 28px !important;
-                width: 164px !important;
-            }
-            select[name='municipio']{
-                margin-right: 15px !important;
-                width: 164px !important;
-            }
             .input-daterange{
                 input{
                     margin-right: 15px !important;
@@ -145,5 +130,89 @@
                 width: 230px !important;
             }
        }
+    }
+}
+
+@media (min-width: 992px) {
+    .busca-page .formulario {
+        /* Elementos lado esquerdo (CEP, tag, categoria) */
+        .col-sm-7 {
+            #input-tag {
+                width: 70%;
+            }
+        }
+
+        /* Elementos lado direito (Data e palavra-chave) */
+        .col-sm-5 {
+            padding: 0;
+
+            .date-range-container {
+                width: 88%;
+                display: inline-block;
+                float: right;
+            }
+
+            .keyword-container {
+                width: 82%;
+                float: right;
+            }
+
+            label {
+                padding: 0 !important;
+
+                &.palavra-chave {
+                    width: 15%;
+                    text-align: right;
+                    line-height: 17px;
+                    font-size: 90%;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 991px) {
+    .busca-page .formulario {
+
+        // container categoria
+        .col-md-7 {
+            margin-top: 4%;
+        }
+
+        /* Elementos lado direito (Data e palavra-chave) */
+        .col-sm-5 {
+            padding: 0;
+
+            label {
+                &.palavra-chave {
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .busca-page .formulario {
+        .col-sm-7 {
+            .ms-ctn.form-control {
+                width: auto !important;
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .busca-page .formulario {
+        .col-sm-7 {
+
+            .col-md-6 {
+                width: 100%;
+
+                select {
+                    width: 80%;
+                }
+            }
+        }
     }
 }

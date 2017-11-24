@@ -369,7 +369,7 @@ Class RHSUsers extends RHSMessage {
             $userID = $this->userID;
         }
 
-        return esc_attr( get_the_author_meta( 'rhs_email_new_post_from_user', $userID ) );
+        return esc_attr( get_the_author_meta( 'rhs_email_new_post_from_user_follow', $userID ) );
     }
     //End Notificações por Email
 

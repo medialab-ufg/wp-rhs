@@ -74,8 +74,8 @@ if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
                                                         </label>
                                                     </p>
                                                     <p style="display: inline-flex;">
-                                                        <input type="checkbox" name="new_post_from_user" id="new_post_from_user" value="true" <?php echo ($RHSUsers->getNew_post_from_user() == '') ? "checked" : ""; ?>>
-                                                        <label for="new_post_from_user" style="margin-left: 3%; font-weight: 300;">
+                                                        <input type="checkbox" name="new_post_from_user_follow" id="new_post_from_user_follow" value="true" <?php echo ($RHSUsers->getNew_post_from_user() == '') ? "checked" : ""; ?>>
+                                                        <label for="new_post_from_user_follow" style="margin-left: 3%; font-weight: 300;">
                                                             Novos Posts de Pessoas que estou Seguindo
                                                         </label>
                                                     </p>
