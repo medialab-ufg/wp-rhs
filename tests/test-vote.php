@@ -96,7 +96,7 @@ class VoteTest extends RHS_UnitTestCase {
             $updatedPost = new RHSPost($savedPost->getId());
             $this->assertEquals('publish', $updatedPost->getStatus());
             // O post tem o metadado indicando q foi promovido
-            $this->assertEquals('1', get_post_meta($savedPost->getId(), RHSVote::META_PUBISH, true));
+            $this->assertEquals('1', get_post_meta($savedPost->getId(), RHSVote::META_PUBLISH, true));
 
 
             // Stats
