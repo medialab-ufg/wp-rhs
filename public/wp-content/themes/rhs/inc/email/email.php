@@ -372,7 +372,7 @@ class RHSEmail {
                     'site_nome' => get_bloginfo('name'),
                     'login' => get_the_author_meta('user_login' , $fol),
                     'email' => get_the_author_meta('user_email' , $fol),
-                    'nome' => get_the_author_meta('display_name', $fol),
+                    'nome' => get_the_author_meta('display_name', $post->post_author),
                     'link' => '<a href="'.get_permalink($post->ID).'">' . get_permalink($post->ID) . '</a>',
                     'post_title' => $post->post_title
                 );
