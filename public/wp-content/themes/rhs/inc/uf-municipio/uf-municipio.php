@@ -222,7 +222,8 @@ Class UFMunicipio {
             echo $params['label_after'];
         }
         echo $params['select_before']; ?>
-            <select name="<?php echo $params['state_field_name']; ?>" tabindex="<?php echo $params['tabindex_state']; ?>" class="<?php echo $params['select_class']; ?>" id="<?php echo $params['state_field_id']; ?>">
+            <select name="<?php echo $params['state_field_name']; ?>" tabindex="<?php echo $params['tabindex_state']; ?>"
+                    class="<?php echo $params['select_class']; ?>" id="<?php echo $params['state_field_id']; ?>" style="font-size: 12.5px;">
                 <?php self::print_states_options($params['selected_state']); ?>
             </select>
         <?php
