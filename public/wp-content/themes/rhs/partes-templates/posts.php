@@ -28,7 +28,7 @@
                             <span class="post-date text-uppercase"><?php the_time( 'd/m/Y' ); ?></span>
                         </div>
                         <div class="votebox">
-                            <?php if(get_post_status( get_the_ID() ) != 'private') 
+                            <?php if(get_post_status( get_the_ID() ) != 'private')
                                     do_action( 'rhs_votebox', get_the_ID() ); ?>
                         </div>
                         <div class="clearfix"></div>
@@ -37,7 +37,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-6">
-                    <?php 
+                    <?php
                     if ( comments_open() && get_post_status(get_the_ID()) != RHSVote::VOTING_QUEUE) :
                         comments_popup_link( '0 COMENTÁRIOS',
                             '<i class="fa fa-commenting-o" aria-hidden="true"></i> 1 COMENTÁRIO',

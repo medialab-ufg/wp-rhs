@@ -30,7 +30,7 @@
             <div class="col-xs-12 col-sm-5">
 
                 <div class="form-inline col-md-12">
-                    <label for="date" class="control-label" style="padding-top: 8px">Data</label>
+                    <label for="date" class="control-label">Data</label>
                     <div class="form-group date-range-container">
                         <div class="input-group input-daterange" style="width: 100%">
                             <input type="text" class="form-control" value="<?php echo RHSSearch::get_param('date_from'); ?>" name="date_from">
@@ -45,7 +45,14 @@
                     <div class="keyword-container">
                         <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo RHSSearch::get_param('keyword'); ?>">
                     </div>
+
+                    <div class="form-inline" style="text-align: right">
+                        <label for="full-term" style="font-size: x-small; color: grey"> <?php _e('Buscar termo completo', 'rhs'); ?> </label>
+                        <input type="checkbox" value="true" <?php echo (RHSSearch::get_param('full-term')) ? 'checked' : ''; ?> name="full-term">
+                    </div>
+
                 </div>
+
             </div>
             <div class="row">
                 <div class="col-xs-12">

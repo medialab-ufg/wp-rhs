@@ -383,8 +383,6 @@ Class RHSUsers extends RHSMessage {
                 echo "<span><a href='". $value['url'] ."' target='_blank'>".  $value['titulo'] . "</a></span><br/>";
             }
         }
-
-
     }
 
     /*
