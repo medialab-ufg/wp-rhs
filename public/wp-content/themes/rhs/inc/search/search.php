@@ -64,16 +64,15 @@ class RHSSearch {
         $querystring = self::get_query_string_for_search_urls();
         return home_url(self::BASE_USERS_URL) . $querystring;
     }
-    
-    
-    
+
     function pre_get_posts(&$wp_query) {
 
         if ( $wp_query->is_main_query() && $wp_query->get( 'rhs_busca' ) == 'posts' ) {
 
             $wp_query->is_home = false;
 
-            $keyword =      $this->get_param('keyword');
+            $keyword   =      $this->get_param('keyword');
+            $full_term =      $this->get_param('full-term');
             $uf =           $this->get_param('uf');
             $municipio =    $this->get_param('municipio');
             $date_from =    $this->get_param('date_from');
@@ -89,6 +88,10 @@ class RHSSearch {
 
             if (!empty($keyword)) {
                 $wp_query->set('s', $keyword);
+            }
+
+            if( $full_term == "true" ) {
+                $wp_query->set('exact', true);
             }
 
             // DATAS
@@ -194,7 +197,6 @@ class RHSSearch {
             $wp_query->set('order', $q_order);
             $wp_query->set('orderby', $q_order_by);
             $wp_query->set('post_type', 'post');
-
         }
 
     }
@@ -254,6 +256,10 @@ class RHSSearch {
         
         if ($param == 'uf' && !is_numeric($value))
             $value = UFMunicipio::get_uf_id_from_sigla($value);
+
+        if( $param === 'full-term' && $value === "true") {
+            $value = "checked";
+        }
         
         return $value;
     }
@@ -443,6 +449,22 @@ class RHSSearch {
             echo '</ul>';
         }
     }
+
+    public static function render_uf_city_select() {
+        UFMunicipio::form( array(
+            'content_before_field' => '<div class="form-group col-md-6">',
+            'content_after_field' => '</div>',
+            'select_before' => ' ',
+            'select_after' => ' ',
+            'state_label' => 'Estado &nbsp',
+            'state_field_name' => 'uf',
+            'city_label' => 'Cidade &nbsp',
+            'select_class' => 'form-control',
+            'label_class' => 'control-label',
+            'selected_state' => RHSSearch::get_param('uf'),
+            'selected_municipio' => RHSSearch::get_param('municipio'),
+        ) );
+    }
 }
 
 global $RHSSearch;
@@ -456,18 +478,22 @@ $RHSSearch = new RHSSearch();
      * @return o resultado dos posts.
     */
 
-    function exibir_resultado_post(){
+    function exibir_resultado_post() {
         global $wp_query;
         $result = $wp_query;
-        $total_result = $result->found_posts;
+
         $total = $result->found_posts;
         $paged = empty($result->query['paged']) ? 1 : $result->query['paged'];
         $per_page = $result->query_vars['posts_per_page'];
         $final = $per_page * $paged;
-        $initial = $final - ($per_page-1);
-        if ($final > $total) $final = $total;
 
-        echo "Exibindo $initial a $final de $total resultados";
+        if($total > 0) {
+            $initial = $final - ($per_page-1);
+            if ($final > $total) $final = $total;
+            echo "Exibindo $initial a $final de $total resultados";
+        } else {
+            _e("Nenhum post encontrado com estes termos de busca!", "rhs");
+        }
     }
 
     /**

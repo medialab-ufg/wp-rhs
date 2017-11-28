@@ -375,10 +375,13 @@ Class RHSUsers extends RHSMessage {
 
     function show_author_links() {
         $links = get_the_author_meta( RHSUsers::LINKS_USERMETA, $this->userID );
-        $count = 1;
-        
-        foreach ($links as $value){
-            echo "<span><a href='". $value['url'] ."' target='_blank'>".  $value['titulo'] . "</a></span><br/>"; 
+
+        if( !empty( reset($links)["url"]) && ! empty( reset($links)["titulo"])) {
+            echo "<p>Links: </p>";
+
+            foreach ($links as $value){
+                echo "<span><a href='". $value['url'] ."' target='_blank'>".  $value['titulo'] . "</a></span><br/>";
+            }
         }
     }
 
