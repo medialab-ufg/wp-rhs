@@ -64,9 +64,7 @@ class RHSSearch {
         $querystring = self::get_query_string_for_search_urls();
         return home_url(self::BASE_USERS_URL) . $querystring;
     }
-    
-    
-    
+
     function pre_get_posts(&$wp_query) {
 
         if ( $wp_query->is_main_query() && $wp_query->get( 'rhs_busca' ) == 'posts' ) {
@@ -442,6 +440,22 @@ class RHSSearch {
             }
             echo '</ul>';
         }
+    }
+
+    public static function render_uf_city_select() {
+        UFMunicipio::form( array(
+            'content_before_field' => '<div class="form-group col-md-6">',
+            'content_after_field' => '</div>',
+            'select_before' => ' ',
+            'select_after' => ' ',
+            'state_label' => 'Estado &nbsp',
+            'state_field_name' => 'uf',
+            'city_label' => 'Cidade &nbsp',
+            'select_class' => 'form-control',
+            'label_class' => 'control-label',
+            'selected_state' => RHSSearch::get_param('uf'),
+            'selected_municipio' => RHSSearch::get_param('municipio'),
+        ) );
     }
 }
 

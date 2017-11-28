@@ -4,23 +4,8 @@
 
             <div class="col-xs-12 col-sm-7">
 
-                <div class="form-inline">
-                    <?php UFMunicipio::form( array(
-                        'content_before' => '',
-                        'content_after' => '',
-                        'content_before_field' => '<div class="form-group col-md-6" style="margin-bottom: 10px">',
-                        'content_after_field' => '</div>',
-                        'select_before' => ' ',
-                        'select_after' => ' ',
-                        'state_label' => 'Estado &nbsp',
-                        'state_field_name' => 'uf',
-                        'city_label' => 'Cidade &nbsp',
-                        'select_class' => 'form-control',
-                        'label_class' => 'control-label',
-                        'show_label' => true,
-                        'selected_state' => RHSSearch::get_param('uf'),
-                        'selected_municipio' => RHSSearch::get_param('municipio'),
-                    ) ); ?>
+                <div class="form-inline uf-city">
+                    <?php RHSSearch::render_uf_city_select(); ?>
                 </div>
 
                 <div class="form-inline">

@@ -3,7 +3,7 @@
 * Busca
 *
 ************/
-.busca-page{
+.busca-page {
     .nav-tabs{
         li{
             a{
@@ -130,6 +130,13 @@
                 width: 230px !important;
             }
        }
+    }
+
+    #filter {
+        .uf-city {
+            margin-bottom: 10px;
+            display: -webkit-box;
+        }
     }
 }
 
