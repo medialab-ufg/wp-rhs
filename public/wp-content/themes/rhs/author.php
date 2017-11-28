@@ -44,10 +44,9 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
 
                                             } //end grupos
 
-                                            if ($has_link) { ?>
-                                                <p>Links: </p>
-                                                <?php $RHSUsers->show_author_links($curauth->ID); ?>
-                                            <?php } //end links
+                                            if ($has_link && count($has_link) > 0) {
+                                                $RHSUsers->show_author_links($curauth->ID);
+                                            } //end links
 
                                         } else {
                                             echo 'Sem Informações';
