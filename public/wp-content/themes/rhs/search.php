@@ -19,7 +19,7 @@
                         <div class="row">
                             <div class="col-xs-6 retorno">
                                 <?php if(count($_GET)) {?>
-                                    <div class="label-rhs"> 
+                                    <div class="label-rhs">
                                         <?php
                                             //Mostra o resultado da busca dos posts
                                             exibir_resultado_post();
