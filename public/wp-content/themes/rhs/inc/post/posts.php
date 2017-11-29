@@ -660,6 +660,7 @@ class RHSPosts extends RHSMessage {
 
         $data = get_post($postID);
 
+        $_is_post_ = ($data->post_type === 'post');
         $post_meta_date_order = get_post_meta($postID, self::META_DATE_ORDER, true);
         $is_new_post = false;
         if( empty($post_meta_date_order) ) {
@@ -671,12 +672,11 @@ class RHSPosts extends RHSMessage {
          * adiciona o metadado para ele não ficar vazio e não gerar inconsistencia
          * add_post_meta só adicinoa, se o metadado já exitir, não faz nada.
          */ 
-        if ( $data->post_type == 'post')
+        if ( $_is_post_ )
             add_post_meta( $postID, self::META_DATE_ORDER, $data->post_date, true );
 
-
         // Notificação ao publicar
-        if(($data->post_status == RHSVote::VOTING_QUEUE || $data->post_status == 'publish') && $is_new_post) {
+        if(($data->post_status == RHSVote::VOTING_QUEUE || $data->post_status == 'publish') && $is_new_post && $_is_post_ ) {
             do_action( 'rhs_new_post_from_user', array('user_id'=>$data->post_author, 'post_id'=>$postID) );
             //Só é para se enviado uma vez a notificação
             add_metadata( 'post', $postID, 'rhs_new_post_notification_from_user', 1 );
