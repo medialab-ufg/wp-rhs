@@ -3,7 +3,7 @@
 /**
  * Neste arquivo registramos as notificações
  * 
- * As chaves do array são os hooks, que estão espalhados pelo código do sistema. Por exemplo, quando publica um novo post, ou quando umusuário é promovido.
+ * As chaves do array são os hooks, que estão espalhados pelo código do sistema. Por exemplo, quando publica um novo post, ou quando um usuário é promovido.
  *
  * Os valores são o tipo de notificação que será gerado. Eles são informados por um array, onde o primeiro índice é o nome da classe, o segundo é a prioridade do hook e o terceiro é o número de argumentos q o hook vai receber (mesmo formato da função add_action())
  *

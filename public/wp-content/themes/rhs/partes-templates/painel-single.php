@@ -40,8 +40,7 @@
 						<?php edit_post_link( __( 'Editar Post', 'rhs' ), '<span class="divisor text-uppercase">', '</span>', null, 'btn' ); ?>
 					</span>
 					<div class="pull-right share share-wrap">
-						<span class="hidden-print" style="">
-							<?php //echo do_shortcode('[ssba]'); ?>
+						<span class="hidden-print">
 							<?php do_action('rhs_follow_post_box', get_the_ID()); ?>
 							<?php if(get_post_status( get_the_ID() ) == 'publish') : ?>
 								<a data-site="" class="facebook_share" href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>" target="_blank">
