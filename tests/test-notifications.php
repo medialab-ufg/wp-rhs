@@ -194,8 +194,23 @@ class NotificationsTest extends RHS_UnitTestCase {
         
         $this->assertEquals(1, $RHSNotifications->get_news_number($user));
         $this->assertEquals($newpost->getId(), $RHSNotifications->get_news($user)[0]->getObjectId());       
-        $this->assertEquals($author, $RHSNotifications->get_news($user)[0]->getUserId());     
-        
+        $this->assertEquals($author, $RHSNotifications->get_news($user)[0]->getUserId());
+
+        // não deve disparar notificação pra edição de páginas
+        $editor = self::$users['editor'][0];
+        wp_set_current_user($editor);
+
+        // usuário segue editor
+        $RHSFollow->toggle_follow($editor, $user);
+
+        wp_insert_post([
+            'post_type' => 'page',
+            'post_title' => 'balao',
+            'post_status' => 'publish'
+        ]);
+
+        $this->assertEquals(1, $RHSNotifications->get_news_number($user)); // continua 1
+
     }
     
     function test_delete_from_channel_and_add_again_should_not_receive_notifications_in_between() {
