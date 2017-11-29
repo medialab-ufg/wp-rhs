@@ -890,6 +890,40 @@ class RHSTicket extends RHSMessage {
             }
         </style>';
     }
+
+    public function renderTicketInfo($ticked_id) {
+        $term_list = wp_get_post_terms($ticked_id, 'tickets-category');
+        $term = array(
+            "name"   => "--",
+            "url"    => get_the_permalink(),
+            "status" => $this->getTicketStatus(get_post_status())
+        );
+
+        if(is_array($term_list) && !empty($term_list) && $term_list[0] instanceof WP_Term) {
+            $term["name"] = $term_list[0]->name;
+        }
+        ?>
+        <tr>
+            <th><a href="<?php echo $term["url"]; ?>" title="Responder"><span class="fa fa-reply"></span></th>
+            <th><a href="<?php echo $term["url"]; ?>"> <?php the_title(); ?> </a></th>
+            <th><a href="<?php echo $term["url"]; ?>"> <strong> <?php echo $term["name"]; ?> </strong> </a> </th>
+            <th><a href="<?php echo $term["url"]; ?>"> <?php the_time('F jS, Y'); ?> </a></th>
+            <th><a href="<?php echo $term["url"]; ?>"> <?php echo $term["status"] ?> </a></th>
+        </tr>
+        <?php
+    }
+
+    private function getTicketStatus($post_status) {
+        $_status = "";
+        if( $post_status === 'open')
+            $_status = 'Em Aberto';
+        elseif( $post_status === 'close')
+            $_status = 'Fechado';
+        elseif( $post_status === 'not_response')
+            $_status = 'Não Repondido';
+
+        return $_status;
+    }
 }
 global $RHSTicket;
 $RHSTicket = new RHSTicket();

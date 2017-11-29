@@ -112,9 +112,7 @@
                         <div class="wrapper-content">
                             <fieldset class="panel panel-default">
                                 <div class="panel-heading">
-                                    <div class="panel-title">
-                                        Contatos Realizados
-                                    </div>
+                                    <div class="panel-title"> Contatos Realizados </div>
                                 </div>
                                 <div class="panel-body table-responsive">
                                     <?php if($ticketLoop->have_posts()) : ?>
@@ -129,34 +127,15 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php while ( $ticketLoop->have_posts() ) : $ticketLoop->the_post(); ?>
-                                                <?php 
-                                                    $term_list = wp_get_post_terms(get_the_ID(), 'tickets-category'); 
-                                                ?>
-                                                    <tr>
-                                                        <th><a href="<?php the_permalink(); ?>" title="Responder"><span class="fa fa-reply"></span></th>
-                                                        <th><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></th>
-                                                        <th>
-                                                            <a href="<?php the_permalink(); ?>">
-                                                                <strong>
-                                                                    <?php echo $term_list[0]->name; ?>
-                                                                </strong>
-                                                            </a>
-                                                        </th>
-                                                        <th><a href="<?php the_permalink(); ?>"><?php the_time('F jS, Y'); ?></a></th>
-                                                        <?php if(get_post_status() == 'open')
-                                                                $status = 'Em Aberto'; 
-                                                            elseif(get_post_status() == 'close')
-                                                                $status = 'Fechado'; 
-                                                            elseif(get_post_status() == 'not_response')
-                                                                $status = 'Não Repondido'; ?>
-                                                        <th><a href="<?php the_permalink(); ?>"><?php echo $status ?></a></th>
-                                                    </tr>
-                                                <?php endwhile; ?>
+                                            <?php
+                                                while ($ticketLoop->have_posts()): $ticketLoop->the_post();
+                                                    echo $RHSTicket->renderTicketInfo(get_the_ID());
+                                                endwhile;
+                                            ?>
                                             </tbody>
                                         </table>
                                     <?php else : ?>
-                                        <span>Você realizou nenhum contato ainda, não seja tímido.</span>
+                                        <span>Você ainda não realizou nenhum contato, não seja tímido.</span>
                                     <?php endif; ?>
                                 </div>
                             </fieldset>

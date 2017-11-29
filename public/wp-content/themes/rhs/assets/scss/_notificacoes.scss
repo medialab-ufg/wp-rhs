@@ -24,7 +24,11 @@
                     }
                     img {
                         &.avatar-notification {
+                            width: 85px;
+                            height: 85px;
                             border-radius: 100%;
+                            object-fit: cover;
+                            object-position: top;
                         }
                         &.post-notification {
                             width: 96px;
