@@ -8,8 +8,11 @@
 		?>
 			<div class="grid-item">
 				<?php
-					//Pega o paineldosposts para mostrar na pagina front-page os posts.
-					get_template_part( 'partes-templates/posts');
+                    $is_the_author = ( is_user_logged_in() && is_author(get_current_user_id()) );
+                    if( "private" != get_post_status() ||  $is_the_author) {
+                        //Pega o painel dos posts para mostrar na pagina front-page os posts.
+                        get_template_part( 'partes-templates/posts');
+                    }
 				?>
 			</div>
 		<?php endwhile; ?>
