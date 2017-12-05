@@ -690,8 +690,8 @@ function show_results_from_search() {
         $text_pages = 'páginas';
     }
 
-    echo "<p>Resultado disponível: <strong>" . $total_pages . " </strong> ". $text_pages .".</p>";
-    echo "<p>Selecione uma página para iniciar a exportação:</p>";
+    echo "<p>Conteúdo disponível: <strong>" . $total_pages . " </strong> ". $text_pages .".</p>";
+    echo "<p>Clique em uma página abaixo para iniciar a exportação:</p>";
     while($count < $total_pages+1) {
         echo "<a class='btn btn-rhs export-csv' data-page='". $count . "' data-page-title=". $search_page .">Página ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
         $count++;
