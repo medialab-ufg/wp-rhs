@@ -28,3 +28,4 @@ tests/wordpress-tests-lib/wp-tests-config.php
 .travis.yml
 deploy_rsa.enc
 
+tests/wordpress-tests-lib/
