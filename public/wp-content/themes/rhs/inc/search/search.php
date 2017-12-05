@@ -489,7 +489,7 @@ class RHSSearch {
         
         $pagename = get_transient('page_name');
         $query_params = get_transient('download_query');
-
+        
         if ($pagename == 'posts') {
             $query_params['paged'] = $_POST['paged'];
             $content_file = get_posts($query_params);
@@ -501,12 +501,6 @@ class RHSSearch {
             $get_users = $RHSSearch->search_users($query_params);
             $content_file = $get_users->results;
         }
-        
-        header('Content-Encoding: UTF-8');
-        header("Content-type: text/csv; charset=UTF-8");
-        header("Pragma: no-cache");
-        header("Expires: 0");        
-        echo "\xEF\xBB\xBF";
        
         $file = fopen('php://output', 'w');
 
@@ -542,13 +536,19 @@ class RHSSearch {
         }
 
         if($pagename == 'posts') {
-            fputcsv($file, array('Título', 'Data', 'Autor', 'Link', 'Visualizações', 'Compartilhamentos', 'Votos', 'Comentários', 'Estado', 'Cidade'));
+            fputcsv($file, array('Título', 'Conteúdo','Data', 'Autor', 'Link', 'Visualizações', 'Compartilhamentos', 'Votos', 'Comentários', 'Estado', 'Cidade'));
                     
             foreach($content_file as $post) {
                 
-                $get_title = get_the_title($post->ID);
+                $get_title = html_entity_decode(get_the_title($post->ID), ENT_QUOTES, "UTF-8");
+                
+                $raw_content = get_post_field('post_content', $post->ID);
+                $post_content = iconv( "utf-8", "utf-8", $raw_content );
+                $post_content = strip_html_tags( $post_content );
+                $post_content = html_entity_decode($post_content, ENT_QUOTES, "UTF-8");
+
                 $get_date = get_the_date('d/m/Y H:i:s', $post->ID);
-                $get_author = get_the_author_meta('display_name', $post->post_author);
+                $get_author = get_the_author_meta('user_firstname', $post->post_author) . " " . get_the_author_meta('user_lastname', $post->post_author);
                 $get_link = $post->guid;
                 $get_views = $RHSNetwork->get_post_total_views($post->ID);
                 $get_shares = $RHSNetwork->get_post_total_shares($post->ID);
@@ -566,6 +566,7 @@ class RHSSearch {
 
                 $row_data[] = [
                     'titulo'=> $get_title,
+                    'conteudo' => $post_content,
                     'data'=> $get_date,
                     'autor' => $get_author,
                     'link' => $get_link,
@@ -583,6 +584,8 @@ class RHSSearch {
         foreach ($row_data as $row) {
             fputcsv($file, $row);
         }
+
+        mb_convert_encoding($file, 'UTF-16LE', 'UTF-8');
 
         fclose($file);
         exit;        
