@@ -51,8 +51,8 @@ if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
                                                     receber notícias ou notificações por email.</p>
                                             </div>
                                             <label for="">Receber Notificação por E-mail</label>
-                                            <div class="col-sm-12">
-                                                <div class="form-group col-sm-6">
+                                            <div class="col-sm-12" style="padding: 0">
+                                                <div class="form-group col-sm-5" style="padding: 0">
                                                     <p>
                                                         <input type="checkbox" name="promoted_post" id="promoted_post" value="true" <?php echo ($RHSUsers->getPromoted_post() == '') ? "checked" : ""; ?>>
                                                         <label for="promoted_post" style="margin-left: 3%; font-weight: 300;">
@@ -66,17 +66,17 @@ if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
                                                         </label>
                                                     </p>
                                                 </div>
-                                                <div class="form-group col-sm-6">
+                                                <div class="form-group col-sm-7" style="padding: 0">
                                                     <p>
                                                         <input type="checkbox" name="comment_post_follow" id="comment_post_follow" value="true" <?php echo ($RHSUsers->getComment_post_follow() == '') ? "checked" : ""; ?>>
                                                         <label for="comment_post_follow" style="margin-left: 3%; font-weight: 300;">
                                                             Comentários em Posts Seguidos
                                                         </label>
                                                     </p>
-                                                    <p style="display: inline-flex;">
+                                                    <p style="">
                                                         <input type="checkbox" name="new_post_from_user_follow" id="new_post_from_user_follow" value="true" <?php echo ($RHSUsers->getNew_post_from_user() == '') ? "checked" : ""; ?>>
                                                         <label for="new_post_from_user_follow" style="margin-left: 3%; font-weight: 300;">
-                                                            Novos Posts de Pessoas que estou Seguindo
+                                                            Posts de Autor que estou Seguindo
                                                         </label>
                                                     </p>
                                                 </div>
@@ -84,7 +84,7 @@ if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
                                         </div>
                                         <hr class="hidden-sm hidden-md hidden-lg">
                                         <div class="col-sm-6">
-                                            <label for="">Alterar Senha</label>
+                                            <label for="" style="color: #00b9b9;">Alterar Senha</label>
                                             <div class="form-group">
                                                 <label for="pass_old">Senha atual</label>
                                                 <input class="perfil-pass form-control" type="password" id="pass_old"

@@ -168,7 +168,14 @@ jQuery( function( $ ) {
 
             }
         });
-    })
+    });
+
+    //Bootstrap Switch usado na pagina de edição do perfil.
+    $.fn.bootstrapSwitch.defaults.size = 'mini';
+    $.fn.bootstrapSwitch.defaults.handleWidth = '0';
+    $.fn.bootstrapSwitch.defaults.onText = 'SIM';
+    $.fn.bootstrapSwitch.defaults.offText = 'NÃO';
+    $("[name='promoted_post'],[name='comment_post'],[name='comment_post_follow'],[name='new_post_from_user_follow']").bootstrapSwitch();
 
 });
 
