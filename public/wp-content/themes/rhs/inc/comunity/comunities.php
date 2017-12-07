@@ -76,7 +76,7 @@ class RHSComunities extends RHSMessage {
             $post = get_post( $args[0] );
     		
             // se o post for privado, checamos, se não deiaxmos passar  retornamos o padrão do WP
-            if ( $post && $post->post_status == 'private' ) {
+            if ( $post && ($post->post_status == 'private' || $post->post_status == 'voting-queue') ) {
                 $post_type = get_post_type_object( $post->post_type );
                 global $RHSComunities;
                 $post_communities = $RHSComunities->get_comunities_by_post($post->ID);
@@ -102,7 +102,7 @@ class RHSComunities extends RHSMessage {
         
         if ($wp_query->is_main_query() && $wp_query->is_tax(self::TAXONOMY)) {
             
-            $wp_query->set( 'post_status', ['publish', 'private'] );
+            $wp_query->set( 'post_status', ['publish', 'private', 'voting-queue'] );
             
         }
         
