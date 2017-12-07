@@ -74,8 +74,11 @@ class RHSComunities extends RHSMessage {
     function read_post_cap( $caps, $cap, $user_id, $args ) {
         if ( $cap == 'read_post' ) {
             $post = get_post( $args[0] );
-    		
-            // se o post for privado, checamos, se não deiaxmos passar  retornamos o padrão do WP
+
+            /*
+             * Se o post for privado ou estiver na fila de votação, checamos.
+             * Se não, deixamos passar e retornamos o padrão do WP
+             * */
             if ( $post && ($post->post_status == 'private' || $post->post_status == 'voting-queue') ) {
                 $post_type = get_post_type_object( $post->post_type );
                 global $RHSComunities;
@@ -84,17 +87,19 @@ class RHSComunities extends RHSMessage {
                 // se o post estiver dentro de uma comunidade, checamos, se não deixamos passar
                 if (sizeof($post_communities) > 0) {
                     $user_communities = $RHSComunities->get_communities_by_member($user_id);
+
+                    // Se o usuário está dentro de alguma das comunidades do post
+                    // retornamos uma permissão que todo mundo tem
+                    // se não estiver dentro da comunidade, vai passar para o padrão do WP
+                    // que é 'read_private_posts', e aí se for editor ou admin vai retornar true
+                    if ( isset($user_communities) && sizeof(array_intersect($user_communities, $post_communities)) > 0) {
+                        $caps = [$post_type->cap->read];
+                    }
                 }
-                
-                // Se o usuário está dentro de alguma das comunidades do post
-                // retornamos uma permissão que todo mundo tem
-                // se não estiver dentro da comunidade, vai passar para o padrão do WP
-                // que é 'read_private_posts', e aí se for editor ou admin vai retornar true
-                if (sizeof(array_intersect($user_communities, $post_communities)) > 0) {
-                    $caps = [$post_type->cap->read];
-                }
+
             }
         }
+
         return $caps;
     }
     
