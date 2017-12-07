@@ -9,7 +9,7 @@ public/wp
 public/sites
 public/wp-config.php
 public/.htaccess
-public/wp-content/languages
+public/wp-content/languages/
 public/wp-content/uploads
 public/wp-content/plugins
 public/wp-content/plugins/social-metrics-tracker
