@@ -60,7 +60,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-default btn-rhs filtro">Filtrar</button>
-            <button type="reset" class="btn btn-default filtro">Limpar</button>
+            <button type="reset" class="btn btn-default filtro">Limpar Filtros</button>
         </form>
     </div>
 </div>
