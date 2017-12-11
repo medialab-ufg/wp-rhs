@@ -377,12 +377,42 @@ Class RHSUsers extends RHSMessage {
         $links = get_the_author_meta( RHSUsers::LINKS_USERMETA, $this->userID );
 
         if( !empty( reset($links)["url"]) && ! empty( reset($links)["titulo"])) {
-            echo "<p>Links: </p>";
+            $counter = 0;
+            foreach ($links as $value) {
+                $user_link_url = $value['url'];
+                $valid_url = false;
+                $base_http_protocol = "http://";
 
-            foreach ($links as $value){
-                echo "<span><a href='". $value['url'] ."' target='_blank'>".  $value['titulo'] . "</a></span><br/>";
+                if( filter_var( $user_link_url, FILTER_VALIDATE_URL ) ) {
+                    $valid_url = true;
+                } else if (filter_var( $base_http_protocol . $user_link_url, FILTER_VALIDATE_URL ) ) {
+                    if($this->check_valid_user_link( $base_http_protocol . $user_link_url )) {
+                        $valid_url = true;
+                        $user_link_url = $base_http_protocol . $user_link_url;
+                    }
+                }
+
+                if( $valid_url ) {
+                    if( $counter === 0 ) {
+                        echo "<p>Links:</p>";
+                    }
+
+                    echo "<span><a href='". $user_link_url ."' target='_blank'>".  $value['titulo'] . "</a></span><br/>";
+                    $counter++;
+                }
             }
         }
+    }
+
+    function check_valid_user_link($URL) {
+        $curlInit = curl_init($URL);
+        curl_setopt($curlInit,CURLOPT_CONNECTTIMEOUT,10);
+        curl_setopt($curlInit,CURLOPT_HEADER,true);
+        curl_setopt($curlInit,CURLOPT_NOBODY,true);
+        $response = curl_exec($curlInit);
+        curl_close($curlInit);
+
+        return $response;
     }
 
     /*
