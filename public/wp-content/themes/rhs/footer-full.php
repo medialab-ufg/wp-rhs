@@ -5,7 +5,7 @@
 <?php if(!RHSLogin::is_login_via_app()) : ?>
     <footer class="footer hidden-print">
         <section class="footerDescricao">
-            <p> - <?php bloginfo( 'description' ); ?> - </p>
+            <p> <?php bloginfo( 'description' ); ?> </p>
         </section>
         <section class="footerMenu">
             <nav class="navbar navbar-default">
