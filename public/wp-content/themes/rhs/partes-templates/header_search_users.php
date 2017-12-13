@@ -13,6 +13,8 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-default filtro btn-rhs">Filtrar</button>
+
+        <?php echo RHSSearch::getSearchButtons(); ?>
+
     </form>
 </div>
