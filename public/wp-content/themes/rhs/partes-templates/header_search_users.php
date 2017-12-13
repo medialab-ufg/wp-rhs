@@ -13,6 +13,6 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-default filtro">Filtrar</button>
+        <button type="submit" class="btn btn-default filtro btn-rhs">Filtrar</button>
     </form>
 </div>
