@@ -794,7 +794,7 @@ function rhs_filter_post_thumbnail_id($r, $object_id, $meta_key, $single) {
 
 add_action('wp_ajax_rhs_test_carousel', 'rhs_test_stats_carousel');
 add_action('wp_ajax_nopriv_rhs_test_carousel', 'rhs_test_stats_carousel');
-add_action('wp_footer', 'rhs_test_stats_carousel_links');
+// add_action('wp_footer', 'rhs_test_stats_carousel_links');
 
 function rhs_test_stats_carousel() {
     $item = $_POST['item'];
@@ -809,6 +809,7 @@ function rhs_test_stats_carousel() {
     
 }
 
+/*
 function rhs_test_stats_carousel_links() {
     
     if (is_single() && isset($_GET['from-carousel']) && !empty($_GET['from-carousel']) && wp_get_referer() === home_url('/')) {
@@ -816,7 +817,7 @@ function rhs_test_stats_carousel_links() {
         $RHSStats->add_event('carousel-click', $_GET['from-carousel'], get_current_user_id());
     }
         
-}
+} */
 
 
 function rhs_embed_youtube_live($atts) {
