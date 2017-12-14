@@ -110,6 +110,23 @@ class RHSNetwork {
         return get_post_meta( $post_id, self::META_KEY_TOTAL_SHARES, true );
     }
 
+    function get_post_total_views($post_id) {
+        $_saved_total = get_post_meta($post_id, self::META_KEY_VIEW, true);
+
+        if( is_numeric($_saved_total) ) {
+            /*
+            * Por enquanto vamos retirar 30% do total de views para exibir.
+            * Posteriormente alteraremos a regra de negócio específica para este dado.
+            */
+            $_30_porcento = ceil( $_saved_total * 0.3 );
+            $_saved_total = $_saved_total - $_30_porcento;
+
+            return $_saved_total;
+        }
+
+        return 0;
+    }
+
 }
 
 global $RHSNetwork;

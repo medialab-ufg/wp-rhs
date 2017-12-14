@@ -508,13 +508,12 @@ Class RHSVote {
 
 		$output .= '<span class="vTexto">' . $totalVotes . '</span>';
 
-
 		// TODO: vai haver uma meta capability vote_post,
 		// Se o usuário ja votou neste post, não aparece o botão e aparece de alguma maneira que indique q ele já votou
 		// Se ele não estiver logado, aparece só o texto "Votos"
 
         if( !is_user_logged_in() || $this->is_post_expired( $post_id ) ) {
-            $output .= '<span class="vTexto">'.$textVotes.'</span>';
+            $output .= '<span class="vTexto" style="font-size: 12px !important; color: darkgrey; ">'.$textVotes.'</span>';
         } else if($this->user_has_voted( $post_id )) {
             $output .= '<span class="vButton"><a class="btn btn-danger" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
         } else {
