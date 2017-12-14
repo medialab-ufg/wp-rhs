@@ -13,5 +13,6 @@ class UserTest extends RHS_UnitTestCase {
         self::assertTrue( $RHSUsers->check_valid_user_link("www.ufg.br") );
         self::assertTrue( $RHSUsers->check_valid_user_link("http://www.ufg.br") );
         self::assertFalse( $RHSUsers->check_valid_user_link("ufg") );
+        self::assertFalse( $RHSUsers->check_valid_user_link("ufg.br") );
     }
 }

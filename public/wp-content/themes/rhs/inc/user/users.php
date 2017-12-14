@@ -409,10 +409,15 @@ Class RHSUsers extends RHSMessage {
         curl_setopt($curlInit,CURLOPT_CONNECTTIMEOUT,10);
         curl_setopt($curlInit,CURLOPT_HEADER,true);
         curl_setopt($curlInit,CURLOPT_NOBODY,true);
+        curl_setopt($curlInit, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($curlInit);
         curl_close($curlInit);
 
-        return $response;
+        if($response) {
+            return true;
+        }
+
+        return false;
     }
 
     /*
