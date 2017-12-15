@@ -60,7 +60,7 @@
 					<div class="pull-right share share-wrap col-md-5">
 						<div class="hidden-print">
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 <?php echo $_post_['status']; ?>">
                                 <?php do_action('rhs_follow_post_box', $_post_id); ?>
                             </div>
 
@@ -92,7 +92,7 @@
 
 							<?php endif;?>
 
-                            <div class="col-md-1">
+                            <div class="col-md-1 <?php echo $_post_['status']; ?>">
                                 <a data-site="print" class="share_print share_link" href="#" onclick="window.print()">
                                     <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/print.png" title="Print" alt="Imprimir está página">
                                 </a>
