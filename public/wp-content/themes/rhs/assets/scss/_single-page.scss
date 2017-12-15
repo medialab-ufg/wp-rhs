@@ -420,6 +420,10 @@
                     padding: 10px 0 10px 0;
                     text-align: right;
                     margin-right: 7px;
+
+                    &.voting-queue {
+                        float: right;
+                    }
                 }
 
                 .view-shares {
@@ -434,7 +438,9 @@
                                 color: black;
                             }
                             &.num {
-                                font-size: 15px;
+                                font-size: 13px;
+                                display: block;
+                                margin-bottom: -5px;
                             }
                         }
                     }
@@ -445,7 +451,7 @@
                     }
 
                     .shares {
-                        padding: 0 15px 0 5px;
+                        padding: 0 5px 0 5px;                        
                     }
                 } // views-shares
 
@@ -456,6 +462,10 @@
 
                 .col-md-1 {
                     padding: 0;
+                    
+                    &.voting-queue {
+                        float: right;
+                    }
                 }
             } // .share-wrap.col-md-5
 
