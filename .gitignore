@@ -9,7 +9,7 @@ public/wp
 public/sites
 public/wp-config.php
 public/.htaccess
-public/wp-content/languages
+public/wp-content/languages/
 public/wp-content/uploads
 public/wp-content/plugins
 public/wp-content/plugins/social-metrics-tracker
@@ -23,8 +23,10 @@ public/wp-content/themes/rhs/assets/scss/style.css.map
 public/wp-content/themes/rhs/assets/scss/style.html
 public/wp-content/themes/rhs/page-fila-de-votacao.html
 public/wp-content/themes/rhs/vendor
-public/wp-content/themes/rhs/inc/comunity/comunity.php
 tests/wordpress-tests-lib/wp-tests-config.php
+public/wp-content/themes/
+!public/wp-content/themes/rhs
 .travis.yml
 deploy_rsa.enc
 
+tests/wordpress-tests-lib/

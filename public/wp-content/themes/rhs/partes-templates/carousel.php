@@ -37,7 +37,7 @@ $carrossel_posts = $Carrossel::get_posts();
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <div class="carousel-caption">
-                                <a href="<?php the_permalink(); ?>?from-carousel=<?php echo $i; ?>" class="js-carousel" id="js-carousel-title-<?php echo $i; ?>"><?php the_title( '<h3>', '</h3>' ); ?></a>
+                                <a href="<?php the_permalink(); ?>" class="js-carousel" id="js-carousel-title-<?php echo $i; ?>"><?php the_title( '<h3>', '</h3>' ); ?></a>
                                 <p>
                                     <?php the_excerpt(); ?>
                                 </p>

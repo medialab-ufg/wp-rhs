@@ -26,7 +26,7 @@ $users = $RHSSearch->search_users();
                                     <div class="label-rhs"> 
                                     <?php
                                         //Mostra o resultado da busca dos usuarios
-                                        exibir_resultado_user();
+                                        RHSSearch::exibir_resultado_user();
                                     ?>
                                     </div>
                                 <?php }?>

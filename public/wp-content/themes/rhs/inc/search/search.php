@@ -465,18 +465,17 @@ class RHSSearch {
             'selected_municipio' => RHSSearch::get_param('municipio'),
         ) );
     }
-}
 
-global $RHSSearch;
-$RHSSearch = new RHSSearch();
-
-
+    public static function getSearchButtons() {
+        $default_classes = "btn btn-default filtro";
+        return "<button type='submit' class='$default_classes btn-rhs'>Filtrar</button> <button type='reset' class='$default_classes'>Limpar Filtros</button>";
+    }
 
     /**
      * Show result posts
      *
      * @return o resultado dos posts.
-    */
+     */
 
     function exibir_resultado_post() {
         global $wp_query;
@@ -500,7 +499,7 @@ $RHSSearch = new RHSSearch();
      * Show result usuarios
      *
      * @return o resultado dos usuarios.
-    */
+     */
 
     function exibir_resultado_user(){
         $RHSSearch = new RHSSearch();
@@ -516,3 +515,7 @@ $RHSSearch = new RHSSearch();
 
         echo "Exibindo $initial a $final de $total resultados";
     }
+}
+
+global $RHSSearch;
+$RHSSearch = new RHSSearch();
