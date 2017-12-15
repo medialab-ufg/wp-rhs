@@ -936,6 +936,10 @@
             }
         }
 
+        /*
+         *   Este estilo não é executado nunca, pois no código o .post-titulo fica dentro de .panel-heading
+         *   Verificar se quer/precisa aproveitar algum estilo abaixo, ou pode-se remover.
+         *
         .post-titulo {
             .img-usuario {
                 float: left;
@@ -1087,6 +1091,8 @@
             }
 
         } // .post-titulo
+        *
+        */
 
         a {
             &.footer-link {
