@@ -1,5 +1,5 @@
 <div class="panel panel-default padding-bottom">
-	<div class="panel-heading" style="padding: 21px;">
+	<div class="panel-heading">
 		<div class="row post-titulo">
 			<div class="col-xs-9 col-sm-11 col-md-10">
                 <?php
@@ -56,49 +56,29 @@
 					<span class="post-user-edit">
 						<?php edit_post_link( __( 'Editar Post', 'rhs' ), '<span class="divisor text-uppercase">', '</span>', null, 'btn' ); ?>
 					</span>
-					<div class="pull-right share share-wrap col-md-5" style="padding: 0;">
+
+					<div class="pull-right share share-wrap col-md-5">
 						<div class="hidden-print">
 
-                            <div class="col-md-4" style="padding: 10px 0 10px 0; text-align: right; margin-right: 7px;">
+                            <div class="col-md-4">
                                 <?php do_action('rhs_follow_post_box', $_post_id); ?>
                             </div>
 
 							<?php if( $_post_['status'] == 'publish') : ?>
 
-                                <div class="col-md-3 alignright" style="padding: 0; border-left: 1px solid #d6d6d6; border-right: 1px solid #d6d6d6">
+                                <div class="col-md-3 view-shares">
+                                    <div class="col-md-6 views">
+                                        <span class="num"> <?php echo $_post_['views']; ?> </span>
+                                        <span class="glyphicon-eye-open glyphicon"></span>
+                                    </div>
 
-                                    <div class="voteboxNO">
-
-                                        <div class="col-md-6" style="text-align: center; padding: 0 0 0 10px">
-                                            <div style="width: 30px;">
-                                                <span class="vTexto" style="font-size: 15px"> <?php echo $_post_['views']; ?> </span>
-                                                <div class="vTexto" style="font-size: 13px !important;margin: 0">
-                                                    <span class="glyphicon-eye-open glyphicon" style="color: black; font-size: 13px"></span> </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6" style="padding: 0 15px 0 5px">
-                                            <div style="text-align: center; width: 30px;">
-                                                <span class="vTexto" style="font-size: 15px"> <?php echo $_post_['shares']; ?> </span>
-                                                <div class="vTexto" style="font-size: 13px !important;">
-                                                    <?php /* ?>
-                                                    <span class="label label-primary" style="padding-top: 5px">
-                                                        <div class="glyphicon-share glyphicon" style="color: white; padding-top: 2px"></div>
-                                                    </span>
-                                                    <?php */ ?>
-                                                    <div class="glyphicon-share glyphicon" style="color: black"></div>
-                                                </div>
-
-
-
-
-                                            </div>
-                                        </div>
-
+                                    <div class="col-md-6 shares">
+                                        <span class="num"> <?php echo $_post_['shares']; ?> </span>
+                                        <span class="glyphicon-share glyphicon"></span>
                                     </div>
                                 </div>
 
-                                <div class="col-md-3" style="padding: 0; text-align: right">
+                                <div class="col-md-3 social-media">
                                     <a data-site="" class="facebook_share" href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>" target="_blank">
                                         <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/facebook.png" title="Facebook" alt="Compartilhar no Facebook">
                                     </a>
@@ -108,28 +88,28 @@
                                     <a href="whatsapp://send?text=<?php the_title_attribute( 'after= ' ); ?><?php the_permalink(); ?>" data-text="<?php the_title_attribute(); ?>" data-href="<?php the_permalink(); ?>" target="_top" onclick="window.parent.null" class="hidden-md hidden-lg whatsapp_share">
                                         <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/whatsapp.png" title="Whatsapp" alt="Compartilhar no Whatsapp">
                                     </a>
-
-
-
                                 </div>
+
 							<?php endif;?>
-                            <div class="col-md-1" style="padding: 0;">
-                                <a data-site="print" class="share_print share_link" href="#" onclick="window.print()"> <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/print.png" title="Print" alt="Imprimir está página"> </a>
+
+                            <div class="col-md-1">
+                                <a data-site="print" class="share_print share_link" href="#" onclick="window.print()">
+                                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/print.png" title="Print" alt="Imprimir está página">
+                                </a>
                             </div>
 
-                        </div>
+                        </div> <!-- .share-wrap.col-md-5 -->
 
                     </div>
                 </div>
             </div>
 
-
 			<div class="clearfix"></div>
 		</div>
-	</div>
-	<div class="panel-body content">
-		<?php the_content(); ?>
-	</div><!-- .paine-body -->
+	</div> <!-- .paine-heading -->
+
+	<div class="panel-body content"> <?php the_content(); ?> </div>
+
 	<div class="panel-footer">
         <?php if (has_post_ufmun($_post_id)) : ?>
             <div class="relacionado">

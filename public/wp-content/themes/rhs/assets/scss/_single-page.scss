@@ -266,7 +266,9 @@
             margin-top: 7%;
         }
         > .post-titulo {
+            padding: 21px;
             margin-top: 5px;
+
             .img-usuario {
                 float: left;
                 width: 65px;
@@ -409,7 +411,55 @@
                     }
                 }
             }
-        }
+
+
+            .share-wrap.col-md-5 {
+                padding: 0;
+
+                .col-md-4 {
+                    padding: 10px 0 10px 0;
+                    text-align: right;
+                    margin-right: 7px;
+                }
+
+                .view-shares {
+                    padding: 0;
+                    border-left: 1px solid #d6d6d6;
+                    border-right: 1px solid #d6d6d6;
+
+                    .col-md-6 {
+                        text-align: center;
+                        span {
+                            &.glyphicon {
+                                color: black;
+                            }
+                            &.num {
+                                font-size: 15px;
+                            }
+                        }
+                    }
+
+                    .views {
+                        text-align: center;
+                        padding: 0 0 0 10px;
+                    }
+
+                    .shares {
+                        padding: 0 15px 0 5px;
+                    }
+                } // views-shares
+
+                .social-media {
+                    padding: 0;
+                    text-align: right
+                }
+
+                .col-md-1 {
+                    padding: 0;
+                }
+            } // .share-wrap.col-md-5
+
+        } // .post-titulo
     }
     > .panel-body {
         word-wrap: break-word;
@@ -885,6 +935,7 @@
                 top: 7%;
             }
         }
+
         .post-titulo {
             .img-usuario {
                 float: left;
@@ -1034,7 +1085,9 @@
                     }
                 }
             }
-        }
+
+        } // .post-titulo
+
         a {
             &.footer-link {
                 float: left;
