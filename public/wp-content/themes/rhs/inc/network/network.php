@@ -107,7 +107,9 @@ class RHSNetwork {
     }
     
     function get_post_total_shares($post_id) {
-        return get_post_meta( $post_id, self::META_KEY_TOTAL_SHARES, true );
+        $_shares = get_post_meta( $post_id, self::META_KEY_TOTAL_SHARES, true );
+
+        return ( is_numeric( $_shares) ) ? $_shares : 0;
     }
 
     function get_post_total_views($post_id) {

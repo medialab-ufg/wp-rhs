@@ -5,15 +5,19 @@
                 <?php
                 global $RHSNetwork;
                 $_post_id = get_the_ID();
+                $_post_author_id = get_the_author_meta( 'ID' );
                 $_post_ = [
                     'id' => $_post_id,
                     'status' => get_post_status($_post_id),
                     'shares' => $RHSNetwork->get_post_total_shares($_post_id ),
-                    'views' =>  $RHSNetwork->get_post_total_views($_post_id )
+                    'views'  =>  $RHSNetwork->get_post_total_views($_post_id ),
+                    'author' => [ 'url' => esc_url( get_author_posts_url($_post_author_id) ),
+                                  'href_title' => 'Ver perfil do usuário.'
+                    ]
                 ];
 
+                the_title( '<h1>', '</h1>' );
                 ?>
-                <?php the_title( '<h1>', '</h1>' ); ?>
 
 			</div>
 
@@ -24,10 +28,6 @@
                         do_action('rhs_votebox', get_the_ID());
                     ?>
                 </div>
-            </div>
-
-            <div class="col-md-12">
-                <?php //the_title( '<h1>', '</h1>' ); ?>
             </div>
 
 			<div class="col-xs-12">
@@ -41,11 +41,11 @@
 			<div class="col-xs-12 col-md-12">
 				<div class="post-meta">
 					<span class="post-user-date">
-						<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
-						    <?php echo get_avatar(get_the_author_meta( 'ID' ),33); ?>
+						<a href="<?php echo $_post_['author']['url']; ?>" title="<?php echo $_post_['author']['href_title']; ?>">
+						    <?php echo get_avatar($_post_author_id,33); ?>
 						</a>
 						<span class="usuario">
-							<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"  title="Ver perfil do usuário.">
+							<a href="<?php echo $_post_['author']['url']; ?>" title="<?php echo $_post_['author']['href_title']; ?>">
 								<?php the_author(); ?>
 							</a>
 						</span>
