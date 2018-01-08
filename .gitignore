@@ -28,5 +28,5 @@ public/wp-content/themes/
 !public/wp-content/themes/rhs
 .travis.yml
 deploy_rsa.enc
-
+.DS_Store
 tests/wordpress-tests-lib/
