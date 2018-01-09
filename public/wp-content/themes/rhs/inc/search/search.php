@@ -13,7 +13,7 @@ class RHSSearch {
         add_action('wp_ajax_generate_csv', array($this, 'generate_csv'));
         add_action('wp_ajax_nopriv_generate_csv', array($this,'generate_csv'));
     }
-    
+
     function addJS() {
         if (get_query_var('rhs_busca')) {
             wp_enqueue_script('rhs_search', get_template_directory_uri() . '/inc/search/search.js', array('bootstrap-datapicker', 'magicJS'));
@@ -493,9 +493,9 @@ class RHSSearch {
         global $RHSNetwork;
         global $RHSSearch;
         
-        $user_id = get_current_user_id();
-        $pagename = get_transient('page_name_'.$user_id);
-        $query_params = get_transient('download_query_'.$user_id);
+        $session_id = session_id();
+        $pagename = get_transient('page_name_'.$session_id);
+        $query_params = get_transient('download_query_'.$session_id);
         
         if ($pagename == 'posts') {
             $query_params['paged'] = $_POST['paged'];
@@ -691,22 +691,22 @@ function show_results_from_search() {
     $wp_query->set('posts_per_page', $per_page);
     $result = $wp_query;
     $search_page = get_query_var('rhs_busca');
-    $user_id = get_current_user_id();
-    
+    $session_id = session_id();
+
     if($search_page == 'posts') {
         $total = $result->found_posts;
-        set_transient('download_query_'.$user_id, $wp_query->query_vars, 60*60);
+        set_transient('download_query_'.$session_id, $wp_query->query_vars, 60);
     }
 
     if($search_page == 'users') {
         $get_users = $RHSSearch->search_users($wp_query->query_vars);
         $total = $get_users->total_users;
-        set_transient('download_query_'.$user_id, $wp_query->query_vars, 60*60);
+        set_transient('download_query_'.$session_id, $wp_query->query_vars, 60);
     }
     
     $total_pages = ceil($total / $per_page);
     
-    set_transient('page_name_'.$user_id, get_query_var('rhs_busca'), 60*60);
+    set_transient('page_name_'.$session_id, get_query_var('rhs_busca'), 60);
     
     $count = 1;
     
@@ -726,6 +726,20 @@ function show_results_from_search() {
     }
     echo "<hr>";
     echo "<p>Exibindo $initial a $final de $total resultados</p>";
+}
+
+add_action('init', 'start_new_session', 1);
+add_action('wp_logout', 'destroy_session');
+add_action('wp_login', 'destroy_session');
+
+function start_new_session() {
+    if(!session_id()) {
+        session_start();
+    }
+}
+
+function destroy_session() {
+    session_destroy();
 }
 
 global $RHSSearch;
