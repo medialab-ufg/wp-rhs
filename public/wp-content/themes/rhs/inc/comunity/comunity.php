@@ -52,7 +52,6 @@ class RHSComunity {
         $this->members = $members;
         $this->members_number = count($this->members);
         $this->is_member = $is_member;
-        $this->posts_number = $comunity->count;
         $this->follows = RHSComunities::get_follows($comunity->term_id);
         $this->follows_number = count($this->follows);
         $this->is_follow = ($this->follows && in_array($this->user_id, $this->follows));
@@ -198,7 +197,19 @@ class RHSComunity {
      * @return int
      */
     function get_posts_number(){
-        return $this->posts_number;
+        $args = array(
+            'posts_per_page' => -1,
+            'post_status' => array('publish', 'private', RHSVote::VOTING_QUEUE),
+            'tax_query' => array(
+                array(
+                    'taxonomy' => RHSComunities::TAXONOMY,
+                    'field' => 'term_taxonomy_id',
+                    'terms' => array( $this->id )
+                ),
+            )
+        );
+        $query = new WP_Query( $args );
+        return $query->post_count;
     }
 
     /**

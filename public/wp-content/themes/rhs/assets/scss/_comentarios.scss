@@ -37,6 +37,8 @@ article {
         img {
             margin: 0px 0 -86px 24px;
             border-radius: 25px;
+            object-fit: cover;
+            object-position: top;
         }
     }
     .comment-box {

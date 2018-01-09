@@ -326,13 +326,98 @@ Class RHSUsers extends RHSMessage {
         return esc_attr( get_the_author_meta( 'description', $this->userID ) );
     }
 
+    //Notificações por Email
+
+    /*
+    * Return the metadata of Promoted_post
+    */
+    function getPromoted_post($userID = 0){
+        //var_dump($userID);
+        if(!$userID){
+            $userID = $this->userID;
+        }
+        return esc_attr( get_the_author_meta( 'rhs_email_promoted_post', $userID ) );
+    }
+
+    /*
+    * Return the metadata of Comment_post
+    */
+    function getComment_post($userID = 0){
+        if(!$userID){
+            $userID = $this->userID;
+        }
+
+        return esc_attr( get_the_author_meta( 'rhs_email_comment_post', $userID ) );
+    }
+    
+    /*
+    * Return the metadata of Comment_post_follow
+    */
+    function getComment_post_follow($userID = 0){
+        if(!$userID){
+            $userID = $this->userID;
+        }
+
+        return esc_attr( get_the_author_meta( 'rhs_email_comment_post_follow', $userID ) );
+    }
+    
+    /*
+    * Return the metadata of New_post_from_user
+    */
+    function getNew_post_from_user($userID = 0){
+        if(!$userID){
+            $userID = $this->userID;
+        }
+
+        return esc_attr( get_the_author_meta( 'rhs_email_new_post_from_user_follow', $userID ) );
+    }
+    //End Notificações por Email
+
     function show_author_links() {
         $links = get_the_author_meta( RHSUsers::LINKS_USERMETA, $this->userID );
-        $count = 1;
-        
-        foreach ($links as $value){
-            echo "<span><a href='". $value['url'] ."' target='_blank'>".  $value['titulo'] . "</a></span><br/>"; 
+
+        if( !empty( reset($links)["url"]) && ! empty( reset($links)["titulo"])) {
+            $counter = 0;
+            foreach ($links as $value) {
+                $user_link_url = $value['url'];
+                $valid_url = false;
+                $base_http_protocol = "http://";
+
+                if( filter_var( $user_link_url, FILTER_VALIDATE_URL ) ) {
+                    $valid_url = true;
+                } else if (filter_var( $base_http_protocol . $user_link_url, FILTER_VALIDATE_URL ) ) {
+                    if($this->check_valid_user_link( $base_http_protocol . $user_link_url )) {
+                        $valid_url = true;
+                        $user_link_url = $base_http_protocol . $user_link_url;
+                    }
+                }
+
+                if( $valid_url ) {
+                    if( $counter === 0 ) {
+                        echo "<p>Links:</p>";
+                    }
+
+                    echo "<span><a href='". $user_link_url ."' target='_blank'>".  $value['titulo'] . "</a></span><br/>";
+                    $counter++;
+                }
+            }
         }
+    }
+
+    function check_valid_user_link($URL) {
+        $curlInit = curl_init($URL);
+        curl_setopt($curlInit,CURLOPT_CONNECTTIMEOUT,10);
+        curl_setopt($curlInit,CURLOPT_HEADER,true);
+        curl_setopt($curlInit,CURLOPT_NOBODY,true);
+        curl_setopt($curlInit, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($curlInit);
+        curl_close($curlInit);
+
+        if($response) {
+            return true;
+        }
+
+        return false;
     }
 
     /*

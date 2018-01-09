@@ -1,12 +1,12 @@
 /*
 Theme Name: Rede Humaniza SUS
-Theme URI: 
+Theme URI: https://github.com/medialab-ufg/wp-rhs
 Author: MediaLab UFG
-Author URI: http://localhost/rhs
+Author URI: https://github.com/medialab-ufg/
 Description: Tema desenvolvido para a Rede Humaniza SUS
-Version: 0.1
-License: GNU General Public License v2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Version: 1.1.7
+License: GNU Affero General Public License v3
+License URI:https://www.gnu.org/licenses/agpl-3.0.en.html
 Text Domain: rhs
 */
 
@@ -55,6 +55,7 @@ body {
 @import "_sidebar";
 @import "_single-page";
 @import "_tickets";
+@import "_home";
 @import "_media-query";
 
 .tab-content {

@@ -67,6 +67,14 @@ if (file_exists("vendor/eternicode/bootstrap-datepicker/dist/js/bootstrap-datepi
     copy("vendor/eternicode/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js", "public/wp-content/themes/rhs/vendor/js/bootstrap-datepicker.min.js");
 }
 
+echo "...Bootstrap-switch\n";
+if (file_exists("vendor/nostalgiaz/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css")) {
+    copy("vendor/nostalgiaz/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css", "public/wp-content/themes/rhs/vendor/css/bootstrap-switch.min.css");
+}
+if (file_exists("vendor/nostalgiaz/bootstrap-switch/dist/js/bootstrap-switch.min.js")) {
+    copy("vendor/nostalgiaz/bootstrap-switch/dist/js/bootstrap-switch.min.js", "public/wp-content/themes/rhs/vendor/js/bootstrap-switch.min.js");
+}
+
 echo "...Typeahead\n";
 if (file_exists("vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js")) {
     copy("vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js", "public/wp-content/themes/rhs/vendor/js/typeahead.bundle.min.js");

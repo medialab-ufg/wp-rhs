@@ -13,7 +13,7 @@ Class RHSVote {
 	const VOTING_QUEUE = 'voting-queue';
 	const VOTING_EXPIRED = 'voting-expired';
 	const ROLE_VOTER = 'voter';
-	const META_PUBISH = 'rhs-promoted-publish';
+	const META_PUBLISH = 'rhs-promoted-publish';
     const META_TOTAL_VOTES = '_total_votes';
 
 	static $instance;
@@ -24,7 +24,7 @@ Class RHSVote {
 
 	var $total_meta_key;
 
-	public $days_for_expired_default = 14;
+    public $days_for_expired_default = 14;
     public $votes_to_approval_default = 5;
     public $votes_to_text_help;
     public $votes_to_text_code;
@@ -508,13 +508,12 @@ Class RHSVote {
 
 		$output .= '<span class="vTexto">' . $totalVotes . '</span>';
 
-
 		// TODO: vai haver uma meta capability vote_post,
 		// Se o usuário ja votou neste post, não aparece o botão e aparece de alguma maneira que indique q ele já votou
 		// Se ele não estiver logado, aparece só o texto "Votos"
 
         if( !is_user_logged_in() || $this->is_post_expired( $post_id ) ) {
-            $output .= '<span class="vTexto">'.$textVotes.'</span>';
+            $output .= '<span class="vTexto" style="font-size: 12px !important; color: darkgrey; ">'.$textVotes.'</span>';
         } else if($this->user_has_voted( $post_id )) {
             $output .= '<span class="vButton"><a class="btn btn-danger" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
         } else {
@@ -605,7 +604,7 @@ Class RHSVote {
 			'post_status' => 'publish'
 		);
 
-		add_post_meta($postID, self::META_PUBISH, '1', true);
+		add_post_meta($postID, self::META_PUBLISH, '1', true);
 
 		wp_update_post( $new_post );
         do_action('rhs_post_promoted', $postID);
