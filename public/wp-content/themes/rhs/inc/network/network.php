@@ -129,10 +129,6 @@ class RHSNetwork {
         return 0;
     }
 
-    function get_post_total_views($post_id) {
-        return get_post_meta( $post_id, self::META_KEY_VIEW, true );
-    }
-
 }
 
 global $RHSNetwork;

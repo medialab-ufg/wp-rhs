@@ -460,7 +460,6 @@ class RHSSearch {
             echo '</ul>';
         }
     }
-<<<<<<< HEAD
 
 
     /**
@@ -494,9 +493,9 @@ class RHSSearch {
         global $RHSNetwork;
         global $RHSSearch;
         
-        
-        $pagename = get_transient('page_name');
-        $query_params = get_transient('download_query');
+        $user_id = get_current_user_id();
+        $pagename = get_transient('page_name_'.$user_id);
+        $query_params = get_transient('download_query_'.$user_id);
         
         if ($pagename == 'posts') {
             $query_params['paged'] = $_POST['paged'];
@@ -597,7 +596,8 @@ class RHSSearch {
 
         fclose($file);
         exit;        
-=======
+
+    }
 
     public static function render_uf_city_select() {
         UFMunicipio::form( array(
@@ -642,44 +642,9 @@ class RHSSearch {
         } else {
             _e("Nenhum post encontrado com estes termos de busca!", "rhs");
         }
->>>>>>> ef434ef0da6394fd1fcc96d11b6a981cf8d2a922
     }
 }
 
-<<<<<<< HEAD
-=======
-    /**
-     * Show result usuarios
-     *
-     * @return o resultado dos usuarios.
-     */
->>>>>>> ef434ef0da6394fd1fcc96d11b6a981cf8d2a922
-
-
-global $RHSSearch;
-$RHSSearch = new RHSSearch();
-
-
-
-/**
- * Show result posts
- *
- * @return o resultado dos posts.
-*/
-
-function exibir_resultado_post(){
-    global $wp_query;
-    $result = $wp_query;
-    $total_result = $result->found_posts;
-    $total = $result->found_posts;
-    $paged = empty($result->query['paged']) ? 1 : $result->query['paged'];
-    $per_page = $result->query_vars['posts_per_page'];
-    $final = $per_page * $paged;
-    $initial = $final - ($per_page-1);
-    if ($final > $total) $final = $total;
-
-    echo "Exibindo $initial a $final de $total resultados";
-}
 
 /**
  * Show result usuarios
@@ -726,21 +691,22 @@ function show_results_from_search() {
     $wp_query->set('posts_per_page', $per_page);
     $result = $wp_query;
     $search_page = get_query_var('rhs_busca');
-
+    $user_id = get_current_user_id();
+    
     if($search_page == 'posts') {
         $total = $result->found_posts;
-        set_transient('download_query', $wp_query->query_vars, 60*60);
+        set_transient('download_query_'.$user_id, $wp_query->query_vars, 60*60);
     }
 
     if($search_page == 'users') {
         $get_users = $RHSSearch->search_users($wp_query->query_vars);
         $total = $get_users->total_users;
-        set_transient('download_query', $wp_query->query_vars, 60*60);
+        set_transient('download_query_'.$user_id, $wp_query->query_vars, 60*60);
     }
     
     $total_pages = ceil($total / $per_page);
     
-    set_transient('page_name', get_query_var('rhs_busca'), 60*60);
+    set_transient('page_name_'.$user_id, get_query_var('rhs_busca'), 60*60);
     
     $count = 1;
     
@@ -758,14 +724,9 @@ function show_results_from_search() {
         echo "<a class='btn btn-rhs export-csv' data-page='". $count . "' data-page-title=". $search_page .">Página ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
         $count++;
     }
-
-<<<<<<< HEAD
-}
-=======
-        echo "Exibindo $initial a $final de $total resultados";
-    }
+    echo "<hr>";
+    echo "<p>Exibindo $initial a $final de $total resultados</p>";
 }
 
 global $RHSSearch;
 $RHSSearch = new RHSSearch();
->>>>>>> ef434ef0da6394fd1fcc96d11b6a981cf8d2a922
