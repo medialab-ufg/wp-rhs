@@ -51,11 +51,11 @@
                 <ul class="nav navbar-nav <?php if(!my_wp_is_mobile()):?>navbar-right dropdown-menu-right no-mobile<?php else:?>mobile-nav<?php endif;?>">
                     <?php if(!is_user_logged_in()): ?>
 
-                        <li> <button class="btn btn-seconday dropdown-toggle" type="button"
-                                    id="loginBox" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
+                        <li> <a class="btn-seconday dropdown-toggle open-login" type="button" id="loginBox" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
                                 Faça seu login
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="loginBox" style="width: 550px">
+                            </a>
+                            <div class="dropdown-menu login-box-container" aria-labelledby="loginBox">
                                 <?php get_template_part("partes-templates/login-box"); ?>
                             </div>
                         </li>
@@ -79,9 +79,7 @@
                                 </div>
                                 <!-- end notify title -->
                                 <!-- notify content -->
-                                
-                                
-                                
+
                                 <div class="drop-content">
                                     
                                     <?php foreach ($RHSNotifications->get_notifications(get_current_user_id()) as $notification): ?>

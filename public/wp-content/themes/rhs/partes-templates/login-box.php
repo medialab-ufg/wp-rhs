@@ -1,9 +1,9 @@
 <?php global $RHSLogin; ?>
 
     <!-- Container -->
-    <div>
+    <div class="login-box">
         <header>
-            <div class="col-md-12" style="padding-top: 10px">
+            <div class="col-md-12 container">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <div class="panel-title">Acessar sua Conta</div>

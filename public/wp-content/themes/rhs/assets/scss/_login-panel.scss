@@ -32,3 +32,20 @@
         }
     }
 }
+
+.login-box {
+    .col-md-12.container {
+        padding-top: 10px;
+    }
+}
+
+.rhs_menu {
+    li a.open-login {
+        color: $primeira_cor_texto;
+        cursor: pointer;
+    }
+
+    .login-box-container {
+        width: 550px;
+    }
+}
