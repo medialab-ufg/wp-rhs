@@ -43,6 +43,7 @@
                                     Envie sua Mensagem
                                 </div>
                             </div>
+
                             <div class="panel-body">
                                 <?php $RHSTicket->clear_messages(); ?>
                                 <form autocomplete="off" id="contato" class="form-horizontal" role="form" action="" method="post">
@@ -57,10 +58,26 @@
                                         <input type="text" tabindex="1" name="name" id="input-name" class="form-control" value="<?php echo $RHSUsers->get_user_data('display_name');?>" >
                                         <input class="form-control" type="hidden" value="<?php echo $RHSTicket->getKey(); ?>" name="ticket_user_wp" />
                                     </div>
+
+                                    <?php if( rand(0,2) == 0 ): ?>
+                                        <div id="contact_phone" class="form-group">
+                                            <label for="surname">Sobrenome <span class="required">*</span></label>
+                                            <input type="text" name="surname" class="form-control" />
+                                        </div>
+                                    <?php endif; ?>
+
                                     <div class="form-group float-label-control" style="display: <?php echo $dis; ?>">
                                         <label for="email">Email <span class="required">*</span></label>
                                         <input type="email" tabindex="2" name="email" id="input-email" class="form-control" value="<?php echo $RHSUsers->get_user_data('email');?>" >
                                     </div>
+
+                                    <?php if( rand(10,12) == 11 ): ?>
+                                        <div id="contact_phone" class="form-group">
+                                            <label for="phone">Telefone <span class="required">*</span></label>
+                                            <input type="text" name="phone" class="form-control" />
+                                        </div>
+                                    <?php endif; ?>
+
                                     <div class="form-group float-label-control" style="display: <?php echo $dis; ?>">
                                         <div class="row">
                                             <?php $location = get_user_ufmun($RHSPerfil->getUserId()); ?>
