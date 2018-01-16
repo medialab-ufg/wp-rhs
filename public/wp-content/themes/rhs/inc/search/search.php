@@ -477,9 +477,21 @@ class RHSSearch {
         $search_post_has_cat = isset($wp_query->query['cat']);
         $search_post_has_tag = isset($wp_query->query['tag']);
         $search_post_has_date = $wp_query->date_query;
+        
+        $search_page = get_query_var('rhs_busca');
+    
+        if($search_page == 'posts') {
+            $found_results = $wp_query->found_posts;
+        }
+        
+        if($search_page == 'users') {
+            $found_results = $users->total_users;
+        }
 
-        if(get_search_query() || $search_user_has_keyword > 2 || $search_user_has_uf_mun || $search_post_has_cat || $search_post_has_tag || $search_post_has_date) {
-            echo "<button type='button' class='btn btn-default filtro' data-toggle='modal' data-target='#exportModal'> Exportar CSV <i class='fa fa-save fa-fw'></i></button>";
+        if($found_results) {
+            if(get_search_query() || $search_user_has_keyword > 2 || $search_user_has_uf_mun || $search_post_has_cat || $search_post_has_tag || $search_post_has_date) {
+                echo "<button type='button' class='btn btn-default filtro' data-toggle='modal' data-target='#exportModal'> Exportar CSV <i class='fa fa-save fa-fw'></i></button>";
+            }
         }
     }
 
