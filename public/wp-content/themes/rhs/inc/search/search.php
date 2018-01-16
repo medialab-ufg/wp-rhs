@@ -714,8 +714,10 @@ function show_results_from_search() {
         $total_pages = 0;
     } elseif ($total_pages == 1){
         $text_pages = 'página';
+        $text_files = 'arquivo';
     } else {
         $text_pages = 'páginas';
+        $text_files = 'arquivos';
     }
 
     echo "<p>Conteúdo disponível: <strong>" . $total_pages . " </strong> ". $text_pages .".</p>";
@@ -725,7 +727,7 @@ function show_results_from_search() {
         $count++;
     }
     echo "<hr>";
-    echo "<p>Exibindo $initial a $final de $total resultados</p>";
+    echo "<p>Exibindo $total_pages $text_files contendo $total resultados</p>";
 }
 
 add_action('init', 'start_new_session', 1);
