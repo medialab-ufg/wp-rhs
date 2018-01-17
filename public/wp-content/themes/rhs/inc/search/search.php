@@ -511,8 +511,6 @@ class RHSSearch {
         $session_id = session_id();
         $pagename = get_transient('page_name_'.$session_id);
         $query_params = get_transient('download_query_'.$session_id);
-        // var_dump($query_params);
-        // die;
         
         if ($pagename == 'posts') {
             $query_params['paged'] = $_POST['paged'];
