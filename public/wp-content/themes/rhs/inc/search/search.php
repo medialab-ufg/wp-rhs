@@ -511,6 +511,8 @@ class RHSSearch {
         $session_id = session_id();
         $pagename = get_transient('page_name_'.$session_id);
         $query_params = get_transient('download_query_'.$session_id);
+        // var_dump($query_params);
+        // die;
         
         if ($pagename == 'posts') {
             $query_params['paged'] = $_POST['paged'];
@@ -710,18 +712,21 @@ function show_results_from_search() {
 
     if($search_page == 'posts') {
         $total = $result->found_posts;
-        set_transient('download_query_'.$session_id, $wp_query->query_vars, 60);
+        delete_transient('download_query_'.$session_id);
+        set_transient('download_query_'.$session_id, $wp_query->query_vars, 60 * 60 * 24);
     }
 
     if($search_page == 'users') {
         $get_users = $RHSSearch->search_users($wp_query->query_vars);
         $total = $get_users->total_users;
-        set_transient('download_query_'.$session_id, $wp_query->query_vars, 60);
+        delete_transient('download_query_'.$session_id);
+        set_transient('download_query_'.$session_id, $wp_query->query_vars, 60 * 60 * 24);
     }
     
     $total_pages = ceil($total / $per_page);
     
-    set_transient('page_name_'.$session_id, get_query_var('rhs_busca'), 60);
+    delete_transient('page_name_'.$session_id);
+    set_transient('page_name_'.$session_id, get_query_var('rhs_busca'), 60 * 60 * 24);
     
     $count = 1;
     
