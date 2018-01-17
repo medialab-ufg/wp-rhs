@@ -488,7 +488,9 @@ class RHSSearch {
             $found_results = $users->total_users;
         }
 
-        if($found_results) {
+        $current_user = wp_get_current_user();
+
+        if($found_results && user_can($current_user, 'editor')) {
             if(get_search_query() || $search_user_has_keyword > 2 || $search_user_has_uf_mun || $search_post_has_cat || $search_post_has_tag || $search_post_has_date) {
                 echo "<button type='button' class='btn btn-default filtro' data-toggle='modal' data-target='#exportModal'> Exportar CSV <i class='fa fa-save fa-fw'></i></button>";
             }
