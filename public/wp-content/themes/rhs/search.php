@@ -24,7 +24,7 @@
                                     <div class="label-rhs">
                                         <?php
                                             //Mostra o resultado da busca dos posts
-                                            RHSSearch::exibir_resultado_post();
+                                            exibir_resultado_post();
                                         ?>
                                     </div>
                                 <?php } ?>

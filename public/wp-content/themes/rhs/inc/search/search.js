@@ -53,6 +53,7 @@ jQuery(function() {
                 cache: false,
                 data: {
                     action: 'generate_csv',
+                    vars_to_generate: search_vars,
                     paged: paged,
                 },
                 success: function(output) {
