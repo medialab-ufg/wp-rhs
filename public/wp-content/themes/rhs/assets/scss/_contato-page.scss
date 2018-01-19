@@ -103,7 +103,7 @@
                 }
             }
         }
-    }
+    } // wrapper-content
     @media screen and (max-width: 768px) {
         margin-bottom: 20px;
     }
@@ -249,5 +249,10 @@
             right: 0px;
             left: 0px;
         }
+    }
+
+    #contact_phone, #contact_surname {
+        position: absolute;
+        left: -999em;
     }
 }

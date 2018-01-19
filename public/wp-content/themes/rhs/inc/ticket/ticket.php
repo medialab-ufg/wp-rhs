@@ -219,9 +219,15 @@ class RHSTicket extends RHSMessage {
     }
     
     /**
-     * É chamdo quando o formulário de contato é enviado
+     * É chamado quando o formulário de contato é enviado
      */
     public function trigger_by_post() {
+        if( ( isset($_POST['surname']) && !empty($_POST['surname']) ) ||
+            ( isset($_POST['phone']) && !empty($_POST['phone']) ) ) {
+
+            return;
+        }
+
         if ( ! empty( $_POST['ticket_user_wp'] ) && $_POST['ticket_user_wp'] == $this->getKey() ) {
             if ( ! $this->validate_by_post_insert() ) {
                 return;
