@@ -38,7 +38,7 @@
 					?>
 				</div>
 			</div>
-			<div class="col-xs-12 col-md-12">
+			<div class="col-xs-12 col-md-12 post-user">
 				<div class="post-meta">
 					<span class="post-user-date">
 						<a href="<?php echo $_post_['author']['url']; ?>" title="<?php echo $_post_['author']['href_title']; ?>">
@@ -60,43 +60,42 @@
 					<div class="pull-right share share-wrap col-md-5">
 						<div class="hidden-print">
 
-                            <div class="col-md-4 <?php echo $_post_['status']; ?>">
+                            <div class="col-xs-4 col-md-4 <?php echo $_post_['status']; ?>">
                                 <?php do_action('rhs_follow_post_box', $_post_id); ?>
                             </div>
 
 							<?php if( $_post_['status'] == 'publish') : ?>
 
-                                <div class="col-md-3 view-shares">
-                                    <div class="col-md-6 views">
-                                        <span class="num"> <?php echo $_post_['views']; ?> </span>
-                                        <span class="glyphicon-eye-open glyphicon"></span>
+                                <div class="col-xs-2 col-md-3 view-shares">
+                                    <div class="col-xs-6 col-md-6 views">
+                                        <span class="num" title="Visualização"> <?php echo $_post_['views']; ?> </span>
+                                        <span class="glyphicon-eye-open glyphicon" title="Visualização"></span>
                                     </div>
 
-                                    <div class="col-md-6 shares">
-                                        <span class="num"> <?php echo $_post_['shares']; ?> </span>
-                                        <span class="glyphicon-share glyphicon"></span>
+                                    <div class="col-xs-6 col-md-6 shares">
+                                        <span class="num" title="Compatilhamento"> <?php echo $_post_['shares']; ?> </span>
+                                        <span class="glyphicon-share glyphicon" title="Compatilhamento"></span>
                                     </div>
-                                </div>
-
-                                <div class="col-md-3 social-media">
-                                    <a data-site="" class="facebook_share" href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>" target="_blank">
-                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/facebook.png" title="Facebook" alt="Compartilhar no Facebook">
-                                    </a>
-                                    <a data-site="" class="twitter_share" href="http://twitter.com/share?url=<?php the_permalink(); ?>&amp;text=<?php the_title_attribute(); ?>&amp;via=RedeHumanizaSUS" target="_blank">
-                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/twitter.png" title="Twitter" alt="Compartilhar no Twitter">
-                                    </a>
-                                    <a href="whatsapp://send?text=<?php the_title_attribute( 'after= ' ); ?><?php the_permalink(); ?>" data-text="<?php the_title_attribute(); ?>" data-href="<?php the_permalink(); ?>" target="_top" onclick="window.parent.null" class="hidden-md hidden-lg whatsapp_share">
-                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/whatsapp.png" title="Whatsapp" alt="Compartilhar no Whatsapp">
-                                    </a>
                                 </div>
 
 							<?php endif;?>
 
-                            <div class="col-md-1 <?php echo $_post_['status']; ?>">
-                                <a data-site="print" class="share_print share_link" href="#" onclick="window.print()">
-                                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/print.png" title="Print" alt="Imprimir está página">
-                                </a>
-                            </div>
+                                <div class="col-xs-5 col-md-3 social-media">
+                                    <?php if( $_post_['status'] == 'publish') : ?>
+                                        <a data-site="" class="facebook_share" href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>" target="_blank">
+                                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/facebook.png" title="Facebook" alt="Compartilhar no Facebook">
+                                        </a>
+                                        <a data-site="" class="twitter_share" href="http://twitter.com/share?url=<?php the_permalink(); ?>&amp;text=<?php the_title_attribute(); ?>&amp;via=RedeHumanizaSUS" target="_blank">
+                                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/twitter.png" title="Twitter" alt="Compartilhar no Twitter">
+                                        </a>
+                                        <a href="whatsapp://send?text=<?php the_title_attribute( 'after= ' ); ?><?php the_permalink(); ?>" data-text="<?php the_title_attribute(); ?>" data-href="<?php the_permalink(); ?>" target="_top" onclick="window.parent.null" class="hidden-md hidden-lg whatsapp_share">
+                                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/whatsapp.png" title="Whatsapp" alt="Compartilhar no Whatsapp">
+                                        </a>
+                                    <?php endif;?>
+                                    <a data-site="print" class="share_print share_link" href="#" onclick="window.print()">
+                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/print.png" title="Print" alt="Imprimir está página">
+                                    </a>
+                                </div>
 
                         </div> <!-- .share-wrap.col-md-5 -->
 

@@ -42,144 +42,165 @@
                 }
             }
         }
-        .post-meta {
-            a, span {
-                font-size: 11px;
-                color: #8d8d8d;
+        .post-user{
+            @media only screen and (max-width: 420px){
+                padding: 0;
             }
-            .post-user-date {
-                padding-right: 10px;
-                margin-right: 10px;
-                display: inline-block;
-                position: relative;
-                a {
-                    text-decoration: none;
+            .post-meta {
+                a, span {
+                    font-size: 11px;
+                    color: #8d8d8d;
                 }
-                img {
-                    filter: grayscale(0%);
-                    transition: 0.3s all ease-in-out;
-                    &:hover {
-                        filter: grayscale(100%);
-                    }
-                }
-                .photo {
-                    margin-right: 8px;
+                .post-user-date {
+                    padding-right: 10px;
+                    margin-right: 10px;
                     display: inline-block;
-                    border-radius: 25px;
-                    object-fit: cover;
-                    object-position: top;
-                }
-                .usuario{
-                    &:after{
-                        content: "";
-                        display: block;
-                        position: absolute;
-                        background-color: #d6d6d6;
-                        width: 1px;
-                        top: 5px;
-                        bottom: 5px;
-                        right: -1px;
+                    position: relative;
+                    @media only screen and (max-width: 420px){
+                        padding-right: 3px;
+                        margin-right: 3px;
                     }
-                }
-            }
-            .post-user-edit{
-                margin-left: 10px;
-                display: inline-block;
-                position: relative;
-                .divisor{
-                    a{
-                        color: $primeira_cor_texto;
-                        &:hover{
-                            color: $primeira_cor_fundo;
-                            text-decoration: underline;
+                    a {
+                        text-decoration: none;
+                    }
+                    img {
+                        filter: grayscale(0%);
+                        transition: 0.3s all ease-in-out;
+                        &:hover {
+                            filter: grayscale(100%);
                         }
                     }
-                    &:before{
-                        content: "";
-                        display: block;
-                        position: absolute;
-                        background-color: #d6d6d6;
-                        width: 1px;
-                        top: 5px;
-                        bottom: 5px;
-                        left: -1px;
+                    .photo {
+                        margin-right: 8px;
+                        display: inline-block;
+                        border-radius: 25px;
+                        object-fit: cover;
+                        object-position: top;
+                    }
+                    .usuario{
+                        &:after{
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            background-color: #d6d6d6;
+                            width: 1px;
+                            top: 5px;
+                            bottom: 5px;
+                            right: -1px;
+                        }
                     }
                 }
-                .usuario {
-                    &:after {
-                        content: "";
-                        display: block;
-                        position: absolute;
-                        background-color: #d6d6d6;
-                        width: 1px;
-                        top: 5px;
-                        bottom: 5px;
-                        right: -1px;
-                    }
-                }
-            }
-            .share, .share a {
-                text-decoration: none;
-                border: 0;
-                background: none;
-                font: {
-                    weight: bold;
-                }
-                img {
-                    width: 40px !important;
-                    padding: 6px;
-                    border: 0;
-                    box-shadow: none !important;
-                    vertical-align: middle;
-                }
-                .btn-rhs{
-                    box-shadow: none;
-                    padding: 0px 5px;
-                    margin: 0 4px;
-                    background: transparent;
-                    border: 1px solid #00b9b9;
-                    .follow-post, .unfollow{
-                        color: white;
-                        font-weight: 900;
-                        margin: 0;
-                        color: #00b9b9;
-                    }
-                    &:focus{
-                        outline: none;
-                    }
-                    .fa-remove, .fa-rss{
-                        color: #00b9b9;
-                        text-align: right;
-                        font-size: 1.2em;
-                    }
-                    i {
+                .post-user-edit{
+                    margin-left: 10px;
+                    display: inline-block;
+                    position: relative;
+                    @media only screen and (max-width: 420px){
                         margin-left: 3px;
                     }
-                    &:hover{
-                        background: #00b9b9;
+                    .divisor{
+                        a{
+                            color: $primeira_cor_texto;
+                            &:hover{
+                                color: $primeira_cor_fundo;
+                                text-decoration: underline;
+                            }
+                        }
+                        &:before{
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            background-color: #d6d6d6;
+                            width: 1px;
+                            top: 5px;
+                            bottom: 5px;
+                            left: -1px;
+                        }
+                    }
+                    .usuario {
+                        &:after {
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            background-color: #d6d6d6;
+                            width: 1px;
+                            top: 5px;
+                            bottom: 5px;
+                            right: -1px;
+                        }
+                    }
+                }
+                .share{
+                    @media only screen and (max-width: 420px){
+                        float: none !important;
+                    }
+                }
+                .share, .share a {
+                    text-decoration: none;
+                    border: 0;
+                    background: none;
+                    font: {
+                        weight: bold;
+                    }
+                    img {
+                        width: 40px !important;
+                        padding: 6px;
+                        border: 0;
+                        box-shadow: none !important;
+                        vertical-align: middle;
+                        @media only screen and (max-width: 420px){
+                            width: 35px !important;
+                            padding: 5px;
+                        }
+                    }
+                    .btn-rhs{
+                        box-shadow: none;
+                        padding: 0px 5px;
+                        margin: 0 4px;
+                        background: transparent;
+                        border: 1px solid #00b9b9;
                         .follow-post, .unfollow{
                             color: white;
+                            font-weight: 900;
+                            margin: 0;
+                            color: #00b9b9;
+                        }
+                        &:focus{
+                            outline: none;
                         }
                         .fa-remove, .fa-rss{
-                            color: white;
+                            color: #00b9b9;
+                            text-align: right;
+                            font-size: 1.2em;
+                        }
+                        i {
+                            margin-left: 3px;
+                        }
+                        &:hover{
+                            background: #00b9b9;
+                            .follow-post, .unfollow{
+                                color: white;
+                            }
+                            .fa-remove, .fa-rss{
+                                color: white;
+                            }
                         }
                     }
-                }
-                @media only screen and (min-width: 769px) {
-                    .whatsapp_share {
-                        display: none;
+                    @media only screen and (min-width: 769px) {
+                        .whatsapp_share {
+                            display: none;
+                        }
                     }
+                    /*
+                    //Será usado para se a mari concordar com os tooltips nos posts.
+                    &.focus {
+                        text-align: center;
+                        margin-left:auto;
+                        margin-right:auto;
+                        font-weight: bold;
+                        border: 1px solid #00b9b9;
+                        box-shadow: 0 0 5px #00b9b9;
+                    }*/
                 }
-                /*
-                //Será usado para se a mari concordar com os tooltips nos posts.
-                &.focus {
-                    text-align: center;
-                    margin-left:auto;
-                    margin-right:auto;
-                    font-weight: bold;
-                    border: 1px solid #00b9b9;
-                    box-shadow: 0 0 5px #00b9b9;
-                }*/
             }
         }
         .content {
@@ -456,6 +477,7 @@
                 } // views-shares
 
                 .social-media {
+                    display: inline-flex;
                     padding: 0;
                     text-align: right
                 }
