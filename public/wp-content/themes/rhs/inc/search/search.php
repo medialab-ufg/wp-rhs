@@ -454,8 +454,10 @@ class RHSSearch {
         $total_pages = 1;
         $total_pages = ceil($users->total_users / $users_per_page);
         $big = 999999999;
+        $search_for   = array($big, '#038;');
+        $replace_with = array('%#%', '');
         $content = paginate_links( array(
-            'base'         => str_replace($big, '%#%', get_pagenum_link($big)),
+            'base'         => str_replace($search_for, $replace_with, esc_url(get_pagenum_link($big))),
             'format'       => '/page/%#%',
             'prev_text'    => __('&laquo; Anterior'),
             'next_text'    => __('Próxima &raquo;'), 
