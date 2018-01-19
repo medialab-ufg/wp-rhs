@@ -5,7 +5,7 @@ class RHSSearch {
     const BASE_URL = 'busca';
     const BASE_USERS_URL = 'busca/usuarios';
     const USERS_PER_PAGE = 12;
-    const EXPORT_TOTAL_PER_PAGE = 500;
+    const EXPORT_TOTAL_PER_PAGE = 300;
     
     function __construct() {
         add_action('pre_get_posts', array(&$this, 'pre_get_posts'), 2);
@@ -39,7 +39,7 @@ class RHSSearch {
             $wp_query_params->query_vars['municipio'] = RHSSearch::get_param('municipio');
             $wp_query_params->query_vars['rhs_order'] = RHSSearch::get_param('rhs_order');
         } else {
-            $wp_query_params['posts_per_page'] = 500;
+            $wp_query_params['posts_per_page'] = self::EXPORT_TOTAL_PER_PAGE;;
             $wp_query_params['query_vars']['rhs_busca'] = 'posts';
         }
 
