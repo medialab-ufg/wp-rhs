@@ -33,14 +33,17 @@ class RHSSearch {
         $pagename = $wp_query_params['rhs_busca'];
 
         if($pagename == 'users'){
-            $wp_query_params = $RHSSearch->search_users($wp_query->query_vars);
+            $wp_query_params = $RHSSearch->search_users();
             $wp_query_params->query_vars['rhs_busca'] = 'users';
-            return json_encode($wp_query_params);
+            $wp_query_params->query_vars['uf'] = RHSSearch::get_param('uf');
+            $wp_query_params->query_vars['municipio'] = RHSSearch::get_param('municipio');
+            $wp_query_params->query_vars['rhs_order'] = RHSSearch::get_param('rhs_order');
         } else {
             $wp_query_params['posts_per_page'] = 500;
             $wp_query_params['query_vars']['rhs_busca'] = 'posts';
-            return json_encode($wp_query_params);
         }
+
+        return json_encode($wp_query_params);
     }
 
     static function get_query_string_for_search_urls() {
@@ -317,13 +320,7 @@ class RHSSearch {
      */
     public function search_users($params = array()) {
         
-        $users_per_page = isset($params['export_number']);
-        if ($users_per_page) {
-            $users_per_page = self::EXPORT_TOTAL_PER_PAGE;
-        } else {
-            $users_per_page = self::USERS_PER_PAGE;
-        }
-    
+        $users_per_page = self::USERS_PER_PAGE;
         $meta_query = [];
         $has_meta_query = false;
         
@@ -521,15 +518,16 @@ class RHSSearch {
     * Convertendo dados em csv
     */
 
-    static function generate_csv() {
+    public static function generate_csv() {
         global $wp_query;
         global $RHSVote;
         global $RHSNetwork;
         global $RHSSearch;
-
+        
         $get_params = $_POST['vars_to_generate'];
         $query_params = json_decode(stripslashes($get_params['vars_to_generate']), true);
-        $pagename = $query_params['query_vars']['rhs_busca'];
+        $query_vars = $query_params['query_vars'];
+        $pagename = $query_vars['rhs_busca'];
 
         if ($pagename == 'posts') {
             $query_params['paged'] = $_POST['paged'];
@@ -537,9 +535,9 @@ class RHSSearch {
         }
 
         if($pagename == 'users') {
-            $query_params['paged'] = $_POST['paged'];
-            $query_params['export_number'] = true;
-            $get_users = new WP_User_Query($query_params['query_vars']);
+            $query_vars['paged'] = $_POST['paged'];
+            $query_vars['number'] = self::EXPORT_TOTAL_PER_PAGE;
+            $get_users = new WP_User_Query($query_vars);
             $content_file = $get_users->results;
         }
        
