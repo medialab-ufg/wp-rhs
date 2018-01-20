@@ -44,6 +44,11 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-group">
+                <input type="hidden" name="currentURL" value="<?php echo $_SERVER['REQUEST_URI']; ?>">
+            </div>
+
         </form>
     </div>
 
