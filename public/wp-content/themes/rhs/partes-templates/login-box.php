@@ -1,58 +1,55 @@
 <?php global $RHSLogin; ?>
 
-    <!-- Container -->
-    <div class="login-box">
-        <header>
-            <div class="col-md-12 container">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <div class="panel-title">Acessar sua Conta</div>
-                        <div class="panel-sub"><a href="<?php echo wp_lostpassword_url(); ?>">Esqueceu a Senha?</a></div>
+    <div class="col-lg-12">
+        <div class="text-center"><h3 style="color: white"><b>Acessar sua Conta</b></h3></div>
+
+        <?php foreach ($RHSLogin->messages() as $type => $messages){ ?>
+            <?php foreach ($messages as $message){ ?>
+                <script>
+                    jQuery( function( $ ) {
+                        swal({title: '<?php echo $message ?>', html: true});
+                    });
+                </script>
+            <?php } ?>
+        <?php } ?>
+
+        <form id="login" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post" role="form" autocomplete="off">
+            <div class="form-group">
+                <label for="username" style="color: #e3e3e3">E-mail</label>
+                <input type="email" placeholder="Digite seu e-mail cadastrado" name="log" id="log" tabindex="1" class="form-control" value="" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="password" style="color: #e3e3e3">Senha</label>
+                <input type="password" name="pwd" id="pwd" tabindex="2" class="form-control" placeholder="Digite sua senha" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-7">
+                        <input id="rememberme" name="rememberme" type="checkbox" value="forever"> <label style="color: white">Lembrar</label>
                     </div>
-                    <div class="panel-body">
-                        <?php foreach ($RHSLogin->messages() as $type => $messages){ ?>
-                            <?php foreach ($messages as $message){ ?>
-                                <script>
-                                    jQuery( function( $ ) {
-                                        swal({title: '<?php echo $message ?>', html: true});
-                                    });
-                                </script>
-                            <?php } ?>
-                        <?php } ?>
-                        <form id="login" class="form-horizontal" role="form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
-                            <div class="form-group float-label-control">
-                                <label for="user_login">Email</label>
-                                <input type="email" tabindex="1" name="log" id="log" class="form-control" value="" >
-                            </div>
-                            <div class="form-group float-label-control">
-                                <label for="user_pass">Senha</label>
-                                <input type="password" tabindex="2" name="pwd" id="pwd" class="form-control" value="">
-                            </div>
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label>
-                                        <input id="rememberme" name="rememberme"  type="checkbox" value="forever"> Lembrar
-                                    </label>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="panel-button form-actions pull-right">
-                                <button id="btn-login" class="btn btn-success" type="submit" >Login</button>
-                            </div>
-                            <div class="clearfix"></div>
-                            <input type="hidden" name="redirect_to" id="redirect_to" value="<?php echo esc_attr( isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : '' ); ?>" />
-                        </form>
-                        <?php if(!RHSLogin::is_login_via_app()) : ?>
-                            <div class="panel-other" >
-                                Você não tem uma conta?
-                                <a href="<?php echo wp_registration_url(); ?>">
-                                    Crie uma aqui!
-                                </a>
-                            </div>
-                        <?php endif; ?>
+                    <div class="col-xs-5 pull-right">
+                        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-success" value="Entrar">
                     </div>
                 </div>
             </div>
-        </header>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <a style="color: #e3e3e3" href="<?php echo wp_lostpassword_url(); ?>" tabindex="5" class="forgot-password">Esqueceu sua senha?</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" name="currentURL" value="<?php echo $_SERVER['REQUEST_URI']; ?>">
+            </div>
+
+        </form>
     </div>
+
 <?php $RHSLogin->clear_messages(); ?>
