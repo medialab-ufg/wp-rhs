@@ -51,16 +51,16 @@
                 <ul class="nav navbar-nav <?php if(!my_wp_is_mobile()):?>navbar-right dropdown-menu-right no-mobile<?php else:?>mobile-nav<?php endif;?>">
                     <?php if(!is_user_logged_in()): ?>
 
-                        <li> <a class="btn-seconday dropdown-toggle open-login" type="button" id="loginBox" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                Faça seu login
-                            </a>
-                            <div class="dropdown-menu login-box-container" aria-labelledby="loginBox">
-                                <?php get_template_part("partes-templates/login-box"); ?>
-                            </div>
-                        </li>
-
                         <?php /* <li><a href="<?php echo wp_login_url(); ?>" style="color: #00b4b4">Faça seu login</a></li> */ ?>
+
+                        <li class="dropdown">
+                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"> Faça seu login <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-lr animated slideInRight" role="menu">
+                                <li class="login-box-container">
+                                    <?php get_template_part("partes-templates/login-box"); ?>
+                                </li>
+                            </ul>
+                        </li>
 
                         <span class="navbar-text">ou</span>
                         <li><a href="<?php echo wp_registration_url(); ?>" style="color: #00b4b4">Cadastre-se</a></li>
