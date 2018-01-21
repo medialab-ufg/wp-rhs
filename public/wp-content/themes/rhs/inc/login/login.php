@@ -36,9 +36,12 @@ class RHSLogin extends RHSMessage {
     }
 
     function login_redirect( $redirect_to, $requested_redirect_to, $user ) {
+        $currentURL = $_POST['currentURL'];
         if ( empty( $redirect_to ) ) {
             //TODO verificar role do usuário para enviar para a página apropriada
             $redirect_to =  esc_url(home_url());
+        } else if(isset($currentURL)) {
+            $redirect_to = esc_url( $_SERVER['HTTP_ORIGIN'] . $currentURL );
         }
 
         return $redirect_to;
