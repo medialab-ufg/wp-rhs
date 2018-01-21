@@ -747,7 +747,7 @@ function show_results_from_search() {
         $text_files = 'arquivos';
     }
 
-    echo "<p>Conteúdo disponível: <strong>" . $total_pages . " </strong> ". $text_pages .".</p>";
+    echo "<p>Conteúdo por página: <strong>" . $per_page . " </strong> registros</p>";
     echo "<p>Clique em uma página abaixo para iniciar a exportação:</p>";
     while($count < $total_pages+1) {
         echo "<a class='btn btn-rhs export-csv' data-page='". $count . "' data-page-title=". $search_page .">Página ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
