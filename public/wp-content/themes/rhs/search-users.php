@@ -26,7 +26,8 @@ $users = $RHSSearch->search_users();
                                     <div class="label-rhs"> 
                                     <?php
                                         //Mostra o resultado da busca dos usuarios
-                                        RHSSearch::exibir_resultado_user();
+                                        exibir_resultado_user();
+                                        
                                     ?>
                                     </div>
                                 <?php }?>
@@ -34,6 +35,7 @@ $users = $RHSSearch->search_users();
                             <div class="col-xs-6 classificar">
                                 <div class="pull-right">
                                     <div class="dropdown">
+                                        <?php RHSSearch::show_button_download_report(); ?>
                                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         Ordenar por
                                         <?php
@@ -107,5 +109,7 @@ $users = $RHSSearch->search_users();
         </div>
     </div>
 </div>
+
+<?php get_template_part('partes-templates/export-modal'); ?>
 
 <?php get_footer('full');
