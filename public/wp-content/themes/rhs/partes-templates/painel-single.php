@@ -53,20 +53,22 @@
 					<span class="post-date text-uppercase">
 						<i class="fa fa-calendar" aria-hidden="true"></i> <?php the_time('d/m/Y'); ?>
 					</span>
-					<span class="post-user-edit">
-						<?php edit_post_link( __( 'Editar Post', 'rhs' ), '<span class="divisor text-uppercase">', '</span>', null, 'btn' ); ?>
-					</span>
+                    <?php if(is_user_logged_in()) { ?>
+                        <span class="post-user-edit">
+                            <?php edit_post_link( __( 'Editar Post', 'rhs' ), '<span class="divisor text-uppercase">', '</span>', null, 'btn' ); ?>
+                        </span>
+                    <?php } ?>
 
 					<div class="pull-right share share-wrap col-md-5">
-						<div class="hidden-print">
-
+                    <div class="hidden-print <?php if(!is_user_logged_in()){ ?>pull-right<?php } ?>">
+                        <?php if(is_user_logged_in()) { ?>
                             <div class="col-xs-4 col-md-4 <?php echo $_post_['status']; ?>">
                                 <?php do_action('rhs_follow_post_box', $_post_id); ?>
                             </div>
-
+                        <?php } ?>
 							<?php if( $_post_['status'] == 'publish') : ?>
 
-                                <div class="col-xs-2 col-md-3 view-shares">
+                                <div class="<?php if(is_user_logged_in()) { ?>col-xs-2 col-md-3<?php }else{ ?>col-xs-4 col-md-4<?php } ?> view-shares">
                                     <div class="col-xs-6 col-md-6 views">
                                         <span class="num" title="Visualização"> <?php echo $_post_['views']; ?> </span>
                                         <span class="glyphicon-eye-open glyphicon" title="Visualização"></span>
