@@ -5,22 +5,47 @@ class RHSSearch {
     const BASE_URL = 'busca';
     const BASE_USERS_URL = 'busca/usuarios';
     const USERS_PER_PAGE = 12;
-
+    const EXPORT_TOTAL_PER_PAGE = 300;
+    
     function __construct() {
         add_action('pre_get_posts', array(&$this, 'pre_get_posts'), 2);
         add_action('wp_enqueue_scripts', array(&$this, 'addJS'), 2);
+        add_action('wp_ajax_generate_csv', array($this, 'generate_csv'));
+        add_action('wp_ajax_nopriv_generate_csv', array($this,'generate_csv'));
     }
-    
+
     function addJS() {
         if (get_query_var('rhs_busca')) {
             wp_enqueue_script('rhs_search', get_template_directory_uri() . '/inc/search/search.js', array('bootstrap-datapicker', 'magicJS'));
             wp_localize_script( 'rhs_search', 'search_vars', array( 
                 'ajaxurl' => admin_url( 'admin-ajax.php' ),
-                'selectedTags' => $this->get_param('tag')
+                'selectedTags' => $this->get_param('tag'),
+                'vars_to_generate' => $this->get_query_var_to_export()
             ) );
         }
     }
-    
+
+    static function get_query_var_to_export() {
+        global $wp_query;
+        global $RHSSearch;
+        $wp_query_params = $wp_query->query_vars;
+        
+        $pagename = $wp_query_params['rhs_busca'];
+
+        if($pagename == 'users'){
+            $wp_query_params = $RHSSearch->search_users();
+            $wp_query_params->query_vars['rhs_busca'] = 'users';
+            $wp_query_params->query_vars['uf'] = RHSSearch::get_param('uf');
+            $wp_query_params->query_vars['municipio'] = RHSSearch::get_param('municipio');
+            $wp_query_params->query_vars['rhs_order'] = RHSSearch::get_param('rhs_order');
+        } else {
+            $wp_query_params['posts_per_page'] = self::EXPORT_TOTAL_PER_PAGE;;
+            $wp_query_params['query_vars']['rhs_busca'] = 'posts';
+        }
+
+        return json_encode($wp_query_params);
+    }
+
     static function get_query_string_for_search_urls() {
         $q = [];
         if (self::get_param('keyword')) $q[] = 'keyword=' . self::get_param('keyword');
@@ -197,6 +222,7 @@ class RHSSearch {
             $wp_query->set('order', $q_order);
             $wp_query->set('orderby', $q_order_by);
             $wp_query->set('post_type', 'post');
+            
         }
 
     }
@@ -293,6 +319,7 @@ class RHSSearch {
      * @return Object WP_User_Query 
      */
     public function search_users($params = array()) {
+        
         $users_per_page = self::USERS_PER_PAGE;
         $meta_query = [];
         $has_meta_query = false;
@@ -417,7 +444,7 @@ class RHSSearch {
         
     }
     /**
-     * Show pagination 
+     * Exibe paginação
      * 
      * @return mixed Return html with paginate links
      */
@@ -427,8 +454,10 @@ class RHSSearch {
         $total_pages = 1;
         $total_pages = ceil($users->total_users / $users_per_page);
         $big = 999999999;
+        $search_for   = array($big, '#038;');
+        $replace_with = array('%#%', '');
         $content = paginate_links( array(
-            'base'         => str_replace($big, '%#%', get_pagenum_link($big)),
+            'base'         => str_replace($search_for, $replace_with, esc_url(get_pagenum_link($big))),
             'format'       => '/page/%#%',
             'prev_text'    => __('&laquo; Anterior'),
             'next_text'    => __('Próxima &raquo;'), 
@@ -448,6 +477,158 @@ class RHSSearch {
             }
             echo '</ul>';
         }
+    }
+
+
+    /**
+    * Exibe botão para download de CSV
+    */
+    static function show_button_download_report() {
+        global $wp_query;
+        global $RHSSearch;
+        global $RHSVote;
+
+        $users = $RHSSearch->search_users();
+        $search_user_has_uf_mun = isset($users->query_vars['meta_query']);      
+        $search_user_has_keyword = strlen(utf8_decode($users->query_vars['search']));
+        
+        $search_post_has_cat = isset($wp_query->query['cat']);
+        $search_post_has_tag = isset($wp_query->query['tag']);
+        $search_post_has_date = $wp_query->date_query;
+        
+        $search_page = get_query_var('rhs_busca');
+    
+        if($search_page == 'posts') {
+            $found_results = $wp_query->found_posts;
+        }
+        
+        if($search_page == 'users') {
+            $found_results = $users->total_users;
+        }
+
+        $current_user = wp_get_current_user();
+        $user_roles = array('editor', 'administrator');
+
+        if($found_results && array_intersect($user_roles, $current_user->roles)) {
+            if(get_search_query() || $search_user_has_keyword > 2 || $search_user_has_uf_mun || $search_post_has_cat || $search_post_has_tag || $search_post_has_date) {
+                echo "<button type='button' class='btn btn-default filtro' data-toggle='modal' data-target='#exportModal'> Exportar CSV <i class='fa fa-save fa-fw'></i></button>";
+            }
+        }
+    }
+
+    /**
+    * Convertendo dados em csv
+    */
+
+    public static function generate_csv() {
+        global $wp_query;
+        global $RHSVote;
+        global $RHSNetwork;
+        global $RHSSearch;
+        
+        $get_params = $_POST['vars_to_generate'];
+        $query_params = json_decode(stripslashes($get_params['vars_to_generate']), true);
+        $query_vars = $query_params['query_vars'];
+        $pagename = $query_vars['rhs_busca'];
+
+        if ($pagename == 'posts') {
+            $query_params['paged'] = $_POST['paged'];
+            $content_file = get_posts($query_params);
+        }
+
+        if($pagename == 'users') {
+            $query_vars['paged'] = $_POST['paged'];
+            $query_vars['number'] = self::EXPORT_TOTAL_PER_PAGE;
+            $get_users = new WP_User_Query($query_vars);
+            $content_file = $get_users->results;
+        }
+       
+        $file = fopen('php://output', 'w');
+
+        if($pagename == 'users') {
+            fputcsv($file, array('Nome do Usuário', 'Data de Cadastro', 'Total de Postagens', 'Total de Votos Recebidos', 'Estado', 'Cidade'));
+
+            foreach($content_file as $user) {
+                
+                $name = $user->display_name;
+                $register_date = $user->user_registered;;
+                
+                $get_total_posts = count_user_posts($user->ID);
+                $get_total_votes = $RHSVote->get_total_votes_by_author($user->ID);
+
+                $total_posts = return_value_or_zero($get_total_posts); 
+                $total_votes = return_value_or_zero($get_total_votes); 
+
+                $user_ufmun = get_user_ufmun($user->ID);
+                $uf = return_value_or_dash($user_ufmun['uf']['sigla']);
+                $mun = return_value_or_dash($user_ufmun['mun']['nome']);
+
+                $row_data[] = [
+                    'nome'=> $name,
+                    'date' => date("d/m/Y H:i:s",strtotime($register_date)),
+                    'total_posts' => $total_posts,
+                    'total_votes' => $total_votes,
+                    'state' => $uf,
+                    'city' => $mun
+                ];
+            }
+        }
+
+        if($pagename == 'posts') {
+            fputcsv($file, array('Título', 'Conteúdo','Data', 'Autor', 'Link', 'Visualizações', 'Compartilhamentos', 'Votos', 'Comentários', 'Estado', 'Cidade'));
+                    
+            foreach($content_file as $post) {
+                
+                $get_title = html_entity_decode(get_the_title($post->ID), ENT_QUOTES, "UTF-8");
+                
+                $raw_content = get_post_field('post_content', $post->ID);
+                $post_content = iconv( "utf-8", "utf-8", $raw_content );
+                $post_content = strip_html_tags( $post_content );
+                $post_content = html_entity_decode($post_content, ENT_QUOTES, "UTF-8");
+
+                $get_date = get_the_date('d/m/Y H:i:s', $post->ID);
+                $get_author = get_the_author_meta('user_firstname', $post->post_author) . " " . get_the_author_meta('user_lastname', $post->post_author);
+                $get_link = $post->guid;
+                $get_views = $RHSNetwork->get_post_total_views($post->ID);
+                $get_shares = $RHSNetwork->get_post_total_shares($post->ID);
+                $get_comments = wp_count_comments($post->ID);
+                $get_votes = $RHSVote->get_total_votes($post->ID);
+
+                $views = return_value_or_zero($get_views);
+                $shares = return_value_or_zero($get_shares);
+                $votes = return_value_or_zero($get_votes);
+                $comments = return_value_or_zero($get_comments);
+                
+                $post_ufmun = get_post_ufmun($post->ID);
+                $uf = $post_ufmun['uf']['sigla'];
+                $mun = $post_ufmun['mun']['nome'];
+
+                $row_data[] = [
+                    'titulo'=> $get_title,
+                    'conteudo' => $post_content,
+                    'data'=> $get_date,
+                    'autor' => $get_author,
+                    'link' => $get_link,
+                    'visualizacoes' => $views,
+                    'compartilhamentos' => $shares,
+                    'votos' => $votes,
+                    'comentarios' => $comments,
+                    'estado' => return_value_or_dash($uf),
+                    'cidade' => return_value_or_dash($mun)
+                ];
+            }
+
+        }
+
+        foreach ($row_data as $row) {
+            fputcsv($file, $row);
+        }
+
+        mb_convert_encoding($file, 'UTF-16LE', 'UTF-8');
+
+        fclose($file);
+        exit;        
+
     }
 
     public static function render_uf_city_select() {
@@ -470,51 +651,110 @@ class RHSSearch {
         $default_classes = "btn btn-default filtro";
         return "<button type='submit' class='$default_classes btn-rhs'>Filtrar</button> <button type='reset' class='$default_classes'>Limpar Filtros</button>";
     }
+}
 
-    /**
-     * Show result posts
-     *
-     * @return o resultado dos posts.
-     */
+/**
+ * Show result posts
+ *
+ * @return o resultado dos posts.
+ */
 
-    function exibir_resultado_post() {
-        global $wp_query;
-        $result = $wp_query;
+function exibir_resultado_post() {
+    global $wp_query;
+    $result = $wp_query;
 
-        $total = $result->found_posts;
-        $paged = empty($result->query['paged']) ? 1 : $result->query['paged'];
-        $per_page = $result->query_vars['posts_per_page'];
-        $final = $per_page * $paged;
+    $total = $result->found_posts;
+    $paged = empty($result->query['paged']) ? 1 : $result->query['paged'];
+    $per_page = $result->query_vars['posts_per_page'];
+    $final = $per_page * $paged;
 
-        if($total > 0) {
-            $initial = $final - ($per_page-1);
-            if ($final > $total) $final = $total;
-            echo "Exibindo $initial a $final de $total resultados";
-        } else {
-            _e("Nenhum post encontrado com estes termos de busca!", "rhs");
-        }
-    }
-
-    /**
-     * Show result usuarios
-     *
-     * @return o resultado dos usuarios.
-     */
-
-    function exibir_resultado_user(){
-        $RHSSearch = new RHSSearch();
-        $users = $RHSSearch->search_users();
-        $total = $users->total_users;
-        $paged = empty($users->query_vars['paged']) ? 1 : $users->query_vars['paged'];
-        $per_page = $users->query_vars['number'];
-
-        $final = $per_page * $paged;
-
+    if($total > 0) {
         $initial = $final - ($per_page-1);
         if ($final > $total) $final = $total;
-
         echo "Exibindo $initial a $final de $total resultados";
+    } else {
+        _e("Nenhum post encontrado com estes termos de busca!", "rhs");
     }
+}
+
+/**
+ * Show result usuarios
+ *
+ * @return o resultado dos usuarios.
+*/
+
+function exibir_resultado_user(){
+    $RHSSearch = new RHSSearch();
+    $users = $RHSSearch->search_users();
+    $total = $users->total_users;
+    $paged = empty($users->query_vars['paged']) ? 1 : $users->query_vars['paged'];
+    $per_page = $users->query_vars['number'];
+
+    $final = $per_page * $paged;
+
+    $initial = $final - ($per_page-1);
+    if ($final > $total) $final = $total;
+
+    echo "Exibindo $initial a $final de $total resultados";
+}
+
+function return_value_or_zero($value){
+    $value = (int)$value;
+    if($value > 0)
+        return $value;
+    else
+        return '0';
+}
+
+function return_value_or_dash($value){
+    if(!$value)
+        return '-';
+    else
+        return $value;
+}
+
+function show_results_from_search() {
+    global $wp_query;
+    global $RHSSearch;
+    $per_page = $RHSSearch::EXPORT_TOTAL_PER_PAGE;
+
+    $wp_query->query($wp_query->query_vars);
+    $wp_query->set('posts_per_page', $per_page);
+    $result = $wp_query;
+    $search_page = get_query_var('rhs_busca');
+    $session_id = session_id();
+
+    if($search_page == 'posts') {
+        $total = $result->found_posts;
+    }
+
+    if($search_page == 'users') {
+        $get_users = $RHSSearch->search_users($wp_query->query_vars);
+        $total = $get_users->total_users;
+    }
+    
+    $total_pages = ceil($total / $per_page);
+    
+    $count = 1;
+    
+    if (empty($total_pages)) {
+        $total_pages = 0;
+    } elseif ($total_pages == 1){
+        $text_pages = 'página';
+        $text_files = 'arquivo';
+    } else {
+        $text_pages = 'páginas';
+        $text_files = 'arquivos';
+    }
+
+    echo "<p>Conteúdo por página: <strong>" . $per_page . " </strong> registros</p>";
+    echo "<p>Clique em uma página abaixo para iniciar a exportação:</p>";
+    while($count < $total_pages+1) {
+        echo "<a class='btn btn-rhs export-csv' data-page='". $count . "' data-page-title=". $search_page .">Página ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
+        $count++;
+    }
+    echo "<hr>";
+    echo "<p>Exibindo $total_pages $text_files contendo $total resultados</p>";
 }
 
 global $RHSSearch;

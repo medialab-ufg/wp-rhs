@@ -38,5 +38,33 @@ jQuery(function() {
             ms.setDataUrlParams({action: 'get_tags'});
         }
     });
-    
+
+    var $ = jQuery;
+    jQuery(document).ready(function() {
+        jQuery(".export-csv").click(function () {
+            var d = new Date();
+            var paged = jQuery(this).attr('data-page');
+            var search_page = jQuery(this).attr('data-page-title');
+            var filename = "RHS_pesquisa_" + d.getDate() + "" + (d.getMonth() + 1) + ""+ d.getFullYear() + "_" + search_page + "_pagina_" + paged + ".csv";
+            $(this).find('.export-loader').removeClass('hide');
+            jQuery.ajax({
+                type: "POST",
+                url: search_vars.ajaxurl,
+                cache: false,
+                data: {
+                    action: 'generate_csv',
+                    vars_to_generate: search_vars,
+                    paged: paged,
+                },
+                success: function(output) {
+                    var blob = new Blob(["\ufeff", output]);
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = filename;
+                    link.click();
+                    $('.export-loader').addClass('hide');
+                }
+            });
+        });
+    })
 });

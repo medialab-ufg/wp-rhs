@@ -362,8 +362,10 @@ function menuRodape(){
 function paginacao_personalizada() {
     global $wp_query;
     $big = 999999999;
+    $search_for   = array($big, '#038;');
+    $replace_with = array('%#%', '');       
     $pages = paginate_links(array(
-        'base' => str_replace($big, '%#%', get_pagenum_link($big)),
+        'base' => str_replace($search_for, $replace_with, esc_url(get_pagenum_link($big))),
         'format' => '?page=%#%',
         'current' => max(1, get_query_var('paged')),
         'total' => $wp_query->max_num_pages,
@@ -832,3 +834,32 @@ function rhs_embed_youtube_live($atts) {
 }
 
 add_shortcode( 'rhs_youtube_live', 'rhs_embed_youtube_live');
+
+function strip_html_tags($content) {
+        $text = preg_replace(
+            array(
+                '@<head[^>]*?>.*?</head>@siu',
+                '@<style[^>]*?>.*?</style>@siu',
+                '@<script[^>]*?.*?</script>@siu',
+                '@<object[^>]*?.*?</object>@siu',
+                '@<embed[^>]*?.*?</embed>@siu',
+                '@<applet[^>]*?.*?</applet>@siu',
+                '@<noframes[^>]*?.*?</noframes>@siu',
+                '@<noscript[^>]*?.*?</noscript>@siu',
+                '@<noembed[^>]*?.*?</noembed>@siu',
+                '@</?((address)|(blockquote)|(center)|(del))@iu',
+                '@</?((div)|(h[1-9])|(ins)|(isindex)|(p)|(pre))@iu',
+                '@</?((dir)|(dl)|(dt)|(dd)|(li)|(menu)|(ol)|(ul))@iu',
+                '@</?((table)|(th)|(td)|(caption))@iu',
+                '@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
+                '@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
+                '@</?((frameset)|(frame)|(iframe))@iu',
+            ),
+            array(
+                ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+                "\n\$0", "\n\$0", "\n\$0", "\n\$0", "\n\$0", "\n\$0",
+                "\n\$0", "\n\$0",
+            ),
+            $content);
+        return strip_tags($content);
+    }

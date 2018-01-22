@@ -136,6 +136,24 @@
             }
        }
     }
+}
+
+#exportModal{
+    .modal-header{
+        background: #00b9b9;
+        .close{
+            font-weight: 900;
+            font-size: 31px;
+        }
+        .modal-title{
+            font-weight: 900;
+            text-align: center;
+            color: #003c46;
+        }
+    }
+
+    .export-csv {
+        margin-top: 1%;
 
     #filter {
         .uf-city {
@@ -143,6 +161,7 @@
             display: -webkit-box;
         }
     }
+}
 }
 
 @media (min-width: 992px) {
