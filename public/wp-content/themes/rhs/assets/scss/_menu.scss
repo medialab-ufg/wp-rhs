@@ -165,8 +165,15 @@ Primeiro e Segundo DropDown Menu
 .primeiro-menu {
     .no-mobile {
         > li {
+            &.dropdown:hover .dropdown-menu{
+                display: block;
+            }
             > a {
                 margin-top: 9px !important;
+                color: #00b4b4;
+                &:visited {
+                    color: #00b4b4;
+                }
             }
         }
     }
