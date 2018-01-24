@@ -46,6 +46,24 @@
     }
 
     .login-box-container {
-        width: 550px;
+        @media only screen {
+            @media (max-width: 360px){
+                width: 359px !important;
+            }
+            @media (max-width: 375px){
+                width: 374px !important;
+            }
+            @media (max-width: 414px){
+                width: 411px;
+            }
+            @media (min-width: 768px) {
+                width: 550px;
+            }
+        }
+        
+        .btn-rhs{
+            padding: 0;
+            box-shadow: 1px 1px 0px 0px #d8d8d8;
+        }
     }
 }

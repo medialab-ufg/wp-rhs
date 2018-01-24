@@ -171,9 +171,15 @@ Primeiro e Segundo DropDown Menu
             > a {
                 margin-top: 9px !important;
                 color: #00b4b4;
-                &:visited {
-                    color: #00b4b4;
+                &:active, &:hover {
+                    color: #fff !important;
+                    background: #009b9b;
                 }
+            }
+        }
+        .open{
+            a{
+                color: #00b4b4;
             }
         }
     }

@@ -32,6 +32,7 @@
             margin: 1.5px 0;
         }
         .primeiro-menu {
+            overflow-x: hidden;
             .navbar-nav > .no-mobile {
                 > li {
                     > a {
@@ -60,6 +61,12 @@
                 }
             }
             .mobile-nav {
+                &.not-logged{
+                    display: flex;
+                }
+                .navbar-text {
+                    margin: 8px 42px 0 42px !important;
+                }
                 li {
                     > a {
                         color: $whiteColor;
@@ -76,6 +83,9 @@
                             margin-top: -2px;
                             padding-right: 0;
                             white-space: nowrap;
+                        }
+                        &.cadastrar{
+                            padding-top: 12px !important;
                         }
                     }
                     &.pub a {
@@ -157,6 +167,7 @@
             }
             .form-search-rhs {
                 padding: 1px 0px;
+                margin: 0;
             }
         }
         #menu-segundo-menu {
