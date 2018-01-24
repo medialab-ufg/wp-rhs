@@ -522,6 +522,7 @@ class RHSSearch {
 
     public static function generate_csv() {
         global $wp_query;
+        global $wpdb;
         global $RHSVote;
         global $RHSNetwork;
         global $RHSSearch;
@@ -545,11 +546,16 @@ class RHSSearch {
        
         $file = fopen('php://output', 'w');
 
+        header('Content-type: application/x-csv');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
         if($pagename == 'users') {
-            fputcsv($file, array('Nome do Usuário', 'Data de Cadastro', 'Total de Postagens', 'Total de Votos Recebidos', 'Estado', 'Cidade'));
+            fputcsv($file, array('Nome do Usuário', 'Data de Cadastro', 'Total de Postagens', 'Total de Comentários', 'Total de Votos Recebidos', 'Estado', 'Cidade'));
 
             foreach($content_file as $user) {
                 
+                $comments_total = $wpdb->get_var($wpdb->prepare( "SELECT COUNT(*) AS total FROM $wpdb->comments WHERE comment_approved = 1 AND user_id = %s", $user->ID));
                 $name = $user->display_name;
                 $register_date = $user->user_registered;;
                 
@@ -567,6 +573,7 @@ class RHSSearch {
                     'nome'=> $name,
                     'date' => date("d/m/Y H:i:s",strtotime($register_date)),
                     'total_posts' => $total_posts,
+                    'total_comments' => $comments_total,
                     'total_votes' => $total_votes,
                     'state' => $uf,
                     'city' => $mun
@@ -619,7 +626,7 @@ class RHSSearch {
             }
 
         }
-
+        
         foreach ($row_data as $row) {
             fputcsv($file, $row);
         }
