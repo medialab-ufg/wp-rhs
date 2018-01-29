@@ -10,8 +10,8 @@ class RHSSearch {
     function __construct() {
         add_action('pre_get_posts', array(&$this, 'pre_get_posts'), 2);
         add_action('wp_enqueue_scripts', array(&$this, 'addJS'), 2);
-        add_action('wp_ajax_generate_csv', array($this, 'generate_csv'));
-        add_action('wp_ajax_nopriv_generate_csv', array($this,'generate_csv'));
+        add_action('wp_ajax_generate_file', array($this, 'generate_file'));
+        add_action('wp_ajax_nopriv_generate_file', array($this,'generate_file'));
     }
 
     function addJS() {
@@ -511,16 +511,27 @@ class RHSSearch {
 
         if($found_results && array_intersect($user_roles, $current_user->roles)) {
             if(get_search_query() || $search_user_has_keyword > 2 || $search_user_has_uf_mun || $search_post_has_cat || $search_post_has_tag || $search_post_has_date) {
-                echo "<button type='button' class='btn btn-default filtro' data-toggle='modal' data-target='#exportModal'> Exportar CSV <i class='fa fa-save fa-fw'></i></button>";
+                echo '
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default">Exportar</button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" class="filtro open-modal" data-toggle="modal" data-target="#exportModal" data-format="xls">Para XLS</a></li>
+                        <li><a href="#" class="filtro open-modal" data-toggle="modal" data-target="#exportModal" data-format="csv">Para CSV</a></li>
+                    </ul>
+                </div>';
             }
         }
     }
 
     /**
-    * Convertendo dados em csv
-    */
+     * Convertendo dados
+     */
 
-    public static function generate_csv() {
+    public static function generate_file() {
         global $wp_query;
         global $wpdb;
         global $RHSVote;
@@ -531,7 +542,8 @@ class RHSSearch {
         $query_params = json_decode(stripslashes($get_params['vars_to_generate']), true);
         $query_vars = $query_params['query_vars'];
         $pagename = $query_vars['rhs_busca'];
-
+        $format_to_export = $_POST['format_to_export'];
+        
         if ($pagename == 'posts') {
             $query_params['paged'] = $_POST['paged'];
             $content_file = get_posts($query_params);
@@ -544,98 +556,244 @@ class RHSSearch {
             $content_file = $get_users->results;
         }
        
-        $file = fopen('php://output', 'w');
+        if($format_to_export == 'xls'){
+            header('Content-Type: application/vnd.ms-excel');
+            header('Pragma: no-cache');
+            header('Expires: 0');
 
-        header('Content-type: application/x-csv');
-        header('Pragma: no-cache');
-        header('Expires: 0');
-
-        if($pagename == 'users') {
-            fputcsv($file, array('Nome do Usuário', 'Data de Cadastro', 'Total de Postagens', 'Total de Comentários', 'Total de Votos Recebidos', 'Estado', 'Cidade'));
-
-            foreach($content_file as $user) {
-                
-                $comments_total = $wpdb->get_var($wpdb->prepare( "SELECT COUNT(*) AS total FROM $wpdb->comments WHERE comment_approved = 1 AND user_id = %s", $user->ID));
-                $name = $user->display_name;
-                $register_date = $user->user_registered;;
-                
-                $get_total_posts = count_user_posts($user->ID);
-                $get_total_votes = $RHSVote->get_total_votes_by_author($user->ID);
-
-                $total_posts = return_value_or_zero($get_total_posts); 
-                $total_votes = return_value_or_zero($get_total_votes); 
-
-                $user_ufmun = get_user_ufmun($user->ID);
-                $uf = return_value_or_dash($user_ufmun['uf']['sigla']);
-                $mun = return_value_or_dash($user_ufmun['mun']['nome']);
-
-                $row_data[] = [
-                    'nome'=> $name,
-                    'date' => date("d/m/Y H:i:s",strtotime($register_date)),
-                    'total_posts' => $total_posts,
-                    'total_comments' => $comments_total,
-                    'total_votes' => $total_votes,
-                    'state' => $uf,
-                    'city' => $mun
-                ];
-            }
-        }
-
-        if($pagename == 'posts') {
-            fputcsv($file, array('Título', 'Conteúdo','Data', 'Autor', 'Link', 'Visualizações', 'Compartilhamentos', 'Votos', 'Comentários', 'Estado', 'Cidade'));
+            if($pagename == 'users') {
+                foreach($content_file as $user) {
+                        
+                    $comments_total = $wpdb->get_var($wpdb->prepare( "SELECT COUNT(*) AS total FROM $wpdb->comments WHERE comment_approved = 1 AND user_id = %s", $user->ID));
+                    $name = $user->display_name;
+                    $register_date = $user->user_registered;;
                     
-            foreach($content_file as $post) {
-                
-                $get_title = html_entity_decode(get_the_title($post->ID), ENT_QUOTES, "UTF-8");
-                
-                $raw_content = get_post_field('post_content', $post->ID);
-                $post_content = iconv( "utf-8", "utf-8", $raw_content );
-                $post_content = strip_html_tags( $post_content );
-                $post_content = html_entity_decode($post_content, ENT_QUOTES, "UTF-8");
+                    $get_total_posts = count_user_posts($user->ID);
+                    $get_total_votes = $RHSVote->get_total_votes_by_author($user->ID);
 
-                $get_date = get_the_date('d/m/Y H:i:s', $post->ID);
-                $get_author = get_the_author_meta('user_firstname', $post->post_author) . " " . get_the_author_meta('user_lastname', $post->post_author);
-                $get_link = $post->guid;
-                $get_views = $RHSNetwork->get_post_total_views($post->ID);
-                $get_shares = $RHSNetwork->get_post_total_shares($post->ID);
-                $get_comments = wp_count_comments($post->ID);
-                $get_votes = $RHSVote->get_total_votes($post->ID);
+                    $total_posts = return_value_or_zero($get_total_posts); 
+                    $total_votes = return_value_or_zero($get_total_votes); 
 
-                $views = return_value_or_zero($get_views);
-                $shares = return_value_or_zero($get_shares);
-                $votes = return_value_or_zero($get_votes);
-                $comments = return_value_or_zero($get_comments);
-                
-                $post_ufmun = get_post_ufmun($post->ID);
-                $uf = $post_ufmun['uf']['sigla'];
-                $mun = $post_ufmun['mun']['nome'];
+                    $user_ufmun = get_user_ufmun($user->ID);
+                    $uf = return_value_or_dash($user_ufmun['uf']['sigla']);
+                    $mun = return_value_or_dash($user_ufmun['mun']['nome']);
 
-                $row_data[] = [
-                    'titulo'=> $get_title,
-                    'conteudo' => $post_content,
-                    'data'=> $get_date,
-                    'autor' => $get_author,
-                    'link' => $get_link,
-                    'visualizacoes' => $views,
-                    'compartilhamentos' => $shares,
-                    'votos' => $votes,
-                    'comentarios' => $comments,
-                    'estado' => return_value_or_dash($uf),
-                    'cidade' => return_value_or_dash($mun)
-                ];
+                    $row_data[] = [
+                        'nome'=> $name,
+                        'date' => date("d/m/Y H:i:s",strtotime($register_date)),
+                        'total_posts' => $total_posts,
+                        'total_comments' => $comments_total,
+                        'total_votes' => $total_votes,
+                        'state' => $uf,
+                        'city' => $mun
+                    ];
+                }
+
+                $head_table .= "<table>
+                    <thead align='left' style='display: table-header-group'>
+                    <tr>
+                        <th>Nome do Usuário</th>
+                        <th>Data de Cadastro</th>
+                        <th>Total de Postagens</th>
+                        <th>Total de Comentários</th>
+                        <th>Total de Votos Recebidos</th>
+                        <th>Estado</th>
+                        <th>Cidade</th>
+                    </tr>
+                    </thead>
+                    <tbody>";
+                foreach ($row_data as $row) {
+                    $row_table .=  "<tr>
+                                        <td>" . $row['nome'] . "</td>
+                                        <td>" . $row['date'] . "</td>
+                                        <td>" . $row['total_posts'] . "</td>
+                                        <td>" . $row['total_comments'] . "</td>
+                                        <td>" . $row['total_votes'] . "</td>
+                                        <td>" . $row['state'] . "</td>
+                                        <td>" . $row['city'] . "</td>
+                                    </tr>";
+                }
+                $footer_table = "</tbody></table>";
+
+                $file = $head_table . $row_table . $footer_table;
             }
 
+            if($pagename == 'posts') {
+                foreach($content_file as $post) {
+                    
+                    $get_title = html_entity_decode(get_the_title($post->ID), ENT_QUOTES, "UTF-8");
+                    
+                    $raw_content = get_post_field('post_content', $post->ID);
+                    $post_content = iconv( "utf-8", "utf-8", $raw_content );
+                    $post_content = strip_html_tags( $post_content );
+                    $post_content = html_entity_decode($post_content, ENT_QUOTES, "UTF-8");
+    
+                    $get_date = get_the_date('d/m/Y H:i:s', $post->ID);
+                    $get_author = get_the_author_meta('user_firstname', $post->post_author) . " " . get_the_author_meta('user_lastname', $post->post_author);
+                    $get_link = $post->guid;
+                    $get_views = $RHSNetwork->get_post_total_views($post->ID);
+                    $get_shares = $RHSNetwork->get_post_total_shares($post->ID);
+                    $get_comments = wp_count_comments($post->ID);
+                    $get_votes = $RHSVote->get_total_votes($post->ID);
+    
+                    $views = return_value_or_zero($get_views);
+                    $shares = return_value_or_zero($get_shares);
+                    $votes = return_value_or_zero($get_votes);
+                    $comments = return_value_or_zero($get_comments);
+                    
+                    $post_ufmun = get_post_ufmun($post->ID);
+                    $uf = $post_ufmun['uf']['sigla'];
+                    $mun = $post_ufmun['mun']['nome'];
+    
+                    $row_data[] = [
+                        'titulo'=> $get_title,
+                        'conteudo' => $post_content,
+                        'data'=> $get_date,
+                        'autor' => $get_author,
+                        'link' => $get_link,
+                        'visualizacoes' => $views,
+                        'compartilhamentos' => $shares,
+                        'votos' => $votes,
+                        'comentarios' => $comments,
+                        'estado' => return_value_or_dash($uf),
+                        'cidade' => return_value_or_dash($mun)
+                    ];
+                }
+
+                $head_table .= "<table>
+                    <thead align='left' style='display: table-header-group'>
+                    <tr>
+                        <th>Título</th>
+                        <th>Conteúdo</th>
+                        <th>Data</th>
+                        <th>Autor</th>
+                        <th>Link</th>
+                        <th>Visualizações</th>
+                        <th>Compartilhamentos</th>
+                        <th>Votos</th>
+                        <th>Comentários</th>
+                        <th>Estado</th>
+                        <th>Cidade</th>
+                    </tr>
+                    </thead>
+                    <tbody>";
+
+                foreach ($row_data as $row) {
+                    $row_table .=  "<tr>
+                                        <td>" . $row['titulo'] . "</td>
+                                        <td>" . $row['conteudo'] . "</td>
+                                        <td>" . $row['data'] . "</td>
+                                        <td>" . $row['autor'] . "</td>
+                                        <td>" . $row['link'] . "</td>
+                                        <td>" . $row['visualizacoes'] . "</td>
+                                        <td>" . $row['compartilhamentos'] . "</td>
+                                        <td>" . $row['votos'] . "</td>
+                                        <td>" . $row['comentarios'] . "</td>
+                                        <td>" . $row['estado'] . "</td>
+                                        <td>" . $row['cidade'] . "</td>
+                                    </tr>";
+                }
+                $footer_table = "</tbody></table>";
+
+                $file = $head_table . $row_table . $footer_table;
+            }
+            mb_convert_encoding($file, 'UTF-16LE', 'UTF-8');
+            echo $file;
         }
-        
-        foreach ($row_data as $row) {
-            fputcsv($file, $row);
+
+        if($format_to_export == 'csv'){
+            $file = fopen('php://output', 'w');
+
+            header('Content-type: application/x-csv');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+    
+            if($pagename == 'users') {
+                fputcsv($file, array('Nome do Usuário', 'Data de Cadastro', 'Total de Postagens', 'Total de Comentários', 'Total de Votos Recebidos', 'Estado', 'Cidade'));
+    
+                foreach($content_file as $user) {
+                    
+                    $comments_total = $wpdb->get_var($wpdb->prepare( "SELECT COUNT(*) AS total FROM $wpdb->comments WHERE comment_approved = 1 AND user_id = %s", $user->ID));
+                    $name = $user->display_name;
+                    $register_date = $user->user_registered;;
+                    
+                    $get_total_posts = count_user_posts($user->ID);
+                    $get_total_votes = $RHSVote->get_total_votes_by_author($user->ID);
+    
+                    $total_posts = return_value_or_zero($get_total_posts); 
+                    $total_votes = return_value_or_zero($get_total_votes); 
+    
+                    $user_ufmun = get_user_ufmun($user->ID);
+                    $uf = return_value_or_dash($user_ufmun['uf']['sigla']);
+                    $mun = return_value_or_dash($user_ufmun['mun']['nome']);
+    
+                    $row_data[] = [
+                        'nome'=> $name,
+                        'date' => date("d/m/Y H:i:s",strtotime($register_date)),
+                        'total_posts' => $total_posts,
+                        'total_comments' => $comments_total,
+                        'total_votes' => $total_votes,
+                        'state' => $uf,
+                        'city' => $mun
+                    ];
+                }
+            }
+    
+            if($pagename == 'posts') {
+                fputcsv($file, array('Título', 'Conteúdo','Data', 'Autor', 'Link', 'Visualizações', 'Compartilhamentos', 'Votos', 'Comentários', 'Estado', 'Cidade'));
+                        
+                foreach($content_file as $post) {
+                    
+                    $get_title = html_entity_decode(get_the_title($post->ID), ENT_QUOTES, "UTF-8");
+                    
+                    $raw_content = get_post_field('post_content', $post->ID);
+                    $post_content = iconv( "utf-8", "utf-8", $raw_content );
+                    $post_content = strip_html_tags( $post_content );
+                    $post_content = html_entity_decode($post_content, ENT_QUOTES, "UTF-8");
+    
+                    $get_date = get_the_date('d/m/Y H:i:s', $post->ID);
+                    $get_author = get_the_author_meta('user_firstname', $post->post_author) . " " . get_the_author_meta('user_lastname', $post->post_author);
+                    $get_link = $post->guid;
+                    $get_views = $RHSNetwork->get_post_total_views($post->ID);
+                    $get_shares = $RHSNetwork->get_post_total_shares($post->ID);
+                    $get_comments = wp_count_comments($post->ID);
+                    $get_votes = $RHSVote->get_total_votes($post->ID);
+    
+                    $views = return_value_or_zero($get_views);
+                    $shares = return_value_or_zero($get_shares);
+                    $votes = return_value_or_zero($get_votes);
+                    $comments = return_value_or_zero($get_comments);
+                    
+                    $post_ufmun = get_post_ufmun($post->ID);
+                    $uf = $post_ufmun['uf']['sigla'];
+                    $mun = $post_ufmun['mun']['nome'];
+    
+                    $row_data[] = [
+                        'titulo'=> $get_title,
+                        'conteudo' => $post_content,
+                        'data'=> $get_date,
+                        'autor' => $get_author,
+                        'link' => $get_link,
+                        'visualizacoes' => $views,
+                        'compartilhamentos' => $shares,
+                        'votos' => $votes,
+                        'comentarios' => $comments,
+                        'estado' => return_value_or_dash($uf),
+                        'cidade' => return_value_or_dash($mun)
+                    ];
+                }
+    
+            }
+            foreach ($row_data as $row) {
+                fputcsv($file, $row);
+            }
+    
+            mb_convert_encoding($file, 'UTF-16LE', 'UTF-8');
+
+            fclose($file);
         }
 
-        mb_convert_encoding($file, 'UTF-16LE', 'UTF-8');
-
-        fclose($file);
-        exit;        
-
+        exit;
     }
 
     public static function render_uf_city_select() {
@@ -720,7 +878,7 @@ function return_value_or_dash($value){
         return $value;
 }
 
-function show_results_from_search() {
+function show_results_from_search($format) {
     global $wp_query;
     global $RHSSearch;
     $per_page = $RHSSearch::EXPORT_TOTAL_PER_PAGE;
@@ -729,7 +887,6 @@ function show_results_from_search() {
     $wp_query->set('posts_per_page', $per_page);
     $result = $wp_query;
     $search_page = get_query_var('rhs_busca');
-    $session_id = session_id();
 
     if($search_page == 'posts') {
         $total = $result->found_posts;
@@ -757,7 +914,7 @@ function show_results_from_search() {
     echo "<p>Conteúdo por página: <strong>" . $per_page . " </strong> registros</p>";
     echo "<p>Clique em uma página abaixo para iniciar a exportação:</p>";
     while($count < $total_pages+1) {
-        echo "<a class='btn btn-rhs export-csv' data-page='". $count . "' data-page-title=". $search_page .">Página ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
+        echo "<a class='btn btn-rhs export-file' data-page='". $count . "' data-page-title=". $search_page ." data-page-format=". $format .">Página ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
         $count++;
     }
     echo "<hr>";
