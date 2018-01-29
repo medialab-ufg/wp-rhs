@@ -398,7 +398,7 @@ class RHSTicket extends RHSMessage {
             'user_login' => $login,
             'user_nicename' => 'author-default-ticket',
             'user_url' => '',
-            'user_email' => 'thsauthordefaultticket@gmail.com',
+            'user_email' => 'faqrhs@gmail.com',
             'display_name' => 'Autor padrão de ticket',
             'nickname' => 'autor-default',
             'first_name' => 'Autor Ticket',
