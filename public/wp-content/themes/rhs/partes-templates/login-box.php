@@ -44,6 +44,7 @@
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="redirect_to" id="redirect_to" value="<?php echo esc_attr( isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : '' ); ?>" />
         </form>
     </div>
 
