@@ -30,6 +30,7 @@
                         <input id="rememberme" name="rememberme" type="checkbox" value="forever"> <label style="color: white">Lembrar</label>
                     </div>
                     <div class="col-xs-5 pull-right">
+                        <input type="hidden" name="currentURL" value="<?php echo $_SERVER['REQUEST_URI']; ?>">
                         <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-rhs" value="Entrar">
                     </div>
                 </div>
@@ -44,7 +45,6 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" name="redirect_to" id="redirect_to" value="<?php echo esc_attr( isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : '' ); ?>" />
         </form>
     </div>
 
