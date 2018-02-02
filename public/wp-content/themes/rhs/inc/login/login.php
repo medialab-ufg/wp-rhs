@@ -144,14 +144,6 @@ class RHSLogin extends RHSMessage {
         </style>
     <?php }
 
-    function rhs_logo_url() {
-        return '#';
-    }
-
-    function rhs_logo_title() {
-        return 'Rede HumanizaSUS';
-    }
-
     //Para uso quando o usuario clica em logar ou registrar no app.
     static function is_login_via_app() {
         //Pega o get do redirect_to caso tenha
