@@ -35,10 +35,14 @@ class RHSLogin extends RHSMessage {
         return $login_url;
     }
 
-    function login_redirect( $redirect_to, $requested_redirect_to, $user ) {
-        $currentURL = $_POST['currentURL'];
+    function login_redirect( $redirect_to, $requested_redirect_to, $user ) {        
+        
+        if(!empty($_POST['currentURL'])){
+            $currentURL = $_POST['currentURL'];
+        }
+
         $is_login_via_app = RHSLogin::is_login_via_app();
-        if ( empty( $redirect_to) && $is_login_via_app == true) {
+        if ( empty( $redirect_to) || $is_login_via_app == true) {
             //TODO verificar role do usuário para enviar para a página apropriada
             $redirect_to =  esc_url(home_url());
         } else if(isset($currentURL)) {
@@ -139,6 +143,14 @@ class RHSLogin extends RHSMessage {
         </style>
     <?php }
 
+    function rhs_logo_url() {
+        return '#';
+    }
+
+    function rhs_logo_title() {
+        return 'Rede HumanizaSUS';
+    }
+
     //Para uso quando o usuario clica em logar ou registrar no app.
     static function is_login_via_app() {
         //Pega o get do redirect_to caso tenha
@@ -150,6 +162,8 @@ class RHSLogin extends RHSMessage {
         
         return is_array($a) && isset($a['device']) && $a['device'] == 'mobile-app' || $dev == 'mobile-app' ;
     }
+
+
 }
 
 global $RHSLogin;
