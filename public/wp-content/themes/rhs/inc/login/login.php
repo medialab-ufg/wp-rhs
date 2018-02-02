@@ -36,8 +36,10 @@ class RHSLogin extends RHSMessage {
     }
 
     function login_redirect( $redirect_to, $requested_redirect_to, $user ) {
-        $currentURL = $_POST['currentURL'];
-        if ( empty( $redirect_to ) ) {
+        $currentURL = isset($_POST['currentURL']);
+        $is_login_via_app = RHSLogin::is_login_via_app();
+        
+        if ( empty( $redirect_to && $is_login_via_app ) ) {
             //TODO verificar role do usuário para enviar para a página apropriada
             $redirect_to =  esc_url(home_url());
         } else if(isset($currentURL)) {
