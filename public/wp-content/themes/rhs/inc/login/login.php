@@ -40,6 +40,8 @@ class RHSLogin extends RHSMessage {
         if ( empty( $redirect_to ) ) {
             //TODO verificar role do usuário para enviar para a página apropriada
             $redirect_to =  esc_url(home_url());
+        } else if(isset($currentURL)) {
+            $redirect_to = esc_url( $currentURL );
         }
 
         return $redirect_to;
@@ -135,14 +137,6 @@ class RHSLogin extends RHSMessage {
             }
         </style>
     <?php }
-
-    function rhs_logo_url() { 
-        return "#";
-    }
-
-    function rhs_logo_title() { 
-        return "Rede HumanizaSUS";
-    }
 
     //Para uso quando o usuario clica em logar ou registrar no app.
     static function is_login_via_app() {
