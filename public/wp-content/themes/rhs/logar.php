@@ -42,7 +42,7 @@
                                 <button id="btn-login" class="btn btn-success" type="submit" >Login</button>
                             </div>
                             <div class="clearfix"></div>
-                            <input type="hidden" name="redirect_to" id="redirect_to" value="<?php echo esc_attr( isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : '' ); ?>" />
+                            <input type="hidden" name="redirect_to" id="redirect_to" value="<?php echo esc_attr( isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : esc_url(home_url()) ); ?>" />
                         </form>
                         <?php if(!RHSLogin::is_login_via_app()) : ?>
                             <div class="panel-other" >

@@ -131,8 +131,8 @@ global $RHSCaptcha;
                                                             'content_after' => '</div>',
                                                             'content_before_field' => '<div class="col-md-6"><div class="form-group float-label-control">',
                                                             'content_after_field' => '<div class="clearfix"></div></div></div>',
-                                                            'state_label'  => 'Estado &nbsp',
-                                                            'city_label'   => 'Cidade &nbsp',
+                                                            'state_label'  => 'Estado <span class="required">*</span>&nbsp',
+                                                            'city_label'   => 'Cidade <span class="required">*</span>&nbsp',
                                                             'select_class' => 'form-control',
                                                             'label_class'  => 'control-label col-sm-4'
                                                         ) ); ?>

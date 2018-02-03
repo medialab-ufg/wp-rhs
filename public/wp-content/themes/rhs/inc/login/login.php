@@ -20,7 +20,6 @@ class RHSLogin extends RHSMessage {
             add_filter( "login_redirect", array( &$this, "login_redirect" ), 10, 3 );
             add_filter( 'wp_login_errors', array( &$this, 'check_errors' ), 10, 2 );
             add_action( 'wp_login', array( &$this, 'save_last_login'));
-            add_action( 'wp_logout', array( &$this,'logout_redirect'));
             add_action( 'login_enqueue_scripts', array( &$this, 'rhs_enqueue_lost' ));
             add_filter( 'login_headerurl', array( &$this, 'rhs_logo_url' ));
             add_filter( 'login_headertitle', array( &$this, 'rhs_logo_title' ));
@@ -36,21 +35,21 @@ class RHSLogin extends RHSMessage {
         return $login_url;
     }
 
-    function login_redirect( $redirect_to, $requested_redirect_to, $user ) {
-        $currentURL = wp_get_referer();
-        if ( empty( $redirect_to ) ) {
+    function login_redirect( $redirect_to, $requested_redirect_to, $user ) {        
+        
+        if(!empty($_POST['currentURL'])){
+            $currentURL = $_POST['currentURL'];
+        }
+
+        $is_login_via_app = RHSLogin::is_login_via_app();
+        if ( empty( $redirect_to) || $is_login_via_app == true) {
             //TODO verificar role do usuário para enviar para a página apropriada
             $redirect_to =  esc_url(home_url());
         } else if(isset($currentURL)) {
-            $redirect_to = esc_url( $currentURL );
+            $redirect_to = esc_url( $_SERVER['HTTP_ORIGIN'] . $currentURL );
         }
 
         return $redirect_to;
-    }
-
-    function logout_redirect() {
-        wp_redirect(wp_get_referer());
-        exit();
     }
 
     function login_errors( $errors, $redirect_to ) {
@@ -163,6 +162,8 @@ class RHSLogin extends RHSMessage {
         
         return is_array($a) && isset($a['device']) && $a['device'] == 'mobile-app' || $dev == 'mobile-app' ;
     }
+
+
 }
 
 global $RHSLogin;
