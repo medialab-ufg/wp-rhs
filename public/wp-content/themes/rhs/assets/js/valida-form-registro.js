@@ -630,11 +630,11 @@ jQuery( function( $ ) {
             $(this).closest('.links').remove();
         });
         
-        document.getElementById("send_contact").disabled = true;
-
+        $('#send_contact').prop("disabled",true)
     });
+    
 });
 
 function enableButton(){
-    document.getElementById("send_contact").disabled = false;
+    jQuery('#send_contact').prop("disabled",false)
 }
