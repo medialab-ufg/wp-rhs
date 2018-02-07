@@ -118,9 +118,12 @@ global $RHSUsers;
                                         <textarea id="textarea-message" tabindex="7" class="form-control" rows="5" name="message"></textarea>
                                     </div>
 
-                                    <div class="panel-captcha pull-left">
-                                        <?php echo $RHSCaptcha->display_contact_captcha(); ?>
-                                    </div>
+                                    <?php if( !is_user_logged_in() ): ?>
+                                        <div class="panel-captcha pull-left">
+                                            <?php echo $RHSCaptcha->display_contact_captcha(); ?>
+                                        </div>
+                                    <?php endif; ?>
+
                                     <div class="panel-button form-actions pull-right">
                                         <button class="btn btn-default btn-contato" tabindex="8" type="submit" id="send_contact">Enviar</button>
                                     </div>
