@@ -2,10 +2,12 @@
 /**
 * Template name: Contato
 */
+global $RHSCaptcha;
+global $RHSTicket;
+global $RHSUsers;
 ?>
 <?php get_header(); ?>
-<?php global $RHSTicket; ?>
-<?php global $RHSUsers; ?>
+
             <div class="row">
                 <div class="col-xs-12">
                     <h1 class="titulo-page">Contato</h1>
@@ -115,8 +117,12 @@
                                         <label for="message">Mensagem <span class="required">*</span></label>
                                         <textarea id="textarea-message" tabindex="7" class="form-control" rows="5" name="message"></textarea>
                                     </div>
+
+                                    <div class="panel-captcha pull-left">
+                                        <?php echo $RHSCaptcha->display_contact_captcha(); ?>
+                                    </div>
                                     <div class="panel-button form-actions pull-right">
-                                        <button class="btn btn-default btn-contato" tabindex="8" type="submit" >Enviar</button>
+                                        <button class="btn btn-default btn-contato" tabindex="8" type="submit" id="send_contact">Enviar</button>
                                     </div>
                                     <div class="clearfix"></div>
                                 </form>

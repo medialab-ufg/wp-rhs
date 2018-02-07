@@ -76,10 +76,18 @@ class RHSCaptcha {
                value="<?php echo get_option( self::SECRET_KEY ); ?>"/>
     <?php }
 
-    function display_recuperar_captcha() { ?>
+    function display_recuperar_captcha() { 
+        ?>
         <div class="g-recaptcha" data-sitekey="<?php echo get_option( self::SITE_KEY ); ?>"  data-callback="recaptchaCallback"></div>
         <input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
     <?php }
+    
+    function display_contact_captcha() { 
+        ?>
+        <div class="g-recaptcha" data-sitekey="<?php echo get_option( self::SITE_KEY ); ?>"  data-callback="enableButton"></div>
+        <input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
+    <?php }
+
 
     function verify_recuperar_captcha( $user, $password ) {
         if ( isset( $_POST['g-recaptcha-response'] ) ) :

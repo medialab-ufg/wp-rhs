@@ -629,5 +629,12 @@ jQuery( function( $ ) {
         $('.remove-link').live("click", function() {
             $(this).closest('.links').remove();
         });
+        
+        document.getElementById("send_contact").disabled = true;
+
     });
 });
+
+function enableButton(){
+    document.getElementById("send_contact").disabled = false;
+}
