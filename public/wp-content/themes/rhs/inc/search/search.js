@@ -1,17 +1,18 @@
-jQuery(function() {
+var $ = jQuery;
+$(function() {
     
-    jQuery.fn.datepicker.defaults.templates = {
+    $.fn.datepicker.defaults.templates = {
         leftArrow: "<i class='glyphicon glyphicon-chevron-left'></i>",
         rightArrow: "<i class='glyphicon glyphicon-chevron-right'></i>"
     };
-    jQuery.fn.datepicker.dates["pt-BR"]={days:["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"],daysShort:["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],daysMin:["Do","Se","Te","Qu","Qu","Se","Sa"],months:["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],monthsShort:["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],today:"Hoje",monthsTitle:"Meses",clear:"Limpar",format:"dd-mm-yyyy"};
-    jQuery.fn.datepicker.defaults.language = "pt-BR";
-    jQuery.fn.datepicker.defaults.orientation = "bottom";
-    jQuery('.input-daterange input').each(function() {
-        jQuery(this).datepicker();
+    $.fn.datepicker.dates["pt-BR"]={days:["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"],daysShort:["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],daysMin:["Do","Se","Te","Qu","Qu","Se","Sa"],months:["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],monthsShort:["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],today:"Hoje",monthsTitle:"Meses",clear:"Limpar",format:"dd-mm-yyyy"};
+    $.fn.datepicker.defaults.language = "pt-BR";
+    $.fn.datepicker.defaults.orientation = "bottom";
+    $('.input-daterange input').each(function() {
+        $(this).datepicker();
     });
     
-    var ms = jQuery('#input-tag').magicSuggest({
+    var ms = $('#input-tag').magicSuggest({
         data: search_vars.ajaxurl,
         dataUrlParams: { 
             action: 'get_tags',
@@ -26,11 +27,11 @@ jQuery(function() {
         selectionRenderer: function(data){
             return data.name;
         },
-        selectionContainer: jQuery('#custom-ctn'),
+        selectionContainer: $('#custom-ctn'),
     });
 
     // ver https://github.com/nicolasbize/magicsuggest/issues/21
-    jQuery(ms).on('load', function(){
+    $(ms).on('load', function(){
         if(this._dataSet === undefined){
             // Roda apenas da primeira vez e depois remove o parametro term_slugs dos parametros da URL
             this._dataSet = true;
@@ -38,23 +39,37 @@ jQuery(function() {
             ms.setDataUrlParams({action: 'get_tags'});
         }
     });
-
-    var $ = jQuery;
-    jQuery(document).ready(function() {
-        jQuery(".export-csv").click(function () {
+    
+    $(document).on("click", ".open-modal", function () {
+        var format_to_export = $(this).data('format');
+        $(".modal-title #format_file").text(format_to_export.toUpperCase());
+        if (format_to_export == 'csv') {
+            $(".modal-body #result_type_xls").hide();
+            $(".modal-body #result_type_csv").show();
+        } else {
+            $(".modal-body #result_type_csv").hide();
+            $(".modal-body #result_type_xls").show();
+        }
+    });
+   
+    $(document).ready(function() {
+        $(".export-file").click(function () {
             var d = new Date();
-            var paged = jQuery(this).attr('data-page');
-            var search_page = jQuery(this).attr('data-page-title');
-            var filename = "RHS_pesquisa_" + d.getDate() + "" + (d.getMonth() + 1) + ""+ d.getFullYear() + "_" + search_page + "_pagina_" + paged + ".csv";
+            var paged = $(this).attr('data-page');
+            var search_page = $(this).attr('data-page-title');
+            var format_to_export = $(this).attr('data-page-format');
+            var filename = "RHS_pesquisa_" + d.getDate() + "" + (d.getMonth() + 1) + ""+ d.getFullYear() + "_" + search_page + "_pagina_" + paged + "." + format_to_export;
+            
             $(this).find('.export-loader').removeClass('hide');
-            jQuery.ajax({
+            $.ajax({
                 type: "POST",
                 url: search_vars.ajaxurl,
                 cache: false,
                 data: {
-                    action: 'generate_csv',
+                    action: 'generate_file',
                     vars_to_generate: search_vars,
                     paged: paged,
+                    format_to_export: format_to_export
                 },
                 success: function(output) {
                     var blob = new Blob(["\ufeff", output]);
@@ -66,5 +81,7 @@ jQuery(function() {
                 }
             });
         });
-    })
+    });
 });
+
+
