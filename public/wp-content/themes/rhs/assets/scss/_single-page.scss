@@ -133,6 +133,13 @@
                     @media only screen and (max-width: 420px){
                         float: none !important;
                     }
+                    .publish{
+                        @media only screen and (width: 1024px){
+                            padding: 6px 0 !important;
+                            margin-left: -37px;
+                            width: 50% !important;
+                        }
+                    }
                 }
                 .share, .share a {
                     text-decoration: none;
