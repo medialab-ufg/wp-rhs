@@ -299,8 +299,6 @@ Class RHSVote {
 
 	function add_status_dropdown() {
 		global $post;
-		$complete = '';
-		$label    = '';
 		if ( $post->post_type == 'post' ) {
 
 			$js                  = '';

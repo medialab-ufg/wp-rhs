@@ -470,7 +470,6 @@ Limitador de texto para limitar o content de um post.
 Ex: limitatexto(CONTENT, '[...]', TAMANHO);
 */
 function limitatexto($texto, $final, $limite){
-    $result = $texto;
     $len_texto = strlen($texto);
     $len_final = strlen($final);
 

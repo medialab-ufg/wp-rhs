@@ -44,11 +44,7 @@ jQuery( function( $ ) {
                 
                 hiddenRecaptcha: {
                     required: function () {
-                        if (grecaptcha.getResponse() == '') {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return grecaptcha.getResponse() == '';
                     }
                 }
             },
@@ -211,11 +207,7 @@ jQuery( function( $ ) {
                 },
                 hiddenRecaptcha: {
                     required: function () {
-                        if (grecaptcha.getResponse() == '') {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return grecaptcha.getResponse() == '';
                     }
                 }
             },
@@ -522,11 +514,7 @@ jQuery( function( $ ) {
                 },
                 hiddenRecaptcha: {
                     required: function () {
-                        if (grecaptcha.getResponse() == '') {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return grecaptcha.getResponse() == '';
                     }
                 }
             },

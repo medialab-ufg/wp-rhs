@@ -16,8 +16,6 @@ class RHSVoteQueueWidget extends WP_Widget {
             return;
         }
         $title = apply_filters( 'widget_title', __('Fila de votação') );
-        $blog_title = get_bloginfo( 'name' );
-        $tagline = get_bloginfo( 'description' );
 
         echo $args['before_widget'] . $args['before_title'] .'<a href="'.get_home_url().'/fila-de-votacao/">'. $title .'</a>'. $args['after_title'];
 
