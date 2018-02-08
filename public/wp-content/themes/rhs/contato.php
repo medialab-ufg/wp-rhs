@@ -117,12 +117,14 @@ global $RHSUsers;
                                         <label for="message">Mensagem <span class="required">*</span></label>
                                         <textarea id="textarea-message" tabindex="7" class="form-control" rows="5" name="message"></textarea>
                                     </div>
-
+                                    
+                                    <?php if( !is_user_logged_in() ): ?>
                                     <div class="panel-captcha pull-left">
                                         <div class="form-group float-label-control">
                                             <?php $RHSCaptcha->display_recuperar_captcha(); ?>
                                         </div>
-                                    </div>                                    
+                                    </div>
+                                    <?php endif; ?>                               
 
                                     <div class="panel-button form-actions pull-right">
                                         <button class="btn btn-default btn-contato" tabindex="8" type="submit" id="send_contact">Enviar</button>
