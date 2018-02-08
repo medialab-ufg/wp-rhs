@@ -217,8 +217,6 @@ class RHSEmail {
             'link' => network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ))
         );
 
-        $message = $this->get_message('retrieve_password_message', $args);
-
         return $this->get_message('retrieve_password_message', $args);
     }
 
@@ -331,7 +329,7 @@ class RHSEmail {
     }
     
     /*
-    * Envia um email ao seguidor do post por ter recebido um  novo comentario.
+    * Envia um email ao seguidor do post por ter recebido um novo comentário.
     */
     function comment_post_follow($comment){
         $follow = new RHSFollowPost();

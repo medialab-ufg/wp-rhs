@@ -393,7 +393,6 @@ class RHSSearch {
                 break;
             
             default:
-                $q_order = 'ASC';;
                 $q_order_by = 'display_name';
                 $q_order = 'ASC';
                 break;
