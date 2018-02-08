@@ -41,6 +41,7 @@ jQuery( function( $ ) {
                 municipio: {
                     required: true
                 },
+                
                 hiddenRecaptcha: {
                     required: function () {
                         if (grecaptcha.getResponse() == '') {
@@ -492,7 +493,7 @@ jQuery( function( $ ) {
             focusInvalid: true,
             focusCleanup: false,
             onkeyup: false,
-            ignore: ':hidden:not(.validate)',
+            ignore: '',
             rules: {
                 name: {
                     maxlength: 128,
@@ -518,6 +519,15 @@ jQuery( function( $ ) {
                 message: {
                     maxlength: 500,
                     required: true
+                },
+                hiddenRecaptcha: {
+                    required: function () {
+                        if (grecaptcha.getResponse() == '') {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
                 }
             },
             messages: {
@@ -545,6 +555,9 @@ jQuery( function( $ ) {
                 message: {
                     maxlength: 'Tamanho maximo de 500 caracteres.',
                     required: 'Preencha com a sua mensagem.',
+                },
+                hiddenRecaptcha: {
+                    required: "Valide o Captcha primeiro."
                 }
             },
             invalidHandler: function (event, validator) {},
@@ -630,11 +643,6 @@ jQuery( function( $ ) {
             $(this).closest('.links').remove();
         });
         
-        $('#send_contact').prop("disabled",true)
     });
     
 });
-
-function enableButton(){
-    jQuery('#send_contact').prop("disabled",false)
-}
