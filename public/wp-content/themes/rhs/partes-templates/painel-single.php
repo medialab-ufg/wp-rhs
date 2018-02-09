@@ -127,6 +127,11 @@
 		<?php endif; ?>
 	</div>
 </div><!-- .panel .panel-default -->
+
+<!-- Indicar Post -->
+<?php get_template_part("partes-templates/recommend-post"); ?>
+<!-- Fim Indicar Post -->
+
 <?php
 if (  $_post_['status'] != 'draft' && $_post_['status'] != 'voting-expired' && ( comments_open() || get_comments_number() ) ) { ?>
 	<div class="panel panel-default hidden-print">
