@@ -11,7 +11,6 @@ jQuery( function( $ ) {
         },
         minChars: 3,
         onSelect: function (suggestion) {
-
             $.ajax({
                 async: false,
                 type: "POST",
@@ -20,7 +19,7 @@ jQuery( function( $ ) {
                 data: {
                     action: 'recommend_the_post',
                     user_id: suggestion.data,
-                    post_id: $(input_recommend_post).attr('data-post-id')
+                    post_id: $(input_recommend_post).data('post-id')
                 },
                 success: function (data) {
                     if (data['messages']) {
