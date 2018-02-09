@@ -6,13 +6,13 @@ class RHSRecommendPost extends RHSMessage {
 
     function __construct() {
         add_action('wp_enqueue_scripts', array(&$this, 'addJS'));
-        add_action('wp_ajax_show_people_to_recommend', array( $this, 'show_people_to_recommend' ) );
-        add_action('wp_ajax_recommend_the_post', array( $this, 'recommend_the_post' ) );        
+        add_action('wp_ajax_show_people_to_recommend', array($this, 'show_people_to_recommend'));
+        add_action('wp_ajax_recommend_the_post', array($this, 'recommend_the_post'));        
     }
     
     function addJS() {
-        wp_enqueue_script('rhs_recommend_post', get_template_directory_uri() . '/inc/recommend-post/recommend-post.js', array('jquery'));
-        wp_localize_script('rhs_recommend_post', 'recommend_post', array('ajaxurl' => admin_url('admin-ajax.php')));
+        wp_enqueue_script('recommend_post', get_template_directory_uri() . '/inc/recommend-post/recommend_post.js', array('jquery'));
+        wp_localize_script('recommend_post', 'recommend_post', array('ajaxurl' => admin_url('admin-ajax.php')));
     }
 
     /**
@@ -22,14 +22,14 @@ class RHSRecommendPost extends RHSMessage {
 
         $data = array('suggestions' => array());
 
-        $users = new WP_User_Query( array(
+        $users = new WP_User_Query(array(
             'search'         => '*' . esc_attr( $_POST['string'] ) . '*',
             'search_columns' => array( 'user_nicename', 'user_email' ),
             'number'         => -1,
             'orderby'        => 'display_name',
         ) );
 
-        foreach ( $users->results as $user ) {
+        foreach ($users->results as $user) {
 
             $data['suggestions'][] = array(
                 'data'  => $user->ID,
@@ -37,7 +37,7 @@ class RHSRecommendPost extends RHSMessage {
             );
         }
 
-        echo json_encode( $data );
+        echo json_encode($data);
         exit;
 
     }
@@ -57,20 +57,34 @@ class RHSRecommendPost extends RHSMessage {
         $data['user'] = array(
             'user_id' => $user_id,
             'post_id' => $post_id,
-            'recommend_from' => $current_user->ID
+            'recommend_from' => $current_user->ID,
+            'value' => $user->display_name
         );
-
-        add_user_meta($user_id, self::RECOMMEND_POST_TO_KEY, $data['user']);
-        add_user_meta($current_user->ID, self::RECOMMEND_POST_FROM_KEY, $data['user']);
 
         $this->set_messages($user->get_name() . ' recebeu a indicação de leitura', false, 'success');
 
         $data['messages'] = $this->messages();
+        
+        $this->add_recomment_post($post_id, $user_id, $current_user, $data);
 
         echo json_encode($data);
         exit;
     }
+
+    function add_recomment_post($post_id, $user_id, $current_user, $data) {
+        add_user_meta($user_id, self::RECOMMEND_POST_TO_KEY, $data['user']);
+        $return = add_user_meta($current_user->ID, self::RECOMMEND_POST_FROM_KEY, $data['user']);
+    
+        if ($return)
+            do_action('rhs_add_recommend_post', ['post_id' => $post_id, 'user_id' => $user_id]);
+
+        return $return;
+    }
 }
 
-global $RHSRecommendPost;
-$RHSRecommendPost = new RHSRecommendPost();
+add_action('init', function() {
+    global $RHSRecommendPost;
+    $RHSRecommendPost = new RHSRecommendPost();
+});
+
+

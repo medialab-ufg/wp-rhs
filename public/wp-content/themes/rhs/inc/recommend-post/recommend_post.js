@@ -1,6 +1,6 @@
 jQuery( function( $ ) {
     var input_recommend_post = '#input-recommend-post';
-
+    
     $(input_recommend_post).autocomplete({
         serviceUrl: vars.ajaxurl,
         type: 'POST',
@@ -13,12 +13,12 @@ jQuery( function( $ ) {
         onSelect: function (suggestion) {
             swal({
                 title: "Deseja indicar esse post?",
-                text: "A indicação será enviada para" + 'Fulano',
+                text: "A indicação será enviada para " + suggestion.value,
                 type: "info",
                 showCancelButton: true,
                 confirmButtonClass: "btn-success",
                 confirmButtonText: "Sim, enviar!",
-                cancelButtonText: "Cancelar!",
+                cancelButtonText: "Cancelar",
                 closeOnConfirm: false,
                 closeOnCancel: false
             },
@@ -42,7 +42,6 @@ jQuery( function( $ ) {
                         }
                     });
                 } else {
-                    console.log('não confirmou');
                     swal("Cancelado", "Não enviado", "error");
                 }
             });

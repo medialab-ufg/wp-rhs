@@ -266,7 +266,7 @@ por exemplo:
 
 ```
 'comment_post' => ['comments_in_post'],
-'rhs_contact_replied' => ['contact_replied', 10, 3],
+'rhs_replied_ticket' => ['replied_ticket', 10, 3],
 ```
 
 Essa linha indica que o hook `comment_post`, que faz parte do core do WP e é disparado quando um novo comentário é publicado, irá disparar uma notificação do tipo `comments_in_post`. Nesse caso, iria disparar o método `notify` da classe `comments_in_post` que está declarada dentro da pasta `inc/notifications/types`.

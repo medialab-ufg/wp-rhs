@@ -22,6 +22,8 @@ class RHSNotifications_Channel_Hooks {
 
         add_action('rhs_add_user_follow_post', array(&$this, 'rhs_add_user_follow_post'));
         add_action('rhs_delete_user_follow_post', array(&$this, 'rhs_delete_user_follow_post'));
+
+        add_action('rhs_add_recommend_post', array(&$this, 'rhs_add_recommend_post'));
         
     }
     
@@ -89,6 +91,14 @@ class RHSNotifications_Channel_Hooks {
     function rhs_delete_user_follow_post($args) {
         global $RHSNotifications;
         $RHSNotifications->delete_user_from_channel(RHSNotifications::CHANNEL_COMMENTS, $args['post_id'], $args['user_id']);
+    }
+
+    /**
+     * Quando um post é indicado
+     */
+    function rhs_add_recommend_post($args) {
+        global $RHSNotifications;
+        $RHSNotifications->add_user_to_channel(RHSNotifications::CHANNEL_COMMENTS, $args['post_id'], $args['user_id']);
     }
     
 }
