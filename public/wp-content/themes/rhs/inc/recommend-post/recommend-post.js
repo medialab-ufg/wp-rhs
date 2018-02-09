@@ -11,29 +11,43 @@ jQuery( function( $ ) {
         },
         minChars: 3,
         onSelect: function (suggestion) {
-            $.ajax({
-                async: false,
-                type: "POST",
-                dataType: "json",
-                url: vars.ajaxurl,
-                data: {
-                    action: 'recommend_the_post',
-                    user_id: suggestion.data,
-                    post_id: $(input_recommend_post).data('post-id')
-                },
-                success: function (data) {
-                    if (data['messages']) {
-                        var html = '';
-                        Object.keys(data['messages']).forEach(function(key) {
-                            html += data['messages'][key];
-                        });
-                        swal({title: html, html: true});
-                    }
-                },
-                error: function (data) {
-                    swal({title: data, html: true});
+            swal({
+                title: "Deseja indicar esse post?",
+                text: "A indicação será enviada para" + 'Fulano',
+                type: "info",
+                showCancelButton: true,
+                confirmButtonClass: "btn-success",
+                confirmButtonText: "Sim, enviar!",
+                cancelButtonText: "Cancelar!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        async: false,
+                        type: "POST",
+                        dataType: "json",
+                        url: vars.ajaxurl,
+                        data: {
+                            action: 'recommend_the_post',
+                            user_id: suggestion.data,
+                            post_id: $(input_recommend_post).data('post-id')
+                        },
+                        success: function (data) {
+                            swal("Enviado!", "Indicação enviada com sucesso.", "success");
+                        },
+                        error: function (data) {
+                            swal("Não enviado", "Sua indicação não foi enviada.", "error");
+                        }
+                    });
+                } else {
+                    console.log('não confirmou');
+                    swal("Cancelado", "Não enviado", "error");
                 }
             });
+            
+            return false;
         }
     });
 });
