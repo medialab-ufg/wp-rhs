@@ -78,7 +78,7 @@ Exemplo:
 | 1 | 51 | false |
 | 2 | 51 | true | 
 
-Esta tabela é alimentada no momento em que vamos checar se h notificações para um determinado usuário. Isso garante que temos uma relação direta entre as notificações e os usuários, que podemos ter um controle das notificações vistas, e que o histórico de notificações é mantido. Por exemplo, se um usuário deixar de acompanhar um canal, ele ainda terá em seu histórico as notificações recebidas naquele canal.
+Esta tabela é alimentada no momento em que vamos checar se há notificações para um determinado usuário. Isso garante que temos uma relação direta entre as notificações e os usuários, que podemos ter um controle das notificações vistas, e que o histórico de notificações é mantido. Por exemplo, se um usuário deixar de acompanhar um canal, ele ainda terá em seu histórico as notificações recebidas naquele canal.
 
 
 # Principais métodos
@@ -260,7 +260,7 @@ Short description: Novos usuários seguindo seu post
 
 No arquivo `inc/notifications/registered-notifications.php` temos a relação dos hooks que geram as notificações. Esses hooks vão disparar o método `notify` do tipo de notificação correspondentes. Este arquivo descreve um `array` onde as chaves são o hook que vão disparar as notificações e os valores são os tipos de notificação que serão gerados.
 
-Eles são informados por um array, onde o primeiro índice é o nome da classe, o segundo é a prioridade do hook e o terceiro é o número de argumentos q o hook vai receber (mesmo formato da função add_action()
+Eles são informados por um array, onde o primeiro índice é o nome da classe, o segundo é a prioridade do hook e o terceiro é o número de argumentos que o hook vai receber (mesmo formato da função add_action()
 
 por exemplo:
 
@@ -301,6 +301,7 @@ Novo Post de Usuário | open_post_new_post_from_user
 Novo Post sendo Seguido | rhs_post_followed
 Contato respondido | rhs_replied_ticket
 Usuário sendo Seguido| rhs_user_follow_author
+Post Indicado | rhs_post_recommend
 
 
 ## Colapso de notificações
@@ -349,6 +350,8 @@ Novo Post sendo Seguido | open_user_post_followed | Ver Usuário
 Contato respondido | open_replied_ticket | Ver Resposta
 Usuário sendo Seguido | open_user_follow_author | Ver Usuário
 Post Promovido | open_post_promoted | Ver Post
+Post Indicado | open_post_recommend | Ver Post 
+Post Indicado | open_user_post_recommend | Ver Usuário
 
 ## Prioridades
 
