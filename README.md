@@ -149,7 +149,7 @@ bash compile-sass.sh -> Arquivo que se encontra no diretório do projeto (wp-rhs
 
 ### Testes
 
-Abra o arquivo `tests/wordpress-tests-lib/wp-tests-config-sample.php`, edite as informações de conexão com banco de dados e salve o arquivo com o nome `wp-tests-config-sample.php`.
+Abra o arquivo `tests/wordpress-tests-lib/wp-tests-config-sample.php`, edite as informações de conexão com banco de dados e salve o arquivo com o nome `wp-tests-config.php`.
 
 **Atenção**: Crie uma base de dados separada exclusivamente para os testes. Ela será apagada e recriada cada vez que você rodar os testes.
 
