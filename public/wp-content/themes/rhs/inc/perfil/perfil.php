@@ -369,9 +369,9 @@ class RHSPerfil extends RHSMessage {
 
         // Remove usuário
         if($send_to_legacy_user == 'true') {
-            $deleted = wp_delete_user($user_id);
-        } else {
             $deleted = wp_delete_user($user_id, $legacy_user_id);
+        } else {
+            $deleted = wp_delete_user($user_id);
         }
 
     }
