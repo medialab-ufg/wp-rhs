@@ -191,6 +191,16 @@ if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
                                     <?php echo $RHSUser->show_user_links_to_edit($RHSUser->get_id());?>
                                 </div>
                             </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="perfil-title">Excluir Conta</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <?php echo $RHSPerfil->show_box_to_delete_profile($RHSUser->get_id());?>
+                                </div>
+                            </div>
+
                             <div class="panel panel-info" style="border: none">
                                 <div class="panel-body">
                                     <div class="panel-button form-actions register">
