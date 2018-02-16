@@ -354,7 +354,10 @@ class RHSPerfil extends RHSMessage {
         $user_id = get_current_user_id();
         $meta = get_user_meta($user_id);
         $send_to_legacy_user = $_POST['send_to_legacy_user'];
-        $legacy_user_id = 1;
+        $legacy_user = get_user_by('email', 'legado@redehumanizasus.net');
+        if($legacy_user == null) {
+            $legacy_user = get_user_by('id', 1);
+        }
         
         // Remove meta de usuários
         foreach ($meta as $key => $val) {
