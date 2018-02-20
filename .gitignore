@@ -24,7 +24,6 @@ public/wp-content/themes/rhs/assets/scss/style.html
 public/wp-content/themes/rhs/page-fila-de-votacao.html
 public/wp-content/themes/rhs/vendor
 tests/wordpress-tests-lib/wp-tests-config.php
-public/wp-content/themes/
 !public/wp-content/themes/rhs
 .travis.yml
 deploy_rsa.enc

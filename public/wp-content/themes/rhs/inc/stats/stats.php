@@ -14,6 +14,8 @@ class RHSStats {
     const ACTION_POST_PROMOTED = 'post_promoted';
     const ACTION_USER_PROMOTED = 'user_promoted';
     const ACTION_SHARE = 'share';
+    const ACTION_POST_RECOMMEND = 'post_recommend';
+
     
     private $table;
 
@@ -38,9 +40,7 @@ class RHSStats {
         add_action( 'rhs_add_network_data', array( &$this, 'network_data'), 10, 2);
         add_action( 'rhs_add_user_follow_post', array( &$this, 'post_follow'));
         add_action( 'rhs_delete_user_follow_post', array( &$this, 'post_unfollow'));
-        
-        
-        
+        add_action( 'rhs_add_recommend_post', array( &$this, 'recommend_post'));        
         
     }
     
@@ -75,7 +75,11 @@ class RHSStats {
     function post_promoted($post_id) {
         $this->add_event(self::ACTION_POST_PROMOTED, $post_id);
     }
-    
+
+    function recommend_post($args) {
+        $this->add_event(self::ACTION_POST_RECOMMEND, $args['post_id'], $args['user_id']);
+    }
+
     function network_data($post_id, $type) {
         if ($type == RHSNetwork::META_KEY_VIEW) // não queremos gerar eventos para views
             return;

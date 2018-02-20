@@ -249,5 +249,33 @@ class NotificationsTest extends RHS_UnitTestCase {
         
     }
 
+    function test_recommend_post() {
+        global $RHSNotifications;
+        global $RHSRecommendPost;
+        global $RHSPosts;
+
+        // parametros necessários
+        $post = self::create_post_to_queue();
+        $post_id = $post->getId();
+        $recommend_to_user = self::$users['contributor'][0];
+        $current_user = wp_set_current_user(self::$users['contributor'][1]);
+        
+        $data['user'] = array(
+            'user_id' => $recommend_to_user,
+            'post_id' => $post_id,
+            'recommend_from' => $current_user,
+            'value' => $current_user->display_name
+        );
+
+        // post é recomendado
+        $RHSRecommendPost->add_recomment_post($post_id, $recommend_to_user, $current_user, $data);
+
+        // registrando notificação em canal
+        $this->assertEquals(1, $RHSNotifications->get_news_number($recommend_to_user));
+        $this->assertEquals($post_id, $RHSNotifications->get_news($recommend_to_user)[0]->getObjectId());        
+        $this->assertEquals($current_user->ID, $RHSNotifications->get_news($recommend_to_user)[0]->getUserId());
+        
+    }
+
 
 }
