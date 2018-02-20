@@ -81,7 +81,13 @@ jQuery( function( $ ) {
                 send_to_legacy_user: send_to_legacy_user
             },
             success: function(output) {
-                swal("Excluída!", "Conta excluída com sucesso.", "success");
+                swal({
+                    title: "Excluída!", 
+                    text: "Conta excluída com sucesso.", 
+                    type: "success",
+                  }, function() {
+                    window.location.href = window.location.origin;
+                  });
             }
         });
 
