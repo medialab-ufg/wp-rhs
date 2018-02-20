@@ -23,6 +23,7 @@ jQuery( function( $ ) {
                 closeOnCancel: false
             },
             function (isConfirm) {
+                var not_sent_title = "Não enviado!";
                 if (isConfirm) {
                     $.ajax({
                         async: false,
@@ -34,15 +35,21 @@ jQuery( function( $ ) {
                             user_id: suggestion.data,
                             post_id: $(input_recommend_post).data('post-id')
                         },
-                        success: function (data) {
-                            swal("Enviado!", "Indicação enviada com sucesso.", "success");
+                        success: function (data) {                            
+                            if(data.msgErr) {
+                                swal(not_sent_title, data.msgErr, "error");
+                            } else if(data.messages.success && data.user.sent_name) {
+                                swal("Enviado!", "Indicação enviada com sucesso para " + data.user.sent_name, "success");
+                            } else {
+                                swal(not_sent_title, "Tente novamente mais tarde!", "error");
+                            }                                                    
                         },
                         error: function (data) {
-                            swal("Não enviado", "Sua indicação não foi enviada.", "error");
+                            swal(not_sent_title, "Sua indicação não foi enviada.", "error");
                         }
                     });
                 } else {
-                    swal("Cancelado", "Não enviado", "error");
+                    swal("Cancelado", not_sent_title, "error");
                 }
             });
             
