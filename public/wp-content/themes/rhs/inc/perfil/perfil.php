@@ -7,6 +7,17 @@ class RHSPerfil extends RHSMessage {
 
     function __construct($userID) {
         $this->userID = $userID;
+        add_action('wp_enqueue_scripts', array(&$this, 'addJS'), 2);
+        add_action('wp_ajax_generate_backup_file', array($this, 'generate_backup_file'));
+        add_action('wp_ajax_nopriv_generate_backup_file', array($this,'generate_backup_file'));
+        add_action('wp_ajax_delete_my_account', array($this, 'delete_my_account'));
+        add_action('wp_ajax_nopriv_delete_my_account', array($this,'delete_my_account'));
+    }
+    
+
+    function addJS() {
+        wp_enqueue_script('rhs_profile', get_template_directory_uri() . '/inc/perfil/perfil.js', array('jquery'));
+        wp_localize_script('rhs_profile', 'user_vars', array('ajaxurl' => admin_url('admin-ajax.php')));
     }
 
     function getUserId(){
@@ -232,6 +243,139 @@ class RHSPerfil extends RHSMessage {
         return true;
 
     }
+
+    function show_box_to_delete_profile($user_id){
+        echo "<a class='btn btn-danger modal-delete-account'>Excluir Perfil</a>";
+    }
+
+    public static function generate_backup_file() {
+        global $wp_query;
+        global $wpdb;
+        global $RHSVote;
+        global $RHSNetwork;
+        global $RHSSearch;
+        
+        header('Content-Type: application/vnd.ms-excel');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        
+        $args = array(
+            'author'         =>  get_current_user_id(),
+            'orderby'        =>  'post_date',
+            'order'          =>  'ASC',
+            'posts_per_page' => -1
+        );
+        
+        $content_file = get_posts($args);
+    
+        foreach($content_file as $post) {
+            $get_title = html_entity_decode(get_the_title($post->ID), ENT_QUOTES, "UTF-8");
+            
+            $raw_content = get_post_field('post_content', $post->ID);
+            $post_content = iconv( "utf-8", "utf-8", $raw_content );
+            $post_content = strip_html_tags( $post_content );
+            $post_content = html_entity_decode($post_content, ENT_QUOTES, "UTF-8");
+
+            $get_date = get_the_date('d/m/Y H:i:s', $post->ID);
+            $get_author = get_the_author_meta('user_firstname', $post->post_author) . " " . get_the_author_meta('user_lastname', $post->post_author);
+            $get_link = $post->guid;
+            $get_views = $RHSNetwork->get_post_total_views($post->ID);
+            $get_shares = $RHSNetwork->get_post_total_shares($post->ID);
+            $get_comments = wp_count_comments($post->ID);
+            $get_votes = $RHSVote->get_total_votes($post->ID);
+
+            $views = return_value_or_zero($get_views);
+            $shares = return_value_or_zero($get_shares);
+            $votes = return_value_or_zero($get_votes);
+            $comments = return_value_or_zero($get_comments);
+            
+            $post_ufmun = get_post_ufmun($post->ID);
+            $uf = $post_ufmun['uf']['sigla'];
+            $mun = $post_ufmun['mun']['nome'];
+
+            $row_data[] = [
+                'titulo'=> $get_title,
+                'conteudo' => $post_content,
+                'data'=> $get_date,
+                'autor' => $get_author,
+                'link' => $get_link,
+                'visualizacoes' => $views,
+                'compartilhamentos' => $shares,
+                'votos' => $votes,
+                'comentarios' => $comments,
+                'estado' => return_value_or_dash($uf),
+                'cidade' => return_value_or_dash($mun)
+            ];
+        }
+
+        $head_table .= "<table>
+            <thead align='left' style='display: table-header-group'>
+            <tr>
+                <th>Título</th>
+                <th>Conteúdo</th>
+                <th>Data</th>
+                <th>Autor</th>
+                <th>Link</th>
+                <th>Visualizações</th>
+                <th>Compartilhamentos</th>
+                <th>Votos</th>
+                <th>Comentários</th>
+                <th>Estado</th>
+                <th>Cidade</th>
+            </tr>
+            </thead>
+            <tbody>";
+
+        foreach ($row_data as $row) {
+            $row_table .=  "<tr>
+                                <td>" . $row['titulo'] . "</td>
+                                <td>" . $row['conteudo'] . "</td>
+                                <td>" . $row['data'] . "</td>
+                                <td>" . $row['autor'] . "</td>
+                                <td>" . $row['link'] . "</td>
+                                <td>" . $row['visualizacoes'] . "</td>
+                                <td>" . $row['compartilhamentos'] . "</td>
+                                <td>" . $row['votos'] . "</td>
+                                <td>" . $row['comentarios'] . "</td>
+                                <td>" . $row['estado'] . "</td>
+                                <td>" . $row['cidade'] . "</td>
+                            </tr>";
+        }
+        
+        $footer_table = "</tbody></table>";
+
+        $file = $head_table . $row_table . $footer_table;
+
+        mb_convert_encoding($file, 'UTF-16LE', 'UTF-8');
+        echo $file;
+    }
+
+    public static function delete_my_account() {
+        $user_id = get_current_user_id();
+        $meta = get_user_meta($user_id);
+        $send_to_legacy_user = $_POST['send_to_legacy_user'];
+        $legacy_user = get_user_by('email', 'legado@redehumanizasus.net');
+        if($legacy_user == null) {
+            $legacy_user = get_user_by('id', 1);
+        }
+        
+        // Remove meta de usuários
+        foreach ($meta as $key => $val) {
+            delete_user_meta($user_id, $key);
+        }
+
+        // Desloga usuário
+        wp_logout();
+
+        // Remove usuário
+        if($send_to_legacy_user == 'true') {
+            $deleted = wp_delete_user($user_id, $legacy_user_id);
+        } else {
+            $deleted = wp_delete_user($user_id);
+        }
+
+    }
+    
 }
 
 global $RHSPerfil;

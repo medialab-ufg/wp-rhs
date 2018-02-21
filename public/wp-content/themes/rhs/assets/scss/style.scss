@@ -165,6 +165,7 @@ body {
 .sweet-alert{
     border-radius: 0px;
     h2{
+        padding-top: 15px;
         font-size: 17px;
     }
     .sa-confirm-button-container{
@@ -242,4 +243,8 @@ body {
         object-fit: cover;
         object-position: top;
     }
+}
+
+.extra-small-type {
+    font-size: 60%;
 }
