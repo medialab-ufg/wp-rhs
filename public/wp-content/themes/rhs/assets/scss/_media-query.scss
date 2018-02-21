@@ -377,6 +377,18 @@
         }
     }
 
+    @media (min-width: 991px) {
+        #sidebar {
+            .panel {
+                .sidebar-public {
+                    button {
+                        font-size: 0.9vw;
+                    }
+                }
+            }
+        }
+    }
+
     @media print {
         * {
             background: transparent !important;
