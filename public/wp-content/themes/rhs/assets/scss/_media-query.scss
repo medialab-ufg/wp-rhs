@@ -389,6 +389,18 @@
         }
     }
 
+    @media(min-width: 692px) and (max-width: 910px) {
+        .panel-default {
+            > .panel-heading  {
+                > .post-titulo {
+                    .vdivide {
+                        padding-left: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+
     @media print {
         * {
             background: transparent !important;
