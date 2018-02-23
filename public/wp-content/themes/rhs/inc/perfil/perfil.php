@@ -244,8 +244,11 @@ class RHSPerfil extends RHSMessage {
 
     }
 
-    function show_box_to_delete_profile($user_id){
-        echo "<a class='btn btn-danger modal-delete-account'>Excluir Perfil</a>";
+    function show_box_to_delete_profile($user_id, $name = "") {
+        $_user_posts = count_user_posts($user_id);
+
+        echo "<a class='btn btn-danger modal-delete-account' data-total-posts='$_user_posts' data-displayname='$name'>Excluir Perfil</a>";
+
     }
 
     public static function generate_backup_file() {
@@ -351,6 +354,11 @@ class RHSPerfil extends RHSMessage {
     }
 
     public static function delete_my_account() {
+
+
+        var_dump( $_POST );
+        die;
+
         $user_id = get_current_user_id();
         $meta = get_user_meta($user_id);
         $send_to_legacy_user = $_POST['send_to_legacy_user'];

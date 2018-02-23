@@ -171,8 +171,8 @@ body {
     .sa-confirm-button-container{
         button{
             display: inline-block;
-            background-color: #00b4b4;
-            border: none;
+            //background-color: #00b4b4;
+            //border: none;
             box-shadow: none;
             color: #ffffff;
             font: {
@@ -188,8 +188,8 @@ body {
             &:hover, &:focus, &:hover:focus {
                 outline: none;
                 color: #ffffff;
-                background-color: #009b9b;
-                border: none;
+                //background-color: #009b9b;
+                //border: none;
                 box-shadow: none;
             }
             &:active, &:active:hover, &:active:focus {
