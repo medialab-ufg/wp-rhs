@@ -34,8 +34,8 @@ jQuery( function( $ ) {
         }
 
         html_content += $reason_delete;
-        html_content += "<div class='col-md-12'> <a class='btn btn-danger delete-my-account send-to-legacy col-md-6' data-user='" + name + "' data-send-to-legacy-user='true'>Excuir conta definitivamente</a>"+
-            "<a class='btn btn-danger delete-my-account dont-send-to-legacy col-md-6' data-send-to-legacy-user='false'>Excuir conta definitivamente</a> </div>";
+        html_content += "<div class='col-md-12'> <a class='btn btn-danger delete-my-account send-to-legacy' data-user='" + name + "' data-send-to-legacy-user='true'>Excuir conta definitivamente</a>"+
+            "<a class='btn btn-danger delete-my-account dont-send-to-legacy col-md-6' data-send-to-legacy-user='false'>Excuir conta definitivamente</a> </div> <br>";
 
         el.preventDefault();
         swal({

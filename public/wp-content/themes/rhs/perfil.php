@@ -193,35 +193,26 @@ $primeiro_nome = $RHSUser->get_first_name();
                                 </div>
                             </div>
 
-                            <div class="panel panel-default">
-<!--                                <div class="panel-heading">-->
-<!--                                    <h4 class="perfil-title">Excluir Conta</h4>-->
-<!--                                </div>-->
+                            <div class="panel-body-d">
+                                <div class="reason-delete" style="display: none"> <hr>
+                                    <form>
+                                        <label style="font-size: small">Informe abaixo o motivo da exclusão (opcional)</label> <br>
+                                        <input class="form-control delreason" name="delete_reason" value="" />
+                                    </form>
+                                    <hr>
+                                </div>
 
-                                <div class="panel-body-d">
-
-                                    <div class="reason-delete" style="display: none">
-                                        <hr>
-                                        <form>
-                                            <label style="font-size: small">Informe abaixo o motivo da exclusão (opcional)</label>
-                                            <br>
-                                            <input class="form-control delreason" name="delete_reason" value="" />
-                                        </form>
-                                        <hr>
-                                    </div>
-
-                                    <div class="manage-content" style="display: none">
-                                        <div class='col-md-12' style='width: 100%; display: inline-block;'>
-                                            <div class='col-md-6' style='width: 50%; display: inline-block; font-size: 16px;'>
-                                                Baixe o conteúdo que você publicou na RHS <br>
-                                                <a class='btn btn-primary download-my-content'>Baixar meus posts</a>
-                                            </div>
-                                            <div class='col-md-6' style='width: 50%; display: inline-block;font-size: 16px;'>
-                                                <input type='checkbox' value='true' name='send-to-legacy-user'
-                                                       id='send-to-legacy-user' style='font-size: 16px' checked='checked'>
-                                                Manter meu conteúdo como acervo da RHS
-                                                <p style='font-size: 11px'> As publicações ficarão em nome da RHS e sua identidade será preservada.</p>
-                                            </div>
+                                <div class="manage-content" style="display: none">
+                                    <div class='col-md-12' style='width: 100%; display: inline-block;'>
+                                        <div class='col-md-6' style='width: 50%; display: inline-block; font-size: 16px;'>
+                                            Baixe o conteúdo que você publicou na RHS <br>
+                                            <a class='btn btn-primary download-my-content'>Baixar meus posts</a>
+                                        </div>
+                                        <div class='col-md-6' style='width: 50%; display: inline-block;font-size: 16px;'>
+                                            <input type='checkbox' value='true' name='send-to-legacy-user'
+                                                   id='send-to-legacy-user' style='font-size: 16px' checked='checked'>
+                                            Manter meu conteúdo como acervo da RHS
+                                            <p style='font-size: 11px'> As publicações ficarão em nome da RHS e sua identidade será preservada.</p>
                                         </div>
                                     </div>
                                 </div>
