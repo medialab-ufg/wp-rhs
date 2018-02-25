@@ -223,7 +223,6 @@ $primeiro_nome = $RHSUser->get_first_name();
                                                 <p style='font-size: 11px'> As publicações ficarão em nome da RHS e sua identidade será preservada.</p>
                                             </div>
                                         </div>
-                                        <hr> <br> <br>
                                     </div>
                                 </div>
                             </div>
