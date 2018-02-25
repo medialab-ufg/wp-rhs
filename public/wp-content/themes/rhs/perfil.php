@@ -202,24 +202,28 @@ $primeiro_nome = $RHSUser->get_first_name();
 
                                     <div class="reason-delete" style="display: none">
                                         <hr>
-                                            <label for="" style="font-size: small">Informe abaixo o motivo da exclusão (opcional)</label> <br>
-                                            <input type="text" class="form-control" name="delete_reason" class="delreason" />
+                                        <form>
+                                            <label style="font-size: small">Informe abaixo o motivo da exclusão (opcional)</label>
+                                            <br>
+                                            <input class="form-control delreason" name="delete_reason" value="" />
+                                        </form>
                                         <hr>
                                     </div>
 
                                     <div class="manage-content" style="display: none">
                                         <div class='col-md-12' style='width: 100%; display: inline-block;'>
-                                            <div class='col-md-6' style='width: 50%; display: inline-block;'>
-                                                Baixe o conteúdo que você publicou na RHS
+                                            <div class='col-md-6' style='width: 50%; display: inline-block; font-size: 16px;'>
+                                                Baixe o conteúdo que você publicou na RHS <br>
                                                 <a class='btn btn-primary download-my-content'>Baixar meus posts</a>
                                             </div>
-                                            <div class='col-md-6' style='width: 50%; display: inline-block;'>
+                                            <div class='col-md-6' style='width: 50%; display: inline-block;font-size: 16px;'>
                                                 <input type='checkbox' value='true' name='send-to-legacy-user'
                                                        id='send-to-legacy-user' style='font-size: 16px' checked='checked'>
                                                 Manter meu conteúdo como acervo da RHS
-                                                <p class='extra-small-type'> As publicações ficarão em nome da RHS e sua identidade será preservada.</p>
+                                                <p style='font-size: 11px'> As publicações ficarão em nome da RHS e sua identidade será preservada.</p>
                                             </div>
                                         </div>
+                                        <hr> <br> <br>
                                     </div>
                                 </div>
                             </div>

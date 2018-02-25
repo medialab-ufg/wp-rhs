@@ -2,7 +2,7 @@ jQuery( function( $ ) {
     
     var trigger_modal = ".modal-delete-account";
     $(trigger_modal).on("click", function(e) {
-        var greeting = $(this).data('displayname') + ", ";
+        var name = $(this).data('displayname');
         var user_total_posts = $(this).data('total-posts');
         console.log(user_total_posts);
         swal({
@@ -17,29 +17,29 @@ jQuery( function( $ ) {
                 closeOnCancel: false
         }, function(isConfirm) {
             if(isConfirm) {
-                renderConfirmExclusion(user_total_posts, e);
+                renderConfirmExclusion(user_total_posts, name, e);
             } else {
-                swal(greeting, "Obrigado por continuar contribuindo conosco!", "success");
+                swal(name, "Obrigado por continuar contribuindo conosco!", "success");
             }
         });
     });
 
-    function renderConfirmExclusion(posts_count, el) {
+    function renderConfirmExclusion(posts_count, name, el) {
         var $other = "";
         var $reason_delete = $(".reason-delete").html();
-        var html_content = "<hr> <i class='fa fa-spinner fa-spin' id='spinner-content-download'></i>";
+        var html_content = "<i class='fa fa-spinner fa-spin' id='spinner-content-download'></i>";
         if(posts_count > 0) {
-            var $other = $(".manage-content").html();
+            var $other = "<hr>" + $(".manage-content").html();
             html_content += $other;
         }
 
         html_content += $reason_delete;
-        html_content += "<div class='col-md-12'> <a class='btn btn-danger delete-my-account send-to-legacy col-md-6' data-send-to-legacy-user='true''>Excuir conta definitivamente</a>"+
-            "<a class='btn btn-danger delete-my-account dont-send-to-legacy col-md-6' data-send-to-legacy-user='false''>Excuir conta definitivamente</a> </div>";
+        html_content += "<div class='col-md-12'> <a class='btn btn-danger delete-my-account send-to-legacy col-md-6' data-user='" + name + "' data-send-to-legacy-user='true'>Excuir conta definitivamente</a>"+
+            "<a class='btn btn-danger delete-my-account dont-send-to-legacy col-md-6' data-send-to-legacy-user='false'>Excuir conta definitivamente</a> </div>";
 
         el.preventDefault();
         swal({
-            title: "Sentimos muito que você tenha que sair",
+            title: name + ", sentimos muito que você tenha que sair!",
             text: html_content,
             html: true,
             type: "info",
@@ -88,11 +88,8 @@ jQuery( function( $ ) {
     });
     $(document).on('click', '.delete-my-account', function() {
         var send_to_legacy_user = $(this).data('send-to-legacy-user');
-        var del_reason = $("input.delreason").text();
-
-        console.log(this);
-
-        console.log(del_reason); return;
+        var del_reason = $("input.delreason").last().val();
+        var user = $(this).data('user');
 
         $.ajax({
             type: "POST",
@@ -101,7 +98,8 @@ jQuery( function( $ ) {
             data: {
                 action: 'delete_my_account',
                 send_to_legacy_user: send_to_legacy_user,
-                reason: del_reason
+                reason: del_reason,
+                user: user
             },
             success: function(output) {
                 swal({
