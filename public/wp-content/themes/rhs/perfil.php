@@ -197,7 +197,7 @@ $primeiro_nome = $RHSUser->get_first_name();
                                 <div class="reason-delete" style="display: none"> <hr>
                                     <form>
                                         <label style="font-size: small">Informe abaixo o motivo da exclusão (opcional)</label> <br>
-                                        <input class="form-control delreason" name="delete_reason" value="" />
+                                        <input class="form-control delreason" placeholder="Quero excluir minha conta porque ..." name="delete_reason" value="" autofocus>
                                     </form>
                                     <hr>
                                 </div>
