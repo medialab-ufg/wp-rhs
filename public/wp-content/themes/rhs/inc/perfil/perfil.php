@@ -244,8 +244,11 @@ class RHSPerfil extends RHSMessage {
 
     }
 
-    function show_box_to_delete_profile($user_id){
-        echo "<a class='btn btn-danger modal-delete-account'>Excluir Perfil</a>";
+    function show_box_to_delete_profile($user_id, $name = "") {
+        $_user_posts = count_user_posts($user_id);
+
+        echo "<a class='btn btn-danger modal-delete-account' data-total-posts='$_user_posts' data-displayname='$name'>Excluir Perfil</a>";
+
     }
 
     public static function generate_backup_file() {
@@ -354,11 +357,19 @@ class RHSPerfil extends RHSMessage {
         $user_id = get_current_user_id();
         $meta = get_user_meta($user_id);
         $send_to_legacy_user = $_POST['send_to_legacy_user'];
+        $user_name = $_POST['user'];
+        $reason_delete = empty(trim($_POST['reason'])) ? null : htmlspecialchars($_POST['reason']);
         $legacy_user = get_user_by('email', 'legado@redehumanizasus.net');
-        if($legacy_user == null) {
+
+        if( false === $legacy_user ) {
             $legacy_user = get_user_by('id', 1);
         }
-        
+
+        if( !is_null( $reason_delete ) ) {
+            $subject = "Usuário $user_name deletou sua conta";
+            wp_mail($legacy_user->user_email, $subject, $reason_delete, RHSEmail::EMAIL_HEADERS);
+        }
+
         // Remove meta de usuários
         foreach ($meta as $key => $val) {
             delete_user_meta($user_id, $key);
@@ -369,7 +380,7 @@ class RHSPerfil extends RHSMessage {
 
         // Remove usuário
         if($send_to_legacy_user == 'true') {
-            $deleted = wp_delete_user($user_id, $legacy_user_id);
+            $deleted = wp_delete_user($user_id, $legacy_user->ID);
         } else {
             $deleted = wp_delete_user($user_id);
         }
