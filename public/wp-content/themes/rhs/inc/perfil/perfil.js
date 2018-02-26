@@ -2,47 +2,64 @@ jQuery( function( $ ) {
     
     var trigger_modal = ".modal-delete-account";
     $(trigger_modal).on("click", function(e) {
-        var html_content = "<hr>"+
-        "<i class='fa fa-spinner fa-spin' id='spinner-content-download'></i>"+
-        "<a class='btn btn-primary download-my-content'>Realizar o download de conteúdo do meu perfil</a>"+
-        "<hr>"+
-        "<div>"+
-        "<label for='send-to-legacy-user'>"+
-        "<input type='checkbox' value='true' name='send-to-legacy-user' id='send-to-legacy-user' checked='checked'> Manter meu conteúdo como acervo da RHS"+
-        "</label>"+
-        "<p class='extra-small-type'>as publicações ficarão em nome da RHS e sua identidade será preservada.</p>"+
-        "</div>"+
-        "<hr>"+
-        "<div>"+
-        "<a class='btn btn-danger delete-my-account send-to-legacy' data-send-to-legacy-user='true''>Excuir conta definitivamente</a>"+
-        "<a class='btn btn-danger delete-my-account dont-send-to-legacy' data-send-to-legacy-user='false''>Excuir conta definitivamente</a>"+
-        "</div>"+
-        "<hr>"
-        ;
-        
-        e.preventDefault();
+        var name = $(this).data('displayname');
+        var user_total_posts = $(this).data('total-posts');
+        console.log(user_total_posts);
         swal({
-            title: "Excluir Conta?",
-            text: html_content,
-            html: true,
-            type: "warning",
-            showConfirmButton: false,
+            type: 'warning',
+            title: "Deseja realmente excluir sua conta?",
+            showConfirmButton: true,
             showCancelButton: true,
             cancelButtonText: "Cancelar",
+            confirmButtonText: "Sim",
+            confirmButtonClass: "btn-danger",
+             closeOnConfirm: false,
+                closeOnCancel: false
+        }, function(isConfirm) {
+            if(isConfirm) {
+                renderConfirmExclusion(user_total_posts, name, e);
+            } else {
+                swal(name, "Obrigado por continuar contribuindo conosco!", "success");
+            }
         });
-        
+    });
+
+    function renderConfirmExclusion(posts_count, name, el) {
+        var $other = "";
+        var $reason_delete = $(".reason-delete").html();
+        var html_content = "<i class='fa fa-spinner fa-spin' id='spinner-content-download'></i>";
+        if(posts_count > 0) {
+            var $other = "<hr>" + $(".manage-content").html();
+            html_content += $other;
+        }
+
+        html_content += $reason_delete;
+        html_content += "<div class='col-md-12'> <a class='btn btn-danger delete-my-account send-to-legacy' data-user='" + name + "' data-send-to-legacy-user='true'>Excuir conta definitivamente</a>"+
+            "<a class='btn btn-danger delete-my-account dont-send-to-legacy col-md-6' data-send-to-legacy-user='false'>Excuir conta definitivamente</a> </div> <br>";
+
+        el.preventDefault();
+        swal({
+            title: name + ", sentimos muito que você tenha que sair!",
+            text: html_content,
+            html: true,
+            type: "info",
+            showConfirmButton: false,
+            showCancelButton: true,
+            cancelButtonText: "Cancelar"
+        });
+
         $('.dont-send-to-legacy, #spinner-content-download').hide();
 
         $('#send-to-legacy-user').bind('change', function() {
             if (this.checked) {
                 $('.dont-send-to-legacy').hide();
                 $('.send-to-legacy').show();
-            } else { 
+            } else {;
                 $('.send-to-legacy').hide();
                 $('.dont-send-to-legacy').show();
             }
         });
-    });
+    }
 
     $(document).on('click', '.download-my-content', function() {
         var d = new Date();
@@ -71,6 +88,8 @@ jQuery( function( $ ) {
     });
     $(document).on('click', '.delete-my-account', function() {
         var send_to_legacy_user = $(this).data('send-to-legacy-user');
+        var del_reason = $("input.delreason").last().val();
+        var user = $(this).data('user');
 
         $.ajax({
             type: "POST",
@@ -78,13 +97,15 @@ jQuery( function( $ ) {
             cache: false,
             data: {
                 action: 'delete_my_account',
-                send_to_legacy_user: send_to_legacy_user
+                send_to_legacy_user: send_to_legacy_user,
+                reason: del_reason,
+                user: user
             },
             success: function(output) {
                 swal({
                     title: "Excluída!", 
                     text: "Conta excluída com sucesso.", 
-                    type: "success",
+                    type: "success"
                   }, function() {
                     window.location.href = window.location.origin;
                   });

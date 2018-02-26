@@ -1,7 +1,7 @@
-<?php get_header( 'full' ); ?>
-<?php global $RHSUsers; ?>
 <?php
+get_header('full');
 
+global $RHSUsers;
 $current_user = new RHSUser( wp_get_current_user() );
 
 if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
@@ -11,6 +11,7 @@ if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
     $RHSUser   = $current_user;
     $RHSPerfil = new RHSPerfil( $current_user->get_id() );
 }
+$primeiro_nome = $RHSUser->get_first_name();
 
 ?>
     <div class="row">
@@ -128,7 +129,7 @@ if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="first_name">Primeiro nome</label>
-                                                <input value="<?php echo $RHSUser->get_first_name(); ?>"
+                                                <input value="<?php echo $primeiro_nome; ?>"
                                                        class="form-control" type="text" id="first_name"
                                                        name="first_name" size="60" maxlength="254">
                                             </div>
@@ -192,17 +193,36 @@ if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
                                 </div>
                             </div>
 
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="perfil-title">Excluir Conta</h4>
+                            <div class="panel-body-d">
+                                <div class="reason-delete" style="display: none"> <hr>
+                                    <form>
+                                        <label style="font-size: small">Informe abaixo o motivo da exclusão (opcional)</label> <br>
+                                        <input class="form-control delreason" placeholder="Quero excluir minha conta porque ..." name="delete_reason" value="" autofocus>
+                                    </form>
+                                    <hr>
                                 </div>
-                                <div class="panel-body">
-                                    <?php echo $RHSPerfil->show_box_to_delete_profile($RHSUser->get_id());?>
+
+                                <div class="manage-content" style="display: none">
+                                    <div class='col-md-12' style='width: 100%; display: inline-block;'>
+                                        <div class='col-md-6' style='width: 50%; display: inline-block; font-size: 16px;'>
+                                            Baixe o conteúdo que você publicou na RHS <br>
+                                            <a class='btn btn-primary download-my-content'>Baixar meus posts</a>
+                                        </div>
+                                        <div class='col-md-6' style='width: 50%; display: inline-block;font-size: 16px;'>
+                                            <input type='checkbox' value='true' name='send-to-legacy-user'
+                                                   id='send-to-legacy-user' style='font-size: 16px' checked='checked'>
+                                            Manter meu conteúdo como acervo da RHS
+                                            <p style='font-size: 11px'> As publicações ficarão em nome da RHS e sua identidade será preservada.</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="panel panel-info" style="border: none">
                                 <div class="panel-body">
+
+                                    <?php echo $RHSPerfil->show_box_to_delete_profile($RHSUser->get_id(), $primeiro_nome);?>
+
                                     <div class="panel-button form-actions register">
                                         <button type="submit" id="btn-login" class="btn btn-danger">Salvar</button>
                                     </div>
