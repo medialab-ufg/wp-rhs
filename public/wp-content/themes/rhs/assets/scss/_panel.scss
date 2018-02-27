@@ -146,14 +146,12 @@
                 float: right;
                 padding: {
                     bottom: 7px;
-                    top: 7px;
                 }
                 a, button {
                     background-color: $primeira_cor_texto;
                     border-color: $primeira_cor_texto;
                     &.btn {
                         font-size: 17px;
-                        margin-top: 10px;
                         padding: 6px 37px;
                     }
                 }
