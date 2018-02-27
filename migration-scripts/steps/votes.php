@@ -7,7 +7,7 @@ $substitutions = [
     '{{votes}}' => $RHSVote->tablename,
     '{{total_meta_key}}' => $RHSVote->total_meta_key,
     '{{order_meta_key}}' => RHSPosts::META_DATE_ORDER,
-    '{{meta_publish_key}}' => RHSVote::META_PUBISH
+    '{{meta_publish_key}}' => RHSVote::META_PUBLISH
 ];
 
 
@@ -22,7 +22,7 @@ $this->log('Zerando data de último voto dos posts...');
 $wpdb->query("DELETE FROM $wpdb->postmeta WHERE meta_key = '" . RHSPosts::META_DATE_ORDER . "';");
 
 $this->log('Zerando informação de posts promovidos...');
-$wpdb->query("DELETE FROM $wpdb->postmeta WHERE meta_key = '" . RHSVote::META_PUBISH . "';");
+$wpdb->query("DELETE FROM $wpdb->postmeta WHERE meta_key = '" . RHSVote::META_PUBLISH . "';");
 
 $this->log('Importando votos...');
 $this->query('votes', $substitutions);
