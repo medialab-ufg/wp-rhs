@@ -378,7 +378,7 @@ class RHSPerfil extends RHSMessage {
             // Adiciona estatística de remoção da conta
             do_action('rhs_user_deleted', $user_id);
 
-            $subject = "Notificação RHS";
+            $subject = "Notificação RHS [$user_name encerrou sua conta]";
             $agora = current_time( 'mysql' );
             $_mail_msg = "<p> O usuário <strong> $user_name </strong> ($_deleted_user_email) deletou sua conta em $agora.</p>";
 
