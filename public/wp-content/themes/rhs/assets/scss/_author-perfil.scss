@@ -403,3 +403,30 @@
         border-color: $backgroundColor;
     }
 }
+
+
+.encerrar-conta-label {
+    font-size: medium;
+    padding-top: 5px;
+}
+
+.encerrar-conta-p { font-size: 11px; }
+
+a.download-my-content { margin-top: 10px; }
+
+#encerrar-conta-container {
+    .manage-content {
+        .col-md-12 {
+            width: 100%;
+            display: inline-block;
+            .col-md-6 {
+                width: 50%;
+                display: inline-block;
+                font-size: 16px;
+
+                input { font-size: 16px; }
+                p { font-size: 11px; }
+            }
+        }
+    }
+} // #encerrar-conta-container
