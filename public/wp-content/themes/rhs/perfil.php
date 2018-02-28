@@ -194,7 +194,7 @@ $primeiro_nome = $RHSUser->get_first_name();
                             </div>
 
                             <div id="encerrar-conta-container">
-                                <div class="reason-delete" style="display: none"> <hr>
+                                <div class="reason-delete hide"> <hr>
                                     <form>
                                         <label class="encerrar-conta-label">Informe abaixo o motivo da exclusão (opcional)</label> <br>
                                         <input type="text" class="form-control delreason" name="delete_reason" value=""
@@ -203,8 +203,13 @@ $primeiro_nome = $RHSUser->get_first_name();
                                     <hr>
                                 </div>
 
-                                <div class="manage-content" style="display: none">
+                                <div class="manage-content hide">
                                     <div class='col-md-12'>
+
+                                        <div class="encerra-header-img hide">
+                                            <?php echo get_stylesheet_directory_uri().'/assets/images/logo_color.png'?>
+                                        </div>
+
                                         <div class='col-md-6 encerrar-conta-label'>
                                             Baixe o conteúdo que você publicou na RHS <br>
                                             <a class='btn btn-primary download-my-content'>Baixar meus posts</a>
