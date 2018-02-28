@@ -379,11 +379,14 @@ class RHSPerfil extends RHSMessage {
             do_action('rhs_user_deleted', $user_id);
 
             $subject = "Notificação RHS";
-            $_mail_msg = "O usuário $user_name ($_deleted_user_email) acabou de encerrar sua conta";
+            $agora = current_time( 'mysql' );
+            $_mail_msg = "<p> O usuário <strong> $user_name </strong> ($_deleted_user_email) deletou sua conta em $agora.</p>";
 
             if(!is_null($reason_delete)) {
-                $_mail_msg .= "Motivo: " . $reason_delete;
+                $_mail_msg .= "<p> <strong>Motivo: </strong>" . $reason_delete . "</p>";
             }
+
+            $_mail_msg .= "<p><strong>Deixou seu conteúdo como legado RHS: </strong> $send_to_legacy_user</p>";
             // Notifica admin por email
             wp_mail($legacy_user['email'], $subject, $_mail_msg, RHSEmail::EMAIL_HEADERS);
         }
