@@ -13,7 +13,6 @@ class RHSPerfil extends RHSMessage {
         add_action('wp_ajax_delete_my_account', array($this, 'delete_my_account'));
         add_action('wp_ajax_nopriv_delete_my_account', array($this,'delete_my_account'));
     }
-    
 
     function addJS() {
         wp_enqueue_script('rhs_profile', get_template_directory_uri() . '/inc/perfil/perfil.js', array('jquery'));
@@ -232,13 +231,11 @@ class RHSPerfil extends RHSMessage {
             return false;
         }
 
-
         if ( ! array_key_exists( 'links', $_POST ) ) {
             $_POST['links'] = '';
 
             return false;
         }
-
 
         return true;
 
@@ -355,20 +352,12 @@ class RHSPerfil extends RHSMessage {
 
     public static function delete_my_account() {
         $user_id = get_current_user_id();
+        $_deleted_user_email = get_userdata($user_id)->user_email;
         $meta = get_user_meta($user_id);
         $send_to_legacy_user = $_POST['send_to_legacy_user'];
         $user_name = $_POST['user'];
         $reason_delete = empty(trim($_POST['reason'])) ? null : htmlspecialchars($_POST['reason']);
-        $legacy_user = get_user_by('email', 'legado@redehumanizasus.net');
-
-        if( false === $legacy_user ) {
-            $legacy_user = get_user_by('id', 1);
-        }
-
-        if( !is_null( $reason_delete ) ) {
-            $subject = "Usuário $user_name deletou sua conta";
-            wp_mail($legacy_user->user_email, $subject, $reason_delete, RHSEmail::EMAIL_HEADERS);
-        }
+        $legacy_user = self::get_destinatary_user();
 
         // Remove meta de usuários
         foreach ($meta as $key => $val) {
@@ -379,14 +368,49 @@ class RHSPerfil extends RHSMessage {
         wp_logout();
 
         // Remove usuário
-        if($send_to_legacy_user == 'true') {
-            $deleted = wp_delete_user($user_id, $legacy_user->ID);
+        if($send_to_legacy_user === "true") {
+            $deleted = wp_delete_user($user_id, $legacy_user['ID']);
         } else {
             $deleted = wp_delete_user($user_id);
         }
 
+        // Notifica admin por email
+        if($deleted) {
+            $subject = "Notificação RHS";
+            $_mail_msg = "O usuário $user_name ($_deleted_user_email) acabou de encerrar sua conta";
+
+            if(!is_null($reason_delete)) {
+                $_mail_msg .= "Motivo: " . $reason_delete;
+            }
+            wp_mail($legacy_user['email'], $subject, $_mail_msg, RHSEmail::EMAIL_HEADERS);
+        }
     }
-    
+
+    private function get_destinatary_user() {
+        $legacy = get_user_by('email', 'legado@redehumanizasus.net');
+
+        if( false === $legacy ) {
+            $admin_email = get_option('admin_email');
+            $_id_ = 1;
+            if(!$admin_email) {
+                $_admin_users = get_users(['role' => 'administrator']);
+                if( is_array($_admin_users) && is_object($_admin_users[0]) ) {
+                    $admin_email = $_admin_users[0]->user_email;
+                    $_id_ = $legacy->ID;
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            $admin_email = $legacy->user_email;
+            $_id_ = $legacy->ID;
+        }
+
+        return [
+            'ID' => $_id_,
+            'email' => $admin_email
+        ];
+    }
 }
 
 global $RHSPerfil;
