@@ -374,14 +374,17 @@ class RHSPerfil extends RHSMessage {
             $deleted = wp_delete_user($user_id);
         }
 
-        // Notifica admin por email
         if($deleted) {
+            // Adiciona estatística de remoção da conta
+            do_action('rhs_user_deleted', $user_id);
+
             $subject = "Notificação RHS";
             $_mail_msg = "O usuário $user_name ($_deleted_user_email) acabou de encerrar sua conta";
 
             if(!is_null($reason_delete)) {
                 $_mail_msg .= "Motivo: " . $reason_delete;
             }
+            // Notifica admin por email
             wp_mail($legacy_user['email'], $subject, $_mail_msg, RHSEmail::EMAIL_HEADERS);
         }
     }
