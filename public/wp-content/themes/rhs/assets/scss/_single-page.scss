@@ -257,7 +257,8 @@
         margin: 10px 10px;
     }
     &:hover {
-        box-shadow: 2px 2px 1px 1px #c1c1c1;
+        // box-shadow: 2px 2px 1px 1px #c1c1c1;
+        box-shadow: -1px 0.5px 9px 0 $mediumGray;
     }
     &.padding-bottom {
         .alert {
