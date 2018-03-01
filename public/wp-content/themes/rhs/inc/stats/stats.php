@@ -9,12 +9,14 @@ class RHSStats {
     const ACTION_REGISTER = 'user_register';
     const ACTION_FOLLOW_USER = 'user_follow';
     const ACTION_UNFOLLOW_USER = 'user_unfollow';
+    const ACTION_DELETED_USER = 'user_deleted';
     const ACTION_FOLLOW_POST = 'post_follow';
     const ACTION_UNFOLLOW_POST = 'post_unfollow';
     const ACTION_POST_PROMOTED = 'post_promoted';
     const ACTION_USER_PROMOTED = 'user_promoted';
     const ACTION_SHARE = 'share';
-    
+    const ACTION_POST_RECOMMEND = 'post_recommend';
+
     private $table;
 
     /**
@@ -38,10 +40,9 @@ class RHSStats {
         add_action( 'rhs_add_network_data', array( &$this, 'network_data'), 10, 2);
         add_action( 'rhs_add_user_follow_post', array( &$this, 'post_follow'));
         add_action( 'rhs_delete_user_follow_post', array( &$this, 'post_unfollow'));
-        
-        
-        
-        
+        add_action( 'rhs_add_recommend_post', array( &$this, 'recommend_post'));
+        add_action( 'rhs_user_deleted', array( &$this, 'user_deleted'));
+
     }
     
     function login($user_login, $user) {
@@ -75,13 +76,21 @@ class RHSStats {
     function post_promoted($post_id) {
         $this->add_event(self::ACTION_POST_PROMOTED, $post_id);
     }
-    
+
+    function recommend_post($args) {
+        $this->add_event(self::ACTION_POST_RECOMMEND, $args['post_id'], $args['user_id']);
+    }
+
     function network_data($post_id, $type) {
         if ($type == RHSNetwork::META_KEY_VIEW) // não queremos gerar eventos para views
             return;
         $user_ID = get_current_user_id();
         $this->add_event(self::ACTION_SHARE, $post_id, $user_ID);
         $this->add_event(self::ACTION_SHARE . '_' . $type, $post_id, $user_ID);
+    }
+
+    function user_deleted($user_id) {
+        $this->add_event(self::ACTION_DELETED_USER, $user_id, $user_id);
     }
     
     /**
@@ -114,7 +123,7 @@ class RHSStats {
     }
 
     /**
-     * Verifica se existe tabela, se não, á insere
+     * Cria a tabela caso não exista
      */
     private function verify_database() {
         $option_name = 'rhs_database_' . get_class($this);

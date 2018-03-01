@@ -76,7 +76,7 @@ class RHSEmail {
                 'default-subject' => '[%site_nome%] Novo Contato #%ticket_id%',
                 'default-email' => '
                     <h4>Um novo ticket foi criado #%ticket_id%</h4>
-                    <p>para acompanhar acesse o link: <a href="[%link%]">[%link%]</a></p>
+                    <p>para acompanhar acesse o link: %link% </p>
                     <p> ' . $this->mail_footer["topo"] . '</p>'
             ),
             'new_ticket_replied' => array(
@@ -93,7 +93,7 @@ class RHSEmail {
                 'default-subject' => '[%site_nome%] Nova resposta #%ticket_id%',
                 'default-email' => '
                     <h4>Uma nova resposta foi feita no contato de número #%ticket_id%</h4>
-                    <p>para acompanhar acesse o link: <a href="[%link%]">[%link%]</a></p>
+                    <p>para acompanhar acesse o link: %link%</p>
                     <p> ' . $this->mail_footer["topo"] . '</p>'
             ),
             'new_ticket_replied_not_logged' => array(
@@ -217,8 +217,6 @@ class RHSEmail {
             'link' => network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ))
         );
 
-        $message = $this->get_message('retrieve_password_message', $args);
-
         return $this->get_message('retrieve_password_message', $args);
     }
 
@@ -331,7 +329,7 @@ class RHSEmail {
     }
     
     /*
-    * Envia um email ao seguidor do post por ter recebido um  novo comentario.
+    * Envia um email ao seguidor do post por ter recebido um novo comentário.
     */
     function comment_post_follow($comment){
         $follow = new RHSFollowPost();

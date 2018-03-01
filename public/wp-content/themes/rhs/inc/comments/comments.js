@@ -88,7 +88,7 @@ function validateEditableComments(url,comment_ID,comment_content){
 	});
 
 	function changeButton(response){
-		console.log('entrou change button');
+		// console.log('entrou change button');
 	};
 	
 	var error_handler = function(xhr, textStatus, error){

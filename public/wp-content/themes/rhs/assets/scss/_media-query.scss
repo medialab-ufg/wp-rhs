@@ -377,6 +377,30 @@
         }
     }
 
+    @media (min-width: 991px) {
+        #sidebar {
+            .panel {
+                .sidebar-public {
+                    button {
+                        font-size: 0.9vw;
+                    }
+                }
+            }
+        }
+    }
+
+    @media(min-width: 692px) and (max-width: 910px) {
+        .panel-default {
+            > .panel-heading  {
+                > .post-titulo {
+                    .vdivide {
+                        padding-left: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+
     @media print {
         * {
             background: transparent !important;

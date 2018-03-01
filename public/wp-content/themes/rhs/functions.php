@@ -44,10 +44,12 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/notification/types/post_followed.php');
         require_once('inc/notification/types/user_follow_author.php');
         require_once('inc/notification/types/replied_ticket.php');
+        require_once('inc/notification/types/post_recommend.php');
 
         require_once('inc/vote/vote.php');
         require_once('inc/follow/follow.php');
         require_once('inc/follow-post/follow-post.php');
+        require_once('inc/recommend-post/recommend_post.php');
         require_once('inc/widgets/imgWithLink/image-with-link.php');
         require_once('inc/widgets/Facebook_Twitter/facebook_twiter.php');
         require_once('inc/widgets/usersWidget/users-widget.php');
@@ -470,7 +472,6 @@ Limitador de texto para limitar o content de um post.
 Ex: limitatexto(CONTENT, '[...]', TAMANHO);
 */
 function limitatexto($texto, $final, $limite){
-    $result = $texto;
     $len_texto = strlen($texto);
     $len_final = strlen($final);
 

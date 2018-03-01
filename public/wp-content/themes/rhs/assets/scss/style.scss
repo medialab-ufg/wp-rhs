@@ -162,16 +162,15 @@ body {
     }
 }
 
-.sweet-alert{
-    border-radius: 0px;
+.sweet-alert {
+    border-radius: 0;
     h2{
+        padding-top: 15px;
         font-size: 17px;
     }
     .sa-confirm-button-container{
         button{
             display: inline-block;
-            background-color: #00b4b4;
-            border: none;
             box-shadow: none;
             color: #ffffff;
             font: {
@@ -187,8 +186,8 @@ body {
             &:hover, &:focus, &:hover:focus {
                 outline: none;
                 color: #ffffff;
-                background-color: #009b9b;
-                border: none;
+                //background-color: #009b9b;
+                //border: none;
                 box-shadow: none;
             }
             &:active, &:active:hover, &:active:focus {
@@ -196,7 +195,7 @@ body {
                 color: #ffffff;
                 background-color: #009b9b;
                 border: none;
-                box-shadow: 3px 4px 0px 0px #037b7b inset;
+                box-shadow: 3px 4px 0 0 #037b7b inset;
             }
         }
     }
@@ -227,11 +226,17 @@ body {
                 outline: none;
                 color: #797979;
                 background-color: #fff;
-                box-shadow: 3px 4px 0px 0px #797979 inset;
+                box-shadow: 3px 4px 0 0 #797979 inset;
             }
         }
     }
-}
+} // .sweet-alert
+
+.sweet-alert.deleteAccount {
+  .sa-custom {
+    width: 300px !important;
+  }
+} // .sweet-alert.deleteAccount
 
 .user-last-login-widget {
     padding-top: 10px;
@@ -242,4 +247,8 @@ body {
         object-fit: cover;
         object-position: top;
     }
+}
+
+.extra-small-type {
+    font-size: 60%;
 }

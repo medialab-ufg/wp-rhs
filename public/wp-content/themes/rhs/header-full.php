@@ -19,7 +19,7 @@
 
     <?php wp_head(); ?>
 </head>
-<body style="<?php if(RHSLogin::is_login_via_app()) : ?>background: #003c46;<?php endif; ?>">
+<body style="<?php if(RHSLogin::is_login_via_app()) : ?>background: #003c46;<?php endif; ?>" <?php body_class(); ?> >
 
 <!-- SDK Facebook -->
 <div id="fb-root"></div>

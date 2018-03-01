@@ -1,7 +1,7 @@
-<?php get_header( 'full' ); ?>
-<?php global $RHSUsers; ?>
 <?php
+get_header('full');
 
+global $RHSUsers;
 $current_user = new RHSUser( wp_get_current_user() );
 
 if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
@@ -11,6 +11,7 @@ if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
     $RHSUser   = $current_user;
     $RHSPerfil = new RHSPerfil( $current_user->get_id() );
 }
+$primeiro_nome = $RHSUser->get_first_name();
 
 ?>
     <div class="row">
@@ -128,7 +129,7 @@ if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="first_name">Primeiro nome</label>
-                                                <input value="<?php echo $RHSUser->get_first_name(); ?>"
+                                                <input value="<?php echo $primeiro_nome; ?>"
                                                        class="form-control" type="text" id="first_name"
                                                        name="first_name" size="60" maxlength="254">
                                             </div>
@@ -191,8 +192,45 @@ if ( $current_user->is_admin() && get_query_var( 'rhs_user' ) ) {
                                     <?php echo $RHSUser->show_user_links_to_edit($RHSUser->get_id());?>
                                 </div>
                             </div>
+
+                            <div id="encerrar-conta-container">
+                                <div class="reason-delete hide"> <hr>
+                                    <form>
+                                        <label class="encerrar-conta-label">Informe abaixo o motivo da exclusão (opcional)</label> <br>
+                                        <input type="text" class="form-control delreason" name="delete_reason" value=""
+                                               placeholder="Quero excluir minha conta porque ..." autofocus />
+                                    </form>
+                                    <hr>
+                                </div>
+
+                                <div class="manage-content hide">
+                                    <div class='col-md-12'>
+
+                                        <div class="encerra-header-img hide">
+                                            <?php echo get_stylesheet_directory_uri().'/assets/images/logo_color.png'?>
+                                        </div>
+
+                                        <div class='col-md-6 encerrar-conta-label'>
+                                            Baixe o conteúdo que você publicou na RHS <br>
+                                            <a class='btn btn-primary download-my-content'>Baixar meus posts</a>
+                                        </div>
+                                        <div class='col-md-6'>
+                                            <input type='checkbox' value='true' name='send-to-legacy-user' id='send-to-legacy-user' checked='checked'>
+                                            <span for="send-to-legacy-user" class="encerrar-conta-label">
+                                                Manter meu conteúdo como acervo da RHS
+                                            </span>
+
+                                            <p class="encerrar-conta-p"> Suas publicações ficarão como legado da RHS e sua identidade será preservada.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="panel panel-info" style="border: none">
                                 <div class="panel-body">
+
+                                    <?php echo $RHSPerfil->show_box_to_delete_profile($RHSUser->get_id(), $primeiro_nome);?>
+
                                     <div class="panel-button form-actions register">
                                         <button type="submit" id="btn-login" class="btn btn-danger">Salvar</button>
                                     </div>

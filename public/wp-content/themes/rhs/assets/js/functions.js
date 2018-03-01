@@ -23,7 +23,6 @@ jQuery( function( $ ) {
     }
     
     $('#carousel-example-generic').on('slid.bs.carousel', function(event) {
-        //console.log(event);
         var item = $('#' + event.currentTarget.id).find('div.item.active');
         if (item) {
             var itemNumber = item.data('carousel-item');

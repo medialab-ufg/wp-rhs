@@ -69,8 +69,6 @@ class RHSTicket extends RHSMessage {
     
     function add_status_dropdown() {
 		global $post;
-		$complete = '';
-		$label    = '';
 		if ( $post->post_type == self::POST_TYPE ) {
 
 			$js                  = '';

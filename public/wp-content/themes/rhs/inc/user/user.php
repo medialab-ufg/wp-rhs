@@ -391,4 +391,5 @@ class RHSUser {
             </div>
         ';
     }
+    
 }
