@@ -200,9 +200,11 @@ Class RHSApi  {
         global $RHSVote, $RHSNetwork;
         $total_votes = $RHSVote->get_total_votes($post->ID);
         $total_shares = $RHSNetwork->get_post_total_shares($post->ID);
+        $user_has_voted = $RHSVote->user_has_voted($post->ID, get_current_user_id());
         $data->data['total_votes'] = $total_votes ? $total_votes : 0;
         $data->data['comment_count'] = $post->comment_count;
         $data->data['total_shares'] = $total_shares ? $total_shares : 0;
+        $data->data['user_has_voted'] = $user_has_voted ? $user_has_voted : false;
         return $data;
     }
     
