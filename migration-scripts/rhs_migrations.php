@@ -9,7 +9,8 @@ class RHSMigrations {
 
     public $steps = array(
         // nome-do-arquivo => Descrição do passo
-        'users-clean-spam' => 'Identifica e marca users SPAM cadastrados.'
+        'users-clean-spam' => 'Identifica e marca users SPAM cadastrados.',
+        'create-postmeta-to-attachment' => 'Importa da base do Drupal os anexos de posts e insere links para visualização.'
     );
 
     var $from = 0;

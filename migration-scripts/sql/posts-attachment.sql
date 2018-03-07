@@ -1,44 +1,44 @@
-
 INSERT INTO {{posts}}
 
-    (ID, 
-    post_author, 
-    post_date, 
-    post_date_gmt, 
-    post_content, 
-    post_title, 
+    (
+    post_author,
+    post_date,
+    post_date_gmt,
+    post_content,
+    post_title,
     post_excerpt, 
-    post_name, 
-    post_modified, 
-    post_modified_gmt, 
-    post_type, 
-    to_ping, 
-    pinged, 
-    post_content_filtered, 
+    post_name,
+    post_modified,
+    post_modified_gmt,
+    post_type,
+    to_ping,
+    pinged,
+    post_content_filtered,
     `post_status`,
-    guid
+    guid,
+    post_parent,
+    post_mime_type
     )
 
 SELECT DISTINCT
 
-    n.nid `ID`,
     n.uid `post_author`,
     FROM_UNIXTIME(n.created) `post_date`,
     FROM_UNIXTIME(n.created) `post_date_gmt`,
-    r.body_value `post_content`,
+    "" `post_content`,
     n.title `post_title`,
-    IF (ISNULL(r.body_summary), "", r.body_summary) `post_excerpt`,
-    
-    IF(SUBSTR(a.alias, 11, 1) = '/', SUBSTR(a.alias, 12), IF(a.alias <> '', a.alias, "aliasvazio")) `post_name`,
-    
+    "" `post_excerpt`,
+    SUBSTRING(a.filename,1, CHAR_LENGTH(a.filename)-4) `post_name`,
     FROM_UNIXTIME(n.changed) `post_modified`,
     FROM_UNIXTIME(n.changed) `post_modified_gmt`,
-    "post" `post_type`,
+    "attachment" `post_type`,
     "" `to_ping`,
     "" `pinged`,
     "" `post_content_filtered`,
     IF(n.status = 1, 'publish', 'draft') `post_status`,
-    CONCAT('http://redehumanizasus.net/node/', n.nid) `guid`
+    CONCAT('http://redehumanizasus.net/', a.filepath) `guid`,
+    n.nid `post_parent`,
+    a.filemime `post_mime_type`
 
 FROM
 
@@ -46,9 +46,11 @@ FROM
     INNER JOIN {{drupaldb}}.field_data_body r
     ON r.entity_type = 'node' AND r.entity_id = n.nid
 
-    LEFT OUTER JOIN {{drupaldb}}.url_alias a
-    ON a.source = CONCAT('node/', n.nid)
+    INNER JOIN {{drupaldb}}.field_data_upload f
+    ON f.entity_id = r.entity_id
 
+    INNER JOIN {{drupaldb}}.files a
+    ON a.fid = f.upload_fid
 
 WHERE n.type IN ('blog')
 

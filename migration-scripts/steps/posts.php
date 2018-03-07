@@ -1,5 +1,4 @@
 <?php
-
 $substitutions = [
     '{{META_KEY_FACEBOOK}}' =>      RHSNetwork::META_KEY_FACEBOOK,
     '{{META_KEY_TWITTER}}' =>       RHSNetwork::META_KEY_TWITTER,
@@ -32,4 +31,3 @@ $this->query('posts-views', $substitutions);
 $query = $this->get_sql('posts-carrossel');
 $this->log('Importando carrossel...');
 $this->query('posts-carrossel', $substitutions);
-
