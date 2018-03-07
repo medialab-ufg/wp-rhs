@@ -3,8 +3,14 @@
 <?php if($comunity = $RHSComunities->get_comunity_by_request()){ ?>
     <div class="col-xs-12 comunidade" id="comunidade" data-id="<?php echo $comunity->get_id(); ?>" data-userid="<?php echo get_current_user_id(); ?>">
         <div class="card hovercard">
+            
+            <?php if($comunity->has_image_bg()) { ?>
             <div class="card-background">
                 <img class="card-bkimg" alt="" src="<?php echo $comunity->get_image(); ?>">
+            <? } else { ?>
+            <div class="card-background without-background">
+            <?php } ?>
+            
             </div>
             <div class="card-buttons left">
                 <?php echo $comunity->get_button_follow(); ?>

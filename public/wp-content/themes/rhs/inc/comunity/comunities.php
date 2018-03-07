@@ -520,10 +520,26 @@ class RHSComunities extends RHSMessage {
         $meta = get_term_meta( $term_id, self::IMAGE, true );
 
         if ( ! $meta ) {
-            return 'http://2.gravatar.com/avatar/53d8710f31508b6b3a8e014835f380e0?s=96&d=mm&r=g';
+            return get_stylesheet_directory_uri() . '/assets/images/logo_default.png';
         }
 
         return home_url( $meta );
+    }
+
+    /**
+     * Retorna background da comunidade
+     *
+     * @param $term_id
+     */
+    static function has_image_bg( $term_id ) {
+
+        $meta = get_term_meta( $term_id, self::IMAGE, true );
+
+        if ( ! $meta ) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

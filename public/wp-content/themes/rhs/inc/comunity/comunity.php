@@ -26,6 +26,7 @@ class RHSComunity {
     private $is_admin;
     private $is_request;
     private $term_object;
+    private $has_image_bg;
 
     /**
      * RHSComunity construtor.
@@ -58,6 +59,7 @@ class RHSComunity {
         $this->follows_number = count($this->follows);
         $this->is_follow = ($this->follows && in_array($this->user_id, $this->follows));
         $this->image = RHSComunities::get_image($comunity->term_id);
+        $this->has_image_bg = RHSComunities::has_image_bg($comunity->term_id);
         $this->is_moderate = $user->has_cap(RHSComunities::CAPABILITY_MODERATOR.'_'.$comunity->term_id);
         $this->is_admin = $is_admin;
         $this->requests = RHSComunities::get_requests($comunity->term_id);
@@ -155,6 +157,15 @@ class RHSComunity {
      */
     function get_image(){
         return $this->image;
+    }
+
+    /**
+     * Retorna a imagem da comunidade
+     *
+     * @return string
+     */
+    function has_image_bg(){
+        return $this->has_image_bg;
     }
 
     /**

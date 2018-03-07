@@ -30,6 +30,7 @@
                 position: absolute;
                 top: 0;
                 left: 0;
+                
                 img {
                     -webkit-filter: blur(25px);
                     -moz-filter: blur(25px);
@@ -46,6 +47,9 @@
                         margin-top: -33px;
                     }
                 }
+            }
+            .without-background {
+                background: $primeira_cor_fundo;
             }
             .card-buttons {
                 position: absolute;
