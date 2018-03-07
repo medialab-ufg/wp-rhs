@@ -58,6 +58,9 @@
                                 <i data-toggle="tooltip" data-placement="top" title="Você faz parte desta comunidade" class="fa fa-user"></i>
                             <?php } ?>
                         </div>
+                        <?php if($comunity->get_id() == 35471) { ?>
+                            <div class="alert alert-info"><?php echo $comunity->get_description(); ?></div>
+                        <?php } ?>
                     </div>
                     <div class="col-md-12 col-sm-5 col-xs-12 col-sm-pull-0">
                         <div class="espace">

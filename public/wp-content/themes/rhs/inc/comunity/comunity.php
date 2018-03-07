@@ -10,6 +10,7 @@ class RHSComunity {
     private $user_id;
     private $user_role;
     private $name;
+    private $description;
     private $image;
     private $type;
     private $members;
@@ -48,6 +49,7 @@ class RHSComunity {
         $this->user_id = $user->ID;
         $this->user_role = $user_role;
         $this->name = $comunity->name;
+        $this->description = $comunity->description;
         $this->type = $type;
         $this->members = $members;
         $this->members_number = count($this->members);
@@ -414,6 +416,15 @@ class RHSComunity {
      */
     function is_admin(){
         return $this->is_admin;
+    }
+
+    /**
+     * Retorna a descrição da comunidade
+     *
+     * @return string
+     */
+    function get_description(){
+        return $this->description;
     }
 
     /**
