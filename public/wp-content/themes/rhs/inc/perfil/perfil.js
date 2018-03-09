@@ -4,7 +4,6 @@ jQuery( function( $ ) {
     $(trigger_modal).on("click", function(e) {
         var name = $(this).data('displayname');
         var user_total_posts = $(this).data('total-posts');
-        console.log(user_total_posts);
         swal({
             type: 'warning',
             title: "Deseja realmente excluir sua conta?",
@@ -27,6 +26,7 @@ jQuery( function( $ ) {
     function renderConfirmExclusion(posts_count, name, el) {
         var $other = "";
         var $reason_delete = $(".reason-delete").html();
+        var $modal_header_img = $(".encerra-header-img").text();
         var html_content = "<i class='fa fa-spinner fa-spin' id='spinner-content-download'></i>";
         if(posts_count > 0) {
             var $other = "<hr>" + $(".manage-content").html();
@@ -42,10 +42,11 @@ jQuery( function( $ ) {
             title: name + ", sentimos muito que você tenha que sair!",
             text: html_content,
             html: true,
-            type: "info",
             showConfirmButton: false,
             showCancelButton: true,
-            cancelButtonText: "Cancelar"
+            cancelButtonText: "Cancelar",
+            imageUrl: $modal_header_img,
+            containerClass: 'deleteAccount'
         });
 
         $('.dont-send-to-legacy, #spinner-content-download').hide();
