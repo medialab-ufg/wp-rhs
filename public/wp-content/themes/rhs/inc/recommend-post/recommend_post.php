@@ -24,8 +24,8 @@ class RHSRecommendPost extends RHSMessage {
 
         $users = new WP_User_Query(array(
             'search'         => '*' . esc_attr( $_POST['string'] ) . '*',
-            'search_columns' => array('user_nicename'),
-            'number'         => 50,
+            'search_columns' => array('user_nicename','display_name'),
+            'number'         => 150,
             'orderby'        => 'display_name',
         ) );
 
