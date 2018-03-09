@@ -20,5 +20,3 @@ FROM
     ON r.entity_type = 'node' AND r.entity_id = f.entity_id
     LEFT OUTER JOIN {{drupaldb}}.files a
     ON f.upload_fid = a.fid
- 
-LIMIT 10

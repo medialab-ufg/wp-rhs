@@ -2,15 +2,19 @@
 ini_set('memory_limit', '-1');
 require_once(ABSPATH . 'wp-load.php');
 require_once(ABSPATH . 'wp-admin/includes/image.php');
+// $_p = include('../sql/posts-meta-attachment.sql');
+
+// var_dump($_p); die;
 
 $this->log('Importando Postmeta de Anexos...');
-$this->query('posts-meta-attachment');
+// $this->query('posts-meta-attachment');
+$this->query('../sql/posts-meta-attachment');
 
 $this->log('Importando Anexos...');
-$this->query('posts-attachment');
+$this->query('../sql/posts-attachment');
 
 $this->log('Atualizando Posts com Anexos...');
-$attachments = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_type = 'attachment';");
+$attachments = $wpdb->get_results("SELECT `ID`, `post_parent`, `guid` FROM $wpdb->posts WHERE post_type = 'attachment';");
 
 foreach ($attachments as $attachment) {
     $id = $attachment->ID;
