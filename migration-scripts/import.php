@@ -5,8 +5,7 @@
  * 
  * veja documentação em docs.md nesta mesma pasta
  * 
- */ 
-
+ */
 class RHSImporter {
 
     var $steps = array(
