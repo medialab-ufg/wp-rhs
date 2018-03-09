@@ -5,7 +5,9 @@
  * veja documentação em migrations.md nesta mesma pasta
  *
  */
-class RHSMigrations {
+require_once "import.php";
+
+class RHSMigrations extends RHSImporter {
 
     public $steps = array(
         // nome-do-arquivo => Descrição do passo
@@ -64,23 +66,6 @@ class RHSMigrations {
             $this->from = 1;
         }
     
-    }
-    
-    function validate_args() {
-        if ($this->run != 'all' && $this->run != 'range' && $this->run != 'help'  && $this->run != 'list' )
-            $this->run = 'help';
-        
-        if ($this->run == 'all' || $this->run == 'help' || $this->run == 'list')
-            return true;
-        
-        if ($this->run == 'range') {
-            if ( ($this->from > 0 || $this->to > 0) ) {
-                if ($this->to > 0 && $this->from > $this->to)
-                    $this->stop('Argumentos inválidos');
-            } else {
-                $this->stop('Argumentos inválidos');
-            }
-        }
     }
     
     function run() {
@@ -151,40 +136,7 @@ class RHSMigrations {
         $this->log("==========================================================");
         $this->log("==========================================================");
     }
-    
-    function wpcli($command) {
-        echo exec('cd ../public && wp ' . $command);
-        echo "\n";
-    }
-    
-    function get_steps_list() {
-        $list = '';
-        $i = 1;
-        foreach ($this->steps as $step) {
-            $list .= "$i: $step \n";
-            $i++;
-        }
-        
-        return $list;
-    }
-    
-    function stop($msg, $print_help = false) {
-        $this->log("Erro: $msg");
-        
-        if ($print_help)
-            $this->print_help();
-        
-        die;
-    }
-    
-    function log($msg) {
-        echo $msg . "\n";
-    }
-    
-    function print_list() {
-        echo $this->get_steps_list();
-    }
-    
+
     function print_help() {
         $steps = $this->get_steps_list();
         echo <<<EOF
@@ -209,6 +161,7 @@ class RHSMigrations {
 EOF;
     
     }
+
 
 
 }
