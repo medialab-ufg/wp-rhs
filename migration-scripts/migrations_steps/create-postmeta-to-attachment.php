@@ -2,12 +2,8 @@
 ini_set('memory_limit', '-1');
 require_once(ABSPATH . 'wp-load.php');
 require_once(ABSPATH . 'wp-admin/includes/image.php');
-// $_p = include('../sql/posts-meta-attachment.sql');
-
-// var_dump($_p); die;
 
 $this->log('Importando Postmeta de Anexos...');
-// $this->query('posts-meta-attachment');
 $this->query('../sql/posts-meta-attachment');
 
 $this->log('Importando Anexos...');

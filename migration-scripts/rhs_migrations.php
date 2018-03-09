@@ -78,8 +78,7 @@ class RHSMigrations extends RHSImporter {
                 break;
         }
         
-        // Run 
-        
+        // Run
         $start = $partial = microtime(true);
         
         // Avoid warnings
