@@ -86,8 +86,6 @@ class RHSMigrations extends RHSImporter {
         $_SERVER['SERVER_PROTOCOL'] = "HTTP/1.1";
         $_SERVER['REQUEST_METHOD'] = "GET";
         
-        define( 'WP_USE_THEMES', false );
-        define( 'SHORTINIT', false );
         require( '../public/wp/wp-blog-header.php' );
 
         global $wpdb;
