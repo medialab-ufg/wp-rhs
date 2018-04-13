@@ -908,11 +908,11 @@ class RHSTicket extends RHSMessage {
         }
         ?>
         <tr>
-            <th><a href="<?php echo $term["url"]; ?>" title="Responder"><span class="fa fa-reply"></span></th>
+            <th><a href="<?php echo $term["url"]; ?>"> <?php the_time('j \d\e F \d\e Y'); ?> </a></th>
             <th><a href="<?php echo $term["url"]; ?>"> <?php the_title(); ?> </a></th>
             <th><a href="<?php echo $term["url"]; ?>"> <strong> <?php echo $term["name"]; ?> </strong> </a> </th>
-            <th><a href="<?php echo $term["url"]; ?>"> <?php the_time('F jS, Y'); ?> </a></th>
             <th><a href="<?php echo $term["url"]; ?>"> <?php echo $term["status"] ?> </a></th>
+            <th><a href="<?php echo $term["url"]; ?>" title="Responder"><span class="fa fa-reply"></span></th>
         </tr>
         <?php
     }

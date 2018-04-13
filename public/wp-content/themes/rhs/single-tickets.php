@@ -55,12 +55,12 @@ global $RHSTicket;
                                         <div class="col-xs-5">
                                             <dl class="dl-horizontal">
                                                 <dt>Criado por:</dt> <dd><?php the_author(); ?></dd>
-                                                <dt>Categoria:</dt> <dd><?php echo $term_list[0]->name; ?></dd>
+                                                <dt>Categoria:</dt><dd><?php echo $term_list[0]->name; ?></dd>
                                             </dl>
                                         </div>
                                         <div class="col-xs-7" id="cluster_info">
                                             <dl class="dl-horizontal">
-                                                <dt>Criado em:</dt> <dd><?php the_time('D, d/m/Y - H:i'); ?></dd>
+                                                <dt>Criado em:</dt> <dd><?php the_time('l, d/m/Y - H:i'); ?></dd>
                                             </dl>
                                         </div>
                                     </div>
