@@ -1,6 +1,7 @@
 <?php get_header('full');
 global $RHSRegister;
 global $RHSCaptcha;
+$_confirm_email = "Confirmar E-mail";
 ?>
     <div class="row">
         <!-- Container -->
@@ -10,7 +11,7 @@ global $RHSCaptcha;
                     <form autocomplete="off" method="post" class="form-horizontal" role="form" id="register" action="">
                         <div class="panel panel-info">
                             <div class="panel-heading">
-                                <div class="panel-title">Registro</div>
+                                <div class="panel-title">Cadastre-se na Rede Humaniza SUS!</div>
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -26,23 +27,28 @@ global $RHSCaptcha;
                                             <legend class="scheduler-border">Dados do Login</legend>
 
                                             <div class="form-group float-label-control">
-                                                <label for="mail" class="col-sm-1 control-label">Email <span class="required">*</span></label>
+                                                <label for="mail" class="col-sm-1 control-label">E-mail <span class="required">*</span></label>
                                                 <div class="col-sm-7">
                                                     <input class="form-control form-text" type="email" id="mail" name="mail" maxlength="254">
                                                     <input type="hidden" name="register_user_wp" value="<?php echo $RHSRegister->getKey(); ?>">
                                                 </div>
-                                                <div class="col-md-5">
-                                                    <div class="help-block text-center"></div>
+                                                <div class="col-md-5"> <div class="help-block text-center"></div> </div>
+                                            </div>
+
+                                            <div class="form-group float-label-control">
+                                                <label for="mail_confirm" class="col-sm-1 control-label"> <?php echo $_confirm_email; ?> <span class="required">*</span></label>
+                                                <div class="col-sm-7">
+                                                    <input class="form-control form-text" type="email" id="mail_confirm" name="mail_confirm" maxlength="254">
                                                 </div>
+                                                <div class="col-md-5"> <div class="help-block text-center"></div> </div>
                                             </div>
 
                                             <div class="form-group float-label-control" id="confirm_email">
-                                                <label for="confirm_mail" class="col-sm-1 control-label"> Confirmar Email <span class="required">*</span></label>
+                                                <label for="confirm_mail" class="col-sm-1 control-label"> <?php echo $_confirm_email; ?> <span class="required">*</span></label>
                                                 <div class="col-sm-7">
-                                                    <input class="form-control form-text" type="text" id="confirm_mail" name="confirm_mail" maxlength="50">
+                                                    <input class="form-control form-text" id="confirm_mail" name="confirm_mail" maxlength="254">
                                                 </div>
                                             </div>
-
 
                                             <?php if( rand(0,2) == 0 ): ?>
                                                 <div class="form-group float-label-control" id="u_login">

@@ -1,6 +1,7 @@
 jQuery( function( $ ) {
 
     $(function () {
+        var valid_mail_msg =  "Preencha corretamente o seu email.";
 
         jQuery.validator.setDefaults({
             debug: true,
@@ -8,7 +9,6 @@ jQuery( function( $ ) {
         });
 
         $('#register').validate({
-            ignore: ".ignore",
             errorElement: 'p',
             errorClass: 'block-error',
             focusInvalid: true,
@@ -21,6 +21,12 @@ jQuery( function( $ ) {
                     email: true,
                     check_email_exist: true
                 },
+                mail_confirm: {
+                    required: true,
+                    email: true,
+                    check_email_exist: true,
+                    equalTo: "input[name='mail']"
+                },
                 pass: {
                     required: true,
                     minlength: 5
@@ -30,10 +36,10 @@ jQuery( function( $ ) {
                     equalTo: "input[name='pass']"
                 },
                 first_name: {
-                    required: true,
+                    required: true
                 },
                 last_name: {
-                    required: true,
+                    required: true
                 },
                 estado: {
                     required: true
@@ -51,8 +57,13 @@ jQuery( function( $ ) {
             messages: {
                 mail: {
                     required: "Preencha com o seu email.",
-                    email: "Preencha corretamente o seu email.",
+                    email: valid_mail_msg,
                     check_email_exist: "Email já existente, escolha outro."
+                },
+                mail_confirm: {
+                    required: "Favor confirmar seu e-mail!",
+                    email: valid_mail_msg,
+                    equalTo: "Atenção: A confirmação do e-mail não corresponde ao e-mail informado"
                 },
                 pass: {
                     required: "Preencha com a sua senha.",
@@ -63,10 +74,10 @@ jQuery( function( $ ) {
                     equalTo: "Senhas diferentes!"
                 },
                 first_name: {
-                    required: "Preencha com o seu primeiro nome.",
+                    required: "Preencha com o seu primeiro nome."
                 },
                 last_name: {
-                    required: "Preencha com o seu último nome.",
+                    required: "Preencha com o seu último nome."
                 },
                 estado: {
                     required: "Preencha com o seu estado."

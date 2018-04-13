@@ -97,32 +97,45 @@ class RHSRegister extends RHSMessage {
 
     }
 
+    private function emails_are_equal($mail1, $mail2) {
+        return $mail1 === $mail2;
+    }
+
+    private function set_error($error_str) {
+        $msg = '<i class="fa fa-exclamation-triangle "></i> ' . $error_str;
+        $this->set_messages($msg, false, 'error');
+    }
+
     function validate_by_post() {
 
         $this->clear_messages();
 
         if ( ! array_key_exists( 'mail', $_POST ) ) {
-            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Preencha o seu email!', false, 'error' );
+            $this->set_error('Preencha o seu email!');
+
+            return false;
+        }
+
+        if( ! $this->emails_are_equal($_POST['mail'], $_POST['mail_confirm']) ) {
+            $this->set_error('Os e-mails não conferem!');
 
             return false;
         }
 
         if ( ! array_key_exists( 'first_name', $_POST ) ) {
-            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Preencha o seu primeiro nome!', false,
-                'error' );
+            $this->set_error('Preencha o seu primeiro nome!');
 
             return false;
         }
 
         if ( ! array_key_exists( 'last_name', $_POST ) ) {
-            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Preencha o seu último nome!', false,
-                'error' );
+            $this->set_error('Preencha o seu último nome!');
 
             return false;
         }
 
         if ( ! array_key_exists( 'pass', $_POST ) ) {
-            $this->set_messages( '<i class="fa fa-exclamation-triangle "></i> Preencha a sua senha!', false, 'error' );
+            $this->set_error('Preencha a sua senha!');
 
             return false;
         }

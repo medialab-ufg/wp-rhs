@@ -12,6 +12,16 @@
         margin-bottom: 20px;
         padding: 20px 15px;
         min-height: 101px;
+
+        form.form-search-rhs {
+            width: 105%;
+            padding: 0;
+            margin-top: 13px;
+            .input-group {
+                width: 100%;
+            }
+        }
+
         h2 {
             &.widget-title {
                 margin-left: -15px;

@@ -138,35 +138,33 @@ global $RHSUsers;
                         $ticketArgs = array('author' => get_current_user_id(),'post_type' => 'tickets', 'posts_per_page' => 5);
                         $ticketLoop = new WP_Query( $ticketArgs ); ?>
                         <div class="wrapper-content">
-                            <fieldset class="panel panel-default">
-                                <div class="panel-heading">
-                                    <div class="panel-title"> Contatos Realizados </div>
-                                </div>
-                                <div class="panel-body table-responsive">
-                                    <?php if($ticketLoop->have_posts()) : ?>
+                            <?php if($ticketLoop->have_posts()) : ?>
+                                <fieldset class="panel panel-default">
+                                    <div class="panel-heading"> <div class="panel-title"> Contatos Realizados </div> </div>
+                                    <div class="panel-body table-responsive">
                                         <table class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>*</th>
+                                                    <th>Data</th>
                                                     <th>Assunto</th>
                                                     <th>Categoria</th>
-                                                    <th>Data</th>
                                                     <th>Status</th>
+                                                    <th>Ver mais</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             <?php
-                                                while ($ticketLoop->have_posts()): $ticketLoop->the_post();
-                                                    echo $RHSTicket->renderTicketInfo(get_the_ID());
-                                                endwhile;
+                                            while ($ticketLoop->have_posts()) { $ticketLoop->the_post();
+                                                echo $RHSTicket->renderTicketInfo(get_the_ID());
+                                            }
                                             ?>
                                             </tbody>
                                         </table>
-                                    <?php else : ?>
-                                        <span>Você ainda não realizou nenhum contato, não seja tímido.</span>
-                                    <?php endif; ?>
-                                </div>
-                            </fieldset>
+                                    </div>
+                                </fieldset>
+                            <?php else : ?>
+                                <p class="no-tickets"> Você ainda não realizou nenhum contato. Não seja tímido! </p>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
                 </div>
