@@ -37,5 +37,10 @@
     "scripts": {
         "post-install-cmd": "bash post-install.sh",
         "post-update-cmd": "bash post-install.sh"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symfony\\Component\\VarDumper": "vendor/"
+        }
     }
 }
