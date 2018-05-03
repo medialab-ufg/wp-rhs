@@ -40,7 +40,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Symfony\\Component\\VarDumper": "vendor/"
+            "Symfony\\Component\\VarDumper\\": "vendor/"
         }
     }
 }
