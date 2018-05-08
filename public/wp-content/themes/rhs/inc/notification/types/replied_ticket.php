@@ -9,8 +9,10 @@ class RHSNotification_replied_ticket extends RHSNotification {
     /**
      */
     static function notify($user_from_contact, $post_ID, $content) {
-        global $RHSNotifications;
-        $RHSNotifications->add_notification(RHSNotifications::CHANNEL_PRIVATE, $user_from_contact, self::get_name(), $post_ID);
+        if (intval($user_from_contact) !== get_current_user_id()) {
+            global $RHSNotifications;
+            $RHSNotifications->add_notification(RHSNotifications::CHANNEL_PRIVATE, $user_from_contact, self::get_name(), $post_ID);
+        }
     }
 
     function text() {
