@@ -59,7 +59,7 @@ jQuery( function( $ ) {
                 mail: {
                     required: "Preencha com o seu e-mail.",
                     email: valid_mail_msg,
-                    check_email_exist: "Email já existente, escolha outro."
+                    check_email_exist: "E-mail já existente, escolha outro."
                 },
                 mail_confirm: {
                     required: "Favor confirmar seu e-mail!",
@@ -163,8 +163,8 @@ jQuery( function( $ ) {
             },
             messages: {
                 log: {
-                    required: 'Preencha com seu email.',
-                    email: 'Preencha com email no formato correto'
+                    required: 'Preencha com seu e-mail.',
+                    email: 'Preencha com e-mail no formato correto'
                 },
                 pwd: {
                     required: 'Preencha a sua senha.',
@@ -225,8 +225,8 @@ jQuery( function( $ ) {
             },
             messages: {
                 user_login: {
-                    required: 'Preencha com seu email.',
-                    email: 'Preencha com email no formato correto'
+                    required: 'Preencha com seu e-mail.',
+                    email: 'Preencha com e-mail no formato correto'
                 },
                 hiddenRecaptcha: {
                     required: "Valide o Captcha primeiro."
@@ -536,8 +536,8 @@ jQuery( function( $ ) {
                     required: 'Preencha seu nome.'
                 },
                 email: {
-                    email: 'Formato de email inválido.',
-                    required: 'Informe seu email.'
+                    email: 'Formato de e-mail inválido.',
+                    required: 'Informe seu e-mail.'
                 },
                 category: {
                     required: 'Selecione a categoria que melhor se adequa ao seu contato!'
