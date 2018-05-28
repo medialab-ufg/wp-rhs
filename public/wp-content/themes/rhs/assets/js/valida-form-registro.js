@@ -1,7 +1,8 @@
 jQuery( function( $ ) {
 
     $(function () {
-        var valid_mail_msg =  "Preencha corretamente o seu email.";
+        var valid_mail_msg =  "Preencha corretamente o seu e-mail.";
+        var contact_msg_limit = 1500;
 
         jQuery.validator.setDefaults({
             debug: true,
@@ -56,9 +57,9 @@ jQuery( function( $ ) {
             },
             messages: {
                 mail: {
-                    required: "Preencha com o seu email.",
+                    required: "Preencha com o seu e-mail.",
                     email: valid_mail_msg,
-                    check_email_exist: "Email já existente, escolha outro."
+                    check_email_exist: "E-mail já existente, escolha outro."
                 },
                 mail_confirm: {
                     required: "Favor confirmar seu e-mail!",
@@ -162,8 +163,8 @@ jQuery( function( $ ) {
             },
             messages: {
                 log: {
-                    required: 'Preencha com seu email.',
-                    email: 'Preencha com email no formato correto'
+                    required: 'Preencha com seu e-mail.',
+                    email: 'Preencha com e-mail no formato correto'
                 },
                 pwd: {
                     required: 'Preencha a sua senha.',
@@ -224,8 +225,8 @@ jQuery( function( $ ) {
             },
             messages: {
                 user_login: {
-                    required: 'Preencha com seu email.',
-                    email: 'Preencha com email no formato correto'
+                    required: 'Preencha com seu e-mail.',
+                    email: 'Preencha com e-mail no formato correto'
                 },
                 hiddenRecaptcha: {
                     required: "Valide o Captcha primeiro."
@@ -520,7 +521,7 @@ jQuery( function( $ ) {
                     required: true
                 },
                 message: {
-                    maxlength: 500,
+                    maxlength: contact_msg_limit,
                     required: true
                 },
                 hiddenRecaptcha: {
@@ -531,29 +532,29 @@ jQuery( function( $ ) {
             },
             messages: {
                 name: {
-                    maxlength: 'Tamanho maximo de 128 caracteres.',
-                    required: 'Preencha com seu nome.',
+                    maxlength: 'Tamanho máximo de 128 caracteres.',
+                    required: 'Preencha seu nome.'
                 },
                 email: {
-                    email: 'Formato de email inválido.',
-                    required: 'Preencha a seu email.',
+                    email: 'Formato de e-mail inválido.',
+                    required: 'Informe seu e-mail.'
                 },
                 category: {
-                    required: 'Selecione a categoria sobre o contato.'
+                    required: 'Selecione a categoria que melhor se adequa ao seu contato!'
                 },
                 subject: {
-                    maxlength: 'Tamanho maximo de 200 caracteres.',
-                    required: 'Preencha com o assunto do contato.',
+                    maxlength: 'Tamanho máximo de 200 caracteres.',
+                    required: 'Informe qual o assunto do contato.'
                 },
                 estado: {
-                    required: 'Selecione com seu estado.'
+                    required: 'Selecione seu estado.'
                 },
                 municipio: {
-                    required: 'Selecione com sua cidade.'
+                    required: 'Selecione sua cidade.'
                 },
                 message: {
-                    maxlength: 'Tamanho maximo de 500 caracteres.',
-                    required: 'Preencha com a sua mensagem.',
+                    maxlength: 'Tamanho máximo de ' + contact_msg_limit + ' caracteres.',
+                    required: 'Escreva sua mensagem!'
                 },
                 hiddenRecaptcha: {
                     required: "Valide o Captcha primeiro."

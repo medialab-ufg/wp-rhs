@@ -117,11 +117,10 @@ class RHSNetwork {
 
         if( is_numeric($_saved_total) ) {
             /*
-            * Por enquanto vamos retirar 30% do total de views para exibir.
-            * Posteriormente alteraremos a regra de negócio específica para este dado.
+            * Desabilitando remoção de %30 do total de views armazenada para o post
+            * $_30_porcento = ceil( $_saved_total * 0.3 );
+            * $_saved_total -= $_30_porcento;
             */
-            $_30_porcento = ceil( $_saved_total * 0.3 );
-            $_saved_total = $_saved_total - $_30_porcento;
 
             return $_saved_total;
         }

@@ -1,6 +1,10 @@
 jQuery( function( $ ) {
 
     var postID = $('.post-container').attr('id');
+
+    if(!postID)
+        return;
+
     postID = postID.replace("post-", "");
 
     $.ajax({

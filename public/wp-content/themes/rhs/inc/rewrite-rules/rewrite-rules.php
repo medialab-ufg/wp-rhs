@@ -80,8 +80,6 @@ class RHSRewriteRules {
         
 
         $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
-
-        //var_dump($wp_rewrite); die;
     }
 
     function rewrite_rules_query_vars( $public_query_vars ) {

@@ -480,12 +480,11 @@ class RHSSearch {
 
 
     /**
-    * Exibe botão para download de CSV
+    * Exibe botão para download de resultado da busca em XLS e CSV
     */
     static function show_button_download_report() {
         global $wp_query;
         global $RHSSearch;
-        global $RHSVote;
 
         $users = $RHSSearch->search_users();
         $search_user_has_uf_mun = isset($users->query_vars['meta_query']);      
@@ -505,31 +504,30 @@ class RHSSearch {
             $found_results = $users->total_users;
         }
 
-        $current_user = wp_get_current_user();
-        $user_roles = array('editor', 'administrator');
-
-        if($found_results && array_intersect($user_roles, $current_user->roles)) {
+        // Aberto a todos os usuários logados
+        if ($found_results && is_user_logged_in()) {
             if(get_search_query() || $search_user_has_keyword > 2 || $search_user_has_uf_mun || $search_post_has_cat || $search_post_has_tag || $search_post_has_date) {
-                echo '
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default">Exportar</button>
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" class="filtro open-modal" data-toggle="modal" data-target="#exportModal" data-format="xls">Para XLS</a></li>
-                        <li><a href="#" class="filtro open-modal" data-toggle="modal" data-target="#exportModal" data-format="csv">Para CSV</a></li>
-                    </ul>
-                </div>';
+                self::render_download_buttons();
             }
         }
+    }
+
+    static function render_download_buttons() {
+        echo '<div class="btn-group">
+                 <button type="button" class="btn btn-default">Exportar</button>
+                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span> <span class="sr-only">Dropdown</span>
+                 </button>
+                 <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" class="filtro open-modal" data-toggle="modal" data-target="#exportModal" data-format="xls"> Para XLS </a></li>
+                    <li><a href="#" class="filtro open-modal" data-toggle="modal" data-target="#exportModal" data-format="csv"> Para CSV </a></li>
+                 </ul>
+              </div>';
     }
 
     /**
      * Convertendo dados
      */
-
     public static function generate_file() {
         global $wp_query;
         global $wpdb;
@@ -562,7 +560,6 @@ class RHSSearch {
 
             if($pagename == 'users') {
                 foreach($content_file as $user) {
-                        
                     $comments_total = $wpdb->get_var($wpdb->prepare( "SELECT COUNT(*) AS total FROM $wpdb->comments WHERE comment_approved = 1 AND user_id = %s", $user->ID));
                     $name = $user->display_name;
                     $register_date = $user->user_registered;;
@@ -632,13 +629,14 @@ class RHSSearch {
                     $get_link = $post->guid;
                     $get_views = $RHSNetwork->get_post_total_views($post->ID);
                     $get_shares = $RHSNetwork->get_post_total_shares($post->ID);
-                    $get_comments = wp_count_comments($post->ID);
+                    $post_comments = wp_count_comments($post->ID);
                     $get_votes = $RHSVote->get_total_votes($post->ID);
     
                     $views = return_value_or_zero($get_views);
                     $shares = return_value_or_zero($get_shares);
                     $votes = return_value_or_zero($get_votes);
-                    $comments = return_value_or_zero($get_comments);
+
+                    $comments = (is_object($post_comments)) ? $post_comments->approved : 0;
                     
                     $post_ufmun = get_post_ufmun($post->ID);
                     $uf = $post_ufmun['uf']['sigla'];
@@ -910,10 +908,12 @@ function show_results_from_search($format) {
         $text_files = 'arquivos';
     }
 
-    echo "<p>Conteúdo por página: <strong>" . $per_page . " </strong> registros</p>";
-    echo "<p>Clique em uma página abaixo para iniciar a exportação:</p>";
+    if ($total > $per_page)
+        echo "<p>Conteúdo por página: <strong>" . $per_page . " </strong> registros</p>";
+
+    echo "<p> Clique nos arquivos abaixo para iniciar a exportação:</p>";
     while($count < $total_pages+1) {
-        echo "<a class='btn btn-rhs export-file' data-page='". $count . "' data-page-title=". $search_page ." data-page-format=". $format .">Página ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
+        echo "<a class='btn btn-rhs export-file' data-page='". $count . "' data-page-title=". $search_page ." data-page-format=". $format ."> Arquivo ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
         $count++;
     }
     echo "<hr>";
