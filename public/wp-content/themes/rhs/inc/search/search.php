@@ -480,12 +480,11 @@ class RHSSearch {
 
 
     /**
-    * Exibe botão para download de CSV
+    * Exibe botão para download de resultado da busca em XLS e CSV
     */
     static function show_button_download_report() {
         global $wp_query;
         global $RHSSearch;
-        global $RHSVote;
 
         $users = $RHSSearch->search_users();
         $search_user_has_uf_mun = isset($users->query_vars['meta_query']);      
@@ -505,31 +504,30 @@ class RHSSearch {
             $found_results = $users->total_users;
         }
 
-        $current_user = wp_get_current_user();
-        $user_roles = array('editor', 'administrator');
-
-        if($found_results && array_intersect($user_roles, $current_user->roles)) {
+        // Aberto a todos os usuários logados
+        if ($found_results && is_user_logged_in()) {
             if(get_search_query() || $search_user_has_keyword > 2 || $search_user_has_uf_mun || $search_post_has_cat || $search_post_has_tag || $search_post_has_date) {
-                echo '
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default">Exportar</button>
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" class="filtro open-modal" data-toggle="modal" data-target="#exportModal" data-format="xls">Para XLS</a></li>
-                        <li><a href="#" class="filtro open-modal" data-toggle="modal" data-target="#exportModal" data-format="csv">Para CSV</a></li>
-                    </ul>
-                </div>';
+                self::render_download_buttons();
             }
         }
+    }
+
+    static function render_download_buttons() {
+        echo '<div class="btn-group">
+                 <button type="button" class="btn btn-default">Exportar</button>
+                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span> <span class="sr-only">Dropdown</span>
+                 </button>
+                 <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" class="filtro open-modal" data-toggle="modal" data-target="#exportModal" data-format="xls"> Para XLS </a></li>
+                    <li><a href="#" class="filtro open-modal" data-toggle="modal" data-target="#exportModal" data-format="csv"> Para CSV </a></li>
+                 </ul>
+              </div>';
     }
 
     /**
      * Convertendo dados
      */
-
     public static function generate_file() {
         global $wp_query;
         global $wpdb;
