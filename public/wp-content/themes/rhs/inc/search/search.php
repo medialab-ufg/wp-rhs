@@ -908,10 +908,12 @@ function show_results_from_search($format) {
         $text_files = 'arquivos';
     }
 
-    echo "<p>Conteúdo por página: <strong>" . $per_page . " </strong> registros</p>";
-    echo "<p>Clique em uma página abaixo para iniciar a exportação:</p>";
+    if ($total > $per_page)
+        echo "<p>Conteúdo por página: <strong>" . $per_page . " </strong> registros</p>";
+
+    echo "<p> Clique nos arquivos abaixo para iniciar a exportação:</p>";
     while($count < $total_pages+1) {
-        echo "<a class='btn btn-rhs export-file' data-page='". $count . "' data-page-title=". $search_page ." data-page-format=". $format .">Página ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
+        echo "<a class='btn btn-rhs export-file' data-page='". $count . "' data-page-title=". $search_page ." data-page-format=". $format ."> Arquivo ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
         $count++;
     }
     echo "<hr>";
