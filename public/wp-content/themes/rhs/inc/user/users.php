@@ -332,7 +332,6 @@ Class RHSUsers extends RHSMessage {
     * Return the metadata of Promoted_post
     */
     function getPromoted_post($userID = 0){
-        //var_dump($userID);
         if(!$userID){
             $userID = $this->userID;
         }
