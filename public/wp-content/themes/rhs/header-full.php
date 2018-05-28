@@ -152,7 +152,7 @@
                                 </a>
                             </li>
                             <li class="menu-item sair">
-                                <a href="<?php echo wp_logout_url(); ?>">
+                                <a href="<?php echo wp_logout_url(home_url()); ?>">
                                     <i class="icones-dropdown fa fa-sign-out" aria-hidden="true"></i> Sair
                                 </a>
                             </li>
