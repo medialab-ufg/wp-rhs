@@ -8,7 +8,7 @@
             <?php if ($RHSPost->getId()): ?>
                 <input type="hidden" id="post_ID" name="post_ID" value="<?php echo $RHSPost->getId(); ?>" />
             <?php endif; ?>
-            <div class="col-xs-12 col-md-9">
+            <div class="col-md-9">
                 <h1 class="titulo-page"><?php echo $RHSPost->getId() ? 'Editar' : 'Criar'; ?> Post</h1>
                 <div class="tab-content">
                     <div id="verDados">
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-md-3">
+            <div class="col-md-3">
                 <div id="sidebar" class="sidebar hidden-print">
                     <aside id="class_post-1" class="widget widget_class_post">
                         <h2 class="widget-title">Classificar Post</h2>

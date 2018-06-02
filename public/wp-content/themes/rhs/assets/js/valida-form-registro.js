@@ -444,7 +444,7 @@ jQuery( function( $ ) {
             },
             messages: {
                 title: {
-                    required: 'Preencha o titulo.'
+                    required: 'Preencha o título.'
                 },
                 'category[]': {
                     required: 'Selecione uma categoria.'
