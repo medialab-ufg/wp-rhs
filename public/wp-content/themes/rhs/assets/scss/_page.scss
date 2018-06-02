@@ -39,3 +39,27 @@
     padding: 13px 20px;
     margin: 20px 10px;
 }
+
+.rhs-publish-post {
+    .titulo-page {
+        box-shadow: none;
+        border-bottom: 1px solid;
+        margin-bottom: 0;
+    }
+
+    span.form-required {
+        color: darkred;
+    }
+
+    .set_img_destacada {
+        border: 1px solid $primeira_cor_texto;
+        color: $primeira_cor_texto;
+    }
+}
+
+.rhs-publish-sidebar {
+    label.strong {
+        color: black;
+        font-weight: bolder;
+    }
+}
