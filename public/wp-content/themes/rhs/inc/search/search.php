@@ -393,14 +393,10 @@ class RHSSearch {
                 break;
 
             case 'last_login':
+            default:
                 $q_order_meta = RHSLogin::META_KEY_LAST_LOGIN;
                 $q_order      = 'DESC';
                 $q_order_by   = 'meta_value';
-                break;
-            
-            default:
-                $q_order_by = 'display_name';
-                $q_order = 'ASC';
                 break;
         }
 
