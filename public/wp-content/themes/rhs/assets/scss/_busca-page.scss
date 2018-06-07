@@ -28,10 +28,10 @@
     #posts, #user {
         .formulario {
             padding: 15px 0;
-            margin: 15px 0;
-            margin-bottom: 0;
+            //margin: 15px 5px;
+            margin-bottom: 10px;
             background: transparent;
-            border: 1px solid lightgray;
+            //border: 1px solid lightgray;
 
             label { color: $primeira_cor_fundo;  }
 
@@ -105,18 +105,22 @@
                 transition: all 0.3s ease;
             }
         }
-        .resultado{
+        .resultado {
             padding: 15px;
             padding-top: 0;
-            .retorno{
+
+            .search-header-common {
                 background: aliceblue;
+                border-bottom: 1px solid $primeira_cor_fundo;
+            }
+
+            .retorno {
                 padding: 22px;
                 margin: 0 -15px 0 15px;
                 border-top-left-radius: 8px;
                 font-weight: 500;
             }
-            .classificar{
-                background: aliceblue;
+            .classificar {
                 margin: 0 15px 0 -15px;
                 padding: 14px;
                 border-top-right-radius: 8px;
@@ -135,6 +139,11 @@
                 width: 230px !important;
             }
        }
+    }
+
+    div.membros {
+        float: left;
+        width: 100%;
     }
 }
 

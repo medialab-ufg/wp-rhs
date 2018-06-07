@@ -20,49 +20,9 @@ $users = $RHSSearch->search_users();
                         <?php get_template_part("partes-templates/header_search_users"); ?>
                     </div>
                     <div class="row resultado">
-                        <div class="row">
-                            <div class="col-xs-6 retorno">
-                                <?php if(count($_GET)) {?>
-                                    <div class="label-rhs"> 
-                                    <?php
-                                        //Mostra o resultado da busca dos usuarios
-                                        exibir_resultado_user();
-                                        
-                                    ?>
-                                    </div>
-                                <?php }?>
-                            </div>
-                            <div class="col-xs-6 classificar">
-                                <div class="pull-right">
-                                    <div class="dropdown">
-                                        <?php RHSSearch::show_button_download_report(); ?>
-                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Ordenar por
-                                        <?php
-                                            if(RHSSearch::get_param('rhs_order') == 'name')
-                                                echo 'Nome';
-                                            elseif(RHSSearch::get_param('rhs_order') == 'register_date')
-                                                echo 'Data de Cadastro';
-                                            elseif(RHSSearch::get_param('rhs_order') == 'posts')
-                                                echo 'Número de Posts';
-                                            elseif(RHSSearch::get_param('rhs_order') == 'votes')
-                                                echo 'Número de Votos';
-                                            else
-                                                echo '';
-                                        ?>
-                                        <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('name'); ?>">Nome</a></li>
-                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('register_date'); ?>">Data de Cadastro</a></li>
-                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('posts'); ?>">Número de Posts</a></li>
-                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('votes'); ?>">Número de Votos</a></li>
-                                            <li><a href="<?php echo RHSSearch::get_search_neworder_urls('last_login'); ?>">Último Login</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>                            
-                        </div>
+
+                        <?php include_once ("partes-templates/search_common.php"); ?>
+
                         <div class="row membros">
                             <?php if (!empty($users->results)): ?>
                                 <?php foreach ($users->results as $user): ?>
