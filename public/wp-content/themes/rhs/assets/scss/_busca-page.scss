@@ -120,9 +120,11 @@
             padding: 15px;
             padding-top: 0;
 
-            .search-header-common {
-                background: aliceblue;
-                border-bottom: 1px solid $primeira_cor_fundo;
+            @media only screen and (min-width: 991px) {
+                .search-header-common {
+                    background: aliceblue;
+                    border-bottom: 1px solid $primeira_cor_fundo;
+                }
             }
 
             .retorno {
