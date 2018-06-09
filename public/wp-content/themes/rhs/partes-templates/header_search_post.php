@@ -28,10 +28,11 @@
         </div>
 
             <div class="col-md-6">
-                <div class="form-inline col-md-12">
+                <div class="col-md-12">
                     <label for="date" class="control-label">Data</label>
                     <div class="form-group date-range-container">
                         <div class="input-group input-daterange" style="width: 100%">
+                            <div class="input-group-addon">a partir de</div>
                             <input type="text" class="form-control" value="<?php echo RHSSearch::get_param('date_from'); ?>" name="date_from">
                             <div class="input-group-addon">até</div>
                             <input type="text" class="form-control" value="<?php echo RHSSearch::get_param('date_to'); ?>" name="date_to">
@@ -39,7 +40,7 @@
                     </div>
                 </div>
 
-                <div class="form-inline col-md-12" style="margin-top: 10px;">
+                <div class="col-md-12" style="margin-top: 10px;">
                     <label for="keyword" class="control-label palavra-chave">Palavra Chave</label>
                     <div class="keyword-container">
                         <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo RHSSearch::get_param('keyword'); ?>">

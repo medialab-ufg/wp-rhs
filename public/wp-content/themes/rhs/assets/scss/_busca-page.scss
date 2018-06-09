@@ -104,7 +104,7 @@
                     padding: 0;
                 }
             }
-            .filtro{
+            .filtro {
                 float: right;
                 margin: 0 15px 0 0;
                 padding: 10px 16px;
@@ -135,6 +135,14 @@
                 margin: 0 15px 0 -15px;
                 padding: 14px;
                 border-top-right-radius: 8px;
+            }
+        }
+    }
+    #posts {
+        .formulario {
+            .filtro {
+                margin-right: 25px;
+                margin-top: 10px;
             }
         }
     }
