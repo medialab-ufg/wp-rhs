@@ -5,7 +5,15 @@
 ************/
 .busca-page {
     form {
-        padding-top: 10px;
+        padding-top: 10px !important;
+
+        .uf-city {
+            padding-bottom: 20px;
+        }
+
+        .tags-categories {
+            padding-top: 10px !important;
+        }
     }
     .nav-tabs{
         li{

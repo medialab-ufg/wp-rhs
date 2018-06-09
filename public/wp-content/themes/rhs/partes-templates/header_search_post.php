@@ -1,34 +1,33 @@
-<div class="container">
-    <div class="row">
-        <form action="<?php echo home_url('/'); ?>busca/" id="filter">
+<div class="container no-padding">
+    <form action="<?php echo home_url('/'); ?>busca/" id="filter" class="col-md-12 no-padding">
 
-            <div class="col-xs-12 col-sm-7">
+        <div class="col-md-6 no-padding">
 
-                <div class="form-inline uf-city">
-                    <?php RHSSearch::render_uf_city_select(); ?>
+            <div class="uf-city col-md-12 no-padding"> <?php RHSSearch::render_uf_city_select(); ?> </div>
+
+            <div class="col-md-12 no-padding tags-categories">
+                <div class="form-group col-md-6">
+                    <label for="tag" class="control-label">Tags</label>
+                    <input type="text" value="" class="form-control" id="input-tag" placeholder="Filtre por tags do post" name="tag">
                 </div>
 
-                <div class="form-inline">
-                    <div class="form-group col-md-5">
-                        <label for="tag" class="control-label">Tags</label>
-                        <input type="text" value="" class="form-control" id="input-tag" placeholder="Tags" name="tag">
-                    </div>
-                    <div class="form-group col-md-7">
-                        <label for="categoria" class="control-label">Categoria</label>
-                        <?php wp_dropdown_categories( [
-                            'show_option_none' => 'Selecione uma Categoria',
-                            'selected' => RHSSearch::get_param('cat'),
-                            'option_none_value' => '',
-                            'orderby' => 'name',
-                            'class' => 'form-control '
-                        ] ); ?>
+                <div class="form-group col-md-6">
+                    <label for="categoria" class="control-label">Categoria</label>
+                    <?php
+                    $dropdown_options = [
+                        'show_option_none' => 'Filtre por categoria',
+                        'selected' => RHSSearch::get_param('cat'),
+                        'option_none_value' => '',
+                        'orderby' => 'name',
+                        'class' => 'form-control'
+                    ];
+                    wp_dropdown_categories($dropdown_options); ?>
                     </div>
                 </div>
 
-            </div>
+        </div>
 
-            <div class="col-xs-12 col-sm-5">
-
+            <div class="col-md-6">
                 <div class="form-inline col-md-12">
                     <label for="date" class="control-label">Data</label>
                     <div class="form-group date-range-container">
@@ -54,14 +53,10 @@
                 </div>
 
             </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div id="custom-ctn"></div>
-                </div>
-            </div>
 
-            <?php echo RHSSearch::getSearchButtons(); ?>
+        <div class="row"> <div class="col-xs-12" id="custom-ctn"></div> </div>
 
-        </form>
-    </div>
+        <?php echo RHSSearch::getSearchButtons(); ?>
+
+    </form>
 </div>

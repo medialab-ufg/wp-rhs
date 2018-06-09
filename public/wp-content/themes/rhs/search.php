@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <div class="panel panel-default busca-page" style="padding: 10px;">
+        <div class="panel panel-default busca-page">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#posts" aria-controls="posts" role="tab" data-toggle="tab">Posts</a></li>
