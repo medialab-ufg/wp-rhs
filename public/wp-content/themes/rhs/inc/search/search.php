@@ -837,7 +837,7 @@ function exibir_resultado_post() {
         if ($final > $total) $final = $total;
         echo "Exibindo $initial a $final de $total resultados";
     } else {
-        _e("Nenhum post encontrado com estes termos de busca!", "rhs");
+        _e("Nenhum post encontrado com estes filtros de busca!", "rhs");
     }
 }
 
