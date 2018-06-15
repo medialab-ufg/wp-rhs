@@ -87,7 +87,7 @@ $_confirm_email = "Confirme seu e-mail";
                                         <fieldset class="scheduler-border">
                                             <legend> Dados Pessoais </legend>
                                             <div class="col-md-6 form-group float-label-control no-padding-left">
-                                                <label for="first_name" class="no-padding control-label">Primeiro Nome <span class="required">*</span></label>
+                                                <label for="first_name" class="no-padding control-label"> Nome <span class="required">*</span></label>
                                                 <div class="">
                                                     <input class="form-control form-text" type="text" id="first_name" name="first_name" size="30" maxlength="30">
                                                 </div>
@@ -106,7 +106,7 @@ $_confirm_email = "Confirme seu e-mail";
                                             <?php endif; ?>
 
                                             <div class="col-md-6 form-group float-label-control">
-                                                <label for="last_name" class="no-padding control-label"> Segundo Nome <span class="required">*</span> </label>
+                                                <label for="last_name" class="no-padding control-label"> Sobrenome <span class="required">*</span> </label>
                                                 <div>
                                                     <input class="form-control form-text" type="text" id="last_name" name="last_name" size="30" maxlength="30">
                                                 </div>
