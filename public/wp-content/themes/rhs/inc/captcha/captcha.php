@@ -78,7 +78,7 @@ class RHSCaptcha {
 
     function display_recuperar_captcha() { 
         ?>
-        <div class="g-recaptcha" data-sitekey="<?php echo get_option( self::SITE_KEY ); ?>"  data-callback="recaptchaCallback"></div>
+        <div class="g-recaptcha col-xs-12 col-md-12 col-sm-12" data-sitekey="<?php echo get_option( self::SITE_KEY ); ?>" data-callback="recaptchaCallback"></div>
         <input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
     <?php }
 

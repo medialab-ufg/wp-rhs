@@ -143,11 +143,11 @@ $_confirm_email = "Confirme seu e-mail";
                                         </fieldset>
 
                                         <fieldset class="scheduler-border">
-                                            <legend class="scheduler-border">Captcha</legend>
-                                            <div class="form-group float-label-control capt">
-                                                <div class="col-xs-12 col-sm-7">
-                                                    <?php $RHSCaptcha->display_recuperar_captcha(); ?>
-                                                </div>
+                                            <legend class="scheduler-border">Valide o captcha</legend>
+                                            <div class="form-group float-label-control capt col-md-12">
+
+                                                <?php $RHSCaptcha->display_recuperar_captcha(); ?>
+
                                                 <div class="col-xs-12 col-md-5">
                                                     <div class="help-block text-center"></div>
                                                 </div>
