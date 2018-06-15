@@ -319,10 +319,13 @@ class RHSSearch {
      * @return Object WP_User_Query 
      */
     public function search_users($params = array()) {
-        
         $users_per_page = self::USERS_PER_PAGE;
         $meta_query = [];
         $has_meta_query = false;
+
+       if (empty($_GET))
+           $is_index = true;
+
         
         $_filters = array_merge([
             'uf' => $this->get_param('uf'),
@@ -371,33 +374,35 @@ class RHSSearch {
         
         $q_has_publish_posts = false;
 
-        switch ($rhs_order) {
-            case 'name':
-                $q_order = 'ASC';
-                $q_order_by = 'display_name';
-                break;
-            
-            case 'register_date':
-                $q_order = 'DESC';
-                $q_order_by = 'registered';
-                break;
-            
-            case 'posts':
-                $q_order = 'DESC';
-                $q_order_by = 'post_count';
-                $q_has_publish_posts = true;
-                break;
-                
-            case 'votes':
-                $q_order_meta = RHSVote::META_TOTAL_VOTES;
-                break;
-
-            case 'last_login':
-            default:
-                $q_order_meta = RHSLogin::META_KEY_LAST_LOGIN;
-                $q_order      = 'DESC';
-                $q_order_by   = 'meta_value';
-                break;
+        if (isset($is_index) && $is_index) {
+            $q_order_meta = RHSLogin::META_KEY_LAST_LOGIN;
+            $q_order      = 'DESC';
+            $q_order_by   = 'meta_value';
+        } else {
+            switch ($rhs_order) {
+                case 'register_date':
+                    $q_order = 'DESC';
+                    $q_order_by = 'registered';
+                    break;
+                case 'posts':
+                    $q_order = 'DESC';
+                    $q_order_by = 'post_count';
+                    $q_has_publish_posts = true;
+                    break;
+                case 'votes':
+                    $q_order_meta = RHSVote::META_TOTAL_VOTES;
+                    break;
+                case 'last_login':
+                    $q_order_meta = RHSLogin::META_KEY_LAST_LOGIN;
+                    $q_order      = 'DESC';
+                    $q_order_by   = 'meta_value';
+                    break;
+                case 'name':
+                default:
+                    $q_order = 'ASC';
+                    $q_order_by = 'display_name';
+                    break;
+            }
         }
 
         if (!empty($q_order_meta)) {
