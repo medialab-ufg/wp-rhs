@@ -24,34 +24,34 @@ $_confirm_email = "Confirmar E-mail";
                                             </div>
                                         <?php } ?>
                                         <fieldset class="scheduler-border">
-                                            <legend class="scheduler-border">Dados do Login</legend>
+                                            <legend class="scheduler-border">Dados de Login</legend>
 
-                                            <div class="form-group float-label-control">
-                                                <label for="mail" class="col-sm-1 control-label">E-mail <span class="required">*</span></label>
-                                                <div class="col-sm-7">
+                                            <div class="col-md-6 form-group float-label-control no-padding-left">
+                                                <label for="mail" class="control-label">E-mail <span class="required">*</span></label>
+                                                <div class="col-sm-12 no-padding">
                                                     <input class="form-control form-text" type="email" id="mail" name="mail" maxlength="254">
                                                     <input type="hidden" name="register_user_wp" value="<?php echo $RHSRegister->getKey(); ?>">
                                                 </div>
                                                 <div class="col-md-5"> <div class="help-block text-center"></div> </div>
                                             </div>
 
-                                            <div class="form-group float-label-control">
-                                                <label for="mail_confirm" class="col-sm-1 control-label"> <?php echo $_confirm_email; ?> <span class="required">*</span></label>
-                                                <div class="col-sm-7">
+                                            <div class="col-md-6 form-group float-label-control no-padding-right">
+                                                <label for="mail_confirm" class="control-label"> <?php echo $_confirm_email; ?> <span class="required">*</span></label>
+                                                <div class="col-sm-12 no-padding">
                                                     <input class="form-control form-text" type="email" id="mail_confirm" name="mail_confirm" maxlength="254">
                                                 </div>
                                                 <div class="col-md-5"> <div class="help-block text-center"></div> </div>
                                             </div>
 
-                                            <div class="form-group float-label-control" id="confirm_email">
+                                            <div class="col-md-6 form-group float-label-control" id="confirm_email">
                                                 <label for="confirm_mail" class="col-sm-1 control-label"> <?php echo $_confirm_email; ?> <span class="required">*</span></label>
-                                                <div class="col-sm-7">
+                                                <div class="col-sm-12">
                                                     <input class="form-control form-text" id="confirm_mail" name="confirm_mail" maxlength="254">
                                                 </div>
                                             </div>
 
                                             <?php if( rand(0,2) == 0 ): ?>
-                                                <div class="form-group float-label-control" id="u_login">
+                                                <div class="form-group float-label-control no-padding" id="u_login">
                                                     <label for="user_login" class="col-sm-1 control-label">Login <span class="required">*</span></label>
                                                     <div class="col-sm-7">
                                                         <input class="form-control form-text" type="text" id="user_login" name="user_login" maxlength="254">
@@ -59,9 +59,9 @@ $_confirm_email = "Confirmar E-mail";
                                                 </div>
                                             <?php endif; ?>
 
-                                            <div class="form-group float-label-control">
-                                                    <label for="pass" class="col-sm-1 control-label">Senha <span class="required">*</span></label>
-                                                    <div class="col-sm-7">
+                                            <div class="col-md-6 form-group float-label-control no-padding-left">
+                                                    <label for="pass" class="no-padding control-label">Senha <span class="required">*</span></label>
+                                                    <div class="col-sm-12 no-padding">
                                                         <input class="form-control form-text" type="password" id="pass" name="pass" maxlength="50">
                                                         <label title="Exibir senha" class="show_pass">
                                                             <i class="fa fa-eye-slash"></i>
@@ -72,18 +72,16 @@ $_confirm_email = "Confirmar E-mail";
                                                     </div>
                                             </div>
 
-                                                <div class="form-group float-label-control">
-                                                    <label for="pass" class="col-sm-1 control-label">Confirme a Senha <span class="required">*</span></label>
-                                                    <div class="col-sm-7">
-                                                        <input class="form-control form-text" type="password" id="pass2" name="pass2" maxlength="50">
-                                                        <label title="Exibir senha" class="show_pass">
-                                                            <i class="fa fa-eye-slash"></i>
-                                                        </label>
+                                            <div class="col-md-6 form-group float-label-control no-padding-right">
+                                                <label for="pass" class="control-label">Confirme a Senha <span class="required">*</span></label>
+                                                <div class="col-sm-12 no-padding">
+                                                    <input class="form-control form-text" type="password" id="pass2" name="pass2" maxlength="50">
+                                                    <label title="Exibir senha" class="show_pass"> <i class="fa fa-eye-slash"></i> </label>
                                                     </div>
-                                                    <div class="col-md-5">
-                                                        <div class="help-block text-center"></div>
-                                                    </div>
+                                                <div class="col-md-5">
+                                                    <div class="help-block text-center"></div>
                                                 </div>
+                                            </div>
                                         </fieldset>
 
                                         <fieldset class="scheduler-border">

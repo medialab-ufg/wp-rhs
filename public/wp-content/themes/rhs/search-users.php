@@ -4,7 +4,7 @@ get_header('full');
 // Resultado da busca
 $users = $RHSSearch->search_users();
 ?>
-<div class="row col-xs-12 panel panel-default busca-page">
+<div class="col-xs-12 panel panel-default busca-page">
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">

@@ -1,6 +1,6 @@
 <?php get_header('full'); ?>
 
-<div class="row col-xs-12 panel panel-default busca-page">
+<div class="col-xs-12 panel panel-default busca-page">
 
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#posts" aria-controls="posts" role="tab" data-toggle="tab">Posts</a></li>
