@@ -394,26 +394,25 @@ Class UFMunicipio {
         static $mun_html, $uf_html, $uf_link;
 
         if ($meta['uf']['id']) {
-
             $uf_link = self::get_uf_link($meta['uf']['id'], 'user', $meta['uf']);
             $uf_html = "<a href='$uf_link'>".$meta['uf']['sigla']."</a>";
 
             //$uf_html = $meta['uf']['sigla']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
-
         }
 
         if ($meta['mun']['id']) {
-
             $mun_link = self::get_mun_link($meta['mun']['id'], 'user', $meta['mun']);
             $mun_html = "<a href='$mun_link'>".$meta['mun']['nome']."</a>";
 
             //$mun_html = $meta['mun']['nome']; // REMOVER ESSA LINHA QUANDO FIZERMOS OS LINKS FUNCIONAREM
-
         }
 
-        echo $mun_html;
-        echo ', ';
-        echo $uf_html;
+        if (isset($mun_html)) {
+            echo $mun_html;
+        }
+        if (isset($uf_html)) {
+            echo ", " . $uf_html;
+        }
 
     }
 
