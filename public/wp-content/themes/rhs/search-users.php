@@ -23,7 +23,7 @@ $users = $RHSSearch->search_users();
 
                         <?php include_once ("partes-templates/search_common.php"); ?>
 
-                        <div class="row membros">
+                        <div class="membros">
                             <?php if (!empty($users->results)): ?>
                                 <?php foreach ($users->results as $user): ?>
                                     <div class="col-md-4 col-xs-12 well-disp" data-userid="<?php echo $user->ID; ?>" data-id="<?php echo $user->ID; ?>">
