@@ -6,7 +6,7 @@ $users = $RHSSearch->search_users();
 ?>
 <div class="row">
     <div class="col-xs-12">
-        <div class="panel panel-default busca-page" style="padding: 10px;">
+        <div class="panel panel-default busca-page">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation"><a href="<?php echo RHSSearch::get_search_url(); ?>">Posts</a></li>
