@@ -62,7 +62,7 @@ jQuery( function( $ ) {
                     check_email_exist: "E-mail já existente, escolha outro."
                 },
                 mail_confirm: {
-                    required: "Favor confirmar seu e-mail!",
+                    required: "Favor confirmar seu e-mail.",
                     email: valid_mail_msg,
                     equalTo: "Atenção: A confirmação do e-mail não corresponde ao e-mail informado"
                 },
@@ -84,10 +84,10 @@ jQuery( function( $ ) {
                     required: "Preencha com o seu estado."
                 },
                 municipio: {
-                    required: "Preencha com o seu municipio."
+                    required: "Preencha com o seu município."
                 },
                 hiddenRecaptcha: {
-                    required: "Valide o Captcha primeiro."
+                    required: "Valide o captcha primeiro."
                 }
             },
             invalidHandler: function (event, validator) {},

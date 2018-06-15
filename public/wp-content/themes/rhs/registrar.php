@@ -1,7 +1,7 @@
 <?php get_header('full');
 global $RHSRegister;
 global $RHSCaptcha;
-$_confirm_email = "Confirmar E-mail";
+$_confirm_email = "Confirme seu e-mail";
 ?>
     <div class="row">
         <!-- Container -->
@@ -24,7 +24,7 @@ $_confirm_email = "Confirmar E-mail";
                                             </div>
                                         <?php } ?>
                                         <fieldset class="scheduler-border">
-                                            <legend class="scheduler-border">Dados de Login</legend>
+                                            <legend> Dados de Login </legend>
 
                                             <div class="col-md-6 form-group float-label-control no-padding-left">
                                                 <label for="mail" class="control-label">E-mail <span class="required">*</span></label>
@@ -73,11 +73,11 @@ $_confirm_email = "Confirmar E-mail";
                                             </div>
 
                                             <div class="col-md-6 form-group float-label-control no-padding-right">
-                                                <label for="pass" class="control-label">Confirme a Senha <span class="required">*</span></label>
+                                                <label for="pass" class="no-padding control-label">Confirme sua senha <span class="required">*</span></label>
                                                 <div class="col-sm-12 no-padding">
                                                     <input class="form-control form-text" type="password" id="pass2" name="pass2" maxlength="50">
                                                     <label title="Exibir senha" class="show_pass"> <i class="fa fa-eye-slash"></i> </label>
-                                                    </div>
+                                                </div>
                                                 <div class="col-md-5">
                                                     <div class="help-block text-center"></div>
                                                 </div>
@@ -85,10 +85,10 @@ $_confirm_email = "Confirmar E-mail";
                                         </fieldset>
 
                                         <fieldset class="scheduler-border">
-                                            <legend class="scheduler-border">Dados Pessoais</legend>
-                                            <div class="form-group float-label-control">
-                                                <label for="first_name" class="col-sm-4 control-label">Primeiro Nome <span class="required">*</span></label>
-                                                <div class="col-sm-7">
+                                            <legend> Dados Pessoais </legend>
+                                            <div class="col-md-6 form-group float-label-control no-padding-left">
+                                                <label for="first_name" class="no-padding control-label">Primeiro Nome <span class="required">*</span></label>
+                                                <div class="">
                                                     <input class="form-control form-text" type="text" id="first_name" name="first_name" size="30" maxlength="30">
                                                 </div>
                                                 <div class="col-md-5">
@@ -96,19 +96,18 @@ $_confirm_email = "Confirmar E-mail";
                                                 </div>
                                             </div>
 
-                                            <?php if( rand(5,7) == 6 ): ?>
+                                            <?php if (rand(5,7) == 6): ?>
                                                 <div class="form-group float-label-control" id="phone">
-                                                    <label for="phone"  class="col-sm-4 control-label">Telefone</label>
+                                                    <label for="phone" class="col-sm-4 control-label">Telefone</label>
                                                     <div class="col-sm-7">
                                                         <input class="form-control form-text" type="text" id="phone" name="phone" value="">
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
 
-                                            <div class="form-group float-label-control">
-                                                <label for="last_name" class="col-sm-4 control-label">Segundo
-                                                    Nome <span class="required">*</span></label>
-                                                <div class="col-sm-7">
+                                            <div class="col-md-6 form-group float-label-control">
+                                                <label for="last_name" class="no-padding control-label"> Segundo Nome <span class="required">*</span> </label>
+                                                <div>
                                                     <input class="form-control form-text" type="text" id="last_name" name="last_name" size="30" maxlength="30">
                                                 </div>
                                                 <div class="col-md-5">
@@ -116,37 +115,33 @@ $_confirm_email = "Confirmar E-mail";
                                                 </div>
                                             </div>
 
-                                            <div class="form-group float-label-control">
-                                                <label for="description" class="col-sm-5 control-label">Sobre mim
-                                                        <small class="form-text text-muted">(opcional)</small>
-                                                    </label>
-                                                    <div class="col-sm-7">
-                                                        <textarea class="form-control form-textarea" id="description" name="description" cols="60" rows="5"></textarea>
-                                                    </div>
-                                                    <div class="col-md-5">
-                                                        <div class="help-block text-center"></div>
-                                                    </div>
-                                            </div>
-                                                <div class="form-group float-label-control">
-                                                    <div class="row">
-                                                        <div class="col-sm-7">
-                                                        <?php UFMunicipio::form( array(
-                                                            'content_before' => '<div class="row">',
-                                                            'content_after' => '</div>',
-                                                            'content_before_field' => '<div class="col-md-6"><div class="form-group float-label-control">',
-                                                            'content_after_field' => '<div class="clearfix"></div></div></div>',
-                                                            'state_label'  => 'Estado <span class="required">*</span>&nbsp',
-                                                            'city_label'   => 'Cidade <span class="required">*</span>&nbsp',
-                                                            'select_class' => 'form-control',
-                                                            'label_class'  => 'control-label col-sm-4'
-                                                        ) ); ?>
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <div class="help-block text-center"></div>
-                                                        </div>
-                                                    </div>
+                                            <div class="col-md-6 form-group float-label-control no-padding-left">
+                                                <label for="description" class="control-label"> Sobre mim <small>(opcional)</small> </label>
+                                                <textarea class="form-control form-textarea" id="description" name="description" cols="60" rows="5"></textarea>
+
+                                                <div class="col-md-5">
+                                                    <div class="help-block text-center"></div>
                                                 </div>
+                                            </div>
+
+                                            <div class="col-md-6 form-group float-label-control no-padding-right">
+                                                <?php UFMunicipio::form( array(
+                                                    'content_before' => '<div class="no-padding">',
+                                                    'content_after' => '</div>',
+                                                    'select_before' => '',
+                                                    'content_before_field' => '<div class="form-group float-label-control">',
+                                                    'content_after_field' => '</div>',
+                                                    'state_label'  => 'Estado <span class="required">*</span>&nbsp',
+                                                    'city_label'   => 'Cidade <span class="required">*</span>&nbsp',
+                                                    'select_class' => 'form-control',
+                                                    'label_class'  => 'control-label'
+                                                )); ?>
+
+                                                <div class="col-md-12"> <div class="help-block text-center"></div> </div>
+                                            </div>
+
                                         </fieldset>
+
                                         <fieldset class="scheduler-border">
                                             <legend class="scheduler-border">Captcha</legend>
                                             <div class="form-group float-label-control capt">
