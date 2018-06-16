@@ -27,33 +27,33 @@
 
         </div>
 
-            <div class="col-md-6">
-                <div class="col-md-12">
-                    <label for="date" class="control-label">Data</label>
-                    <div class="form-group date-range-container">
-                        <div class="input-group input-daterange" style="width: 100%">
-                            <div class="input-group-addon">a partir de</div>
-                            <input type="text" class="form-control" value="<?php echo RHSSearch::get_param('date_from'); ?>" name="date_from">
-                            <div class="input-group-addon">até</div>
-                            <input type="text" class="form-control" value="<?php echo RHSSearch::get_param('date_to'); ?>" name="date_to">
-                        </div>
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <label for="date" class="control-label">Data</label>
+                <div class="form-group date-range-container">
+                    <div class="input-group input-daterange" style="width: 100%">
+                        <div class="input-group-addon">a partir de</div>
+                        <input type="text" class="form-control" value="<?php echo RHSSearch::get_param('date_from'); ?>" name="date_from">
+                        <div class="input-group-addon">até</div>
+                        <input type="text" class="form-control" value="<?php echo RHSSearch::get_param('date_to'); ?>" name="date_to">
                     </div>
                 </div>
+            </div>
 
-                <div class="col-md-12" style="margin-top: 10px;">
-                    <label for="keyword" class="control-label palavra-chave">Palavra Chave</label>
-                    <div class="keyword-container">
-                        <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo RHSSearch::get_param('keyword'); ?>">
-                    </div>
+            <div class="col-md-12" style="margin-top: 10px;">
+                <label for="keyword" class="control-label palavra-chave">Palavra Chave</label>
+                <div class="keyword-container">
+                    <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo RHSSearch::get_param('keyword'); ?>">
+                </div>
 
-                    <div class="form-inline" style="text-align: right">
-                        <label for="full-term" style="font-size: x-small; color: grey"> <?php _e('Buscar termo completo', 'rhs'); ?> </label>
-                        <input type="checkbox" value="true" <?php echo (RHSSearch::get_param('full-term')) ? 'checked' : ''; ?> name="full-term">
-                    </div>
-
+                <div class="form-inline" style="text-align: right">
+                    <label for="full-term" style="font-size: x-small; color: grey"> <?php _e('Buscar termo completo', 'rhs'); ?> </label>
+                    <input type="checkbox" value="true" <?php echo (RHSSearch::get_param('full-term')) ? 'checked' : ''; ?> name="full-term">
                 </div>
 
             </div>
+
+        </div>
 
         <div class="row"> <div class="col-xs-12" id="custom-ctn"></div> </div>
 

@@ -115,10 +115,6 @@ class RHSSearch {
                 $wp_query->set('s', $keyword);
             }
 
-            if( $full_term == "true" ) {
-                $wp_query->set('exact', true);
-            }
-
             // DATAS
             if (!empty($date_from) || !empty($date_to)) {
                 $date_query = [];
@@ -138,7 +134,6 @@ class RHSSearch {
                     $date_query['inclusive'] = true;
                     $wp_query->set('date_query', [$date_query]);
                 }
-
             }
 
             $meta_query = [];
@@ -157,8 +152,7 @@ class RHSSearch {
                         ];
                         $has_meta_query = true;
                     }
-
-
+                    
                 }
 
                 if (!empty($uf) && !isset($meta_query['municipio']) /* se já tem municipio não precisa filtrar por estado tb */ ) {
@@ -175,7 +169,6 @@ class RHSSearch {
                     }
 
                 }
-
             }
 
             // ORDER
@@ -218,6 +211,10 @@ class RHSSearch {
                 $meta_query['relation'] = 'AND';
                 $wp_query->set('meta_query', [$meta_query]);
             }
+            
+            if( $full_term == "true" ) {
+                add_action('posts_search', array(&$this,'busca_termo_completo'), 20, 2);
+            }
 
             $wp_query->set('order', $q_order);
             $wp_query->set('orderby', $q_order_by);
@@ -225,6 +222,33 @@ class RHSSearch {
             
         }
 
+    }
+
+    function busca_termo_completo( $busca, $wp_query ) {
+        if (empty($busca))
+            return $busca;
+        
+        global $wpdb;
+        $params = $wp_query->query_vars;
+        $termos_busca = (array) $params['search_terms'];
+
+        $busca = $searchand = '';
+        if (is_array($termos_busca) && count($termos_busca) > 0 ) {
+            foreach ($termos_busca as $term ) {
+                $term = esc_sql($wpdb->esc_like($term));
+                $busca .= "{$searchand}($wpdb->posts.post_title REGEXP '[[:<:]]{$term}[[:>:]]') OR ($wpdb->posts.post_content REGEXP '[[:<:]]{$term}[[:>:]]')";
+
+                $searchand = ' AND ';
+            }
+
+            if (!empty($busca)) {
+                $busca = " AND ({$busca}) ";
+                if ( ! is_user_logged_in() )
+                    $busca .= " AND ($wpdb->posts.post_password = '') ";
+            }
+        }
+
+        return $busca;
     }
     
     /**
