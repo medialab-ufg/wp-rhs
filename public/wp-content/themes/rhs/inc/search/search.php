@@ -885,10 +885,14 @@ function exibir_resultado_user(){
 
     $final = $per_page * $paged;
 
-    $initial = $final - ($per_page-1);
-    if ($final > $total) $final = $total;
+    if($total > 0) {
+        $initial = $final - ($per_page - 1);
+        if ($final > $total) $final = $total;
 
-    echo "Exibindo $initial a $final de $total resultados";
+        echo "Exibindo $initial a $final de $total resultados";
+    } else {
+        _e("Nenhum usuário encontrado com estes filtros de busca!", "rhs");
+    }
 }
 
 function return_value_or_zero($value){

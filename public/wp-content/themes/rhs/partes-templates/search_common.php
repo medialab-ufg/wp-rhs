@@ -4,7 +4,13 @@
 
         <?php if(count($_GET)) { ?>
             <div class="label-rhs">
-                <?php exibir_resultado_post(); //Mostra o resultado da busca dos posts ?>
+            <?php
+            if (isset($users) && $users instanceof WP_User_Query):
+                exibir_resultado_user();
+            else:
+                exibir_resultado_post();
+            endif;
+            ?>
             </div>
         <?php } ?>
 
@@ -16,7 +22,7 @@
             <div class="dropdown">
                 <?php RHSSearch::show_button_download_report(); ?>
 
-                <?php if (isset($users) && $users instanceof WP_User_Query) : ?>
+                <?php if (isset($users) && $users instanceof WP_User_Query): ?>
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         Ordenar por
                         <?php
