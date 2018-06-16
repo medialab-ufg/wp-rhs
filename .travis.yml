@@ -29,7 +29,7 @@ before_install:
 
 before script: 
 install:
-- composer install
+- composer install --no-dev
 script: "./run-tests.sh"
 after_success:
 - eval "$(ssh-agent -s)"
