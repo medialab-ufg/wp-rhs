@@ -1,12 +1,12 @@
 sudo: enabled
 language: php
 php:
+- 5.6
 - 7.1
 - hhvm
 - nightly
 matrix:
   allow_failures:
-  - php: 7.1
   - php: hhvm
   - php: nightly
   fast_finish: true
@@ -16,7 +16,6 @@ addons:
 apt:
    packages:
     - sshpass
-#teste deploy
 services:
 - mysql
 before_install:
@@ -30,7 +29,7 @@ before_install:
 
 before script: 
 install:
-- composer install
+- composer install --no-dev
 script: "./run-tests.sh"
 after_success:
 - eval "$(ssh-agent -s)"
@@ -45,7 +44,7 @@ deploy:
   script:   sshpass -p '$pass_user_server_prod_rhs'  ssh $user_server_prod_rhs@$host_server_prod_rhs "sh $path_deploy_server_prod_rhs/wp-rhs/deploy.sh"
   skip_cleanup: true
   on:
-    branch: develop
+    branch: master
 cache:
   directories:
   - vendor

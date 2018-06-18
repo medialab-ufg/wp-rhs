@@ -68,11 +68,12 @@ class RHSMessage {
 
     }
 
-    function clear_messages(){
-
+    function clear_messages() {
         $class_name = get_class($this);
 
-        unset($_SESSION["messages_{$class_name}_{$this->getKey()}"]);
+        if (isset($_SESSION)) {
+            unset($_SESSION["messages_{$class_name}_{$this->getKey()}"]);
+        }
     }
 
 

@@ -8,14 +8,13 @@
             <?php if ($RHSPost->getId()): ?>
                 <input type="hidden" id="post_ID" name="post_ID" value="<?php echo $RHSPost->getId(); ?>" />
             <?php endif; ?>
-            <div class="col-xs-12 col-md-9">
+            <div class="col-md-9 rhs-publish-post">
                 <h1 class="titulo-page"><?php echo $RHSPost->getId() ? 'Editar' : 'Criar'; ?> Post</h1>
                 <div class="tab-content">
                     <div id="verDados">
                         <div class="jumbotron perfil">
                             <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="panel panel-default">
+                                <div class="col-md-12">
                                         <?php foreach ($RHSPosts->messages() as $type => $messages){ ?>
                                             <div class="alert alert-<?php echo $type == 'error' ? 'info' : 'success' ; ?>">
                                                 <?php foreach ($messages as $message){ ?>
@@ -28,8 +27,13 @@
                                             <div class="form-group">
                                                 <label for="title">Título <span class="form-required" title="Este campo é obrigatório.">*</span></label>
                                                 <input class="form-control" type="text" id="title" name="title" size="60" maxlength="254" value="<?php echo $RHSPost->getTitle(); ?>">
-                                                <input class="form-control" type="hidden" value="<?php echo $RHSPosts->getKey(); ?>" name="post_user_wp" />
+                                                <input type="hidden" value="<?php echo $RHSPosts->getKey(); ?>" name="post_user_wp" />
                                             </div>
+
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-default form-submit dest_visu set_img_destacada">ESCOLHER IMAGEM DESTACADA</button>
+                                            </div>
+
                                             <div class="form-group">
                                                 <label for="descricao">Conteúdo</label>
                                                 <?php
@@ -50,15 +54,14 @@
                                                 ?>
                                             </div>
                                         </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-md-3">
-                <div id="sidebar" class="sidebar hidden-print">
+            <div class="col-md-3">
+                <div id="sidebar" class="sidebar hidden-print rhs-publish-sidebar">
                     <aside id="class_post-1" class="widget widget_class_post">
                         <h2 class="widget-title">Classificar Post</h2>
                         <div class="panel">
@@ -83,7 +86,7 @@
                                     ) ); ?>
                                 </div>
                                 <div class="form-group form-checkbox publish_post_sidebox">
-                                <label>Categorias</label>
+                                <label class="strong">Categorias</label>
                                 <?php 
                                     $category = get_categories();
                                     foreach($category as $cat){
@@ -101,7 +104,7 @@
                                 <?php if($RHSPost->getStatus() == 'private' || $comunidades) { ?>
 
                                     <div class="form-group form-checkbox publish_post_sidebox">
-                                        <label>Publicar em</label>
+                                        <label class="strong">Publicar em</label>
                                     
                                         <div>
                                             <input <?php echo (!$RHSPost->getComunities() || $RHSPost->getStatus() != 'private') ? 'checked' : ''; ?> type="checkbox" class="uniform" id="comunity-status" name="comunity-status[]" value="public">
@@ -125,7 +128,6 @@
                                     <div id="img_destacada_preview">
                                         <?php if ($RHSPost->getFeaturedImageId()) echo $RHSPost->getFeaturedImage(array( 200, 200)); ?>
                                     </div>
-                                    <button type="button" class="btn btn-default form-submit dest_visu set_img_destacada">DEFINIR IMAGEM DESTACADA</button>
                                     <?php if(!$RHSPost->getId() || $RHSPost->getStatus() == 'draft'){ ?>
                                     <button type="submit" name="status" value="draft" class="btn btn-default form-submit rasc_visu">SALVAR RASCUNHO</button>
                                     <?php } ?>

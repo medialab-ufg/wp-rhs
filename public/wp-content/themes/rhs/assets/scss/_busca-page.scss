@@ -4,6 +4,18 @@
 *
 ************/
 .busca-page {
+    padding: 10px;
+    form {
+        padding-top: 10px !important;
+
+        .uf-city {
+            padding-bottom: 20px;
+        }
+
+        .tags-categories {
+            padding-top: 10px !important;
+        }
+    }
     .nav-tabs{
         li{
             a{
@@ -28,10 +40,12 @@
     #posts, #user {
         .formulario {
             padding: 15px 0;
-            margin: 15px 0;
-            margin-bottom: 0;
+            //margin: 15px 5px;
+            margin-bottom: 10px;
             background: transparent;
-            border: 1px solid lightgray;
+            //border: 1px solid lightgray;
+            float: left;
+            width: 100%;
 
             label { color: $primeira_cor_fundo;  }
 
@@ -45,9 +59,7 @@
                 .col2{
                     text-align: center;
                 }
-                #municipio{
-                    width: 194px !important;
-                }
+                //#municipio{  width: 194px !important;  }
             }
             @media only screen and (width: 1024px) and (height: 1366px){
                 .form-inline{
@@ -93,11 +105,11 @@
                     padding: 0;
                 }
             }
-            .filtro{
+            .filtro {
                 float: right;
-                margin: 10px 30px 0 0;
+                margin: 0 15px 0 0;
                 padding: 10px 16px;
-                box-shadow: 3px 4px 0px 0px #d8d8d8;
+                box-shadow: 1px 3px 0px 0px #d8d8d8;
                 -webkit-transition: all 0.3s ease;
                 -moz-transition: all 0.3s ease;
                 -ms-transition: all 0.3s ease;
@@ -105,36 +117,53 @@
                 transition: all 0.3s ease;
             }
         }
-        .resultado{
+        .resultado {
             padding: 15px;
             padding-top: 0;
-            .retorno{
-                background: aliceblue;
+
+            @media only screen and (min-width: 991px) {
+                .search-header-common {
+                    background: aliceblue;
+                    border-bottom: 1px solid $primeira_cor_fundo;
+                }
+            }
+
+            .retorno {
                 padding: 22px;
                 margin: 0 -15px 0 15px;
                 border-top-left-radius: 8px;
                 font-weight: 500;
             }
-            .classificar{
-                background: aliceblue;
-                margin: 0 15px 0 -15px;
+            .classificar {
                 padding: 14px;
+                padding-right: 0;
                 border-top-right-radius: 8px;
             }
         }
     }
-    #user{
+    #posts {
+        .formulario {
+            .filtro {
+                margin-right: 25px;
+                margin-top: 10px;
+            }
+        }
+    }
+    #user {
        @media only screen and (min-width: 780px){
-            .input-daterange{
+            .input-daterange {
                 input{
                     margin-right: 15px !important;
                     width: 110px;
                 }
             }
-            #keyword{
-                width: 230px !important;
-            }
+            // #keyword {  width: 230px !important; }
        }
+    }
+
+    div.membros {
+        float: left;
+        width: 100%;
     }
 }
 

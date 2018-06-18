@@ -115,10 +115,6 @@ class RHSSearch {
                 $wp_query->set('s', $keyword);
             }
 
-            if( $full_term == "true" ) {
-                $wp_query->set('exact', true);
-            }
-
             // DATAS
             if (!empty($date_from) || !empty($date_to)) {
                 $date_query = [];
@@ -138,7 +134,6 @@ class RHSSearch {
                     $date_query['inclusive'] = true;
                     $wp_query->set('date_query', [$date_query]);
                 }
-
             }
 
             $meta_query = [];
@@ -157,8 +152,7 @@ class RHSSearch {
                         ];
                         $has_meta_query = true;
                     }
-
-
+                    
                 }
 
                 if (!empty($uf) && !isset($meta_query['municipio']) /* se já tem municipio não precisa filtrar por estado tb */ ) {
@@ -175,7 +169,6 @@ class RHSSearch {
                     }
 
                 }
-
             }
 
             // ORDER
@@ -218,6 +211,10 @@ class RHSSearch {
                 $meta_query['relation'] = 'AND';
                 $wp_query->set('meta_query', [$meta_query]);
             }
+            
+            if( $full_term == "true" ) {
+                add_action('posts_search', array(&$this,'busca_termo_completo'), 20, 2);
+            }
 
             $wp_query->set('order', $q_order);
             $wp_query->set('orderby', $q_order_by);
@@ -225,6 +222,33 @@ class RHSSearch {
             
         }
 
+    }
+
+    function busca_termo_completo( $busca, $wp_query ) {
+        if (empty($busca))
+            return $busca;
+        
+        global $wpdb;
+        $params = $wp_query->query_vars;
+        $termos_busca = (array) $params['search_terms'];
+
+        $busca = $searchand = '';
+        if (is_array($termos_busca) && count($termos_busca) > 0 ) {
+            foreach ($termos_busca as $term ) {
+                $term = esc_sql($wpdb->esc_like($term));
+                $busca .= "{$searchand}($wpdb->posts.post_title REGEXP '[[:<:]]{$term}[[:>:]]') OR ($wpdb->posts.post_content REGEXP '[[:<:]]{$term}[[:>:]]')";
+
+                $searchand = ' AND ';
+            }
+
+            if (!empty($busca)) {
+                $busca = " AND ({$busca}) ";
+                if ( ! is_user_logged_in() )
+                    $busca .= " AND ($wpdb->posts.post_password = '') ";
+            }
+        }
+
+        return $busca;
     }
     
     /**
@@ -319,10 +343,13 @@ class RHSSearch {
      * @return Object WP_User_Query 
      */
     public function search_users($params = array()) {
-        
         $users_per_page = self::USERS_PER_PAGE;
         $meta_query = [];
         $has_meta_query = false;
+
+       if (empty($_GET))
+           $is_index = true;
+
         
         $_filters = array_merge([
             'uf' => $this->get_param('uf'),
@@ -371,31 +398,35 @@ class RHSSearch {
         
         $q_has_publish_posts = false;
 
-        switch ($rhs_order) {
-            case 'name':
-                $q_order = 'ASC';
-                $q_order_by = 'display_name';
-                break;
-            
-            case 'register_date':
-                $q_order = 'DESC';
-                $q_order_by = 'registered';
-                break;
-            
-            case 'posts':
-                $q_order = 'DESC';
-                $q_order_by = 'post_count';
-                $q_has_publish_posts = true;
-                break;
-                
-            case 'votes':
-                $q_order_meta = RHSVote::META_TOTAL_VOTES;
-                break;
-            
-            default:
-                $q_order_by = 'display_name';
-                $q_order = 'ASC';
-                break;
+        if (isset($is_index) && $is_index) {
+            $q_order_meta = RHSLogin::META_KEY_LAST_LOGIN;
+            $q_order      = 'DESC';
+            $q_order_by   = 'meta_value';
+        } else {
+            switch ($rhs_order) {
+                case 'register_date':
+                    $q_order = 'DESC';
+                    $q_order_by = 'registered';
+                    break;
+                case 'posts':
+                    $q_order = 'DESC';
+                    $q_order_by = 'post_count';
+                    $q_has_publish_posts = true;
+                    break;
+                case 'votes':
+                    $q_order_meta = RHSVote::META_TOTAL_VOTES;
+                    break;
+                case 'last_login':
+                    $q_order_meta = RHSLogin::META_KEY_LAST_LOGIN;
+                    $q_order      = 'DESC';
+                    $q_order_by   = 'meta_value';
+                    break;
+                case 'name':
+                default:
+                    $q_order = 'ASC';
+                    $q_order_by = 'display_name';
+                    break;
+            }
         }
 
         if (!empty($q_order_meta)) {
@@ -835,7 +866,7 @@ function exibir_resultado_post() {
         if ($final > $total) $final = $total;
         echo "Exibindo $initial a $final de $total resultados";
     } else {
-        _e("Nenhum post encontrado com estes termos de busca!", "rhs");
+        _e("Nenhum post encontrado com estes filtros de busca!", "rhs");
     }
 }
 
@@ -854,10 +885,14 @@ function exibir_resultado_user(){
 
     $final = $per_page * $paged;
 
-    $initial = $final - ($per_page-1);
-    if ($final > $total) $final = $total;
+    if($total > 0) {
+        $initial = $final - ($per_page - 1);
+        if ($final > $total) $final = $total;
 
-    echo "Exibindo $initial a $final de $total resultados";
+        echo "Exibindo $initial a $final de $total resultados";
+    } else {
+        _e("Nenhum usuário encontrado com estes filtros de busca!", "rhs");
+    }
 }
 
 function return_value_or_zero($value){

@@ -8,14 +8,14 @@ global $RHSUsers;
 ?>
 <?php get_header(); ?>
 
-            <div class="row">
-                <div class="col-xs-12">
-                    <h1 class="titulo-page">Contato</h1>
-                    <div class="pull-right edit-page">
-                        <?php edit_post_link( __( 'Editar Página', 'rhs' ), '<span class="text-uppercase">', '</span>', null, 'btn btn-default' ); ?>
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="titulo-page">Contato</h1>
+            <div class="pull-right edit-page">
+                <?php edit_post_link( __( 'Editar Página', 'rhs' ), '<span class="text-uppercase">', '</span>', null, 'btn btn-default' ); ?>
             </div>
+        </div>
+    </div>
             <div class="row">
                 <div class="col-xs-12 contato">
                     <div class="wrapper-content">
@@ -69,8 +69,13 @@ global $RHSUsers;
                                     <?php endif; ?>
 
                                     <div class="form-group float-label-control" style="display: <?php echo $dis; ?>">
-                                        <label for="email">Email <span class="required">*</span></label>
+                                        <label for="email">E-mail <span class="required">*</span></label>
                                         <input type="email" tabindex="2" name="email" id="input-email" class="form-control" value="<?php echo $RHSUsers->get_user_data('email');?>" >
+                                    </div>
+
+                                    <div class="form-group float-label-control" style="display: <?php echo $dis; ?>">
+                                        <label for="confirm_email">Confirme seu e-mail <span class="required">*</span></label>
+                                        <input type="email" tabindex="2" name="confirm_email" id="input-confirm-email" class="form-control" value="<?php echo $RHSUsers->get_user_data('email');?>" >
                                     </div>
 
                                     <?php if( rand(10,12) == 11 ): ?>

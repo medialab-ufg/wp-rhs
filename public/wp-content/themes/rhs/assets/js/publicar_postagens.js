@@ -31,12 +31,15 @@ jQuery(document).ready(function() {
     
     
     var ms = jQuery('#input-tags').magicSuggest({
-        placeholder: 'Select...',
+        placeholder: 'Digite...',
         allowFreeEntries: true,
         selectionPosition: 'bottom',
         selectionStacked: true,
         selectionRenderer: function(data){
             return data.name;
+        },
+        minCharsRenderer: function(num) {
+            return "Digite no mínimo " + num + " caracteres!"
         },
         data: post_vars.ajaxurl,
         dataUrlParams: { 
