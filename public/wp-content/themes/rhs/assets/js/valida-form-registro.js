@@ -507,6 +507,12 @@ jQuery( function( $ ) {
                     email: true,
                     required: true
                 },
+                confirm_email: {
+                    email: true,
+                    required: true,
+                    check_email_exist: true,
+                    equalTo: "input[name='mail']"
+                },
                 category: {
                     required: true
                 },
@@ -536,8 +542,13 @@ jQuery( function( $ ) {
                     required: 'Preencha seu nome.'
                 },
                 email: {
-                    email: 'Formato de e-mail inválido.',
+                    email: valid_mail_msg,
                     required: 'Informe seu e-mail.'
+                },
+                confirm_email: {
+                    required: 'Confirme seu e-mail.',
+                    email: valid_mail_msg,
+                    equalTo: "Atenção: A confirmação do e-mail não corresponde ao e-mail informado"
                 },
                 category: {
                     required: 'Selecione a categoria que melhor se adequa ao seu contato!'
