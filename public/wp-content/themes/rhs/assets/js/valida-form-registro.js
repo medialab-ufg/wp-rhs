@@ -511,7 +511,7 @@ jQuery( function( $ ) {
                     email: true,
                     required: true,
                     check_email_exist: true,
-                    equalTo: "input[name='mail']"
+                    equalTo: "input[name='email']"
                 },
                 category: {
                     required: true
