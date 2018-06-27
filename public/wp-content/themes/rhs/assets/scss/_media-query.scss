@@ -166,7 +166,7 @@
                 width: 100% !important;
             }
             .form-search-rhs {
-                padding: 1px 0px;
+                padding: 1px 0;
                 margin: 0;
             }
         }
@@ -254,13 +254,13 @@
         footer {
             > .container {
                 padding: {
-                    left: 0px;
-                    right: 0px;
+                    left: 0;
+                    right: 0;
                 }
             }
             .footerMenu .navbar-default a {
                 margin-left: 33px;
-                padding-top: 7px 0px 0px 0px;
+                padding-top: 7px;
             }
         }
         .g-recaptcha iframe body {
@@ -268,7 +268,7 @@
                 width: 266px !important;
             }
             .rc-anchor-logo-portrait {
-                margin: 10px 0 0 0px !important;
+                margin: 10px 0 0 0 !important;
             }
         }
     }
@@ -280,11 +280,14 @@
     }
 
     @media (width: 768px) and (height: 1024px) {
-        .primeiro-menu
-        .dropdown-menu-right
-        .user-dropdown
-        a.user-dropdown-link {
-            margin-top: 23px;
+        .primeiro-menu {
+            .dropdown-menu-right {
+                .user-dropdown {
+                    a.user-dropdown-link {
+                        margin-top: 23px;
+                    }
+                }
+            }
         }
 
         .segundo-menu {
@@ -300,10 +303,10 @@
             }
         }
         .primeiro-menu .navbar-nav > li:first-child > a {
-            padding-right: 0px !important;
+            padding-right: 0 !important;
         }
         .primeiro-menu .navbar-nav > li:last-child > a {
-            padding-left: 0px !important;
+            padding-left: 0 !important;
         }
         #verDados {
             .jumbotron {
@@ -316,7 +319,7 @@
 
     @media (max-width: 640px) and (orientation: landscape) {
         article .comment-box {
-            margin: 0px 0 0px 67px;
+            margin: 0 0 0 67px;
         }
         article .comment-avatar img {
             margin-bottom: -68px;
@@ -401,6 +404,12 @@
         }
     }
 
+    @media (max-width: 991px) {
+        #register {
+            .panel.panel-info .float-label-control { padding: 0; }
+        }
+    }
+
     @media print {
         * {
             background: transparent !important;
@@ -438,7 +447,7 @@
                     }
                     .post-categories {
                         margin-bottom: 7px;
-                        padding: 10px 0px 12px;
+                        padding: 10px 0 12px;
                         a {
                             color: $primeira_cor_texto;
                             font: {
@@ -493,8 +502,8 @@
                         }
                     }
                     .content {
-                        padding-bottom: 0px;
-                        margin-bottom: 0px;
+                        padding-bottom: 0;
+                        margin-bottom: 0;
                         p, div {
                             line-height: 1.7 !important;
                             font-size: 15px !important;
