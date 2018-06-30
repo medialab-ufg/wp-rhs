@@ -23,24 +23,26 @@ $users = $RHSSearch->search_users();
                 <?php include_once ("partes-templates/search_common.php"); ?>
 
                 <div class="membros">
-                    <?php if (!empty($users->results)): ?>
-                        <?php foreach ($users->results as $user): ?>
+                    <?php if (!empty($users->results)):
+                        foreach ($users->results as $user):
+                            $author_url = get_author_posts_url($user->ID);
+                            ?>
                             <div class="col-md-3 col-xs-12 well-disp" data-userid="<?php echo $user->ID; ?>" data-id="<?php echo $user->ID; ?>">
                                 <div class="well profile_view">
                                     <div class="left">
                                         <span class="membros-avatar">
-                                            <a href="<?php echo get_author_posts_url($user->ID); ?>" class="membros">
+                                            <a href="<?php echo $author_url; ?>" class="membros">
                                                 <?php echo get_avatar($user->ID, 50); ?>
                                             </a>
                                         </span>
                                     </div>
                                     <div class="right">
                                         <h1>
-                                            <a href="<?php echo get_author_posts_url($user->ID); ?>" class="membros">
+                                            <a href="<?php echo $author_url; ?>" class="membros">
                                                 <span class="membros-name"><?php echo $user->display_name; ?></span>
                                             </a>
                                         </h1>
-                                        <?php if(has_user_ufmun($user->ID)) { ?>
+                                        <?php if (has_user_ufmun($user->ID)) { ?>
                                             <div class="info-membros">
                                                 <p class="location">
                                                     <strong>Localidade: </strong>
@@ -51,7 +53,6 @@ $users = $RHSSearch->search_users();
                                             </div>
                                         <?php } ?>
                                     </div>
-                                    <div class="clearfix"></div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
