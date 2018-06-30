@@ -59,9 +59,11 @@ $users = $RHSSearch->search_users();
                         <div class="col-xs-12 text-center">
                             <?php $RHSSearch->show_users_pagination($users); ?>
                         </div>
-                    <?php else : ?>
-                        <h3 class="text-center"><?php echo __('Nenhum usuário encontrado, tente outro nome.'); ?></h3>
-                    <?php endif; ?>
+                    <?php else :
+                        $user_key = trim($_GET['keyword']);
+                        $_no_results = "Nenhum resultado encontrado para <strong><i> $user_key</i></strong>. Tente outro nome.";
+                        echo "<h3 class='text-center'> $_no_results </h3>";
+                    endif; ?>
                 </div>
             </div>
         </div>
