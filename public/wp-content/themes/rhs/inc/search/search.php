@@ -4,7 +4,7 @@ class RHSSearch {
 
     const BASE_URL = 'busca';
     const BASE_USERS_URL = 'busca/usuarios';
-    const USERS_PER_PAGE = 12;
+    const USERS_PER_PAGE = 40;
     const EXPORT_TOTAL_PER_PAGE = 300;
     
     function __construct() {

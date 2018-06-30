@@ -25,12 +25,12 @@ $users = $RHSSearch->search_users();
                 <div class="membros">
                     <?php if (!empty($users->results)): ?>
                         <?php foreach ($users->results as $user): ?>
-                            <div class="col-md-4 col-xs-12 well-disp" data-userid="<?php echo $user->ID; ?>" data-id="<?php echo $user->ID; ?>">
+                            <div class="col-md-3 col-xs-12 well-disp" data-userid="<?php echo $user->ID; ?>" data-id="<?php echo $user->ID; ?>">
                                 <div class="well profile_view">
                                     <div class="left">
                                         <span class="membros-avatar">
                                             <a href="<?php echo get_author_posts_url($user->ID); ?>" class="membros">
-                                                <?php echo get_avatar($user->ID); ?>
+                                                <?php echo get_avatar($user->ID, 50); ?>
                                             </a>
                                         </span>
                                     </div>
@@ -68,6 +68,7 @@ $users = $RHSSearch->search_users();
 
 </div>
 
-<?php get_template_part('partes-templates/export-modal'); ?>
+<?php
+get_template_part('partes-templates/export-modal');
 
-<?php get_footer('full');
+get_footer('full');
