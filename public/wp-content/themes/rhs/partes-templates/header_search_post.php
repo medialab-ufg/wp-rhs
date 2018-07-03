@@ -43,7 +43,7 @@
             <div class="col-md-12" style="margin-top: 10px;">
                 <label for="keyword" class="control-label palavra-chave">Palavra Chave</label>
                 <div class="keyword-container">
-                    <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo RHSSearch::get_param('keyword'); ?>">
+                    <input type="text" name="keyword"  id="keyword" class="form-control" value="<?php echo RHSSearch::get_param('keyword'); ?>">
                 </div>
 
                 <div class="form-inline" style="text-align: right">

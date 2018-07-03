@@ -39,7 +39,13 @@ $(function() {
             ms.setDataUrlParams({action: 'get_tags'});
         }
     });
-    
+
+    $(document).on("click", '#reset_filters', function () {
+        var current = window.location.href;
+        current = current.split("busca/")[0] + 'busca/';
+        window.location = current;
+    });
+
     $(document).on("click", ".open-modal", function () {
         var format_to_export = $(this).data('format');
         $(".modal-title #format_file").text(format_to_export.toUpperCase());

@@ -842,7 +842,7 @@ class RHSSearch {
 
     public static function getSearchButtons() {
         $default_classes = "btn btn-default filtro";
-        return "<button type='submit' class='$default_classes btn-rhs'>Filtrar</button> <button type='reset' class='$default_classes'>Limpar Filtros</button>";
+        return "<button type='submit' class='$default_classes btn-rhs'>Filtrar</button> <button id='reset_filters' type='reset' class='$default_classes'>Limpar Filtros</button>";
     }
 }
 
