@@ -41,9 +41,22 @@ $(function() {
     });
 
     $(document).on("click", '#reset_filters', function () {
-        var current = window.location.href;
-        current = current.split("busca/")[0] + 'busca/';
-        window.location = current;
+        var current_url = window.location.href,
+            tabUser = $('a[aria-controls="user"]').parent(),
+            get_url = current_url.split("?");
+
+        if(get_url.length > 1)
+        {
+            if($(tabUser).attr("class") === "active")
+            {
+                current_url = current_url.split("busca/")[0] + 'busca/usuarios/';
+            }else
+            {
+                current_url = current_url.split("busca/")[0] + 'busca/';
+            }
+
+            window.location = current_url;
+        }
     });
 
     $(document).on("click", ".open-modal", function () {
