@@ -47,12 +47,21 @@ $(function() {
 
         if(get_url.length > 1)
         {
+            if(current_url.search("busca/") !== -1) //Found
+            {
+                current_url = current_url.split("busca/")[0];
+            }
+            else //Not found
+            {
+                current_url = current_url.split("busca")[0];
+            }
+
             if($(tabUser).attr("class") === "active")
             {
-                current_url = current_url.split("busca/")[0] + 'busca/usuarios/';
+                 current_url += 'busca/usuarios/';
             }else
             {
-                current_url = current_url.split("busca/")[0] + 'busca/';
+                current_url += 'busca/';
             }
 
             window.location = current_url;

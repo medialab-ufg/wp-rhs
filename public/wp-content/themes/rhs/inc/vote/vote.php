@@ -361,9 +361,9 @@ Class RHSVote {
 				}
 			} else {
                 $caps[] = '__no_privs';
-                
             }
 		}
+
 		return $caps;
 	}
     
@@ -388,9 +388,6 @@ Class RHSVote {
 	}
 
 	function ajax_vote() {
-
-        $json = array();
-
         if ( empty( $_POST['post_id'] ) || !is_numeric( $_POST['post_id'] ) ) {
             $json = array('error' => array('text'=>'Não foi encontrado o usuário.'));
 
