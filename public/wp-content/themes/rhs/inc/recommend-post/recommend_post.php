@@ -77,6 +77,7 @@ class RHSRecommendPost extends RHSMessage {
     function add_recomment_post($post_id, $user_id, $current_user, $data) {
         add_user_meta($user_id, self::RECOMMEND_POST_TO_KEY, $data['user']);
         $return = add_user_meta($current_user->ID, self::RECOMMEND_POST_FROM_KEY, $data['user']);
+        add_post_meta($post_id, "rhs_who_recommended", ['from' => $current_user->ID, 'to' => $user_id]);
     
         if ($return)
             do_action('rhs_add_recommend_post', ['post_id' => $post_id, 'user_id' => $user_id]);

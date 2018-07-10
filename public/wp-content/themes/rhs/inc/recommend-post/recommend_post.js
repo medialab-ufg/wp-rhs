@@ -49,6 +49,7 @@ jQuery( function( $ ) {
                         }
                     });
                 } else {
+                    $(input_recommend_post).val('');
                     swal("Cancelado", not_sent_title, "error");
                 }
             });
