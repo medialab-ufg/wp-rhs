@@ -40,6 +40,7 @@ jQuery( function( $ ) {
                                 swal(not_sent_title, data.msgErr, "error");
                             } else if(data.messages.success && data.user.sent_name) {
                                 swal("Enviado!", "Indicação enviada com sucesso para " + data.user.sent_name, "success");
+                                $(input_recommend_post).val('');
                             } else {
                                 swal(not_sent_title, "Tente novamente mais tarde!", "error");
                             }                                                    

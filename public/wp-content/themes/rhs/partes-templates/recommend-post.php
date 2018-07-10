@@ -20,7 +20,6 @@
         ?>
         <div class="row">
             <div class="col-xs-12">
-                <!--<h2 class="titulo-quantidade text-uppercase">Histórico de recomendações</h2>-->
                 <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
