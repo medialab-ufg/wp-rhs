@@ -37,14 +37,18 @@
                                 foreach ($who_recommended as $line)
                                 {
                                     $from = get_user_by("id", $line['from']);
+                                    $from_user_link = get_author_posts_url($line['from']);
+
                                     $to = get_user_by("id", $line['to']);
+                                    $to_user_link = get_author_posts_url($line['to']);
 
                                     $from = $from->data->display_name;
                                     $to = $to->data->display_name;
 
                                     ?>
                                     <li class="list-group-item">
-                                        <u><?php echo $from; ?></u> recomendou esta publicação para <u><?php echo $to?></u>
+                                        <u><a class="keep_grey" href="<?php echo $from_user_link; ?>"> <?php echo $from; ?></a></u> recomendou para <u><a class="keep_grey" href="<?php echo $to_user_link;?>"><?php echo $to?></a></u>
+                                        <span class="pull-right"><strong><?php echo $line['date']; ?></strong></span>
                                     </li>
                                     <?php
                                 }

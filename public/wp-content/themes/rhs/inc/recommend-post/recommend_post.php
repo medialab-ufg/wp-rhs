@@ -77,8 +77,13 @@ class RHSRecommendPost extends RHSMessage {
     function add_recomment_post($post_id, $user_id, $current_user, $data) {
         add_user_meta($user_id, self::RECOMMEND_POST_TO_KEY, $data['user']);
         $return = add_user_meta($current_user->ID, self::RECOMMEND_POST_FROM_KEY, $data['user']);
-        add_post_meta($post_id, "rhs_who_recommended", ['from' => $current_user->ID, 'to' => $user_id]);
-    
+
+        setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+        date_default_timezone_set('America/Sao_Paulo');
+        $date =  strftime('%A, %d de %B de %Y', strtotime('today'));
+
+        add_post_meta($post_id, "rhs_who_recommended", ['from' => $current_user->ID, 'to' => $user_id, 'date' => $date]);
+
         if ($return)
             do_action('rhs_add_recommend_post', ['post_id' => $post_id, 'user_id' => $user_id]);
 
