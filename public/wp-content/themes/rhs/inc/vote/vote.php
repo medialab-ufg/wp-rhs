@@ -394,7 +394,7 @@ Class RHSVote {
             echo json_encode($json);
             exit;
         }
-        var_dump(wp_get_current_user());
+
         if ( !current_user_can( 'vote_post', $_POST['post_id'] ) ) {
             $json = array('error' => array('text'=>$this->getTextHelp()));
 
