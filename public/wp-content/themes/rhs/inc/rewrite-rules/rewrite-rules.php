@@ -17,6 +17,7 @@ class RHSRewriteRules {
     const NOTIFICACOES = 'notificacoes';
     const FOLLOW_URL = 'seguindo';
     const FOLLOWED_URL = 'seguidores';
+    const FOLLOWED_POSTS_URL = 'posts_seguidos';
 
     function __construct() {
             add_action( 'generate_rewrite_rules', array( &$this, 'rewrite_rules' ), 10, 1 );
@@ -62,10 +63,14 @@ class RHSRewriteRules {
             /* Seguidores e seguidos */
             'usuario/([^/]+)/' . self::FOLLOWED_URL . '/?$'                         => 'index.php?author_name=$matches[1]&rhs_login_tpl=' . self::FOLLOWED_URL,
             'usuario/([^/]+)/'. self::FOLLOWED_URL . '/page/?([0-9]{1,})/?$' => 'index.php?author_name=$matches[1]&rhs_paged=$matches[2]&rhs_login_tpl=' . self::FOLLOWED_URL,
+
             'usuario/([^/]+)/' . self::FOLLOW_URL . '/?$'                         => 'index.php?author_name=$matches[1]&rhs_login_tpl=' . self::FOLLOW_URL,
             'usuario/([^/]+)/'. self::FOLLOW_URL . '/page/?([0-9]{1,})/?$'   => 'index.php?author_name=$matches[1]&rhs_paged=$matches[2]&rhs_login_tpl=' . self::FOLLOW_URL,
-            
-            /* Páginas padrões antigas */
+
+            'usuario/([^/]+)/' . self::FOLLOWED_POSTS_URL . '/?$'                         => 'index.php?author_name=$matches[1]&rhs_login_tpl=' . self::FOLLOWED_POSTS_URL,
+            'usuario/([^/]+)/'. self::FOLLOWED_POSTS_URL . '/page/?([0-9]{1,})/?$'   => 'index.php?author_name=$matches[1]&rhs_paged=$matches[2]&rhs_login_tpl=' . self::FOLLOWED_POSTS_URL,
+
+                /* Páginas padrões antigas */
             'login' . "/?$"         => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             'user' . "/?$"          => "index.php?rhs_custom_login=1&rhs_login_tpl=" . self::LOGIN_URL,
             'users/([^/]+)/?'        => 'index.php?author_name=$matches[1]',

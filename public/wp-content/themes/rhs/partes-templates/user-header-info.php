@@ -14,8 +14,11 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             global $RHSFollow;
 
             $total_votos = $RHSVote->get_total_votes_by_author($curauth->ID);
+
             $total_followed = $RHSFollow->get_total_follows($curauth->ID, RHSFollow::FOLLOWED_KEY);
             $total_follow = $RHSFollow->get_total_follows($curauth->ID, RHSFollow::FOLLOW_KEY);
+            $followed_posts = $RHSFollow->get_total_follows($curauth->ID, RHSFollow::FOLLOWED_POSTS_KEY);
+
             $total_posts = count_user_posts($curauth->ID);
             ?>
         <div class="avatar-user">
@@ -60,6 +63,21 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                     <span class="contagem-desc-author"><?php echo ($total_followed == 1 ? "SEGUIDOR" : "SEGUIDORES" );  ?></span>
                 </a>
             </div>
+
+            <?php
+            $_post_author_id = get_the_author_meta( 'ID' );
+            $current_user = wp_get_current_user();
+
+            if($_post_author_id == $current_user->data->ID)
+            {
+            ?>
+            <div class="contagem">
+                <a class="btn-link" href="<?php echo get_author_posts_url($curauth->ID) . RHSRewriteRules::FOLLOWED_POSTS_URL; ?>">
+                    <span class="contagem-valor-author"><?php echo $followed_posts ?></span>
+                    <span class="contagem-desc-author"><?php echo "POSTS SEGUIDOS"  ?></span>
+                </a>
+            </div>
+            <?php } ?>
             
         </div>
         <span class="seguir-mensagem">
