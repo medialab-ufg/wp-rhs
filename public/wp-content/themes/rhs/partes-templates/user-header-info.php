@@ -6,7 +6,7 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane fade in active" id="verDados">
         <div class="jumbotron">
-        <?php if($curauth){ ?>
+        <?php if ($curauth) { ?>
             <?php
             global $RHSUsers;
             $RHSUsers = new RHSUsers($curauth->ID);
@@ -37,13 +37,13 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             <p class="desde">
                 <?php echo ' <span>Membro desde:</span> ' . date("d/m/Y", strtotime(get_the_author_meta('user_registered', $curauth->ID))); ?>
             </p>
-            <?php if(count_user_posts( $curauth->ID )) { ?>
+            <?php if (count_user_posts($curauth->ID)) { ?>
                 <div class="contagem">
                     <span class="contagem-valor-author"><?php echo $total_posts; ?></span>
                     <span class="contagem-desc-author"><?php echo ($total_votos == 1 ? "POST" : "POSTS" );  ?></span>
                 </div>
             <?php } ?>
-            <?php if($total_votos){ ?>
+            <?php if ($total_votos) { ?>
                 <div class="contagem">
                     <span class="contagem-valor-author"><?php echo $total_votos; ?></span>
                     <span class="contagem-desc-author"><?php echo ($total_votos == 1 ? "VOTO" : "VOTOS" );  ?></span>
@@ -65,16 +65,12 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             </div>
 
             <?php
-            $_post_author_id = get_the_author_meta( 'ID' );
-            $current_user = wp_get_current_user();
-
-            if($_post_author_id == $current_user->data->ID)
-            {
-            ?>
+            $_post_author_id = get_the_author_meta('ID');
+            if ($_post_author_id == get_current_user_id()) { ?>
             <div class="contagem">
                 <a class="btn-link" href="<?php echo get_author_posts_url($curauth->ID) . RHSRewriteRules::FOLLOWED_POSTS_URL; ?>">
-                    <span class="contagem-valor-author"><?php echo $followed_posts ?></span>
-                    <span class="contagem-desc-author"><?php echo "POSTS SEGUIDOS"  ?></span>
+                    <span class="contagem-valor-author"><?php echo $followed_posts; ?></span>
+                    <span class="contagem-desc-author"><?php echo "POSTS SEGUIDOS"; ?></span>
                 </a>
             </div>
             <?php } ?>
