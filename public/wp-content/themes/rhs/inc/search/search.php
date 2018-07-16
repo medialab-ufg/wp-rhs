@@ -607,7 +607,7 @@ class RHSSearch {
 
                     $row_data[] = [
                         'nome'=> $name,
-                        'date' => date("d/m/Y H:i:s",strtotime($register_date)),
+                        'date' => date("d/m/Y",strtotime($register_date)),
                         'total_posts' => $total_posts,
                         'total_comments' => $comments_total,
                         'total_votes' => $total_votes,
@@ -655,7 +655,7 @@ class RHSSearch {
                     $post_content = strip_html_tags( $post_content );
                     $post_content = html_entity_decode($post_content, ENT_QUOTES, "UTF-8");
     
-                    $get_date = get_the_date('d/m/Y H:i:s', $post->ID);
+                    $get_date = get_the_date('d/m/Y', $post->ID);
                     $get_author = get_the_author_meta('user_firstname', $post->post_author) . " " . get_the_author_meta('user_lastname', $post->post_author);
                     $get_link = $post->guid;
                     $get_views = $RHSNetwork->get_post_total_views($post->ID);
