@@ -8,9 +8,6 @@ if (!empty($followed_posts)) {
         <ul class="list-group" id="followContent">
             <li class="list-group-item">
                 <div class="col-xs-12 col-sm-7">
-                    <!--<div class="follow-user-thumb">
-                        <?php /*echo get_avatar($post->ID, 40); */?>
-                    </div>-->
                     <div class="user-name"><a href="<?php echo $post['permalink']; ?> "><?php echo $post['post_title']; ?></a></div><br/>
                     <h6>Autor: <a href="<?php echo $post['author_link']?>"><?php echo $post['author']; ?></a></h6>
                 </div>
@@ -28,7 +25,6 @@ if (!empty($followed_posts)) {
         <?php
     }
 } else {
-    echo _e('Você não está seguindo posts');
+    _e('Você não está seguindo nenhum post');
 }
 $RHSFollow->show_follow_pagination($meta, $paged);
-?>

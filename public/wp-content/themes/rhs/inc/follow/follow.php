@@ -127,26 +127,32 @@ class RHSFollow {
 
         }
 
-        if(!empty($followed_posts_id))
-        {
+        if (!empty($followed_posts_id)) {
             $posts = [];
             foreach ($followed_posts_id as $id)
             {
                 $author_id = get_post_field("post_author", $id);
+                $author_name = "";
+                $author_data = get_user_by("id", $author_id);
+
+                if ($author_data instanceof WP_User) {
+                    $author_name = $author_data->data->display_name;
+                }
 
                 $posts[$id]['post_title'] = get_the_title($id);
                 $posts[$id]['permalink'] = get_permalink($id);
-                $posts[$id]['author'] = get_user_by("id", $author_id)->data->display_name;
+                $posts[$id]['author'] = $author_name;
                 $posts[$id]['author_link'] = get_author_posts_url($author_id);
                 $posts[$id]['follow_date'] = $recent_follow[$id];
             }
-        }else
-        {
+        } else {
             return false;
         }
+
         $posts = array_reverse($posts, true);
         return $posts;
     }
+
 
     /**
      * Show total of user follow or followed
