@@ -49,21 +49,19 @@
                     }
                 ?>
                 <ul class="nav navbar-nav <?php if(!my_wp_is_mobile()):?>navbar-right dropdown-menu-right no-mobile<?php else:?>mobile-nav <?php if(!is_user_logged_in()){ echo 'not-logged'; } endif;?>">
-                    <?php if(!is_user_logged_in()): ?>
 
-                        <?php /* <li><a href="<?php echo wp_login_url(); ?>" style="color: #00b4b4">Faça seu login</a></li> */ ?>
-
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="drop_loginBox"> Faça seu login <span class="caret"></span></a>
-                            <ul class="dropdown-menu dropdown-lr animated slideInRight" role="menu" aria-labelledby="drop_loginBox">
-                                    <li class="login-box-container">
-                                        <?php get_template_part("partes-templates/login-box"); ?>
-                                    </li>
+                    <?php if (!is_user_logged_in()): ?>
+                        <li>
+                            <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="loginBox"> Faça seu login <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-lr animated slideInRight" role="menu" aria-labelledby="loginBox">
+                                <li class="login-box-container">
+                                    <?php get_template_part("partes-templates/login-box"); ?>
+                                </li>
                             </ul>
                         </li>
                         
                         <span class="navbar-text">ou</span>
-                        <li><a href="<?php echo wp_registration_url(); ?>" class="cadastrar">Cadastre-se</a></li>
+                        <li> <a href="<?php echo wp_registration_url(); ?>" class="cadastrar">Cadastre-se</a> </li>
                     <?php else : ?>
                         <?php $notifications_number = $RHSNotifications->get_news_number(get_current_user_id()); ?>
                         <li class="dropdown user-dropdown hidden-xs">

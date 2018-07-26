@@ -46,6 +46,18 @@
     }
 }
 
+
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus {
+    background: $cor_fundo_formulario_nav !important;
+    color: wheat !important;
+    border-radius: 4px;
+}
+
+.navbar-default .navbar-nav>.open>a:hover {
+    color: ghostwhite !important;
+}
+
 .rhs_menu {
     li a.open-login {
         color: $primeira_cor_texto;
@@ -73,4 +85,17 @@
             box-shadow: 1px 1px 0px 0px #d8d8d8;
         }
     }
-}
+
+    .login-box-wrapper {
+        h3 { color: white; }
+
+        #login {
+            label, .forgot-password {
+                color: #e3e3e3;
+            }
+
+            #login-submit { background: $cor_fundo_corporation; }
+        }
+    }
+
+} // rhs_menu
