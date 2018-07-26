@@ -82,7 +82,7 @@
         
         .btn-rhs{
             padding: 0;
-            box-shadow: 1px 1px 0px 0px #d8d8d8;
+            box-shadow: 1px 1px 0 0 $mediumGray;
         }
     }
 
@@ -94,7 +94,15 @@
                 color: #e3e3e3;
             }
 
-            #login-submit { background: $cor_fundo_corporation; }
+            .has-error .help-block { color: wheat !important; }
+
+            #login-submit {
+                background: $cor_fundo_corporation;
+                &:hover {
+                    box-shadow: -1px -1px 0 0 $mediumGray;
+                    opacity: 0.9;
+                }
+            }
         }
     }
 
