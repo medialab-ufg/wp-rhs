@@ -65,8 +65,7 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             </div>
 
             <?php
-            $_post_author_id = get_the_author_meta('ID');
-            if ($_post_author_id == get_current_user_id()) { ?>
+            if ($curauth->ID == get_current_user_id()) { ?>
             <div class="contagem">
                 <a class="btn-link" href="<?php echo get_author_posts_url($curauth->ID) . RHSRewriteRules::FOLLOWED_POSTS_URL; ?>">
                     <span class="contagem-valor-author"><?php echo $followed_posts; ?></span>
