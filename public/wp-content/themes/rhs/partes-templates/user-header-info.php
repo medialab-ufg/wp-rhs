@@ -44,8 +44,10 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             </p>
             <?php if (count_user_posts($curauth->ID)) { ?>
                 <div class="contagem">
-                    <span class="contagem-valor-author"><?php echo $total_posts; ?></span>
-                    <span class="contagem-desc-author"><?php echo ($total_posts == 1 ? "POST" : "POSTS" );  ?></span>
+                    <a class="btn-link" href="<?php echo $profile_base; ?>">
+                        <span class="contagem-valor-author"><?php echo $total_posts; ?></span>
+                        <span class="contagem-desc-author"><?php echo ($total_posts == 1 ? "POST" : "POSTS" );  ?></span>
+                    </a>
                 </div>
             <?php } ?>
             <?php if ($total_votos) { ?>
