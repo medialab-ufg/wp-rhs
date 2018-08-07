@@ -5,7 +5,7 @@ jQuery(document).ready(function($){
 		autoOpen: false,
 		modal:false,
 		width: 555
-	});	
+	});
 });
 
 function dialog_init(elem){
