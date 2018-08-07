@@ -39,7 +39,8 @@ class RHSSearch {
             $wp_query_params->query_vars['municipio'] = RHSSearch::get_param('municipio');
             $wp_query_params->query_vars['rhs_order'] = RHSSearch::get_param('rhs_order');
         } else {
-            $wp_query_params['posts_per_page'] = self::EXPORT_TOTAL_PER_PAGE;;
+            $wp_query_params['posts_per_page'] = self::EXPORT_TOTAL_PER_PAGE;
+            $wp_query_params['nopaging'] = true;
             $wp_query_params['query_vars']['rhs_busca'] = 'posts';
         }
 
@@ -579,7 +580,7 @@ class RHSSearch {
 
         if($pagename == 'users') {
             $query_vars['paged'] = $_POST['paged'];
-            $query_vars['number'] = self::EXPORT_TOTAL_PER_PAGE;
+            $query_vars['number'] = -1;//self::EXPORT_TOTAL_PER_PAGE;
             $get_users = new WP_User_Query($query_vars);
             $content_file = $get_users->results;
         }
@@ -929,7 +930,7 @@ function show_results_from_search($format) {
         $total = $get_users->total_users;
     }
     
-    $total_pages = ceil($total / $per_page);
+    /*$total_pages = ceil($total / $per_page);
     
     $count = 1;
     
@@ -941,18 +942,20 @@ function show_results_from_search($format) {
     } else {
         $text_pages = 'páginas';
         $text_files = 'arquivos';
-    }
+    }*/
 
-    if ($total > $per_page)
-        echo "<p>Conteúdo por página: <strong>" . $per_page . " </strong> registros</p>";
+    /*if ($total > $per_page)
+        echo "<p>Conteúdo por página: <strong>" . $per_page . " </strong> registros</p>";*/
 
-    echo "<p> Clique nos arquivos abaixo para iniciar a exportação:</p>";
-    while($count < $total_pages+1) {
+    //echo "<p> Clique nos arquivos abaixo para iniciar a exportação:</p>";
+    echo "<p>O arquivo está pronto para ser baixado</p>";
+    echo "<a class='btn btn-rhs export-file' data-page='1' data-page-title=". $search_page ." data-page-format=". $format ."> Baixar <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
+    /*while($count < $total_pages+1) {
         echo "<a class='btn btn-rhs export-file' data-page='". $count . "' data-page-title=". $search_page ." data-page-format=". $format ."> Arquivo ". $count ." <i class='export-loader fa fa-circle-o-notch fa-spin fa-fw hide'></i></a> ";
         $count++;
-    }
+    }*/
     echo "<hr>";
-    echo "<p>Exibindo $total_pages $text_files contendo $total resultados</p>";
+    echo "<p>Foram econtrados $total registro(s)</p>";
 }
 
 global $RHSSearch;
