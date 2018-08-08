@@ -546,7 +546,7 @@ class RHSSearch {
 
     static function render_download_buttons() {
         echo '<div class="btn-group">
-                 <button type="button" class="btn btn-default">Exportar</button>
+                 <button type="button" class="btn btn-default">Exportar Resultados</button>
                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span> <span class="sr-only">Dropdown</span>
                  </button>
