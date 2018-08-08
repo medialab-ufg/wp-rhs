@@ -29,7 +29,7 @@ before_install:
 
 before script: 
 install:
-- composer install --no-dev
+- composer require --dev phpunit/phpunit ^5
 script: "./run-tests.sh"
 after_success:
 - eval "$(ssh-agent -s)"
