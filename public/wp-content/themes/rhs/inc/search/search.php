@@ -611,6 +611,21 @@ class RHSSearch {
 	    header('Expires: 0');
 
 	    if($pagename == 'users') {
+		    /*Head Table*/
+		    echo "<table>
+                    <thead align='left' style='display: table-header-group'>
+                    <tr>
+                        <th>Nome do Usuário</th>
+                        <th>Data de Cadastro</th>
+                        <th>Total de Postagens</th>
+                        <th>Total de Comentários</th>
+                        <th>Total de Votos Recebidos</th>
+                        <th>Estado</th>
+                        <th>Cidade</th>
+                    </tr>
+                    </thead>
+                    <tbody>";
+
 		    foreach($content_file as $user) {
 			    $comments_total = $wpdb->get_var($wpdb->prepare( "SELECT COUNT(*) AS total FROM $wpdb->comments WHERE comment_approved = 1 AND user_id = %s", $user->ID));
 			    $name = $user->display_name;
@@ -626,7 +641,7 @@ class RHSSearch {
 			    $uf = return_value_or_dash($user_ufmun['uf']['sigla']);
 			    $mun = return_value_or_dash($user_ufmun['mun']['nome']);
 
-			    $row_data[] = [
+			    $row = [
 				    'nome'=> $name,
 				    'date' => date("d/m/Y",strtotime($register_date)),
 				    'total_posts' => $total_posts,
@@ -635,37 +650,41 @@ class RHSSearch {
 				    'state' => $uf,
 				    'city' => $mun
 			    ];
+
+			    /*Table Line*/
+			    echo "<tr>
+	                        <td>" . $row['nome'] . "</td>
+	                        <td>" . $row['date'] . "</td>
+	                        <td>" . $row['total_posts'] . "</td>
+	                        <td>" . $row['total_comments'] . "</td>
+	                        <td>" . $row['total_votes'] . "</td>
+	                        <td>" . $row['state'] . "</td>
+	                        <td>" . $row['city'] . "</td>
+	                    </tr>";
 		    }
 
-		    $head_table = "<table>
+		    /*Footer Table*/
+		    echo "</tbody></table>";
+	    } else if($pagename == 'posts') {
+		    /*Head Table*/
+		    echo "<table>
                     <thead align='left' style='display: table-header-group'>
                     <tr>
-                        <th>Nome do Usuário</th>
-                        <th>Data de Cadastro</th>
-                        <th>Total de Postagens</th>
-                        <th>Total de Comentários</th>
-                        <th>Total de Votos Recebidos</th>
+                        <th>Título</th>
+                        <th>Conteúdo</th>
+                        <th>Data</th>
+                        <th>Autor</th>
+                        <th>Link</th>
+                        <th>Visualizações</th>
+                        <th>Compartilhamentos</th>
+                        <th>Votos</th>
+                        <th>Comentários</th>
                         <th>Estado</th>
                         <th>Cidade</th>
                     </tr>
                     </thead>
                     <tbody>";
-		    $row_table = [];
-		    foreach ($row_data as $row) {
-			    $row_table .=  "<tr>
-                                        <td>" . $row['nome'] . "</td>
-                                        <td>" . $row['date'] . "</td>
-                                        <td>" . $row['total_posts'] . "</td>
-                                        <td>" . $row['total_comments'] . "</td>
-                                        <td>" . $row['total_votes'] . "</td>
-                                        <td>" . $row['state'] . "</td>
-                                        <td>" . $row['city'] . "</td>
-                                    </tr>";
-		    }
-		    $footer_table = "</tbody></table>";
 
-		    //$file = $head_table . $row_table . $footer_table;
-	    } else if($pagename == 'posts') {
 		    foreach($content_file as $post) {
 
 			    $get_title = html_entity_decode(get_the_title($post->ID), ENT_QUOTES, "UTF-8");
@@ -693,7 +712,7 @@ class RHSSearch {
 			    $uf = $post_ufmun['uf']['sigla'];
 			    $mun = $post_ufmun['mun']['nome'];
 
-			    $row_data[] = [
+			    $row = [
 				    'titulo'=> $get_title,
 				    'conteudo' => $post_content,
 				    'data'=> $get_date,
@@ -706,47 +725,27 @@ class RHSSearch {
 				    'estado' => return_value_or_dash($uf),
 				    'cidade' => return_value_or_dash($mun)
 			    ];
+
+			    /*Table Line*/
+			    echo "<tr>
+                            <td>" . $row['titulo'] . "</td>
+                            <td>" . $row['conteudo'] . "</td>
+                            <td>" . $row['data'] . "</td>
+                            <td>" . $row['autor'] . "</td>
+                            <td>" . $row['link'] . "</td>
+                            <td>" . $row['visualizacoes'] . "</td>
+                            <td>" . $row['compartilhamentos'] . "</td>
+                            <td>" . $row['votos'] . "</td>
+                            <td>" . $row['comentarios'] . "</td>
+                            <td>" . $row['estado'] . "</td>
+                            <td>" . $row['cidade'] . "</td>
+                        </tr>";
 		    }
 
-		    $head_table = "<table>
-                    <thead align='left' style='display: table-header-group'>
-                    <tr>
-                        <th>Título</th>
-                        <th>Conteúdo</th>
-                        <th>Data</th>
-                        <th>Autor</th>
-                        <th>Link</th>
-                        <th>Visualizações</th>
-                        <th>Compartilhamentos</th>
-                        <th>Votos</th>
-                        <th>Comentários</th>
-                        <th>Estado</th>
-                        <th>Cidade</th>
-                    </tr>
-                    </thead>
-                    <tbody>";
-		    $row_table = '';
-		    foreach ($row_data as $row) {
-			    $row_table .=  "<tr>
-                                        <td>" . $row['titulo'] . "</td>
-                                        <td>" . $row['conteudo'] . "</td>
-                                        <td>" . $row['data'] . "</td>
-                                        <td>" . $row['autor'] . "</td>
-                                        <td>" . $row['link'] . "</td>
-                                        <td>" . $row['visualizacoes'] . "</td>
-                                        <td>" . $row['compartilhamentos'] . "</td>
-                                        <td>" . $row['votos'] . "</td>
-                                        <td>" . $row['comentarios'] . "</td>
-                                        <td>" . $row['estado'] . "</td>
-                                        <td>" . $row['cidade'] . "</td>
-                                    </tr>";
-		    }
-		    $footer_table = "</tbody></table>";
-
-		    //$file = $head_table . $row_table . $footer_table;
+		    /*Footer table*/
+		    echo  "</tbody></table>";
 	    }
 	    //mb_convert_encoding($file, 'UTF-16LE', 'UTF-8');
-	    echo $head_table . $row_table . $footer_table;
     }
 
     public static function export_search_csv($pagename, $content_file)
