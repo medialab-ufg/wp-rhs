@@ -745,7 +745,6 @@ class RHSSearch {
 		    /*Footer table*/
 		    echo  "</tbody></table>";
 	    }
-	    //mb_convert_encoding($file, 'UTF-16LE', 'UTF-8');
     }
 
     public static function export_search_csv($pagename, $content_file)
