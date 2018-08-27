@@ -576,9 +576,7 @@ class RHSSearch {
         if ($pagename == 'posts') {
             $query_params['paged'] = $_POST['paged'];
             $content_file = get_posts($query_params);
-        }
-
-        if($pagename == 'users') {
+        }else if($pagename == 'users') {
             $query_vars['paged'] = $_POST['paged'];
             if( current_user_can('editor') || current_user_can('administrator') )
             {
@@ -618,7 +616,7 @@ class RHSSearch {
                         <th>Nome do Usuário</th>
                         <th>Data de Cadastro</th>
                         <th>Total de Postagens</th>
-                        <th>Total de Comentários</th>
+                        <th>Total de Comentários do usuário</th>
                         <th>Total de Votos Recebidos</th>
                         <th>Estado</th>
                         <th>Cidade</th>
@@ -661,6 +659,8 @@ class RHSSearch {
 	                        <td>" . $row['state'] . "</td>
 	                        <td>" . $row['city'] . "</td>
 	                    </tr>";
+
+			    clean_post_cache($user->ID);
 		    }
 
 		    /*Footer Table*/
@@ -740,6 +740,8 @@ class RHSSearch {
                             <td>" . $row['estado'] . "</td>
                             <td>" . $row['cidade'] . "</td>
                         </tr>";
+
+			    clean_post_cache($post->ID);
 		    }
 
 		    /*Footer table*/
@@ -760,7 +762,7 @@ class RHSSearch {
 	    header('Expires: 0');
 
 	    if($pagename == 'users') {
-		    fputcsv($file, array('Nome do Usuário', 'Data de Cadastro', 'Total de Postagens', 'Total de Comentários', 'Total de Votos Recebidos', 'Estado', 'Cidade'));
+		    fputcsv($file, array('Nome do Usuário', 'Data de Cadastro', 'Total de Postagens', 'Total de Comentários do usuário', 'Total de Votos Recebidos', 'Estado', 'Cidade'));
 
 		    foreach($content_file as $user) {
 
@@ -789,6 +791,8 @@ class RHSSearch {
 			    ];
 
 			    fputcsv($file, $row_data);
+			    clean_post_cache($user->ID);
+
 		    }
 	    }else if($pagename == 'posts') {
 		    fputcsv($file, array('Título', 'Conteúdo','Data', 'Autor', 'Link', 'Visualizações', 'Compartilhamentos', 'Votos', 'Comentários', 'Estado', 'Cidade'));
@@ -834,6 +838,8 @@ class RHSSearch {
 			    ];
 
 			    fputcsv($file, $row_data);
+
+			    clean_post_cache($post->ID);
 		    }
 
 	    }
