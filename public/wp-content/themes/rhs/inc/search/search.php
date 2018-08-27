@@ -760,7 +760,7 @@ class RHSSearch {
 	    header('Expires: 0');
 
 	    if($pagename == 'users') {
-		    fputcsv($file, array('Nome do Usuário', 'Data de Cadastro', 'Total de Postagens', 'Total de Comentários', 'Total de Votos Recebidos', 'Estado', 'Cidade'));
+		    fputcsv($file, array('Nome do Usuário', 'Data de Cadastro', 'Total de Postagens', 'Total de Comentários Realizados', 'Total de Votos Recebidos', 'Estado', 'Cidade'));
 
 		    foreach($content_file as $user) {
 
