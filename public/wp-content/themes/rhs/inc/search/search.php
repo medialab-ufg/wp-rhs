@@ -616,7 +616,7 @@ class RHSSearch {
                         <th>Nome do Usuário</th>
                         <th>Data de Cadastro</th>
                         <th>Total de Postagens</th>
-                        <th>Total de Comentários do usuário</th>
+                        <th>Total de Comentários Realizados</th>
                         <th>Total de Votos Recebidos</th>
                         <th>Estado</th>
                         <th>Cidade</th>
