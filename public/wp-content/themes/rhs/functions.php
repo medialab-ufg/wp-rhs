@@ -61,6 +61,9 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/post/post.php');
         require_once('inc/post/posts.php');
 
+        //Estatisticas
+        require_once('inc/statistics/statistics.php');
+
         //// Drupal 7 Password Check
         require_once('inc/drupal-password-check.php');
 

@@ -17,6 +17,7 @@ class RHSRewriteRules {
     const PROFILE_URL = 'perfil';
     const POST_URL = 'publicar-postagem';
     const POSTAGENS_URL = 'minhas-postagens';
+    const STATISTICS = 'statistics';
     const COMUNIDADES = 'comunidades';
     const NOTIFICACOES = 'notificacoes';
     const FOLLOW_URL = 'seguindo';
@@ -52,6 +53,7 @@ class RHSRewriteRules {
             self::POST_URL . "/([^/]+)/?$"      => $base . "$login=1&$tpl=" . self::POST_URL . "&rhs_edit_post=" . $wp_rewrite->preg_index(1),
             self::POSTAGENS_URL . "/?$"         => $base . "$login=1&$tpl=" . self::POSTAGENS_URL,
             self::COMUNIDADES . "/?$"           => $base . "$login=1&$tpl=" . self::COMUNIDADES,
+            self::STATISTICS . "/?$"            => $base . "$login=1&$tpl=" . self::STATISTICS,
             self::NOTIFICACOES . "/?$"          => $base . "$login=1&$tpl=" . self::NOTIFICACOES,
             self::NOTIFICACOES."/page/([0-9]+)/?$" => $base . "$login=1&$tpl=". self::NOTIFICACOES . '&rhs_paged=$matches[1]',
 
