@@ -10,11 +10,30 @@
 				<div class="panel-body">
 					<form id="parametros">
 						<h4>Relacionada a: </h4>
-						<select id="type" class="form-control">
+						<select id="type" name="type" class="form-control">
 							<?php echo $RHSStatistics->get_type(); ?>
 						</select>
-
-
+                        <h5>Filtro: </h5>
+                        <div id="filter_user" class="filter">
+                            <label>
+                                <input type="checkbox" name="filter" value="all" checked> Total
+                            </label>
+                            <label>
+                                <input type="checkbox" name="filter" value="active" checked> Ativos
+                            </label>
+                            <label>
+                                <input type="checkbox" name="filter" value="not_active" checked> Não ativos
+                            </label>
+                            <label>
+                                <input type="checkbox" name="filter" value="author" checked> Autores
+                            </label>
+                            <label>
+                                <input type="checkbox" name="filter" value="contributor" checked> Contribuidores
+                            </label>
+                            <label>
+                                <input type="checkbox" name="filter" value="voter" checked> Votante
+                            </label>
+                        </div>
                         <button id="enviar" type="submit" class="btn btn-primary pull-right">Gerar</button>
 					</form>
 				</div>

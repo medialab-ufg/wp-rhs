@@ -1,16 +1,25 @@
 jQuery(function () {
     $ = jQuery;
     jQuery("#parametros").submit(function (event) {
+        var filter = [];
+
+        $("div.filter:visible input:checkbox[name=filter]:checked").each(function(){
+            filter.push($(this).val());
+        });
+
         jQuery.post(ajax_vars.ajaxurl, {
             action: 'rhs_gen_charts',
-            type: jQuery("#type").val()
+            type: jQuery("#type").val(),
+            filter: filter
         }).success(function (r) {
             var data = JSON.parse(r);
-            create_chart(data, jQuery("#type").val());
+            create_chart(data, $("#type").val());
         });
 
         event.preventDefault();
     });
+
+    $("#filter_"+$("#type").val()).show();
 
     function create_title(type)
     {
@@ -24,18 +33,36 @@ jQuery(function () {
     }
 
     function prepare_data(data, data_type, data_table) {
-        if(data_type == 'user')
+        if(data_type === 'user')
         {
+            var info = [];
+
+            $("div.filter:visible input:checkbox[name=filter]:checked").each(function(){
+                switch ($(this).val()) {
+                    case 'all':
+                        info.push(["Total", Number(data.total)]);
+                        break;
+                    case 'active':
+                        info.push(["Ativos", Number(data.active_users)]);
+                        break;
+                    case 'not_active':
+                        info.push(["Não ativos", Number(data.not_active_users)]);
+                        break;
+                    case "author":
+                        info.push(["Autores", Number(data.author)]);
+                        break;
+                    case "contributor":
+                        info.push(["Contribuidores", Number(data.contributor)]);
+                        break;
+                    case "voter":
+                        info.push(["Votantes", Number(data.voter)]);
+                        break;
+                }
+            });
+
             data_table.addColumn('string', 'Tipo de usuário');
             data_table.addColumn('number', 'Quantidade');
-            data_table.addRows([
-                ["Total", Number(data.total)],
-                ["Ativos", Number(data.active_users)],
-                ["Não ativos", Number(data.not_active_users)],
-                ["Autores", Number(data.author)],
-                ["Contribuidores", Number(data.contributor)],
-                ["Votantes", Number(data.voter)]
-            ]);
+            data_table.addRows(info);
         }
     }
 

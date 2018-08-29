@@ -16,7 +16,7 @@ class statistics {
 		switch ($_POST['type'])
 		{
 			case 'user':
-				$result = $this->gen_users_charts();
+				$result = $this->gen_users_charts($_POST['filter']);
 				break;
 		}
 
@@ -24,7 +24,7 @@ class statistics {
 		wp_die();
 	}
 
-	private function gen_users_charts()
+	private function gen_users_charts($filter)
 	{
 		global $wpdb;
 		$sql_users = "SELECT count(*) as count FROM $wpdb->usermeta ";
@@ -50,11 +50,23 @@ class statistics {
 				where meta_key='rhs_capabilities'
 		";
 
-		$users['active_users'] = $wpdb->get_results($sql_users.$active_users, ARRAY_A)[0]['count'];
-		$users['not_active_users'] = $wpdb->get_results($sql_users.$not_active_users, ARRAY_A)[0]['count'];
+		if(in_array('active', $filter))
+		{
+			$users['active_users'] = $wpdb->get_results($sql_users.$active_users, ARRAY_A)[0]['count'];
+		}
+
+		if(in_array('not_active', $filter))
+		{
+			$users['not_active_users'] = $wpdb->get_results($sql_users.$not_active_users, ARRAY_A)[0]['count'];
+		}
 
 		$all_users_capabilities = $wpdb->get_results($sql_all_users, ARRAY_A);
-		$users['total'] = count($all_users_capabilities);
+
+		if(in_array('all', $filter))
+		{
+			$users['total'] = count($all_users_capabilities);
+		}
+
 		$users['voter'] = 0;
 		$users['author'] = 0;
 		$users['contributor'] = 0;
@@ -62,11 +74,11 @@ class statistics {
 		foreach ($all_users_capabilities as $user_capability)
 		{
 			$capabilities = unserialize($user_capability['meta_value']);
-			if(isset($capabilities['voter'])) {
+			if(in_array("voter", $filter) && isset($capabilities['voter'])) {
 				$users['voter']++;
-			}else if(isset($capabilities['author'])) {
+			}else if(in_array("author", $filter) && isset($capabilities['author'])) {
 				$users['author']++;
-			}else if(isset($capabilities['contributor'])){
+			}else if(in_array("contributor", $filter) && isset($capabilities['contributor'])){
 				$users['contributor']++;
 			}
 		}
