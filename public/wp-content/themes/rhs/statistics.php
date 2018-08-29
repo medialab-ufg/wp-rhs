@@ -24,7 +24,7 @@
 		<div class="col-md-9">
 			<div class="panel">
 				<div class="panel-body">
-					<div id="estatisticas"><?php  ?></div>
+					<div id="estatisticas"></div>
 				</div>
 			</div>
 		</div>

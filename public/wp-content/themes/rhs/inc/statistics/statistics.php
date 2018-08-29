@@ -7,16 +7,16 @@ class statistics {
 	function __construct() {
 		add_action('wp_enqueue_scripts', array(&$this, 'addJS'), 2);
 
-		add_action('wp_ajax_rhs_gen_graphic', array(&$this, "gen_graphic"));
+		add_action('wp_ajax_rhs_gen_charts', array(&$this, "gen_charts"));
 	}
 
 	//Funções
-	public function gen_graphic()
+	public function gen_charts()
 	{
 		switch ($_POST['type'])
 		{
 			case 'user':
-				$result = $this->gen_users_grafic();
+				$result = $this->gen_users_charts();
 				break;
 		}
 
@@ -24,7 +24,7 @@ class statistics {
 		wp_die();
 	}
 
-	private function gen_users_grafic()
+	private function gen_users_charts()
 	{
 		global $wpdb;
 		$sql_users = "SELECT count(*) as count FROM $wpdb->usermeta ";
@@ -78,6 +78,7 @@ class statistics {
 	public function addJS() {
 		if (get_query_var('rhs_login_tpl') == RHSRewriteRules::STATISTICS) {
 			wp_enqueue_script('statistics', get_template_directory_uri() . '/inc/statistics/statistics.js', array('jquery'));
+			wp_enqueue_script('google_charts', 'https://www.gstatic.com/charts/loader.js');
 			wp_localize_script( 'statistics', 'ajax_vars', array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' )
 			) );
