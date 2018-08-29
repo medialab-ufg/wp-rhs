@@ -1,11 +1,12 @@
 jQuery(function () {
     jQuery("#parametros").submit(function (event) {
-        event.preventDefault();
-        jQuery.post(ajax.ajaxurl, {
-            action: 'gen_graph',
+        jQuery.post(ajax_vars.ajaxurl, {
+            action: 'rhs_gen_graphic',
             type: jQuery("#type").val()
         }).success(function (r) {
-            console.log("enviado");
+            r = JSON.parse(r);
         });
+
+        event.preventDefault();
     });
 });
