@@ -1,8 +1,8 @@
 <?php
 class statistics {
 	public  $type = [
-			'user' => "Usuário",
-			'increasing' => "Crescimento"
+			'increasing' => "Crescimento",
+			'user' => "Usuário"
 		];
 
 	function __construct() {
@@ -93,6 +93,44 @@ class statistics {
 	private function gen_increasing_charts($filter)
 	{
 		global $wpdb;
+
+		if(in_array('all_users', $filter))
+		{
+			$sql = "
+			SELECT date(user_registered) as date, count(*) as count FROM $wpdb->users 
+				group by date(user_registered)
+			";
+
+			$all_users = $wpdb->get_results($sql, ARRAY_A);
+		}
+
+		$sql_users_capabilities = "
+			SELECT date(u.user_registered) registered, um.meta_value capabilities FROM $wpdb->usermeta um JOIN $wpdb->users u
+			ON
+		    um.user_id = u.ID
+		    AND
+		    um.meta_key='rhs_capabilities' 
+		";
+
+		$all_users_capabilities = $wpdb->get_results($sql_users_capabilities, ARRAY_A);
+		foreach ($all_users_capabilities as $user_capability)
+		{
+			$capabilities = unserialize($user_capability['capabilities']);
+			if(in_array('author', $filter))
+			{
+
+			}
+
+			if(in_array('contributor', $filter))
+			{
+
+			}
+
+			if(in_array('voter', $filter))
+			{
+
+			}
+		}
 	}
 
 	//Funções de controle

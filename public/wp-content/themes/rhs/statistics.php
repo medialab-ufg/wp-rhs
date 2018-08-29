@@ -45,12 +45,6 @@
                                 <input type="checkbox" name="filter" value="all_users" checked> Total
                             </label>
                             <label>
-                                <input type="checkbox" name="filter" value="active"> Ativos
-                            </label>
-                            <label>
-                                <input type="checkbox" name="filter" value="not_active"> Não ativos
-                            </label>
-                            <label>
                                 <input type="checkbox" name="filter" value="author"> Autores
                             </label>
                             <label>
