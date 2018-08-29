@@ -19,12 +19,16 @@ jQuery(function () {
         event.preventDefault();
     });
 
+    $("#type").change(function () {
+        $("div.filter").hide();
+        $("#filter_"+$("#type").val()).show();
+    });
     $("#filter_"+$("#type").val()).show();
 
     function create_title(type)
     {
         var title = "Gráfico de ", tail = '';
-        if(type == 'user')
+        if(type === 'user')
         {
             tail = "usuários";
         }

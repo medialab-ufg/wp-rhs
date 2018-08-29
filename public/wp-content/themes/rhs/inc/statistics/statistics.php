@@ -1,7 +1,8 @@
 <?php
 class statistics {
 	public  $type = [
-			'user' => "Usuário"
+			'user' => "Usuário",
+			'increasing' => "Crescimento"
 		];
 
 	function __construct() {
@@ -17,6 +18,9 @@ class statistics {
 		{
 			case 'user':
 				$result = $this->gen_users_charts($_POST['filter']);
+				break;
+			case 'increasing':
+				$result = $this->gen_increasing_charts($_POST['filter']);
 				break;
 		}
 
@@ -84,6 +88,11 @@ class statistics {
 		}
 
 		return $users;
+	}
+
+	private function gen_increasing_charts($filter)
+	{
+		global $wpdb;
 	}
 
 	//Funções de controle
