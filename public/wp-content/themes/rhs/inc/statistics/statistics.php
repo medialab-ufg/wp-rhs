@@ -41,14 +41,6 @@ class statistics {
                 and
             curdate();";
 
-		$not_active_users = "WHERE meta_key='_last_login'
-			and 
-			date(meta_value) 
-			not between 
-			DATE_ADD(CURDATE(), INTERVAL -2 year)
-                and
-            curdate();";
-
 		$sql_all_users = "
 			SELECT meta_value FROM $wpdb->usermeta
 				where meta_key='rhs_capabilities'
@@ -57,11 +49,6 @@ class statistics {
 		if(in_array('active', $filter))
 		{
 			$users['active_users'] = $wpdb->get_results($sql_users.$active_users, ARRAY_A)[0]['count'];
-		}
-
-		if(in_array('not_active', $filter))
-		{
-			$users['not_active_users'] = $wpdb->get_results($sql_users.$not_active_users, ARRAY_A)[0]['count'];
 		}
 
 		$all_users_capabilities = $wpdb->get_results($sql_all_users, ARRAY_A);
@@ -87,13 +74,23 @@ class statistics {
 			}
 		}
 
+		if(in_array('not_active', $filter))
+		{
+			if(!isset($users['active_users']))
+			{
+				$users['active_users'] = $wpdb->get_results($sql_users.$active_users, ARRAY_A)[0]['count'];
+			}
+
+			$users['not_active_users'] = count($all_users_capabilities) - $users['active_users'];
+		}
+
 		return $users;
 	}
 
 	private function gen_increasing_charts($filter)
 	{
 		global $wpdb;
-
+		$result = [];
 		if(in_array('all_users', $filter))
 		{
 			$sql = "
@@ -102,6 +99,10 @@ class statistics {
 			";
 
 			$all_users = $wpdb->get_results($sql, ARRAY_A);
+			foreach ($all_users as $user)
+			{
+				$result[$user['date']]['all_users'] = intval($user['count']);
+			}
 		}
 
 		$sql_users_capabilities = "
@@ -116,21 +117,20 @@ class statistics {
 		foreach ($all_users_capabilities as $user_capability)
 		{
 			$capabilities = unserialize($user_capability['capabilities']);
-			if(in_array('author', $filter))
+
+			if(isset($capabilities['author']) && in_array('author', $filter))
 			{
-
-			}
-
-			if(in_array('contributor', $filter))
+				$result[$user_capability['registered']]['author'] += 1;
+			}if(isset($capabilities['contributor']) && in_array('contributor', $filter))
 			{
-
-			}
-
-			if(in_array('voter', $filter))
+				$result[$user_capability['registered']]['contributor'] += 1;
+			}if(isset($capabilities['voter']) && in_array('voter', $filter))
 			{
-
+				$result[$user_capability['registered']]['voter'] += 1;
 			}
 		}
+
+		return $result;
 	}
 
 	//Funções de controle
