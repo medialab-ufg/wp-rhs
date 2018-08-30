@@ -5,7 +5,7 @@
 	<div class="col-md-12">
 		<h1 class="titulo-page">Estatísticas</h1>
 		<!--Barra lateral-->
-		<div class="col-md-3">
+		<div class="col-md-3 add_margin">
 			<div class="panel">
 				<div class="panel-body">
 					<form id="parametros">
@@ -65,14 +65,23 @@
                                 <input type="checkbox" name="filter" value="followed" data-name="Postagens seguidas"> Seguidas
                             </label>
                             <label>
-                                <input type="checkbox" name="filter" value="followed" data-name="Comentarios em postagens"> Comentadas
+                                <input type="checkbox" name="filter" value="comments" data-name="Comentarios"> Comentários
                             </label>
 
                             <hr>
                             <h6>Visitas</h6>
                             <label>
-                                <input type="checkbox" name="filter" value="site_visits" data-name="Visitas ao site" checked> Ao site
+                                <input type="checkbox" name="filter" value="site_visits" data-name="Visitas ao site" checked> Posts
                             </label>
+                        </div>
+
+                        <div id="date_filter">
+                            <hr>
+                            <h5>Entre</h5>
+                            <label>Inicial</label>
+                            <input type="date" name="initial_date" id="initial_date" class="form-control">
+                            <label>Final</label>
+                            <input type="date" name="final_date" id="final_date" class="form-control">
                         </div>
                         <button id="enviar" type="submit" class="btn btn-primary pull-right">Gerar</button>
 					</form>
@@ -80,7 +89,7 @@
 			</div>
 		</div>
 
-		<div class="col-md-9">
+		<div class="col-md-9 add_margin">
 			<div class="panel">
 				<div class="panel-body">
 					<div id="estatisticas"></div>

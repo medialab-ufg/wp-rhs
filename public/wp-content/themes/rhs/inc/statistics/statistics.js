@@ -7,6 +7,10 @@ jQuery(function () {
             filter.push($(this).val());
         });
 
+        $("input[type=date]").each(function () {
+            filter.push({date: $(this).val()});
+        });
+
         jQuery.post(ajax_vars.ajaxurl, {
             action: 'rhs_gen_charts',
             type: jQuery("#type").val(),
@@ -95,7 +99,6 @@ jQuery(function () {
                 select_types.push($(this).val());
             });
 
-            console.log(data);
             //Users
             for(var date in data)
             {
@@ -111,7 +114,7 @@ jQuery(function () {
 
                 info.push(line);
             }
-            console.log(info);
+
             data_table.addRows(info);
         }
     }
@@ -145,7 +148,7 @@ jQuery(function () {
 
     function set_options(data_type, title) {
         var options = {};
-        var width = 900, height = 600;
+        var width = 800, height = 750;
         if(data_type === 'user')
         {
             options = {

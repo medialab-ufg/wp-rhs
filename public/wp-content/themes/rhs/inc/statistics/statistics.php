@@ -91,8 +91,12 @@ class statistics {
 	{
 		global $wpdb;
 		$result = [];
+
+		$date = $this->get_date($filter);
+
 		if(in_array('all_users', $filter))
 		{
+			$sql_date = $this->gen_sql_date($date, 'user_registered');
 			$sql = "
 			SELECT date(user_registered) as date, count(*) as count FROM $wpdb->users 
 				group by date(user_registered)
@@ -130,9 +134,87 @@ class statistics {
 			}
 		}
 
+		if(in_array('all_posts', $filter))
+		{
+			$sql = "
+			SELECT date(post_date) as date, count(*) as count FROM $wpdb->posts
+				WHERE post_type='post' and (post_status = 'publish' OR post_status = 'voting-queue')
+				group by date(post_date)
+			";
+
+			$posts = $wpdb->get_results($sql, ARRAY_A);
+			foreach ($posts as $post)
+			{
+				$result[$post['date']]['all_posts'] = intval($post['count']);
+			}
+		}
+
+		if(in_array('followed', $filter))
+		{
+			$sql = "
+				SELECT date(datetime) as date, count(*) as count FROM ".$wpdb->prefix."notifications
+				WHERE type = 'post_followed' 
+				group by date(datetime)
+			";
+
+			$follows = $wpdb->get_results($sql, ARRAY_A);
+			foreach ($follows as $follow)
+			{
+				$result[$follow['date']]['followed'] = intval($follow['count']);
+			}
+		}
+
+		if(in_array('comments', $filter))
+		{
+			$sql = "
+				SELECT date(comment_date) as date, count(*) as count FROM $wpdb->comments
+				WHERE comment_type <> 'acholhesus_log' 
+				group by date(comment_date)
+			";
+
+			$comments = $wpdb->get_results($sql, ARRAY_A);
+			foreach ($comments as $comment)
+			{
+				$result[$comment['date']]['comments'] = intval($comment['count']);
+			}
+		}
+
+		uksort($result, function($a, $b){
+			$t1 = strtotime($a);
+			$t2 = strtotime($b);
+			return $t1 - $t2;
+		});
+
 		return $result;
 	}
 
+	private function gen_sql_date($date, $date_column_name)
+	{
+		return '';
+	}
+	private function get_date($filters)
+	{
+		$date = [];
+		foreach ($filters as $filter)
+		{
+			if(is_array($filter))
+			{
+				$date[] = $filter['date'];
+			}
+		}
+
+		if(empty($date[0] && empty($date[1])))
+			return [];
+		else if(empty($date[0]))
+			return ['inicial' => $date[1]];
+		else if(empty($date[1]))
+			return ['inicial' => $date[0]];
+
+
+		if(strtotime($date[0]) < strtotime($date[1]))
+			return ['inicial' => $date[0], 'final' => $date[1]];
+		else return ['inicial' => $date[1], 'final' => $date[0]];
+	}
 	//Funções de controle
 	public function addJS() {
 		if (get_query_var('rhs_login_tpl') == RHSRewriteRules::STATISTICS) {
