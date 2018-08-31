@@ -1,11 +1,21 @@
 <?php get_header('full'); ?>
 <?php global $RHSStatistics; ?>
-
-<div class="row">
-	<div class="col-md-12">
-		<h1 class="titulo-page">Estatísticas</h1>
-		<!--Barra lateral-->
-		<div class="col-md-3 add_margin">
+<style type="text/css">
+#rhs-statistics h6 { font-weight: bolder; text-transform: uppercase; color: black }
+#rhs-statistics #filter_user label,
+#rhs-statistics #filter_increasing label {
+    display: block;
+    font-size: 12px;
+}
+#rhs-statistics #filter_user label input {
+    
+}
+</style>
+<div id="rhs-statistics" class="row">
+	<div class="col-md-12" style="background: white">
+        <h1 class="text-center" style="color: black"> Estatísticas de Uso da Rede Humaniza SUS</h1>
+        <hr>
+		<div class="col-md-4 add_margin">
 			<div class="panel">
 				<div class="panel-body">
 					<form id="parametros">
@@ -89,7 +99,7 @@
 			</div>
 		</div>
 
-		<div class="col-md-9 add_margin">
+		<div class="col-md-8 add_margin">
 			<div class="panel">
 				<div class="panel-body">
 					<div id="estatisticas"></div>
