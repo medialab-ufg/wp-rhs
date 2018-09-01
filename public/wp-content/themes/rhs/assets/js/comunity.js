@@ -273,66 +273,67 @@ jQuery( function( $ ) {
         });
     });
 
-    $(".typeahead").autocomplete({
-        serviceUrl: vars.ajaxurl,
-        type: 'POST',
-        dataType: 'json',
-        paramName: 'string',
-        params : {
-            action: 'complete_comunity_members',
-            comunity_id: $('.comunidade').attr('data-id')
-        },
-        minChars: 3,
-        onSelect: function (suggestion) {
+    if (vars) {
+        $(".typeahead").autocomplete({
+            serviceUrl: vars.ajaxurl,
+            type: 'POST',
+            dataType: 'json',
+            paramName: 'string',
+            params: {
+                action: 'complete_comunity_members',
+                comunity_id: $('.comunidade').attr('data-id')
+            },
+            minChars: 3,
+            onSelect: function (suggestion) {
 
-            $.ajax({
-                async: false,
-                type: "POST",
-                dataType: "json",
-                url: vars.ajaxurl,
-                data: {
-                    action: 'comunity_action_add_member',
-                    user_id: suggestion.data,
-                    comunity_id: $('.comunidade').attr('data-id')
-                },
-                success: function (data) {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    dataType: "json",
+                    url: vars.ajaxurl,
+                    data: {
+                        action: 'comunity_action_add_member',
+                        user_id: suggestion.data,
+                        comunity_id: $('.comunidade').attr('data-id')
+                    },
+                    success: function (data) {
 
-                    if(data['user']){
+                        if (data['user']) {
 
-                        var box = $('.comunidade .tab-content .tab-pane .contato .wrapper-content > .row:last-child > div:first-child').clone();
-                        $(box).find('.well-disp').attr('data-userid', data['user']['user_id']);
-                        $(box).find('.well-disp').attr('data-id', data['user']['comunity_id']);
-                        $(box).find('.well.profile_view .comunity-avatar').html(data['user']['avatar']);
-                        $(box).find('.well.profile_view .comunity-name').html(data['user']['name']);
-                        $(box).find('.well.profile_view .comunity-moderate').hide();
-                        $(box).find('.well.profile_view .comunity-request').hide();
-                        $(box).find('.well.profile_view .comunity-location').html(data['user']['location']);
-                        $(box).find('.well.profile_view .comunity-date').html(data['user']['date']);
-                        $(box).find('.well.profile_view .comunity-buttons').html(data['user']['buttons']);
-                        $(box).hide();
+                            var box = $('.comunidade .tab-content .tab-pane .contato .wrapper-content > .row:last-child > div:first-child').clone();
+                            $(box).find('.well-disp').attr('data-userid', data['user']['user_id']);
+                            $(box).find('.well-disp').attr('data-id', data['user']['comunity_id']);
+                            $(box).find('.well.profile_view .comunity-avatar').html(data['user']['avatar']);
+                            $(box).find('.well.profile_view .comunity-name').html(data['user']['name']);
+                            $(box).find('.well.profile_view .comunity-moderate').hide();
+                            $(box).find('.well.profile_view .comunity-request').hide();
+                            $(box).find('.well.profile_view .comunity-location').html(data['user']['location']);
+                            $(box).find('.well.profile_view .comunity-date').html(data['user']['date']);
+                            $(box).find('.well.profile_view .comunity-buttons').html(data['user']['buttons']);
+                            $(box).hide();
 
-                        $('.comunidade .tab-content .tab-pane .contato .wrapper-content > .row:last-child').prepend(box);
-                        $('.comunidade .tab-content .tab-pane .contato .wrapper-content > .row:last-child > div:first-child').slideDown('slow');
-                        $('[data-toggle="tooltip"]').tooltip();
+                            $('.comunidade .tab-content .tab-pane .contato .wrapper-content > .row:last-child').prepend(box);
+                            $('.comunidade .tab-content .tab-pane .contato .wrapper-content > .row:last-child > div:first-child').slideDown('slow');
+                            $('[data-toggle="tooltip"]').tooltip();
+                        }
+
+                        if (data['messages']) {
+
+                            var html = '';
+
+                            Object.keys(data['messages']).forEach(function (key) {
+                                html += data['messages'][key];
+                            });
+
+                            swal({title: html, html: true});
+                        }
+
+                    },
+                    error: function (data) {
+                        swal({title: data, html: true});
                     }
-
-                    if (data['messages']) {
-
-                        var html = '';
-
-                        Object.keys(data['messages']).forEach(function(key) {
-                            html += data['messages'][key];
-                        });
-
-                        swal({title: html, html: true});
-                    }
-
-                },
-                error: function (data) {
-                    swal({title: data, html: true});
-                }
-            });
-        }
-    });
-
+                });
+            }
+        });
+    }
 });
