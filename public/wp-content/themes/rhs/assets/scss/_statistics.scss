@@ -1,0 +1,35 @@
+#rhs-statistics {
+  .col-md-12 {
+    background: white;
+  }
+  h2 { color: black}
+  h6 {
+    font-weight: bolder;
+    text-transform: uppercase;
+    color: black;
+  }
+
+  h5.text-center {
+    margin: 10px;
+    padding: 10px;
+    border-bottom: 1px solid $backgroundColor;
+  }
+  #filter_user label,
+  #filter_average label,
+  #filter_increasing label {
+    display: block;
+    font-size: 12px;
+  }
+
+  form#parametros {
+    button#enviar {
+      margin-top: 10px;
+    }
+  }
+  #date_filter {
+    label {
+      color: black;
+      font-size: 14px;
+    }
+  }
+} // rhs-statistics

@@ -10,11 +10,11 @@
 				<div class="panel-body">
 					<form id="parametros">
                         <input type="hidden" id="chart_type" value="bar">
-						<h4>Relacionada a: </h4>
+						<h4>Selecione dados referentes a: </h4>
 						<select id="type" name="type" class="form-control">
 							<?php echo $RHSStatistics->get_type(); ?>
 						</select>
-                        <h5>Filtro</h5>
+                        <h5 class="text-center">Filtros Disponíveis</h5>
                         <!--User-->
                         <div id="filter_user" class="filter">
                             <label>
@@ -130,13 +130,13 @@
 
                         <div id="date_filter">
                             <hr>
-                            <h5>Entre</h5>
-                            <label>Inicial</label>
+                            <h4>Selecione o período:</h4>
+                            <label>Data Inicial</label>
                             <input type="date" name="initial_date" id="initial_date" class="form-control">
-                            <label>Final</label>
+                            <label>Data Final</label> <br>
                             <input type="date" name="final_date" id="final_date" class="form-control">
                         </div>
-                        <button id="enviar" type="submit" class="btn btn-primary pull-right">Gerar</button>
+                        <button id="enviar" type="submit" class="btn btn-primary pull-left">Gerar Gráfico</button>
 					</form>
 				</div>
 			</div>
