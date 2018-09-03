@@ -11,6 +11,8 @@ jQuery(function () {
             filter.push({date: $(this).val()});
         });
 
+        filter.push({period: $("input:radio[name=filter]:checked").val()});
+
         jQuery.post(ajax_vars.ajaxurl, {
             action: 'rhs_gen_charts',
             type: jQuery("#type").val(),
@@ -29,7 +31,7 @@ jQuery(function () {
         if(type === 'increasing')
         {
             $("#chart_type").val('line');
-        }else if(type === 'user')
+        }else if(type === 'user' || type === 'average')
         {
             $("#chart_type").val('bar');
         }
@@ -54,6 +56,9 @@ jQuery(function () {
         }else if(type === 'increasing')
         {
             tail = "crescimento";
+        }else if(type === 'average')
+        {
+            tail = "média";
         }
 
         return title+tail;
@@ -66,8 +71,8 @@ jQuery(function () {
             $("div.filter:visible input:checkbox[name=filter]:checked").each(function(){
                 var name = $(this).data('name');
                 switch ($(this).val()) {
-                    case 'all':
-                        info.push([name, Number(data.total)]);
+                    case 'all_users':
+                        info.push([name, Number(data.all_users)]);
                         break;
                     case 'active':
                         info.push([name, Number(data.active_users)]);
@@ -99,7 +104,6 @@ jQuery(function () {
                 select_types.push($(this).val());
             });
 
-            //Users
             for(var date in data)
             {
                 var line = [];
@@ -115,6 +119,29 @@ jQuery(function () {
                 info.push(line);
             }
 
+            data_table.addRows(info);
+        }else if(data_type === 'average')
+        {
+            $("div.filter:visible input:checkbox[name=filter]:checked").each(function(){
+                var name = $(this).data('name');
+                switch ($(this).val()) {
+                    case 'all_users':
+                        info.push([name, Number(data.all_users)]);
+                        break;
+                    case "author":
+                        info.push([name, Number(data.author)]);
+                        break;
+                    case "contributor":
+                        info.push([name, Number(data.contributor)]);
+                        break;
+                    case "voter":
+                        info.push([name, Number(data.voter)]);
+                        break;
+                }
+            });
+
+            data_table.addColumn('string', 'Info');
+            data_table.addColumn('number', 'Quantidade');
             data_table.addRows(info);
         }
     }
@@ -166,6 +193,19 @@ jQuery(function () {
                 width: width,
                 height: height,
                 lineWidth: 3,
+                vAxis: {
+                    title: 'Quantidade'
+                },
+                hAxis: {
+                    title: 'Período'
+                }
+            };
+        }else if (data_type === 'average')
+        {
+            options = {
+                title: title,
+                width: width,
+                height: height,
                 vAxis: {
                     title: 'Quantidade'
                 },

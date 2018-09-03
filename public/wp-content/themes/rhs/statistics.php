@@ -28,7 +28,7 @@
                         <!--User-->
                         <div id="filter_user" class="filter">
                             <label>
-                                <input type="checkbox" name="filter" value="all" data-name="Total" checked> Total
+                                <input type="checkbox" name="filter" value="all_users" data-name="Total" checked> Total
                             </label>
                             <label>
                                 <input type="checkbox" name="filter" value="active" data-name="Ativos" checked> Ativos
@@ -96,11 +96,46 @@
                             <label>
                                 <input type="checkbox" name="filter" value="voter" data-name="Votantes"> Votantes
                             </label>
+
                             <hr>
+
+                            <h6>Postagens</h6>
+                            <label>
+                                <input type="checkbox" name="filter" value="all_posts" data-name="Postagens" checked> Postagens
+                            </label>
+                            <label>
+                                <input type="checkbox" name="filter" value="followed" data-name="Postagens seguidas"> Seguidas
+                            </label>
+                            <label>
+                                <input type="checkbox" name="filter" value="comments" data-name="Comentarios"> Comentários
+                            </label>
+
+                            <hr>
+
                             <h6>Visitas</h6>
                             <label>
-                                <input type="checkbox" name="filter" value="posts_visits" data-name="Visitas ao site" checked> Posts
+                                <input type="checkbox" name="filter" value="posts_visits" data-name="Visitas aos posts" checked> Posts
                             </label>
+
+                            <div id="date_period">
+                                <hr>
+                                <h6>Período</h6>
+                                <label>
+                                    <input type="radio" name="filter" value="day" data-name="Dia"> Dia
+                                </label>
+
+                                <label>
+                                    <input type="radio" name="filter" value="Week" data-name="Semana"> Semana
+                                </label>
+
+                                <label>
+                                    <input type="radio" name="filter" value="month" data-name="Mês" checked> Mês
+                                </label>
+
+                                <label>
+                                    <input type="radio" name="filter" value="year" data-name="Ano"> Ano
+                                </label>
+                            </div>
                         </div>
 
                         <div id="date_filter">

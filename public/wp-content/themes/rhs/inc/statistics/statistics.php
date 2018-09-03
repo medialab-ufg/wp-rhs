@@ -28,6 +28,8 @@ class statistics {
 			case 'increasing':
 				$result = $this->gen_increasing_charts($_POST['filter']);
 				break;
+			case 'average':
+				$result = $this->gen_average_charts($_POST['filter']);
 		}
 
 		echo json_encode($result);
@@ -71,9 +73,9 @@ class statistics {
 
 		$all_users_capabilities = $wpdb->get_results($sql_all_users, ARRAY_A);
 
-		if(in_array('all', $filter))
+		if(in_array('all_users', $filter))
 		{
-			$users['total'] = count($all_users_capabilities);
+			$users['all_users'] = count($all_users_capabilities);
 		}
 
 		$users['voter'] = 0;
@@ -212,6 +214,89 @@ class statistics {
 		return $result;
 	}
 
+	private function gen_average_charts($filter)
+	{
+		global $wpdb;
+		$period = $this->get_period($filter);
+
+		$date = $this->get_date($filter);
+		$result = [];
+
+		/*Users types*/
+		$sql_date = $this->gen_sql_date($date, 'u.user_registered', self::USER);
+		$sql_all_users_capabilities= "
+			SELECT um.meta_value capabilities FROM $wpdb->usermeta um JOIN $wpdb->users u
+				where um.meta_key='rhs_capabilities' AND u.ID = um.user_id $sql_date
+			";
+
+		$all_users_capabilities = $wpdb->get_results($sql_all_users_capabilities, ARRAY_A);
+		foreach ($all_users_capabilities as $user_capability)
+		{
+			$capabilities = unserialize($user_capability['capabilities']);
+
+			if(isset($capabilities['author']) && in_array('author', $filter))
+			{
+				$result['author'] += 1;
+			}if(isset($capabilities['contributor']) && in_array('contributor', $filter))
+			{
+				$result['contributor'] += 1;
+			}if(isset($capabilities['voter']) && in_array('voter', $filter))
+			{
+				$result['voter'] += 1;
+			}
+		}
+
+		if(isset($date['inicial']))
+		{
+			$earlier = new DateTime($date['inicial']);
+		}else {
+			$sql_min_date = "SELECT date(min(user_registered)) min from $wpdb->users";
+			$min = $wpdb->get_results($sql_min_date, ARRAY_A)[0]['min'];
+			$earlier = new DateTime($min);
+		}
+
+		if(isset($date['final']))
+		{
+			$later = new DateTime($date['final']);
+		}else {
+			$sql_max_date = "SELECT date(max(user_registered)) max from $wpdb->users";
+			$max = $wpdb->get_results($sql_max_date, ARRAY_A)[0]['max'];
+			$later = new DateTime($max);
+		}
+
+
+		$diff = $earlier->diff($later);
+		if($period === 'month')
+			$div = $diff->m;
+		else if($period === 'day')
+			$div = $diff->d;
+		else if($period === 'year')
+			$div = $diff->y;
+		else $div = $diff->d / 7;
+
+		if($div === 0)
+			$div = 1;
+		foreach ($result as $i => $r)
+		{
+			$result[$i] /= $div;
+		}
+
+		/*All users*/
+		$sql_date = $this->gen_sql_date($date, 'user_registered', self::INCREASING);
+		if(in_array('all_users', $filter))
+		{
+			$sql_all_users = "
+				SELECT avg(c.count) as average FROM
+				(SELECT COUNT(*) count FROM $wpdb->users $sql_date
+				group by $period(user_registered)) as c  		
+			";
+
+			$result['all_users'] = $wpdb->get_results($sql_all_users, ARRAY_A)[0]['average'];
+		}
+
+		return $result;
+	}
+
 	private function gen_sql_date($date, $date_column_name, $type = self::INCREASING)
 	{
 		$date_sql = '';
@@ -240,7 +325,7 @@ class statistics {
 		$date = [];
 		foreach ($filters as $filter)
 		{
-			if(is_array($filter))
+			if(is_array($filter) && isset($filter['date']))
 			{
 				$date[] = $filter['date'];
 			}
@@ -257,6 +342,20 @@ class statistics {
 		if(strtotime($date[0]) < strtotime($date[1]))
 			return ['inicial' => $date[0], 'final' => $date[1]];
 		else return ['inicial' => $date[1], 'final' => $date[0]];
+	}
+
+	private function get_period($filters)
+	{
+		foreach ($filters as $filter)
+		{
+			if(is_array($filter) && isset($filter['period']))
+			{
+				$period = $filter['period'];
+				break;
+			}
+		}
+
+		return $period;
 	}
 	//Funções de controle
 	public function addJS() {
