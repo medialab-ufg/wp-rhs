@@ -246,36 +246,7 @@ class statistics {
 			}
 		}
 
-		if(isset($date['inicial']))
-		{
-			$earlier = new DateTime($date['inicial']);
-		}else {
-			$sql_min_date = "SELECT date(min(user_registered)) min from $wpdb->users";
-			$min = $wpdb->get_results($sql_min_date, ARRAY_A)[0]['min'];
-			$earlier = new DateTime($min);
-		}
-
-		if(isset($date['final']))
-		{
-			$later = new DateTime($date['final']);
-		}else {
-			$sql_max_date = "SELECT date(max(user_registered)) max from $wpdb->users";
-			$max = $wpdb->get_results($sql_max_date, ARRAY_A)[0]['max'];
-			$later = new DateTime($max);
-		}
-
-
-		$diff = $earlier->diff($later);
-		if($period === 'month')
-			$div = $diff->m;
-		else if($period === 'day')
-			$div = $diff->d;
-		else if($period === 'year')
-			$div = $diff->y;
-		else $div = $diff->d / 7;
-
-		if($div === 0)
-			$div = 1;
+		$div = $this->gen_div_factor($date, $period, 'user_registered', $wpdb->users, $wpdb)['div'];
 		foreach ($result as $i => $r)
 		{
 			$result[$i] /= $div;
@@ -285,29 +256,77 @@ class statistics {
 		$sql_date = $this->gen_sql_date($date, 'user_registered', self::INCREASING);
 		if(in_array('all_users', $filter))
 		{
+			$div = $this->gen_div_factor($date, $period, 'user_registered', $wpdb->users, $wpdb)['div'];
 			$sql_all_users = "
-				SELECT avg(c.count) as average FROM
+				SELECT sum(c.count) as sum FROM
 				(SELECT COUNT(*) count FROM $wpdb->users $sql_date
 				group by $period(user_registered)) as c  		
 			";
 
-			$result['all_users'] = $wpdb->get_results($sql_all_users, ARRAY_A)[0]['average'];
+			$result['all_users'] = $wpdb->get_results($sql_all_users, ARRAY_A)[0]['sum'] / $div;
 		}
 
 		/*All posts*/
 		$sql_date = $this->gen_sql_date($date, 'post_date', self::USER);
 		if(in_array('all_posts', $filter))
 		{
+			$div = $this->gen_div_factor($date, $period, 'post_date', $wpdb->posts, $wpdb)['div'];
 			$sql_all_posts = "
-				SELECT avg(c.count) as average FROM
+				SELECT sum(c.count) as sum FROM
 				(SELECT COUNT(*) count FROM $wpdb->posts 
 				where 
 				post_type = 'post' and (post_status = 'publish' or post_status = 'voting-queue') $sql_date
 				group by $period(post_date)) as c 
 			";
 
-			$result['all_posts'] = $wpdb->get_results($sql_all_posts, ARRAY_A)[0]['average'];
+			$result['all_posts'] = $wpdb->get_results($sql_all_posts, ARRAY_A)[0]['sum'] / $div;
 		}
+
+		/*Follows*/
+		if(in_array('followed', $filter))
+		{
+			$div = $this->gen_div_factor($date, $period, 'datetime', $wpdb->prefix . "notifications", $wpdb)['div'];
+			$sql_date = $this->gen_sql_date( $date, 'datetime', self::USER );
+			$sql      = "
+				SELECT sum(c.count) as sum FROM
+				(SELECT count(*) as count FROM " . $wpdb->prefix . "notifications
+				WHERE type = 'post_followed' $sql_date
+				group by $period(datetime)) as c
+			";
+
+			$result['followed'] = $wpdb->get_results( $sql, ARRAY_A )[0]['sum'] / $div;
+		}
+
+		/*Comments*/
+		if(in_array('comments', $filter))
+		{
+			$div = $this->gen_div_factor($date, $period, 'comment_date', $wpdb->comments, $wpdb)['div'];
+			$sql_date = $this->gen_sql_date($date, 'comment_date', self::USER);
+			$sql = "
+				SELECT sum(c.count) as sum FROM
+				(SELECT count(*) as count FROM $wpdb->comments
+				WHERE comment_type <> 'acholhesus_log' $sql_date
+				group by $period(comment_date)) as c
+			";
+
+			$result['comments'] = $wpdb->get_results( $sql, ARRAY_A )[0]['sum'] / $div;
+		}
+
+		/*Posts visits*/
+		if(in_array('posts_visits', $filter))
+		{
+			$div = $this->gen_div_factor($date, $period, 'post_date', $wpdb->posts, $wpdb)['div'];
+			$sql_date = $this->gen_sql_date($date, 'post_date', self::USER);
+			$sql = "
+			SELECT sum(c.view) as sum FROM
+			(SELECT sum(pm.meta_value) view FROM $wpdb->postmeta pm JOIN $wpdb->posts p
+				where pm.meta_key='_rhs_data_view' AND p.ID = pm.post_id $sql_date
+                group by $period(p.post_date)) as c
+			";
+
+			$result['posts_visits'] = $wpdb->get_results( $sql, ARRAY_A )[0]['sum'] / $div;
+		}
+
 		return $result;
 	}
 
@@ -350,6 +369,49 @@ class statistics {
 		}
 
 		return $date_sql;
+	}
+
+	private function gen_div_factor($date, $period, $column, $table, $wpdb)
+	{
+		$min = 0; $max = 0;
+		if(isset($date['inicial']))
+		{
+			$earlier = new DateTime($date['inicial']);
+		}else {
+			$sql_min_date = "SELECT date(min($column)) min from $table";
+			$min = $wpdb->get_results($sql_min_date, ARRAY_A)[0]['min'];
+			$earlier = new DateTime($min);
+		}
+
+		if(isset($date['final']))
+		{
+			$later = new DateTime($date['final']);
+		}else {
+			$sql_max_date = "SELECT date(max($column)) max from $table";
+			$max = $wpdb->get_results($sql_max_date, ARRAY_A)[0]['max'];
+			$later = new DateTime($max);
+		}
+
+
+		$diff = $earlier->diff($later);
+
+		if($period === 'month')
+			$div = $diff->m;
+		else if($period === 'day')
+			$div = $diff->d;
+		else if($period === 'year')
+			$div = $diff->y;
+		else
+		{
+			$day = ($diff->d === 0)? 1 : $diff->d;
+			$month = ($diff->m === 0)? 1 : $diff->m;
+			$year = ($diff->y === 0)? 1 : $diff->y;
+			$div =  ($year * $month * $day) / 7;
+		}
+
+		$div++;
+
+		return ['min' => $min, 'max' => $max, 'div' => $div];
 	}
 
 	private function get_date($filters)
