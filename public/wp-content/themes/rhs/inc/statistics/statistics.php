@@ -294,6 +294,20 @@ class statistics {
 			$result['all_users'] = $wpdb->get_results($sql_all_users, ARRAY_A)[0]['average'];
 		}
 
+		/*All posts*/
+		$sql_date = $this->gen_sql_date($date, 'post_date', self::USER);
+		if(in_array('all_posts', $filter))
+		{
+			$sql_all_posts = "
+				SELECT avg(c.count) as average FROM
+				(SELECT COUNT(*) count FROM $wpdb->posts 
+				where 
+				post_type = 'post' and (post_status = 'publish' or post_status = 'voting-queue') $sql_date
+				group by $period(post_date)) as c 
+			";
+
+			$result['all_posts'] = $wpdb->get_results($sql_all_posts, ARRAY_A)[0]['average'];
+		}
 		return $result;
 	}
 
@@ -304,16 +318,34 @@ class statistics {
 		{
 			if($type === self::INCREASING)
 			{
-				if($date_column_name === 'user_registered')
+				if(isset($date['final']))
 				{
-					$date_sql .= "WHERE $date_column_name between date('".$date['inicial']."') and date_add(date('". $date['final']."'), interval 1 day)";
+					if($date_column_name === 'user_registered')
+					{
+						$date_sql .= "WHERE $date_column_name between date('".$date['inicial']."') and date_add(date('". $date['final']."'), interval 1 day)";
+					}else
+					{
+						$date_sql .= "AND $date_column_name between date('".$date['inicial']."') and date_add(date('". $date['final']."'), interval 1 day)";
+					}
 				}else
 				{
-					$date_sql .= "AND $date_column_name between date('".$date['inicial']."') and date_add(date('". $date['final']."'), interval 1 day)";
+					if($date_column_name === 'user_registered')
+					{
+						$date_sql .= "WHERE $date_column_name >= date('".$date['inicial']."')";
+					}else
+					{
+						$date_sql .= "AND $date_column_name >= date('".$date['inicial']."')";
+					}
 				}
 			}else if($type === self::USER)
 			{
-				$date_sql .= "AND $date_column_name between date('".$date['inicial']."') and date_add(date('". $date['final']."'), interval 1 day)";
+				if(isset($date['final']))
+				{
+					$date_sql .= "AND $date_column_name between date('".$date['inicial']."') and date_add(date('". $date['final']."'), interval 1 day)";
+				}else
+				{
+					$date_sql .= "AND $date_column_name >= date('".$date['inicial']."')";
+				}
 			}
 		}
 

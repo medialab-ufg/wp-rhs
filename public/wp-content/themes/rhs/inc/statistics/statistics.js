@@ -137,6 +137,18 @@ jQuery(function () {
                     case "voter":
                         info.push([name, Number(data.voter)]);
                         break;
+                    case "all_posts":
+                        info.push([name, Number(data.all_posts)]);
+                        break;
+                    case "followed":
+                        info.push([name, Number(data.followed)]);
+                        break;
+                    case "comments":
+                        info.push([name, Number(data.comments)]);
+                        break;
+                    case "posts_visits":
+                        info.push([name, Number(data.posts_visits)]);
+                        break;
                 }
             });
 
