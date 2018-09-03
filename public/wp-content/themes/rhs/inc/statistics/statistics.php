@@ -1,8 +1,14 @@
 <?php
 class statistics {
+	const INCREASING = 'INCREASING';
+	const USER = 'USER';
+	const AVERAGE = 'AVERAGE';
+
 	public  $type = [
+			'average' => 'Média',
 			'increasing' => "Crescimento",
 			'user' => "Usuário"
+
 		];
 
 	function __construct() {
@@ -31,6 +37,8 @@ class statistics {
 	private function gen_users_charts($filter)
 	{
 		global $wpdb;
+		$date = $this->get_date($filter);
+
 		$sql_users = "SELECT count(*) as count FROM $wpdb->usermeta ";
 
 		$active_users = "WHERE meta_key='_last_login'
@@ -39,12 +47,22 @@ class statistics {
 			between 
 			DATE_ADD(CURDATE(), INTERVAL -2 year)
                 and
-            curdate();";
+            curdate()";
 
-		$sql_all_users = "
+		if(empty($date)){
+			$sql_all_users = "
 			SELECT meta_value FROM $wpdb->usermeta
 				where meta_key='rhs_capabilities'
-		";
+			";
+		}else
+		{
+			$sql_date = $this->gen_sql_date($date, 'u.user_registered', self::USER);
+
+			$sql_all_users = "
+			SELECT um.meta_value meta_value FROM $wpdb->usermeta um JOIN $wpdb->users u
+				where um.meta_key='rhs_capabilities' AND u.ID = um.user_id $sql_date
+			";
+		}
 
 		if(in_array('active', $filter))
 		{
@@ -93,12 +111,13 @@ class statistics {
 		$result = [];
 
 		$date = $this->get_date($filter);
+		$sql_date = $this->gen_sql_date($date, 'user_registered');
 
 		if(in_array('all_users', $filter))
 		{
-			$sql_date = $this->gen_sql_date($date, 'user_registered');
 			$sql = "
-			SELECT date(user_registered) as date, count(*) as count FROM $wpdb->users 
+			SELECT date(user_registered) as date, count(*) as count FROM $wpdb->users
+				$sql_date
 				group by date(user_registered)
 			";
 
@@ -115,6 +134,7 @@ class statistics {
 		    um.user_id = u.ID
 		    AND
 		    um.meta_key='rhs_capabilities' 
+		    $sql_date
 		";
 
 		$all_users_capabilities = $wpdb->get_results($sql_users_capabilities, ARRAY_A);
@@ -134,11 +154,13 @@ class statistics {
 			}
 		}
 
+
 		if(in_array('all_posts', $filter))
 		{
+			$sql_date = $this->gen_sql_date($date, 'post_date');
 			$sql = "
 			SELECT date(post_date) as date, count(*) as count FROM $wpdb->posts
-				WHERE post_type='post' and (post_status = 'publish' OR post_status = 'voting-queue')
+				WHERE post_type='post' and (post_status = 'publish' OR post_status = 'voting-queue') $sql_date
 				group by date(post_date)
 			";
 
@@ -151,9 +173,10 @@ class statistics {
 
 		if(in_array('followed', $filter))
 		{
+			$sql_date = $this->gen_sql_date($date, 'datetime');
 			$sql = "
 				SELECT date(datetime) as date, count(*) as count FROM ".$wpdb->prefix."notifications
-				WHERE type = 'post_followed' 
+				WHERE type = 'post_followed' $sql_date
 				group by date(datetime)
 			";
 
@@ -166,9 +189,10 @@ class statistics {
 
 		if(in_array('comments', $filter))
 		{
+			$sql_date = $this->gen_sql_date($date, 'comment_date');
 			$sql = "
 				SELECT date(comment_date) as date, count(*) as count FROM $wpdb->comments
-				WHERE comment_type <> 'acholhesus_log' 
+				WHERE comment_type <> 'acholhesus_log' $sql_date
 				group by date(comment_date)
 			";
 
@@ -188,10 +212,29 @@ class statistics {
 		return $result;
 	}
 
-	private function gen_sql_date($date, $date_column_name)
+	private function gen_sql_date($date, $date_column_name, $type = self::INCREASING)
 	{
-		return '';
+		$date_sql = '';
+		if(!empty($date))
+		{
+			if($type === self::INCREASING)
+			{
+				if($date_column_name === 'user_registered')
+				{
+					$date_sql .= "WHERE $date_column_name between date('".$date['inicial']."') and date_add(date('". $date['final']."'), interval 1 day)";
+				}else
+				{
+					$date_sql .= "AND $date_column_name between date('".$date['inicial']."') and date_add(date('". $date['final']."'), interval 1 day)";
+				}
+			}else if($type === self::USER)
+			{
+				$date_sql .= "AND $date_column_name between date('".$date['inicial']."') and date_add(date('". $date['final']."'), interval 1 day)";
+			}
+		}
+
+		return $date_sql;
 	}
+
 	private function get_date($filters)
 	{
 		$date = [];
@@ -203,7 +246,7 @@ class statistics {
 			}
 		}
 
-		if(empty($date[0] && empty($date[1])))
+		if(empty($date[0]) && empty($date[1]))
 			return [];
 		else if(empty($date[0]))
 			return ['inicial' => $date[1]];

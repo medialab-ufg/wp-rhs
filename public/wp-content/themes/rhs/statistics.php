@@ -77,11 +77,29 @@
                             <label>
                                 <input type="checkbox" name="filter" value="comments" data-name="Comentarios"> Comentários
                             </label>
+                        </div>
 
+                        <!--Average-->
+                        <div id="filter_average" class="filter">
+                            <hr>
+
+                            <h6>Usuários</h6>
+                            <label>
+                                <input type="checkbox" name="filter" value="all_users" data-name="Cadastros" checked> Cadastros
+                            </label>
+                            <label>
+                                <input type="checkbox" name="filter" value="author" data-name="Autores"> Autores
+                            </label>
+                            <label>
+                                <input type="checkbox" name="filter" value="contributor" data-name="Contribuidores"> Contribuidores
+                            </label>
+                            <label>
+                                <input type="checkbox" name="filter" value="voter" data-name="Votantes"> Votantes
+                            </label>
                             <hr>
                             <h6>Visitas</h6>
                             <label>
-                                <input type="checkbox" name="filter" value="site_visits" data-name="Visitas ao site" checked> Posts
+                                <input type="checkbox" name="filter" value="posts_visits" data-name="Visitas ao site" checked> Posts
                             </label>
                         </div>
 
