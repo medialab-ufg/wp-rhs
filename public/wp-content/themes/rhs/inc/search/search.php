@@ -2,6 +2,7 @@
 
 class RHSSearch {
 
+    const SEARCH_PARAM = 'rhs_busca';
     const BASE_URL = 'busca';
     const BASE_USERS_URL = 'busca/usuarios';
     const USERS_PER_PAGE = 40;
