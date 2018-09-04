@@ -5,8 +5,8 @@ class statistics {
 	const AVERAGE = 'AVERAGE';
 
 	public  $type = [
-			'average' => 'Média',
 			'increasing' => "Crescimento",
+			'average' => 'Média',
 			'user' => "Usuário"
 		];
 
@@ -413,6 +413,7 @@ class statistics {
 		return ['min' => $min, 'max' => $max, 'div' => $div];
 	}
 
+	//Funções de controle
 	private function get_date($filters)
 	{
 		$date = [];
@@ -450,7 +451,7 @@ class statistics {
 
 		return $period;
 	}
-	//Funções de controle
+
 	public function addJS() {
 		if (get_query_var('rhs_login_tpl') == RHSRewriteRules::STATISTICS) {
 			wp_enqueue_script('estatisticas', get_template_directory_uri() . '/inc/statistics/statistics.js', array('jquery'));

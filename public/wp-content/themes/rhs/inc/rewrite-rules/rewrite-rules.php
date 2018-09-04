@@ -113,13 +113,10 @@ class RHSRewriteRules {
         global $wp_query;
 
         if ($wp_query->get(self::TPL_QUERY)) {
-
             $this->rewrite_permitions($wp_query->get(self::TPL_QUERY));
-
             if (file_exists( STYLESHEETPATH . '/' . $wp_query->get(self::TPL_QUERY) . '.php') ) {
                 return STYLESHEETPATH . '/' . $wp_query->get(self::TPL_QUERY) . '.php';
             }
-
         }
 
         return $template;

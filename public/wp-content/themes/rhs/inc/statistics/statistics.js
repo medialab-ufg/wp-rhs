@@ -229,4 +229,6 @@ jQuery(function () {
 
         return options;
     }
+
+    $("#parametros").submit();
 });
