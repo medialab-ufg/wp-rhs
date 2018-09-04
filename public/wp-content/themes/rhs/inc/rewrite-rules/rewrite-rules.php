@@ -17,7 +17,7 @@ class RHSRewriteRules {
     const PROFILE_URL = 'perfil';
     const POST_URL = 'publicar-postagem';
     const POSTAGENS_URL = 'minhas-postagens';
-    const STATISTICS = 'statistics';
+    const STATISTICS = 'estatisticas';
     const COMUNIDADES = 'comunidades';
     const NOTIFICACOES = 'notificacoes';
     const FOLLOW_URL = 'seguindo';

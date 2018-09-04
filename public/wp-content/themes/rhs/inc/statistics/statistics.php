@@ -8,7 +8,6 @@ class statistics {
 			'average' => 'Média',
 			'increasing' => "Crescimento",
 			'user' => "Usuário"
-
 		];
 
 	function __construct() {
@@ -454,9 +453,9 @@ class statistics {
 	//Funções de controle
 	public function addJS() {
 		if (get_query_var('rhs_login_tpl') == RHSRewriteRules::STATISTICS) {
-			wp_enqueue_script('statistics', get_template_directory_uri() . '/inc/statistics/statistics.js', array('jquery'));
+			wp_enqueue_script('estatisticas', get_template_directory_uri() . '/inc/statistics/statistics.js', array('jquery'));
 			wp_enqueue_script('google_charts', 'https://www.gstatic.com/charts/loader.js');
-			wp_localize_script( 'statistics', 'ajax_vars', array(
+			wp_localize_script( 'estatisticas', 'ajax_vars', array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' )
 			) );
 		}
