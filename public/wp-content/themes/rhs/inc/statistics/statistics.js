@@ -42,6 +42,7 @@ jQuery(function () {
         $("#filter_"+$("#type").val()).show();
 
         select_chart_type();
+        $("#parametros").submit();
     });
 
     $("#filter_"+$("#type").val()).show();
@@ -148,6 +149,9 @@ jQuery(function () {
                         break;
                     case "posts_visits":
                         info.push([name, Number(data.posts_visits)]);
+                        break;
+                    case "shares":
+                        info.push([name, Number(data.shares)]);
                         break;
                 }
             });

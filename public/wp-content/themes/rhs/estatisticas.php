@@ -98,6 +98,9 @@
                                     <input type="checkbox" name="filter" value="all_posts" data-name="Postagens" checked> Postagens
                                 </label>
                                 <label>
+                                    <input type="checkbox" name="filter" value="shares" data-name="Postagens compartilhadas"> Compartilhamentos
+                                </label>
+                                <label>
                                     <input type="checkbox" name="filter" value="followed" data-name="Postagens seguidas"> Seguidas
                                 </label>
                                 <label>
