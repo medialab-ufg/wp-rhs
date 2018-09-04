@@ -1,6 +1,5 @@
 <?php get_header('full'); ?>
 <?php global $RHSStatistics; ?>
-
 <div id="rhs-statistics" class="row">
 	<div class="col-md-12">
         <h2 class="text-center"> Estatísticas de Uso da Rede Humaniza SUS</h2>
