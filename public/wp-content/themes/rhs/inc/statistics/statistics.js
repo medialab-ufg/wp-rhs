@@ -156,6 +156,8 @@ jQuery(function () {
             data_table.addColumn('number', 'Quantidade');
             data_table.addRows(info);
         }
+
+        return info;
     }
 
     function create_chart(data, data_type, chart_type = 'bar', where = 'estatisticas') {
@@ -164,14 +166,14 @@ jQuery(function () {
 
         google.charts.setOnLoadCallback(function (){
             var data_table = new google.visualization.DataTable();
-            prepare_data(data, data_type, data_table);
+            var info = prepare_data(data, data_type, data_table);
 
             var options = set_options(data_type, title);
-            drawChart(where, chart_type, data_table, options);
+            drawChart(info, where, chart_type, data_table, options);
         });
     }
 
-    function drawChart(where, chart_type, data_table, options) {
+    function drawChart(info, where, chart_type, data_table, options) {
         var chart;
 
         if(chart_type === 'bar')
@@ -183,7 +185,18 @@ jQuery(function () {
         }
 
         chart.draw(data_table, options);
+        /*google.visualization.events.addListener(chart, 'select', function () {
+            selectHandler(chart, info);
+        });*/
     }
+
+    /*function selectHandler(chart, data) {
+        var selectedItem = chart.getSelection()[0];
+        console.log(data);
+        console.log(selectedItem);
+        var value = data[selectedItem.row][selectedItem.column];
+        console.log('The user selected ' + value);
+    }*/
 
     function set_options(data_type, title) {
         var options = {};
