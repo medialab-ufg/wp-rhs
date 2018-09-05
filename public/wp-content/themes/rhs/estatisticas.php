@@ -25,10 +25,10 @@
                                     <input type="checkbox" name="filter" value="all_users" data-name="Total" checked> Total
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="filter" value="active" data-name="Ativos" checked> Ativos
+                                    <input type="checkbox" name="filter" value="active_users" data-name="Ativos" checked> Ativos
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="filter" value="not_active" data-name="Não ativos" checked> Não ativos
+                                    <input type="checkbox" name="filter" value="not_active_users" data-name="Não ativos" checked> Não ativos
                                 </label>
                                 <label>
                                     <input type="checkbox" name="filter" value="author" data-name="Autores" checked> Autores

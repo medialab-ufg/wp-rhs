@@ -66,10 +66,10 @@ class statistics {
 		}
 
 		$all_users_capabilities = $wpdb->get_results($sql_all_users, ARRAY_A);
-		if(in_array('active', $filter))
+		if(in_array('active_users', $filter))
 		{
 			$users['active_users'] = $wpdb->get_results($sql_users.$active_users, ARRAY_A)[0]['count'];
-			$users['active_users'] = ($users['active_users'] > count($all_users_capabilities)) ? count($all_users_capabilities) : $users['active_users'];
+			$users['active_users'] = ($users['active_users'] > count($all_users_capabilities)) ? count($all_users_capabilities) : intval($users['active_users']);
 		}
 
 		if(in_array('all_users', $filter))
@@ -93,12 +93,12 @@ class statistics {
 			}
 		}
 
-		if(in_array('not_active', $filter))
+		if(in_array('not_active_users', $filter))
 		{
 			if(!isset($users['active_users']))
 			{
 				$users['active_users'] = $wpdb->get_results($sql_users.$active_users, ARRAY_A)[0]['count'];
-				$users['active_users'] = ($users['active_users'] > count($all_users_capabilities)) ? count($all_users_capabilities) : $users['active_users'];
+				$users['active_users'] = ($users['active_users'] > count($all_users_capabilities)) ? count($all_users_capabilities) : intval($users['active_users']);
 			}
 
 			$users['not_active_users'] = count($all_users_capabilities) - $users['active_users'];

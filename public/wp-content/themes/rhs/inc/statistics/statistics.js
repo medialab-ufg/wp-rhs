@@ -65,38 +65,15 @@ jQuery(function () {
         return title+tail;
     }
 
-    function prepare_data(data, data_type, data_table) {
+    function prepare_data(data, chart_type, data_type, data_table) {
         var info = [];
-        if(data_type === 'user')
+        if(chart_type === 'bar')
         {
             $("div.filter:visible input:checkbox[name=filter]:checked").each(function(){
                 var name = $(this).data('name');
-                switch ($(this).val()) {
-                    case 'all_users':
-                        info.push([name, Number(data.all_users)]);
-                        break;
-                    case 'active':
-                        info.push([name, Number(data.active_users)]);
-                        break;
-                    case 'not_active':
-                        info.push([name, Number(data.not_active_users)]);
-                        break;
-                    case "author":
-                        info.push([name, Number(data.author)]);
-                        break;
-                    case "contributor":
-                        info.push([name, Number(data.contributor)]);
-                        break;
-                    case "voter":
-                        info.push([name, Number(data.voter)]);
-                        break;
-                }
+                info.push([name, Number(data[$(this).val()])]);
             });
-
-            data_table.addColumn('string', 'Tipo de usuário');
-            data_table.addColumn('number', 'Quantidade');
-            data_table.addRows(info);
-        }else if(data_type === 'increasing')
+        }else if(chart_type === 'line')
         {
             var select_types = [];
             data_table.addColumn('string', 'Ano');
@@ -119,48 +96,19 @@ jQuery(function () {
 
                 info.push(line);
             }
-
-            data_table.addRows(info);
-        }else if(data_type === 'average')
-        {
-            $("div.filter:visible input:checkbox[name=filter]:checked").each(function(){
-                var name = $(this).data('name');
-                switch ($(this).val()) {
-                    case 'all_users':
-                        info.push([name, Number(data.all_users)]);
-                        break;
-                    case "author":
-                        info.push([name, Number(data.author)]);
-                        break;
-                    case "contributor":
-                        info.push([name, Number(data.contributor)]);
-                        break;
-                    case "voter":
-                        info.push([name, Number(data.voter)]);
-                        break;
-                    case "all_posts":
-                        info.push([name, Number(data.all_posts)]);
-                        break;
-                    case "followed":
-                        info.push([name, Number(data.followed)]);
-                        break;
-                    case "comments":
-                        info.push([name, Number(data.comments)]);
-                        break;
-                    case "posts_visits":
-                        info.push([name, Number(data.posts_visits)]);
-                        break;
-                    case "shares":
-                        info.push([name, Number(data.shares)]);
-                        break;
-                }
-            });
-
-            data_table.addColumn('string', 'Info');
-            data_table.addColumn('number', 'Quantidade');
-            data_table.addRows(info);
         }
 
+        if(data_type === 'user')
+        {
+            data_table.addColumn('string', 'Tipo de usuário');
+            data_table.addColumn('number', 'Quantidade');
+        }else if(data_type === 'average')
+        {
+            data_table.addColumn('string', 'Info');
+            data_table.addColumn('number', 'Quantidade');
+        }
+
+        data_table.addRows(info);
         return info;
     }
 
@@ -170,7 +118,7 @@ jQuery(function () {
 
         google.charts.setOnLoadCallback(function (){
             var data_table = new google.visualization.DataTable();
-            var info = prepare_data(data, data_type, data_table);
+            var info = prepare_data(data, chart_type, data_type, data_table);
 
             var options = set_options(data_type, title);
             drawChart(info, where, chart_type, data_table, options);
