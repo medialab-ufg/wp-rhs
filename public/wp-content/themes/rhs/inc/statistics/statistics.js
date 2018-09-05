@@ -73,6 +73,17 @@ jQuery(function () {
                 var name = $(this).data('name');
                 info.push([name, Number(data[$(this).val()])]);
             });
+
+            if(data_type === 'user')
+            {
+                data_table.addColumn('string', 'Tipo de usuário');
+                data_table.addColumn('number', 'Quantidade');
+            }else if(data_type === 'average')
+            {
+                data_table.addColumn('string', 'Info');
+                data_table.addColumn('number', 'Quantidade');
+            }
+
         }else if(chart_type === 'line')
         {
             var select_types = [];
@@ -96,16 +107,6 @@ jQuery(function () {
 
                 info.push(line);
             }
-        }
-
-        if(data_type === 'user')
-        {
-            data_table.addColumn('string', 'Tipo de usuário');
-            data_table.addColumn('number', 'Quantidade');
-        }else if(data_type === 'average')
-        {
-            data_table.addColumn('string', 'Info');
-            data_table.addColumn('number', 'Quantidade');
         }
 
         data_table.addRows(info);
