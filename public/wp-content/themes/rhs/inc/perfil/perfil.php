@@ -15,8 +15,10 @@ class RHSPerfil extends RHSMessage {
     }
 
     function addJS() {
-        wp_enqueue_script('rhs_profile', get_template_directory_uri() . '/inc/perfil/perfil.js', array('jquery'));
-        wp_localize_script('rhs_profile', 'user_vars', array('ajaxurl' => admin_url('admin-ajax.php')));
+        if (get_query_var(RHSRewriteRules::TPL_QUERY) === RHSRewriteRules::PROFILE_URL) {
+            wp_enqueue_script('rhs_profile', get_template_directory_uri() . '/inc/perfil/perfil.js', array('jquery'));
+            wp_localize_script('rhs_profile', 'user_vars', array('ajaxurl' => admin_url('admin-ajax.php')));
+        }
     }
 
     function getUserId(){
