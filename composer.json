@@ -25,7 +25,8 @@
         
     },
     "require-dev": {
-        "phpunit/phpunit": "5.5.*"
+        "phpunit/phpunit": "5.5.*",
+        "symfony/var-dumper": "3.4.15"
     },
     "extra": {
         "wordpress-install-dir": "public/wp",
