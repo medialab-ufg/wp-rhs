@@ -24,6 +24,36 @@ jQuery(function () {
 
         event.preventDefault();
     });
+    
+    function create_chart(data, data_type, chart_type = 'bar', where = 'estatisticas') {
+        google.charts.load('current', {'packages':['corechart', chart_type]});
+        var title = create_title(data_type);
+
+        google.charts.setOnLoadCallback(function (){
+            var data_table = new google.visualization.DataTable();
+            var info = prepare_data(data, chart_type, data_type, data_table);
+
+            var options = set_options(data_type, title);
+            drawChart(info, where, chart_type, data_table, options);
+        });
+    }
+
+    function drawChart(info, where, chart_type, data_table, options) {
+        var chart;
+
+        if(chart_type === 'bar')
+        {
+            chart = new google.visualization.ColumnChart(document.getElementById(where));
+        }else if (chart_type === 'line')
+        {
+            chart = new google.visualization.LineChart(document.getElementById(where));
+        }
+
+        chart.draw(data_table, options);
+        /*google.visualization.events.addListener(chart, 'select', function () {
+            selectHandler(chart, info);
+        });*/
+    }
 
     function select_chart_type()
     {
@@ -111,36 +141,6 @@ jQuery(function () {
 
         data_table.addRows(info);
         return info;
-    }
-
-    function create_chart(data, data_type, chart_type = 'bar', where = 'estatisticas') {
-        google.charts.load('current', {'packages':['corechart', chart_type]});
-        var title = create_title(data_type);
-
-        google.charts.setOnLoadCallback(function (){
-            var data_table = new google.visualization.DataTable();
-            var info = prepare_data(data, chart_type, data_type, data_table);
-
-            var options = set_options(data_type, title);
-            drawChart(info, where, chart_type, data_table, options);
-        });
-    }
-
-    function drawChart(info, where, chart_type, data_table, options) {
-        var chart;
-
-        if(chart_type === 'bar')
-        {
-            chart = new google.visualization.ColumnChart(document.getElementById(where));
-        }else if (chart_type === 'line')
-        {
-            chart = new google.visualization.LineChart(document.getElementById(where));
-        }
-
-        chart.draw(data_table, options);
-        /*google.visualization.events.addListener(chart, 'select', function () {
-            selectHandler(chart, info);
-        });*/
     }
 
     /*function selectHandler(chart, data) {
