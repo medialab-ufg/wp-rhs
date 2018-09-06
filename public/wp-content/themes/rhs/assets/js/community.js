@@ -273,7 +273,7 @@ jQuery( function( $ ) {
         });
     });
 
-    if (vars) {
+    /*if (vars) {
         $(".typeahead").autocomplete({
             serviceUrl: vars.ajaxurl,
             type: 'POST',
@@ -335,5 +335,5 @@ jQuery( function( $ ) {
                 });
             }
         });
-    }
+    }*/
 });
