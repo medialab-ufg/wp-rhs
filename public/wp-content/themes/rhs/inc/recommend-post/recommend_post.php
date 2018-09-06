@@ -11,8 +11,10 @@ class RHSRecommendPost extends RHSMessage {
     }
     
     function addJS() {
-        wp_enqueue_script('recommend_post', get_template_directory_uri() . '/inc/recommend-post/recommend_post.js', array('jquery'));
-        wp_localize_script('recommend_post', 'recommend_post', array('ajaxurl' => admin_url('admin-ajax.php')));
+        if (is_single()) {
+            wp_enqueue_script('recommend_post', get_template_directory_uri() . '/inc/recommend-post/recommend_post.js', array('jquery'));
+            wp_localize_script('recommend_post', 'recommend_post', array('ajaxurl' => admin_url('admin-ajax.php')));
+        }
     }
 
     /**
