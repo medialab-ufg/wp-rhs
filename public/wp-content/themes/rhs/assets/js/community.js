@@ -1,7 +1,6 @@
 jQuery( function( $ ) {
 
     $( "body" ).on( "click", '.comunidade .contato .well.profile_view .bottom a', function () {
-
         var obj = '';
         var term_id = $(this).closest('.well-disp').attr('data-id');
         var user_id = $(this).closest('.well-disp').attr('data-userid');
@@ -273,7 +272,7 @@ jQuery( function( $ ) {
         });
     });
 
-    /*if (vars) {
+    if (vars) {
         $(".typeahead").autocomplete({
             serviceUrl: vars.ajaxurl,
             type: 'POST',
@@ -335,5 +334,5 @@ jQuery( function( $ ) {
                 });
             }
         });
-    }*/
+    }
 });
