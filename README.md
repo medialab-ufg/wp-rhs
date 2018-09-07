@@ -83,11 +83,14 @@ Agora você está com todas as bibliotecas e classes necessárias da RHS.
 
 ### Crie o diretório uploads
 
-Este diretório deve ser criado em ``` public/wp-content/ ```
+Este diretório deve ser criado em ` public/wp-content/ `
+
+### Crie um novo banco de dados MySQL
+Certifique-se de que tenha configurado previa e corretamente um banco de dados para uso na aplicação.
 
 ### Crie e edite o wp-config.php e o .htaccess
 
-O repositório vem com arquivos modelos: wp-config-sample.php e htaccess-sample (ambos no diretório `public`), faça uma cópia para wp-config.php e .htaccess, respectivamente e edite com suas informações.
+O repositório vem com arquivos modelos: wp-config-sample.php e htaccess-sample (ambos no diretório `public`). Faça uma cópia dos mesmos para wp-config.php e .htaccess, respectivamente, e edite-os conforme suas informações de acesso ao banco de dados.
 
 ### Instale o WordPress e importe os dados
 
