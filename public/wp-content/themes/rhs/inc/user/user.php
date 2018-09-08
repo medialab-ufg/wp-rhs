@@ -333,7 +333,7 @@ class RHSUser {
      * @param int $user_id
      * @return void
      */
-    function show_user_links_to_edit($user_id){
+    function show_user_links_to_edit($user_id) {
         !($user_id) ? $user_id = $this->get_id() : '' ;
         $links = $this->get_links($user_id);
         $link_to_delete = '<a title="Remover link" class="remove-link" href="javascript:;"><i class="fa fa-remove"></i></a>';
@@ -358,7 +358,6 @@ class RHSUser {
                 </div>
                 <?php
             }
-            
         } else {
         ?>
         <div class='row links'>
@@ -378,8 +377,7 @@ class RHSUser {
         </div>
         <?php
         }
-        echo '
-            <div class="row">
+        echo '<div class="row">
                 <div class="col-md-12">
                     <div class="help-block">
                         <a title="Adicionar Link" href="javascript:;"
@@ -388,8 +386,11 @@ class RHSUser {
                         </a>
                     </div>
                 </div>
-            </div>
-        ';
+            </div>';
+    }
+
+    public static function current_user_comments() {
+        return get_comments(['user_id' => get_current_user_id()]);
     }
     
 }
