@@ -79,6 +79,12 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                     <span class="contagem-desc-author"><?php echo "POSTS SEGUIDOS"; ?></span>
                 </a>
             </div>
+                <div class="contagem">
+                    <a href="<?php echo $profile_base . RHSRewriteRules::USER_COMMENTS; ?>" class="btn-link">
+                        <span class="contagem-valor-author">0</span>
+                        <span class="contagem-desc-author"><?php echo "MEUS COMENTÁRIOS"; ?></span>
+                    </a>
+                </div>
             <?php } ?>
             
         </div>
