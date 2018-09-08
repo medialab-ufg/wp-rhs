@@ -76,13 +76,13 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             <div class="contagem">
                 <a class="btn-link" href="<?php echo $profile_base . RHSRewriteRules::FOLLOWED_POSTS_URL; ?>">
                     <span class="contagem-valor-author"><?php echo $followed_posts; ?></span>
-                    <span class="contagem-desc-author"><?php echo "POSTS SEGUIDOS"; ?></span>
+                    <span class="contagem-desc-author"> POSTS SEGUIDOS </span>
                 </a>
             </div>
                 <div class="contagem">
                     <a href="<?php echo $profile_base . RHSRewriteRules::USER_COMMENTS; ?>" class="btn-link">
-                        <span class="contagem-valor-author">0</span>
-                        <span class="contagem-desc-author"><?php echo "MEUS COMENTÁRIOS"; ?></span>
+                        <span class="contagem-valor-author"><?php echo count(get_comments(['user_id' => get_current_user_id()])) ?></span>
+                        <span class="contagem-desc-author"> MEUS COMENTÁRIOS </span>
                     </a>
                 </div>
             <?php } ?>
