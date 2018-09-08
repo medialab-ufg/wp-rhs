@@ -880,3 +880,7 @@ function is_rhs_community_page() {
     return ( ($query === $com) || $_is_community );
 
 }
+
+function comment_string($str) {
+    return ($str === 'approved') ? 'Aprovado' : 'Aguardando moderação';
+}

@@ -23,6 +23,7 @@ class RHSRewriteRules {
     const FOLLOW_URL = 'seguindo';
     const FOLLOWED_URL = 'seguidores';
     const FOLLOWED_POSTS_URL = 'posts_seguidos';
+    const USER_COMMENTS = 'comentarios';
 
     function __construct() {
         add_action('generate_rewrite_rules', array( &$this, 'rewrite_rules'), 10, 1);
@@ -78,6 +79,7 @@ class RHSRewriteRules {
             $user_base . self::FOLLOW_URL . '/page/?([0-9]{1,})/?$'   => $base . 'author_name=$matches[1]&rhs_paged=$matches[2]&'.$tpl.'=' . self::FOLLOW_URL,
             $user_base . self::FOLLOWED_POSTS_URL . '/?$'             => $base . 'author_name=$matches[1]&'.$tpl.'=' . self::FOLLOWED_POSTS_URL,
             $user_base . self::FOLLOWED_POSTS_URL.'/page/?([0-9]{1,})/?$'   => $base . 'author_name=$matches[1]&rhs_paged=$matches[2]&'.$tpl.'=' . self::FOLLOWED_POSTS_URL,
+            $user_base . self::USER_COMMENTS . '/?$'             => $base . 'author_name=$matches[1]&'.$tpl.'=' . self::USER_COMMENTS,
 
             /* Páginas padrões antigas */
             'login' . "/?$"         => $base . "$login=1&$tpl=" . self::LOGIN_URL,
