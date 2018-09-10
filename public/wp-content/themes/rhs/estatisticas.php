@@ -113,7 +113,15 @@
                                 </label>
 
                                 <hr>
+                                <h6>Interações</h6>
+                                <label>
+                                    <input type="checkbox" name="filter" value="active_author" data-name="Usuários que realizaram posts" checked> Usuarios que postaram
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="filter" value="active_contributor" data-name="Usuários que realizaram comentários" checked> Usuários que comentaram
+                                </label>
 
+                                <hr>
                                 <h6>Postagens</h6>
                                 <label>
                                     <input type="checkbox" name="filter" value="all_posts" data-name="Postagens" checked> Postagens

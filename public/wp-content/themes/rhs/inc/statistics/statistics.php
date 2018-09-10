@@ -406,6 +406,35 @@ class statistics {
 			$result['twitter_share'] = $wpdb->get_results( $sql, ARRAY_A )[0]['sum'] / $div;
 		}
 
+		if(in_array('active_author', $filter))
+		{
+			$div = $this->gen_div_factor($date, $period, 'post_date', $wpdb->posts, $wpdb)['div'];
+			$sql_date = $this->gen_sql_date($date, 'p.post_date', self::USER);
+			$sql = "
+				SELECT sum(c.count) as sum from
+				(SELECT count(distinct p.post_author) count FROM $wpdb->posts p
+				WHERE p.post_type='post' and (p.post_status = 'publish' OR p.post_status = 'voting-queue') $sql_date
+				group by $period(p.post_date)) as c
+			";
+
+			$result['active_author'] = $wpdb->get_results( $sql, ARRAY_A )[0]['sum'] / $div;
+		}
+
+		if(in_array('active_contributor', $filter))
+		{
+			$div = $this->gen_div_factor($date, $period, 'comment_date', $wpdb->comments, $wpdb)['div'];
+			$sql_date = $this->gen_sql_date($date, 'c.comment_date', self::USER);
+
+			$sql = "
+				SELECT sum(c.count) as sum from
+				(SELECT count(distinct c.user_id) count FROM $wpdb->comments c
+				WHERE c.comment_type <> 'acolhesus_log' $sql_date
+				group by $period(c.comment_date)) as c
+			";
+
+			$result['active_contributor'] = $wpdb->get_results( $sql, ARRAY_A )[0]['sum'] / $div;
+		}
+
 		return $result;
 	}
 
