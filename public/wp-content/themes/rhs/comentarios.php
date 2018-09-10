@@ -8,26 +8,28 @@ $user_comments = RHSUser::current_user_comments();
 
         <h1 class="titulo-page"> Meus comentários </h1>
 
-        <div class="tab-content col-xs-12" style="background: white; padding-top: 30px">
+        <div class="tab-content col-xs-12">
             <ul class="list-group" id="followContent">
-
                 <?php if (count($user_comments) > 0) {
                     foreach($user_comments as $comentario):
                         if ($comentario instanceof WP_Comment) {
-                            $id = $comentario->comment_ID;
-                            $post_id = $comentario->comment_post_ID;
-                            $date = date("d/m/Y à\s H:i",strtotime($comentario->comment_date));
-                            ?>
-                            <li class="list-group-item">
+                        $id = $comentario->comment_ID;
+                        $post_id = $comentario->comment_post_ID;
+                        $date = date("d/m/Y à\s H:i",strtotime($comentario->comment_date));
+                        $comment_link = get_permalink($post_id) . "/#comment-" . $id;
+                        ?>
+                            <li class="list-group-item list-group-item-action">
                                 <div class="col-xs-10 text-left">
                                     <p>
-                                        <small style="color: black"><?php echo $date; ?></small> em
-                                        <a href="<?php echo get_permalink($post_id); ?>"> <?php echo get_post($post_id)->post_title; ?></a>:
+                                        <a class="commented-post" href="<?php echo $comment_link; ?>">
+                                            <?php echo get_post($post_id)->post_title; ?>
+                                        </a> em
+                                        <small><?php echo $date; ?></small>
                                     </p>
                                     <p> <?php echo $comentario->comment_content; ?> </p>
                                 </div>
-                                <div class="col-md-2">
-                                    <strong style="color: #003c46">Status</strong> <br>
+                                <div class="col-md-2 status">
+                                    <span>Status</span>
                                     <?php echo comment_string(wp_get_comment_status($id)); ?>
                                 </div>
                                 <div class="clearfix"></div>
