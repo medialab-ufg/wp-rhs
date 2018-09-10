@@ -5,7 +5,7 @@ class statistics {
 	const AVERAGE = 'AVERAGE';
 
 	public  $type = [
-			'increasing' => "Crescimento",
+			'increasing' => "Quantidade por data",
 			'average' => 'Média',
 			'count' => "Total"
 		];
@@ -113,7 +113,7 @@ class statistics {
 			$sql_active_authors = "
 						SELECT count(*) count FROM $wpdb->posts p JOIN $wpdb->users u
 						ON u.ID = p.post_author
-						where p.post_status = 'publish' and p.post_type = 'post' $sql_date
+						where p.post_type='post' and (p.post_status = 'publish' OR p.post_status = 'voting-queue') $sql_date
     					group by p.post_author
 				";
 
@@ -122,11 +122,11 @@ class statistics {
 
 		if(in_array('active_contributor', $filter))
 		{
-			$sql_date = $this->gen_sql_date($date, 'c.comment_date', self::INCREASING);
+			$sql_date = $this->gen_sql_date($date, 'c.comment_date', self::USER);
 			$sql_active_contributors = "
 						SELECT count(*) count FROM $wpdb->comments c JOIN $wpdb->users u
 						ON u.ID = c.user_id
-						$sql_date
+						WHERE 1=1 $sql_date
     					group by c.user_id
 				";
 
@@ -214,12 +214,39 @@ class statistics {
 			$sql_date = $this->gen_sql_date($date, 'comment_date');
 			$sql = "
 				SELECT date(comment_date) as date, count(*) as count FROM $wpdb->comments
-				WHERE comment_type <> 'acholhesus_log' $sql_date
+				WHERE comment_type <> 'acolhesus_log' $sql_date
 				group by date(comment_date)
 			";
 
 			$comments = $wpdb->get_results($sql, ARRAY_A);
 			$this->organize_array($result,$comments, 'comments');
+		}
+
+		if(in_array("active_author", $filter))
+		{
+			$sql_date = $this->gen_sql_date($date, 'p.post_date', self::USER);
+			$sql = "
+				SELECT date(p.post_date) as date, count(distinct p.post_author) as count FROM $wpdb->posts p
+				WHERE p.post_type='post' and (p.post_status = 'publish' OR p.post_status = 'voting-queue') $sql_date
+				group by date(p.post_date)
+			";
+
+			$active_author = $wpdb->get_results($sql, ARRAY_A);
+			$this->organize_array($result,$active_author, 'active_author');
+		}
+
+		if(in_array('active_contributor', $filter))
+		{
+			$sql_date = $this->gen_sql_date($date, 'c.comment_date', self::USER);
+
+			$sql = "
+				SELECT date(c.comment_date) as date, count(distinct c.user_id) as count FROM $wpdb->comments c
+				WHERE c.comment_type <> 'acolhesus_log' $sql_date
+				group by date(c.comment_date)
+			";
+
+			$active_contributors = $wpdb->get_results($sql, ARRAY_A);
+			$this->organize_array($result,$active_contributors, 'active_contributor');
 		}
 
 		uksort($result, function($a, $b){

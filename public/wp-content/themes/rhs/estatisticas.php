@@ -57,9 +57,9 @@
                             <div id="filter_increasing" class="filter">
                                 <hr>
 
-                                <h6>Usuários</h6>
+                                <h6>Usuários cadastrados</h6>
                                 <label>
-                                    <input type="checkbox" name="filter" value="all_users" data-name="Cadastros" checked> Cadastros
+                                    <input type="checkbox" name="filter" value="all_users" data-name="Cadastros" checked> Total
                                 </label>
                                 <label>
                                     <input type="checkbox" name="filter" value="author" data-name="Autores"> Autores
@@ -69,6 +69,15 @@
                                 </label>
                                 <label>
                                     <input type="checkbox" name="filter" value="voter" data-name="Votantes"> Votantes
+                                </label>
+
+                                <hr>
+                                <h6>Interações</h6>
+                                <label>
+                                    <input type="checkbox" name="filter" value="active_author" data-name="Usuários que realizaram posts" checked> Usuarios que postaram
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="filter" value="active_contributor" data-name="Usuários que realizaram comentários" checked> Usuários que comentaram
                                 </label>
 
                                 <hr>
