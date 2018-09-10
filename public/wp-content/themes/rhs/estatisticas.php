@@ -19,8 +19,11 @@
                                 <?php echo $RHSStatistics->get_type(); ?>
                             </select>
                             <h5 class="text-center">Filtros Disponíveis</h5>
-                            <!--User-->
-                            <div id="filter_user" class="filter">
+
+                            <!--Count-->
+                            <div id="filter_count" class="filter">
+                                <hr>
+                                <h6>Tipo usuário</h6>
                                 <label>
                                     <input type="checkbox" name="filter" value="all_users" data-name="Total" checked> Total
                                 </label>
@@ -38,6 +41,15 @@
                                 </label>
                                 <label>
                                     <input type="checkbox" name="filter" value="voter" data-name="Votantes" checked> Votantes
+                                </label>
+
+                                <hr>
+                                <h6>Interações</h6>
+                                <label>
+                                    <input type="checkbox" name="filter" value="active_author" data-name="Usuários que realizaram posts" checked> Usuarios que postaram
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="filter" value="active_contributor" data-name="Usuários que realizaram comentários" checked> Usuários que comentaram
                                 </label>
                             </div>
 

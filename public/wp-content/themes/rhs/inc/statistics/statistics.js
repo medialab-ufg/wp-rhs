@@ -64,7 +64,7 @@ jQuery(function () {
                 info.push([name, Number(data[$(this).val()])]);
             });
 
-            if(data_type === 'user')
+            if(data_type === 'count')
             {
                 data_table.addColumn('string', 'Tipo de usuário');
                 data_table.addColumn('number', 'Quantidade');
@@ -109,7 +109,7 @@ jQuery(function () {
         if(type === 'increasing')
         {
             $("#chart_type").val('line');
-        }else if(type === 'user' || type === 'average')
+        }else if(type === 'count' || type === 'average')
         {
             $("#chart_type").val('bar');
         }
@@ -129,7 +129,7 @@ jQuery(function () {
     function create_title(type)
     {
         var title = "Gráfico de ", tail = '';
-        if(type === 'user')
+        if(type === 'count')
         {
             tail = "usuários";
         }else if(type === 'increasing')
@@ -154,7 +154,7 @@ jQuery(function () {
     function set_options(data_type, title) {
         var options = {};
         var width = 800, height = 750;
-        if(data_type === 'user')
+        if(data_type === 'count')
         {
             options = {
                 title: title,

@@ -7,7 +7,7 @@ class statistics {
 	public  $type = [
 			'increasing' => "Crescimento",
 			'average' => 'Média',
-			'user' => "Usuário"
+			'count' => "Total"
 		];
 
 	function __construct() {
@@ -21,8 +21,8 @@ class statistics {
 	{
 		switch ($_POST['type'])
 		{
-			case 'user':
-				$result = $this->gen_users_charts($_POST['filter']);
+			case 'count':
+				$result = $this->gen_count_charts($_POST['filter']);
 				break;
 			case 'increasing':
 				$result = $this->gen_increasing_charts($_POST['filter']);
@@ -35,7 +35,7 @@ class statistics {
 		wp_die();
 	}
 
-	private function gen_users_charts($filter)
+	private function gen_count_charts($filter)
 	{
 		global $wpdb;
 		$date = $this->get_date($filter);
@@ -80,10 +80,12 @@ class statistics {
 		$users['voter'] = 0;
 		$users['author'] = 0;
 		$users['contributor'] = 0;
+		$users['active_contributor'] = 0;
 
 		foreach ($all_users_capabilities as $user_capability)
 		{
 			$capabilities = unserialize($user_capability['meta_value']);
+
 			if(in_array("voter", $filter) && isset($capabilities['voter'])) {
 				$users['voter']++;
 			}else if(in_array("author", $filter) && isset($capabilities['author'])) {
@@ -102,6 +104,33 @@ class statistics {
 			}
 
 			$users['not_active_users'] = count($all_users_capabilities) - $users['active_users'];
+		}
+
+		if(in_array('active_author', $filter))
+		{
+			$sql_date = $this->gen_sql_date($date, 'p.post_date', self::USER);
+
+			$sql_active_authors = "
+						SELECT count(*) count FROM $wpdb->posts p JOIN $wpdb->users u
+						ON u.ID = p.post_author
+						where p.post_status = 'publish' and p.post_type = 'post' $sql_date
+    					group by p.post_author
+				";
+
+			$users['active_author'] = count($wpdb->get_results($sql_active_authors, ARRAY_A)[0]['count']);
+		}
+
+		if(in_array('active_contributor', $filter))
+		{
+			$sql_date = $this->gen_sql_date($date, 'c.comment_date', self::INCREASING);
+			$sql_active_contributors = "
+						SELECT count(*) count FROM $wpdb->comments c JOIN $wpdb->users u
+						ON u.ID = c.user_id
+						$sql_date
+    					group by c.user_id
+				";
+
+			$users['active_contributor'] = count($wpdb->get_results($sql_active_contributors, ARRAY_A)[0]['count']);
 		}
 
 		return $users;
