@@ -153,10 +153,7 @@ class statistics {
 			";
 
 			$all_users = $wpdb->get_results($sql, ARRAY_A);
-			foreach ($all_users as $user)
-			{
-				$result[$user['date']]['all_users'] = intval($user['count']);
-			}
+			$this->organize_array($result,$all_users, 'all_users');
 		}
 
 		$sql_users_capabilities = "
@@ -195,11 +192,8 @@ class statistics {
 				group by date(post_date)
 			";
 
-			$posts = $wpdb->get_results($sql, ARRAY_A);
-			foreach ($posts as $post)
-			{
-				$result[$post['date']]['all_posts'] = intval($post['count']);
-			}
+			$all_posts = $wpdb->get_results($sql, ARRAY_A);
+			$this->organize_array($result,$all_posts, 'all_posts');
 		}
 
 		if(in_array('followed', $filter))
@@ -212,10 +206,7 @@ class statistics {
 			";
 
 			$follows = $wpdb->get_results($sql, ARRAY_A);
-			foreach ($follows as $follow)
-			{
-				$result[$follow['date']]['followed'] = intval($follow['count']);
-			}
+			$this->organize_array($result,$follows, 'followed');
 		}
 
 		if(in_array('comments', $filter))
@@ -228,10 +219,7 @@ class statistics {
 			";
 
 			$comments = $wpdb->get_results($sql, ARRAY_A);
-			foreach ($comments as $comment)
-			{
-				$result[$comment['date']]['comments'] = intval($comment['count']);
-			}
+			$this->organize_array($result,$comments, 'comments');
 		}
 
 		uksort($result, function($a, $b){
@@ -241,6 +229,13 @@ class statistics {
 		});
 
 		return $result;
+	}
+
+	private function organize_array(&$results, &$data, $type)
+	{
+		foreach ($data as $d){
+			$results[$d['date']][$type] = intval($d['count']);
+		}
 	}
 
 	private function gen_average_charts($filter)
