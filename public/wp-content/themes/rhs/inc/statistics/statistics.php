@@ -327,19 +327,34 @@ class statistics {
 			$result['posts_visits'] = $wpdb->get_results( $sql, ARRAY_A )[0]['sum'] / $div;
 		}
 
-		/*Posts shares*/
-		if(in_array('shares', $filter))
+		/*Facebook share*/
+		if(in_array('facebook_share', $filter))
 		{
 			$div = $this->gen_div_factor($date, $period, 'post_date', $wpdb->posts, $wpdb)['div'];
 			$sql_date = $this->gen_sql_date($date, 'post_date', self::USER);
 			$sql = "
 			SELECT sum(c.view) as sum FROM
 			(SELECT sum(pm.meta_value) view FROM $wpdb->postmeta pm JOIN $wpdb->posts p
-				where (pm.meta_key='_rhs_data_twitter' or pm.meta_key='_rhs_data_facebook') AND p.ID = pm.post_id $sql_date
+				where pm.meta_key='_rhs_data_facebook' AND p.ID = pm.post_id $sql_date
                 group by $period(p.post_date)) as c
 			";
 
-			$result['shares'] = $wpdb->get_results( $sql, ARRAY_A )[0]['sum'] / $div;
+			$result['facebook_share'] = $wpdb->get_results( $sql, ARRAY_A )[0]['sum'] / $div;
+		}
+
+		/*Twitter share*/
+		if(in_array('twitter_share', $filter))
+		{
+			$div = $this->gen_div_factor($date, $period, 'post_date', $wpdb->posts, $wpdb)['div'];
+			$sql_date = $this->gen_sql_date($date, 'post_date', self::USER);
+			$sql = "
+			SELECT sum(c.view) as sum FROM
+			(SELECT sum(pm.meta_value) view FROM $wpdb->postmeta pm JOIN $wpdb->posts p
+				where pm.meta_key='_rhs_data_twitter' AND p.ID = pm.post_id $sql_date
+                group by $period(p.post_date)) as c
+			";
+
+			$result['twitter_share'] = $wpdb->get_results( $sql, ARRAY_A )[0]['sum'] / $div;
 		}
 
 		return $result;

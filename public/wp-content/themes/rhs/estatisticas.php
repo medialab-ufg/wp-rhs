@@ -98,13 +98,20 @@
                                     <input type="checkbox" name="filter" value="all_posts" data-name="Postagens" checked> Postagens
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="filter" value="shares" data-name="Postagens compartilhadas"> Compartilhamentos
-                                </label>
-                                <label>
                                     <input type="checkbox" name="filter" value="followed" data-name="Postagens seguidas"> Seguidas
                                 </label>
                                 <label>
                                     <input type="checkbox" name="filter" value="comments" data-name="Comentarios"> Comentários
+                                </label>
+
+                                <hr>
+                                <h6>Compartilhamentos em Redes sociais</h6>
+                                <label>
+                                    <input type="checkbox" name="filter" value="facebook_share" data-name="Facebook"> Facebook
+                                </label>
+
+                                <label>
+                                    <input type="checkbox" name="filter" value="twitter_share" data-name="Twitter"> Twitter
                                 </label>
 
                                 <hr>

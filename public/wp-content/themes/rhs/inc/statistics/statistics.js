@@ -55,46 +55,6 @@ jQuery(function () {
         });*/
     }
 
-    function select_chart_type()
-    {
-        var type = $("#type").val();
-        if(type === 'increasing')
-        {
-            $("#chart_type").val('line');
-        }else if(type === 'user' || type === 'average')
-        {
-            $("#chart_type").val('bar');
-        }
-    }
-
-    $("#type").change(function () {
-        $("div.filter").hide();
-        $("#filter_"+$("#type").val()).show();
-
-        select_chart_type();
-        $("#parametros").submit();
-    });
-
-    $("#filter_"+$("#type").val()).show();
-    select_chart_type();
-
-    function create_title(type)
-    {
-        var title = "Gráfico de ", tail = '';
-        if(type === 'user')
-        {
-            tail = "usuários";
-        }else if(type === 'increasing')
-        {
-            tail = "crescimento";
-        }else if(type === 'average')
-        {
-            tail = "média";
-        }
-
-        return title+tail;
-    }
-
     function prepare_data(data, chart_type, data_type, data_table) {
         var info = [];
         if(chart_type === 'bar')
@@ -141,6 +101,46 @@ jQuery(function () {
 
         data_table.addRows(info);
         return info;
+    }
+
+    function select_chart_type()
+    {
+        var type = $("#type").val();
+        if(type === 'increasing')
+        {
+            $("#chart_type").val('line');
+        }else if(type === 'user' || type === 'average')
+        {
+            $("#chart_type").val('bar');
+        }
+    }
+
+    $("#type").change(function () {
+        $("div.filter").hide();
+        $("#filter_"+$("#type").val()).show();
+
+        select_chart_type();
+        $("#parametros").submit();
+    });
+
+    $("#filter_"+$("#type").val()).show();
+    select_chart_type();
+
+    function create_title(type)
+    {
+        var title = "Gráfico de ", tail = '';
+        if(type === 'user')
+        {
+            tail = "usuários";
+        }else if(type === 'increasing')
+        {
+            tail = "crescimento";
+        }else if(type === 'average')
+        {
+            tail = "média";
+        }
+
+        return title+tail;
     }
 
     /*function selectHandler(chart, data) {
