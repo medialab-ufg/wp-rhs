@@ -111,8 +111,7 @@ class statistics {
 			$sql_date = $this->gen_sql_date($date, 'p.post_date', self::USER);
 
 			$sql_active_authors = "
-						SELECT count(*) count FROM $wpdb->posts p JOIN $wpdb->users u
-						ON u.ID = p.post_author
+						SELECT count(*) count FROM $wpdb->posts p
 						where p.post_type='post' and (p.post_status = 'publish' OR p.post_status = 'voting-queue') $sql_date
     					group by p.post_author
 				";
@@ -124,8 +123,7 @@ class statistics {
 		{
 			$sql_date = $this->gen_sql_date($date, 'c.comment_date', self::USER);
 			$sql_active_contributors = "
-						SELECT count(*) count FROM $wpdb->comments c JOIN $wpdb->users u
-						ON u.ID = c.user_id
+						SELECT count(*) count FROM $wpdb->comments c
 						WHERE 1=1 $sql_date
     					group by c.user_id
 				";
