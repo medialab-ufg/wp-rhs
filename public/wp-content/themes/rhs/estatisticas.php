@@ -188,6 +188,9 @@
             <div class="col-md-9 add_margin no-padding">
                 <div class="panel">
                     <div class="panel-body">
+                        <div id="loader" class="text-center">
+                            <img src="<?php echo get_template_directory_uri()?>/inc/comments/images/loadingAnimation.gif">
+                        </div>
                         <div id="estatisticas"></div>
                     </div>
                 </div>

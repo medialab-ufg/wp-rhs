@@ -517,6 +517,11 @@ class statistics {
 			$div =  ($year * $month * $day) / 7;
 		}
 
+		if($div == 0)
+		{
+			$div = 1;
+		}
+
 		return ['min' => $min, 'max' => $max, 'div' => $div];
 	}
 

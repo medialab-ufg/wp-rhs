@@ -13,6 +13,7 @@ jQuery(function () {
 
         filter.push({period: $("input:radio[name=filter]:checked").val()});
 
+        $("#loader").show();
         jQuery.post(ajax_vars.ajaxurl, {
             action: 'rhs_gen_charts',
             type: jQuery("#type").val(),
@@ -35,6 +36,8 @@ jQuery(function () {
 
             var options = set_options(data_type, title);
             drawChart(info, where, chart_type, data_table, options);
+
+            $("#loader").hide();
         });
     }
 
