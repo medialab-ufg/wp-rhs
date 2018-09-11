@@ -165,7 +165,8 @@ jQuery(function () {
                 height: height,
                 vAxis: {
                     title: 'Quantidade'
-                }
+                },
+                colors: ['#00b4b4']
             };
         }else if(data_type === 'increasing')
         {
@@ -179,7 +180,8 @@ jQuery(function () {
                 },
                 hAxis: {
                     title: 'Período'
-                }
+                },
+                colors: ['#00b4b4', '#CC0000', '#0133FF', '#924790', '#00209F', '#6D9C91', '#D2691E', '#D4AF37', '#FF1493']
             };
         }else if (data_type === 'average')
         {
@@ -192,7 +194,8 @@ jQuery(function () {
                 },
                 hAxis: {
                     title: 'Período'
-                }
+                },
+                colors: ['#00b4b4']
             };
         }
 
