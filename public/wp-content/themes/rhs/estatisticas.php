@@ -31,6 +31,7 @@
                             <!-- Increasing -->
                             <div id="filter_increasing" class="filter-">
 
+                                <input type="text" class="type" value="increasing">
                                 <div class="col-md-12 no-padding">
                                     <div class="col-md-4 no-padding">
                                         <h6>Usuários cadastrados</h6>
@@ -75,6 +76,7 @@
                             <!--Average-->
                             <div id="filter_average" class="filter-">
 
+                                <input type="text" class="type" value="average">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="col-md-4">
@@ -168,6 +170,7 @@
                         <div class="tab-pane" id="total">
                             <!-- Total -->
                             <div id="filter_count" class="filter-">
+                                <input type="text" class="type" value="count">
                                 <div class="col-md-12 no-padding">
                                     <div class="col-md-6 no-padding">
                                         <h6>Tipo usuário</h6>
@@ -216,38 +219,25 @@
                                 <div class="col-md-12 no-padding">
                                     <div class="col-md-6 no-padding">
                                         <label>Data Inicial</label>
-                                        <input type="date" name="initial_date" id="initial_date" class="form-control">
+                                        <input type="date" name="initial_date" id="initial_date" class="form-control" form="parametros">
                                     </div>
                                     <div class="col-md-6" style="padding-right: 0">
                                         <label>Data Final</label>
-                                        <input type="date" name="final_date" id="final_date" class="form-control">
+                                        <input type="date" name="final_date" id="final_date" class="form-control" form="parametros">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-12 no-padding" style="margin-top: 40px">
-                                <button id="enviar" type="submit" class="btn btn-primary pull-right">Gerar Gráfico</button>
+                            <div class="col-md-12 no-padding" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e3e3e3;">
+                                <form id="parametros" name="parametros">
+                                    <input type="hidden" id="chart_type" value="bar">
+<!--                                    <select id="type" name="type" class="form-control"> </select>-->
+                                    <button id="enviar" type="submit" class="btn btn-primary pull-right">Gerar Gráfico</button>
+                                </form>
                             </div>
-
                         </div>
                     </div>
                 </div>
-
-
-
-                <?php /*
-                <div class="panel">
-                    <div class="panel-body">
-                        <form id="parametros">
-                            <input type="hidden" id="chart_type" value="bar">
-                            <h4>Selecione dados referentes a: </h4>
-                            <select id="type" name="type" class="form-control">
-                                <?php echo $RHSStatistics->get_type(); ?>
-                            </select>
-<!--                            <h5 class="text-center">Filtros Disponíveis</h5>-->
-                        </form>
-                    </div>
-                </div> */ ?>
             </div>
 
             <div class="col-md-12 add_margin no-padding">

@@ -13,10 +13,12 @@ jQuery(function () {
 
         filter.push({period: $("input:radio[name=filter]:checked").val()});
 
+        var tipo_selecionado = jQuery(".type:visible").val();
+
         $("#loader").show();
         jQuery.post(ajax_vars.ajaxurl, {
             action: 'rhs_gen_charts',
-            type: jQuery("#type").val(),
+            type: tipo_selecionado,
             filter: filter
         }).success(function (r) {
             var data = JSON.parse(r);
@@ -159,7 +161,7 @@ jQuery(function () {
 
     function set_options(data_type, title) {
         var options = {};
-        var width = 800, height = 750;
+        var width = '100%', height = 750;
         if(data_type === 'count')
         {
             options = {
