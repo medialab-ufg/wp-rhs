@@ -19,12 +19,11 @@
             <div class="col-md-12 no-padding">
 
                 <div class="container"><h4 style="color: black"> </h4></div>
-                <div id="exTab3" class="container col-md-12 no-padding">
+                <div id="filtros-estatisticas" class="container col-md-7 no-padding">
                     <ul class="nav nav-pills">
                         <li class="active"> <a href="#quantidade" data-toggle="tab">Quantidade por data</a> </li>
                         <li><a href="#media" data-toggle="tab"> Média </a></li>
                         <li><a href="#total" data-toggle="tab"> Total </a> </li>
-                        <li><a href="#data" data-toggle="tab"> Período </a> </li>
                     </ul>
 
                     <div class="tab-content clearfix panel panel-default" style="padding: 20px;">
@@ -204,25 +203,37 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane" id="data">
+                    </div>
+                </div>
+
+                <div id="data-estatisticas" class="container col-md-5">
+                    <ul class="nav nav-pills">
+                        <li><a href="#data" data-toggle="tab"> Período </a> </li>
+                    </ul>
+                    <div class="tab-content clearfix panel panel-default" style="padding: 20px;">
+                        <div class="tab-pane active" id="data">
                             <div id="date_filter">
                                 <div class="col-md-12 no-padding">
                                     <div class="col-md-6 no-padding">
                                         <label>Data Inicial</label>
                                         <input type="date" name="initial_date" id="initial_date" class="form-control">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-right: 0">
                                         <label>Data Final</label>
                                         <input type="date" name="final_date" id="final_date" class="form-control">
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-12 no-padding" style="margin-top: 40px">
-                            <button id="enviar" type="submit" class="btn btn-primary pull-right">Gerar Gráfico</button>
+
+                            <div class="col-md-12 no-padding" style="margin-top: 40px">
+                                <button id="enviar" type="submit" class="btn btn-primary pull-right">Gerar Gráfico</button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
+
+
 
                 <?php /*
                 <div class="panel">
