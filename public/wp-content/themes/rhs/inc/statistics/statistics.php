@@ -481,7 +481,7 @@ class statistics {
 
 	private function gen_div_factor($date, $period, $column, $table, $wpdb)
 	{
-		$min = 0; $max = 0;
+		$min = 0; $max = 0; $div = 0;
 		if(isset($date['inicial']))
 		{
 			$earlier = new DateTime($date['inicial']);
@@ -495,7 +495,7 @@ class statistics {
 		{
 			$later = new DateTime($date['final']);
 		}else {
-			$sql_max_date = "SELECT date(max($column)) max from $table";
+			$sql_max_date = "SELECT date(NOW())";
 			$max = $wpdb->get_results($sql_max_date, ARRAY_A)[0]['max'];
 			$later = new DateTime($max);
 		}
@@ -504,9 +504,9 @@ class statistics {
 		$diff = $earlier->diff($later);
 
 		if($period === 'month')
-			$div = $diff->m;
+			$div = ($diff->y * 12) + $diff->m;
 		else if($period === 'day')
-			$div = $diff->d;
+			$div = ($diff->y * 365) + ($diff->m * 30) + $diff->d;
 		else if($period === 'year')
 			$div = $diff->y;
 		else
@@ -516,8 +516,6 @@ class statistics {
 			$year = ($diff->y === 0)? 1 : $diff->y;
 			$div =  ($year * $month * $day) / 7;
 		}
-
-		$div++;
 
 		return ['min' => $min, 'max' => $max, 'div' => $div];
 	}
