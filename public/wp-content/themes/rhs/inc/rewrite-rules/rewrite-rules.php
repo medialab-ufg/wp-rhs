@@ -89,6 +89,7 @@ class RHSRewriteRules {
             'user/register' . "/?$" => $base . "$login=1&$tpl=" . self::REGISTER_URL,
             'user/me/edit' . "/?$"  => $base . "$login=1&$tpl=" . self::PROFILE_URL,
             'node/add/blog' . "/?$" => $base . "$login=1&$tpl=" . self::POST_URL,
+            'node/([0-9]+)/?'       => 'index.php?p=$matches[1]',
             'tags/([^/]+)/?'        => $base . 'tag=$matches[1]',
             'category/tags/([^/]+)/?' => $base . 'tag=$matches[1]',
             'grupos/([^/]+)/?'        => $base . RHSComunities::TAXONOMY.'=$matches[1]'
