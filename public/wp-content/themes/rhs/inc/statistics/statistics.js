@@ -27,7 +27,10 @@ jQuery(function () {
         event.preventDefault();
     });
     
-    function create_chart(data, data_type, chart_type = 'bar', where = 'estatisticas') {
+    function create_chart(data, data_type, chart_type, where) {
+        var chart_type = chart_type || 'bar';
+        var where = where || 'estatisticas';
+
         google.charts.load('current', {'packages':['corechart', chart_type]});
         var title = create_title(data_type);
 
