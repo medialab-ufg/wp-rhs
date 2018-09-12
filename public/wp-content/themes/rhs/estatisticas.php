@@ -206,7 +206,7 @@
                                     <div class="col-md-3">
                                         <h6>Postagens</h6>
                                         <label>
-                                            <input type="checkbox" name="filter" value="posts_visits" data-name="Visualição de posts"> Visualizações
+                                            <input type="checkbox" name="filter" value="posts_visits" data-name="Visualização de posts"> Visualizações
                                         </label>
                                         <label>
                                             <input type="checkbox" name="filter" value="followed" data-name="Seguir em posts"> Seguir
@@ -243,16 +243,16 @@
                                 <div class="col-md-12 no-padding">
                                     <div class="col-md-6 no-padding">
                                         <label>Data Inicial</label>
-                                        <input type="date" name="initial_date" id="initial_date" class="form-control" form="parametros">
+                                        <input type="date" name="initial_date" id="initial_date" class="form-control">
                                     </div>
                                     <div class="col-md-6" style="padding-right: 0">
                                         <label>Data Final</label>
-                                        <input type="date" name="final_date" id="final_date" class="form-control" form="parametros">
+                                        <input type="date" name="final_date" id="final_date" class="form-control">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-12 no-padding" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e3e3e3;">
+                            <div class="col-md-12 no-padding form-wrapper">
                                 <form id="parametros" name="parametros">
                                     <input type="hidden" id="chart_type" value="bar">
                                     <button id="enviar" type="submit" class="btn btn-primary pull-right">Gerar Gráfico</button>

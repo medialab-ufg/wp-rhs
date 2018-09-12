@@ -33,14 +33,7 @@
     }
   }
 
-  .filter{
-    display: none;
-  }
-
-  #loader {
-    //margin-top: 0px;
-    //padding: 46px 0 46% 0;
-  }
+  .filter { display: none; }
 
   .nav-pills>li>a {
     color: black;
@@ -50,7 +43,15 @@
   }
   .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
     color: #fff;
-    background-color: #00b4b4;
+    background-color: $primeira_cor_texto;
     padding: 5px 10px;
+  }
+
+  #data-estatisticas {
+    .form-wrapper {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid $backgroundColor;
+    }
   }
 } // rhs-statistics
