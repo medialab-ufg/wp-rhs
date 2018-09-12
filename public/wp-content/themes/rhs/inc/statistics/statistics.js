@@ -161,7 +161,7 @@ jQuery(function () {
 
     function set_options(data_type, title) {
         var options = {};
-        var width = '100%', height = 750;
+        var width = '100%', height = 600;
         if(data_type === 'count')
         {
             options = {

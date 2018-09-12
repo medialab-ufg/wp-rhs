@@ -185,29 +185,29 @@
                             <!-- Total -->
                             <div id="filter_count" class="filter-">
                                 <div class="col-md-12 no-padding">
-                                    <div class="col-md-8 no-padding">
-                                        <h6>Tipo usuário</h6>
-                                        <label style="display: inline-block">
-                                            <input type="checkbox" name="filter" value="all_users" data-name="Total" checked> Total
-                                        </label> &nbsp;
-                                        <label style="display: inline-block">
-                                            <input type="checkbox" name="filter" value="active_users" data-name="Ativos" checked> Ativos
-                                        </label> &nbsp;
-                                        <label style="display: inline-block">
-                                            <input type="checkbox" name="filter" value="not_active_users" data-name="Não ativos" checked> Não ativos
+                                    <div class="col-md-3 no-padding">
+                                        <h6>Usuário</h6>
+                                        <label>
+                                            <input type="checkbox" name="filter" value="all_users" data-name="Total de usuários" checked> Total
                                         </label>
-                                        <br>
-                                        <label style="display: inline-block">
-                                            <input type="checkbox" name="filter" value="author" data-name="Autores" checked> Autores
-                                        </label> &nbsp;
-                                        <label style="display: inline-block">
-                                            <input type="checkbox" name="filter" value="contributor" data-name="Contribuidores" checked> Contribuidores
-                                        </label> &nbsp;
-                                        <label style="display: inline-block">
+                                        <label>
+                                            <input type="checkbox" name="filter" value="active_users" data-name="Usuários ativos" checked> Ativos
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="filter" value="not_active_users" data-name="Usuários não ativos" checked> Não ativos
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="filter" value="author" data-name="Autores"> Autores
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="filter" value="contributor" data-name="Contribuidores"> Contribuidores
+                                        </label>
+                                        <label>
                                             <input type="checkbox" name="filter" value="voter" data-name="Votantes" checked> Votantes
                                         </label>
                                     </div>
-                                    <div class="col-md-4">
+
+                                    <div class="col-md-3">
                                         <h6>Interações</h6>
                                         <label>
                                             <input type="checkbox" name="filter" value="active_author" data-name="Usuários que realizaram posts" checked> Usuarios que postaram
@@ -216,6 +216,29 @@
                                             <input type="checkbox" name="filter" value="active_contributor" data-name="Usuários que realizaram comentários" checked> Usuários que comentaram
                                         </label>
                                     </div>
+                                    <div class="col-md-3">
+                                        <h6>Postagens</h6>
+                                        <label>
+                                            <input type="checkbox" name="filter" value="post_view" data-name="Visualição de posts"> Visualizações
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="filter" value="post_follow" data-name="Seguir em posts"> Seguir
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="filter" value="comments" data-name="Comentários"> Comentários
+                                        </label>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <h6>Compartilhamentos</h6>
+                                        <label>
+                                            <input type="checkbox" name="filter" value="facebook_share" data-name="Compartilhamentos no Facebook" checked> Compartilhamentos no Facebook
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="filter" value="twitter_share" data-name="Compartilhamentos no Twitter"> Compartilhamentos no Twitter
+                                        </label>
+                                    </div>
+
                                 </div>
 
                             </div>
@@ -223,7 +246,7 @@
                     </div>
                 </div>
 
-                <div id="data-estatisticas" class="container col-md-5" style="margin-top: -30px;">
+                <div id="data-estatisticas" class="container col-md-5">
                     <ul class="nav nav-pills">
                         <li><a href="#data" data-toggle="tab"> Período </a> </li>
                     </ul>
