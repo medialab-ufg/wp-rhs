@@ -1,18 +1,5 @@
 <?php get_header('full'); ?>
 <?php global $RHSStatistics; ?>
-    <style>
-        .nav-pills>li>a {
-            color: black;
-            font-size: 15px;
-            padding: 5px 10px;
-            border-radius: 4px 4px 0 0;
-        }
-        .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
-            color: #fff;
-            background-color: #00b4b4;
-            padding: 5px 10px;
-        }
-    </style>
 <div id="rhs-statistics" class="row">
 	<div class="col-md-12">
         <h3 class="text-center" style="margin-top: 30px;margin-bottom: 0;"> Estatísticas de Uso da Rede Humaniza SUS</h3>
@@ -137,7 +124,7 @@
                                     <div class="col-md-12">
                                         <div class="col-md-5 no-padding">
                                             <hr>
-                                            <h6>Compartilhamentos em Redes sociais</h6>
+                                            <h6>Compartilhamentos</h6>
                                             <label style="display: inline-block">
                                                 <input type="checkbox" name="filter" value="facebook_share" data-name="Facebook"> Facebook
                                             </label>
@@ -219,10 +206,10 @@
                                     <div class="col-md-3">
                                         <h6>Postagens</h6>
                                         <label>
-                                            <input type="checkbox" name="filter" value="post_view" data-name="Visualição de posts"> Visualizações
+                                            <input type="checkbox" name="filter" value="posts_visits" data-name="Visualição de posts"> Visualizações
                                         </label>
                                         <label>
-                                            <input type="checkbox" name="filter" value="post_follow" data-name="Seguir em posts"> Seguir
+                                            <input type="checkbox" name="filter" value="followed" data-name="Seguir em posts"> Seguir
                                         </label>
                                         <label>
                                             <input type="checkbox" name="filter" value="comments" data-name="Comentários"> Comentários

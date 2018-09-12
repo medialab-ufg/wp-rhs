@@ -68,42 +68,42 @@ class statistics {
 		$all_users_capabilities = $wpdb->get_results($sql_all_users, ARRAY_A);
 		if(in_array('active_users', $filter))
 		{
-			$users['active_users'] = $wpdb->get_results($sql_users.$active_users, ARRAY_A)[0]['count'];
-			$users['active_users'] = ($users['active_users'] > count($all_users_capabilities)) ? count($all_users_capabilities) : intval($users['active_users']);
+			$result['active_users'] = $wpdb->get_results($sql_users.$active_users, ARRAY_A)[0]['count'];
+			$result['active_users'] = ($result['active_users'] > count($all_users_capabilities)) ? count($all_users_capabilities) : intval($result['active_users']);
 		}
 
 		if(in_array('all_users', $filter))
 		{
-			$users['all_users'] = count($all_users_capabilities);
+			$result['all_users'] = count($all_users_capabilities);
 		}
 
-		$users['voter'] = 0;
-		$users['author'] = 0;
-		$users['contributor'] = 0;
-		$users['active_contributor'] = 0;
+		$result['voter'] = 0;
+		$result['author'] = 0;
+		$result['contributor'] = 0;
+		$result['active_contributor'] = 0;
 
 		foreach ($all_users_capabilities as $user_capability)
 		{
 			$capabilities = unserialize($user_capability['meta_value']);
 
 			if(in_array("voter", $filter) && isset($capabilities['voter'])) {
-				$users['voter']++;
+				$result['voter']++;
 			}else if(in_array("author", $filter) && isset($capabilities['author'])) {
-				$users['author']++;
+				$result['author']++;
 			}else if(in_array("contributor", $filter) && isset($capabilities['contributor'])){
-				$users['contributor']++;
+				$result['contributor']++;
 			}
 		}
 
 		if(in_array('not_active_users', $filter))
 		{
-			if(!isset($users['active_users']))
+			if(!isset($result['active_users']))
 			{
-				$users['active_users'] = $wpdb->get_results($sql_users.$active_users, ARRAY_A)[0]['count'];
-				$users['active_users'] = ($users['active_users'] > count($all_users_capabilities)) ? count($all_users_capabilities) : intval($users['active_users']);
+				$result['active_users'] = $wpdb->get_results($sql_users.$active_users, ARRAY_A)[0]['count'];
+				$result['active_users'] = ($result['active_users'] > count($all_users_capabilities)) ? count($all_users_capabilities) : intval($result['active_users']);
 			}
 
-			$users['not_active_users'] = count($all_users_capabilities) - $users['active_users'];
+			$result['not_active_users'] = count($all_users_capabilities) - $result['active_users'];
 		}
 
 		if(in_array('active_author', $filter))
@@ -116,7 +116,7 @@ class statistics {
     					group by p.post_author
 				";
 
-			$users['active_author'] = count($wpdb->get_results($sql_active_authors, ARRAY_A)[0]['count']);
+			$result['active_author'] = count($wpdb->get_results($sql_active_authors, ARRAY_A)[0]['count']);
 		}
 
 		if(in_array('active_contributor', $filter))
@@ -128,10 +128,67 @@ class statistics {
     					group by c.user_id
 				";
 
-			$users['active_contributor'] = count($wpdb->get_results($sql_active_contributors, ARRAY_A)[0]['count']);
+			$result['active_contributor'] = count($wpdb->get_results($sql_active_contributors, ARRAY_A)[0]['count']);
 		}
 
-		return $users;
+		if(in_array('posts_visits', $filter))
+		{
+			$sql_date = $this->gen_sql_date($date, 'p.post_date', self::USER);
+			$sql = "SELECT sum(pm.meta_value) count FROM $wpdb->postmeta pm JOIN $wpdb->posts p
+				where pm.meta_key='_rhs_data_view' AND p.ID = pm.post_id $sql_date";
+
+			$result['posts_visits'] = $wpdb->get_results( $sql, ARRAY_A )[0]['count'];
+		}
+
+		/*Follows*/
+		if(in_array('followed', $filter))
+		{
+			$sql_date = $this->gen_sql_date( $date, 'datetime', self::USER );
+			$sql      = "
+				SELECT count(*) as count FROM " . $wpdb->prefix . "notifications
+				WHERE type = 'post_followed' $sql_date
+			";
+
+			$result['followed'] = $wpdb->get_results( $sql, ARRAY_A )[0]['count'];
+		}
+
+		/*Comments*/
+		if(in_array('comments', $filter))
+		{
+			$sql_date = $this->gen_sql_date($date, 'comment_date', self::USER);
+			$sql = "
+				SELECT count(*) as count FROM $wpdb->comments
+				WHERE comment_type <> 'acholhesus_log' $sql_date
+			";
+
+			$result['comments'] = $wpdb->get_results( $sql, ARRAY_A )[0]['count'];
+		}
+
+		/*Facebook share*/
+		if(in_array('facebook_share', $filter))
+		{
+			$sql_date = $this->gen_sql_date($date, 'post_date', self::USER);
+			$sql = "
+			SELECT sum(pm.meta_value) count FROM $wpdb->postmeta pm JOIN $wpdb->posts p
+				where pm.meta_key='_rhs_data_facebook' AND p.ID = pm.post_id $sql_date
+			";
+
+			$result['facebook_share'] = $wpdb->get_results( $sql, ARRAY_A )[0]['count'];
+		}
+
+		/*Twitter share*/
+		if(in_array('twitter_share', $filter))
+		{
+			$sql_date = $this->gen_sql_date($date, 'post_date', self::USER);
+			$sql = "
+			SELECT sum(pm.meta_value) count FROM $wpdb->postmeta pm JOIN $wpdb->posts p
+				where pm.meta_key='_rhs_data_twitter' AND p.ID = pm.post_id $sql_date
+			";
+
+			$result['twitter_share'] = $wpdb->get_results( $sql, ARRAY_A )[0]['count'];
+		}
+
+		return $result;
 	}
 
 	private function gen_increasing_charts($filter)
