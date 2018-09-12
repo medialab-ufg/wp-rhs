@@ -3,7 +3,7 @@ jQuery(function () {
     jQuery("#parametros").submit(function (event) {
         var filter = [];
 
-        $("div.filter:visible input:checkbox[name=filter]:checked").each(function(){
+        $($("#id_div").val()+" input:checkbox[name=filter]:checked").each(function(){
             filter.push($(this).val());
         });
 
@@ -13,30 +13,27 @@ jQuery(function () {
 
         filter.push({period: $("input:radio[name=filter]:checked").val()});
 
-        var tipo_selecionado = jQuery(".type:visible").val();
-
+        var selected_data_chart = jQuery("#selected_data_type").val();
         $("#loader").show();
         jQuery.post(ajax_vars.ajaxurl, {
             action: 'rhs_gen_charts',
-            type: tipo_selecionado,
+            type: selected_data_chart,
             filter: filter
         }).success(function (r) {
             var data = JSON.parse(r);
-            create_chart(data, $("#type").val(), $("#chart_type").val());
+            create_chart(data, selected_data_chart, $("#chart_type").val());
         });
 
         event.preventDefault();
     });
     
-    function create_chart(data, data_type, chart_type, where) {
-        var char_type = char_type || 'bar';
-        var where = where || 'estatisticas';
-
+    function create_chart(data, data_type, chart_type = 'bar', where = 'estatisticas') {
         google.charts.load('current', {'packages':['corechart', chart_type]});
         var title = create_title(data_type);
 
         google.charts.setOnLoadCallback(function (){
             var data_table = new google.visualization.DataTable();
+
             var info = prepare_data(data, chart_type, data_type, data_table);
 
             var options = set_options(data_type, title);
@@ -67,7 +64,7 @@ jQuery(function () {
         var info = [];
         if(chart_type === 'bar')
         {
-            $("div.filter:visible input:checkbox[name=filter]:checked").each(function(){
+            $("div.filter-:visible input:checkbox[name=filter]:checked").each(function(){
                 var name = $(this).data('name');
                 info.push([name, Number(data[$(this).val()])]);
             });
@@ -86,7 +83,7 @@ jQuery(function () {
         {
             var select_types = [];
             data_table.addColumn('string', 'Ano');
-            $("div.filter:visible input:checkbox[name=filter]:checked").each(function(){
+            $("div.filter-:visible input:checkbox[name=filter]:checked").each(function(){
                 data_table.addColumn('number', $(this).data('name'));
                 select_types.push($(this).val());
             });
@@ -111,9 +108,8 @@ jQuery(function () {
         return info;
     }
 
-    function select_chart_type()
+    function select_chart_type(type, id_div)
     {
-        var type = $("#type").val();
         if(type === 'increasing')
         {
             $("#chart_type").val('line');
@@ -121,18 +117,19 @@ jQuery(function () {
         {
             $("#chart_type").val('bar');
         }
+
+        $("#selected_data_type").val(type);
+        $("#id_div").val(id_div);
     }
 
-    $("#type").change(function () {
-        $("div.filter").hide();
-        $("#filter_"+$("#type").val()).show();
-
-        select_chart_type();
+    $(".nav-pills li").click(function () {
+        var div_id = "#"+$(this).find('a').prop('href').split("#")[1];
+        $("#id_div").val(div_id);
+        select_chart_type($(this).data('type'), div_id);
         $("#parametros").submit();
     });
 
-    $("#filter_"+$("#type").val()).show();
-    select_chart_type();
+    select_chart_type(jQuery("li.active").data('type'));
 
     function create_title(type)
     {

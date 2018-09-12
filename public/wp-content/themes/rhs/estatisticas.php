@@ -21,17 +21,17 @@
                 <div class="container"><h4 style="color: black"> </h4></div>
                 <div id="filtros-estatisticas" class="container col-md-7 no-padding">
                     <ul class="nav nav-pills">
-                        <li class="active"> <a href="#quantidade" data-toggle="tab">Quantidade por data</a> </li>
-                        <li><a href="#media" data-toggle="tab"> Média </a></li>
-                        <li><a href="#total" data-toggle="tab"> Total </a> </li>
+                        <li class="active" data-type="increasing"> <a href="#quantidade" data-toggle="tab">Quantidade por data</a> </li>
+                        <li data-type="average"><a href="#media" data-toggle="tab"> Média </a></li>
+                        <li data-type="count"><a href="#total" data-toggle="tab"> Total </a> </li>
                     </ul>
 
+                    <input type="hidden" id="selected_data_type" value="">
+                    <input type="hidden" id="id_div" value="">
                     <div class="tab-content clearfix panel panel-default" style="padding: 20px;">
                         <div class="tab-pane active" id="quantidade">
                             <!-- Increasing -->
                             <div id="filter_increasing" class="filter-">
-
-                                <input type="text" class="type" value="increasing">
                                 <div class="col-md-12 no-padding">
                                     <div class="col-md-4 no-padding">
                                         <h6>Usuários cadastrados</h6>
@@ -75,8 +75,6 @@
                         <div class="tab-pane" id="media">
                             <!--Average-->
                             <div id="filter_average" class="filter-">
-
-                                <input type="text" class="type" value="average">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="col-md-4">
@@ -170,7 +168,6 @@
                         <div class="tab-pane" id="total">
                             <!-- Total -->
                             <div id="filter_count" class="filter-">
-                                <input type="text" class="type" value="count">
                                 <div class="col-md-12 no-padding">
                                     <div class="col-md-6 no-padding">
                                         <h6>Tipo usuário</h6>
