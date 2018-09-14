@@ -178,7 +178,7 @@ Class RHSVote {
         }
 
         if(!get_option( 'vq_text_vote_own_posts' )){
-            add_option('vq_text_vote_own_posts',  'Infelizmente você não pode votar no seu proprio post.');
+            add_option('vq_text_vote_own_posts',  'Infelizmente você não pode votar no seu próprio post.');
         }
 
         if(!get_option( 'vq_text_vote_posts' )){
@@ -245,7 +245,7 @@ Class RHSVote {
 
 	function fila_query( $wp_query ) {
 
-        if ( $wp_query->is_main_query() && $wp_query->get( 'rhs_login_tpl' ) == RHSRewriteRules::VOTING_QUEUE_URL ) {
+        if ( $wp_query->is_main_query() && $wp_query->get(RHSRewriteRules::TPL_QUERY) == RHSRewriteRules::VOTING_QUEUE_URL ) {
 
 			$args = array(
 				'post_type'      => 'post',
@@ -487,6 +487,44 @@ Class RHSVote {
 
 	}
 
+	function get_post_voters($post_id)
+	{
+		global $wpdb;
+		$get_users = "SELECT ID, display_name name FROM $wpdb->users WHERE ID in (SELECT user_id FROM ".$wpdb->prefix."votes WHERE post_id=".$post_id.")";
+		$users = $wpdb->get_results($get_users, ARRAY_A);
+
+		return $users;
+	}
+
+	function get_voters_box($post_id)
+	{
+		$users = $this->get_post_voters($post_id);
+		$is_empty = empty($users);
+		 ob_start();
+		?>
+		<div class="dropdown">
+			<button class="btn btn-xs dropdown-toggle" <?php echo $is_empty? 'disabled': '';?> style="background: #00b4b4; color: white;" type="button" data-toggle="dropdown"> Quem votou
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<?php if(!$is_empty) { ?>
+					<?php foreach($users as $user){ ?>
+                        <li>
+							<a href="<?php echo get_author_posts_url($user['ID']); ?>" target="_blank"><?php echo $user['name'];?></a>
+						</li>
+                    <?php
+					}
+				}
+            ?>
+                </ul>
+            </div>
+		<?php
+
+		$users_button = ob_get_clean();
+
+		return $users_button;
+	}
+
 	function get_vote_box( $post_id, $echo = true ) {
 
 		$output     = '<div id="votebox-' . $post_id . '">';
@@ -508,36 +546,8 @@ Class RHSVote {
 		// Se ele não estiver logado, aparece só o texto "Votos"
 
         if( !is_user_logged_in() || $this->is_post_expired( $post_id ) ) {
-            global $wpdb;
             $output .= '<span class="vTexto" style="font-size: 12px !important; color: darkgrey; ">'.$textVotes.'</span>';
-            $get_users = "SELECT ID, display_name name FROM $wpdb->users WHERE ID in 
-                (SELECT user_id FROM ".$wpdb->prefix."votes WHERE post_id=".$post_id.")";
-
-            $users = $wpdb->get_results($get_users, ARRAY_A);
-            $is_empty = empty($users);
-            ob_start();
-            ?>
-            <div class="dropdown">
-                <button class="btn btn-xs dropdown-toggle" <?php echo $is_empty? 'disabled': '';?> style="background: #00b4b4; color: white;" type="button" data-toggle="dropdown"> Ver votos
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-            <?php
-            if(!$is_empty)
-            {
-                ?>
-                    <?php foreach($users as $user){ ?>
-                        <li><a href="<?php echo get_author_posts_url($user['ID']); ?>"><?php echo $user['name'];?></a></li>
-                    <?php }?>
-                <?php
-            }
-
-            ?>
-                </ul>
-            </div>
-            <?php
-
-            $users_button = ob_get_clean();
+            $users_button = $this->get_voters_box($post_id);
             $output .= $users_button;
 
         } else if($this->user_has_voted( $post_id )) {
