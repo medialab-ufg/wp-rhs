@@ -33,8 +33,12 @@ $_post_id = get_the_ID();
                         <span class="post-date text-uppercase"><?php the_time( 'd/m/Y' ); ?></span>
                     </div>
                     <div class="votebox">
-                        <?php if(get_post_status($_post_id) != 'private')
-                            do_action( 'rhs_votebox', $_post_id); ?>
+                        <?php
+                        if(get_post_status($_post_id) != 'private')
+                        {
+                            do_action( 'rhs_votebox', $_post_id);
+                        }
+                        ?>
                     </div>
                     <div class="clearfix"></div>
                 </div>

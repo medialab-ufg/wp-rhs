@@ -508,10 +508,43 @@ Class RHSVote {
 		// Se ele não estiver logado, aparece só o texto "Votos"
 
         if( !is_user_logged_in() || $this->is_post_expired( $post_id ) ) {
+            global $wpdb;
             $output .= '<span class="vTexto" style="font-size: 12px !important; color: darkgrey; ">'.$textVotes.'</span>';
+            $get_users = "SELECT ID, display_name name FROM $wpdb->users WHERE ID in 
+                (SELECT user_id FROM ".$wpdb->prefix."votes WHERE post_id=".$post_id.")";
+
+            $users = $wpdb->get_results($get_users, ARRAY_A);
+            $is_empty = empty($users);
+            ob_start();
+            ?>
+            <div class="dropdown">
+                <button class="btn btn-xs dropdown-toggle" <?php echo $is_empty? 'disabled': '';?> style="background: #00b4b4; color: white;" type="button" data-toggle="dropdown"> Ver votos
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+            <?php
+            if(!$is_empty)
+            {
+                ?>
+                    <?php foreach($users as $user){ ?>
+                        <li><a href="<?php echo get_author_posts_url($user['ID']); ?>"><?php echo $user['name'];?></a></li>
+                    <?php }?>
+                <?php
+            }
+
+            ?>
+                </ul>
+            </div>
+            <?php
+
+            $users_button = ob_get_clean();
+            $output .= $users_button;
+
         } else if($this->user_has_voted( $post_id )) {
+            /*Already voted*/
             $output .= '<span class="vButton"><a class="btn btn-danger" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
         } else {
+            /*Didn't vote yet*/
             $output .= '<span class="vButton"><a class="btn btn-danger js-vote-button hidden-print" data-post_id="' . $post_id . '">VOTAR</a></span>';
         }
 
