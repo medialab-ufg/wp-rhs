@@ -50,7 +50,7 @@ Class RHSVote {
 
 			add_action( 'pre_get_posts', array( &$this, 'fila_query' ) );
 
-			add_action('wp_ajax_rhs_get_posts_vote', array(&$this, 'rhs_get_posts_vote'));
+			// add_action('wp_ajax_rhs_get_posts_vote', array(&$this, 'rhs_get_posts_vote'));
 			
             // habilita comentarios para posts na fila de votação
             add_action( 'comment_on_draft', array( &$this, 'allow_comments_in_queue' ) );
