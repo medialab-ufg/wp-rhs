@@ -512,14 +512,15 @@ Class RHSVote {
 
 	}
 
-	function get_post_voters($post_id)
-	{
-		global $wpdb;
-		$get_users = "SELECT ID, display_name name FROM $wpdb->users WHERE ID in (SELECT user_id FROM ".$wpdb->prefix."votes WHERE post_id=".$post_id.")";
-		$users = $wpdb->get_results($get_users, ARRAY_A);
-
-		return $users;
-	}
+	/*
+//	function get_post_voters($post_id)
+//	{
+//		global $wpdb;
+//		$get_users = "SELECT ID, display_name name FROM $wpdb->users WHERE ID in (SELECT user_id FROM ".$wpdb->prefix."votes WHERE post_id=".$post_id.")";
+//		$users = $wpdb->get_results($get_users, ARRAY_A);
+//
+//		return $users;
+//	}
 
 	function get_voters_box($post_id)
 	{
@@ -537,7 +538,7 @@ Class RHSVote {
 		$users_button = ob_get_clean();
 
 		return $users_button;
-	}
+	} */
 
 	function get_vote_box( $post_id, $echo = true ) {
 
@@ -561,8 +562,8 @@ Class RHSVote {
 
         if( !is_user_logged_in() || $this->is_post_expired( $post_id ) ) {
             $output .= '<span class="vTexto" style="font-size: 12px !important; color: darkgrey; ">'.$textVotes.'</span>';
-            $users_button = $this->get_voters_box($post_id);
-            $output .= $users_button;
+            // $users_button = $this->get_voters_box($post_id);
+            // $output .= $users_button;
 
         } else if($this->user_has_voted( $post_id )) {
             /*Already voted*/
