@@ -539,3 +539,25 @@ Primeiro e Segundo DropDown Menu
         }
     }
 }
+
+.cl-menu li
+{
+    position: relative;
+}
+
+.cl-menu ul
+{
+    position: absolute;
+    top: 205px;
+    left: 100%;
+    display:none;
+    list-style: none;
+    color: white;
+    background-color: #00b4b4;
+    text-align: left;
+}
+
+.cl-menu li:hover > ul
+{
+    display:block;
+}

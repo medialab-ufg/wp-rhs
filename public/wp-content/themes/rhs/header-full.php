@@ -118,7 +118,7 @@
                     <?php if(my_wp_is_mobile()): ?>
                         </li>
                     <?php else : ?>
-                        <ul class="dropdown-menu" aria-labelledby="drop_perfil">
+                        <ul class="dropdown-menu cl-menu" aria-labelledby="drop_perfil">
                     <?php endif; ?>
                             <li class="menu-item pub">
                                 <a href="<?php echo home_url(RHSRewriteRules::POST_URL); ?>">
@@ -144,11 +144,41 @@
                                     <i class="icones-dropdown fa fa-area-chart" aria-hidden="true"></i> Estatísticas
                                 </a>
                             </li>
-                            <li class="menu-item">
+                            <li class="menu-item ">
                                 <a href="<?php echo home_url(RHSRewriteRules::POSTAGENS_URL);?>">
                                     <i class="icones-dropdown fa fa-list-alt" aria-hidden="true"></i> Minhas Postagens
                                 </a>
                             </li>
+
+                            <?php
+	                            global $RHSComunities;
+
+	                            $user_id = get_current_user_id();
+	                            $is_author = is_author( $user_id );
+
+                                if ( $RHSComunities->get_communities_by_member( $user_id )) {
+                                    ?>
+                                    <li class="menu-item">
+                                        <ul>
+			                                <?php
+			                                foreach ( $RHSComunities->get_comunities_objects_by_user( $user_id ) as $key => $comunidade ){
+				                                if ( $comunidade->is_member() ) {
+					                                ?>
+                                                    <li>
+                                                        <a href="<?php echo $comunidade->get_url() ?>"> <?php echo $comunidade->get_name() ?> </a>
+                                                    </li>
+					                                <?php
+				                                }
+			                                }
+			                                ?>
+                                        </ul>
+                                        <a href="javascript:void(0)">
+                                            <i class="fa fa-comments-o" aria-hidden="true"></i> Minhas comunidades <i class="fa fa-caret-right pull-right" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <?php
+                                }
+                            ?>
                             <li class="menu-item hidden-sm hidden-md hidden-lg">
                                 <a href="notificacoes">
                                     <i class="icones-dropdown fa fa-list-alt" aria-hidden="true"></i> Notificações(<b>2</b>)
