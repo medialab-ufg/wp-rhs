@@ -49,6 +49,8 @@ Class RHSVote {
 			add_filter( 'map_meta_cap', array( &$this, 'read_post_cap' ), 10, 4 );
 
 			add_action( 'pre_get_posts', array( &$this, 'fila_query' ) );
+
+			add_action('wp_ajax_rhs_get_posts_vote', array(&$this, 'rhs_get_posts_vote'));
 			
             // habilita comentarios para posts na fila de votação
             add_action( 'comment_on_draft', array( &$this, 'allow_comments_in_queue' ) );
@@ -68,6 +70,29 @@ Class RHSVote {
 		}
 
 	}
+
+	public function rhs_get_posts_vote()
+    {
+        $post_id = $_POST['post_id'];
+	    $users = $this->get_post_voters($post_id);
+	    ob_start();
+	    ?>
+        <ul class="dropdown-menu dropdown<?php echo $post_id; ?>">
+            <?php if(!empty($users)) { ?>
+                <?php foreach($users as $user){ ?>
+                    <li>
+                        <a href="<?php echo get_author_posts_url($user['ID']); ?>" target="_blank"><?php echo $user['name'];?></a>
+                    </li>
+                <?php
+                    }
+                }
+            ?>
+        </ul>
+	    <?php
+
+	    echo ob_get_clean();
+	    wp_die();
+    }
 
 	private function verify_role(){
         /**
@@ -503,21 +528,10 @@ Class RHSVote {
 		 ob_start();
 		?>
 		<div class="dropdown">
-			<button class="btn btn-xs dropdown-toggle" <?php echo $is_empty? 'disabled': '';?> style="background: #00b4b4; color: white;" type="button" data-toggle="dropdown"> Quem votou
+			<button class="btn btn-xs dropdown-toggle who-votted"  data-postid="<?php echo $post_id; ?>" <?php echo $is_empty? 'disabled': '';?> style="background: #00b4b4; color: white;" type="button" data-toggle="dropdown"> Quem votou
 				<span class="caret"></span>
 			</button>
-			<ul class="dropdown-menu">
-				<?php if(!$is_empty) { ?>
-					<?php foreach($users as $user){ ?>
-                        <li>
-							<a href="<?php echo get_author_posts_url($user['ID']); ?>" target="_blank"><?php echo $user['name'];?></a>
-						</li>
-                    <?php
-					}
-				}
-            ?>
-                </ul>
-            </div>
+        </div>
 		<?php
 
 		$users_button = ob_get_clean();
