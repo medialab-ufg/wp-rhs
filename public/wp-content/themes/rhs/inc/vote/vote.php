@@ -427,7 +427,6 @@ Class RHSVote {
             exit;
         }
 
-
         $this->add_vote( $_POST['post_id'], get_current_user_id() );
         $box = $this->get_vote_box( $_POST['post_id'], false);
 
