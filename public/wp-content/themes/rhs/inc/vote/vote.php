@@ -50,7 +50,7 @@ Class RHSVote {
 
 			add_action( 'pre_get_posts', array( &$this, 'fila_query' ) );
 
-			// add_action('wp_ajax_rhs_get_posts_vote', array(&$this, 'rhs_get_posts_vote'));
+			add_action('wp_ajax_rhs_get_posts_vote', array(&$this, 'rhs_get_posts_vote'));
 			
             // habilita comentarios para posts na fila de votação
             add_action( 'comment_on_draft', array( &$this, 'allow_comments_in_queue' ) );
@@ -66,32 +66,32 @@ Class RHSVote {
             $this->days_for_expired = get_option('vq_days_for_expired');
 
 			self::$instance = true;
-            
 		}
-
 	}
 
 	public function rhs_get_posts_vote()
     {
-        $post_id = $_POST['post_id'];
-	    $users = $this->get_post_voters($post_id);
-	    ob_start();
-	    ?>
-        <ul class="dropdown-menu dropdown<?php echo $post_id; ?>">
-            <?php if(!empty($users)) { ?>
-                <?php foreach($users as $user){ ?>
-                    <li>
-                        <a href="<?php echo get_author_posts_url($user['ID']); ?>" target="_blank"><?php echo $user['name'];?></a>
-                    </li>
-                <?php
-                    }
-                }
-            ?>
-        </ul>
-	    <?php
+        $post_id = sanitize_text_field($_POST['post_id']);
+		if (is_string($post_id) && !empty($post_id)) {
+			$users = $this->get_post_voters($post_id);
+			ob_start();
+			?>
+			<ul class="dropdown-menu dropdown<?php echo $post_id; ?>">
+				<?php if (!empty($users)) { ?>
+					<?php foreach ($users as $user) { ?>
+						<li>
+							<a href="<?php echo get_author_posts_url($user['ID']); ?>" target="_blank"><?php echo $user['name']; ?></a>
+						</li>
+						<?php
+					}
+				}
+				?>
+			</ul>
+			<?php
 
-	    echo ob_get_clean();
-	    wp_die();
+			echo ob_get_clean();
+			wp_die();
+		}
     }
 
 	private function verify_role(){
