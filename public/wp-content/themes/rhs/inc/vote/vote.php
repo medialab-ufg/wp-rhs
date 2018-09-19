@@ -511,15 +511,15 @@ Class RHSVote {
 
 	}
 
-	/*
-//	function get_post_voters($post_id)
-//	{
-//		global $wpdb;
-//		$get_users = "SELECT ID, display_name name FROM $wpdb->users WHERE ID in (SELECT user_id FROM ".$wpdb->prefix."votes WHERE post_id=".$post_id.")";
-//		$users = $wpdb->get_results($get_users, ARRAY_A);
-//
-//		return $users;
-//	}
+
+	function get_post_voters($post_id)
+	{
+		global $wpdb;
+		$get_users = "SELECT ID, display_name name FROM $wpdb->users WHERE ID in (SELECT user_id FROM ".$wpdb->prefix."votes WHERE post_id=".$post_id.")";
+		$users = $wpdb->get_results($get_users, ARRAY_A);
+
+		return $users;
+	}
 
 	function get_voters_box($post_id)
 	{
@@ -537,33 +537,35 @@ Class RHSVote {
 		$users_button = ob_get_clean();
 
 		return $users_button;
-	} */
+	}
 
 	function get_vote_box( $post_id, $echo = true ) {
+		$textVotes = 'votos';
 
-		$output     = '<div id="votebox-' . $post_id . '">';
-		$totalVotes = $this->get_total_votes( $post_id );
+		$output     = '<div id="votebox-' . $post_id . '" style="border: 1px solid #17b2b2; padding: 2px; border-radius: 3px;">';
+		$totalVotes = intval($this->get_total_votes( $post_id ));
 
-		if ( empty( $totalVotes ) ) {
+
+		if (empty($totalVotes)) {
 			$totalVotes = 0;
 		}
-		if($totalVotes == 1){
+
+		if ($totalVotes == 1) {
 			$textVotes = 'voto';
-		}else{
-			$textVotes = 'votos';
 		}
 
-		$output .= '<span class="vTexto">' . $totalVotes . '</span>';
+		$output .= '<span class="vTexto">' . $totalVotes . '</span> ';
 
 		// TODO: vai haver uma meta capability vote_post,
 		// Se o usuário ja votou neste post, não aparece o botão e aparece de alguma maneira que indique q ele já votou
 		// Se ele não estiver logado, aparece só o texto "Votos"
 
         if( !is_user_logged_in() || $this->is_post_expired( $post_id ) ) {
-            $output .= '<span class="vTexto" style="font-size: 12px !important; color: darkgrey; ">'.$textVotes.'</span>';
-            // $users_button = $this->get_voters_box($post_id);
-            // $output .= $users_button;
-
+            $output .= ' <span class="vTexto vote-text">'.$textVotes.'</span>';
+			if (is_user_logged_in()) {
+				$users_button = $this->get_voters_box($post_id);
+				$output .= $users_button;
+			}
         } else if($this->user_has_voted( $post_id )) {
             /*Already voted*/
             $output .= '<span class="vButton"><a class="btn btn-danger" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
@@ -574,7 +576,7 @@ Class RHSVote {
 
 		$output .= '</div>';
 
-		if ( $echo ) {
+		if ($echo) {
 			echo $output;
 		}
 

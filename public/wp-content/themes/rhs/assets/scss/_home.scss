@@ -57,13 +57,16 @@
       }
       .vTexto {
         line-height: 17px;
-        display: block;
+        //display: block;
         color: #00b4b4;
         font: {
           size: 15px;
           weight: bold;
         }
-        margin-bottom: 4px;
+        &.vote-text {
+          font-size: 12px !important;
+          color: black;
+        }
       }
       .vButton {
         display: block;
@@ -150,4 +153,4 @@
     }
 
   } // .post-titulo
-}
+} // panel-footer
