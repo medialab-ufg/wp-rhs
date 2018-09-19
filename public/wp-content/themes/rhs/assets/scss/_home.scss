@@ -50,6 +50,11 @@
       border: 1px solid $primeira_cor_texto;
       padding: 2px;
       border-radius: 3px;
+
+      .who-votted {
+        background: $primeira_cor_texto;
+        color: white;
+      }
     }
     .votebox, .vdivide {
       float: right;
@@ -63,7 +68,7 @@
       .vTexto {
         line-height: 17px;
         //display: block;
-        color: #00b4b4;
+        color: $primeira_cor_texto;
         font: {
           size: 15px;
           weight: bold;

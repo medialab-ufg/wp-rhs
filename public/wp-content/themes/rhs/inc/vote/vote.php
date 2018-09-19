@@ -77,8 +77,9 @@ Class RHSVote {
 			ob_start();
 			?>
 			<ul class="dropdown-menu dropdown<?php echo $post_id; ?>">
-				<?php if (!empty($users)) { ?>
-					<?php foreach ($users as $user) { ?>
+				<?php if (!empty($users)) {
+					foreach ($users as $user) {
+						?>
 						<li>
 							<a href="<?php echo get_author_posts_url($user['ID']); ?>" target="_blank"><?php echo $user['name']; ?></a>
 						</li>
@@ -508,14 +509,13 @@ Class RHSVote {
 		$vote = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $this->tablename WHERE user_id = %d AND post_id = %d", $user_id, $post_id ) );
 
 		return sizeof( $vote ) > 0;
-
 	}
 
 
 	function get_post_voters($post_id)
 	{
 		global $wpdb;
-		$get_users = "SELECT ID, display_name name FROM $wpdb->users WHERE ID in (SELECT user_id FROM ".$wpdb->prefix."votes WHERE post_id=".$post_id.")";
+		$get_users = $wpdb->prepare("SELECT ID, display_name as name FROM $wpdb->users WHERE ID in (SELECT user_id FROM $this->tablename WHERE post_id = %d)", intval($post_id));
 		$users = $wpdb->get_results($get_users, ARRAY_A);
 
 		return $users;
@@ -523,13 +523,11 @@ Class RHSVote {
 
 	function get_voters_box($post_id)
 	{
-		$users = $this->get_post_voters($post_id);
-		$is_empty = empty($users);
-		 ob_start();
+		ob_start();
 		?>
 		<div class="dropdown">
-			<button class="btn btn-xs dropdown-toggle who-votted"  data-postid="<?php echo $post_id; ?>" <?php echo $is_empty? 'disabled': '';?> style="background: #00b4b4; color: white;" type="button" data-toggle="dropdown"> Quem votou
-				<span class="caret"></span>
+			<button class="btn btn-xs dropdown-toggle who-votted" data-postid="<?php echo $post_id; ?>" type="button" data-toggle="dropdown">
+				Quem votou <span class="caret"></span>
 			</button>
         </div>
 		<?php
