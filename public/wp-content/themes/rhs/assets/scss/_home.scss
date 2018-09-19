@@ -46,6 +46,11 @@
         }
       }
     }
+    .votebox-wrapper {
+      border: 1px solid $primeira_cor_texto;
+      padding: 2px;
+      border-radius: 3px;
+    }
     .votebox, .vdivide {
       float: right;
       text-align: center;

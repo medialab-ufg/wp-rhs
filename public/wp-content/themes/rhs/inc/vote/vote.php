@@ -215,7 +215,7 @@ Class RHSVote {
         }
 
         if(!get_option( 'vq_text_post_promoted' )){
-            add_option('vq_text_post_promoted',  'Parabens, seu voto foi contabilizado e o post foi promovido a página inicial!');
+            add_option('vq_text_post_promoted',  'Parabéns, seu voto foi contabilizado e o post foi promovido para a página inicial!');
         }
 
     }
@@ -541,10 +541,8 @@ Class RHSVote {
 
 	function get_vote_box( $post_id, $echo = true ) {
 		$textVotes = 'votos';
-
-		$output     = '<div id="votebox-' . $post_id . '" style="border: 1px solid #17b2b2; padding: 2px; border-radius: 3px;">';
-		$totalVotes = intval($this->get_total_votes( $post_id ));
-
+		$output     = "<div id='votebox-$post_id' class='votebox-wrapper'>";
+		$totalVotes = intval($this->get_total_votes($post_id));
 
 		if (empty($totalVotes)) {
 			$totalVotes = 0;
@@ -555,12 +553,7 @@ Class RHSVote {
 		}
 
 		$output .= '<span class="vTexto">' . $totalVotes . '</span> ';
-
-		// TODO: vai haver uma meta capability vote_post,
-		// Se o usuário ja votou neste post, não aparece o botão e aparece de alguma maneira que indique q ele já votou
-		// Se ele não estiver logado, aparece só o texto "Votos"
-
-        if( !is_user_logged_in() || $this->is_post_expired( $post_id ) ) {
+        if (!is_user_logged_in() || $this->is_post_expired($post_id)) {
             $output .= ' <span class="vTexto vote-text">'.$textVotes.'</span>';
 			if (is_user_logged_in()) {
 				$users_button = $this->get_voters_box($post_id);
