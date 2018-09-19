@@ -17,7 +17,6 @@
     </div>
 
     <div class="col-md-6 classificar">
-
         <div class="pull-right">
             <div class="dropdown">
                 <?php RHSSearch::show_button_download_report(); ?>

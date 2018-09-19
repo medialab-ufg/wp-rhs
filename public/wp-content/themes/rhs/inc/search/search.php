@@ -5,6 +5,7 @@ class RHSSearch {
     const SEARCH_PARAM = 'rhs_busca';
     const BASE_URL = 'busca';
     const BASE_USERS_URL = 'busca/usuarios';
+    const BASE_IN_USER_POSTS = 'busca/usuario';
     const USERS_PER_PAGE = 40;
     const EXPORT_TOTAL_PER_PAGE = 300;
     
@@ -84,6 +85,12 @@ class RHSSearch {
         unset($busca_atual['paged']);
         
         return add_query_arg( $busca_atual, home_url($base) ); 
+    }
+
+    static function get_search_in_users_posts_url($neworder, $user_id)
+    {
+	    $busca_atual['rhs_order'] = $neworder."&user_profile=true";
+	    return add_query_arg( $busca_atual, get_author_posts_url($user_id));
     }
     
     static function get_search_url() {
