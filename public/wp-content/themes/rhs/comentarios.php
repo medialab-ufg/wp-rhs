@@ -24,13 +24,20 @@ if (isset($author_id)) {
                                     $id = $comentario->comment_ID;
                                     $post_id = $comentario->comment_post_ID;
                                     $date = date("d/m/Y à\s H:i",strtotime($comentario->comment_date));
-                                    $comment_link = get_permalink($post_id) . "/#comment-" . $id;
+
+                                    if (is_object(get_post($post_id))) {
+                                        $comment_link = get_permalink($post_id) . "/#comment-" . $id;
+                                        $comment_post_title = get_post($post_id)->post_title;
+                                    } else {
+                                        $comment_link = "#";
+                                        $comment_post_title = "<i>Post removido</i>";
+                                    }
                                     ?>
                                     <li class="list-group-item list-group-item-action">
                                         <div class="col-xs-10 text-left">
-                                            <p>
+                                            <p> Post:
                                                 <a class="commented-post" href="<?php echo $comment_link; ?>">
-                                                    <?php echo get_post($post_id)->post_title; ?>
+                                                    <?php echo $comment_post_title; ?>
                                                 </a> em
                                                 <small><?php echo $date; ?></small>
                                             </p>
