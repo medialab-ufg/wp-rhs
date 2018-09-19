@@ -136,7 +136,7 @@
                         <?php endif; ?>
                             <li class="menu-item perf">
                                 <a href="<?php echo get_author_posts_url($RHSUsers->getUserId()); ?>">
-                                    <i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil
+                                    <i class="icones-dropdown fa fa-user" aria-hidden="true"></i> Meu Perfil
                                 </a>
                             </li>
                             <li class="menu-item perf">
