@@ -95,39 +95,33 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h3>Meus posts</h3>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="pull-right classificar">
-                                        <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            Classificar por
-		                                    <?php
-		                                    if(RHSSearch::get_param('rhs_order') == 'date')
-			                                    echo 'Data';
-                                            elseif(RHSSearch::get_param('rhs_order') == 'comments')
-			                                    echo 'Comentários';
-                                            elseif(RHSSearch::get_param('rhs_order') == 'votes')
-			                                    echo 'Votos';
-                                            elseif(RHSSearch::get_param('rhs_order') == 'views')
-			                                    echo 'Visualizações';
-                                            elseif(RHSSearch::get_param('rhs_order') == 'shares')
-			                                    echo 'Compartilhamentos';
-		                                    else
-			                                    echo '';
-		                                    ?>
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('date', $curauth->ID); ?>">Data</a></li>
-                                            <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('comments', $curauth->ID); ?>">Comentários</a></li>
-                                            <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('votes', $curauth->ID); ?>">Votos</a></li>
-                                            <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('views', $curauth->ID); ?>">Visualizações</a></li>
-                                            <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('shares', $curauth->ID); ?>">Compartilhamentos</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+
+                            <div class="pull-right classificar col-md-4">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Ordenar por
+                                    <?php
+                                    if(RHSSearch::get_param('rhs_order') == 'date')
+                                        echo 'Data';
+                                    elseif(RHSSearch::get_param('rhs_order') == 'comments')
+                                        echo 'Comentários';
+                                    elseif(RHSSearch::get_param('rhs_order') == 'votes')
+                                        echo 'Votos';
+                                    elseif(RHSSearch::get_param('rhs_order') == 'views')
+                                        echo 'Visualizações';
+                                    elseif(RHSSearch::get_param('rhs_order') == 'shares')
+                                        echo 'Compartilhamentos';
+                                    else
+                                        echo '';
+                                    ?>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('date', $curauth->ID); ?>">Data</a></li>
+                                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('comments', $curauth->ID); ?>">Comentários</a></li>
+                                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('votes', $curauth->ID); ?>">Votos</a></li>
+                                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('views', $curauth->ID); ?>">Visualizações</a></li>
+                                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('shares', $curauth->ID); ?>">Compartilhamentos</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
