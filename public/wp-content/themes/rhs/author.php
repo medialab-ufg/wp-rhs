@@ -3,67 +3,68 @@ get_header();
 
 get_edit_user_link();
 
-get_template_part('partes-templates/user-header-info');
-
 $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
 if ($curauth) {
     ?>
 
     <!--Informações Pessoais-->
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6">
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="InfoPessoais">
-                        <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse"
-                               data-parent="#accordionInfo" href="#info_pessoais" aria-expanded="false"
-                               aria-controls="info_pessoais">
-                                Informações Pessoais</a>
-                        </h4>
-                    </div>
+    <div class="col-xs-12 no-padding" style="background: white;">
 
-                    <div id="info_pessoais" class="panel-collapse collapse" role="tabpanel"
-                         aria-labelledby="InfoPessoais">
-                        <div class="panel-body">
-                            <?php
-                            $is_author = is_author( get_current_user_id() );
-                            $has_link = get_the_author_meta($RHSUsers::LINKS_USERMETA, $curauth->ID);
 
-                            if( $is_author || $has_link ) {
-                                global $RHSComunities;
-                                if( $RHSComunities->get_communities_by_member( $curauth->ID ) && $is_author ) { ?>
-                                    <p>Grupos: </p>
+        <?php get_template_part('partes-templates/user-header-info'); ?>
 
-                                    <?php foreach ( $RHSComunities->get_comunities_objects_by_user( $curauth->ID ) as $key => $comunidade ) :
-                                        if( !$comunidade->is_member() ) {
-                                            continue;
-                                        } ?>
-                                        <div>
-                                            <?php echo '<a href="'. $comunidade->get_url() . '" class="link_comunidade">' . $comunidade->get_name() . '</a>'; ?>
-                                        </div>
-                                    <?php endforeach; //end foreach
+        <hr>
 
-                                } //end grupos
+        <div class="col-sm-6 col-md-6" id="accordion" role="tablist" aria-multiselectable="true">
 
-                                if ($has_link && count($has_link) > 0) {
-                                    $RHSUsers->show_author_links($curauth->ID);
-                                } //end links
+            <div class="panel-heading" role="tab" id="InfoPessoais">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse"
+                       data-parent="#accordionInfo" href="#info_pessoais" aria-expanded="false"
+                       aria-controls="info_pessoais">
+                        Informações Pessoais</a>
+                </h4>
+            </div>
 
-                            } else {
-                                echo 'Sem Informações';
-                            } //end is author and has link
-                            ?>
-                        </div>
-                    </div>
+            <div id="info_pessoais" class="panel-collapse collapse" role="tabpanel" aria-expanded="true" aria-labelledby="InfoPessoais">
+                <div class="panel-body">
+                    <?php
+                    $is_author = is_author( get_current_user_id() );
+                    $has_link = get_the_author_meta($RHSUsers::LINKS_USERMETA, $curauth->ID);
+
+                    if( $is_author || $has_link ) {
+                        global $RHSComunities;
+                        if( $RHSComunities->get_communities_by_member( $curauth->ID ) && $is_author ) { ?>
+                            <p>Comunidades: </p>
+
+                            <?php foreach ( $RHSComunities->get_comunities_objects_by_user( $curauth->ID ) as $key => $comunidade ) :
+                                if( !$comunidade->is_member() ) {
+                                    continue;
+                                } ?>
+                                <div>
+                                    <?php echo '<a href="'. $comunidade->get_url() . '" class="link_comunidade">' . $comunidade->get_name() . '</a>'; ?>
+                                </div>
+                            <?php endforeach; //end foreach
+
+                        } //end grupos
+
+                        if ($has_link && count($has_link) > 0) {
+                            $RHSUsers->show_author_links($curauth->ID);
+                        } //end links
+
+                    } else {
+                        echo 'Sem Informações';
+                    } //end is author and has link
+                    ?>
                 </div>
             </div>
-        </div><!--Fim Informações Pessoais-->
+
+        </div> <!--Fim Informações Pessoais-->
 
         <!--Sobre e Interesses-->
-        <div class="col-xs-12 col-sm-6 col-md-6">
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default">
+            <div class="col-sm-6 col-md-6">
+            <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="">
                     <div class="panel-heading" role="tab" id="SobreInteresses">
                         <h4 class="panel-title">
                             <a class="collapsed" role="button" data-toggle="collapse"
@@ -92,26 +93,25 @@ if ($curauth) {
                 </div>
             </div>
         </div> <!--Fim Sobre e Interesses-->
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel">
 
-                <div class="pull-right classificar col-md-4">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        Ordenar posts por <?php echo RHSSearch::get_search_order_label(); ?> <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('date', $curauth->ID); ?>">Data</a></li>
-                        <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('comments', $curauth->ID); ?>">Comentários</a></li>
-                        <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('votes', $curauth->ID); ?>">Votos</a></li>
-                        <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('views', $curauth->ID); ?>">Visualizações</a></li>
-                        <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('shares', $curauth->ID); ?>">Compartilhamentos</a></li>
-                    </ul>
-                </div>
+        <div class="col-md-12" style="padding-bottom: 20px">
+            <div class="classificar">
+                <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="float: right">
+                    Ordenar posts deste autor por <?php echo RHSSearch::get_search_order_label(); ?> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="busca_filtro">
+                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('date', $curauth->ID); ?>">Data</a></li>
+                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('comments', $curauth->ID); ?>">Comentários</a></li>
+                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('votes', $curauth->ID); ?>">Votos</a></li>
+                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('views', $curauth->ID); ?>">Visualizações</a></li>
+                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('shares', $curauth->ID); ?>">Compartilhamentos</a></li>
+                </ul>
             </div>
         </div>
+
     </div>
+
+    <div class="clearfix"> </div>
 
     <?php get_template_part( 'partes-templates/loop-posts' );
 }
