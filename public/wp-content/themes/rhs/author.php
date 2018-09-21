@@ -10,33 +10,28 @@ if ($curauth) {
     <!--Informações Pessoais-->
     <div class="col-xs-12 no-padding" style="background: white;">
 
-
         <?php get_template_part('partes-templates/user-header-info'); ?>
-
-        <hr>
 
         <div class="col-sm-6 col-md-6" id="accordion" role="tablist" aria-multiselectable="true">
 
-            <div class="panel-heading" role="tab" id="InfoPessoais">
+            <div class="panel-heading" role="tab" id="InfoPessoais" style="border-top: 1px solid #e3e3e3; padding-top: 20px;">
                 <h4 class="panel-title">
                     <a class="collapsed" role="button" data-toggle="collapse"
-                       data-parent="#accordionInfo" href="#info_pessoais" aria-expanded="false"
-                       aria-controls="info_pessoais">
+                       data-parent="#accordionInfo" href="#info_pessoais" aria-expanded="true" aria-controls="info_pessoais">
                         Informações Pessoais</a>
                 </h4>
             </div>
 
-            <div id="info_pessoais" class="panel-collapse collapse" role="tabpanel" aria-expanded="true" aria-labelledby="InfoPessoais">
+            <div id="info_pessoais" class="panel-collapse collapse in" role="tabpanel" aria-expanded="true" aria-labelledby="InfoPessoais">
                 <div class="panel-body">
                     <?php
-                    $is_author = is_author( get_current_user_id() );
+                    $is_author = is_author(get_current_user_id());
                     $has_link = get_the_author_meta($RHSUsers::LINKS_USERMETA, $curauth->ID);
 
                     if( $is_author || $has_link ) {
                         global $RHSComunities;
                         if( $RHSComunities->get_communities_by_member( $curauth->ID ) && $is_author ) { ?>
                             <p>Comunidades: </p>
-
                             <?php foreach ( $RHSComunities->get_comunities_objects_by_user( $curauth->ID ) as $key => $comunidade ) :
                                 if( !$comunidade->is_member() ) {
                                     continue;
@@ -62,56 +57,49 @@ if ($curauth) {
         </div> <!--Fim Informações Pessoais-->
 
         <!--Sobre e Interesses-->
-            <div class="col-sm-6 col-md-6">
-            <div class="" id="accordion" role="tablist" aria-multiselectable="true">
-                <div class="">
-                    <div class="panel-heading" role="tab" id="SobreInteresses">
-                        <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse"
-                               data-parent="#accordionSobre" href="#sobre_interesses" aria-expanded="false"
-                               aria-controls="sobre_interesses">
-                                Sobre e Interesses</a>
-                        </h4>
-                    </div>
-                    <div id="sobre_interesses" class="panel-collapse collapse" role="tabpanel"
-                         aria-labelledby="SobreInteresses">
-                        <div class="panel-body">
-                            <?php if ( $RHSUsers->getSobre() ) { ?>
-                                <p>Sobre: </p>
-                                <span><?php echo change_p_for_br($RHSUsers->getSobre()); ?></span>
-                            <?php } ?>
-                            <?php if ( $RHSUsers->getInteresses() ) { ?>
-                                <p>Interesses: </p>
-                                <span><?php echo change_p_for_br($RHSUsers->getInteresses()); ?></span>
-                            <?php } ?>
-                            <?php if ( $RHSUsers->getFormacao() ) { ?>
-                                <p>Formação: </p>
-                                <span><?php echo change_p_for_br($RHSUsers->getFormacao()); ?></span>
-                            <?php } ?>
-                        </div>
+        <div class="col-sm-6 col-md-6">
+            <div style="border-top: 1px solid #e3e3e3; padding-top: 10px;" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel-heading" role="tab" id="SobreInteresses">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse"
+                           data-parent="#accordionSobre" href="#sobre_interesses" aria-expanded="true" aria-controls="sobre_interesses">
+                            Sobre e Interesses</a>
+                    </h4>
+                </div>
+                <div id="sobre_interesses" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="SobreInteresses">
+                    <div class="panel-body">
+                        <?php if ( $RHSUsers->getSobre() ) { ?>
+                            <p>Sobre: </p>
+                            <span><?php echo change_p_for_br($RHSUsers->getSobre()); ?></span>
+                        <?php } ?>
+                        <?php if ( $RHSUsers->getInteresses() ) { ?>
+                            <p>Interesses: </p>
+                            <span><?php echo change_p_for_br($RHSUsers->getInteresses()); ?></span>
+                        <?php } ?>
+                        <?php if ( $RHSUsers->getFormacao() ) { ?>
+                            <p>Formação: </p>
+                            <span><?php echo change_p_for_br($RHSUsers->getFormacao()); ?></span>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
         </div> <!--Fim Sobre e Interesses-->
 
-        <div class="col-md-12" style="padding-bottom: 20px">
-            <div class="classificar">
-                <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="float: right">
-                    Ordenar posts deste autor por <?php echo RHSSearch::get_search_order_label(); ?> <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="busca_filtro">
-                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('date', $curauth->ID); ?>">Data</a></li>
-                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('comments', $curauth->ID); ?>">Comentários</a></li>
-                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('votes', $curauth->ID); ?>">Votos</a></li>
-                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('views', $curauth->ID); ?>">Visualizações</a></li>
-                    <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('shares', $curauth->ID); ?>">Compartilhamentos</a></li>
-                </ul>
-            </div>
+        <div class="col-md-12 classificar dropdown" style="padding-bottom: 20px;padding-top: 20px">
+            <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="float: right">
+                Ordenar posts deste autor por <?php echo RHSSearch::get_search_order_label(); ?> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="busca_filtro">
+                <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('date', $curauth->ID); ?>">Data</a></li>
+                <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('comments', $curauth->ID); ?>">Comentários</a></li>
+                <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('votes', $curauth->ID); ?>">Votos</a></li>
+                <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('views', $curauth->ID); ?>">Visualizações</a></li>
+                <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('shares', $curauth->ID); ?>">Compartilhamentos</a></li>
+            </ul>
         </div>
-
     </div>
 
-    <div class="clearfix"> </div>
+    <div class="clearfix"></div>
 
     <?php get_template_part( 'partes-templates/loop-posts' );
 }
