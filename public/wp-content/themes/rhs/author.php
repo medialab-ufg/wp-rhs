@@ -8,7 +8,7 @@ if ($curauth) {
     ?>
 
     <!--Informações Pessoais-->
-    <div class="col-xs-12 no-padding" style="background: white;">
+    <div class="col-xs-12 no-padding" style="background: white; padding-bottom: 20px !important;">
 
         <?php get_template_part('partes-templates/user-header-info'); ?>
 
@@ -85,11 +85,11 @@ if ($curauth) {
             </div>
         </div> <!--Fim Sobre e Interesses-->
 
-        <div class="col-md-12 classificar dropdown" style="padding-bottom: 20px;padding-top: 20px">
-            <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="float: right">
+        <div class="col-md-12 classificar dropdown" style="padding-top: 20px">
+            <button class="btn btn-default dropdown-toggle pull-right" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 Ordenar posts deste autor por <?php echo RHSSearch::get_search_order_label(); ?> <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="busca_filtro">
+            <ul class="dropdown-menu pull-right" aria-labelledby="busca_filtro">
                 <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('date', $curauth->ID); ?>">Data</a></li>
                 <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('comments', $curauth->ID); ?>">Comentários</a></li>
                 <li><a href="<?php echo RHSSearch::get_search_in_users_posts_url('votes', $curauth->ID); ?>">Votos</a></li>
