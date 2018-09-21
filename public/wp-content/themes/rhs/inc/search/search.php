@@ -876,6 +876,30 @@ class RHSSearch {
         $default_classes = "btn btn-default filtro";
         return "<button type='submit' class='$default_classes btn-rhs'>Filtrar</button> <button id='reset_filters' type='reset' class='$default_classes'>Limpar Filtros</button>";
     }
+
+    public static function get_search_order_label()
+    {
+        $label = "";
+        switch (self::get_param('rhs_order')) {
+            case 'date':
+                $label = 'Data';
+                break;
+            case 'comments':
+                $label =  'Comentários';
+                break;
+            case 'votes':
+                $label =  'Votos';
+                break;
+            case 'views':
+                $label =  'Visualizações';
+                break;
+            case 'shares':
+                $label =  'Compartilhamentos';
+                break;
+        }
+
+        return $label;
+    }
 }
 
 /**
