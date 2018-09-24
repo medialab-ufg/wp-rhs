@@ -44,8 +44,8 @@ if (isset($author_id)) {
                                             <p> <?php echo $comentario->comment_content; ?> </p>
                                         </div>
                                         <div class="col-md-2 status">
-                                            <span>Status</span>
-                                            <?php echo comment_string(wp_get_comment_status($id)); ?>
+                                            <span>Status </span>
+                                            <i> <?php echo comment_string(wp_get_comment_status($id)); ?> </i>
                                         </div>
                                         <div class="clearfix"></div>
                                     </li>

@@ -882,5 +882,5 @@ function is_rhs_community_page() {
 }
 
 function comment_string($str) {
-    return ($str === 'approved') ? 'Aprovado' : 'Aguardando moderação';
+    return ($str === 'approved') ? 'Publicado' : 'Aguardando moderação';
 }
