@@ -119,7 +119,7 @@ global $RHSComunities;
                     <?php if(my_wp_is_mobile()): ?>
                         </li>
                     <?php else : ?>
-                        <ul class="dropdown-menu cl-menu" aria-labelledby="drop_perfil">
+                        <ul class="dropdown-menu cl-menu" aria-labelledby="drop_perfil" style="min-width: 200px">
                     <?php endif; ?>
                             <li class="menu-item pub">
                                 <a href="<?php echo home_url(RHSRewriteRules::POST_URL); ?>">
@@ -156,7 +156,7 @@ global $RHSComunities;
                                 if ( $RHSComunities->get_communities_by_member( $user_id )) {
                                     ?>
                                     <li class="menu-item">
-                                        <ul style="padding: 0">
+                                        <ul style="padding: 0; width: 75%;">
 			                                <?php
 			                                foreach ( $RHSComunities->get_comunities_objects_by_user( $user_id ) as $key => $comunidade ){
 				                                if ( $comunidade->is_member() ) {
@@ -170,7 +170,7 @@ global $RHSComunities;
 			                                ?>
                                         </ul>
                                         <a href="javascript:void(0)">
-                                            <i class="fa fa-cubes" aria-hidden="true"></i> &nbsp; Minhas comunidades &nbsp; <i class="fa fa-caret-right pull-right" aria-hidden="true"></i>
+                                            <i class="fa fa-cubes" aria-hidden="true"></i> Minhas comunidades <i class="fa fa-caret-right pull-right" aria-hidden="true"></i>
                                         </a>
 
                                     </li>
