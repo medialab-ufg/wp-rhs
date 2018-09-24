@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+<?php
+$description = get_bloginfo() . ' - ' . get_bloginfo('description');
+$user_id = get_current_user_id();
+global $RHSUsers;
+global $RHSNotifications;
+global $RHSComunities;
+?>
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#00b4b4">
+    <meta name="description" content="<?php echo $description ?>">
     <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon.ico"/>
-    <title><?php wp_title( '|', true, 'right' );
-        bloginfo( 'name' ); ?></title>
+    <title> <?php wp_title( '|', true, 'right' ); echo $description; ?> </title>
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -24,13 +31,6 @@
 <!-- SDK Facebook -->
 <div id="fb-root"></div>
 <!-- Fim SDK Facebook -->
-
-<?php
-$user_id = get_current_user_id();
-global $RHSUsers;
-global $RHSNotifications;
-global $RHSComunities;
-?>
 
 <!-- Tag header para o Primeiro Menu -->
 <header id="navBar-top">
