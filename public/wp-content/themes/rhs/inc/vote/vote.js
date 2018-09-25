@@ -41,7 +41,23 @@ jQuery( function( $ ) {
                 $(button).removeClass('loading');
             }
         });
+    });
 
+    $(".who-votted").click(function () {
+        var post_id = $(this).data('postid');
+        if($(".dropdown"+post_id).length == 0)
+        {
+            $.ajax({
+                url: vote.ajaxurl,
+                method: 'POST',
+                data:  {
+                    action: 'rhs_get_posts_vote',
+                    post_id: post_id
+                }
+            }).success(function (html) {
+                $(".who-votted[data-postid='"+post_id+"']").after(html);
+            });
+        }
     });
 
 });

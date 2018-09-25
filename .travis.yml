@@ -3,10 +3,12 @@ language: php
 php:
 - 5.6
 - 7.1
+- 7.2
 - hhvm
 - nightly
 matrix:
   allow_failures:
+  - 5.6
   - php: hhvm
   - php: nightly
   fast_finish: true
@@ -25,11 +27,11 @@ before_install:
 - pwd
 - ls -la
 - cp tests/wordpress-tests-lib/wp-tests-config-sample.php tests/wordpress-tests-lib/wp-tests-config.php
-- sudo apt-get install sshpass 
+- sudo apt-get install sshpass
 
 before script: 
 install:
-- composer install --no-dev
+- composer install
 script: "./run-tests.sh"
 after_success:
 - eval "$(ssh-agent -s)"

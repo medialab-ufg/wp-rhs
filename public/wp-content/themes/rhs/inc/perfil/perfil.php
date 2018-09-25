@@ -12,11 +12,14 @@ class RHSPerfil extends RHSMessage {
         add_action('wp_ajax_nopriv_generate_backup_file', array($this,'generate_backup_file'));
         add_action('wp_ajax_delete_my_account', array($this, 'delete_my_account'));
         add_action('wp_ajax_nopriv_delete_my_account', array($this,'delete_my_account'));
+	    add_action('pre_get_posts', array(&$this, 'order_posts'), 2);
     }
 
     function addJS() {
-        wp_enqueue_script('rhs_profile', get_template_directory_uri() . '/inc/perfil/perfil.js', array('jquery'));
-        wp_localize_script('rhs_profile', 'user_vars', array('ajaxurl' => admin_url('admin-ajax.php')));
+        if (get_query_var(RHSRewriteRules::TPL_QUERY) === RHSRewriteRules::PROFILE_URL) {
+            wp_enqueue_script('rhs_profile', get_template_directory_uri() . '/inc/perfil/perfil.js', array('jquery'));
+            wp_localize_script('rhs_profile', 'user_vars', array('ajaxurl' => admin_url('admin-ajax.php')));
+        }
     }
 
     function getUserId(){
@@ -417,6 +420,52 @@ class RHSPerfil extends RHSMessage {
             'email' => $admin_email
         ];
     }
+
+	public function order_posts(&$wp_query)
+	{
+		if($wp_query->is_main_query() && RHSSearch::get_param('user_profile') == 'true')
+		{
+			$order = RHSSearch::get_param('rhs_order');
+
+			// ORDER
+			switch ($order) {
+				case 'comments':
+					$q_order = 'DESC';
+					$q_order_by = 'comment_count';
+					break;
+
+				// META KEYS
+				case 'votes':
+					$q_order_meta = RHSVote::META_TOTAL_VOTES;
+					break;
+				case 'shares':
+					$q_order_meta = RHSNetwork::META_KEY_TOTAL_SHARES;
+					break;
+				case 'views':
+					$q_order_meta = RHSNetwork::META_KEY_VIEW;
+					break;
+				case 'date':
+				default:
+					$q_order = 'DESC';
+					$q_order_by = 'post_date';
+					break;
+			}
+
+			if (!empty($q_order_meta)) {
+				$meta_query['rhs_meta_order'] = [
+					'key' => $q_order_meta,
+					'compare' => 'EXISTS',
+					'type' => 'numeric'
+				];
+				$q_order_by = ['rhs_meta_order' => 'DESC'];
+				$q_order = 'DESC';
+			}
+
+			$wp_query->set('order', $q_order);
+			$wp_query->set('orderby', $q_order_by);
+			$wp_query->set('post_type', 'post');
+		}
+	}
 }
 
 global $RHSPerfil;

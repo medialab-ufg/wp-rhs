@@ -49,6 +49,8 @@ Class RHSVote {
 			add_filter( 'map_meta_cap', array( &$this, 'read_post_cap' ), 10, 4 );
 
 			add_action( 'pre_get_posts', array( &$this, 'fila_query' ) );
+
+			add_action('wp_ajax_rhs_get_posts_vote', array(&$this, 'rhs_get_posts_vote'));
 			
             // habilita comentarios para posts na fila de votação
             add_action( 'comment_on_draft', array( &$this, 'allow_comments_in_queue' ) );
@@ -64,10 +66,34 @@ Class RHSVote {
             $this->days_for_expired = get_option('vq_days_for_expired');
 
 			self::$instance = true;
-            
 		}
-
 	}
+
+	public function rhs_get_posts_vote()
+    {
+        $post_id = sanitize_text_field($_POST['post_id']);
+		if (is_string($post_id) && !empty($post_id)) {
+			$users = $this->get_post_voters($post_id);
+			ob_start();
+			?>
+			<ul class="dropdown-menu dropdown<?php echo $post_id; ?>">
+				<?php if (!empty($users)) {
+					foreach ($users as $user) {
+						?>
+						<li>
+							<a href="<?php echo get_author_posts_url($user['ID']); ?>" target="_blank"><?php echo $user['name']; ?></a>
+						</li>
+						<?php
+					}
+				}
+				?>
+			</ul>
+			<?php
+
+			echo ob_get_clean();
+			wp_die();
+		}
+    }
 
 	private function verify_role(){
         /**
@@ -178,7 +204,7 @@ Class RHSVote {
         }
 
         if(!get_option( 'vq_text_vote_own_posts' )){
-            add_option('vq_text_vote_own_posts',  'Infelizmente você não pode votar no seu proprio post.');
+            add_option('vq_text_vote_own_posts',  'Infelizmente você não pode votar no seu próprio post.');
         }
 
         if(!get_option( 'vq_text_vote_posts' )){
@@ -190,7 +216,7 @@ Class RHSVote {
         }
 
         if(!get_option( 'vq_text_post_promoted' )){
-            add_option('vq_text_post_promoted',  'Parabens, seu voto foi contabilizado e o post foi promovido a página inicial!');
+            add_option('vq_text_post_promoted',  'Parabéns, seu voto foi contabilizado e o post foi promovido para a página inicial!');
         }
 
     }
@@ -245,7 +271,7 @@ Class RHSVote {
 
 	function fila_query( $wp_query ) {
 
-        if ( $wp_query->is_main_query() && $wp_query->get( 'rhs_login_tpl' ) == RHSRewriteRules::VOTING_QUEUE_URL ) {
+        if ( $wp_query->is_main_query() && $wp_query->get(RHSRewriteRules::TPL_QUERY) == RHSRewriteRules::VOTING_QUEUE_URL ) {
 
 			$args = array(
 				'post_type'      => 'post',
@@ -402,7 +428,6 @@ Class RHSVote {
             exit;
         }
 
-
         $this->add_vote( $_POST['post_id'], get_current_user_id() );
         $box = $this->get_vote_box( $_POST['post_id'], false);
 
@@ -484,40 +509,65 @@ Class RHSVote {
 		$vote = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $this->tablename WHERE user_id = %d AND post_id = %d", $user_id, $post_id ) );
 
 		return sizeof( $vote ) > 0;
+	}
 
+
+	function get_post_voters($post_id)
+	{
+		global $wpdb;
+		$get_users = $wpdb->prepare("SELECT ID, display_name as name FROM $wpdb->users WHERE ID in (SELECT user_id FROM $this->tablename WHERE post_id = %d)", intval($post_id));
+		$users = $wpdb->get_results($get_users, ARRAY_A);
+
+		return $users;
+	}
+
+	function get_voters_box($post_id)
+	{
+		ob_start();
+		?>
+		<div class="dropdown">
+			<button class="btn btn-xs dropdown-toggle who-votted" data-postid="<?php echo $post_id; ?>" type="button" data-toggle="dropdown">
+				Quem votou <span class="caret"></span>
+			</button>
+        </div>
+		<?php
+
+		$users_button = ob_get_clean();
+
+		return $users_button;
 	}
 
 	function get_vote_box( $post_id, $echo = true ) {
+		$textVotes = 'votos';
+		$output     = "<div id='votebox-$post_id' class='votebox-wrapper'>";
+		$totalVotes = intval($this->get_total_votes($post_id));
 
-		$output     = '<div id="votebox-' . $post_id . '">';
-		$totalVotes = $this->get_total_votes( $post_id );
-
-		if ( empty( $totalVotes ) ) {
+		if (empty($totalVotes)) {
 			$totalVotes = 0;
 		}
-		if($totalVotes == 1){
+
+		if ($totalVotes == 1) {
 			$textVotes = 'voto';
-		}else{
-			$textVotes = 'votos';
 		}
 
-		$output .= '<span class="vTexto">' . $totalVotes . '</span>';
-
-		// TODO: vai haver uma meta capability vote_post,
-		// Se o usuário ja votou neste post, não aparece o botão e aparece de alguma maneira que indique q ele já votou
-		// Se ele não estiver logado, aparece só o texto "Votos"
-
-        if( !is_user_logged_in() || $this->is_post_expired( $post_id ) ) {
-            $output .= '<span class="vTexto" style="font-size: 12px !important; color: darkgrey; ">'.$textVotes.'</span>';
+		$output .= '<span class="vTexto">' . $totalVotes . '</span> ';
+        if (!is_user_logged_in() || $this->is_post_expired($post_id)) {
+            $output .= ' <span class="vTexto vote-text">'.$textVotes.'</span>';
+			if (is_user_logged_in()) {
+				$users_button = $this->get_voters_box($post_id);
+				$output .= $users_button;
+			}
         } else if($this->user_has_voted( $post_id )) {
+            /*Already voted*/
             $output .= '<span class="vButton"><a class="btn btn-danger" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';
         } else {
+            /*Didn't vote yet*/
             $output .= '<span class="vButton"><a class="btn btn-danger js-vote-button hidden-print" data-post_id="' . $post_id . '">VOTAR</a></span>';
         }
 
 		$output .= '</div>';
 
-		if ( $echo ) {
+		if ($echo) {
 			echo $output;
 		}
 

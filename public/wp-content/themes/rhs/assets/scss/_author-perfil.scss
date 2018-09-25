@@ -430,3 +430,28 @@ a.download-my-content { margin-top: 10px; }
         }
     }
 } // #encerrar-conta-container
+
+.user-comments {
+    .tab-content.col-xs-12 {
+        background: white;
+        padding-top: 30px;
+
+        li {
+            padding: 10px 0;
+            small { color: black; }
+            a.commented-post { color: $primeira_cor_texto; }
+            .status {
+                span {
+                    font-weight: bolder;
+                    color: $primeira_cor_fundo;
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+.classificar {
+    padding: 14px 14px 0 14px;
+    border-top-right-radius: 8px;
+}

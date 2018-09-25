@@ -169,7 +169,7 @@ Primeiro e Segundo DropDown Menu
                 display: block;
             }
             > a {
-                margin-top: 9px !important;
+                margin-top: 10px !important;
                 color: #00b4b4;
                 &:active, &:hover {
                     color: #fff !important;
@@ -538,4 +538,26 @@ Primeiro e Segundo DropDown Menu
             color: $whiteColor;
         }
     }
+}
+
+.cl-menu li
+{
+    position: relative;
+}
+
+.cl-menu ul
+{
+    position: absolute;
+    top: 205px;
+    left: 100%;
+    display:none;
+    list-style: none;
+    color: white;
+    background-color: #00b4b4;
+    text-align: left;
+}
+
+.cl-menu li:hover > ul
+{
+    display:block;
 }

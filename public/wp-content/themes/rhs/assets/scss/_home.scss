@@ -46,6 +46,16 @@
         }
       }
     }
+    .votebox-wrapper {
+      border: 1px solid $primeira_cor_texto;
+      padding: 2px;
+      border-radius: 3px;
+
+      .who-votted {
+        background: $primeira_cor_texto;
+        color: white;
+      }
+    }
     .votebox, .vdivide {
       float: right;
       text-align: center;
@@ -57,13 +67,16 @@
       }
       .vTexto {
         line-height: 17px;
-        display: block;
-        color: #00b4b4;
+        //display: block;
+        color: $primeira_cor_texto;
         font: {
           size: 15px;
           weight: bold;
         }
-        margin-bottom: 4px;
+        &.vote-text {
+          font-size: 12px !important;
+          color: black;
+        }
       }
       .vButton {
         display: block;
@@ -150,4 +163,4 @@
     }
 
   } // .post-titulo
-}
+} // panel-footer

@@ -1,13 +1,6 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: MediaLab01
- * Date: 14/08/2017
- * Time: 13:34
- */
 class RHSNotification {
-
     public $notificationId;
     public $type;
     public $channel;
@@ -44,8 +37,7 @@ class RHSNotification {
             $this->setObjectId( $notification->object_id );
             $this->setDatetime( $notification->datetime );
             $this->setUserId( $notification->user_id );
-        } 
-        
+        }
     }
     
     static public function get_name() {

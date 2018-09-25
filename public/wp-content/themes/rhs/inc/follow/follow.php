@@ -3,6 +3,7 @@
 class RHSFollow {
     const FOLLOW_KEY = '_rhs_follow';
     const FOLLOWED_KEY = '_rhs_followed';
+    const FOLLOWED_POSTS_KEY = '_rhs_follow_post';
     const USERS_PER_PAGES = 10;
 
     function __construct() {
@@ -111,6 +112,47 @@ class RHSFollow {
             $user_id, $meta_key));
         return $total;
     }
+
+    function get_followed_posts($user_id, $meta_key)
+    {
+        global $wpdb;
+        $followed_posts_id = get_user_meta($user_id, $meta_key);
+
+        $sql = "SELECT object_id, datetime FROM ".$wpdb->prefix . "notifications WHERE user_id = $user_id ORDER BY datetime asc";
+        $follow_date = $wpdb->get_results($sql, ARRAY_A);
+        foreach ($follow_date as $fd)
+        {
+            $datetime = new DateTime($fd['datetime']);
+            $recent_follow [$fd['object_id']] = $datetime->format('d/m/Y');
+
+        }
+
+        if (!empty($followed_posts_id)) {
+            $posts = [];
+            foreach ($followed_posts_id as $id)
+            {
+                $author_id = get_post_field("post_author", $id);
+                $author_name = "";
+                $author_data = get_user_by("id", $author_id);
+
+                if ($author_data instanceof WP_User) {
+                    $author_name = $author_data->data->display_name;
+                }
+
+                $posts[$id]['post_title'] = get_the_title($id);
+                $posts[$id]['permalink'] = get_permalink($id);
+                $posts[$id]['author'] = $author_name;
+                $posts[$id]['author_link'] = get_author_posts_url($author_id);
+                $posts[$id]['follow_date'] = $recent_follow[$id];
+            }
+        } else {
+            return false;
+        }
+
+        $posts = array_reverse($posts, true);
+        return $posts;
+    }
+
 
     /**
      * Show total of user follow or followed

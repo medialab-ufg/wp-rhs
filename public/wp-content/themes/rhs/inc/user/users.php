@@ -393,7 +393,7 @@ Class RHSUsers extends RHSMessage {
 
                 if( $valid_url ) {
                     if( $counter === 0 ) {
-                        echo "<p>Links:</p>";
+                        echo "<p>Links pessoais:</p>";
                     }
 
                     echo "<span><a href='". $user_link_url ."' target='_blank'>".  $value['titulo'] . "</a></span><br/>";

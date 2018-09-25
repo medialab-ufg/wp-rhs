@@ -15,7 +15,7 @@ Abaixo estão as instruções de como montar o ambiente de desenvolvimento e faz
 * Script de migrações de dados: [migration-scripts/migrations.md](migration-scripts/migrations.md).
 * Notificações: [docs/notifications.md](docs/notifications.md).
 * RHS-API: [docs/rhs-api.md](docs/rhs-api.md).
-* Configurações modo dev/debug: [docs/debug.md](docs/debug.md).
+* Configurações modo dev: [docs/devmode.md](docs/devmode.md).
 
 ## Criando o ambiente de desenvolvimento
 
@@ -83,22 +83,22 @@ Agora você está com todas as bibliotecas e classes necessárias da RHS.
 
 ### Crie o diretório uploads
 
-Este diretório deve ser criado em ``` public/wp-content/ ```
+Este diretório deve ser criado em ` public/wp-content/ `
+
+### Crie um novo banco de dados MySQL
+Certifique-se de que tenha configurado previa e corretamente um banco de dados para uso na aplicação.
 
 ### Crie e edite o wp-config.php e o .htaccess
 
-O repositório vem com arquivos modelos: wp-config-sample.php e htaccess-sample (ambos no diretório `public`), faça uma cópia para wp-config.php e .htaccess, respectivamente e edite com suas informações.
+O repositório vem com arquivos modelos: wp-config-sample.php e htaccess-sample (ambos no diretório `public`). Faça uma cópia dos mesmos para wp-config.php e .htaccess, respectivamente, e edite-os conforme suas informações de acesso ao banco de dados.
 
 ### Instale o WordPress e importe os dados
 
-Visite o WordPress pelo navegador e siga o passo a passo.
+Certifique-se que o apache esteja executando corretamente, e acesse o endereço local da sua nova instalação (geralmente `localhost`) pelo navegador. Então, siga o passo a passo que será exibido para finalizar a instalação do WordPress.
 
 A raíz do site deve ser a pasta `public` do repositório.
 
-Faça uma instalação do WordPress para criar o banco de dados novo.
-
-Importe os dados da Drupal. Veja [migration-scripts/docs.md](migration-scripts/docs.md).
-
+Para importar os dados da Drupal, veja mais detalhes em: [migration-scripts/docs.md](migration-scripts/docs.md).
 
 ### Compile o SASS
 

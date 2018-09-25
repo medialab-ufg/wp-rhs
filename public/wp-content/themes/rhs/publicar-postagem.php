@@ -26,7 +26,7 @@
                                         <div class="panel-body">
                                             <div class="form-group">
                                                 <label for="title">Título <span class="form-required" title="Este campo é obrigatório.">*</span></label>
-                                                <input class="form-control" type="text" id="title" name="title" size="60" maxlength="254" value="<?php echo $RHSPost->getTitle(); ?>">
+                                                <input class="form-control" type="text" id="title" name="title" size="60" maxlength="100" value="<?php echo $RHSPost->getTitle(); ?>">
                                                 <input type="hidden" value="<?php echo $RHSPosts->getKey(); ?>" name="post_user_wp" />
                                             </div>
 

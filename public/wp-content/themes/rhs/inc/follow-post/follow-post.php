@@ -22,7 +22,6 @@ class RHSFollowPost {
      * @return mixed it returns button to follow or unfoloww user and check if user is post author, in this case this button must be hide
      */
     function show_header_follow_post_box($post_id) {
-        
         if (is_user_logged_in()) {
             $current_user = wp_get_current_user();
             $user_id = $current_user->ID;

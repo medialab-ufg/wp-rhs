@@ -1,8 +1,7 @@
-<?php $title_box = 'Seguindo'; ?>
-<?php get_header('full'); ?>
-<?php $meta = RHSFollow::FOLLOWED_KEY; ?>
-<?php 
+<?php
+get_header('full');
 $current_user = wp_get_current_user();
+$meta = RHSFollow::FOLLOWED_KEY;
 
 $author_data = get_queried_object();
 if ($author_data->has_prop('ID')) {

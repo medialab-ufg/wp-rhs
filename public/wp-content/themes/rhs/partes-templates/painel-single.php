@@ -1,7 +1,7 @@
 <div class="panel panel-default padding-bottom">
 	<div class="panel-heading">
 		<div class="row post-titulo">
-			<div class="col-xs-9 col-sm-11 col-md-10">
+			<div class="col-xs-9 col-sm-10 col-md-10">
                 <?php
                 global $RHSNetwork;
                 $_post_id = get_the_ID();
@@ -21,7 +21,7 @@
 
 			</div>
 
-            <div class="col-xs-3 col-sm-1 col-md-2 vdivide">
+            <div class="col-xs-3 col-sm-2 col-md-2 vdivide">
                 <div class="votebox">
                     <?php
                     if( $_post_['status'] != 'private')
@@ -59,7 +59,7 @@
                         </span>
                     <?php } ?>
 
-					<div class="pull-right share share-wrap col-md-5">
+					<div class="pull-right share share-wrap col-xs-5 col-md-5">
                     <div class="hidden-print <?php if(!is_user_logged_in()){ ?>pull-right<?php } ?>">
                         <?php if(is_user_logged_in()) { ?>
                             <div class="col-xs-4 col-md-4 <?php echo $_post_['status']; ?>">
