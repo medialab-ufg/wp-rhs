@@ -38,8 +38,17 @@
 
                                     ?>
                                     <li class="list-group-item">
-                                        <u><a class="keep_grey" href="<?php echo $from_user_link; ?>"> <?php echo $from; ?></a></u> recomendou para <u><a class="keep_grey" href="<?php echo $to_user_link;?>"><?php echo $to?></a></u>
-                                        <span class="pull-right small"><strong><?php echo $line['date']; ?></strong></span>
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <u><a class="keep_grey" href="<?php echo $from_user_link; ?>">
+                                                        <?php echo $from; ?></a></u>
+                                                recomendou para
+                                                <u><a class="keep_grey" href="<?php echo $to_user_link;?>"><?php echo $to?></a></u>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span class="pull-right small"><strong><?php echo $line['date']; ?></strong></span>
+                                            </div>
+                                        </div>
                                     </li>
                                     <?php
                                 }
