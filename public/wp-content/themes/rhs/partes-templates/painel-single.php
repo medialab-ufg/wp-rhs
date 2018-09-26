@@ -109,9 +109,27 @@
 		</div>
 	</div> <!-- .paine-heading -->
 
-	<div class="panel-body content"> <?php the_content(); ?> </div>
+	<div class="panel-body content">  <?php the_content(); ?></div>
 
 	<div class="panel-footer">
+        <?php
+        $attachments = get_posts( array(
+            'post_type' => 'attachment',
+            'posts_per_page' => -1,
+            'post_parent' => get_the_ID(),
+            'exclude'     => get_post_thumbnail_id()
+        ) );
+
+        if(!empty($attachments))
+        {
+            foreach ($attachments as $attachment){
+                ?>
+                <a href="<?php echo $attachment->guid; ?>"><?php echo $attachment->guid; ?></a><br>
+                <?php
+            }
+        }
+
+        ?>
         <?php if (has_post_ufmun($_post_id)) : ?>
             <div class="relacionado">
 				<span>Esse Post está relacionado à </span>
