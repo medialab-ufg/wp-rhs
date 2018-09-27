@@ -45,6 +45,7 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             <?php if (count_user_posts($curauth->ID)) { ?>
                 <div class="contagem">
                     <a class="btn-link" href="<?php echo $profile_base; ?>">
+                        <i class="fa fa-wpforms" aria-hidden="true"></i>
                         <span class="contagem-valor-author"><?php echo $total_posts; ?></span>
                         <span class="contagem-desc-author"><?php echo ($total_posts == 1 ? "POST" : "POSTS" );  ?></span>
                     </a>
@@ -52,6 +53,7 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             <?php } ?>
             <?php if ($total_votos) { ?>
                 <div class="contagem">
+                    <i class="fa fa-plus-square" aria-hidden="true"></i>
                     <span class="contagem-valor-author"><?php echo $total_votos; ?></span>
                     <span class="contagem-desc-author"><?php echo ($total_votos == 1 ? "VOTO" : "VOTOS" );  ?></span>
                 </div>
@@ -59,6 +61,7 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             
             <div class="contagem">
                 <a class="btn-link" href="<?php echo $profile_base . RHSRewriteRules::FOLLOW_URL; ?>">
+                    <i class="fa fa-address-book" aria-hidden="true"></i>
                     <span class="contagem-valor-author"><?php echo $total_follow ?></span>
                     <span class="contagem-desc-author">SEGUINDO</span>
                 </a>
@@ -66,6 +69,7 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             
             <div class="contagem">
                 <a class="btn-link" href="<?php echo $profile_base . RHSRewriteRules::FOLLOWED_URL; ?>">
+                    <i class="fa fa-users" aria-hidden="true"></i>
                     <span class="contagem-valor-author"><?php echo $total_followed ?></span>
                     <span class="contagem-desc-author"><?php echo ($total_followed == 1 ? "SEGUIDOR" : "SEGUIDORES" );  ?></span>
                 </a>
@@ -75,12 +79,14 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             if ($curauth->ID == get_current_user_id()) { ?>
             <div class="contagem">
                 <a class="btn-link" href="<?php echo $profile_base . RHSRewriteRules::FOLLOWED_POSTS_URL; ?>">
+                    <i class="fa fa-binoculars" aria-hidden="true"></i>
                     <span class="contagem-valor-author"><?php echo $followed_posts; ?></span>
                     <span class="contagem-desc-author"> POSTS SEGUIDOS </span>
                 </a>
             </div>
                 <div class="contagem">
                     <a href="<?php echo $profile_base . RHSRewriteRules::USER_COMMENTS; ?>" class="btn-link">
+                        <i class="fa fa-comments" aria-hidden="true"></i>
                         <span class="contagem-valor-author"><?php echo count(get_comments(['user_id' => get_current_user_id()])) ?></span>
                         <span class="contagem-desc-author"> MEUS COMENTÁRIOS </span>
                     </a>
