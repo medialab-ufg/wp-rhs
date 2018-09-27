@@ -25,7 +25,7 @@
                 <div class="votebox">
                     <?php
                     if( $_post_['status'] != 'private')
-                        do_action('rhs_votebox', get_the_ID());
+                        do_action('rhs_votebox', $_post_id);
                     ?>
                 </div>
             </div>
@@ -113,24 +113,29 @@
 
 	<div class="panel-footer">
         <?php
-        $attachments = get_posts( array(
+        $attachments = get_posts(array(
             'post_type' => 'attachment',
             'posts_per_page' => -1,
-            'post_parent' => get_the_ID(),
+            'post_parent' => $_post_id,
             'exclude'     => get_post_thumbnail_id()
-        ) );
+        ));
 
-        if(!empty($attachments))
-        {
-            foreach ($attachments as $attachment){
+        if(!empty($attachments)) { ?>
+
+            <h3>Anexos</h3>
+
+            <?php foreach ($attachments as $attachment) {
+                $content = $attachment->guid;
+                if (wp_attachment_is_image($attachment->ID)) {
+                    $content = "<img src='$content' alt='Anexo do post' class='img-responsive'>";
+                }
                 ?>
-                <a href="<?php echo $attachment->guid; ?>"><?php echo $attachment->guid; ?></a><br>
+                <a href="<?php echo $attachment->guid; ?>"><?php echo $content; ?></a><br>
                 <?php
             }
         }
 
-        ?>
-        <?php if (has_post_ufmun($_post_id)) : ?>
+        if (has_post_ufmun($_post_id)) : ?>
             <div class="relacionado">
 				<span>Esse Post está relacionado à </span>
 				<?php echo the_ufmun(); ?>
