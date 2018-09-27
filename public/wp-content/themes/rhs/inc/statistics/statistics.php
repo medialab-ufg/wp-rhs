@@ -336,6 +336,7 @@ class statistics {
 			";
 
 		$all_users_capabilities = $wpdb->get_results($sql_all_users_capabilities, ARRAY_A);
+		$result['author'] = $result['contributor'] = $result['voter'] = 0;
 		foreach ($all_users_capabilities as $user_capability)
 		{
 			$capabilities = unserialize($user_capability['capabilities']);

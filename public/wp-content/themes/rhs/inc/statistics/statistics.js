@@ -66,7 +66,6 @@ jQuery(function () {
             $("div.filter-:visible input:checkbox[name=filter]:checked").each(function(){
                 var name = $(this).data('name');
                 info.push([name, Number(data[$(this).val()])]);
-                console.log(Number(data[$(this).val()]));
             });
 
             if(data_type === 'count')
