@@ -2,7 +2,15 @@
 <?php global $RHSStatistics; ?>
 <div id="rhs-statistics" class="row">
 	<div class="col-md-12">
-        <h3 class="text-center" style="margin-top: 30px;margin-bottom: 0;"> Estatísticas de Uso da Rede Humaniza SUS</h3>
+        <h3 class="text-center" style="margin-top: 30px;margin-bottom: 0;">
+            Estatísticas de Uso da Rede Humaniza SUS
+
+            <a href="#estatisticas-ancora">
+                <button class="btn btn-default pull-right">
+                    <i class="fa fa-filter" aria-hidden="true"></i> Ver filtros
+                </button>
+            </a>
+        </h3>
         <hr>
         <?php if (!is_user_logged_in()): ?>
             <p class="text-center">
@@ -22,6 +30,7 @@
 
                 <div class="container"><h4 style="color: black"> </h4></div>
                 <div id="filtros-estatisticas" class="container col-md-7 no-padding">
+                    <a id="estatisticas-ancora"></a>
                     <ul class="nav nav-pills">
                         <li class="active" data-type="increasing"> <a href="#quantidade" data-toggle="tab">Quantidade por data</a> </li>
                         <li data-type="average"><a href="#media" data-toggle="tab"> Média </a></li>
