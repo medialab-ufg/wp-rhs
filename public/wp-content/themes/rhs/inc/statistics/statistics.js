@@ -3,7 +3,9 @@ jQuery(function () {
     jQuery("#parametros").submit(function (event) {
         var filter = [];
 
-        $($("#id_div").val()+" input:checkbox[name=filter]:checked").each(function(){
+        var id_div = $("#id_div").val() ? $("#id_div").val() : "#quantidade";
+
+        $(id_div+" input:checkbox[name=filter]:checked").each(function(){
             filter.push($(this).val());
         });
 
@@ -64,6 +66,7 @@ jQuery(function () {
             $("div.filter-:visible input:checkbox[name=filter]:checked").each(function(){
                 var name = $(this).data('name');
                 info.push([name, Number(data[$(this).val()])]);
+                console.log(Number(data[$(this).val()]));
             });
 
             if(data_type === 'count')

@@ -38,7 +38,7 @@
                     </ul>
 
                     <input type="hidden" id="selected_data_type" value="">
-                    <input type="hidden" id="id_div" value="">
+                    <input type="hidden" id="id_div" value="#quantidade">
                     <div class="tab-content clearfix panel panel-default" style="padding: 10px 20px;">
                         <div class="tab-pane active" id="quantidade">
                             <!-- Increasing -->
