@@ -27,10 +27,7 @@ jQuery(function () {
         event.preventDefault();
     });
     
-    function create_chart(data, data_type, chart_type, where) {
-        var chart_type = chart_type || 'bar';
-        var where = where || 'estatisticas';
-
+    function create_chart(data, data_type, chart_type = 'bar', where = 'estatisticas') {
         google.charts.load('current', {'packages':['corechart', chart_type]});
         var title = create_title(data_type);
 
@@ -58,9 +55,6 @@ jQuery(function () {
         }
 
         chart.draw(data_table, options);
-        /*google.visualization.events.addListener(chart, 'select', function () {
-            selectHandler(chart, info);
-        });*/
     }
 
     function prepare_data(data, chart_type, data_type, data_table) {
@@ -151,14 +145,6 @@ jQuery(function () {
         return title+tail;
     }
 
-    /*function selectHandler(chart, data) {
-        var selectedItem = chart.getSelection()[0];
-        console.log(data);
-        console.log(selectedItem);
-        var value = data[selectedItem.row][selectedItem.column];
-        console.log('The user selected ' + value);
-    }*/
-
     function set_options(data_type, title) {
         var options = {};
         var width = '100%', height = 600;
@@ -171,6 +157,8 @@ jQuery(function () {
                 vAxis: {
                     title: 'Quantidade'
                 },
+                chartArea: {'width': '90%', 'height': '70%'},
+                legend: { position: 'bottom' },
                 colors: ['#00b4b4']
             };
         }else if(data_type === 'increasing')
@@ -186,6 +174,8 @@ jQuery(function () {
                 hAxis: {
                     title: 'Período'
                 },
+                chartArea: {'width': '90%', 'height': '70%'},
+                legend: { position: 'bottom' },
                 colors: ['#00b4b4', '#CC0000', '#0133FF', '#924790', '#00209F', '#6D9C91', '#D2691E', '#D4AF37', '#FF1493']
             };
         }else if (data_type === 'average')
@@ -200,6 +190,8 @@ jQuery(function () {
                 hAxis: {
                     title: 'Período'
                 },
+                chartArea: {'width': '90%', 'height': '70%'},
+                legend: { position: 'bottom' },
                 colors: ['#00b4b4']
             };
         }
