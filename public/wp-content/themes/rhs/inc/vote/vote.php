@@ -553,10 +553,11 @@ Class RHSVote {
 		$output .= '<span class="vTexto">' . $totalVotes . '</span> ';
         if (!is_user_logged_in() || $this->is_post_expired($post_id)) {
             $output .= ' <span class="vTexto vote-text">'.$textVotes.'</span>';
-			if (is_user_logged_in()) {
+            /*Who voted button*/
+			/*if (is_user_logged_in()) {
 				$users_button = $this->get_voters_box($post_id);
 				$output .= $users_button;
-			}
+			}*/
         } else if($this->user_has_voted( $post_id )) {
             /*Already voted*/
             $output .= '<span class="vButton"><a class="btn btn-danger" data-post_id="' . $post_id . '" disabled><i class="glyphicon glyphicon-ok"></i></a></span>';

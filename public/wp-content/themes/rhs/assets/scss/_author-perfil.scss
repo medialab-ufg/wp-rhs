@@ -96,6 +96,8 @@
                 float: left;
                 text-align: center;
                 margin-right: 10px;
+                min-width: 60px;
+                padding: 10px;
                 @media only screen and (max-width: 320px){
                     margin-right: 2px;
                 }
@@ -106,7 +108,6 @@
                         weight: bold;
                     }
                     line-height: 80%;
-                    margin-bottom: -6px;
                 }
                 .contagem-desc-author {
                     font-size: 11px;
