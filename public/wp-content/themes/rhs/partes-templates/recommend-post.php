@@ -2,10 +2,10 @@
     <div class="panel-body panel-comentarios">
         <div class="row">
             <div class="col-xs-12">
-                <h2 class="titulo-quantidade text-uppercase"><i class="fa fa-share" aria-hidden="true"></i> Indicar Post </h2>
+                <h2 class="titulo-quantidade text-uppercase"><i class="fa fa-share" aria-hidden="true"></i> Indique este post </h2>
                 <form>
                     <div class="form-group">                
-                        <input id="input-recommend-post" name="recommend-post" placeholder="Informe o nome do usuário" class="form-control" value="" data-post-id="<?php echo get_the_ID(); ?>"/>
+                        <input id="input-recommend-post" name="recommend-post" placeholder="Informe o nome de usuário para o qual você deseja recomendar este post" class="form-control" value="" data-post-id="<?php echo get_the_ID(); ?>"/>
                     </div>
                 </form>
             </div>
@@ -38,8 +38,17 @@
 
                                     ?>
                                     <li class="list-group-item">
-                                        <u><a class="keep_grey" href="<?php echo $from_user_link; ?>"> <?php echo $from; ?></a></u> recomendou para <u><a class="keep_grey" href="<?php echo $to_user_link;?>"><?php echo $to?></a></u>
-                                        <span class="pull-right small"><strong><?php echo $line['date']; ?></strong></span>
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <u><a class="keep_grey" href="<?php echo $from_user_link; ?>">
+                                                        <?php echo $from; ?></a></u>
+                                                recomendou para
+                                                <u><a class="keep_grey" href="<?php echo $to_user_link;?>"><?php echo $to?></a></u>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span class="pull-right small"><strong><?php echo $line['date']; ?></strong></span>
+                                            </div>
+                                        </div>
                                     </li>
                                     <?php
                                 }

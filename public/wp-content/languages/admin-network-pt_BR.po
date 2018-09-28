@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 4.9.x - Development - Administration - Network Admin package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-05-17 09:07:27+0000\n"
+"PO-Revision-Date: 2018-08-09 13:28:31+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -799,10 +799,6 @@ msgstr "Adicionar novo"
 msgid "All Sites"
 msgstr "Todos os sites"
 
-#: wp-admin/network/menu.php:48
-msgid "Themes %s"
-msgstr "%s temas"
-
 #: wp-admin/network/menu.php:52
 msgid "Installed Themes"
 msgstr "Temas instalados"
@@ -839,6 +835,10 @@ msgstr "Permite que os administradores do site adicionem novos usuários aos seu
 #: wp-admin/network/site-themes.php:43 wp-admin/network/site-users.php:38
 msgid "Invalid site ID."
 msgstr "ID inválido de site."
+
+#: wp-admin/network/menu.php:48
+msgid "Themes %s"
+msgstr "Temas %s"
 
 #: wp-admin/includes/network.php:117 wp-admin/includes/network.php:189
 #: wp-admin/includes/network.php:238 wp-admin/includes/network.php:279

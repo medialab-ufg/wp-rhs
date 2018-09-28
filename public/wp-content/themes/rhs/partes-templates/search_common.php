@@ -17,7 +17,6 @@
     </div>
 
     <div class="col-md-6 classificar">
-
         <div class="pull-right">
             <div class="dropdown">
                 <?php RHSSearch::show_button_download_report(); ?>
@@ -49,22 +48,7 @@
                 <?php else: ?>
 
                     <button class="btn btn-default dropdown-toggle" type="button" id="busca_filtro" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        Classificar por
-                        <?php
-                        if(RHSSearch::get_param('rhs_order') == 'date')
-                            echo 'Data';
-                        elseif(RHSSearch::get_param('rhs_order') == 'comments')
-                            echo 'Comentários';
-                        elseif(RHSSearch::get_param('rhs_order') == 'votes')
-                            echo 'Votos';
-                        elseif(RHSSearch::get_param('rhs_order') == 'views')
-                            echo 'Visualizações';
-                        elseif(RHSSearch::get_param('rhs_order') == 'shares')
-                            echo 'Compartilhamentos';
-                        else
-                            echo '';
-                        ?>
-                        <span class="caret"></span>
+                        Ordenar por <?php echo RHSSearch::get_search_order_label(); ?> <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                         <li><a href="<?php echo RHSSearch::get_search_neworder_urls('date'); ?>">Data</a></li>

@@ -14,6 +14,8 @@ class RHSCaptcha {
 
     private static $instance;
 
+    private $used_pages = ["registrar", "resetar-senha","login"];
+
     function __construct() {
 
         if ( empty ( self::$instance ) ) {
@@ -22,15 +24,16 @@ class RHSCaptcha {
             add_action( "admin_init", array( &$this, "display_recaptcha_options" ) );
             #add_action( "recuperar-senha_form", array( &$this, "display_recuperar_captcha" ) );
             #add_filter( "lostpassword_url", array( &$this, "verify_recuperar_captcha" ), 10, 2 );
-
         }
 
         self::$instance = true;
-
     }
 
     function API_reCAPTCHA() {
-        wp_enqueue_script( 'reCAPTCHA_API', 'https://www.google.com/recaptcha/api.js', true );
+        $page = get_query_var('rhs_login_tpl');
+        if (!is_user_logged_in() && (in_array($page,$this->used_pages) || is_page_template('contato.php'))) {
+            wp_enqueue_script( 'reCAPTCHA_API', 'https://www.google.com/recaptcha/api.js', true);
+        }
     }
 
     function no_captcha_recaptcha_menu() {

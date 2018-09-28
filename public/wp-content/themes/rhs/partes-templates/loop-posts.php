@@ -1,5 +1,4 @@
-<?php if(have_posts()) : ?>
-
+<?php if(have_posts()) :?>
 	<div class="clearfix masonry">
 		<div class="grid-sizer"></div> <div class="gutter-sizer"></div>
         <?php

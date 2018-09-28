@@ -2,10 +2,13 @@
 
 class RHSSearch {
 
+    const SEARCH_PARAM = 'rhs_busca';
     const BASE_URL = 'busca';
     const BASE_USERS_URL = 'busca/usuarios';
+    const BASE_IN_USER_POSTS = 'busca/usuario';
     const USERS_PER_PAGE = 40;
     const EXPORT_TOTAL_PER_PAGE = 300;
+    const SEARCH_ORDER = 'rhs_order';
     
     function __construct() {
         add_action('pre_get_posts', array(&$this, 'pre_get_posts'), 2);
@@ -37,7 +40,7 @@ class RHSSearch {
             $wp_query_params->query_vars['rhs_busca'] = 'users';
             $wp_query_params->query_vars['uf'] = RHSSearch::get_param('uf');
             $wp_query_params->query_vars['municipio'] = RHSSearch::get_param('municipio');
-            $wp_query_params->query_vars['rhs_order'] = RHSSearch::get_param('rhs_order');
+            $wp_query_params->query_vars['rhs_order'] = RHSSearch::get_param(self::SEARCH_ORDER);
         } else {
             if( current_user_can('editor') || current_user_can('administrator') )
             {
@@ -76,13 +79,19 @@ class RHSSearch {
         $busca_atual['municipio'] = self::get_param('municipio');
         
         // Adicionamos a ordenação
-        $busca_atual['rhs_order'] = $neworder;
+        $busca_atual[self::SEARCH_ORDER] = $neworder;
         
         // isso não deve existir, mas não custa excluir
         // apenas de retornar a URL nova, sem o /page/X já resolve
         unset($busca_atual['paged']);
         
         return add_query_arg( $busca_atual, home_url($base) ); 
+    }
+
+    static function get_search_in_users_posts_url($neworder, $user_id)
+    {
+	    $busca_atual[self::SEARCH_ORDER] = $neworder."&user_profile=true";
+	    return add_query_arg( $busca_atual, get_author_posts_url($user_id));
     }
     
     static function get_search_url() {
@@ -107,7 +116,7 @@ class RHSSearch {
             $municipio =    $this->get_param('municipio');
             $date_from =    $this->get_param('date_from');
             $date_to =      $this->get_param('date_to');
-            $order =        $this->get_param('rhs_order');
+            $order =        $this->get_param(self::SEARCH_ORDER);
 
             /**
             * Tags e categorias são buscadas automaticamente passando os parametros padrão do WP
@@ -360,14 +369,14 @@ class RHSSearch {
             'uf' => $this->get_param('uf'),
             'keyword' => $this->get_param('keyword'),
             'municipio' => $this->get_param('municipio'),
-            'rhs_order' => $this->get_param('rhs_order'),
+            'rhs_order' => $this->get_param(self::SEARCH_ORDER),
             'paged' => get_query_var('paged'),
         ], $params);
         
         $keyword =      $_filters['keyword'];
         $uf =           $_filters['uf'];
         $municipio =    $_filters['municipio'];
-        $rhs_order =    $_filters['rhs_order'];
+        $rhs_order =    $_filters[self::SEARCH_ORDER];
         $paged =    $_filters['paged'] ? $_filters['paged'] : 1;
         
       
@@ -436,20 +445,20 @@ class RHSSearch {
 
         if (!empty($q_order_meta)) {
             if($q_order_meta == RHSLogin::META_KEY_LAST_LOGIN) {
-                $meta_query['rhs_order'] = [
+                $meta_query[self::SEARCH_ORDER] = [
                     'key' => $q_order_meta,
                     'value' => date("Y-m-d H:i:s"),
                     'compare' => '<',
                     'type' => 'DATE'
                 ];
             } else {
-                $meta_query['rhs_order'] = [
+                $meta_query[self::SEARCH_ORDER] = [
                     'key' => $q_order_meta,
                     'compare' => 'EXISTS',
                     'type' => 'numeric'
                 ];
 
-                $q_order_by = ['rhs_order' => 'DESC'];
+                $q_order_by = [self::SEARCH_ORDER => 'DESC'];
                 $q_order = 'DESC';
             }
             $has_meta_query = true;            
@@ -867,6 +876,30 @@ class RHSSearch {
     public static function getSearchButtons() {
         $default_classes = "btn btn-default filtro";
         return "<button type='submit' class='$default_classes btn-rhs'>Filtrar</button> <button id='reset_filters' type='reset' class='$default_classes'>Limpar Filtros</button>";
+    }
+
+    public static function get_search_order_label()
+    {
+        $label = "";
+        switch (self::get_param(self::SEARCH_ORDER)) {
+            case 'date':
+                $label = 'Data';
+                break;
+            case 'comments':
+                $label =  'Comentários';
+                break;
+            case 'votes':
+                $label =  'Votos';
+                break;
+            case 'views':
+                $label =  'Visualizações';
+                break;
+            case 'shares':
+                $label =  'Compartilhamentos';
+                break;
+        }
+
+        return $label;
     }
 }
 

@@ -61,6 +61,9 @@ if(!function_exists('rhs_setup')) :
         require_once('inc/post/post.php');
         require_once('inc/post/posts.php');
 
+        //Estatisticas
+        require_once('inc/statistics/statistics.php');
+
         //// Drupal 7 Password Check
         require_once('inc/drupal-password-check.php');
 
@@ -178,7 +181,10 @@ function RHS_scripts() {
     wp_enqueue_script( 'JqueryValidate', 'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js', array('jquery'), '1.15.0', true );
     wp_enqueue_script('JqueryValidadeMethods', 'https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js', array('JqueryValidate'), '1.16.0', true );
     wp_enqueue_script('ValidarForm', get_template_directory_uri() . '/assets/js/valida-form-registro.js', array('JqueryValidate'),'1.0', true);
-    wp_enqueue_script('Comunidades', get_template_directory_uri() . '/assets/js/comunity.js', array('jquery'),'1.0', true);
+
+    if (is_rhs_community_page()) {
+        wp_enqueue_script('Comunidades', get_template_directory_uri() . '/assets/js/community.js', array('jquery'),'1.0', true);
+    }
 
     wp_enqueue_script('FuncoesForm', get_template_directory_uri() . '/assets/js/functions.js', array('JqueryValidate'),'1.0', true);
     wp_localize_script('FuncoesForm', 'FuncoesForm', array('ajaxurl' => admin_url('admin-ajax.php')));
@@ -864,3 +870,17 @@ function strip_html_tags($content) {
             $content);
         return strip_tags($content);
     }
+
+function is_rhs_community_page() {
+    global $wp_query;
+    $query = get_query_var(RHSRewriteRules::TPL_QUERY);
+    $com = RHSRewriteRules::COMUNIDADES;
+    $_is_community = $wp_query->is_tax(RHSComunities::TAXONOMY);
+
+    return ( ($query === $com) || $_is_community );
+
+}
+
+function comment_string($str) {
+    return ($str === 'approved') ? 'Publicado' : 'Aguardando moderação';
+}

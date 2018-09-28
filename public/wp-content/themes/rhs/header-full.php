@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+<?php
+$description = get_bloginfo() . ' - ' . get_bloginfo('description');
+$user_id = get_current_user_id();
+global $RHSUsers;
+global $RHSNotifications;
+global $RHSComunities;
+?>
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#00b4b4">
+    <meta name="description" content="<?php echo $description ?>">
     <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon.ico"/>
-    <title><?php wp_title( '|', true, 'right' );
-        bloginfo( 'name' ); ?></title>
+    <title> <?php wp_title( '|', true, 'right' ); echo $description; ?> </title>
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -32,7 +39,7 @@
             <div class="navbar-header">
                 <?php if(!RHSLogin::is_login_via_app()) : ?>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar6">
-                        <span class="sr-only">Toggle navigation</span>
+                        <span class="sr-only">Alternar navegação</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -41,13 +48,7 @@
                 <a class="navbar-brand text-hide" href="<?php if(!RHSLogin::is_login_via_app()) { bloginfo('url'); } else { echo '#'; } ?>" style="<?php if(RHSLogin::is_login_via_app()) : ?>width: 355px; margin-top: 22px; margin-bottom: -17px;<?php endif; ?>">RHS</a>
             </div>
             <div id="navbar6" class="navbar-collapse collapse primeiro-menu">
-                <?php
-                    global $RHSUsers;
-                    global $RHSNotifications;
-                    if(my_wp_is_mobile()){
-                        get_search_form();
-                    }
-                ?>
+                <?php if (my_wp_is_mobile()) { get_search_form(); } ?>
                 <ul class="nav navbar-nav <?php if(!my_wp_is_mobile()):?>navbar-right dropdown-menu-right no-mobile<?php else:?>mobile-nav <?php if(!is_user_logged_in()){ echo 'not-logged'; } endif;?>">
 
                     <?php if (!is_user_logged_in()): ?>
@@ -63,7 +64,7 @@
                         <span class="navbar-text">ou</span>
                         <li> <a href="<?php echo wp_registration_url(); ?>" class="cadastrar">Cadastre-se</a> </li>
                     <?php else : ?>
-                        <?php $notifications_number = $RHSNotifications->get_news_number(get_current_user_id()); ?>
+                        <?php $notifications_number = $RHSNotifications->get_news_number($user_id); ?>
                         <li class="dropdown user-dropdown hidden-xs">
                             <a id="button-notifications" href="#notifications-panel" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i data-count="<?php echo $notifications_number; ?>" class="glyphicon glyphicon-bell <?php if($notifications_number){ ?>notification-count<?php } ?>"></i>
@@ -80,7 +81,7 @@
 
                                 <div class="drop-content">
                                     
-                                    <?php foreach ($RHSNotifications->get_notifications(get_current_user_id()) as $notification): ?>
+                                    <?php foreach ($RHSNotifications->get_notifications($user_id) as $notification): ?>
                                         
                                         <li>
                                             <div class="col-md-3 col-sm-3 col-xs-3">
@@ -118,7 +119,7 @@
                     <?php if(my_wp_is_mobile()): ?>
                         </li>
                     <?php else : ?>
-                        <ul class="dropdown-menu" aria-labelledby="drop_perfil">
+                        <ul class="dropdown-menu cl-menu" aria-labelledby="drop_perfil" style="min-width: 200px">
                     <?php endif; ?>
                             <li class="menu-item pub">
                                 <a href="<?php echo home_url(RHSRewriteRules::POST_URL); ?>">
@@ -136,14 +137,48 @@
                         <?php endif; ?>
                             <li class="menu-item perf">
                                 <a href="<?php echo get_author_posts_url($RHSUsers->getUserId()); ?>">
-                                    <i class="icones-dropdown fa fa-eye" aria-hidden="true"></i> Meu Perfil
+                                    <i class="icones-dropdown fa fa-user" aria-hidden="true"></i> Meu Perfil
                                 </a>
                             </li>
-                            <li class="menu-item">
+                        <?php if (user_can( $current_user, 'administrator' ) || user_can( $current_user, 'editor' )) {?>
+                            <li class="menu-item perf">
+                                <a href="<?php echo home_url(RHSRewriteRules::STATISTICS); ?>">
+                                    <i class="icones-dropdown fa fa-area-chart" aria-hidden="true"></i> Estatísticas
+                                </a>
+                            </li>
+                        <?php } ?>
+                            <li class="menu-item ">
                                 <a href="<?php echo home_url(RHSRewriteRules::POSTAGENS_URL);?>">
                                     <i class="icones-dropdown fa fa-list-alt" aria-hidden="true"></i> Minhas Postagens
                                 </a>
                             </li>
+
+                            <?php
+	                            $is_author = is_author( $user_id );
+                                if ( $RHSComunities->get_communities_by_member( $user_id )) {
+                                    ?>
+                                    <li class="menu-item">
+                                        <ul style="padding: 0; width: 75%;">
+			                                <?php
+			                                foreach ( $RHSComunities->get_comunities_objects_by_user( $user_id ) as $key => $comunidade ){
+				                                if ( $comunidade->is_member() ) {
+					                                ?>
+                                                    <li>
+                                                        <a style="padding: 10px 20px 10px 10px" href="<?php echo $comunidade->get_url() ?>"> <?php echo $comunidade->get_name() ?> </a>
+                                                    </li>
+					                                <?php
+				                                }
+			                                }
+			                                ?>
+                                        </ul>
+                                        <a href="javascript:void(0)">
+                                            <i class="fa fa-cubes" aria-hidden="true"></i> Minhas comunidades <i class="fa fa-caret-right pull-right" aria-hidden="true"></i>
+                                        </a>
+
+                                    </li>
+                                    <?php
+                                }
+                            ?>
                             <li class="menu-item hidden-sm hidden-md hidden-lg">
                                 <a href="notificacoes">
                                     <i class="icones-dropdown fa fa-list-alt" aria-hidden="true"></i> Notificações(<b>2</b>)
