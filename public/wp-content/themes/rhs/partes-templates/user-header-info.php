@@ -53,7 +53,7 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
             <?php } ?>
             <?php if ($total_votos) { ?>
                 <div class="contagem">
-                    <i class="fa fa-plus-square" aria-hidden="true"></i>
+                    <i class="fa fa-check" aria-hidden="true"></i>
                     <span class="contagem-valor-author"><?php echo $total_votos; ?></span>
                     <span class="contagem-desc-author"><?php echo ($total_votos == 1 ? "VOTO" : "VOTOS" );  ?></span>
                 </div>
