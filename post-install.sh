@@ -79,6 +79,8 @@ echo "...Typeahead\n";
 if (file_exists("vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js")) {
     copy("vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js", "public/wp-content/themes/rhs/vendor/js/typeahead.bundle.min.js");
 }
+echo "...Slick\n";
+recurse_copy("vendor/fabianobn/slick/", "public/wp-content/themes/rhs/vendor/slick");
 
 echo "...Deletando Diretorio não usado\n";
 if (file_exists("wp-content/plugins/wp-bootstrap-navwalker")) {

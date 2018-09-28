@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9d7f9dd6c3502bb289d01404097bfad",
+    "content-hash": "7fc23d516774578859126435acc5f651",
     "packages": [
         {
             "name": "components/bootstrap",
@@ -338,6 +338,25 @@
                 "datepicker"
             ],
             "time": "2017-07-06T12:14:34+00:00"
+        },
+        {
+            "name": "fabianobn/slick",
+            "version": "v1.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fabianobn/slick.git",
+                "reference": "62bacb288031d1e370327e0e2aa3c8a582e1d040"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fabianobn/slick/zipball/62bacb288031d1e370327e0e2aa3c8a582e1d040",
+                "reference": "62bacb288031d1e370327e0e2aa3c8a582e1d040",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "This is the atualized Slick Slider used in Wordpress",
+            "time": "2018-06-29T17:54:50+00:00"
         },
         {
             "name": "fortawesome/font-awesome",

@@ -21,7 +21,8 @@
         "wpackagist-plugin/wp-mail-smtp" : "0.10.1",
         "wpackagist-plugin/jetpack": "^5.3",
         "wpackagist-plugin/social-metrics-tracker": "1.6.*",
-        "wpackagist-plugin/akismet": "4.0"
+        "wpackagist-plugin/akismet": "4.0",
+        "fabianobn/slick": "v1.8.*"
         
     },
     "require-dev": {
