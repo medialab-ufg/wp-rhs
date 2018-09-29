@@ -40,7 +40,13 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                 <?php echo the_user_ufmun($RHSUsers->getUserId()); ?>
             </p>
             <p class="desde">
-                <?php echo ' <span>Membro desde:</span> ' . date("d/m/Y", strtotime(get_the_author_meta('user_registered', $curauth->ID))); ?>
+                <span>Membro desde:</span> <?php echo date("d/m/Y", strtotime(get_the_author_meta('user_registered', $curauth->ID))); ?>
+                <?php if ($total_votos) { ?> &nbsp; | &nbsp;
+                    <span class="contagem-desc-author">
+                        <?php echo $total_votos . " " . ($total_votos == 1 ? "VOTO" : "VOTOS" ); ?>
+                    </span>
+                <?php } ?>
+
             </p>
             <?php if (count_user_posts($curauth->ID)) { ?>
                 <div class="contagem first">
@@ -93,15 +99,6 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                         </span>
                         <span class="contagem-desc-author"> MEUS COMENTÁRIOS </span>
                     </a>
-                </div>
-            <?php } ?>
-            <?php if ($total_votos) { ?>
-                <div class="contagem pull-right">
-                    <span class="contagem-valor-author">
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                        <?php echo $total_votos; ?>
-                    </span>
-                    <span class="contagem-desc-author"> QUANTIDADE DE <?php echo ($total_votos == 1 ? "VOTO" : "VOTOS" );  ?></span>
                 </div>
             <?php } ?>
         </div>
