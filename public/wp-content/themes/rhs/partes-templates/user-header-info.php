@@ -43,7 +43,7 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                 <?php echo ' <span>Membro desde:</span> ' . date("d/m/Y", strtotime(get_the_author_meta('user_registered', $curauth->ID))); ?>
             </p>
             <?php if (count_user_posts($curauth->ID)) { ?>
-                <div class="contagem">
+                <div class="contagem first">
                     <a class="btn-link" href="<?php echo $profile_base; ?>">
                         <span class="contagem-valor-author">
                             <i class="fa fa-wpforms" aria-hidden="true"></i>
