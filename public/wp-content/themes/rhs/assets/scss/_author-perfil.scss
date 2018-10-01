@@ -97,7 +97,6 @@
                 text-align: center;
                 margin-right: 10px;
                 min-width: 60px;
-                padding: 10px;
                 @media only screen and (max-width: 320px){
                     margin-right: 2px;
                 }
@@ -108,12 +107,16 @@
                         weight: bold;
                     }
                     line-height: 80%;
+                    color: $primeira_cor_fundo;
+                    i { font-size: 13px; }
                 }
                 .contagem-desc-author {
                     font-size: 11px;
                 }
-            }
-
+                &.first {
+                    min-width: auto;
+                }
+            } // contagem
         }
         .painel-members {
             .list-members {
