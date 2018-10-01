@@ -1,5 +1,8 @@
 jQuery( function( $ ) {
-
+    if($( "body[class^='.post-type-archive-tnc_col_']" )){
+        $( "section > .container" ).addClass('container-fluid').removeClass('container').attr('style', 'padding: 0');
+    }
+    
     $('[data-toggle="tooltip"]').tooltip();
     $('.uniform').uniform();
     
