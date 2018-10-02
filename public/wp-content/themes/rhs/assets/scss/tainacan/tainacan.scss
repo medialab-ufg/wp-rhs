@@ -1,7 +1,29 @@
 @import "https://cdn.materialdesignicons.com/2.8.94/css/materialdesignicons.min.css";
 body, html {
     font-size: 16px;
+    &.tainacan-rhs-style {
+        .filters-menu {
+            background-color: transparent;
+        }
+        .button {
+            &.is-white {
+                background-color: transparent;
+                &[disabled] {
+                    background-color: transparent !important;
+                }
+                &:hover, &:focus {
+                    background: transparent !important;
+                }
+            }
+        }
+        .tainacan-cards-container {
+            .tainacan-card {
+                background-color: #fff;
+            }
+        }
+    }
 }
+
 .justify-content-between {
     justify-content: space-between !important;
 }

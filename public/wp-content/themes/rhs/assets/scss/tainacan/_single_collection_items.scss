@@ -124,6 +124,9 @@
                             max-width: 100%;
                             width: 30px;
                         }
+                        &:hover {
+                            text-decoration: none;
+                        }
                     }
                 }
                 .s-item-collection--metadata{
