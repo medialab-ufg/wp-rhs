@@ -213,6 +213,9 @@ jQuery( function( $ ) {
     if($("[class*='post-type-archive-tnc_col_']").length > 0){
         $("[class*='post-type-archive-tnc_col_'] section > .container").addClass('container-fluid').removeClass('container').attr('style', 'padding: 0');
         $("[class*='post-type-archive-tnc_col_']").addClass('tainacan-rhs-style');
+    }else if($("[class*='tax-tnc_tax_']").length > 0){
+        $("[class*='tax-tnc_tax_'] section > .container").addClass('container-fluid').removeClass('container').attr('style', 'padding: 0');
+        $("[class*='tax-tnc_tax_']").addClass('tainacan-rhs-style');
     }
 });
 
