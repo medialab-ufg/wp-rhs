@@ -459,3 +459,12 @@ a.download-my-content { margin-top: 10px; }
     padding: 14px 14px 0 14px;
     border-top-right-radius: 8px;
 }
+
+.user-links{
+    @media screen and (max-width: 450px){
+        margin-left: -95px;
+    }
+    .contagem{
+        padding-top: 10px;
+    }
+}
