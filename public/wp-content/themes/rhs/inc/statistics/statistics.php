@@ -106,17 +106,17 @@ class statistics {
 			$result['not_active_users'] = count($all_users_capabilities) - $result['active_users'];
 		}
 
-		if(in_array('active_author', $filter))
+		if(in_array('active_author', $filter))/* Usuários que realizaram POSTs */
 		{
 			$sql_date = $this->gen_sql_date($date, 'p.post_date', self::USER);
 
 			$sql_active_authors = "
-						SELECT count(*) count FROM $wpdb->posts p
+                        SELECT count(*) count FROM $wpdb->posts p
 						where p.post_type='post' and (p.post_status = 'publish' OR p.post_status = 'voting-queue') $sql_date
     					group by p.post_author
 				";
 
-			$result['active_author'] = count($wpdb->get_results($sql_active_authors, ARRAY_A)[0]['count']);
+			$result['active_author'] = count($wpdb->get_results($sql_active_authors, ARRAY_A));
 		}
 
 		if(in_array('active_contributor', $filter))
@@ -128,7 +128,7 @@ class statistics {
     					group by c.user_id
 				";
 
-			$result['active_contributor'] = count($wpdb->get_results($sql_active_contributors, ARRAY_A)[0]['count']);
+			$result['active_contributor'] = count($wpdb->get_results($sql_active_contributors, ARRAY_A));
 		}
 
 		if(in_array('posts_visits', $filter))
