@@ -109,13 +109,8 @@
                                                         <?php if ( true == get_theme_mod( 'twitter_share', true ) ) : ?> 
                                                             <?php $twitter_option = get_option( 'twitter_user'); ?>
                                                             <?php $via = !empty($twitter_option) ? '&amp;via=' . get_option( 'twitter_user') : ''; ?>
-															<a href="http://twitter.com/share?url=<?php the_permalink(); ?>&amp;text=<?php the_title_attribute(); ?><?php echo $via; ?>" target="_blank" class="item-card-link--sharing">
+															<a href="http://twitter.com/share?url=<?php the_permalink(); ?>&amp;text=<?php the_title_attribute(); ?>&amp;via=RedeHumanizaSUS" target="_blank" class="item-card-link--sharing">
                                                                 <img src="<?php echo get_stylesheet_directory_uri().'/assets/images/twitter.png'; ?>" alt="">
-                                                            </a>
-                                                        <?php endif; ?>
-                                                        <?php if ( true == get_theme_mod( 'google_share', true ) ) : ?> 
-                                                            <a href="https://plus.google.com/share?url=<?php the_permalink(); ?>" target="_blank" class="item-card-link--sharing">
-                                                                <img src="<?php echo get_stylesheet_directory_uri().'/assets/images/google-plus.png'; ?>" alt="">
                                                             </a>
                                                         <?php endif; ?>
                                                     </div>
