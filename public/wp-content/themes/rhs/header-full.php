@@ -140,11 +140,13 @@ global $RHSComunities;
                                     <i class="icones-dropdown fa fa-user" aria-hidden="true"></i> Meu Perfil
                                 </a>
                             </li>
+                        <?php if (user_can( $current_user, 'administrator' ) || user_can( $current_user, 'editor' )) {?>
                             <li class="menu-item perf">
                                 <a href="<?php echo home_url(RHSRewriteRules::STATISTICS); ?>">
                                     <i class="icones-dropdown fa fa-area-chart" aria-hidden="true"></i> Estatísticas
                                 </a>
                             </li>
+                        <?php } ?>
                             <li class="menu-item ">
                                 <a href="<?php echo home_url(RHSRewriteRules::POSTAGENS_URL);?>">
                                     <i class="icones-dropdown fa fa-list-alt" aria-hidden="true"></i> Minhas Postagens

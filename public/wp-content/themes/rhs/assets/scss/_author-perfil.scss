@@ -96,6 +96,7 @@
                 float: left;
                 text-align: center;
                 margin-right: 10px;
+                min-width: 60px;
                 @media only screen and (max-width: 320px){
                     margin-right: 2px;
                 }
@@ -106,13 +107,16 @@
                         weight: bold;
                     }
                     line-height: 80%;
-                    margin-bottom: -6px;
+                    color: $primeira_cor_fundo;
+                    i { font-size: 13px; }
                 }
                 .contagem-desc-author {
                     font-size: 11px;
                 }
-            }
-
+                &.first {
+                    min-width: auto;
+                }
+            } // contagem
         }
         .painel-members {
             .list-members {
@@ -454,4 +458,13 @@ a.download-my-content { margin-top: 10px; }
 .classificar {
     padding: 14px 14px 0 14px;
     border-top-right-radius: 8px;
+}
+
+.user-links{
+    @media screen and (max-width: 450px){
+        margin-left: -95px;
+    }
+    .contagem{
+        padding-top: 10px;
+    }
 }
