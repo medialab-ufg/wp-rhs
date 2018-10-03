@@ -60,14 +60,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 no-padding">
                 <div id="sidebar" class="sidebar hidden-print rhs-publish-sidebar">
                     <aside id="class_post-1" class="widget widget_class_post">
                         <h2 class="widget-title">Classificar Post</h2>
                         <div class="panel">
                             <div class="panel-body sidebar-public">
                                 <div class="form-group">
-                                    <input type="text" value="" class="form-control" id="input-tags" placeholder="Tags">
+                                    <input type="text" value="" class="form-control" id="input-tags" placeholder="Classifique seu post com tags">
                                 </div>
                                 <div class="form-group publish_post_sidebox_city_state">
                                     <?php UFMunicipio::form( array(
@@ -104,19 +104,20 @@
                                 <?php if($RHSPost->getStatus() == 'private' || $comunidades) { ?>
 
                                     <div class="form-group form-checkbox publish_post_sidebox">
-                                        <label class="strong">Publicar em</label>
+                                        <label class="strong">Este post deve ser publicado:</label>
                                     
                                         <div>
                                             <input <?php echo (!$RHSPost->getComunities() || $RHSPost->getStatus() != 'private') ? 'checked' : ''; ?> type="checkbox" class="uniform" id="comunity-status" name="comunity-status[]" value="public">
-                                            <label for="comunity-status">Público</label>
+                                            <label for="comunity-status">Publicamente</label>
                                         </div>
                                         <?php foreach ( $RHSComunities->get_comunities_objects_by_user( get_current_user_id() ) as $key => $comunidade ) { ?>
                                             <?php if(!$comunidade->is_member()){
                                                 continue;
                                             } ?>
+                                            <label class="strong"> Comunidades que participo:</label>
                                             <div>
                                                 <input <?php echo $RHSPost->getComunitiesId() && in_array($comunidade->get_id(), $RHSPost->getComunitiesId()) ? 'checked' : ''; ?> type="checkbox" class="uniform" id="comunity-status-<?php echo $key; ?>" name="comunity-status[]" value="<?php echo $comunidade->get_name(); ?>">
-                                                <label for="comunity-status-<?php echo $key; ?>"><?php echo $comunidade->get_name() ?> <strong>(Comunidade)</strong></label>
+                                                <label for="comunity-status-<?php echo $key; ?>"><?php echo $comunidade->get_name() ?> </label>
                                             </div>
                                         <?php } //foreach ?>
                                     </div>
