@@ -77,7 +77,7 @@
                                             <input type="checkbox" name="filter" value="followed" data-name="Postagens seguidas"> Seguidas
                                         </label>
                                         <label>
-                                            <input type="checkbox" name="filter" value="comments" data-name="Comentarios"> Comentários
+                                            <input type="checkbox" name="filter" value="comments" data-name="Comentários"> Comentários
                                         </label>
                                     </div>
                                 </div>
@@ -122,7 +122,7 @@
                                                 <input type="checkbox" name="filter" value="followed" data-name="Postagens seguidas"> Seguidas
                                             </label>
                                             <label>
-                                                <input type="checkbox" name="filter" value="comments" data-name="Comentarios"> Comentários
+                                                <input type="checkbox" name="filter" value="comments" data-name="Comentários"> Comentários
                                             </label>
                                         </div>
 

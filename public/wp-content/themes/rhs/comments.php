@@ -55,7 +55,7 @@ if (post_password_required()) {
 	        <?php endif; // check for comment navigation ?>
 
 	        <?php elseif (!comments_open() && '0' != get_comments_number() && post_type_supports(get_post_type(), 'comments')) : ?>
-	            <p class="nocomments"><?php _e('Comentarios está fechado.', 'rhs'); ?></p>
+	            <p class="nocomments"><?php _e('Os comentários estão desabilitados para este post.', 'rhs'); ?></p>
 	    <?php endif; ?>
 	</div>
 </div>
