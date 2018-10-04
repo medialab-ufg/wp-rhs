@@ -260,7 +260,7 @@ Primeiro e Segundo DropDown Menu
                         size: 11px;
                         weight: bold;
                     }
-                    padding: 10px 0px 5px 0px;
+                    padding: 10px 0 5px 0;
                     &:nth-child(2n+0) {
                         background-color: #fafafa;
                     }
@@ -277,7 +277,7 @@ Primeiro e Segundo DropDown Menu
                     }
                     .notify-img {
                         float: left;
-                        margin: 0px 0px 8px 0px;
+                        margin: 0 0 8px 0;
                         img{
                             width: 50px;
                             height: 50px;
@@ -310,8 +310,8 @@ Primeiro e Segundo DropDown Menu
                                 weight: 600;
                             }
                             top: -6px;
-                            margin: 8px 0px 0px 0px;
-                            padding: 0px 3px;
+                            margin: 8px 0 0 0;
+                            padding: 0 3px;
                             border: 1px solid #e2e2e2;
                             position: relative;
                             background-image: linear-gradient(#fff, #f2f2f2);
@@ -407,7 +407,7 @@ Primeiro e Segundo DropDown Menu
                                 left: -6.8775px;
                                 top: -6.8775px;
                             }
-                            padding: 1px 4px 0px;
+                            padding: 1px 4px 0;
                             min-width: 13.755px;
                             height: 13.755px;
                             line-height: 13.755px;

@@ -56,13 +56,13 @@
             .form-group {
                 margin: 0;
                 label {
-                    margin-bottom: 0px;
+                    margin-bottom: 0;
                     .required {
                         color: #cc0505;
                     }
                 }
                 input[type='text'], input[type='email'], input[type='password'], select, textarea {
-                    border-radius: 0px;
+                    border-radius: 0;
                     height: 40px;
                     font-size: 16px;
                     &:hover, &:active, &:focus {
