@@ -54,7 +54,7 @@ function handle_upload_from_path( $path, $parent_post_id, $add_to_media = true )
 $this->log('Importando anexos dos posts...');
 $results = $this->get_results('attachments');
 
-$attachments_path_dir = "/home/andre/Documents/drupal_files/"; //Diretorio de anexos deve ser configurado
+$attachments_path_dir = "/path/to/attachment_files/"; //Diretorio de anexos deve ser configurado
 
 $wp_upload_dir = wp_upload_dir();
 
