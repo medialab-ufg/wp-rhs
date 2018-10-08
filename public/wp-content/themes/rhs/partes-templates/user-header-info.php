@@ -98,7 +98,9 @@ $curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('
                                 <a href="<?php echo $profile_base . RHSRewriteRules::USER_COMMENTS; ?>" class="btn-link">
                             <span class="contagem-valor-author">
                                 <i class="fa fa-comments" aria-hidden="true"></i>
-                                <?php echo count(get_comments(['user_id' => get_current_user_id()])) ?>
+                                <span class="comments-count">
+                                    <?php echo count(get_comments(['user_id' => get_current_user_id()])) ?>
+                                </span>
                             </span>
                                     <span class="contagem-desc-author"> MEUS COMENTÁRIOS </span>
                                 </a>
