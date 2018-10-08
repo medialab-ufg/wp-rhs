@@ -172,7 +172,7 @@ global $RHSComunities;
 			                                ?>
                                         </ul>
                                         <a href="javascript:void(0)">
-                                            <i class="fa fa-cubes" aria-hidden="true"></i> Minhas comunidades <i class="fa fa-circle pull-right" aria-hidden="true"></i>
+                                            <i class="fa fa-cubes" aria-hidden="true"></i> Minhas comunidades
                                         </a>
 
                                     </li>
