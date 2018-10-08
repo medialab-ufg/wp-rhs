@@ -66,8 +66,7 @@ class RHSComments {
 	}
 
 	function delete_comment(){
-        //$result = wp_delete_comment($_POST['comment_ID']);
-        $result = wp_set_comment_status($_POST['comment_ID'], 'trash');
+        $result = wp_delete_comment($_POST['comment_ID']);
         echo $result;
         wp_die();
     }
