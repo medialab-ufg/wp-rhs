@@ -215,4 +215,7 @@
 }
 .tainacan-content {
     min-height: 32.5vh;
+    &.single-item-collection {
+        min-height: 17.5vh;
+    }
 }
