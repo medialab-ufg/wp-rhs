@@ -24,7 +24,7 @@
             }
         }
         .single-item-collection{
-            min-height: 23.5vh;
+            min-height: 17.5vh;
             &.margin-two-column {
                 margin: 0 8.33333333334%;
             }
@@ -216,7 +216,4 @@
 }
 .tainacan-content {
     min-height: 32.5vh;
-    &.single-item-collection {
-        min-height: 17.5vh;
-    }
 }
