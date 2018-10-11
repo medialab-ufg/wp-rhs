@@ -5,20 +5,20 @@
         <h3 class="text-center" style="margin-top: 30px;margin-bottom: 0;">
             Estatísticas de Uso da Rede Humaniza SUS
 
-            <a href="#estatisticas-ancora">
+            <a href="#estatisticas-filtros">
                 <button class="btn btn-default pull-right">
                     <i class="fa fa-filter" aria-hidden="true"></i> Ver filtros
                 </button>
             </a>
         </h3>
-        <hr>
+        <hr style="margin-bottom: 0">
         <?php if (!is_user_logged_in()): ?>
             <p class="text-center">
                 <a href="<?php echo home_url("/login") ?>">Faça login</a> para continuar.
             </p>
         <?php else: ?>
             <div class="col-md-12 add_margin no-padding">
-                <div id="loader" class="text-center">
+                <div id="loader" class="text-center" style="margin-top: 20px;">
                     <p>Carregando ... </p>
                     <img src="<?php echo get_template_directory_uri()?>/inc/comments/images/loadingAnimation.gif">
                 </div>
@@ -30,7 +30,7 @@
 
                 <div class="container"><h4 style="color: black"> </h4></div>
                 <div id="filtros-estatisticas" class="container col-md-7 no-padding">
-                    <a id="estatisticas-ancora"></a>
+                    <a id="estatisticas-filtros"></a>
                     <ul class="nav nav-pills">
                         <li class="active" data-type="increasing"> <a href="#quantidade" data-toggle="tab">Quantidade por data</a> </li>
                         <li data-type="average"><a href="#media" data-toggle="tab"> Média </a></li>
@@ -125,7 +125,7 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="col-md-5 no-padding">
+                                        <div class="col-md-4 no-padding">
                                             <hr>
                                             <h6>Compartilhamentos</h6>
                                             <label style="display: inline-block">
@@ -143,7 +143,7 @@
                                                 <input type="checkbox" name="filter" value="posts_visits" data-name="Visitas aos posts" checked> Posts
                                             </label>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-6">
                                             <div id="date_period">
                                                 <hr>
                                                 <h6>Período</h6>

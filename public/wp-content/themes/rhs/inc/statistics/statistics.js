@@ -151,10 +151,11 @@ jQuery(function ($) {
         var title = "Gráfico de ", tail = '';
         if(type === 'count')
         {
-            tail = "usuários";
+            title = "";
+            tail = "Número total de usuários, posts e compartilhamentos";
         }else if(type === 'increasing')
         {
-            tail = "crescimento";
+            tail = "crescimento por período";
         }else if(type === 'average')
         {
             tail = "média";
