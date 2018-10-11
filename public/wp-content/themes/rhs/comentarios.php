@@ -33,8 +33,8 @@ if (isset($author_id)) {
                                         $comment_post_title = "<i>Post removido</i>";
                                     }
                                     ?>
-                                    <li class="list-group-item list-group-item-action">
-                                        <div class="col-xs-10 text-left">
+                                    <li class="list-group-item list-group-item-action" data-comment-id="<?php echo $id; ?>">
+                                        <div class="col-xs-8 text-left">
                                             <p> Post:
                                                 <a class="commented-post" href="<?php echo $comment_link; ?>">
                                                     <?php echo $comment_post_title; ?>
@@ -43,9 +43,14 @@ if (isset($author_id)) {
                                             </p>
                                             <p> <?php echo $comentario->comment_content; ?> </p>
                                         </div>
-                                        <div class="col-md-2 status">
+                                        <div class="col-xs-2 status">
                                             <span>Status </span>
                                             <i> <?php echo comment_string(wp_get_comment_status($id)); ?> </i>
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <button type="button" class="btn btn-danger delete-comment" data-comment-id="<?php echo $id; ?>">
+                                                Apagar
+                                            </button>
                                         </div>
                                         <div class="clearfix"></div>
                                     </li>

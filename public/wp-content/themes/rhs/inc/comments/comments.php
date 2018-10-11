@@ -7,6 +7,7 @@ class RHSComments {
 		
         add_action('wp_enqueue_scripts', array(&$this, 'addJS'));
 		add_action('wp_ajax_rhs_comment', array(&$this, 'ajax_callback'));
+		add_action('wp_ajax_rhs_delete_comment', array(&$this, 'delete_comment'));
 		add_filter('comment_text',array(&$this,'comment_notification'));
     }
 
@@ -63,6 +64,12 @@ class RHSComments {
         }
         exit;
 	}
+
+	function delete_comment(){
+        $result = wp_delete_comment($_POST['comment_ID']);
+        echo $result;
+        wp_die();
+    }
 	
 	function save_edited_comment($comment_id, $comment_content) {
 		$comment_array = array('comment_ID' => $comment_id, 'comment_content' => $comment_content);

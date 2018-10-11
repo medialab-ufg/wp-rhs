@@ -1,11 +1,47 @@
-jQuery(document).ready(function($){   
+jQuery(document).ready(function($){
 	dialog_init('a.dialog');
 	$("body").append('<div id="dialog"><div id="dialog_content"></div></div>');
 	$('#dialog').dialog({
 		autoOpen: false,
 		modal:false,
 		width: 555
-	});	
+	});
+
+	$("button.delete-comment").click(function () {
+        var comment_id = $(this).data('comment-id');
+        swal({
+                title: "Apagar comentário?",
+                text: "Após apagado não será possivel o recuperar",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Apagar",
+                cancelButtonText: "Cancelar",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            },
+            function(){
+                $.ajax({
+                    url: comment.ajaxurl,
+                    method: 'POST',
+                    data:  {
+                        action: 'rhs_delete_comment',
+                        comment_ID: comment_id
+                    },
+                    success: function(response){
+                    	if(response == '1')
+						{
+							$('li[data-comment-id='+comment_id+']').remove();
+							var total_comments = parseInt($("span.comments-count").text());
+                            $("span.comments-count").text(--total_comments);
+
+							swal("Sucesso!", "Seu comentário foi apagado", "success");
+                        }
+                    	else swal("Erro!", "Seu comentário não foi apagado", "error");
+                    }
+                });
+            });
+	});
 });
 
 function dialog_init(elem){

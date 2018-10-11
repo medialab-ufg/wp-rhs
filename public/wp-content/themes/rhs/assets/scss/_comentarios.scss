@@ -5,7 +5,7 @@
 **************/
 .panel-comentarios {
     background-color: $whiteColor;
-    border-width: 0px;
+    border-width: 0;
     .titulo-quantidade {
         color: $primeira_cor_texto;
         font: {
@@ -35,14 +35,14 @@
 article {
     .comment-avatar {
         img {
-            margin: 0px 0 -86px 24px;
+            margin: 0 0 -86px 24px;
             border-radius: 25px;
             object-fit: cover;
             object-position: top;
         }
     }
     .comment-box {
-        margin: 0px 0 0px 82px;
+        margin: 0 0 0 82px;
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
         .comment-head {
             background: #FCFCFC;

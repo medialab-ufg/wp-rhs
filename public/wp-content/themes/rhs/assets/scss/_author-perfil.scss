@@ -79,7 +79,7 @@
             }
             .localidade {
                 font-size: 13px;
-                margin-top: 0px;
+                margin-top: 0;
             }
             .desde {
                 color: $grayColor;
@@ -159,7 +159,7 @@
         padding: 20px;
         .perfil-title {
             color: $primeira_cor_texto;
-            margin: 0px 0px 20px 0px;
+            margin: 0 0 20px 0;
         }
         .alert {
             p {
@@ -458,4 +458,13 @@ a.download-my-content { margin-top: 10px; }
 .classificar {
     padding: 14px 14px 0 14px;
     border-top-right-radius: 8px;
+}
+
+.user-links{
+    @media screen and (max-width: 450px){
+        margin-left: -95px;
+    }
+    .contagem{
+        padding-top: 10px;
+    }
 }
