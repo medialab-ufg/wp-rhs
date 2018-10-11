@@ -38,7 +38,7 @@
                     </ul>
 
                     <input type="hidden" id="selected_data_type" value="">
-                    <input type="hidden" id="id_div" value="#quantidade">
+                    <input type="hidden" id="id_div" value="#quantidade ">
                     <div class="tab-content clearfix panel panel-default" style="padding: 10px 20px;">
                         <div class="tab-pane active" id="quantidade">
                             <!-- Increasing -->
@@ -50,22 +50,19 @@
                                             <input type="checkbox" name="filter" value="all_users" data-name="Cadastros"> Total
                                         </label>
                                         <label>
+                                            <input type="checkbox" name="filter" value="active_author" data-name="Autores"> Autores
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="filter" value="active_contributor" data-name="Contribuidores"> Contribuidores
+                                        </label>
+                                        <!--<label>
                                             <input type="checkbox" name="filter" value="author" data-name="Autores"> Autores
                                         </label>
                                         <label>
                                             <input type="checkbox" name="filter" value="contributor" data-name="Contribuidores"> Contribuidores
-                                        </label>
+                                        </label>-->
                                         <label>
                                             <input type="checkbox" name="filter" value="voter" data-name="Votantes"> Votantes
-                                        </label>
-                                    </div>
-                                    <div class="col-md-4 no-padding">
-                                        <h6>Interações</h6>
-                                        <label>
-                                            <input type="checkbox" name="filter" value="active_author" data-name="Usuários que realizaram posts"> Usuários que postaram
-                                        </label>
-                                        <label>
-                                            <input type="checkbox" name="filter" value="active_contributor" data-name="Usuários que realizaram comentários"> Usuários que comentaram
                                         </label>
                                     </div>
                                     <div class="col-md-4 no-padding">
@@ -94,24 +91,21 @@
                                                 <input type="checkbox" name="filter" value="all_users" data-name="Cadastros" checked> Cadastros
                                             </label>
                                             <label>
+                                                <input type="checkbox" name="filter" value="active_author" data-name="Autores" checked> Autores
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="filter" value="active_contributor" data-name="Contribuidores" checked> Contribuidores
+                                            </label>
+                                            <!--<label>
                                                 <input type="checkbox" name="filter" value="author" data-name="Autores"> Autores
                                             </label>
                                             <label>
                                                 <input type="checkbox" name="filter" value="contributor" data-name="Contribuidores"> Contribuidores
-                                            </label>
+                                            </label>-->
                                             <label>
                                                 <input type="checkbox" name="filter" value="voter" data-name="Votantes"> Votantes
                                             </label>
 
-                                        </div>
-                                        <div class="col-md-4 no-padding">
-                                            <h6>Interações</h6>
-                                            <label>
-                                                <input type="checkbox" name="filter" value="active_author" data-name="Usuários que realizaram posts" checked> Usuarios que postaram
-                                            </label>
-                                            <label>
-                                                <input type="checkbox" name="filter" value="active_contributor" data-name="Usuários que realizaram comentários" checked> Usuários que comentaram
-                                            </label>
                                         </div>
                                         <div class="col-md-4">
                                             <h6>Postagens</h6>
@@ -193,23 +187,19 @@
                                             <input type="checkbox" name="filter" value="not_active_users" data-name="Usuários não ativos" checked> Não ativos
                                         </label>
                                         <label>
+                                            <input type="checkbox" name="filter" value="active_author" data-name="Usuários que realizaram posts" checked> Autores
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="filter" value="active_contributor" data-name="Usuários que realizaram comentários" checked> Contribuidores
+                                        </label>
+                                        <!--<label>
                                             <input type="checkbox" name="filter" value="author" data-name="Autores"> Autores
                                         </label>
                                         <label>
                                             <input type="checkbox" name="filter" value="contributor" data-name="Contribuidores"> Contribuidores
-                                        </label>
+                                        </label>-->
                                         <label>
                                             <input type="checkbox" name="filter" value="voter" data-name="Votantes" checked> Votantes
-                                        </label>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <h6>Interações</h6>
-                                        <label>
-                                            <input type="checkbox" name="filter" value="active_author" data-name="Usuários que realizaram posts" checked> Usuarios que postaram
-                                        </label>
-                                        <label>
-                                            <input type="checkbox" name="filter" value="active_contributor" data-name="Usuários que realizaram comentários" checked> Usuários que comentaram
                                         </label>
                                     </div>
                                     <div class="col-md-3">
@@ -270,8 +260,20 @@
                         </div>
                     </div>
                 </div>
+                <button type="button" id="show-legends" class="btn btn-xs btn-info pull-right legend-button">
+                    Mostrar legenda
+                </button>
             </div>
         <?php endif; ?>
+        <div class="jumbotron legend" style="display: none">
+            <h4>Legenda</h4>
+            <ul>
+                <li><strong>Usuários ativos</strong>: usuários que realizaram login pelo menos uma vez nos últimos dois anos</li>
+                <li><strong>Usuários não ativos</strong>: usuários que não realizam login a pelo menos dois anos</li>
+                <li><strong>Autores</strong>: usuários que realizaram ao menos um post</li>
+                <li><strong>Contribuidores</strong>: usuários que realizaram pelo menos um comentário</li>
+            </ul>
+        </div>
 	</div>
 </div>
 <?php get_footer('full');

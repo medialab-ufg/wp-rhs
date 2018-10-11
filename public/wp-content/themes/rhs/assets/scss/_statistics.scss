@@ -54,4 +54,16 @@
       border-top: 1px solid $backgroundColor;
     }
   }
+
+  .legend-button{
+    margin-top: -8px;
+    margin-right: 15px;
+  }
+  .legend ul{
+    list-style: none;
+  }
+
+  .legend li{
+    margin: 10px;
+  }
 } // rhs-statistics

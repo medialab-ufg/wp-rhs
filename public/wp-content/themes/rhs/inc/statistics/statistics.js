@@ -201,5 +201,9 @@ jQuery(function () {
         return options;
     }
 
+    $("#show-legends").click(function () {
+        $(".legend").toggle();
+    });
+
     $("#parametros").submit();
 });
