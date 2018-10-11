@@ -1,5 +1,5 @@
-jQuery(function () {
-    $ = jQuery;
+jQuery(function ($) {
+    var selected_filters = "div.filter-:visible input:checkbox[name=filter]:checked";
     jQuery("#parametros").submit(function (event) {
         var filter = [];
 
@@ -87,7 +87,7 @@ jQuery(function () {
                 info.push(['Info', 'Quantidade']);
             }
 
-            $("div.filter-:visible input:checkbox[name=filter]:checked").each(function(){
+            $(selected_filters).each(function(){
                 var name = $(this).data('name');
                 info.push([name, Number(data[$(this).val()])]);
             });
@@ -164,7 +164,11 @@ jQuery(function () {
     }
 
     function set_options(data_type, title) {
-        var options = {};
+        var options = {}, chartArea = {'width': '90%', 'height': '70%'};
+        if($(selected_filters).length <= 2)
+        {
+            chartArea =  {};
+        }
         var width = '100%', height = 600;
         if(data_type === 'count')
         {
@@ -175,7 +179,7 @@ jQuery(function () {
                 vAxis: {
                     title: 'Quantidade'
                 },
-                chartArea: {'width': '90%', 'height': '70%'},
+                chartArea: chartArea,
                 legend: { position: 'bottom' },
                 colors: ['#00b4b4']
             };
@@ -208,7 +212,7 @@ jQuery(function () {
                 hAxis: {
                     title: 'Período'
                 },
-                chartArea: {'width': '90%', 'height': '70%'},
+                chartArea: chartArea,
                 legend: { position: 'bottom' },
                 colors: ['#00b4b4']
             };
