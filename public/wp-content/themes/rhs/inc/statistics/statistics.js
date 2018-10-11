@@ -50,33 +50,49 @@ jQuery(function () {
 
         if(chart_type === 'bar')
         {
-            chart = new google.visualization.ColumnChart(document.getElementById(where));
+            var view = new google.visualization.DataView(info);
+            view.setColumns([0,
+                1,
+                {
+                    calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation"
+                }]);
+
+            var columnWrapper = new google.visualization.ChartWrapper({
+                chartType: 'ColumnChart',
+                containerId: where,
+                dataTable: view,
+                options: options
+            });
+
+            columnWrapper.draw();
         }else if (chart_type === 'line')
         {
             chart = new google.visualization.LineChart(document.getElementById(where));
+            chart.draw(data_table, options);
         }
-
-        chart.draw(data_table, options);
     }
 
     function prepare_data(data, chart_type, data_type, data_table) {
         var info = [];
         if(chart_type === 'bar')
         {
+            if(data_type === 'count')
+            {
+                info.push(['Tipo de usuário', 'Quantidade']);
+            }else if(data_type === 'average')
+            {
+                info.push(['Info', 'Quantidade']);
+            }
+
             $("div.filter-:visible input:checkbox[name=filter]:checked").each(function(){
                 var name = $(this).data('name');
                 info.push([name, Number(data[$(this).val()])]);
             });
 
-            if(data_type === 'count')
-            {
-                data_table.addColumn('string', 'Tipo de usuário');
-                data_table.addColumn('number', 'Quantidade');
-            }else if(data_type === 'average')
-            {
-                data_table.addColumn('string', 'Info');
-                data_table.addColumn('number', 'Quantidade');
-            }
+            return google.visualization.arrayToDataTable(info);
 
         }else if(chart_type === 'line')
         {
@@ -101,10 +117,10 @@ jQuery(function () {
 
                 info.push(line);
             }
-        }
 
-        data_table.addRows(info);
-        return info;
+            data_table.addRows(info);
+            return info;
+        }
     }
 
     function select_chart_type(type, id_div)
