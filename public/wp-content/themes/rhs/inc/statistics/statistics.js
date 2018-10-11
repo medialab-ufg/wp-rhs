@@ -1,5 +1,5 @@
-jQuery(function () {
-    $ = jQuery;
+jQuery(function ($) {
+    var selected_filters = "div.filter-:visible input:checkbox[name=filter]:checked";
     jQuery("#parametros").submit(function (event) {
         var filter = [];
 
@@ -50,33 +50,49 @@ jQuery(function () {
 
         if(chart_type === 'bar')
         {
-            chart = new google.visualization.ColumnChart(document.getElementById(where));
+            var view = new google.visualization.DataView(info);
+            view.setColumns([0,
+                1,
+                {
+                    calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation"
+                }]);
+
+            var columnWrapper = new google.visualization.ChartWrapper({
+                chartType: 'ColumnChart',
+                containerId: where,
+                dataTable: view,
+                options: options
+            });
+
+            columnWrapper.draw();
         }else if (chart_type === 'line')
         {
             chart = new google.visualization.LineChart(document.getElementById(where));
+            chart.draw(data_table, options);
         }
-
-        chart.draw(data_table, options);
     }
 
     function prepare_data(data, chart_type, data_type, data_table) {
         var info = [];
         if(chart_type === 'bar')
         {
-            $("div.filter-:visible input:checkbox[name=filter]:checked").each(function(){
+            if(data_type === 'count')
+            {
+                info.push(['Tipo de usuário', 'Quantidade']);
+            }else if(data_type === 'average')
+            {
+                info.push(['Info', 'Quantidade']);
+            }
+
+            $(selected_filters).each(function(){
                 var name = $(this).data('name');
                 info.push([name, Number(data[$(this).val()])]);
             });
 
-            if(data_type === 'count')
-            {
-                data_table.addColumn('string', 'Tipo de usuário');
-                data_table.addColumn('number', 'Quantidade');
-            }else if(data_type === 'average')
-            {
-                data_table.addColumn('string', 'Info');
-                data_table.addColumn('number', 'Quantidade');
-            }
+            return google.visualization.arrayToDataTable(info);
 
         }else if(chart_type === 'line')
         {
@@ -101,10 +117,10 @@ jQuery(function () {
 
                 info.push(line);
             }
-        }
 
-        data_table.addRows(info);
-        return info;
+            data_table.addRows(info);
+            return info;
+        }
     }
 
     function select_chart_type(type, id_div)
@@ -135,10 +151,11 @@ jQuery(function () {
         var title = "Gráfico de ", tail = '';
         if(type === 'count')
         {
-            tail = "usuários";
+            title = "";
+            tail = "Número total de usuários, posts e compartilhamentos";
         }else if(type === 'increasing')
         {
-            tail = "crescimento";
+            tail = "crescimento por período";
         }else if(type === 'average')
         {
             tail = "média";
@@ -148,7 +165,11 @@ jQuery(function () {
     }
 
     function set_options(data_type, title) {
-        var options = {};
+        var options = {}, chartArea = {'width': '90%', 'height': '70%'};
+        if($(selected_filters).length <= 2)
+        {
+            chartArea =  {};
+        }
         var width = '100%', height = 600;
         if(data_type === 'count')
         {
@@ -159,7 +180,7 @@ jQuery(function () {
                 vAxis: {
                     title: 'Quantidade'
                 },
-                chartArea: {'width': '90%', 'height': '70%'},
+                chartArea: chartArea,
                 legend: { position: 'bottom' },
                 colors: ['#00b4b4']
             };
@@ -192,7 +213,7 @@ jQuery(function () {
                 hAxis: {
                     title: 'Período'
                 },
-                chartArea: {'width': '90%', 'height': '70%'},
+                chartArea: chartArea,
                 legend: { position: 'bottom' },
                 colors: ['#00b4b4']
             };
@@ -200,6 +221,10 @@ jQuery(function () {
 
         return options;
     }
+
+    $("#show-legends").click(function () {
+        $(".legend").toggle();
+    });
 
     $("#parametros").submit();
 });

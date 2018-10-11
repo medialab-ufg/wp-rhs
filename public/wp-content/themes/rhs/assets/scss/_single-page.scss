@@ -27,7 +27,7 @@
         }
         .post-categories {
             margin-bottom: 7px;
-            padding: 10px 0px 12px;
+            padding: 10px 0 12px;
             a {
                 color: $primeira_cor_texto;
                 font: {
@@ -161,7 +161,7 @@
                     }
                     .btn-rhs{
                         box-shadow: none;
-                        padding: 0px 5px;
+                        padding: 0 5px;
                         margin: 0 4px;
                         background: transparent;
                         border: 1px solid #00b9b9;
@@ -211,8 +211,8 @@
             }
         }
         .content {
-            padding-bottom: 0px;
-            margin-bottom: 0px;
+            padding-bottom: 0;
+            margin-bottom: 0;
             p, div {
                 line-height: 1.7 !important;
                 font-size: 15px !important;

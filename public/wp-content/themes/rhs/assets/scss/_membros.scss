@@ -5,15 +5,15 @@
             margin-bottom: 20px;
             display: inline-block;
             width: 100%;
-            -webkit-box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 0px 8px 0 rgba(0, 0, 0, 0.3);
-            box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 0px 8px 0 rgba(0, 0, 0, 0.3);
+            -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.3);
             padding: 10px 0 0 0;
             background: $whiteColor;
             height: 100%;
             position: relative;
             &:hover {
-                -webkit-box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.17), 0 0px 9px 0 rgba(0, 0, 0, 0.3);
-                box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.17), 0 0px 9px 0 rgba(0, 0, 0, 0.3);
+                -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.17), 0 0 9px 0 rgba(0, 0, 0, 0.3);
+                box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.17), 0 0 9px 0 rgba(0, 0, 0, 0.3);
             }
             .divider {
                 border-top: 1px solid #e5e5e5;

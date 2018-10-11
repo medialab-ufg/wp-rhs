@@ -679,6 +679,7 @@ class RHSSearch {
 		    echo "<table>
                     <thead align='left' style='display: table-header-group'>
                     <tr>
+                        <th>ID</th>
                         <th>Título</th>
                         <th>Conteúdo</th>
                         <th>Data</th>
@@ -722,6 +723,7 @@ class RHSSearch {
 			    $mun = $post_ufmun['mun']['nome'];
 
 			    $row = [
+			        'id' => $post->ID,
 				    'titulo'=> $get_title,
 				    'conteudo' => $post_content,
 				    'data'=> $get_date,
@@ -737,6 +739,7 @@ class RHSSearch {
 
 			    /*Table Line*/
 			    echo "<tr>
+                            <td>" . $row['id'] . "</td>
                             <td>" . $row['titulo'] . "</td>
                             <td>" . $row['conteudo'] . "</td>
                             <td>" . $row['data'] . "</td>
@@ -803,7 +806,7 @@ class RHSSearch {
 
 		    }
 	    }else if($pagename == 'posts') {
-		    fputcsv($file, array('Título', 'Conteúdo','Data', 'Autor', 'Link', 'Visualizações', 'Compartilhamentos', 'Votos', 'Comentários', 'Estado', 'Cidade'));
+		    fputcsv($file, array('ID','Título', 'Conteúdo','Data', 'Autor', 'Link', 'Visualizações', 'Compartilhamentos', 'Votos', 'Comentários', 'Estado', 'Cidade'));
 
 		    foreach($content_file as $post) {
 
@@ -832,6 +835,7 @@ class RHSSearch {
 			    $mun = $post_ufmun['mun']['nome'];
 
 			    $row_data = [
+			        'id' => $post->ID,
 				    'titulo'=> $get_title,
 				    'conteudo' => $post_content,
 				    'data'=> $get_date,

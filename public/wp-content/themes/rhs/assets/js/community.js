@@ -123,7 +123,7 @@ jQuery( function( $ ) {
 
                             Object.keys(data['permissions']).forEach(function(key) {
 
-                                obj = $('.comunidade[data-id="'+term_id+'"] .card.hovercard .card-buttons a[data-type="' + key + '"]')
+                                obj = $('.comunidade[data-id="'+term_id+'"] .card.hovercard .card-buttons a[data-type="' + key + '"]');
 
                                 if (data['permissions'][key]) {
                                     $(obj).show();
@@ -238,7 +238,7 @@ jQuery( function( $ ) {
 
                             Object.keys(data['permissions']).forEach(function(key) {
 
-                                obj = $('.comunidades .content-table .table tr[data-id="'+term_id+'"] td:last-child  ul li a[data-type="' + key + '"]')
+                                obj = $('.comunidades .content-table .table tr[data-id="'+term_id+'"] td:last-child  ul li a[data-type="' + key + '"]');
 
                                 if (data['permissions'][key]) {
                                     $(obj).show();

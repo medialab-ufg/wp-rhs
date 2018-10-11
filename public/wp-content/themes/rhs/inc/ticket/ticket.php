@@ -43,13 +43,10 @@ class RHSTicket extends RHSMessage {
         add_action('manage_posts_custom_column', array(&$this, 'custom_columns_content'), 10, 2);
 
 
-        add_action('admin_footer', array(&$this, 'remove_column_span_comments'));
-
+        // add_action('admin_footer', array(&$this, 'remove_column_span_comments')); // Not used by now
     }
 
     function remove_column_span_comments() {
-
-        return '';
         echo "
             <script type='text/javascript'>
                 jQuery( function( $ ) {
@@ -826,7 +823,7 @@ class RHSTicket extends RHSMessage {
                 width: 150px;
             }
             .comments-ticket{
-                box-shadow: 2px 1px 2px 0px #777;
+                box-shadow: 2px 1px 2px 0 #777;
                 border-radius: 7px;
                 padding: 20px;
                 background: rgba(241, 241, 241, 0.19);
@@ -882,13 +879,13 @@ class RHSTicket extends RHSMessage {
             }
             .comments-ticket.author > span{
                 float: right;
-                margin-left: 0px;
+                margin-left: 0;
                 margin-right: 15px;
                 text-align: right;
             }
             .comments-ticket.author > p{
                 float: right;
-                margin-left: 0px;
+                margin-left: 0;
                 margin-right: 15px;
                 text-align: right;
             }

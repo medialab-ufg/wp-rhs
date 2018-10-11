@@ -67,13 +67,13 @@
                         color: #ffffff;
                         background-color: #009b9b;
                         border: none;
-                        box-shadow: 3px 4px 0px 0px rgba(216, 216, 216, 0);
+                        box-shadow: 3px 4px 0 0 rgba(216, 216, 216, 0);
                     }
                     &:active, &:active:hover, &:active:focus {
                         color: #ffffff;
                         background-color: #009b9b;
                         border: none;
-                        box-shadow: 3px 4px 0px 0px #037b7b inset;
+                        box-shadow: 3px 4px 0 0 #037b7b inset;
                     }
                     &:ahactive {
                         box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.6);
@@ -177,7 +177,7 @@
                             outline: none;
                             background: rgba(255, 255, 255, 0.8);
                             box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.6);
-                            padding: 0px 3px 0px 6px;
+                            padding: 0 3px 0 6px;
                         }
 
                     }
@@ -233,7 +233,7 @@
             outline: none !important;
             margin-bottom: -2px;
             &:hover {
-                box-shadow: 1px 1px 1px 0px #cac6c6;
+                box-shadow: 1px 1px 1px 0 #cac6c6;
             }
             &.btn-primary {
                 -webkit-border-radius: 0 !important;
@@ -241,7 +241,7 @@
                 border-color: #009b9b;
                 color: #fff;
                 &:hover {
-                    box-shadow: 1px 1px 1px 0px #009b9b;
+                    box-shadow: 1px 1px 1px 0 #009b9b;
                     background: #057b7b;
                     border-color: #057b7b;
                 }

@@ -94,7 +94,7 @@ body {
     background-color: #00b4b4;
     border: none;
     padding: 10px 16px;
-    box-shadow: 3px 4px 0px 0px rgb(216, 216, 216);
+    box-shadow: 3px 4px 0 0 rgb(216, 216, 216);
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
     -ms-transition: all 0.3s ease;
@@ -104,13 +104,13 @@ body {
         color: #ffffff;
         background-color: #009b9b;
         border: none;
-        box-shadow: 3px 4px 0px 0px rgba(216, 216, 216, 0);
+        box-shadow: 3px 4px 0 0 rgba(216, 216, 216, 0);
     }
     &:active, &:active:hover {
         color: #ffffff;
         background-color: #009b9b;
         border: none;
-        box-shadow: 3px 4px 0px 0px #037b7b inset;
+        box-shadow: 3px 4px 0 0 #037b7b inset;
     }
     .follow-post {
         display: initial;
