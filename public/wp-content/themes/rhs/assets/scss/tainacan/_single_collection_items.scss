@@ -185,6 +185,11 @@
 }
 .tainacan-title{
     .tainacan-title-page{
+        ul.list-inline {
+            align-items: flex-end;
+            display: flex;
+            justify-content: space-between;
+        }
         .title-page{
             font-size: 1.25rem;
             word-break: break-word;
