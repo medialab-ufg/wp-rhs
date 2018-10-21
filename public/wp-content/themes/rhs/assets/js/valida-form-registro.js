@@ -508,9 +508,8 @@ jQuery( function( $ ) {
                     required: true
                 },
                 confirm_email: {
-                    email: true,
                     required: true,
-                    check_email_exist: true,
+                    email: true,
                     equalTo: "input[name='email']"
                 },
                 category: {
