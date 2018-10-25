@@ -137,7 +137,7 @@
 
         if (has_post_ufmun($_post_id)) : ?>
             <div class="relacionado">
-				<span>Esse Post está relacionado à </span>
+				<span>Esse post está relacionado a: </span>
 				<?php echo the_ufmun(); ?>
 		    </div>
         <?php
