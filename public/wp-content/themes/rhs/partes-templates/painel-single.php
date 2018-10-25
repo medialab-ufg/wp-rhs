@@ -120,7 +120,7 @@
             'exclude'     => get_post_thumbnail_id()
         ));
 
-        if(!empty($attachments)) { ?>
+        if (!empty($attachments)) { ?>
 
             <h3>Anexos</h3>
 
@@ -140,9 +140,13 @@
 				<span>Esse Post está relacionado à </span>
 				<?php echo the_ufmun(); ?>
 		    </div>
-        <?php endif; ?>
-		<?php if(has_tag()) : ?>
+        <?php
+        endif;
+
+		if (has_tag()):
+            ?>
 			<div class="tags-content">
+                <h5>Tags deste post:</h5>
 				<span class="tags-list">
 					<?php the_tags('', '', ''); ?>
 				</span>
