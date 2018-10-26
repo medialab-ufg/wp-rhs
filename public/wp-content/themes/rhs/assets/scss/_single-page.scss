@@ -229,7 +229,8 @@
     }
     .panel-footer {
         .tags-content {
-            margin-top: 35px;
+            h5 { color: black; }
+
             .tags-list {
                 a {
                     border-radius: 100px;
@@ -959,16 +960,24 @@
             left: 0;
             right: 0;
         }
-        .relacionado{
+
+
+        div.post-attachments {
+            h4 { color: black; }
+            a { font-size: 14px; }
+        }
+
+        .relacionado {
             font: {
                 size: 0.8em;
-                weight: bold;
             }
-            border: 1px solid #e0e0e0;
-            width: 35%;
-            padding: 5px;
-            border-radius: 12px;
+            color: black;
+            border-bottom: 1px solid #e0e0e0;
+            border-top: 1px solid #e0e0e0;
+            padding: 10px 0 10px 0;
+            margin: 15px 0 15px 0;
         }
+
         .espacamento-topo {
             margin: {
                 bottom: 5%;

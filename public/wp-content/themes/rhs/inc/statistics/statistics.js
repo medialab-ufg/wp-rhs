@@ -178,7 +178,8 @@ jQuery(function ($) {
                 width: width,
                 height: height,
                 vAxis: {
-                    title: 'Quantidade'
+                    title: 'Quantidade',
+                    textPosition: 'in'
                 },
                 chartArea: chartArea,
                 legend: { position: 'bottom' },
@@ -192,7 +193,8 @@ jQuery(function ($) {
                 height: height,
                 lineWidth: 3,
                 vAxis: {
-                    title: 'Quantidade'
+                    title: 'Quantidade',
+                    textPosition: 'in'
                 },
                 hAxis: {
                     title: 'Período'
@@ -208,7 +210,8 @@ jQuery(function ($) {
                 width: width,
                 height: height,
                 vAxis: {
-                    title: 'Quantidade'
+                    title: 'Quantidade',
+                    textPosition: 'in'
                 },
                 hAxis: {
                     title: 'Período'
