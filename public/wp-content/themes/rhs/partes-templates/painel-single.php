@@ -120,20 +120,26 @@
             'exclude'     => get_post_thumbnail_id()
         ));
 
-        if (!empty($attachments)) { ?>
-
-            <h3>Anexos</h3>
-
-            <?php foreach ($attachments as $attachment) {
-                $content = $attachment->guid;
-                if (wp_attachment_is_image($attachment->ID)) {
-                    $content = "<img src='$content' alt='Anexo do post' class='img-responsive'>";
-                }
-                ?>
-                <a href="<?php echo $attachment->guid; ?>"><?php echo $content; ?></a><br>
+        if (!empty($attachments)) {
+            ?>
+            <div class="post-attachments">
+                <h4> Anexos </h4>
                 <?php
-            }
-        }
+                foreach ($attachments as $attachment):
+                    $src = $attachment->guid;
+                    if (wp_attachment_is_image($src)) {
+                        $content = "<img src='$src' alt='Anexo do post' class='img-responsive'>";
+                    } else {
+                        $content = $attachment->post_title;
+                    }
+                    ?>
+                    <a href="<?php echo $src; ?>" target="_blank"> <?php echo $content; ?> </a> <br />
+                <?php
+                endforeach;
+                ?>
+            </div>
+            <?php
+        } // has attachments
 
         if (has_post_ufmun($_post_id)) : ?>
             <div class="relacionado">
