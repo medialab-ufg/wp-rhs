@@ -159,13 +159,14 @@
 			</div>
 		<?php endif; ?>
 	</div>
+
+    <?php
+    if (is_user_logged_in())
+        get_template_part("partes-templates/recommend-post"); ?>
+
 </div><!-- .panel .panel-default -->
 
 <?php
-// Indicação de posts exibida para todos usuários logados
-if (is_user_logged_in())
-    get_template_part("partes-templates/recommend-post");
-
 if ($_post_['status'] != 'draft' && $_post_['status'] != 'voting-expired' && ( comments_open() || get_comments_number() ) ) { ?>
 	<div class="panel panel-default hidden-print">
 		<div class="panel-footer panel-comentarios"> <?php comments_template(); ?> </div>
