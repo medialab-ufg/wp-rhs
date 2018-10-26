@@ -9,7 +9,8 @@ class RHSMigrations {
 
     public $steps = array(
         // nome-do-arquivo => Descrição do passo
-        'users-clean-spam' => 'Identifica e marca users SPAM cadastrados.'
+        'users-clean-spam' => 'Identifica e marca users SPAM cadastrados.',
+        'add-populacao-municipios' => 'Acrescenta informação sobre população dos municípios segundo IBGE'
     );
 
     var $from = 0;

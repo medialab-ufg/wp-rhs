@@ -99,22 +99,28 @@
                                 ?>
                                 </div>
 
-                                <?php global $RHSComunities; ?>
-                                <?php $comunidades = $RHSComunities->get_comunities_objects_by_user( get_current_user_id() );  ?>
-                                <?php if($RHSPost->getStatus() == 'private' || $comunidades) { ?>
+                                <?php
+                                global $RHSComunities;
+                                $comunidades = $RHSComunities->get_comunities_objects_by_user(get_current_user_id());
+                                if ($RHSPost->getStatus() == 'private' || $comunidades) { ?>
 
                                     <div class="form-group form-checkbox publish_post_sidebox">
-                                        <label class="strong">Este post deve ser publicado:</label>
-                                    
+                                        <label class="strong">Publicar este post:</label>
                                         <div>
                                             <input <?php echo (!$RHSPost->getComunities() || $RHSPost->getStatus() != 'private') ? 'checked' : ''; ?> type="checkbox" class="uniform" id="comunity-status" name="comunity-status[]" value="public">
                                             <label for="comunity-status">Publicamente</label>
                                         </div>
-                                        <?php foreach ( $RHSComunities->get_comunities_objects_by_user( get_current_user_id() ) as $key => $comunidade ) { ?>
+                                        <?php
+
+                                        if (is_array($comunidades) && count($comunidades) > 0) {
+                                            echo "<label class='strong'> Em comunidades que participo:</label>";
+                                        }
+
+                                        foreach ( $RHSComunities->get_comunities_objects_by_user( get_current_user_id() ) as $key => $comunidade ) { ?>
                                             <?php if(!$comunidade->is_member()){
                                                 continue;
                                             } ?>
-                                            <label class="strong"> Comunidades que participo:</label>
+
                                             <div>
                                                 <input <?php echo $RHSPost->getComunitiesId() && in_array($comunidade->get_id(), $RHSPost->getComunitiesId()) ? 'checked' : ''; ?> type="checkbox" class="uniform" id="comunity-status-<?php echo $key; ?>" name="comunity-status[]" value="<?php echo $comunidade->get_name(); ?>">
                                                 <label for="comunity-status-<?php echo $key; ?>"><?php echo $comunidade->get_name() ?> </label>

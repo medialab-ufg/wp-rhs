@@ -27,12 +27,9 @@ class RHSImporter {
         'estados-cidades-users' => 'Importação das informações de estado e cidade para usuários',
         'categories-new' => 'Cria Novas Categorias',
         'add-users-to-channels' => 'Adicionar usuários a canais de notificações',
-        'comunities' => 'Importação das comunidades',
-        'attachments' => "Importação de anexos" //17 ou 18
+        'communities' => 'Importação das comunidades',
+        'attachments' => "Importação de anexos" // 18
     );
-    
-    
-    
     
     
     

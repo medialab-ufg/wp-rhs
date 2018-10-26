@@ -5,7 +5,7 @@
                     <?php if (get_post_status(get_the_ID()) != 'private' || current_user_can('read_post', get_the_ID())): ?>
                         <div class="col-xs-12">
                             <?php  
-                                //Pega o paineldosposts para mostrar na pagina front-page os posts.
+                                // Pega o painel dos posts para mostrar na página front-page os posts.
                                 get_template_part( 'partes-templates/painel-single', get_post_format());
                             ?>
                         </div>

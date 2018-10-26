@@ -120,42 +120,53 @@
             'exclude'     => get_post_thumbnail_id()
         ));
 
-        if(!empty($attachments)) { ?>
-
-            <h3>Anexos</h3>
-
-            <?php foreach ($attachments as $attachment) {
-                $content = $attachment->guid;
-                if (wp_attachment_is_image($attachment->ID)) {
-                    $content = "<img src='$content' alt='Anexo do post' class='img-responsive'>";
-                }
-                ?>
-                <a href="<?php echo $attachment->guid; ?>"><?php echo $content; ?></a><br>
+        if (!empty($attachments)) {
+            ?>
+            <div class="post-attachments">
+                <h4> Anexos </h4>
                 <?php
-            }
-        }
+                foreach ($attachments as $attachment):
+                    $src = $attachment->guid;
+                    if (wp_attachment_is_image($src)) {
+                        $content = "<img src='$src' alt='Anexo do post' class='img-responsive'>";
+                    } else {
+                        $content = $attachment->post_title;
+                    }
+                    ?>
+                    <a href="<?php echo $src; ?>" target="_blank"> <?php echo $content; ?> </a> <br />
+                <?php
+                endforeach;
+                ?>
+            </div>
+            <?php
+        } // has attachments
 
         if (has_post_ufmun($_post_id)) : ?>
             <div class="relacionado">
-				<span>Esse Post está relacionado à </span>
+				<span>Esse post está relacionado a: </span>
 				<?php echo the_ufmun(); ?>
 		    </div>
-        <?php endif; ?>
-		<?php if(has_tag()) : ?>
+        <?php
+        endif;
+
+		if (has_tag()):
+            ?>
 			<div class="tags-content">
+                <h5>Tags deste post:</h5>
 				<span class="tags-list">
 					<?php the_tags('', '', ''); ?>
 				</span>
 			</div>
 		<?php endif; ?>
 	</div>
+
+    <?php
+    if (is_user_logged_in())
+        get_template_part("partes-templates/recommend-post"); ?>
+
 </div><!-- .panel .panel-default -->
 
 <?php
-// Indicação de posts exibida para todos usuários logados
-if (is_user_logged_in())
-    get_template_part("partes-templates/recommend-post");
-
 if ($_post_['status'] != 'draft' && $_post_['status'] != 'voting-expired' && ( comments_open() || get_comments_number() ) ) { ?>
 	<div class="panel panel-default hidden-print">
 		<div class="panel-footer panel-comentarios"> <?php comments_template(); ?> </div>

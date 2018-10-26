@@ -716,7 +716,7 @@ Class RHSVote {
             'vq_text_explanation'       => array(
                 'name'    => __( "Texto de informação:" ),
                 'type'    => 'text',
-                'help' => 'Texto generico de erro ao votar, caso não caia em nenhuma das outras condições.',
+                'help' => 'Texto genérico de erro ao votar, caso não caia em nenhuma das outras condições.',
                 'default' => $this->votes_to_text_help
             ),
             
