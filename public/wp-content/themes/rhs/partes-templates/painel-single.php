@@ -143,7 +143,7 @@
 
         if (has_post_ufmun($_post_id)) : ?>
             <div class="relacionado">
-				<span>Esse post está relacionado a: </span>
+				<span>Post relacionado a: </span>
 				<?php echo the_ufmun(); ?>
 		    </div>
         <?php
@@ -152,7 +152,7 @@
 		if (has_tag()):
             ?>
 			<div class="tags-content">
-                <h5>Tags deste post:</h5>
+                <h5>Tags</h5>
 				<span class="tags-list">
 					<?php the_tags('', '', ''); ?>
 				</span>
