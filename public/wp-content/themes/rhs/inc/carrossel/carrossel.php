@@ -127,7 +127,7 @@ Class Carrossel {
             $current_value = isset($_GET['rhs-filter-carousel']) ? $_GET['rhs-filter-carousel'] : '';
             ?>
             <label for="rhs-filter-carousel">
-                Posts no Carossel
+                Posts no Carrossel
                 <input type="checkbox" id="rhs-filter-carousel" name="rhs-filter-carousel"
                        value="rhs-filter-carousel" <?php echo 'rhs-filter-carousel' == $current_value ? 'checked="checked"' : '' ?> >
                 </label>
