@@ -1,11 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 23/11/18
- * Time: 15:34
- */
-class Comentarios_recentes extends WP_Widget
+class ComentariosRHS extends WP_Widget
 {
     /**
      * Sets up a new Recent Comments widget instance.
@@ -14,11 +8,11 @@ class Comentarios_recentes extends WP_Widget
      */
     public function __construct() {
         $widget_ops = array(
-            'classname' => 'Comentarios_recentes',
-            'description' => __( 'Exibe últimos comentarios removendo os comentarios no FormAcolheSUS' ),
+            'classname' => 'ComentariosRHS',
+            'description' => __( 'Exibe apenas comentários das páginas padrão da RHS.' ),
             'customize_selective_refresh' => true,
         );
-        parent::__construct( 'Comentarios_recentes', __( 'Últimos comentarios' ), $widget_ops );
+        parent::__construct( 'ComentariosRHS', __( 'Comentários Posts RHS' ), $widget_ops );
         $this->alt_option_name = 'recent_comments_widget';
 
         if ( is_active_widget( false, false, $this->id_base ) || is_customize_preview() ) {
@@ -166,7 +160,7 @@ class Comentarios_recentes extends WP_Widget
 }
 
 function recent_comments_widget() {
-    register_widget('Comentarios_recentes');
+    register_widget('ComentariosRHS');
 }
 
 add_action('widgets_init', 'recent_comments_widget');
