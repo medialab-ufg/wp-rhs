@@ -66,6 +66,16 @@ class ComentariosRHS extends WP_Widget
         if ( ! $number )
             $number = 5;
 
+        $comments_options = [
+            'number'      => $number,
+            'status'      => 'approve',
+            'post_status' => 'publish',
+        ];
+
+        if (!current_user_can('view_acolhesus')) {
+            $comments_options['post_type'] = 'post';
+        }
+
         /**
          * Filters the arguments for the Recent Comments widget.
          *
@@ -77,12 +87,7 @@ class ComentariosRHS extends WP_Widget
          * @param array $comment_args An array of arguments used to retrieve the recent comments.
          * @param array $instance     Array of settings for the current widget.
          */
-        $comments = get_comments( apply_filters( 'widget_comments_args', array(
-            'number'      => $number,
-            'status'      => 'approve',
-            'post_status' => 'publish',
-            'post_type' => 'post'
-        ), $instance ) );
+        $comments = get_comments( apply_filters( 'widget_comments_args', $comments_options, $instance ) );
 
         $output .= $args['before_widget'];
         if ( $title ) {
