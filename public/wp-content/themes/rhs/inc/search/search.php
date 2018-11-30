@@ -487,6 +487,7 @@ class RHSSearch {
         return new WP_User_Query($filters);      
         
     }
+
     /**
      * Exibe paginação
      * 
