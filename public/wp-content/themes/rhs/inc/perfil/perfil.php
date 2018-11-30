@@ -435,13 +435,13 @@ class RHSPerfil extends RHSMessage {
 					break;
 				// META KEYS
 				case 'votes':
-					$q_order_by = RHSVote::META_TOTAL_VOTES;
+                    $q_order_meta = RHSVote::META_TOTAL_VOTES;
 					break;
 				case 'shares':
-					$q_order_by = RHSNetwork::META_KEY_TOTAL_SHARES;
+                    $q_order_meta = RHSNetwork::META_KEY_TOTAL_SHARES;
 					break;
 				case 'views':
-					$q_order_by = RHSNetwork::META_KEY_VIEW;
+                    $q_order_meta = RHSNetwork::META_KEY_VIEW;
 					break;
 				case 'date':
 				default:
@@ -450,16 +450,13 @@ class RHSPerfil extends RHSMessage {
 			}
 
 			if (!empty($q_order_meta)) {
-				$meta_query['rhs_meta_order'] = [
-					'key' => $q_order_meta,
-					'compare' => 'EXISTS',
-					'type' => 'numeric'
-				];
-				$q_order_by = ['rhs_meta_order' => 'DESC'];
-			}
+                $wp_query->set('meta_key', $q_order_meta);
+                $wp_query->set('orderby', 'meta_value_num');
+			}else {
+                $wp_query->set('orderby', $q_order_by);
+            }
 
-			$wp_query->set('order', $q_order);
-			$wp_query->set('orderby', $q_order_by);
+            $wp_query->set('order', $q_order);
 			$wp_query->set('post_type', 'post');
 		}
 	}
