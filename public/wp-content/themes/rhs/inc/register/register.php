@@ -4,6 +4,21 @@ class RHSRegister extends RHSMessage {
 
     private static $instance;
 
+    private $blacklist = [
+        'ezen74.pl',
+        'fast-mail.host',
+        'scriptmail.com',
+        'nameofname.pw',
+        'gmx.com',
+        'nwytg.net',
+        'geguke@geroev.net',
+        'servicesp.bid',
+        'gbl-cleaner.de',
+        'hovercraft-italia.eu',
+        'zzzzg.club',
+        'syrob.laohost.net',
+    ];
+
     function __construct() {
 
         add_action('wp_ajax_nopriv_check_email_exist', array( &$this, 'check_email_exist' ) );
@@ -11,6 +26,10 @@ class RHSRegister extends RHSMessage {
     }
 
     public function trigger_by_post() {
+
+        if ($this->is_email_blacklisted($_POST['mail']))
+            return;
+
         if ( ! empty( $_POST['register_user_wp'] ) && $_POST['register_user_wp'] == $this->getKey() ) {
 
             if ( ! $this->validate_by_post() ) {
@@ -179,6 +198,21 @@ class RHSRegister extends RHSMessage {
 
     }
 
+    private function is_email_blacklisted($email) {
+        if (PHPMailer::validateAddress($email)) {
+            $_domain = substr($email, strpos($email,'@') + 1);
+
+            return (!in_array($_domain, $this->blacklist) && $this->is_tld_allowed($_domain));
+        }
+
+        return false;
+    }
+
+    private function is_tld_allowed($domain) {
+        $_TLD = substr($domain, -3);
+
+        return $_TLD !== '.pl' && $_TLD !== 'fun';
+    }
 }
 
 
