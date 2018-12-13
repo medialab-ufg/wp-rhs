@@ -1,5 +1,4 @@
 <?php
-
 class RHSRegister extends RHSMessage {
 
     private static $instance;
@@ -26,33 +25,34 @@ class RHSRegister extends RHSMessage {
     }
 
     public function trigger_by_post() {
-
-        if ($this->is_email_blacklisted($_POST['mail']))
-            return;
-
-        if ( ! empty( $_POST['register_user_wp'] ) && $_POST['register_user_wp'] == $this->getKey() ) {
-
-            if ( ! $this->validate_by_post() ) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($this->is_email_blacklisted($_POST['mail']))
                 return;
+
+            if (!empty($_POST['register_user_wp']) && $_POST['register_user_wp'] == $this->getKey()) {
+
+                if (!$this->validate_by_post()) {
+                    return;
+                }
+
+                // HoneyPot fields
+                if ((isset($_POST['phone']) && !empty($_POST['phone'])) ||
+                    (isset($_POST['user_login']) && !empty($_POST['user_login'])) ||
+                    (isset($_POST['confirm_mail']) && !empty($_POST['confirm_mail']))) {
+
+                    return;
+                }
+
+                $this->insert(
+                    $_POST['mail'],
+                    $_POST['first_name'],
+                    $_POST['last_name'],
+                    $_POST['pass'],
+                    $_POST['description'],
+                    $_POST['estado'],
+                    $_POST['municipio']
+                );
             }
-
-            // HoneyPot fields
-            if( ( isset($_POST['phone']) && !empty($_POST['phone']) ) ||
-                ( isset($_POST['user_login']) && !empty($_POST['user_login']) ) ||
-                ( isset($_POST['confirm_mail']) && !empty($_POST['confirm_mail'])) ) {
-
-                return;
-            }
-
-            $this->insert(
-                $_POST['mail'],
-                $_POST['first_name'],
-                $_POST['last_name'],
-                $_POST['pass'],
-                $_POST['description'],
-                $_POST['estado'],
-                $_POST['municipio']
-            );
         }
     }
 
@@ -199,7 +199,7 @@ class RHSRegister extends RHSMessage {
     }
 
     private function is_email_blacklisted($email) {
-        if (PHPMailer::validateAddress($email)) {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_domain = substr($email, strpos($email,'@') + 1);
 
             return (!in_array($_domain, $this->blacklist) && $this->is_tld_allowed($_domain));
