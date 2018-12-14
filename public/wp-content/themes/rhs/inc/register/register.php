@@ -26,8 +26,9 @@ class RHSRegister extends RHSMessage {
 
     public function trigger_by_post() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($this->is_email_blacklisted($_POST['mail']))
+            if (!$this->is_email_blacklisted($_POST['mail'])) {
                 return;
+            }
 
             if (!empty($_POST['register_user_wp']) && $_POST['register_user_wp'] == $this->getKey()) {
 
@@ -202,16 +203,17 @@ class RHSRegister extends RHSMessage {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_domain = substr($email, strpos($email,'@') + 1);
 
-            return (!in_array($_domain, $this->blacklist) && $this->is_tld_allowed($_domain));
+            return (in_array($_domain, $this->blacklist) || $this->is_tld_allowed($_domain));
         }
 
         return false;
     }
 
     private function is_tld_allowed($domain) {
+        $_blacklist_tld = ['.pl', 'fun'];
         $_TLD = substr($domain, -3);
 
-        return $_TLD !== '.pl' && $_TLD !== 'fun';
+        return !in_array($_TLD, $_blacklist_tld);
     }
 }
 
