@@ -1,8 +1,6 @@
 <?php
 class RHSRegister extends RHSMessage {
 
-    private static $instance;
-
     private $blacklist = [
         'ezen74.pl',
         'fast-mail.host',
@@ -30,7 +28,7 @@ class RHSRegister extends RHSMessage {
 
         if ($_isPOST && $_isRegister) {
 
-            if (!$this->is_email_blacklisted($_POST['mail'])) {
+            if ($this->is_email_blacklisted($_POST['mail'])) {
                 return;
             }
 
@@ -200,21 +198,24 @@ class RHSRegister extends RHSMessage {
 
     }
 
-    private function is_email_blacklisted($email) {
+    public function is_email_blacklisted($email) {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_domain = substr($email, strpos($email,'@') + 1);
-
-            return (in_array($_domain, $this->blacklist) || $this->is_tld_allowed($_domain));
+            return (in_array($_domain, $this->blacklist) || $this->is_tld_blacklisted($_domain));
         }
 
         return false;
     }
 
-    private function is_tld_allowed($domain) {
+    private function is_tld_blacklisted($domain) {
         $_blacklist_tld = ['.pl', 'fun'];
         $_TLD = substr($domain, -3);
 
-        return !in_array($_TLD, $_blacklist_tld);
+        return in_array($_TLD, $_blacklist_tld);
+    }
+
+    public function getBlacklist() {
+        return $this->blacklist;
     }
 }
 
