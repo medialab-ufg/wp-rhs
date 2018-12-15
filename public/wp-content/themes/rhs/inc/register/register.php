@@ -25,35 +25,36 @@ class RHSRegister extends RHSMessage {
     }
 
     public function trigger_by_post() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $_isPOST = $_SERVER['REQUEST_METHOD'] === 'POST';
+        $_isRegister = !empty($_POST['register_user_wp']) && $_POST['register_user_wp'] == $this->getKey();
+
+        if ($_isPOST && $_isRegister) {
+
             if (!$this->is_email_blacklisted($_POST['mail'])) {
                 return;
             }
 
-            if (!empty($_POST['register_user_wp']) && $_POST['register_user_wp'] == $this->getKey()) {
-
-                if (!$this->validate_by_post()) {
-                    return;
-                }
-
-                // HoneyPot fields
-                if ((isset($_POST['phone']) && !empty($_POST['phone'])) ||
-                    (isset($_POST['user_login']) && !empty($_POST['user_login'])) ||
-                    (isset($_POST['confirm_mail']) && !empty($_POST['confirm_mail']))) {
-
-                    return;
-                }
-
-                $this->insert(
-                    $_POST['mail'],
-                    $_POST['first_name'],
-                    $_POST['last_name'],
-                    $_POST['pass'],
-                    $_POST['description'],
-                    $_POST['estado'],
-                    $_POST['municipio']
-                );
+            if (!$this->validate_by_post()) {
+                return;
             }
+
+            // HoneyPot fields
+            if ((isset($_POST['phone']) && !empty($_POST['phone'])) ||
+                (isset($_POST['user_login']) && !empty($_POST['user_login'])) ||
+                (isset($_POST['confirm_mail']) && !empty($_POST['confirm_mail']))) {
+
+                return;
+            }
+
+            $this->insert(
+                $_POST['mail'],
+                $_POST['first_name'],
+                $_POST['last_name'],
+                $_POST['pass'],
+                $_POST['description'],
+                $_POST['estado'],
+                $_POST['municipio']
+            );
         }
     }
 
@@ -61,7 +62,7 @@ class RHSRegister extends RHSMessage {
 
         $userdata = array(
             'user_login'  => wp_strip_all_tags( trim( $mail ) ),
-            'user_email'       => wp_strip_all_tags( trim( $mail ) ),
+            'user_email'  => wp_strip_all_tags( trim( $mail ) ),
             'first_name'  => wp_strip_all_tags( trim( $first_name ) ),
             'last_name'   => wp_strip_all_tags( trim( $last_name ) ),
             'user_url'    => '',
