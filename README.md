@@ -108,7 +108,15 @@ De dentro da pasta themes/rhs/assets/scss execute o comando para compilar
 cd public/wp-content/themes/rhs/assets/scss
 sass style.scss:../../style.css
 ```
+
 ## Mantendo o ambiente de desenvolvimento
+
+### Configure o reCaptcha
+
+A plataforma utiliza o reCaptcha como uma das formas de se evitar SPAM tanto na página de cadastro
+quanto no formulário de contato (quando o usuário não está logado).
+Para utilizar essas funcionalidades sem problemas, [cadastre sua aplicação no Google](https://www.google.com/recaptcha/admin#list)
+para gerar um `Site Key` e `Secret Key`, que deverão ser informados na página de Opções da RHS no painel admin. 
 
 ### Compilando o SASS
 

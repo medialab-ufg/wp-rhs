@@ -68,7 +68,7 @@
                         <?php } ?>
 							<?php if( $_post_['status'] == 'publish') : ?>
 
-                                <div class="<?php if(is_user_logged_in()) { ?>col-xs-2 col-md-3<?php }else{ ?>col-xs-4 col-md-4<?php } ?> view-shares">
+                                <div class="<?php if(is_user_logged_in()) { ?>col-xs-3 col-md-4<?php }else{ ?>col-xs-5 col-md-5<?php } ?> view-shares">
                                     <div class="col-xs-6 col-md-6 views">
                                         <span class="num" title="Visualização"> <?php echo $_post_['views']; ?> </span>
                                         <span class="glyphicon-eye-open glyphicon" title="Visualização"></span>
@@ -143,7 +143,7 @@
 
         if (has_post_ufmun($_post_id)) : ?>
             <div class="relacionado">
-				<span>Esse post está relacionado a: </span>
+				<span>Post relacionado a: </span>
 				<?php echo the_ufmun(); ?>
 		    </div>
         <?php
@@ -152,7 +152,7 @@
 		if (has_tag()):
             ?>
 			<div class="tags-content">
-                <h5>Tags deste post:</h5>
+                <h5>Tags</h5>
 				<span class="tags-list">
 					<?php the_tags('', '', ''); ?>
 				</span>

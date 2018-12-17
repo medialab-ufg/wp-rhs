@@ -43,5 +43,8 @@
         "psr-4": {
             "Symfony\\Component\\VarDumper\\": "vendor/"
         }
+    },
+    "autoload": {
+        "psr-4": { "": "vendor;" }
     }
 }

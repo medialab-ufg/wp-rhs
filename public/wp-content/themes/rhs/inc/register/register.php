@@ -1,8 +1,20 @@
 <?php
-
 class RHSRegister extends RHSMessage {
 
-    private static $instance;
+    private $blacklist = [
+        'ezen74.pl',
+        'fast-mail.host',
+        'scriptmail.com',
+        'nameofname.pw',
+        'gmx.com',
+        'nwytg.net',
+        'geguke@geroev.net',
+        'servicesp.bid',
+        'gbl-cleaner.de',
+        'hovercraft-italia.eu',
+        'zzzzg.club',
+        'syrob.laohost.net',
+    ];
 
     function __construct() {
 
@@ -11,16 +23,23 @@ class RHSRegister extends RHSMessage {
     }
 
     public function trigger_by_post() {
-        if ( ! empty( $_POST['register_user_wp'] ) && $_POST['register_user_wp'] == $this->getKey() ) {
+        $_isPOST = $_SERVER['REQUEST_METHOD'] === 'POST';
+        $_isRegister = !empty($_POST['register_user_wp']) && $_POST['register_user_wp'] == $this->getKey();
 
-            if ( ! $this->validate_by_post() ) {
+        if ($_isPOST && $_isRegister) {
+
+            if ($this->is_email_blacklisted($_POST['mail'])) {
+                return;
+            }
+
+            if (!$this->validate_by_post()) {
                 return;
             }
 
             // HoneyPot fields
-            if( ( isset($_POST['phone']) && !empty($_POST['phone']) ) ||
-                ( isset($_POST['user_login']) && !empty($_POST['user_login']) ) ||
-                ( isset($_POST['confirm_mail']) && !empty($_POST['confirm_mail'])) ) {
+            if ((isset($_POST['phone']) && !empty($_POST['phone'])) ||
+                (isset($_POST['user_login']) && !empty($_POST['user_login'])) ||
+                (isset($_POST['confirm_mail']) && !empty($_POST['confirm_mail']))) {
 
                 return;
             }
@@ -41,7 +60,7 @@ class RHSRegister extends RHSMessage {
 
         $userdata = array(
             'user_login'  => wp_strip_all_tags( trim( $mail ) ),
-            'user_email'       => wp_strip_all_tags( trim( $mail ) ),
+            'user_email'  => wp_strip_all_tags( trim( $mail ) ),
             'first_name'  => wp_strip_all_tags( trim( $first_name ) ),
             'last_name'   => wp_strip_all_tags( trim( $last_name ) ),
             'user_url'    => '',
@@ -179,6 +198,25 @@ class RHSRegister extends RHSMessage {
 
     }
 
+    public function is_email_blacklisted($email) {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_domain = substr($email, strpos($email,'@') + 1);
+            return (in_array($_domain, $this->blacklist) || $this->is_tld_blacklisted($_domain));
+        }
+
+        return false;
+    }
+
+    private function is_tld_blacklisted($domain) {
+        $_blacklist_tld = ['.pl', 'fun'];
+        $_TLD = substr($domain, -3);
+
+        return in_array($_TLD, $_blacklist_tld);
+    }
+
+    public function getBlacklist() {
+        return $this->blacklist;
+    }
 }
 
 
