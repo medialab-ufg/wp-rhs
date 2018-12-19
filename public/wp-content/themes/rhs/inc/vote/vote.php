@@ -682,12 +682,7 @@ Class RHSVote {
         do_action('rhs_user_promoted', $user->ID);
 	}
 
-	function rhs_admin_page_voting_queue() {
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-		}
-
+	private function getVoteLabels() {
         $pages = get_pages();
         $pagesArr = array('0'=> '-- Escolha a página --');
 
@@ -695,31 +690,31 @@ Class RHSVote {
             $pagesArr[$page->ID] = $page->post_title;
         }
 
-        $labels = array(
-			'vq_days_for_expired'  => array(
-				'name'    => __( "Dias para expiração:" ),
-				'type'    => 'select',
+	    return array(
+            'vq_days_for_expired'  => array(
+                'name'    => __( "Dias para expiração:" ),
+                'type'    => 'select',
                 'options' => array_combine(range(1, 50), range(1, 50)),
-				'default' => $this->days_for_expired_default
-			),
-			'vq_votes_to_approval' => array(
-				'name'    => __( "Votos para aprovação:" ),
-				'type'    => 'select',
+                'default' => $this->days_for_expired_default
+            ),
+            'vq_votes_to_approval' => array(
+                'name'    => __( "Votos para aprovação:" ),
+                'type'    => 'select',
                 'options' => array_combine(range(1, 50), range(1, 50)),
-				'default' => $this->votes_to_approval_default
-			),
-			'vq_description'       => array(
-				'name'    => __( "Texto introdutório:" ),
-				'type'    => 'textarea',
-				'default' => ''
-			),
+                'default' => $this->votes_to_approval_default
+            ),
+            'vq_description'       => array(
+                'name'    => __( "Texto introdutório:" ),
+                'type'    => 'textarea',
+                'default' => ''
+            ),
             'vq_text_explanation'       => array(
                 'name'    => __( "Texto de informação:" ),
                 'type'    => 'text',
                 'help' => 'Texto genérico de erro ao votar, caso não caia em nenhuma das outras condições.',
                 'default' => $this->votes_to_text_help
             ),
-            
+
             'vq_text_vote_old_posts'       => array(
                 'name'    => __( "Alerta de post antigo:" ),
                 'type'    => 'text',
@@ -756,27 +751,35 @@ Class RHSVote {
                 'help' => 'Texto que aparecerá quando o voto for registrado com sucesso e o post for promovido.',
                 'default' => $this->votes_to_text_help
             ),
-            
+
             'vq_page_explanation'       => array(
                 'name'    => __( "Página de informação:" ),
                 'type'    => 'select',
                 'options' => $pagesArr,
                 'help' => 'Página que aparecerá no texto de ajuda quando o usuário não tiver permissão.'
             )
-		);
+        );
+    }
+
+	function rhs_admin_page_voting_queue() {
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		}
+
+        $labels = $this->getVoteLabels();
 
 		$i = 0;
 		if ( ! empty( $_POST ) ) {
 			foreach ( $labels as $label => $attr ) {
 
-				if ( empty( $_POST ) ) {
+				if (empty($_POST)) {
 					continue;
 				}
 
-				update_option( $label, $_POST[ $label ] );
+				update_option($label, $_POST[ $label ]);
 
-				if ( $i == 0 ) {
-
+				if ($i == 0) {
 					?>
                     <div class="updated">
                         <p>
@@ -785,8 +788,7 @@ Class RHSVote {
                     </div>
 					<?php
 				}
-
-				$i ++;
+				$i++;
 			}
 		}
 
