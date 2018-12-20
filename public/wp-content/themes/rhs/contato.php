@@ -5,8 +5,10 @@
 global $RHSCaptcha;
 global $RHSTicket;
 global $RHSUsers;
+$location = get_user_ufmun($RHSPerfil->getUserId());
 
-get_header(); ?>
+get_header();
+?>
 
     <div class="row">
         <div class="col-xs-12">
@@ -83,8 +85,8 @@ get_header(); ?>
 
                             <div class="form-group float-label-control" style="display: <?php echo $dis; ?>">
                                 <div class="row">
-                                    <?php $location = get_user_ufmun($RHSPerfil->getUserId()); ?>
-                                    <?php UFMunicipio::form( array(
+                                    <?php
+                                    UFMunicipio::form( array(
                                             'content_before' => '<div class="row">',
                                             'content_after' => '</div>',
                                             'content_before_field' => '<div class="col-md-6"><div class="form-group float-label-control">',
