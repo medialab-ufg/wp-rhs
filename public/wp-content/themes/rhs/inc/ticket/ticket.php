@@ -1,8 +1,12 @@
 <?php
+require_once __DIR__ . "./../traits/emailValidator.php";
+
 if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 class RHSTicket extends RHSMessage {
+    use emailValidator;
+
     const POST_TYPE = 'tickets';
     const TAXONOMY = 'tickets-category';
     const NOT_RESPONSE = 'not_response';
@@ -217,13 +221,19 @@ class RHSTicket extends RHSMessage {
      * É chamado quando o formulário de contato é enviado
      */
     public function trigger_by_post() {
-        if( ( isset($_POST['surname']) && !empty($_POST['surname']) ) ||
-            ( isset($_POST['phone']) && !empty($_POST['phone']) ) ) {
+        $_isPOST = $_SERVER['REQUEST_METHOD'] === 'POST';
+        if (!$_isPOST)
+            return;
 
+        if ($this->is_email_blacklisted($_POST['email']))
+            return;
+
+        if (( isset($_POST['surname']) && !empty($_POST['surname']) ) ||
+            ( isset($_POST['phone']) && !empty($_POST['phone']) ) ) {
             return;
         }
 
-        if ( ! empty( $_POST['ticket_user_wp'] ) && $_POST['ticket_user_wp'] == $this->getKey() ) {
+        if (! empty( $_POST['ticket_user_wp'] ) && $_POST['ticket_user_wp'] == $this->getKey() ) {
             if ( ! $this->validate_by_post_insert() ) {
                 return;
             }

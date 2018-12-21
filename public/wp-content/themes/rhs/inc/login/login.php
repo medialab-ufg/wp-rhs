@@ -46,7 +46,7 @@ class RHSLogin extends RHSMessage {
             //TODO verificar role do usuário para enviar para a página apropriada
             $redirect_to =  esc_url(home_url());
         } else if(isset($currentURL)) {
-            $redirect_to = esc_url( $_SERVER['HTTP_ORIGIN'] . $currentURL );
+            $redirect_to = esc_url( get_home_url() . $currentURL );
         }
 
         return $redirect_to;
