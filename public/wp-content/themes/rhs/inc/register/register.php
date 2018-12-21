@@ -1,24 +1,11 @@
 <?php
-class RHSRegister extends RHSMessage {
+require_once __DIR__ . "./../traits/emailValidator.php";
 
-    private $blacklist = [
-        'ezen74.pl',
-        'fast-mail.host',
-        'scriptmail.com',
-        'nameofname.pw',
-        'gmx.com',
-        'nwytg.net',
-        'geguke@geroev.net',
-        'servicesp.bid',
-        'gbl-cleaner.de',
-        'hovercraft-italia.eu',
-        'zzzzg.club',
-        'syrob.laohost.net',
-    ];
+class RHSRegister extends RHSMessage {
+    use emailValidator;
 
     function __construct() {
-
-        add_action('wp_ajax_nopriv_check_email_exist', array( &$this, 'check_email_exist' ) );
+        add_action('wp_ajax_nopriv_check_email_exist', array( &$this, 'check_email_exist'));
         add_filter( "register_url", array( &$this, "register_url" ) );
     }
 
@@ -195,27 +182,6 @@ class RHSRegister extends RHSMessage {
         }
 
         exit;
-
-    }
-
-    public function is_email_blacklisted($email) {
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $_domain = substr($email, strpos($email,'@') + 1);
-            return (in_array($_domain, $this->blacklist) || $this->is_tld_blacklisted($_domain));
-        }
-
-        return false;
-    }
-
-    private function is_tld_blacklisted($domain) {
-        $_blacklist_tld = ['.pl', 'fun'];
-        $_TLD = substr($domain, -3);
-
-        return in_array($_TLD, $_blacklist_tld);
-    }
-
-    public function getBlacklist() {
-        return $this->blacklist;
     }
 }
 
