@@ -635,7 +635,8 @@ class RHSSearch {
                     <tbody>";
 
 		    foreach($content_file as $user) {
-			    $comments_total = $wpdb->get_var($wpdb->prepare( "SELECT COUNT(*) AS total FROM $wpdb->comments WHERE comment_approved = 1 AND user_id = %s", $user->ID));
+		        $sql = self::get_comments_query($wpdb->comments, $user->ID, 'user');
+			    $comments_total = $wpdb->get_var($sql);
 			    $name = $user->display_name;
 			    $register_date = $user->user_registered;;
 
@@ -710,14 +711,14 @@ class RHSSearch {
 			    $get_link = $post->guid;
 			    $get_views = $RHSNetwork->get_post_total_views($post->ID);
 			    $get_shares = $RHSNetwork->get_post_total_shares($post->ID);
-			    $post_comments = wp_count_comments($post->ID);
 			    $get_votes = $RHSVote->get_total_votes($post->ID);
 
 			    $views = return_value_or_zero($get_views);
 			    $shares = return_value_or_zero($get_shares);
 			    $votes = return_value_or_zero($get_votes);
 
-			    $comments = (is_object($post_comments)) ? $post_comments->approved : 0;
+                $sql = self::get_comments_query($wpdb->comments, $post->ID, 'post');
+                $comments = $wpdb->get_var($sql);
 
 			    $post_ufmun = get_post_ufmun($post->ID);
 			    $uf = $post_ufmun['uf']['sigla'];
@@ -778,7 +779,8 @@ class RHSSearch {
 		    fputcsv($file, array('Nome do Usuário', 'Data de Cadastro', 'Total de Postagens', 'Total de Comentários Realizados', 'Total de Votos Recebidos', 'Estado', 'Cidade'));
 		    foreach($content_file as $user) {
 
-			    $comments_total = $wpdb->get_var($wpdb->prepare( "SELECT COUNT(*) AS total FROM $wpdb->comments WHERE comment_approved = 1 AND user_id = %s", $user->ID));
+                $sql = self::get_comments_query($wpdb->comments, $user->ID, 'user');
+			    $comments_total = $wpdb->get_var($sql);
 			    $name = $user->display_name;
 			    $register_date = $user->user_registered;;
 
@@ -823,13 +825,14 @@ class RHSSearch {
 			    $get_link = $post->guid;
 			    $get_views = $RHSNetwork->get_post_total_views($post->ID);
 			    $get_shares = $RHSNetwork->get_post_total_shares($post->ID);
-			    $get_comments = wp_count_comments($post->ID);
 			    $get_votes = $RHSVote->get_total_votes($post->ID);
 
 			    $views = return_value_or_zero($get_views);
 			    $shares = return_value_or_zero($get_shares);
 			    $votes = return_value_or_zero($get_votes);
-			    $comments = return_value_or_zero($get_comments);
+
+                $sql = self::get_comments_query($wpdb->comments, $post->ID, 'post');
+                $comments = $wpdb->get_var($sql);
 
 			    $post_ufmun = get_post_ufmun($post->ID);
 			    $uf = $post_ufmun['uf']['sigla'];
@@ -860,6 +863,16 @@ class RHSSearch {
 	    mb_convert_encoding($file, 'UTF-16LE', 'UTF-8');
 
 	    fclose($file);
+    }
+
+    public static function get_comments_query($comments_db_name, $id, $type)
+    {
+        if($type == 'post')
+            $type = 'comment_post_id';
+        else if ($type == 'user')
+            $type = 'user_id';
+
+        return "SELECT COUNT(*) AS total FROM $comments_db_name WHERE comment_approved = 1 AND $type = $id";
     }
 
     public static function render_uf_city_select() {
