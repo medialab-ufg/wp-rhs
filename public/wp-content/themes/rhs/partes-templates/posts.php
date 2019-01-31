@@ -45,9 +45,9 @@ $_post_id = get_the_ID();
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-8">
                 <?php
-                if ( comments_open() && get_post_status($_post_id) != RHSVote::VOTING_QUEUE) :
+                if (comments_open() && get_post_status($_post_id) != RHSVote::VOTING_QUEUE):
                     comments_popup_link( '<i class="fa fa-commenting-o" aria-hidden="true"></i> 0 COMENTÁRIOS',
                         '<i class="fa fa-commenting-o" aria-hidden="true"></i> 1 COMENTÁRIO',
                         '<i class="fa fa-commenting-o" aria-hidden="true"></i> % COMENTÁRIOS', 'footer-link',
@@ -55,7 +55,7 @@ $_post_id = get_the_ID();
                 endif;
                 ?>
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-4">
                 <span class="pull-right"><!-- Aqui contagem de compartilhamento caso tenha --></span>
             </div>
         </div>
