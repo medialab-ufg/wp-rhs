@@ -141,6 +141,7 @@
             }
         }
     }
+
     #posts {
         .formulario {
             .filtro {
@@ -148,7 +149,18 @@
                 margin-top: 10px;
             }
         }
+
+        .busca-posts {
+            .col-md-4 {
+                h3 {
+                    font-size: 1.0em;
+                    line-height: 22px;
+                }
+                p { font-size: 14px; }
+            }
+        } // .busca-posts
     }
+
     #user {
        @media only screen and (min-width: 780px){
             .input-daterange {
@@ -165,7 +177,7 @@
         float: left;
         width: 100%;
     }
-}
+} // .busca-page
 
 #exportModal{
     .modal-header{

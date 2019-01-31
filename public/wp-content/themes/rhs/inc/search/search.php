@@ -920,6 +920,19 @@ class RHSSearch {
 
         return $label;
     }
+
+    public static function get_search_loop_class() {
+        $class = "grid-item";
+        if (self::is_search_page()) {
+            $class = "col-md-4";
+        }
+        return $class;
+    }
+
+    public static function is_search_page() {
+        global $wp_query;
+        return is_array($wp_query->query) && isset($wp_query->query[self::SEARCH_PARAM]) && $wp_query->query[self::SEARCH_PARAM] === "posts";
+    }
 }
 
 /**
