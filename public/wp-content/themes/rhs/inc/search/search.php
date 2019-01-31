@@ -233,7 +233,7 @@ class RHSSearch {
             $wp_query->set('order', $q_order);
             $wp_query->set('orderby', $q_order_by);
             $wp_query->set('post_type', 'post');
-            $wp_query->set('posts_per_page', 40);
+            $wp_query->set('posts_per_page', 30);
             
         }
 
