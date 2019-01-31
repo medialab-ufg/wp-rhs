@@ -225,7 +225,7 @@ class RHSTicket extends RHSMessage {
         if (!$_isPOST)
             return;
 
-        if ($this->is_email_blacklisted($_POST['email']))
+        if (isset($_POST['email']) && $this->is_email_blacklisted($_POST['email']))
             return;
 
         if (( isset($_POST['surname']) && !empty($_POST['surname']) ) ||
