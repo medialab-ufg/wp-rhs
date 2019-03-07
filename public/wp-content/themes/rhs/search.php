@@ -23,6 +23,7 @@
     </div>
 </div>
 
-<?php get_template_part('partes-templates/export-modal'); ?>
+<?php
+get_template_part('partes-templates/export-modal');
 
-<?php get_footer('full');
+get_footer('full');

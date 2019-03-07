@@ -233,6 +233,7 @@ class RHSSearch {
             $wp_query->set('order', $q_order);
             $wp_query->set('orderby', $q_order_by);
             $wp_query->set('post_type', 'post');
+            $wp_query->set('posts_per_page', 30);
             
         }
 
@@ -918,6 +919,19 @@ class RHSSearch {
         }
 
         return $label;
+    }
+
+    public static function get_search_loop_class() {
+        $class = "grid-item";
+        if (self::is_search_page()) {
+            $class = "col-md-4";
+        }
+        return $class;
+    }
+
+    public static function is_search_page() {
+        global $wp_query;
+        return is_array($wp_query->query) && isset($wp_query->query[self::SEARCH_PARAM]) && $wp_query->query[self::SEARCH_PARAM] === "posts";
     }
 }
 
