@@ -37,6 +37,10 @@ global $RHSComunities;
 <header id="navBar-top">
     <nav class="navbar navbar-default navbar-static-top rhs_menu">
         <div class="container">
+
+            <!-- Button Publicar e Ver Fila de Votação -->
+            <?php get_template_part('partes-templates/buttons-top' ); ?>
+
             <div class="navbar-header">
                 <?php if(!RHSLogin::is_login_via_app()) : ?>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar6">

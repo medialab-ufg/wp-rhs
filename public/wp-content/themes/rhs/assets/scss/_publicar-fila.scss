@@ -1,33 +1,16 @@
 /*Button Publicar e Ver Fila de Votação*/
 .buttons_top {
-    margin: -20px auto 53px; //-9px auto 53px
-    .btn {
-        border: 0 solid transparent;
-        border-radius: 0;
-    }
-    .btn-group {
-        border-right: 1px solid $backgroundColor;
-    }
+    float: right;
     a {
         color: $primeira_cor_texto;
-        border: {
-            color: $whiteColor;
-            bottom: 2px solid $primeira_cor_texto !important;
-        }
+        font-size: small;
+        text-transform: uppercase;
         font: {
-            size: 18px;
+            size: 10px;
             weight: bold;
         }
-        padding: 9px 12px;
-        -webkit-transition: all 0.5s ease;
-        -moz-transition: all 0.5s ease;
-        -ms-transition: all 0.5s ease;
-        -o-transition: all 0.5s ease;
-        transition: all 0.5s ease;
-        &:hover, &:active, &:focus {
-            color: #fff !important;
-            background: #009b9b !important;
-            box-shadow: 2px 2px 1px 1px #b9b9b9;
+        &:nth-child(2) {
+            margin-left: 10px !important;
         }
     }
-}
+} // buttons_top
