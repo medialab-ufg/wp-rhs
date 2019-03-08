@@ -27,7 +27,7 @@ $_confirm_email = "Confirme seu e-mail";
                                     <div class="col-md-6 form-group float-label-control no-padding-left">
                                         <label for="mail" class="control-label">E-mail <span class="required">*</span></label>
                                         <div class="col-sm-12 no-padding">
-                                            <input class="form-control form-text" type="email" id="mail" name="mail" maxlength="254">
+                                            <input class="form-control form-text" type="email" id="mail" name="mail" maxlength="254" autocomplete="on">
                                             <input type="hidden" name="register_user_wp" value="<?php echo $RHSRegister->getKey(); ?>">
                                         </div>
                                         <div class="col-md-5"> <div class="help-block text-center"></div> </div>
@@ -60,7 +60,7 @@ $_confirm_email = "Confirme seu e-mail";
                                     <div class="col-md-6 form-group float-label-control no-padding-left">
                                             <label for="pass" class="no-padding control-label">Senha <span class="required">*</span></label>
                                             <div class="col-sm-12 no-padding">
-                                                <input class="form-control form-text" type="password" id="pass" name="pass" maxlength="50">
+                                                <input class="form-control form-text" type="password" id="pass" name="pass" maxlength="50" autocomplete="pass">
                                                 <label title="Exibir senha" class="show_pass">
                                                     <i class="fa fa-eye-slash"></i>
                                                 </label>
@@ -73,7 +73,7 @@ $_confirm_email = "Confirme seu e-mail";
                                     <div class="col-md-6 form-group float-label-control no-padding-right">
                                         <label for="pass" class="no-padding control-label">Confirme sua senha <span class="required">*</span></label>
                                         <div class="col-sm-12 no-padding">
-                                            <input class="form-control form-text" type="password" id="pass2" name="pass2" maxlength="50">
+                                            <input class="form-control form-text" type="password" id="pass2" name="pass2" maxlength="50" autocomplete="pass2">
                                             <label title="Exibir senha" class="show_pass"> <i class="fa fa-eye-slash"></i> </label>
                                         </div>
                                         <div class="col-md-5">

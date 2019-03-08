@@ -12,7 +12,8 @@ global $RHSComunities;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#00b4b4">
-    <meta name="description" content="<?php echo $description ?>">
+    <meta name="description" content="RHS | <?php echo $description ?>">
+    <meta name="keywords" content="notícias, acolhimento, pnh, política nacional de humanização, sus, humaniza sus, rhs, rede, publicações, eventos, relatos de experiência, saúde, saúde mental">
     <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon.ico"/>
     <title> <?php wp_title( '|', true, 'right' ); echo $description; ?> </title>
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>"/>
