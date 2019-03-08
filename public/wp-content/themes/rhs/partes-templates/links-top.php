@@ -1,5 +1,7 @@
+<!-- Links Publicar e Ver Fila de Votação -->
+
 <?php
-if(is_user_logged_in()) {
+if (is_user_logged_in()) {
     //se estiver logado, irá para as páginas corretas
     $url_publica = get_home_url() . '/' . RHSRewriteRules::POST_URL;
     $url_vote = get_home_url() . '/' . RHSRewriteRules::VOTING_QUEUE_URL;
@@ -10,7 +12,12 @@ if(is_user_logged_in()) {
 }
 ?>
 
-<section class="buttons_top hidden-print">
-    <a href="<?php echo $url_publica; ?>">Publicar na rede</a>
-    <a href="<?php echo $url_vote; ?>">Ver Fila de Votação</a>
-</section>
+<ul class="buttons_top hidden-print col-md-6">
+    <li>
+        <a href="<?php echo $url_publica; ?>">Publicar</a>
+    </li>
+    <span> <small> | </small></span>
+    <li>
+        <a href="<?php echo $url_vote; ?>">Ver Fila de Votação</a>
+    </li>
+</ul>

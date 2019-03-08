@@ -38,9 +38,6 @@ global $RHSComunities;
     <nav class="navbar navbar-default navbar-static-top rhs_menu">
         <div class="container">
 
-            <!-- Button Publicar e Ver Fila de Votação -->
-            <?php get_template_part('partes-templates/buttons-top' ); ?>
-
             <div class="navbar-header">
                 <?php if(!RHSLogin::is_login_via_app()) : ?>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar6">
@@ -53,7 +50,11 @@ global $RHSComunities;
                 <a class="navbar-brand text-hide" href="<?php if(!RHSLogin::is_login_via_app()) { bloginfo('url'); } else { echo '#'; } ?>" style="<?php if(RHSLogin::is_login_via_app()) : ?>width: 355px; margin-top: 22px; margin-bottom: -17px;<?php endif; ?>">RHS</a>
             </div>
             <div id="navbar6" class="navbar-collapse collapse primeiro-menu">
+
                 <?php if (my_wp_is_mobile()) { get_search_form(); } ?>
+
+                <?php get_template_part('partes-templates/links-top' ); ?>
+
                 <ul class="nav navbar-nav <?php if(!my_wp_is_mobile()):?>navbar-right dropdown-menu-right no-mobile<?php else:?>mobile-nav <?php if(!is_user_logged_in()){ echo 'not-logged'; } endif;?>">
 
                     <?php if (!is_user_logged_in()): ?>

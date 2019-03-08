@@ -1,16 +1,26 @@
 /*Button Publicar e Ver Fila de Votação*/
 .buttons_top {
     float: right;
-    a {
-        color: $primeira_cor_texto;
-        font-size: small;
-        text-transform: uppercase;
-        font: {
-            size: 10px;
-            weight: bold;
-        }
+    text-align: right;
+    margin: 0;
+
+    span {
+        color: white;
+    }
+
+    li {
+        display: inline-block;
+        a {
+            color: $primeira_cor_texto;
+            font-size: small;
+            text-transform: uppercase;
+            font: {
+                size: 10px;
+                weight: bold;
+            }
+        } // a
         &:nth-child(2) {
             margin-left: 10px !important;
         }
-    }
+    } // li
 } // buttons_top
