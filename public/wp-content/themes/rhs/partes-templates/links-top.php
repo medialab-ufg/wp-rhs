@@ -12,11 +12,11 @@ if (is_user_logged_in()) {
 }
 ?>
 
-<ul class="buttons_top hidden-print col-md-6">
+<ul class="buttons_top hidden-print col-md-7">
     <li>
         <a href="<?php echo $url_publica; ?>">Publicar</a>
     </li>
-    <span> <small> | </small></span>
+    <span> | </span>
     <li>
         <a href="<?php echo $url_vote; ?>">Ver Fila de Votação</a>
     </li>

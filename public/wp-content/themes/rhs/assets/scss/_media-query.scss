@@ -21,6 +21,7 @@
         }
     }
     @media (max-width: 768px) {
+        .buttons_top { display: none; }
         .rhs_menu {
             .navbar-header{
                 .navbar-brand{

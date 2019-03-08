@@ -36,7 +36,7 @@ global $RHSComunities;
 <!-- Tag header para o Primeiro Menu -->
 <header id="navBar-top">
     <nav class="navbar navbar-default navbar-static-top rhs_menu">
-        <div class="container">
+        <div class="container menu-container">
 
             <div class="navbar-header">
                 <?php if(!RHSLogin::is_login_via_app()) : ?>
@@ -59,7 +59,7 @@ global $RHSComunities;
 
                     <?php if (!is_user_logged_in()): ?>
                         <li>
-                            <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="loginBox"> Faça seu login <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="loginBox"> Faça login <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-lr animated slideInRight" role="menu" aria-labelledby="loginBox">
                                 <li class="login-box-container">
                                     <?php get_template_part("partes-templates/login-box"); ?>
@@ -153,7 +153,7 @@ global $RHSComunities;
                                 </a>
                             </li>
                         <?php } ?>
-                            <li class="menu-item ">
+                            <li class="menu-item">
                                 <a href="<?php echo home_url(RHSRewriteRules::POSTAGENS_URL);?>">
                                     <i class="icones-dropdown fa fa-list-alt" aria-hidden="true"></i> Minhas Postagens
                                 </a>
