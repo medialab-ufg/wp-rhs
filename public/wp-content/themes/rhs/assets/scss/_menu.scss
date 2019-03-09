@@ -71,7 +71,7 @@
                             object-position: center;
                         }
                         > i {
-                            margin-top: -13px;
+                            // margin-top: -13px;
                         }
                         &:hover {
                             text-decoration: none;
@@ -172,7 +172,7 @@ Primeiro e Segundo DropDown Menu
                 display: block;
             }
             > a {
-                color: #00b4b4;
+                color: $primeira_cor_texto;
                 padding-top: 10px;
                 padding-bottom: 5px;
                 font-size: 15px;
@@ -188,10 +188,8 @@ Primeiro e Segundo DropDown Menu
                 }
             }
         }
-        .open{
-            a{
-                color: #00b4b4;
-            }
+        .open {
+            a { color: $primeira_cor_texto; }
         }
     }
     .dropdown-menu {
@@ -406,7 +404,7 @@ Primeiro e Segundo DropDown Menu
                 }
                 > i {
                     &:hover {
-                        color: #00b4b4 !important;
+                        color: $primeira_cor_texto !important;
                     }
                     &.notification-count {
                         &:after {
@@ -444,7 +442,7 @@ Primeiro e Segundo DropDown Menu
                         -ms-transition: all 0.5s ease;
                         -o-transition: all 0.5s ease;
                         transition: all 0.5s ease;
-                        background: #00b4b4 !important;
+                        background: $primeira_cor_texto !important;
                         i{
                             color: #fff !important;
                         }
@@ -482,7 +480,7 @@ Primeiro e Segundo DropDown Menu
         > .open > a {
             background-color: transparent;
             i:active{
-                color: #00b4b4;
+                color: $primeira_cor_texto;
             }
         }
         ul.dropdown-menu, .nav ul.dropdown-menu {
@@ -562,7 +560,7 @@ Primeiro e Segundo DropDown Menu
     display:none;
     list-style: none;
     color: white;
-    background-color: #00b4b4;
+    background-color: $primeira_cor_texto;
     text-align: left;
 }
 
