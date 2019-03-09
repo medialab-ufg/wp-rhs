@@ -1,4 +1,13 @@
-/*Button Publicar e Ver Fila de Votação*/
+/* Button Publicar e Ver Fila de Votação */
+
+// Exclusivo para usuários logados
+.logged-in {
+    .buttons_top {
+        padding-right: 0;
+    }
+} // .logged-in
+
+// Uso geral: usuários logados e não logados
 .buttons_top {
     float: right;
     text-align: right;
