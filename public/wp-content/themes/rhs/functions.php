@@ -283,13 +283,10 @@ if (!function_exists('RHS_Comentarios')) :
                     </h6>
                     <time class="comment-date"><?php printf('%s às %s.', get_comment_date(), get_comment_time()); ?></time>
                     <?php comment_reply_link(array('depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => '<i class="fa fa-reply"></i>', 'login_text' => '<i class="fa fa-block"></i>')); ?>
-                    <?php 
-                    global $RHSComments;
-                
-                    if(is_user_logged_in()) {
-                        if($current_user->display_name == get_comment_author()) {
-                            $RHSComments->show_button_edit_comment();
-                        }
+                    <?php
+                    if (is_user_logged_in() && $current_user->display_name == get_comment_author()) {
+                        global $RHSComments;
+                        $RHSComments->show_button_edit_comment();
                     }
                     ?>
                 </div>
