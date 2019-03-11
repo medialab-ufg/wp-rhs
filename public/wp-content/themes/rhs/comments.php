@@ -23,7 +23,7 @@ if (post_password_required()) {
 			<div id="respond" class="clearfix">        
 			    <?php if(get_option('comment_registration') && !$user_ID) : ?>
 					<p>
-					<?php printf( __( 'Você precisa realizar %slogin%s para postar um comentário.', 'rhs'), "<a href='" . get_option('home') . "/logar?redirect_to=" . urlencode(get_permalink()) ."'>", "</a>" ); ?>
+					<?php printf( __( 'Faça %slogin%s para comentar e recomendar este post a outros usuários da rede.', 'rhs'), "<a href='" . get_option('home') . "/logar?redirect_to=" . urlencode(get_permalink()) ."'>", "</a>" ); ?>
 					</p>        
 			    <?php else : ?>
 			    <form autocomplete="off" action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="form-comentario" class="clearfix">
