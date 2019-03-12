@@ -10,6 +10,9 @@ Basta executar o arquivo ./compile-sass.sh, que encontra-se na raiz do projeto, 
 E então não será mais necessário ir para a pasta correta do tema da RHS manualmente e nem iniciar o sass em modo watch.
 Altere o estilo conforme desejado e veja as mudanças no navegador.
 
+## Observando mudanças no código para executar os testes automaticamente
+Certifique-se que tenha instalado as dependências de dev do composer.json.
+Então, da raiz do projeto, execute o comando: `vendor/bin/phpunit-watcher watch`
 
 #### Configurações extra para modo DEBUG
 Para começar a usar, vamos incluir o autoload do composer em `$RAIZ/public/wp-config.php`:
