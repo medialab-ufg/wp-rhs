@@ -66,7 +66,7 @@ global $RHSComunities;
                         </li>
                         
                         <span class="navbar-text">ou</span>
-                        <li> <a href="<?php echo wp_registration_url(); ?>" class="cadastrar">Cadastre-se</a> </li>
+                        <li class="cadastre-se"> <a href="<?php echo wp_registration_url(); ?>" class="cadastrar">Cadastre-se</a> </li>
                     <?php else : ?>
                         <?php $notifications_number = $RHSNotifications->get_news_number($user_id); ?>
                         <li class="dropdown user-dropdown hidden-xs">
@@ -109,7 +109,7 @@ global $RHSComunities;
                             </ul>
                         </li><!-- /dropdown -->
                         <?php if(!my_wp_is_mobile()): ?>
-                        <li class="dropdown user-dropdown">
+                        <li class="dropdown user-dropdown user-logged-box">
                         <?php else : ?>
                         <li class="menu-item">
                         <?php endif; ?>
