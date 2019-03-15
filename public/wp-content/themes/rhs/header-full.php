@@ -53,8 +53,6 @@ global $RHSComunities;
 
                 <?php if (my_wp_is_mobile()) { get_search_form(); } ?>
 
-                <?php get_template_part('partes-templates/links-top' ); ?>
-
                 <ul class="nav navbar-nav <?php if(!my_wp_is_mobile()):?>navbar-right dropdown-menu-right no-mobile<?php else:?>mobile-nav <?php if(!is_user_logged_in()){ echo 'not-logged'; } endif;?>">
 
                     <?php if (!is_user_logged_in()): ?>
@@ -199,6 +197,12 @@ global $RHSComunities;
                         </li>
                     <?php endif; ?>
                 </ul>
+
+                <?php
+                if (!wp_is_mobile())
+                    get_template_part('partes-templates/links-top' );
+                ?>
+
             </div>
         </div>
         <div class="collapse navbar-collapse segundo-menu"> 
