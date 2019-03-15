@@ -104,7 +104,7 @@ global $RHSComunities;
                                     
                                 </div>
                                 <div class="notify-drop-footer text-center">
-                                    <a href="<?php echo home_url('notificacoes'); ?>"><i class="fa fa-eye"></i> Veja todas as notificações</a>
+                                    <a href="<?php echo home_url('notificacoes'); ?>"><i class="fa fa-eye"></i> Veja todas suas notificações</a>
                                 </div>
                             </ul>
                         </li><!-- /dropdown -->
@@ -113,17 +113,20 @@ global $RHSComunities;
                         <?php else : ?>
                         <li class="menu-item">
                         <?php endif; ?>
-                                <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="drop_perfil">
-                                    <?php echo $RHSUsers->get_user_data('display_name'); ?>
-                                    <?php echo get_avatar($RHSUsers->getUserId()); ?>
-                                    <?php if(!my_wp_is_mobile()): ?>
+                                <a id="drop_perfil" class="dropdown-toggle user-dropdown-link" href="javascript:void(0)"
+                                   data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <span class="user-name"> <?php echo $RHSUsers->get_user_data('display_name'); ?> </span>
+                                    <?php
+                                    echo get_avatar($RHSUsers->getUserId());
+
+                                    if (!my_wp_is_mobile()): ?>
                                         <i class="icon-textDown fa fa-angle-down"></i>
                                     <?php endif; ?>
                                 </a>
                     <?php if(my_wp_is_mobile()): ?>
                         </li>
                     <?php else : ?>
-                        <ul class="dropdown-menu cl-menu" aria-labelledby="drop_perfil" style="min-width: 200px">
+                        <ul class="dropdown-menu cl-menu" aria-labelledby="drop_perfil">
                     <?php endif; ?>
                             <li class="menu-item pub">
                                 <a href="<?php echo home_url(RHSRewriteRules::POST_URL); ?>">

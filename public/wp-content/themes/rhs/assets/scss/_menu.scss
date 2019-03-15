@@ -451,6 +451,12 @@ Primeiro e Segundo DropDown Menu
             }
             &.user-logged-box {
                 margin-top: 5px;
+                #drop_perfil {
+                    .user-name {
+                        float: left;
+                        margin-top: 10px;
+                    }
+                }
             }
         } // .user-dropdown
         .separar-menu {
@@ -550,24 +556,24 @@ Primeiro e Segundo DropDown Menu
     }
 }
 
-.cl-menu li
-{
-    position: relative;
-}
 
-.cl-menu ul
-{
-    position: absolute;
-    top: 205px;
-    right: 100%;
-    display:none;
-    list-style: none;
-    color: white;
-    background-color: $primeira_cor_texto;
-    text-align: left;
-}
+.cl-menu {
+    min-width: 200px;
 
-.cl-menu li:hover > ul
-{
-    display:block;
-}
+    li {
+        position: relative;
+
+        &:hover > ul { display:block; }
+    }
+
+    ul {
+        position: absolute;
+        top: 205px;
+        right: 100%;
+        display:none;
+        list-style: none;
+        color: white;
+        background-color: $primeira_cor_texto;
+        text-align: left;
+    }
+} // .cl-menu
