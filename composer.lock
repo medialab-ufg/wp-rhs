@@ -340,6 +340,25 @@
             "time": "2017-07-06T12:14:34+00:00"
         },
         {
+            "name": "fabianobn/slick",
+            "version": "v1.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fabianobn/slick.git",
+                "reference": "62bacb288031d1e370327e0e2aa3c8a582e1d040"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fabianobn/slick/zipball/62bacb288031d1e370327e0e2aa3c8a582e1d040",
+                "reference": "62bacb288031d1e370327e0e2aa3c8a582e1d040",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "This is the atualized Slick Slider used in Wordpress",
+            "time": "2018-06-29T17:54:50+00:00"
+        },
+        {
             "name": "fortawesome/font-awesome",
             "version": "v4.7.0",
             "source": {

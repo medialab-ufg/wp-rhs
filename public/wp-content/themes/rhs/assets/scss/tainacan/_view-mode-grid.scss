@@ -1,0 +1,51 @@
+.tainacan-grid-container {
+    min-height: 50vh;
+    padding: 30px 4.166666667%;
+    display: -ms-grid;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 285px);
+    grid-gap: 0px;
+    justify-content: space-evenly;
+    animation-name: item-appear;
+    animation-duration: 0.5s;
+
+    .row { justify-content: space-around }
+    .col { flex-grow: 0; }
+
+    .tainacan-grid-item {
+        animation-name: item-appear;
+        animation-duration: 0.5s;
+        max-width: 255px;
+        margin: 12px 15px 24px 15px;
+        text-align: center;
+        display: block;
+        text-decoration: none !important;
+
+        img {
+            width: 255px;
+            height: auto;
+            border-radius: 0px;
+        }
+
+        &:hover {
+            background-color: #dbdbdb;
+            p.metadata-title { text-decoration: none !important; }
+        }
+
+        p.metadata-title {
+            flex-shrink: 0;
+            font-size: 0.875rem;
+            margin-bottom: 0;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            padding: 0.6rem 1.5rem;
+            text-align: left;
+            color: #1d1d1d;
+            text-decoration: none !important;
+        }    
+    
+    }
+}
+
+

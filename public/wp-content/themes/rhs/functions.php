@@ -98,6 +98,13 @@ if(!function_exists('rhs_setup')) :
         add_theme_support( 'html5', array( 'comment-list', 'comment-form' ) );
 
         add_image_size( 'carrossel', 408, 320, true );
+        
+        /**
+         * Image Size for tainacan
+         */
+        add_image_size( 'tainacan-theme-list-post', 300, 200, true );
+        add_image_size( 'tainacan-interface-list-post', 300, 200, true );
+        add_image_size( 'tainacan-item-attachments', 125, 125, true );
 
         add_editor_style();
     }
@@ -204,6 +211,10 @@ function RHS_scripts() {
 
     wp_enqueue_script('uniform', get_template_directory_uri() . '/assets/includes/uniform/dist/js/jquery.uniform.standalone.js', array('jquery'), '4.2.0', true);
 
+    /**
+     * SlickJS
+     */
+    wp_enqueue_script( 'SlickJS', get_template_directory_uri() . '/vendor/slick/slick/slick.min.js', array( 'jquery' ), '1.6.1', true );
 }
 add_action('wp_enqueue_scripts', 'RHS_scripts');
 
@@ -227,6 +238,12 @@ function RHS_styles() {
     wp_enqueue_style('uniform', get_template_directory_uri() . '/assets/includes/uniform/dist/css/default.css');
     wp_enqueue_style('jquery-ui', get_template_directory_uri() . '/vendor/css/bootstrap-datepicker3.min.css',false,"1.7.1",false);
     wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
+
+    /**
+     * SlickJS
+     */
+    wp_enqueue_style( 'SlickCss', get_template_directory_uri() . '/vendor/slick/slick/slick.css', '', '1.6.1', '' );
+    wp_enqueue_style( 'SlickThemeCss', get_template_directory_uri() . '/vendor/slick/slick/slick-theme.css', '', '1.6.1', '' );
 }
 add_action('wp_enqueue_scripts', 'RHS_styles');
 
@@ -884,4 +901,61 @@ function is_rhs_community_page() {
 
 function comment_string($str) {
     return ($str === 'approved') ? 'Publicado' : 'Aguardando moderação';
+}
+
+/**
+ * Tainacan Functions to use with the Tainacan Plugins
+ */
+
+function tainacan_collections_viewmode($public_query_vars){
+    $public_query_vars[] = "tainacan_collections_viewmode";
+    return $public_query_vars;
+}
+add_filter( 'query_vars', 'tainacan_collections_viewmode');
+
+function tainacan_active($selected, $current = true, $echo = true) {
+
+    $return = $selected == $current ? 'active' : '';
+
+    if ($echo)
+        echo $return;
+
+    return $return;
+
+}
+
+function tainacan_theme_collection_title($title){
+    if (is_post_type_archive('tainacan-collection')) {
+        return __('Collections', 'tainacan-interface');
+    }
+    return $title;
+}
+add_filter('get_the_archive_title', 'tainacan_theme_collection_title');
+
+function tainacan_theme_collection_query($query){
+    if ($query->is_main_query() && $query->is_post_type_archive('tainacan-collection')) {
+        $query->set('posts_per_page', 12);
+    }
+}
+add_action('pre_get_posts', 'tainacan_theme_collection_query');
+
+function tainacan_meta_date_author( $echo = true ) {
+	$time = '<time class="entry-date published" datetime="%1$s">%2$s</time>';
+
+	$time_string = sprintf( $time,
+		esc_attr( get_the_date( 'c' ) ),
+		get_the_date()
+	);
+
+	$string = $time_string;
+	$string .= __( '&nbsp;by&nbsp;', 'tainacan-interface' );
+	$string .= get_the_author_posts_link();
+
+	$string = apply_filters( 'tainacan-meta-date-author', $string );
+
+	if ( $echo ) {
+		echo $string;
+	} else {
+		return $string;
+	}
 }
