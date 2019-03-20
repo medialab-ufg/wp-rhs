@@ -959,3 +959,10 @@ function tainacan_meta_date_author( $echo = true ) {
 		return $string;
 	}
 }
+
+add_filter( 'jpeg_quality', 'rhs_image_full_quality' );
+add_filter( 'wp_editor_set_quality', 'rhs_image_full_quality' );
+
+function rhs_image_full_quality( $quality ) {
+	return 100;
+}
