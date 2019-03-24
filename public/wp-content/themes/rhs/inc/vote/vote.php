@@ -414,6 +414,8 @@ Class RHSVote {
 	}
 
 	function ajax_vote() {
+	    $isVoter = false;
+
         if ( empty( $_POST['post_id'] ) || !is_numeric( $_POST['post_id'] ) ) {
             $json = array('error' => array('text'=>'Não foi encontrado o usuário.'));
 
@@ -421,14 +423,19 @@ Class RHSVote {
             exit;
         }
 
-        if ( !current_user_can( 'vote_post', $_POST['post_id'] ) ) {
-            $json = array('error' => array('text'=>$this->getTextHelp()));
+        $user = wp_get_current_user();
+        if ($user instanceof WP_User && is_array($user->roles)) {
+            $isVoter = in_array(self::ROLE_VOTER, $user->roles);
+        }
+
+        if ( !current_user_can( 'vote_post', $_POST['post_id'] ) && !$isVoter ) {
+            $json = array('error' => array('text'=> $this->getTextHelp()) );
 
             echo json_encode($json);
             exit;
         }
 
-        $this->add_vote( $_POST['post_id'], get_current_user_id() );
+        $this->add_vote( $_POST['post_id'], get_current_user_id(), $isVoter);
         $box = $this->get_vote_box( $_POST['post_id'], false);
 
         $json = array('success' => array('html' =>$box, 'text' => $this->getTextHelp()));
@@ -437,7 +444,7 @@ Class RHSVote {
 
 	}
 
-	function add_vote( $post_id, $user_id = null ) {
+	function add_vote($post_id, $user_id = null, $is_voter = false) {
 
 		global $wpdb;
 		global $RHSPosts;
@@ -448,7 +455,7 @@ Class RHSVote {
 		}
 
 		// Adiciona voto na table se ainda não houver
-		if ( user_can($user_id, 'vote_post', $post_id) ) {
+		if ( user_can($user_id, 'vote_post', $post_id) || $is_voter) {
 			$wpdb->insert( $this->tablename, array(
 				'user_id'     => $user_id,
                 'vote_source' => $_SERVER['REMOTE_ADDR'],
@@ -603,7 +610,7 @@ Class RHSVote {
         return $expired;
     }
 
-	function change_post_status( $data, $postarr ) {
+	function change_post_status($data) {
 
 		global $pagenow;
 
@@ -886,10 +893,7 @@ Class RHSVote {
      * dessa função estão comentadas.
      * 
      */
-    function count_user_posts($count, $userid, $post_type, $public_only) {
-
-        #if (!is_user_logged_in())
-        #    return $count;
+    function count_user_posts($count, $userid, $post_type) {
         
         if ( is_array( $post_type ) ) {
             $post_types = $post_type;
