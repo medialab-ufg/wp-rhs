@@ -69,6 +69,9 @@ class VoteTest extends RHS_UnitTestCase {
             // O colaborador 2 não tem o role voter
             $this->assertEquals(false, user_can(self::$users['contributor'][1], 'voter'));
 
+            // O colaborador 2 não pode votar no próprio post, pois ainda não tem o role voter
+            $this->assertEquals(false, $RHSVote->add_vote($savedPost->getId(), self::$users['contributor'][1]));
+
             // 3 votantes votam no post do colaborador 2
             $this->assertEquals( true, $RHSVote->add_vote($savedPost->getId(), self::$users['voter'][0]) );
             $this->assertEquals( true, $RHSVote->add_vote($savedPost->getId(), self::$users['voter'][1]) );
@@ -91,6 +94,12 @@ class VoteTest extends RHS_UnitTestCase {
 
             // O colaborador 2 agora é pra ter o role voter
             $this->assertEquals(true, user_can(self::$users['contributor'][1], 'voter'));
+
+            // O colaborador 2 agora pode votar no próprio post, uma vez que tem o role voter
+            $this->assertEquals(true, $RHSVote->add_vote($savedPost->getId(), self::$users['contributor'][1]));
+
+            // O total de votos agora deve ser 6, contando o último voto, do próprio autor            
+            $this->assertEquals(6, $RHSVote->get_total_votes_by_author(self::$users['contributor'][1]));
 
             // O post deve ter sido promovido
             $updatedPost = new RHSPost($savedPost->getId());
