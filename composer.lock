@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a78764a3fd0af686e62a3114ce430c8c",
+    "content-hash": "f9a88d7cd3e159afed8d827261813baf",
     "packages": [
         {
             "name": "components/bootstrap",
@@ -1102,7 +1102,7 @@
         },
         {
             "name": "wpackagist-plugin/tainacan",
-            "version": "0.7",
+            "version": "0.8",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/tainacan/",
@@ -1110,7 +1110,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/tainacan.zip?timestamp=1547041829",
+                "url": "https://downloads.wordpress.org/plugin/tainacan.zip?timestamp=1553796993",
                 "reference": null,
                 "shasum": null
             },
