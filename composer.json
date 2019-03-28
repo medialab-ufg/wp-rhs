@@ -23,7 +23,7 @@
         "wpackagist-plugin/social-metrics-tracker": "1.6.*",
         "wpackagist-plugin/akismet": "4.0",
         "fabianobn/slick": "v1.8.*",
-        "wpackagist-plugin/tainacan": "^0.7.0"
+        "wpackagist-plugin/tainacan": "*"
         
     },
     "require-dev": {
