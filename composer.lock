@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f408495df4bbfcb7bc820deea38e32d",
+    "content-hash": "a78764a3fd0af686e62a3114ce430c8c",
     "packages": [
         {
             "name": "components/bootstrap",
@@ -1101,6 +1101,26 @@
             "homepage": "https://wordpress.org/plugins/social-metrics-tracker/"
         },
         {
+            "name": "wpackagist-plugin/tainacan",
+            "version": "0.7",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/tainacan/",
+                "reference": "trunk"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/tainacan.zip?timestamp=1547041829",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/tainacan/"
+        },
+        {
             "name": "wpackagist-plugin/wp-mail-smtp",
             "version": "0.10.1",
             "source": {
@@ -2096,6 +2116,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2017-06-30T09:13:00+00:00"
         },
         {
@@ -2988,7 +3009,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
