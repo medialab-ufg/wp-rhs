@@ -4,7 +4,7 @@ if (have_posts()):
     $class = RHSSearch::get_search_loop_class();
     $extra_class = RHSSearch::is_search_page() ? "busca-posts" : "";
     ?>
-	<div class="clearfix masonry <?php echo $extra_class; ?>">
+	<div class="clearfix masonry home-container<?php echo $extra_class; ?>">
 		<div class="grid-sizer"></div> <div class="gutter-sizer"></div>
         <?php
         while( have_posts() ):

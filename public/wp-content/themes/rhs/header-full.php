@@ -36,7 +36,8 @@ global $RHSComunities;
 <!-- Tag header para o Primeiro Menu -->
 <header id="navBar-top">
     <nav class="navbar navbar-default navbar-static-top rhs_menu">
-        <div class="container">
+        <div class="container menu-container">
+
             <div class="navbar-header">
                 <?php if(!RHSLogin::is_login_via_app()) : ?>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar6">
@@ -49,12 +50,14 @@ global $RHSComunities;
                 <a class="navbar-brand text-hide" href="<?php if(!RHSLogin::is_login_via_app()) { bloginfo('url'); } else { echo '#'; } ?>" style="<?php if(RHSLogin::is_login_via_app()) : ?>width: 355px; margin-top: 22px; margin-bottom: -17px;<?php endif; ?>">RHS</a>
             </div>
             <div id="navbar6" class="navbar-collapse collapse primeiro-menu">
+
                 <?php if (my_wp_is_mobile()) { get_search_form(); } ?>
+
                 <ul class="nav navbar-nav <?php if(!my_wp_is_mobile()):?>navbar-right dropdown-menu-right no-mobile<?php else:?>mobile-nav <?php if(!is_user_logged_in()){ echo 'not-logged'; } endif;?>">
 
                     <?php if (!is_user_logged_in()): ?>
                         <li>
-                            <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="loginBox"> Faça seu login <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="loginBox"> Faça login <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-lr animated slideInRight" role="menu" aria-labelledby="loginBox">
                                 <li class="login-box-container">
                                     <?php get_template_part("partes-templates/login-box"); ?>
@@ -63,7 +66,7 @@ global $RHSComunities;
                         </li>
                         
                         <span class="navbar-text">ou</span>
-                        <li> <a href="<?php echo wp_registration_url(); ?>" class="cadastrar">Cadastre-se</a> </li>
+                        <li class="cadastre-se"> <a href="<?php echo wp_registration_url(); ?>" class="cadastrar">Cadastre-se</a> </li>
                     <?php else : ?>
                         <?php $notifications_number = $RHSNotifications->get_news_number($user_id); ?>
                         <li class="dropdown user-dropdown hidden-xs">
@@ -101,26 +104,29 @@ global $RHSComunities;
                                     
                                 </div>
                                 <div class="notify-drop-footer text-center">
-                                    <a href="<?php echo home_url('notificacoes'); ?>"><i class="fa fa-eye"></i> Veja todas as notificações</a>
+                                    <a href="<?php echo home_url('notificacoes'); ?>"><i class="fa fa-eye"></i> Veja todas suas notificações</a>
                                 </div>
                             </ul>
                         </li><!-- /dropdown -->
                         <?php if(!my_wp_is_mobile()): ?>
-                        <li class="dropdown user-dropdown">
+                        <li class="dropdown user-dropdown user-logged-box">
                         <?php else : ?>
                         <li class="menu-item">
                         <?php endif; ?>
-                                <a href="#" class="dropdown-toggle user-dropdown-link" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="drop_perfil">
-                                    <?php echo $RHSUsers->get_user_data('display_name'); ?>
-                                    <?php echo get_avatar($RHSUsers->getUserId()); ?>
-                                    <?php if(!my_wp_is_mobile()): ?>
+                                <a id="drop_perfil" class="dropdown-toggle user-dropdown-link" href="javascript:void(0)"
+                                   data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <span class="user-name"> <?php echo $RHSUsers->get_user_data('display_name'); ?> </span>
+                                    <?php
+                                    echo get_avatar($RHSUsers->getUserId());
+
+                                    if (!my_wp_is_mobile()): ?>
                                         <i class="icon-textDown fa fa-angle-down"></i>
                                     <?php endif; ?>
                                 </a>
                     <?php if(my_wp_is_mobile()): ?>
                         </li>
                     <?php else : ?>
-                        <ul class="dropdown-menu cl-menu" aria-labelledby="drop_perfil" style="min-width: 200px">
+                        <ul class="dropdown-menu cl-menu" aria-labelledby="drop_perfil">
                     <?php endif; ?>
                             <li class="menu-item pub">
                                 <a href="<?php echo home_url(RHSRewriteRules::POST_URL); ?>">
@@ -148,7 +154,7 @@ global $RHSComunities;
                                 </a>
                             </li>
                         <?php } ?>
-                            <li class="menu-item ">
+                            <li class="menu-item">
                                 <a href="<?php echo home_url(RHSRewriteRules::POSTAGENS_URL);?>">
                                     <i class="icones-dropdown fa fa-list-alt" aria-hidden="true"></i> Minhas Postagens
                                 </a>
@@ -194,6 +200,12 @@ global $RHSComunities;
                         </li>
                     <?php endif; ?>
                 </ul>
+
+                <?php
+                if (!wp_is_mobile())
+                    get_template_part('partes-templates/links-top' );
+                ?>
+
             </div>
         </div>
         <div class="collapse navbar-collapse segundo-menu"> 

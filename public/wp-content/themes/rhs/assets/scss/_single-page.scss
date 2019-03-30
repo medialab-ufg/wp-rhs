@@ -197,16 +197,6 @@
                             display: none;
                         }
                     }
-                    /*
-                    //Será usado para se a mari concordar com os tooltips nos posts.
-                    &.focus {
-                        text-align: center;
-                        margin-left:auto;
-                        margin-right:auto;
-                        font-weight: bold;
-                        border: 1px solid #00b9b9;
-                        box-shadow: 0 0 5px #00b9b9;
-                    }*/
                 }
             }
         }
@@ -254,13 +244,8 @@
 
 .panel-default {
 
-    > .alert {
-        margin: 10px 10px;
-    }
-    &:hover {
-        // box-shadow: 2px 2px 1px 1px #c1c1c1;
-        box-shadow: -1px 0.5px 9px 0 $mediumGray;
-    }
+    > .alert { margin: 10px 10px; }
+    &:hover { box-shadow: -1.5px 0.5px 4px 0 $mediumGray; }
     &.padding-bottom {
         .alert {
             margin-bottom: 12px;

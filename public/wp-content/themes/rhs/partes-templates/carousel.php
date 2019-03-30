@@ -4,12 +4,12 @@ $Carrossel       = new Carrossel();
 $carrossel_posts = $Carrossel::get_posts();
 ?>
 <?php if ( $carrossel_posts->have_posts() ) : ?>
-    <div id="carousel-example-generic" class="carousel slide carousel-fade" data-ride="carousel">
+    <div id="carousel-home-rhs" class="carousel slide carousel-fade" data-ride="carousel">
         <?php if ( $carrossel_posts->found_posts > 1 ) { ?>
             <!-- Indicators -->
             <ol class="carousel-indicators">
                 <?php for ( $i = 0; $i < $carrossel_posts->found_posts; $i ++ ) { ?>
-                    <li data-target="#carousel-example-generic"
+                    <li data-target="#carousel-home-rhs"
                         data-slide-to="<?php echo $i; ?>" <?php echo $i == 0 ? 'class="active"' : ''; ?> ></li>
                 <?php } ?>
             </ol>
@@ -50,13 +50,13 @@ $carrossel_posts = $Carrossel::get_posts();
         </div>
         <?php if ( $carrossel_posts->found_posts > 1 ) { ?>
             <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <a class="left carousel-control" href="#carousel-home-rhs" role="button" data-slide="prev">
                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
+                <span class="sr-only">Próximo</span>
             </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <a class="right carousel-control" href="#carousel-home-rhs" role="button" data-slide="next">
                 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
+                <span class="sr-only">Anterior</span>
             </a>
         <?php } ?>
     </div>
