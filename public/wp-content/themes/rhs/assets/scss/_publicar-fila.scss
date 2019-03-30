@@ -4,6 +4,7 @@
 .logged-in {
     .buttons_top {
         padding-right: 0;
+        width: 70%;
     }
 } // .logged-in
 
@@ -36,3 +37,12 @@
         }
     } // li
 } // buttons_top
+
+// Responsive changes
+@media all and (max-width: 1199px) {
+    .logged-in {
+        .buttons_top {
+            width: 57% !important;
+        }
+    } // .logged-in
+} // 1199px
