@@ -13,7 +13,7 @@ then
     echo 'Observando alterações no código ..'
     sass --watch style.scss:../../style.css
 else 
-	sass style.scss:../../style.css
+	sass style.scss:../../style.css --style compressed
 fi
 
 echo "Sass compilado com sucesso. Atualize o navegador para ver as mudanças."

@@ -21,6 +21,7 @@
         }
     }
     @media (max-width: 768px) {
+        .buttons_top { display: none; }
         .rhs_menu {
             .navbar-header{
                 .navbar-brand{
@@ -97,7 +98,7 @@
                     &.sair a {
                         padding-right: 294px !important;
                     }
-                }
+                } // li
                 > a {
                     color: $primeira_cor_texto;
                     > img {
