@@ -5,8 +5,8 @@
             <thead>
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col"><?php _e('Title', 'tainacan-interface'); ?></th>
-                    <th scope="col"><?php _e('Description', 'tainacan-interface'); ?></th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Descrição</th>
                     <!-- <th scope="col"><?php //_e('Date'); ?></th>
                     <th scope="col"><?php //_e('Author'); ?></th> -->
                 </tr>
@@ -40,5 +40,5 @@
     <?php //echo tainacan_pagination(3); ?>
 
 <?php else: ?>
-	<?php _e('Nothing found', 'tainacan-interface'); ?>
+	Nada encontrado
 <?php endif; ?>

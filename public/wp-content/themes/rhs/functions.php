@@ -923,7 +923,7 @@ function tainacan_active($selected, $current = true, $echo = true) {
 
 function tainacan_theme_collection_title($title){
     if (is_post_type_archive('tainacan-collection')) {
-        return __('Collections', 'tainacan-interface');
+        return 'Coleções';
     }
     return $title;
 }
@@ -945,7 +945,7 @@ function tainacan_meta_date_author( $echo = true ) {
 	);
 
 	$string = $time_string;
-	$string .= __( '&nbsp;by&nbsp;', 'tainacan-interface' );
+	$string .= '&nbsp;por&nbsp;';
 	$string .= get_the_author_posts_link();
 
 	$string = apply_filters( 'tainacan-meta-date-author', $string );

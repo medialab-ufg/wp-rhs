@@ -15,7 +15,7 @@
                                 <li class="list-inline-item text-midnight-blue font-weight-bold title-page">
                                     <?php the_title(); ?>
                                 </li>
-                                <li class="list-inline-item pull-right title-back"><a href="javascript:history.go(-1)"><?php _e('Back', 'tainacan-interface'); ?></a></li>
+                                <li class="list-inline-item pull-right title-back"><a href="javascript:history.go(-1)">Voltar</a></li>
                             </ul>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                                 </div>
                             </header>
                             <?php if (tainacan_has_document()): ?>
-                                <h1 class="title-content-items"><?php _e('Document', 'tainacan-interface'); ?></h1>
+                                <h1 class="title-content-items">Documento</h1>
                                 <section class="tainacan-content single-item-collection margin-two-column">
                                     <div class="single-item-collection--document">
                                         <?php tainacan_the_document(); ?>
@@ -57,7 +57,7 @@
 
                         <div class="mt-3 tainacan-single-post">
                             <article role="article">
-                                <h1 class="title-content-items"><?php _e('Attachments', 'tainacan-interface'); ?></h1>
+                                <h1 class="title-content-items">Anexos</h1>
                                 <section class="tainacan-content single-item-collection margin-two-column">
                                     <div class="single-item-collection--attachments">
                                         <?php foreach ( $attachment as $attachment ) { ?>
