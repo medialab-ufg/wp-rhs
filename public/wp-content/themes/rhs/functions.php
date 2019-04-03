@@ -237,7 +237,7 @@ function RHS_styles() {
     wp_enqueue_style('sweetalert', get_template_directory_uri() . '/assets/includes/bootstrap-sweetalert/dist/sweetalert.css');
     wp_enqueue_style('uniform', get_template_directory_uri() . '/assets/includes/uniform/dist/css/default.css');
     wp_enqueue_style('jquery-ui', get_template_directory_uri() . '/vendor/css/bootstrap-datepicker3.min.css',false,"1.7.1",false);
-    wp_enqueue_style('style', get_stylesheet_uri(), array('bootstrap'));
+    wp_enqueue_style('rhs-main-style', get_stylesheet_uri(), array('bootstrap'));
 
     /**
      * SlickJS
