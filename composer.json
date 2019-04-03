@@ -6,7 +6,7 @@
         }
     ],
     "require": {
-        "johnpbloch/wordpress": "4.9.*",
+        "johnpbloch/wordpress": "5.1.*",
         "twbs/bootstrap": "3.3.7",
         "wp-bootstrap/wp-bootstrap-navwalker" : "2.0.5",
         "cwspear/bootstrap-hover-dropdown" : "2.2.1",
