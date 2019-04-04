@@ -359,6 +359,17 @@
     }
 }
 
+.user-personal-header {
+    background: white;
+    padding-bottom: 20px !important;
+    margin-bottom: 20px;
+
+    #InfoPessoais {
+        border-top: 1px solid #e3e3e3; 
+        padding-top: 20px;
+    }
+}
+
 #info_pessoais, #sobre_interesses {
     .panel-body {
         margin-top: -6px;
