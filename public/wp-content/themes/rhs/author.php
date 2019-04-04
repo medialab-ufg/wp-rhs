@@ -3,18 +3,18 @@ get_header();
 
 get_edit_user_link();
 
-$curauth = get_queried_object(); //(isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
+$curauth = get_queried_object();
 if ($curauth) {
     ?>
 
     <!--Informações Pessoais-->
-    <div class="col-xs-12 no-padding" style="background: white; padding-bottom: 20px !important;">
+    <div class="col-xs-12 no-padding user-personal-header">
 
         <?php get_template_part('partes-templates/user-header-info'); ?>
 
         <div class="col-sm-6 col-md-6" id="accordion" role="tablist" aria-multiselectable="true">
 
-            <div class="panel-heading" role="tab" id="InfoPessoais" style="border-top: 1px solid #e3e3e3; padding-top: 20px;">
+            <div class="panel-heading" role="tab" id="InfoPessoais">
                 <h4 class="panel-title">
                     <a class="collapsed" role="button" data-toggle="collapse"
                        data-parent="#accordionInfo" href="#info_pessoais" aria-expanded="true" aria-controls="info_pessoais">
