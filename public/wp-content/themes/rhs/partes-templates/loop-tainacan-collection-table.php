@@ -7,8 +7,8 @@
                     <th scope="col"></th>
                     <th scope="col">Título</th>
                     <th scope="col">Descrição</th>
-                    <!-- <th scope="col"><?php //_e('Date'); ?></th>
-                    <th scope="col"><?php //_e('Author'); ?></th> -->
+                    <!-- <th scope="col"> Data </th>
+                    <th scope="col"> Autor </th> -->
                 </tr>
             </thead>
             <tbody>
@@ -28,7 +28,7 @@
                         <td class="collection-title text-black"><?php the_title(); ?></td>
                         <td class="collection-description text-oslo-gray"><?php the_excerpt(); ?></td>
                         <!-- <td class="collection-date text-oslo-gray"><?php //echo get_the_date(); ?></td>
-                        <td class="collection-create-by text-oslo-gray"><?php //_e('Created by', 'tainacan-interface'); ?> <?php the_author_posts_link(); ?></td> -->
+                        <td class="collection-create-by text-oslo-gray"> Criado por <?php // the_author_posts_link(); ?></td> -->
                     </tr>
                 <?php endwhile; ?>
         
