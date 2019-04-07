@@ -86,20 +86,19 @@
 
                     <div class="mt-3 tainacan-single-post">
                         <article role="article">
-                            <!-- <h1 class="title-content-items"><?php _e('Information', 'tainacan-interface'); ?></h1> -->
                             <section class="tainacan-content single-item-collection margin-two-column">
                                 <div class="single-item-collection--information justify-content-center">
                                     <div class="row">
                                         <div class="col s-item-collection--metadata">
                                             <div class="card border-0">
                                                 <div class="card-body bg-white border-0 pl-0 pt-0 pb-1">
-                                                    <h3><?php _e('Thumbnail', 'tainacan-interface'); ?></h3>
+                                                    <h3>Miniatura</h3>
                                                     <img src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'tainacan-medium-full') ?>" class="item-card--thumbnail mt-2">
                                                 </div>
                                             </div>
                                             <div class="card border-0 my-3">
                                                 <div class="card-body bg-white border-0 pl-0 pt-0 pb-1">
-                                                    <h3><?php _e('Share', 'tainacan-interface'); ?></h3>
+                                                    <h3>Compartilhar</h3>
                                                     <div class="btn-group" role="group">
                                                         <?php if ( true == get_theme_mod( 'facebook_share', true ) ) : ?> 
                                                             <a href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>" class="item-card-link--sharing" target="_blank">
@@ -150,7 +149,7 @@
                 <?php endwhile; ?>
                 <?php do_action('tainacan-interface-single-item-bottom'); ?>
             <?php else: ?>
-                <?php _e('Nothing found', 'tainacan-interface'); ?>
+                 Nada encontrado
             <?php endif; ?>
         </div>
     </div><!-- /.row -->
