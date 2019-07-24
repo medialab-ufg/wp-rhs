@@ -138,25 +138,24 @@ class RHSNotifications {
     }
     
     private function update_user_notifications($user_id) {
-        
-        $channels = $this->get_user_channels($user_id);
-        $channels = implode("','", $channels);
-        
-        $last = $this->get_last_check($user_id);
-        
-        $query = "INSERT INTO $this->table_notifications_users (user_id, notf_id) 
+        if (ctype_digit($user_id) && (int) $user_id > 0) {
+            $channels = $this->get_user_channels($user_id);
+            $channels = implode("','", $channels);
+
+            $last = $this->get_last_check($user_id);
+
+            $query = "INSERT INTO $this->table_notifications_users (user_id, notf_id) 
             SELECT '$user_id', ID FROM $this->table 
             WHERE channel IN ('$channels')
                 AND `user_id` <> $user_id
                 AND ID > $last
             ";
-            
-        global $wpdb;
-        $wpdb->query($query);
-        
-        $this->set_last_check($user_id);
-        
-        
+
+            global $wpdb;
+            $wpdb->query($query);
+
+            $this->set_last_check($user_id);
+        }
     }
 
     /**
