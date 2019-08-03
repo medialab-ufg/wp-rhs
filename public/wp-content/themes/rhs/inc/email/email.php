@@ -122,7 +122,7 @@ class RHSEmail {
                     'link',
                     'post_title'
                 ),
-                'default-subject' => '[%site_nome%] Parabéns seu post foi publicado',
+                'default-subject' => '[%site_nome%] Parabéns, seu post foi publicado!',
                 'default-email' => '<h4>Parabéns %nome%.</h4>
                     <p>Seu post atingiu a quantidade de votos e foi publicado.</p>
                     <p>Você pode acessar aqui:</p>
@@ -140,7 +140,7 @@ class RHSEmail {
                     'link',
                     'post_title'
                 ),
-                'default-subject' => '[%site_nome%] Parabéns seu post recebeu um comentário.',
+                'default-subject' => '[%site_nome%] Parabéns, seu post recebeu um comentário!',
                 'default-email' => '<h4>Parabéns %nome%.</h4>
                     <p>Seu post recebeu um novo comentário.</p>
                     <p>Você pode acessar aqui:</p>
@@ -176,9 +176,9 @@ class RHSEmail {
                     'link',
                     'post_title'
                 ),
-                'default-subject' => '[%site_nome%] O Autor [%nome%] postou um novo post.',
-                'default-email' => '<h4>Um novo post foi criado pelo [%nome%].</h4>
-                    <p>O Autor [%nome%] que você segue postou um novo post [%post_title%].</p>
+                'default-subject' => '[%site_nome%] [%nome%] publicou um novo post.',
+                'default-email' => '<h4>Um novo post foi criado por [%nome%].</h4>
+                    <p>[%nome%], que você segue, publicou um novo post [%post_title%].</p>
                     <p>Você pode acessar aqui:</p>
                     <p>[%link%]</p>
                     <p> ' . $this->mail_footer["topo"] . '</p>
@@ -194,7 +194,7 @@ class RHSEmail {
 
         $this->mail_footer["base"] = "<p></p><p></p>
                     <p><em style='color: gray;'>Para deixar de receber e-mails, edite seu perfil e selecione quais e-mails você deseja receber. 
-                      Acesse <a href='" . home_url("/perfil") . "' target='_BLANK'> Aqui </a></em></p>";
+                      Acesse <a href='" . home_url("/perfil") . "' target='_BLANK'> aqui </a></em></p>";
     }
     
     function filter_content_type($contetType) {

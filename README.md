@@ -1,4 +1,3 @@
-[![Stories in Ready](https://badge.waffle.io/medialab-ufg/wp-rhs.png?label=ready&title=Ready)](https://waffle.io/medialab-ufg/wp-rhs) 
 [![Stories in Ready](https://travis-ci.org/medialab-ufg/wp-rhs.svg?branch=continuousIntegration)](https://travis-ci.org/medialab-ufg/wp-rhs) 
 
 # Rede Humaniza SUS - WordPress   

@@ -9,10 +9,7 @@
     <div class="row">
         <!-- Container -->
         <div class="col-xs-12 col-md-12">
-            <div class="row">
-                <?php get_template_part('partes-templates/links-top' ); ?>
-            </div>
-
+            
     <?php while (have_posts()): the_post();?>
 
         <div class="row">

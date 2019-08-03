@@ -1,6 +1,6 @@
 <?php require_once('header-full.php'); ?>
 
-<?php if (is_front_page()): ?>
+<?php if (is_front_page() && (get_query_var('rhs_login_tpl') != "notificacoes")): ?>
     <div class="col-xs-12 col-sm-12 col-md-12 no-padding">
         <?php get_template_part('partes-templates/carousel'); ?>
     </div>
