@@ -963,3 +963,25 @@ add_filter( 'wp_editor_set_quality', 'rhs_image_full_quality' );
 function rhs_image_full_quality( $quality ) {
 	return 100;
 }
+
+/* Workaround para resolver o problema do login no servidor (sempre q alguém faz login, dá um erro 500, mas se a pessoa voltar, ela foi logada com sucesso)
+ * 
+ * o servidor não ta cuspindo erro nos logs.. nem se ligo o WP_DEBUG no wp-config...
+ * 
+ * Pedi pro Edilson mudar a configuração de error reporting no php.ini e mesmo assim não rolou...
+ * 
+ * a única coisa q consegui ver, ligando o wp_debug, foi esse erro ao logar: crypt(): Supplied salt is not valid for DES. Possible bug in provided salt format.
+ * 
+ * mas depois q eu mudo a senha, ou se faço isso com um usuário novo (q não herdou senha do drupal) o site continua dando erro mas não mostra qual...
+ * 
+ */
+add_filter('wp_php_error_message', function($message, $error) {
+
+	if ( $_SERVER['REQUEST_URI'] == '/wp-login.php' && isset($_POST['log']) && isset($_POST['pwd']) ) {
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
+		die;
+	}
+
+}, 10, 2);
+
+
