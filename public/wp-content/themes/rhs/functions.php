@@ -981,6 +981,8 @@ add_filter('wp_php_error_message', function($message, $error) {
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 		die;
 	}
+	
+	return $message;
 
 }, 10, 2);
 
