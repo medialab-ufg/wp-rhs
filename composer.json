@@ -10,7 +10,7 @@
         "twbs/bootstrap": "3.3.7",
         "wp-bootstrap/wp-bootstrap-navwalker" : "2.0.5",
         "cwspear/bootstrap-hover-dropdown" : "2.2.1",
-        "phpmailer/phpmailer" : "5.2.25",
+        "phpmailer/phpmailer" : "5.2.27",
         "fortawesome/font-awesome" : "4.7.*",
         "nicolasbize/magicsuggest" : "2.1.4",
         "google/recaptcha" : "1.1.3",
