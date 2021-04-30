@@ -131,7 +131,7 @@ sass --watch style.scss:../../style.css
 
 Ao executar o comando git pull você terá de executar o comando para compilar o sass caso tenha alteração do mesmo. Para não ter necessidade disso.
 
-##Execute os seguintes passos:
+## Execute os seguintes passos:
 
 Dentro da pasta do projeto: wp-rhs/
 
